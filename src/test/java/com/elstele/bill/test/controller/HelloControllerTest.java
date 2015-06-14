@@ -1,8 +1,5 @@
 package com.elstele.bill.test.controller;
 
-/**
- * Created by X240 on 04/06/2015.
- */
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
