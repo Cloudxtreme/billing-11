@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
-/**
- * Created by X240 on 03/06/2015.
- */
 @Controller
 public class HomeController {
+
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String homeEmptyIndex(HttpSession session, Map<String, Object> map)
     {
