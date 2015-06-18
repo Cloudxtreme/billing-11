@@ -9,7 +9,7 @@
 	    <property name="hibernate.hbm2ddl.auto">update</property>  <!--validate or create-->
 	    
 
-        <!--<mapping class="edu.shapo.wimm.domain.User"/>-->
+        <mapping class="com.elstele.bill.domain.LocalUser"/>
 
     </session-factory>
          

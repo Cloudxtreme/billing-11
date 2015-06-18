@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>List of budgets</title>
+<title>Welcome</title>
 
 <spring:url value="/resources/css/bootstrap-minimalist.css" var="bootstrapCss" />
 <spring:url value="/resources/css/main-billing.css" var="mainCss" />
