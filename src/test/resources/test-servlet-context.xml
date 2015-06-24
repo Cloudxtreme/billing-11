@@ -42,7 +42,7 @@
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="classpath:jdbc.properties" />
+          p:location="classpath:jdbc_for_test.properties" />
 
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
@@ -69,6 +69,11 @@
                 <prop key="hibernate.connection.charSet">utf8</prop>
             </props>
         </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
 </beans>

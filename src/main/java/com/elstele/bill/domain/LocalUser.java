@@ -39,4 +39,26 @@ public class LocalUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LocalUser)) return false;
+
+        LocalUser localUser = (LocalUser) o;
+
+        if (!id.equals(localUser.id)) return false;
+        if (!password.equals(localUser.password)) return false;
+        if (!username.equals(localUser.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
 }
