@@ -13,6 +13,8 @@ public class LocalUser {
     private Integer id;
     private String username;
     private String password;
+//    @ManyToOne
+//    private UserRoleForm userrole;
 
 
 
@@ -39,4 +41,15 @@ public class LocalUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
+/*
+    public UserRoleForm getUserrole() {
+        return userrole;
+    }
+
+    public void setUserrole(UserRoleForm userrole) {
+        this.userrole = userrole;
+    }
+*/
+
 }

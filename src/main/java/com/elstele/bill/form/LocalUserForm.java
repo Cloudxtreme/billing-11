@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import java.util.ArrayList;
+
 /**
  * Created by X240 on 03/06/2015.
  */
@@ -7,6 +9,7 @@ public class LocalUserForm {
     private Integer id;
     private String userName;
     private String userPass;
+//    private ArrayList<UserRoleForm> roleList;
 
 
     public Integer getId() {
@@ -32,4 +35,14 @@ public class LocalUserForm {
     public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
+
+/*
+    public ArrayList<UserRoleForm> getRoleList(){
+        return roleList;
+    }
+
+    public void setRoleList(ArrayList<UserRoleForm> roleList){
+        this.roleList = roleList;
+    }
+*/
 }
