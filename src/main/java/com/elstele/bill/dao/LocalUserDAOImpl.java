@@ -32,8 +32,8 @@ public class LocalUserDAOImpl implements LocalUserDAO {
     }
 
     @Override
-    public LocalUser save(LocalUser user) {
-        return null;
+    public void save(LocalUser user) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override

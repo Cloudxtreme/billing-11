@@ -13,8 +13,6 @@ public class LocalUser {
     private Integer id;
     private String username;
     private String password;
-//    @ManyToOne
-//    private UserRoleForm userrole;
 
 
 
@@ -42,14 +40,25 @@ public class LocalUser {
         this.password = password;
     }
 
-/*
-    public UserRoleForm getUserrole() {
-        return userrole;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LocalUser)) return false;
+
+        LocalUser localUser = (LocalUser) o;
+
+        if (!id.equals(localUser.id)) return false;
+        if (!password.equals(localUser.password)) return false;
+        if (!username.equals(localUser.username)) return false;
+
+        return true;
     }
 
-    public void setUserrole(UserRoleForm userrole) {
-        this.userrole = userrole;
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
-*/
-
 }
