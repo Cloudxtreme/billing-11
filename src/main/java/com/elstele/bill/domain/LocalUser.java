@@ -1,11 +1,13 @@
 package com.elstele.bill.domain;
 
 
+import com.elstele.bill.domain.common.CommonDomainBean;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="LocalUsers")
-public class LocalUser {
+public class LocalUser extends CommonDomainBean {
 
     @Id
     @Column(name="id")
@@ -50,6 +52,7 @@ public class LocalUser {
         if (!id.equals(localUser.id)) return false;
         if (!password.equals(localUser.password)) return false;
         if (!username.equals(localUser.username)) return false;
+        if (!this.getStatus().equals(localUser.getStatus())) return false;
 
         return true;
     }

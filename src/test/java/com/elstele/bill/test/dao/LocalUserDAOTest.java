@@ -53,7 +53,7 @@ public class LocalUserDAOTest {
         Integer id = localUser.getId();
         dao.delete(id);
 
-        LocalUser bean = dao.getLocalUserById(id);
+        LocalUser bean = dao.getById(id);
         assertTrue(bean == null);
 
 
@@ -69,7 +69,7 @@ public class LocalUserDAOTest {
         dao.save(localUser);
 
         Integer id = localUser.getId();
-        LocalUser bean = dao.getLocalUserById(id);
+        LocalUser bean = dao.getById(id);
         assertEquals(bean, localUser);
 
 

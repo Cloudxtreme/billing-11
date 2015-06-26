@@ -8,21 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class LocalUserDAOImpl implements LocalUserDAO {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    @Override
-    public LocalUser getLocalUserById(Integer id) {
-        LocalUser user = (LocalUser)this.sessionFactory.getCurrentSession().get(LocalUser.class, id);
-        return user;
-    }
+public class LocalUserDAOImpl extends CommonDAOImpl <LocalUser> implements LocalUserDAO {
 
     @Override
     public LocalUser getLocalUserByNameAndPass(String name, String pass) {
         String hql = "from LocalUser where username =:name and password =:pass";
-        Query query = this.sessionFactory.getCurrentSession().createQuery(hql)
+        Query query = getSessionFactory().getCurrentSession().createQuery(hql)
                 .setParameter("name", name)
                 .setParameter("pass", pass);
         if (!query.list().isEmpty()){
@@ -31,22 +22,4 @@ public class LocalUserDAOImpl implements LocalUserDAO {
         return null;
     }
 
-    @Override
-    public void save(LocalUser user) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
-    }
-
-    @Override
-    public void update(LocalUser user) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
-        this.sessionFactory.getCurrentSession().flush();
-    }
-
-    @Override
-    public void delete(Integer id) {
-        LocalUser user = this.getLocalUserById(id);
-        if (user != null) {
-            this.sessionFactory.getCurrentSession().delete(user);
-        }
-    }
 }
