@@ -4,27 +4,15 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="LocalUsers")
-public class LocalUser extends CommonDomainBean {
+public class LocalUser extends CommonDomainBean implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="id")
-    @GeneratedValue
-    private Integer id;
     private String username;
     private String password;
-
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -49,7 +37,7 @@ public class LocalUser extends CommonDomainBean {
 
         LocalUser localUser = (LocalUser) o;
 
-        if (!id.equals(localUser.id)) return false;
+        if (!getId().equals(localUser.getId())) return false;
         if (!password.equals(localUser.password)) return false;
         if (!username.equals(localUser.username)) return false;
         if (!this.getStatus().equals(localUser.getStatus())) return false;
@@ -59,7 +47,7 @@ public class LocalUser extends CommonDomainBean {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = getId().hashCode();
         result = 31 * result + username.hashCode();
         result = 31 * result + password.hashCode();
         return result;
