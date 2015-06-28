@@ -22,4 +22,14 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
         }
         return false;
     }
+
+    @Override
+    @Transactional
+    public LocalUser getUserByNameAndPass(String name, String pass) {
+        LocalUser localUser = localUserDAO.getLocalUserByNameAndPass(name, pass);
+        if (localUser != null){
+            return localUser;
+        }
+        return null;
+    }
 }

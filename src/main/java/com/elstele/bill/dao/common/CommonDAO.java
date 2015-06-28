@@ -1,4 +1,4 @@
-package com.elstele.bill.dao;
+package com.elstele.bill.dao.common;
 
 public interface CommonDAO <T> {
 

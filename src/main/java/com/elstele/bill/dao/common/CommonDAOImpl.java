@@ -1,4 +1,4 @@
-package com.elstele.bill.dao;
+package com.elstele.bill.dao.common;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -71,8 +71,6 @@ public class LocalUserDAOTest {
         Integer id = localUser.getId();
         LocalUser bean = dao.getById(id);
         assertEquals(bean, localUser);
-
-
     }
 
     @Test

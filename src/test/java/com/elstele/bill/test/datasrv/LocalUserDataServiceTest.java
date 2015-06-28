@@ -58,4 +58,23 @@ public class LocalUserDataServiceTest  {
         assertFalse(localUserDataService.isCredentialValid("Tireon Lanister", "secret"));
     }
 
+    @Test
+    public void getLocalUserByRightCredentials(){
+        LocalUser lu = new LocalUser();
+        lu.setUsername("John Snow");
+        lu.setPassword("secret");
+        lu.setId(1);
+        when(localUserDAO.getLocalUserByNameAndPass("John Snow", "secret")).thenReturn(lu);
+        assertEquals(localUserDataService.getUserByNameAndPass("John Snow", "secret"), lu);
+    }
+
+    @Test
+    public void getLocalUserByWrongCredentials(){
+        LocalUser lu = new LocalUser();
+        lu.setUsername("John Snow");
+        lu.setPassword("secret");
+        lu.setId(1);
+        when(localUserDAO.getLocalUserByNameAndPass("John Snow", "secret")).thenReturn(lu);
+        assertNull(localUserDataService.getUserByNameAndPass("Tireon Lanister", "secret"));
+    }
 }

@@ -6,12 +6,14 @@ import java.io.Serializable;
 @MappedSuperclass
 public class CommonDomainBean implements Serializable{
     private static final long serialVersionUID = 1L;
-    private Status status;
-
     @Id
     @Column(name="id")
     @GeneratedValue
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
 
     public Status getStatus() {
         return status;

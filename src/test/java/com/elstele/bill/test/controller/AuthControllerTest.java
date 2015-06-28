@@ -3,11 +3,13 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.AuthController;
 import com.elstele.bill.dao.LocalUserDAO;
 import com.elstele.bill.datasrv.LocalUserDataService;
+import com.elstele.bill.domain.LocalUser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -17,9 +19,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.UUID;
+
+import static org.mockito.Matchers.isNotNull;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.when;
 
-
+import static com.elstele.bill.utils.Constants.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
@@ -34,6 +42,7 @@ public class AuthControllerTest {
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
+    private MockHttpSession mockSession;
 
     @Mock
     LocalUserDAO localUserDAO;
@@ -53,20 +62,28 @@ public class AuthControllerTest {
         //initialise only one controller
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
         //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
     }
 
     @Test
      public void loginPageResponseValidUser() throws Exception {
+        LocalUser lu = new LocalUser();
+        lu.setUsername("testUser");
+        lu.setPassword("qwerty");
+        lu.setId(1);
 
         when(localUserDataService.isCredentialValid("testUser", "qwerty")).thenReturn(true);
+        when(localUserDataService.getUserByNameAndPass("testUser","qwerty")).thenReturn(lu);
 
         this.mockMvc.perform(post("/login")
+                .session(mockSession)
                 .param("userName", "testUser")
                 .param("userPass", "qwerty")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("main"))
-                .andExpect(forwardedUrl("main"));
+                .andExpect(forwardedUrl("main"))
+                .andExpect(request().sessionAttribute(LOCAL_USER, notNullValue()));
                 //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
     }
 
@@ -81,8 +98,23 @@ public class AuthControllerTest {
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login_page"))
-                .andExpect(forwardedUrl("login_page"));
-                //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
+                .andExpect(forwardedUrl("login_page"))
+                .andExpect(model().attribute("errorMessage", notNullValue()));
     }
+
+    @Test
+    public void logoutCall() throws Exception {
+
+        mockSession.setAttribute(LOCAL_USER, new LocalUser());
+        this.mockMvc.perform(get("/logout")
+                .session(mockSession)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login_page"))
+                .andExpect(forwardedUrl("login_page"))
+                .andExpect(request().sessionAttribute(LOCAL_USER, nullValue()))
+                .andExpect(model().attribute("errorMessage", nullValue()));
+    }
+
 
 }

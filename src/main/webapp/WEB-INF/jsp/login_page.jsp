@@ -20,9 +20,15 @@
 <body>
 
 <div class="col-lg-6 Absolute-Center Center-Container">
+    <%--<c:set var="msg" value="${errorMessage}" scope="request"/>--%>
     <form:form class="form-horizontal" method="POST" commandName="userForm" action="${pageContext.request.contextPath}/login.html">
         <fieldset>
             <legend>Authentication, Please input Your login and pass</legend>
+            <c:if test="${not empty errorMessage}">
+                <div class="form-group">
+                    <label class="col-lg-8 text-warning">${errorMessage}</label>
+                </div>
+            </c:if>
             <div class="form-group">
                 <label for="inputLogin" class="col-lg-2 control-label">Login</label>
                 <div class="col-lg-10">
