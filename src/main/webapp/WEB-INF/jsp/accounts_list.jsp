@@ -19,8 +19,17 @@
 <body>
 
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
+<div id="addNewAccount">
+    <a class="btn btn-primary" href="#" role="button">New Account</a>
+</div>
 
-<h1>Accounts list here!</h1>
+<div id="listOfAccounts">
+    <h1>Accounts list here!</h1>
+
+</div>
+
+
+
 
 </body>
 </html>

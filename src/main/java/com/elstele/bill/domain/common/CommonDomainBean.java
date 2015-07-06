@@ -1,5 +1,7 @@
 package com.elstele.bill.domain.common;
 
+import com.elstele.bill.utils.Status;
+
 import javax.persistence.*;
 import java.io.Serializable;
 

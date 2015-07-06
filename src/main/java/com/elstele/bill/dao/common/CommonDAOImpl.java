@@ -51,7 +51,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         this.sessionFactory.getCurrentSession().delete(persistentObject);
     }
 
-
+    @Override
     public void delete(Integer id) {
         T persistentObject = this.getById(id);
         if (persistentObject != null) {
@@ -61,7 +61,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
     //TODO please read Hibernate docs once again and decide if we really need this method
     @Override
-    public void save(Object transientObject) {
+    public void save(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
