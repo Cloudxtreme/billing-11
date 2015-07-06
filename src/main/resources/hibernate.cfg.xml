@@ -10,6 +10,8 @@
 	    
 
         <mapping class="com.elstele.bill.domain.LocalUser"/>
+        <mapping class="com.elstele.bill.domain.Activity"/>
+
 
     </session-factory>
          

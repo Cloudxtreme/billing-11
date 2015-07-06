@@ -41,7 +41,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown $1 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/link1">Action</a></li>
+                        <li><a href="/activity">User Control</a></li>
                         <li><a href="/link2">Another action</a></li>
                         <li><a href="link21">Something else here</a></li>
                         <li role="separator" class="divider"></li>

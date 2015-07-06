@@ -30,7 +30,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
     @Override
-    public Integer create(Object o) {
+    public Integer create(T o) {
         return (Integer)this.sessionFactory.getCurrentSession().save(o);
     }
 
@@ -41,17 +41,17 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
     @Override
-    public void update(Object transientObject) {
+    public void update(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
 
     @Override
-    public void delete(Object persistentObject) {
+    public void delete(T persistentObject) {
         this.sessionFactory.getCurrentSession().delete(persistentObject);
     }
 
-    @Override
+
     public void delete(Integer id) {
         T persistentObject = this.getById(id);
         if (persistentObject != null) {
