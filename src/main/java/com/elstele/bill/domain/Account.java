@@ -1,32 +1,22 @@
-package com.elstele.bill.form;
+package com.elstele.bill.domain;
 
-
+import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Status;
 
-public class AccountForm {
-    private Integer id;
-    private Status status;
-    private String accountName; //current account representation
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Accounts")
+public class Account extends CommonDomainBean {
+
+    private String accountName;
+    @Enumerated(EnumType.STRING)
     private Constants.AccountType accountType;
+
     private Float currentBalance;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public String getAccountName() {
         return accountName;

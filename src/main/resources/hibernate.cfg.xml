@@ -11,6 +11,7 @@
 
         <mapping class="com.elstele.bill.domain.LocalUser"/>
         <mapping class="com.elstele.bill.domain.Activity"/>
+        <mapping class="com.elstele.bill.domain.Account"/>
 
 
     </session-factory>
