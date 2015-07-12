@@ -6,10 +6,7 @@ import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +24,8 @@ public class AccountsController {
     @Autowired
     private AccountDataService accountDataService;
 
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public ModelAndView getListOfAccounts(HttpSession session)
+    @RequestMapping(value="/accountHome", method = RequestMethod.GET)
+    public ModelAndView handleAccountHome(HttpSession session)
     {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         ModelAndView mav = new ModelAndView("accounts_list");
@@ -37,11 +34,20 @@ public class AccountsController {
         return mav;
     }
 
+
+    @RequestMapping(value="/accountsList", method = RequestMethod.GET)
+    @ResponseBody
+    public List<AccountForm> getAccountsList(HttpServletRequest request, @RequestParam(value = "rows") int rows, @RequestParam(value = "page") int page){
+        List<AccountForm> result = new ArrayList<AccountForm>();
+
+        result = accountDataService.getAccountsList();
+
+        return result;
+    }
+
     @RequestMapping(value="/add", method = RequestMethod.POST)
     public @ResponseBody AccountForm addAccountFromForm(@RequestBody AccountForm accountForm, HttpServletRequest request) {
-
         accountDataService.saveAccount(accountForm);
-
         return new AccountForm();
     }
 

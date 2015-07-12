@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,17 @@ public class AccountDataServiceImpl implements AccountDataService {
     private AccountDAO accountDAO;
 
     @Override
+    @Transactional
     public List<AccountForm> getAccountsList() {
-        return null;
+        List<AccountForm> result = new ArrayList<AccountForm>();
+        AccountAssembler assembler = new AccountAssembler();
+
+        List<Account> beans = accountDAO.getAccountList();
+        for (Account curBean : beans){
+            AccountForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
     }
 
     @Override

@@ -23,7 +23,7 @@
 
 
 <div class="well">
-    <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Create New Account</a>
+    <a href="#accAccountModal" class="btn btn-lg btn-primary" data-toggle="modal">Create New Account</a>
 
 
     <div id="accAccountModal" class="modal fade">
@@ -76,6 +76,21 @@
             </div>
         </div>
     </div>
+
+
+    <div id="accountsTableDiv">
+        <table id="accountsTable" class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Account Name</th>
+                <th>Account Type</th>
+                <th>Balance</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </div>
+
+
 </div>
 <%--
 
