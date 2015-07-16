@@ -36,9 +36,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                <label for="inputPassword" class="col-lg-2 control-label">Your Password</label>
                 <div class="col-lg-10">
-                    <form:password path="userPass" class="form-control" id="inputPassword" placeholder="Password"/>
+                    <form:password path="userPass" class="form-control" id="inputPassword" placeholder="Enter your password"/>
                 </div>
             </div>
             <div class="form-group">
