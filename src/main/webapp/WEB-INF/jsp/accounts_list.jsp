@@ -25,19 +25,20 @@
 <div class="well">
     <a href="#accAccountModal" class="btn btn-lg btn-primary" data-toggle="modal">Create New Account</a>
 
+    <li><a href=""><i class=" icon-pencil icon-2x"></i>About Us</a></li>
 
     <div id="accAccountModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Please fill required info to create new Account</h4>
-                </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Please fill required info to create new Account</h4>
+            </div>
 
-                <div class="modal-body">
-                    <div class="">
-                        <form:form class="form" id="crtAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/add.html">
-                            <fieldset>
+            <div class="modal-body">
+                <div class="">
+                    <form:form class="form" id="crtAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/add.html">
+                        <fieldset>
                                 <%--<c:if  test="${empty errorMessage}">
                                     <div class="form-group">
                                         <label class="col-lg-8">Please fill in all fields below.</label>
@@ -48,47 +49,47 @@
                                         <label class="col-lg-8 text-warning">${errorMessage}</label>
                                     </div>
                                 </c:if>--%>
-
-                                <div class="form-group">
-                                    <label for="accountName" class="col-lg-5 control-label">Account #</label>
-                                    <div class="col-lg-9">
-                                        <form:input path="accountName" class="form-control" id="accountName" placeholder="Account"/>
-                                    </div>
+                            <form:input path="id" id="id" type="hidden"/>
+                            <div class="form-group">
+                                <label for="accountName" class="col-lg-5 control-label">Account #</label>
+                                <div class="col-lg-9">
+                                    <form:input path="accountName" class="form-control" id="accountName" placeholder="Account"/>
                                 </div>
-                                <div class="form-group">
-                                    <label for="accountType" class="col-lg-5 control-label">Account Type</label>
-                                    <div class="col-lg-9">
-                                        <form:select path="accountType" class="form-control" id="accountType">
-                                            <form:options items="${accountTypeList}" />
-                                        </form:select>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="accountType" class="col-lg-5 control-label">Account Type</label>
+                                <div class="col-lg-9">
+                                    <form:select path="accountType" class="form-control" id="accountType">
+                                        <form:options items="${accountTypeList}" />
+                                    </form:select>
                                 </div>
+                            </div>
 
 
-                            </fieldset>
-                        </form:form>
-                    </div>
+                        </fieldset>
+                    </form:form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" id="crtAccount" class="btn btn-primary">Create</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="crtAccount" class="btn btn-primary">Create</button>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div id="accountsTableDiv">
-        <table id="accountsTable" class="table table-striped">
-            <tr>
-                <th>Id</th>
-                <th>Account Name</th>
-                <th>Account Type</th>
-                <th>Balance</th>
-                <th>Status</th>
-            </tr>
-        </table>
-    </div>
+<div id="accountsTableDiv">
+    <table id="accountsTable" class="table table-striped">
+        <tr>
+            <th>Action</th>
+            <th>Account Name</th>
+            <th>Account Type</th>
+            <th>Balance</th>
+            <th>Status</th>
+        </tr>
+    </table>
+</div>
 
 
 </div>

@@ -45,10 +45,23 @@ public class AccountsController {
         return result;
     }
 
+    //getAccount
+    @RequestMapping(value="/getAccount", method = RequestMethod.GET)
+    @ResponseBody
+    public AccountForm getAccountById(HttpServletRequest request, @RequestParam(value = "id") int id){
+        AccountForm result = accountDataService.getAccountById(id);
+        return result;
+    }
+
     @RequestMapping(value="/add", method = RequestMethod.POST)
     public @ResponseBody AccountForm addAccountFromForm(@RequestBody AccountForm accountForm, HttpServletRequest request) {
         accountDataService.saveAccount(accountForm);
         return new AccountForm();
     }
 
+    @RequestMapping(value="/editAccount", method = RequestMethod.POST)
+    public @ResponseBody AccountForm editAccount(@RequestBody AccountForm accountForm, HttpServletRequest request) {
+        accountDataService.updateAccount(accountForm);
+        return new AccountForm();
+    }
 }

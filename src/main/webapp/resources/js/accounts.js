@@ -7,6 +7,32 @@ $(function() {
 });
 
 
+$(document).on("click", ".pushedit", function () {
+    console.log("pushedit push");
+    var accountId = $(this).data('id');
+    $('#accAccountModal').modal('show');
+    $("#accountName").val(accountId);
+
+    $.ajax({
+        url: 'getAccount?id='+accountId,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            // since we are using jQuery, you don't need to parse response
+            $("#id").val(data.id);
+            $("#accountName").val(data.accountName);
+            $('#accountType option[value=' + data.accountType + ']').prop("selected", "selected");
+
+        },
+        error : function(){
+            console.log("error in ajax query getAccount");
+            /*$(this).html("Error!");*/
+        }
+    });
+
+});
+
+
 $(document).ready(function() {
 
     $('#crtAccount').click(function(e) {
@@ -18,6 +44,12 @@ $(document).ready(function() {
         var account = {
             accountName: $("#accountName").val(),
             accountType:$("#accountType").val()
+        }
+
+        var id = $("#id").val();
+        var action = frm.attr('action');
+        if (id > 0){
+            action = 'editAccount';
         }
 
         var formData = $('#crtAccountForm').serializeArray();
@@ -32,7 +64,7 @@ $(document).ready(function() {
         $.ajax({
             contentType : 'application/json; charset=utf-8',
             type: frm.attr('method'),
-            url: frm.attr('action'),
+            url: action,
             dataType : 'json',
             data : jsonData,
             success : function(callback){
@@ -80,7 +112,7 @@ function drawTable(data) {
 function drawRow(rowData) {
     var row = $("<tr />")
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-    row.append($("<td>" + rowData.id + "</td>"));
+    row.append($("<td><a href=\"\" class=\"pushedit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><i class=\"icon-pencil icon-2x\"></i>Edit</a></td>"));
     row.append($("<td>" + rowData.accountName + "</td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
     row.append($("<td>" + rowData.currentBalance + "</td>"));
@@ -95,6 +127,7 @@ function clearForm(){
     });
 };
 
+/*
 $(document).ready(function () {
     $("input#submit").click(function(){
         console.log("button pushed");
@@ -107,7 +140,8 @@ $(document).ready(function () {
         });
 
 
-        /*$.ajax({
+        */
+/*$.ajax({
          type: "POST",
          url: "process.php", //
          data: $('form.contact').serialize(),
@@ -118,6 +152,8 @@ $(document).ready(function () {
          error: function(){
          alert("failure");
          }
-         });*/
+         });*//*
+
     });
 });
+*/
