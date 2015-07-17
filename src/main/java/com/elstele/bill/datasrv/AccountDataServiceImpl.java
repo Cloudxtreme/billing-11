@@ -44,4 +44,26 @@ public class AccountDataServiceImpl implements AccountDataService {
         Account account = assembler.fromFormToBean(form);
         accountDAO.create(account);
     }
+
+    @Override
+    @Transactional
+    public void updateAccount(AccountForm form) {
+        AccountAssembler assembler = new AccountAssembler();
+        Account account = assembler.fromFormToBean(form);
+        accountDAO.update(account);
+    }
+
+
+    @Override
+    @Transactional
+    public AccountForm getAccountById(int id) {
+        AccountAssembler assembler = new AccountAssembler();
+        AccountForm result = null;
+        Account bean = accountDAO.getById(id);
+        if (bean != null){
+            AccountForm form = assembler.fromBeanToForm(bean);
+            result = form;
+        }
+        return result;
+    }
 }
