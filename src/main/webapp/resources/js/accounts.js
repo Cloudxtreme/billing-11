@@ -20,6 +20,8 @@ $(document).on("click", ".pushedit", function () {
         success: function(data, textStatus, jqXHR) {
             // since we are using jQuery, you don't need to parse response
             $("#id").val(data.id);
+            $("#status").val(data.status);
+            $("#currentBalance").val(data.currentBalance);
             $("#accountName").val(data.accountName);
             $('#accountType option[value=' + data.accountType + ']').prop("selected", "selected");
 
@@ -49,7 +51,7 @@ $(document).ready(function() {
         var id = $("#id").val();
         var action = frm.attr('action');
         if (id > 0){
-            action = 'editAccount';
+            action = 'editAccount.html';
         }
 
         var formData = $('#crtAccountForm').serializeArray();

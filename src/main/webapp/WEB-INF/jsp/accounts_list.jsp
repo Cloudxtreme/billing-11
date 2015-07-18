@@ -50,6 +50,8 @@
                                     </div>
                                 </c:if>--%>
                             <form:input path="id" id="id" type="hidden"/>
+                            <form:input path="currentBalance" id="currentBalance" type="hidden"/>
+                            <form:input path="status" id="status" type="hidden"/>
                             <div class="form-group">
                                 <label for="accountName" class="col-lg-5 control-label">Account #</label>
                                 <div class="col-lg-9">
