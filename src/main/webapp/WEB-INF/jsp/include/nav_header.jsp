@@ -20,7 +20,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/billing-1.0-SNAPSHOT/inventory_list">Inventory</a></li>
+                        <li><a href="${pageContext.request.contextPath}/device">Devices List</a></li>
                         <li><a href="/32">Another action</a></li>
                         <li><a href="/44">Something else here</a></li>
                         <li role="separator" class="divider"></li>

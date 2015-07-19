@@ -1,15 +1,13 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.CommonDomainBean;
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="InventoryList")
-public class InventoryList {
+@Table(name="Device")
+public class Device extends CommonDomainBean{
 
-    @Id
-    @Column(name="id")
-    @GeneratedValue
     private Integer id;
     private String devicename;
     private String devtype;
@@ -57,16 +55,9 @@ public class InventoryList {
         this.devicename = devicename;
     }
 
-    public InventoryList() {
+    public Device() {
+    }
+
     }
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-}
