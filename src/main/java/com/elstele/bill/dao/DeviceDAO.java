@@ -8,6 +8,6 @@ package com.elstele.bill.dao;
 
 public interface DeviceDAO extends CommonDAO<Device>{
 
-    public Device getDeviceFromDB();
+    public List<Device> getDevices();
 
 }

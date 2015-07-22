@@ -10,19 +10,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Inventory</title>
+<title>Device</title>
+
 
 <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
-<spring:url value="/resources/js/accounts.js" var="accounts" />
-<script src="${accounts}"></script>
+
 
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
-<p>Some text</p>
 
-
+<div class="well">
+    <button type="button" class="btn btn-lg btn-primary">Add New Device</button>
+    <div>
+           <table class="table table-striped">
+              <TH>Name</th>
+              <TH>Type</th>
+              <th>Descpition</th>
+              <c:forEach items="${list}" var="current">
+                <tr>
+                  <td>${current.name}</td>
+                  <td>${current.type}</td>
+                  <td>${current.desc}</td>
+                </tr>
+              </c:forEach>
+        </table>
+    </div>
+</div>
 
 
 </body>

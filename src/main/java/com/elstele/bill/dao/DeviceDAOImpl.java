@@ -6,14 +6,16 @@ import com.elstele.bill.domain.Device;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
 
     @Override
-    public Device getDeviceFromDB() {
+    public List<Device> getDevices() {
         String rd = "SELECT * FROM Device";
         Query query = getSessionFactory().getCurrentSession().createQuery(rd);
-        
-        return null;
+        return (List<Device>)query.list();
     }
 }

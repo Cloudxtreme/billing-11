@@ -8,28 +8,37 @@ import java.util.Set;
 @Table(name="Device")
 public class Device extends CommonDomainBean{
 
-    private Integer id;
-    private String devicename;
-    private String devtype;
-    private String devdesc;
+    private String name;
+    private String type;
+    private String desc;
     private String community;
     private String ip;
 
-    public String getDevtype() {
-        return devtype;
+
+    public String getName() {
+        return name;
     }
 
-    public void setDevtype(String devtype) {
-        this.devtype = devtype;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDevdesc() {
-        return devdesc;
+    public String getType() {
+        return type;
     }
 
-    public void setDevdesc(String devdesc) {
-        this.devdesc = devdesc;
+    public void setType(String type) {
+        this.type = type;
     }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
 
     public String getCommunity() {
         return community;
@@ -47,13 +56,6 @@ public class Device extends CommonDomainBean{
         this.ip = ip;
     }
 
-    public String getDevicename() {
-        return devicename;
-    }
-
-    public void setDevicename(String devicename) {
-        this.devicename = devicename;
-    }
 
     public Device() {
     }
