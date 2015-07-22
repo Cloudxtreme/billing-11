@@ -4,6 +4,7 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 import javax.persistence.*;
 import java.util.Set;
 
+
 @Entity
 @Table(name="Device")
 public class Device extends CommonDomainBean{
