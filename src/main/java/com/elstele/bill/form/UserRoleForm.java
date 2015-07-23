@@ -1,31 +1,37 @@
 package com.elstele.bill.form;
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Ivan
- * Date: 24.06.15
- * Time: 17:31
- * To change this template use File | Settings | File Templates.
- */
 public class UserRoleForm {
-    private String roleName;
-    private ArrayList<ActivityForm> activityList;
+    @NotNull
+    private String name;
+    @NotNull
+    private String description;
+    private ArrayList<Integer> activityId;
 
-    public void setRoleName(String roleName){
-        this.roleName = roleName;
+    public void setName(String name){
+        this.name = name;
     }
 
-    public String getRoleName(){
-        return roleName;
+    public String getName(){
+        return name;
     }
 
-    public void setActivityList(ArrayList<ActivityForm> activity){
-        this.activityList = activity;
+    public void setDescription(String description){
+        this.description = description;
     }
 
-    public ArrayList<ActivityForm> getActivityList(){
-        return activityList;
+    public String getDescription(){
+        return description;
+    }
+
+    public void setActivityId(ArrayList<Integer> activity){
+        this.activityId = activity;
+    }
+
+    public ArrayList<Integer> getActivityId(){
+        return activityId;
     }
 }

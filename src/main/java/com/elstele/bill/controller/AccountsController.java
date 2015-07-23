@@ -37,11 +37,10 @@ public class AccountsController {
 
     @RequestMapping(value="/accountsList", method = RequestMethod.GET)
     @ResponseBody
-    public List<AccountForm> getAccountsList(HttpServletRequest request, @RequestParam(value = "rows") int rows, @RequestParam(value = "page") int page){
-        List<AccountForm> result = new ArrayList<AccountForm>();
-
-        result = accountDataService.getAccountsList();
-
+    public List<AccountForm> getAccountsList(HttpServletRequest request,
+                                             @RequestParam(value = "rows") int rows,
+                                             @RequestParam(value = "page") int page){
+        List<AccountForm> result = accountDataService.getAccountsList();
         return result;
     }
 

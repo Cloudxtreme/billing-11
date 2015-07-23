@@ -12,6 +12,8 @@
         <mapping class="com.elstele.bill.domain.Activity"/>
         <mapping class="com.elstele.bill.domain.Account"/>
         <mapping class="com.elstele.bill.domain.Device"/>
+        <mapping class="com.elstele.bill.domain.UserRole"/>
+
 
 
     </session-factory>
