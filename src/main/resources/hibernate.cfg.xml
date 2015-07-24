@@ -7,7 +7,6 @@
     <session-factory name="bill">
 	    <property name="show_sql">true</property> 
 	    <property name="hibernate.hbm2ddl.auto">update</property>  <!--validate or create-->
-	    
 
         <mapping class="com.elstele.bill.domain.LocalUser"/>
         <mapping class="com.elstele.bill.domain.Activity"/>

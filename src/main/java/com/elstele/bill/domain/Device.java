@@ -1,17 +1,17 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import javax.persistence.*;
-import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 @Entity
-@Table(name="Device")
-public class Device extends CommonDomainBean{
-
+@Table(name="Devices")
+public class Device extends CommonDomainBean {
     private String name;
     private String type;
-    private String desc;
+    private String description;
     private String community;
     private String ip;
 
@@ -32,14 +32,13 @@ public class Device extends CommonDomainBean{
         this.type = type;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
-
 
     public String getCommunity() {
         return community;
@@ -56,11 +55,4 @@ public class Device extends CommonDomainBean{
     public void setIp(String ip) {
         this.ip = ip;
     }
-
-
-    public Device() {
-    }
-
-    }
-
-
+}
