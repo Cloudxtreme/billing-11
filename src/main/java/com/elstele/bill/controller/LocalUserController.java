@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,6 +76,23 @@ public class LocalUserController {
         map.put("activity", new Activity() );
         map.put("activityList", activityDataService.listActivity());
         return "user_panel";
+    }
+
+    // show update form
+    @RequestMapping(value = "/user_role/{id}/update", method = RequestMethod.GET)
+    public String userRoleUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
+        UserRole userRole = userRoleDataService.findById(id);
+        UserRoleForm form = new UserRoleForm();
+        form.setName(userRole.getName());
+        form.setDescription(userRole.getDescription());
+        /*for (int activityId : userRole.getActivities()) {
+            //role.addActivity(userActivityDAO.getActivityById(activityId));
+        }*/
+        map.put("userRoleForm", form);
+        map.put("userRole", userRole);
+        map.put("activityList", activityDataService.listActivity());
+        return "user_role_form";
+
     }
 
     @RequestMapping(value="/user_role_form", method = RequestMethod.GET)

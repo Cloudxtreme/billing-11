@@ -39,9 +39,9 @@
                 <label for="${userRole.id}">
                     <tr id="${userRole.id}">
                         <td>
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            <a href="${pageContext.request.contextPath}/user_role/${userRole.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            <a href="${pageContext.request.contextPath}/user_role_form.html"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                         <td>${userRole.name}</td>
                         <td>${userRole.description}</td>

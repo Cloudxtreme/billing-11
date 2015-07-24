@@ -24,14 +24,6 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     private UserActivityDAO userActivityDAO;
 
     @Override
-    public String isValid(String name, String description) {
-        if (name != "" && description !=""){
-            return "good";
-        }
-        return "bed";
-    }
-
-    @Override
     @Transactional
     public void saveRole(UserRoleForm form){
         UserRole role = new UserRole();
@@ -65,5 +57,12 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     public List<UserRole> listUserRole(){
         return userRoleDAO.listUserRole();
     }
+
+    @Override
+    @Transactional
+    public UserRole findById(Integer id){
+        return userRoleDAO.getById(id);
+    }
+
 
 }
