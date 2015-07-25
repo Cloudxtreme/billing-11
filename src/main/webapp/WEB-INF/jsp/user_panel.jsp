@@ -24,7 +24,7 @@
 <div class="col-lg-6">
 
     <a href="${pageContext.request.contextPath}/user_role_list.html" class="btn btn-lg btn-primary" data-toggle="modal">User Role Page</a>
-    <a href="${pageContext.request.contextPath}/activity.html" class="btn btn-lg btn-primary" data-toggle="modal">Activity Page</a>
+    <a href="${pageContext.request.contextPath}/activity_list.html" class="btn btn-lg btn-primary" data-toggle="modal">Activity Page</a>
 
 <%--
     <form:form class="form-horizontal" method="POST" commandName="userRoleForm" action="${pageContext.request.contextPath}/role.html">

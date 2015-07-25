@@ -1,7 +1,5 @@
 package com.elstele.bill.form;
 
-
-
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
@@ -36,4 +34,5 @@ public class UserRoleForm {
     public ArrayList<Integer> getActivityId(){
         return activityId;
     }
+
 }

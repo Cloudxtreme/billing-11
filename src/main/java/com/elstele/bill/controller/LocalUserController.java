@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -28,6 +29,9 @@ public class LocalUserController {
 
     @Autowired
     private UserRoleDataService userRoleDataService;
+
+    @Autowired
+    private UserRoleValidator userRoleValidator;
 
     @RequestMapping(value="/activity_add", method = RequestMethod.POST)
     public ModelAndView activityAdd(@ModelAttribute("activityForm") ActivityForm form, @ModelAttribute("userPanelForm") UserPanelForm returnForm){
@@ -78,16 +82,31 @@ public class LocalUserController {
         return "user_panel";
     }
 
-    // show update form
+    // delete user role
+    @RequestMapping(value = "/user_role/{id}/delete", method = RequestMethod.GET)
+    public String userRoleDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
+        userRoleDataService.deleteRole(id);
+        map.put("userRole", new UserRole() );
+        map.put("userRoleList", userRoleDataService.listUserRole());
+        map.put("activity", new Activity() );
+        map.put("activityList", activityDataService.listActivity());
+        map.put("successMessage","User Role was successfully deleted.");
+        return "user_role_list";
+    }
+
+
+    // show User Role update form
     @RequestMapping(value = "/user_role/{id}/update", method = RequestMethod.GET)
     public String userRoleUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
         UserRole userRole = userRoleDataService.findById(id);
         UserRoleForm form = new UserRoleForm();
         form.setName(userRole.getName());
         form.setDescription(userRole.getDescription());
-        /*for (int activityId : userRole.getActivities()) {
-            //role.addActivity(userActivityDAO.getActivityById(activityId));
-        }*/
+        ArrayList<Integer> activityList = new ArrayList<Integer>();
+        for (Activity activity : userRole.getActivities()) {
+            activityList.add(activity.getId());
+        }
+        form.setActivityId(activityList);
         map.put("userRoleForm", form);
         map.put("userRole", userRole);
         map.put("activityList", activityDataService.listActivity());
@@ -106,8 +125,7 @@ public class LocalUserController {
 
     @RequestMapping(value="/user_role_form", method = RequestMethod.POST)
     public ModelAndView userRoleAdd(@ModelAttribute("userRoleForm") UserRoleForm form, BindingResult result){
-        UserRoleValidator roleValidator = new UserRoleValidator();
-        roleValidator.validate(form, result);
+        userRoleValidator.validate(form, result);
         if (result.hasErrors()){
             ModelAndView mav = new ModelAndView("user_role_form");
             mav.addObject("activityList", activityDataService.listActivity());
@@ -116,13 +134,13 @@ public class LocalUserController {
             return mav;
         }
         else{
+            userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
             mav.addObject("userRole", new UserRole() );
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             mav.addObject("activity", new Activity() );
             mav.addObject("activityList", activityDataService.listActivity());
             mav.addObject("successMessage","User Role was successfully added.");
-            userRoleDataService.saveRole(form);
             return mav;
         }
 

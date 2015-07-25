@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class UserRoleDataServiceImpl implements UserRoleDataService {
 
-
     @Autowired
     private UserRoleDAO userRoleDAO;
 
@@ -37,19 +36,8 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
 
     @Override
     @Transactional
-    public ModelAndView editRole(UserRoleForm form){
-        ModelAndView mav = new ModelAndView("user_panel");
-        return mav;
-    }
-
-    @Override
-    @Transactional
-    public ModelAndView deleteRole(UserRoleForm form){
-        ModelAndView mav = new ModelAndView("user_panel");
-        Activity activity = new Activity();
-        mav.addObject("activity", activity);
-        mav.addObject("activityList", userActivityDAO.listActivity());
-        return mav;
+    public void deleteRole(Integer id){
+        userRoleDAO.delete(id);
     }
 
     @Override

@@ -41,7 +41,7 @@
                         <td>
                             <a href="${pageContext.request.contextPath}/user_role/${userRole.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             &nbsp;&nbsp;
-                            <a href="${pageContext.request.contextPath}/user_role_form.html"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a href="${pageContext.request.contextPath}/user_role/${userRole.id}/delete" onclick="return confirm('Do you really want to delete user role?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                         <td>${userRole.name}</td>
                         <td>${userRole.description}</td>

@@ -6,6 +6,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserRoleValidator implements Validator{
     @Override
     public boolean supports(Class<?> clazz) {
