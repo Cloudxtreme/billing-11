@@ -1,29 +1,25 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.CommonDomainBean;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="UserRoleForm")
-public class UserRole {
+@Table(name="UserRole")
+public class UserRole extends CommonDomainBean{
 
-    @Id
-    @Column(name="id")
-    @GeneratedValue
-    private Integer id;
+    @Column(unique = true)
     private String name;
+
     private String description;
-    @OneToMany
-    private Set<Activity> activities;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ROLE_ACTIVITY",
+            joinColumns = @JoinColumn(name = "USERROLE_ID", unique=false),
+            inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID", unique=false))
+    private List<Activity> activities = new ArrayList<Activity>();
 
     public String getName() {
         return name;
@@ -41,11 +37,11 @@ public class UserRole {
         this.description = description;
     }
 
-    public Set<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(Set<Activity> activities) {
+    public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
 

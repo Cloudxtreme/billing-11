@@ -1,16 +1,22 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.UserRoleDataService;
+import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.ActivityForm;
+import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.domain.Activity;
 import com.elstele.bill.datasrv.ActivityDataService;
+import com.elstele.bill.form.UserPanelForm;
+import com.elstele.bill.validator.UserRoleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -20,29 +26,116 @@ public class LocalUserController {
     @Autowired
     private ActivityDataService activityDataService;
 
-    @RequestMapping(value="/activity", method = RequestMethod.POST)
-    public ModelAndView activityCall(@ModelAttribute("activityForm") ActivityForm activityForm, HttpSession session,
-                                  HttpServletRequest request){
-        String activityName = activityForm.getName();
-        String activityDescription = activityForm.getDescription();
-        ModelAndView mav = new ModelAndView("activity");
-        if (activityDataService.isCredentialValid(activityName, activityDescription)){
-            Activity activity = new Activity();
-            activity.setName(activityName);
-            activity.setDescription(activityDescription);
-            activityDataService.saveActivity(activity);
-            return mav;
-        }
-        ModelAndView activity = new ModelAndView("activity");
-        activity.addObject("errorMessage", "Fill all the fields below. Please try again!");
-        return activity;
+    @Autowired
+    private UserRoleDataService userRoleDataService;
+
+    @RequestMapping(value="/activity_add", method = RequestMethod.POST)
+    public ModelAndView activityAdd(@ModelAttribute("activityForm") ActivityForm form, @ModelAttribute("userPanelForm") UserPanelForm returnForm){
+        return activityDataService.saveActivity(form, returnForm);
+    }
+
+    @RequestMapping(value="/activity_edit", method = RequestMethod.POST)
+    public ModelAndView activityEdit(@ModelAttribute("activityForm") ActivityForm form, @ModelAttribute("userPanelForm") UserPanelForm returnForm){
+        return activityDataService.editActivity(form, returnForm);
+    }
+
+    @RequestMapping(value="/activity_delete", method = RequestMethod.POST)
+    public ModelAndView activityDelete(@ModelAttribute("userPanelForm") UserPanelForm form){
+        return activityDataService.deleteActivity(form);
     }
 
     @RequestMapping(value="/activity", method = RequestMethod.GET)
     public String addActivity(HttpSession session, Map<String, Object> map)
     {
-        map.put("activityForm", new ActivityForm());
         return "activity";
+    }
+
+    @RequestMapping(value="/user_panel", method = RequestMethod.POST)
+    public String userPanelCall(HttpSession session, Map<String, Object> map)
+    {
+        return "user_panel";
+    }
+
+/*
+    @RequestMapping(value="/user_panel", method = RequestMethod.GET)
+    public String userPanel(HttpSession session, Map<String, Object> map)
+    {
+        map.put("userPanelForm", new UserPanelForm());
+        map.put("activity", new Activity() );
+        map.put("activityList", activityDataService.listActivity());
+        return "user_panel";
+    }
+*/
+
+    @RequestMapping(value="/user_panel", method = RequestMethod.GET)
+    public String userRole(HttpSession session, Map<String, Object> map)
+    {
+        map.put("userRoleForm", new UserRoleForm());
+        map.put("userRole", new UserRole() );
+        map.put("userRoleList", userRoleDataService.listUserRole());
+        map.put("activity", new Activity() );
+        map.put("activityList", activityDataService.listActivity());
+        return "user_panel";
+    }
+
+    // show update form
+    @RequestMapping(value = "/user_role/{id}/update", method = RequestMethod.GET)
+    public String userRoleUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
+        UserRole userRole = userRoleDataService.findById(id);
+        UserRoleForm form = new UserRoleForm();
+        form.setName(userRole.getName());
+        form.setDescription(userRole.getDescription());
+        /*for (int activityId : userRole.getActivities()) {
+            //role.addActivity(userActivityDAO.getActivityById(activityId));
+        }*/
+        map.put("userRoleForm", form);
+        map.put("userRole", userRole);
+        map.put("activityList", activityDataService.listActivity());
+        return "user_role_form";
+
+    }
+
+    @RequestMapping(value="/user_role_form", method = RequestMethod.GET)
+    public String userRoleAdd(HttpSession session, Map<String, Object> map)
+    {
+        map.put("userRoleForm", new UserRoleForm());
+        map.put("activity", new Activity() );
+        map.put("activityList", activityDataService.listActivity());
+        return "user_role_form";
+    }
+
+    @RequestMapping(value="/user_role_form", method = RequestMethod.POST)
+    public ModelAndView userRoleAdd(@ModelAttribute("userRoleForm") UserRoleForm form, BindingResult result){
+        UserRoleValidator roleValidator = new UserRoleValidator();
+        roleValidator.validate(form, result);
+        if (result.hasErrors()){
+            ModelAndView mav = new ModelAndView("user_role_form");
+            mav.addObject("activityList", activityDataService.listActivity());
+            mav.addObject("errorClass", "text-danger");
+            mav.addObject("userRoleList", userRoleDataService.listUserRole());
+            return mav;
+        }
+        else{
+            ModelAndView mav = new ModelAndView("user_role_list");
+            mav.addObject("userRole", new UserRole() );
+            mav.addObject("userRoleList", userRoleDataService.listUserRole());
+            mav.addObject("activity", new Activity() );
+            mav.addObject("activityList", activityDataService.listActivity());
+            mav.addObject("successMessage","User Role was successfully added.");
+            userRoleDataService.saveRole(form);
+            return mav;
+        }
+
+    }
+
+    @RequestMapping(value="/user_role_list", method = RequestMethod.GET)
+    public String userRoleList(HttpSession session, Map<String, Object> map)
+    {
+        map.put("userRole", new UserRole() );
+        map.put("userRoleList", userRoleDataService.listUserRole());
+        map.put("activity", new Activity() );
+        map.put("activityList", activityDataService.listActivity());
+        return "user_role_list";
     }
 
 }
