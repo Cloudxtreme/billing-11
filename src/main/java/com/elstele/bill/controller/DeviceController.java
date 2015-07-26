@@ -26,12 +26,12 @@ public class DeviceController {
 
     @RequestMapping(value="/device", method = RequestMethod.GET)
     @ResponseBody
-    public List<DeviceForm> getDeviceList(HttpServletRequest request){
+    public ModelAndView getDeviceList(HttpSession session){
         List<DeviceForm> result = new ArrayList<DeviceForm>();
-
         result = deviceDataService.getDevices();
-
-        return result;
+        ModelAndView mav = new ModelAndView("device");
+        mav.addObject("list", result);
+        return mav;
     }
 
 }

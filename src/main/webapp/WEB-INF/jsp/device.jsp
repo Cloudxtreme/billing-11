@@ -28,11 +28,15 @@
               <TH>Name</th>
               <TH>Type</th>
               <th>Descpition</th>
+              <th>Community</th>
+              <th>Ip-address</th>
               <c:forEach items="${list}" var="current">
                 <tr>
                   <td>${current.name}</td>
                   <td>${current.type}</td>
-                  <td>${current.desc}</td>
+                  <td>${current.description}</td>
+                  <td>${current.community}</td>
+                  <td>${current.ip}</td>
                 </tr>
               </c:forEach>
         </table>
