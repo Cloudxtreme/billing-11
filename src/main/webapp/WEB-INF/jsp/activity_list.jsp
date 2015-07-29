@@ -24,9 +24,18 @@
 <div class="col-lg-6">
     <fieldset>
         <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessage}</div>
+            <div class="alert alert-info" role="alert">${successMessage}</div>
         </c:if>
-        <a href="${pageContext.request.contextPath}/activity_form.html" class="btn btn-lg btn-primary" data-toggle="modal">Create New Activity</a>
+            <div class="row">
+                <div class="col-lg-4">
+                    <a href="${pageContext.request.contextPath}/activity_form.html" class="btn btn-lg btn-primary" data-toggle="modal">Create New Activity</a>
+                </div>
+                <div class="pull-right margin-nav">
+                    <a href="${pageContext.request.contextPath}/user_panel.html">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
+                    </a>
+                </div>
+            </div>
 
         <table id="activityTable" class="table table-striped">
             <tr>

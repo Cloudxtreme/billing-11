@@ -5,11 +5,24 @@ import com.sun.istack.internal.NotNull;
 import java.util.ArrayList;
 
 public class UserRoleForm {
+
+    // form:hidden - hidden value
+    Integer id;
+
     @NotNull
     private String name;
     @NotNull
     private String description;
     private ArrayList<Integer> activityId;
+
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
+    }
 
     public void setName(String name){
         this.name = name;
@@ -35,4 +48,8 @@ public class UserRoleForm {
         return activityId;
     }
 
+    //Check if this is for New of Update
+    public boolean isNew() {
+        return (this.id == null);
+    }
 }

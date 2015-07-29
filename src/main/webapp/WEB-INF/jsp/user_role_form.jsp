@@ -28,6 +28,7 @@
             <div class="form-group">
                 <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
             </div>
+            <form:hidden path="id" />
             <div class="form-group">
                 <label for="roleName" class="col-lg-3 control-label">Role Name</label>
                 <div class="col-lg-9">

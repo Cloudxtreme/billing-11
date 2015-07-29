@@ -1,9 +1,24 @@
 package com.elstele.bill.form;
 
+import com.sun.istack.internal.NotNull;
+
 public class ActivityForm {
+    // form:hidden - hidden value
+    private Integer id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String description;
-    private Integer activityId;
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
+    }
 
     public void setName(String activity){
         this.name = activity;
@@ -21,11 +36,9 @@ public class ActivityForm {
         return description;
     }
 
-    public void setActivityId(Integer activityId){
-        this.activityId = activityId;
+    //Check if this is for New of Update
+    public boolean isNew() {
+        return (this.id == null);
     }
 
-    public Integer getActivityId(){
-        return activityId;
-    }
 }
