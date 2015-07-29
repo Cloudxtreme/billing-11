@@ -29,8 +29,6 @@
     </legend>
     <a href="${pageContext.request.contextPath}/user_form.html" class="btn btn-lg btn-primary" data-toggle="modal">Create New User</a>
 
-
-
     <table id="userRoleTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
