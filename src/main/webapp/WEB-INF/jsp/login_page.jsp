@@ -32,13 +32,13 @@
             <div class="form-group">
                 <label for="inputLogin" class="col-lg-2 control-label">Login</label>
                 <div class="col-lg-10">
-                    <form:input path="userName" class="form-control" id="inputLogin" placeholder="user"/>
+                    <form:input path="name" class="form-control" id="inputLogin" placeholder="user"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword" class="col-lg-2 control-label">Your Password</label>
                 <div class="col-lg-10">
-                    <form:password path="userPass" class="form-control" id="inputPassword" placeholder="Enter your password"/>
+                    <form:password path="password" class="form-control" id="inputPassword" placeholder="Enter your password"/>
                 </div>
             </div>
             <div class="form-group">

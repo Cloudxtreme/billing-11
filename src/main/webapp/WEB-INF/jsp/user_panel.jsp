@@ -23,8 +23,40 @@
 
 <div class="col-lg-6">
 
-    <a href="${pageContext.request.contextPath}/user_role_list.html" class="btn btn-lg btn-primary" data-toggle="modal">User Role Page</a>
-    <a href="${pageContext.request.contextPath}/activity.html" class="btn btn-lg btn-primary" data-toggle="modal">Activity Page</a>
+    <legend><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
+        <a href="${pageContext.request.contextPath}/user_role_list.html"><span class="label label-info" style="float: right; margin: 5px;">User Role</span></a>
+        &nbsp; &nbsp;<a href="${pageContext.request.contextPath}/activity_list.html"><span class="label label-success" style="float: right; margin: 5px;">Activity</span></a>
+    </legend>
+    <a href="${pageContext.request.contextPath}/user_form.html" class="btn btn-lg btn-primary" data-toggle="modal">Create New User</a>
+
+
+
+    <table id="userRoleTable" class="table table-striped table-hover">
+        <tr>
+            <th>&nbsp;</th>
+            <th>User Name</th>
+            <th>Role</th>
+        </tr>
+        <c:forEach items="${userList}" var="user">
+            <label for="${user.id}">
+                <tr id="${user.id}">
+                    <td>
+                        <a href="${pageContext.request.contextPath}/user/${user.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        &nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/user/${user.id}/delete" onclick="return confirm('Do you really want to delete user?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    </td>
+                    <td>${user.username}</td>
+                    <td>
+<%--
+                        <c:forEach items="${user.roles}" var="userRoles">
+                            ${userRoles.name}<br>
+                        </c:forEach>
+--%>
+                    </td>
+                </tr>
+            </label>
+        </c:forEach>
+    </table>
 
 <%--
     <form:form class="form-horizontal" method="POST" commandName="userRoleForm" action="${pageContext.request.contextPath}/role.html">

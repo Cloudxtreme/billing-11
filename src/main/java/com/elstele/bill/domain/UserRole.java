@@ -52,4 +52,5 @@ public class UserRole extends CommonDomainBean{
     public void delActivity(Activity activity){
         activities.remove(activity);
     }
+
 }

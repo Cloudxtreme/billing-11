@@ -12,11 +12,6 @@ import java.util.List;
 public class UserRoleDAOImpl extends CommonDAOImpl<UserRole> implements UserRoleDAO {
 
     @Override
-    public Integer insertUserRole(UserRole role) {
-        return create(role);
-    }
-
-    @Override
     public List listUserRole(){
         String hql = "from UserRole";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);

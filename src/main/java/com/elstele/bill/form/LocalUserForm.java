@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.ArrayList;
 
 /**
@@ -7,9 +9,11 @@ import java.util.ArrayList;
  */
 public class LocalUserForm {
     private Integer id;
-    private String userName;
-    private String userPass;
-//    private ArrayList<UserRoleForm> roleList;
+    @NotNull
+    private String name;
+    @NotNull
+    private String password;
+    private ArrayList<Integer> roleId;
 
 
     public Integer getId() {
@@ -20,29 +24,32 @@ public class LocalUserForm {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserPass() {
-        return userPass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-/*
-    public ArrayList<UserRoleForm> getRoleList(){
-        return roleList;
+    public void setRoleId(ArrayList<Integer> role){
+        this.roleId = role;
     }
 
-    public void setRoleList(ArrayList<UserRoleForm> roleList){
-        this.roleList = roleList;
+    public ArrayList<Integer> getRoleId(){
+        return roleId;
     }
-*/
+
+    //Check if this is for New of Update
+    public boolean isNew() {
+        return (this.id == null);
+    }
 }
