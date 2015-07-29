@@ -10,7 +10,6 @@ public interface UserRoleDataService {
 
     public void saveRole(UserRoleForm form);
     public UserRole findById(Integer id);
-    public ModelAndView editRole(UserRoleForm form);
-    public ModelAndView deleteRole(UserRoleForm form);
+    public void deleteRole(Integer id);
     public List<UserRole> listUserRole();
 }

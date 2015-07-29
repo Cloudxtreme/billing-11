@@ -13,7 +13,6 @@ import static com.elstele.bill.utils.Constants.LOCAL_USER;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 
 @Controller
@@ -25,8 +24,8 @@ public class AuthController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ModelAndView loginCall(@ModelAttribute("userForm") LocalUserForm localUserForm, HttpSession session,
                             HttpServletRequest request){
-        String userName = localUserForm.getUserName();
-        String userPass = localUserForm.getUserPass();
+        String userName = localUserForm.getName();
+        String userPass = localUserForm.getPassword();
         ModelAndView mav = new ModelAndView("main");
         if (localUserDataService.isCredentialValid(userName, userPass)){
             LocalUser curUser = localUserDataService.getUserByNameAndPass(userName, userPass);

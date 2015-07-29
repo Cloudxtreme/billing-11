@@ -5,6 +5,8 @@ import com.elstele.bill.domain.LocalUser;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LocalUserDAOImpl extends CommonDAOImpl<LocalUser> implements LocalUserDAO {
 
@@ -16,6 +18,16 @@ public class LocalUserDAOImpl extends CommonDAOImpl<LocalUser> implements LocalU
                 .setParameter("pass", pass);
         if (!query.list().isEmpty()){
             return (LocalUser)query.list().get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List listLocalUser(){
+        String hql = "from LocalUser";
+        Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+        if (!query.list().isEmpty()){
+            return query.list();
         }
         return null;
     }
