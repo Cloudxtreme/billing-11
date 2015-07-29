@@ -7,8 +7,8 @@ $(function() {
 });
 
 
-$(document).on("click", ".pushedit", function () {
-    console.log("pushedit push");
+$(document).on("click", ".pushEdit", function () {
+    console.log("pushEdit push");
     var accountId = $(this).data('id');
     $('#accAccountModal').modal('show');
     $("#accountName").val(accountId);
@@ -114,7 +114,9 @@ function drawTable(data) {
 function drawRow(rowData) {
     var row = $("<tr />")
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-    row.append($("<td><a href=\"\" class=\"pushedit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><i class=\"icon-pencil icon-2x\"></i>Edit</a></td>"));
+    row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
+            "&nbsp&nbsp <a href=\"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
+    ));
     row.append($("<td>" + rowData.accountName + "</td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
     row.append($("<td>" + rowData.currentBalance + "</td>"));
