@@ -63,4 +63,12 @@ public class AccountsController {
         accountDataService.updateAccount(accountForm);
         return new AccountForm();
     }
+
+    @RequestMapping(value="/editFull/{id}", method = RequestMethod.GET)
+    public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("accountFull");
+        AccountForm result = accountDataService.getAccountById(id);
+        mav.addObject("accountForm", result);
+        return mav;
+    }
 }

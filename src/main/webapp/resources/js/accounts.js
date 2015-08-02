@@ -117,7 +117,7 @@ function drawRow(rowData) {
     row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
             "&nbsp&nbsp <a href=\"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
     ));
-    row.append($("<td>" + rowData.accountName + "</td>"));
+    row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
     row.append($("<td>" + rowData.currentBalance + "</td>"));
     row.append($("<td>" + rowData.status + "</td>"));
