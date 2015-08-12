@@ -4,6 +4,7 @@ $(function() {
     $("li").removeClass('active');
     $("#linkToAccounts").addClass('active');
     renderAccountsTable();
+    hideShowLegalAddress();
 });
 
 
@@ -86,6 +87,26 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function() {
+    $('#accauntSaveBut').click(function(e) {
+        e.preventDefault();
+        $('#fullAccountForm').submit();
+    });
+});
+
+$(document).ready(function() {
+    $('#accountType').on('change', function (e) {
+        var valueSelected = this.value;
+        if (valueSelected == "PRIVATE"){
+            $("#legAddrBlock").hide();
+        }
+        if (valueSelected == "LEGAL"){
+            $("#legAddrBlock").show();
+        }
+    });
+});
+
+
 function hideModalAddAccount(){
     $("#accAccountModal").modal('hide');
 };
@@ -130,6 +151,16 @@ function clearForm(){
         this.reset();
     });
 };
+
+function hideShowLegalAddress(){
+    var valueSelected = $("#accountType").val();;
+    if (valueSelected == "PRIVATE"){
+        $("#legAddrBlock").hide();
+    }
+    if (valueSelected == "LEGAL"){
+        $("#legAddrBlock").show();
+    }
+}
 
 /*
 $(document).ready(function () {

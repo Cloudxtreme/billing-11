@@ -1,0 +1,67 @@
+package com.elstele.bill.form;
+
+public class AddressForm {
+    private Integer id;
+    private String street;
+    private String building;
+    private String flat;
+
+    public AddressForm(){
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public String getFlat() {
+        return flat;
+    }
+
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressForm)) return false;
+
+        AddressForm that = (AddressForm) o;
+
+        if (id != that.id) return false;
+        if (!building.equals(that.building)) return false;
+        if (flat != null ? !flat.equals(that.flat) : that.flat != null) return false;
+        if (!street.equals(that.street)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + street.hashCode();
+        result = 31 * result + building.hashCode();
+        result = 31 * result + (flat != null ? flat.hashCode() : 0);
+        return result;
+    }
+}

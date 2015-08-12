@@ -10,6 +10,8 @@ public class AccountForm {
     private String accountName;
     private Constants.AccountType accountType;
     private Float currentBalance;
+    private AddressForm phyAddress = new AddressForm();
+    private AddressForm legalAddress = new AddressForm();
 
 
     public Integer getId() {
@@ -52,6 +54,22 @@ public class AccountForm {
         this.currentBalance = currentBalance;
     }
 
+    public AddressForm getPhyAddress() {
+        return phyAddress;
+    }
+
+    public void setPhyAddress(AddressForm phyAddress) {
+        this.phyAddress = phyAddress;
+    }
+
+    public AddressForm getLegalAddress() {
+        return legalAddress;
+    }
+
+    public void setLegalAddress(AddressForm legalAddress) {
+        this.legalAddress = legalAddress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,6 +80,10 @@ public class AccountForm {
         if (!accountName.equals(that.accountName)) return false;
         if (accountType != that.accountType) return false;
         if (!currentBalance.equals(that.currentBalance)) return false;
+
+        if (!phyAddress.equals(that.phyAddress)) return false;
+        if (!legalAddress.equals(that.legalAddress)) return false;
+
         if (!id.equals(that.id)) return false;
         if (status != that.status) return false;
 
@@ -75,6 +97,9 @@ public class AccountForm {
         result = 31 * result + accountName.hashCode();
         result = 31 * result + accountType.hashCode();
         result = 31 * result + currentBalance.hashCode();
+        result = 31 * result + phyAddress.hashCode();
+        result = 31 * result + legalAddress.hashCode();
+
         return result;
     }
 }

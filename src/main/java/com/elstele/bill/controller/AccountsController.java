@@ -71,4 +71,15 @@ public class AccountsController {
         mav.addObject("accountForm", result);
         return mav;
     }
+
+    @RequestMapping(value="/save", method = RequestMethod.POST)
+    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
+        accountDataService.updateAccount(accountForm);
+
+        List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
+        ModelAndView mav = new ModelAndView("accounts_list");
+        mav.addObject("accountForm", new AccountForm());
+        mav.addObject("accountTypeList", types);
+        return mav;
+    }
 }
