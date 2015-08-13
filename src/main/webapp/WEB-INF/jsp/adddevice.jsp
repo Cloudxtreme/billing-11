@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="deviceTypes" class="col-lg-5 control-label">Device type</label>
+          <label for="deviceTypes" class="col-lg-5 control-label">Device typeS</label>
           <div class="col-lg-9">
                   <form:select path="devType" class="form-control" id="deviceTypes">
                   <form:options items="${deviceTypesMap}" />
