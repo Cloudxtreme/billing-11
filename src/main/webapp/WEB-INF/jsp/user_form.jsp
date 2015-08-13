@@ -22,34 +22,34 @@
 
 
 <div class="col-lg-6">
-    <form:form class="form-horizontal" method="POST" commandName="userRoleForm" action="${pageContext.request.contextPath}/user_role_form.html">
+    <form:form class="form-horizontal" method="POST" commandName="localUserForm" action="${pageContext.request.contextPath}/user_form.html">
         <fieldset>
-            <legend>User Role</legend>
+            <legend>User</legend>
             <div class="form-group">
                 <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
             </div>
             <form:hidden path="id" />
             <div class="form-group">
-                <label for="roleName" class="col-lg-3 control-label">Role Name</label>
+                <label for="name" class="col-lg-3 control-label">Name</label>
                 <div class="col-lg-9">
-                    <form:input path="name" class="form-control" id="roleName" placeholder="Role Name" />
+                    <form:input path="name" class="form-control" id="name" placeholder="User Name" />
                     <form:errors path="name" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="roleDescription" class="col-lg-3 control-label">Role Description</label>
+                <label for="password" class="col-lg-3 control-label">Password</label>
                 <div class="col-lg-9">
-                    <form:input path="description" class="form-control" id="roleDescription" placeholder="Role Description" />
-                    <form:errors path="description" cssClass="alert-danger" />
+                    <form:password path="password" class="form-control" id="password" placeholder="Enter your password" />
+                    <form:errors path="password" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-3 control-label">Activity</label>
+                <label class="col-lg-3 control-label">Role</label>
                 <div class="col-lg-9">
-                    <c:forEach items="${activityList}" var="activity">
-                        <label for="${activity.id}" class="control-label"><form:checkbox path="activityId" value="${activity.id}" id="${activity.id}" /> ${activity.name}</label><br>
+                    <c:forEach items="${roleList}" var="role">
+                        <label for="${role.id}" class="control-label"><form:checkbox path="roleId" value="${role.id}" id="${role.id}" /> ${role.name}</label><br>
                     </c:forEach>
-                    <form:errors path="activityId" cssClass="alert-danger" />
+                    <form:errors path="roleId" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
@@ -63,9 +63,6 @@
 
 
 </div>
-
-
-
 
 </body>
 </html>

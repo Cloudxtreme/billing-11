@@ -36,9 +36,4 @@ public class UserActivityDAOImpl extends CommonDAOImpl<Activity> implements User
         }
         return null;
     }
-
-    @Override
-    public Activity getActivityById(Integer id){
-        return getById(id);
-    }
 }

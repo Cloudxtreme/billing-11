@@ -9,11 +9,9 @@ import java.util.List;
 
 public interface ActivityDataService {
 
-    public String isValid(String name, String description);
-    public ModelAndView saveActivity(ActivityForm form, UserPanelForm returnForm);
-    public ModelAndView editActivity(ActivityForm form, UserPanelForm returnForm);
-    public ModelAndView deleteActivity(UserPanelForm form);
+    public void saveActivity(ActivityForm form);
+    public void deleteActivity(Integer id);
     public List<Activity> listActivity();
-    public Activity getActivityFromId(Integer id);
+    public Activity findById(Integer id);
 
 }

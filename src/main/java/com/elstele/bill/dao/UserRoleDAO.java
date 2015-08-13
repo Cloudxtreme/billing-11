@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface UserRoleDAO extends CommonDAO <UserRole> {
     public List<UserRole> listUserRole();
-    public Integer insertUserRole(UserRole role);
 }
