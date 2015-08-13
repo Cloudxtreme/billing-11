@@ -13,7 +13,7 @@
         <mapping class="com.elstele.bill.domain.Account"/>
         <mapping class="com.elstele.bill.domain.Device"/>
         <mapping class="com.elstele.bill.domain.UserRole"/>
-
+        <mapping class="com.elstele.bill.domain.DeviceTypes"/>
 
 
     </session-factory>

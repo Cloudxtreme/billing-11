@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DeviceDataService {
     public List<DeviceForm> getDevices();
+
+    public void addDevice(DeviceForm deviceForm);
 }

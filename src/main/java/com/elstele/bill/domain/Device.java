@@ -2,15 +2,27 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
 @Table(name="Devices")
 public class Device extends CommonDomainBean {
     private String name;
-    private String type;
+
+    public DeviceTypes getDeviceTypes() {
+        return deviceTypes;
+    }
+
+    public void setDeviceTypes(DeviceTypes deviceTypes) {
+        this.deviceTypes = deviceTypes;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="deviceType_id")
+    private DeviceTypes deviceTypes;
+
+
     private String description;
     private String community;
     private String ip;
@@ -24,13 +36,7 @@ public class Device extends CommonDomainBean {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getDescription() {
         return description;

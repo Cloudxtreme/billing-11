@@ -1,9 +1,20 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.domain.DeviceTypes;
+
 public class DeviceForm {
 
     private String name;
-    private String type;
+
+    public DeviceTypesForm getDevType() {
+        return devType;
+    }
+
+    public void setDevType(DeviceTypesForm devType) {
+        this.devType = devType;
+    }
+
+    private DeviceTypesForm devType;
     private String description;
     private String community;
     private String ip;
@@ -14,14 +25,6 @@ public class DeviceForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDescription() {

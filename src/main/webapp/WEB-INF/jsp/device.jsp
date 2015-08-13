@@ -22,7 +22,7 @@
 
 
 <div class="well">
-    <button type="button" class="btn btn-lg btn-primary">Add New Device</button>
+   <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
     <div>
            <table class="table table-striped">
               <TH>Name</th>
@@ -33,7 +33,7 @@
               <c:forEach items="${list}" var="current">
                 <tr>
                   <td>${current.name}</td>
-                  <td>${current.type}</td>
+                  <%---<td>${current.type}</td>--%>
                   <td>${current.description}</td>
                   <td>${current.community}</td>
                   <td>${current.ip}</td>
