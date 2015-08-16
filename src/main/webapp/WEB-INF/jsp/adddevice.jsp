@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="deviceTypes" class="col-lg-5 control-label">Device typeS</label>
           <div class="col-lg-9">
-                  <form:select path="devType" class="form-control" id="deviceTypes">
+                  <form:select path="devType.id" class="form-control" id="deviceTypes">
                   <form:options items="${deviceTypesMap}" />
                   </form:select>
           </div>
@@ -71,6 +71,12 @@
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
+                <button type="reset" class="btn btn-primary" onclick="redirectToDevicePage()">Cancel</button>
+                  <script type="text/javascript">
+                      function redirectToDevicePage(){
+                          window.location.href="${pageContext.request.contextPath}/device.html";
+                      }
+                  </script>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
