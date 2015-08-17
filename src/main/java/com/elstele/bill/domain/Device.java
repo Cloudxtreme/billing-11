@@ -9,6 +9,17 @@ import javax.persistence.*;
 @Table(name="Devices")
 public class Device extends CommonDomainBean {
     private String name;
+    private String description;
+    private String community;
+    private String ip;
+
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="deviceType_id")
+    private DeviceTypes deviceTypes;
+
+
 
     public DeviceTypes getDeviceTypes() {
         return deviceTypes;
@@ -17,17 +28,6 @@ public class Device extends CommonDomainBean {
     public void setDeviceTypes(DeviceTypes deviceTypes) {
         this.deviceTypes = deviceTypes;
     }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="deviceType_id")
-    private DeviceTypes deviceTypes;
-
-
-    private String description;
-    private String community;
-    private String ip;
-
-
     public String getName() {
         return name;
     }
