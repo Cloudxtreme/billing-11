@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name="DeviceTypes")
 public class DeviceTypes extends CommonDomainBean{
 
-    public String DeviceType;
+    public String deviceType;
 
     @OneToMany(mappedBy="deviceTypes")
     private Set<Device> devices;
@@ -26,11 +26,11 @@ public class DeviceTypes extends CommonDomainBean{
     }
 
     public String getDeviceType() {
-        return DeviceType;
+        return deviceType;
     }
 
     public void setDeviceType(String deviceType) {
-        DeviceType = deviceType;
+        deviceType = deviceType;
     }
 
 }

@@ -17,7 +17,7 @@
 <body>
   <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
-  <div class="">
+  <div class="col-lg-6">
     <form:form class="form" id="addDeviceForm" method="POST" commandName="deviceForm" action="${pageContext.request.contextPath}/adddevice.html">
       <fieldset>
           <%--<c:if  test="${empty errorMessage}">
@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="deviceTypes" class="col-lg-5 control-label">Device typeS</label>
           <div class="col-lg-9">
-                  <form:select path="devType" class="form-control" id="deviceTypes">
+                  <form:select path="devType.id" class="form-control" id="deviceTypes">
                   <form:options items="${deviceTypesMap}" />
                   </form:select>
           </div>
@@ -71,7 +71,13 @@
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-default" onclick="cancelAction();">Cancel</button>
+                  <script type="text/javascript">
+                      function cancelAction(){
+                          window.location="${pageContext.request.contextPath}/device.html";
+                      }
+                  </script>
+                  <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
 
