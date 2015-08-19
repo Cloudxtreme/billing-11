@@ -16,6 +16,9 @@ public class CommonDomainBean implements Serializable{
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public CommonDomainBean(){
+        setStatus(Status.ACTIVE);
+    }
 
     public Status getStatus() {
         return status;

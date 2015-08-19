@@ -56,16 +56,11 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     return "activity_list";
 }
 
-    // show User Role update form
+    // show Activity update form
     @RequestMapping(value = "/activity/{id}/update", method = RequestMethod.GET)
     public String activityUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
-        Activity activity = activityDataService.findById(id);
-        UserRoleForm form = new UserRoleForm();
-        form.setId(activity.getId());
-        form.setName(activity.getName());
-        form.setDescription(activity.getDescription());
+        ActivityForm form = activityDataService.getActivityFormById(id);
         map.put("activityForm", form);
-        map.put("activity", activity);
         return "activity_form";
 
     }
@@ -87,13 +82,9 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
             return mav;
         }
         else{
-            activityDataService.saveActivity(form);
+            String message = activityDataService.saveActivity(form);
             ModelAndView mav = new ModelAndView("activity_list");
-            if(form.isNew()){
-                mav.addObject("successMessage","Activity was successfully added.");
-            }else{
-                mav.addObject("successMessage","Activity was successfully updated.");
-            }
+            mav.addObject("successMessage", message);
             mav.addObject("activity", new Activity() );
             mav.addObject("activityList", activityDataService.listActivity());
             return mav;
@@ -126,18 +117,8 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     // show User Role update form
     @RequestMapping(value = "/user_role/{id}/update", method = RequestMethod.GET)
     public String userRoleUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
-        UserRole userRole = userRoleDataService.findById(id);
-        UserRoleForm form = new UserRoleForm();
-        form.setId(userRole.getId());
-        form.setName(userRole.getName());
-        form.setDescription(userRole.getDescription());
-        ArrayList<Integer> activityList = new ArrayList<Integer>();
-        for (Activity activity : userRole.getActivities()) {
-            activityList.add(activity.getId());
-        }
-        form.setActivityId(activityList);
+        UserRoleForm form = userRoleDataService.getUserRoleFormById(id);
         map.put("userRoleForm", form);
-        map.put("userRole", userRole);
         map.put("activityList", activityDataService.listActivity());
         return "user_role_form";
 
@@ -163,13 +144,9 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
             return mav;
         }
         else{
-            userRoleDataService.saveRole(form);
+            String message = userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
-            if(form.isNew()){
-                mav.addObject("successMessage", "User Role was successfully added.");
-            }else{
-                mav.addObject("successMessage", "User Role was successfully updated.");
-            }
+            mav.addObject("successMessage",message);
             mav.addObject("userRole", new UserRole() );
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             mav.addObject("activity", new Activity() );
@@ -195,32 +172,22 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     // delete user role
     @RequestMapping(value = "/user/{id}/delete", method = RequestMethod.GET)
     public String userDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
-        userRoleDataService.deleteRole(id);
+        localUserDataService.deleteUser(id);
+        map.put("user", new LocalUser());
+        map.put("userList", localUserDataService.listLocalUser());
         map.put("userRole", new UserRole());
-        map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put("activity", new Activity());
-        map.put("activityList", activityDataService.listActivity());
-        map.put("successMessage", "User Role was successfully deleted.");
-        return "user_role_list";
+        map.put("roleList", userRoleDataService.listUserRole());
+        map.put("successMessage", "User was successfully deleted.");
+        return "user_panel";
     }
 
     // show User Role update form
     @RequestMapping(value = "/user/{id}/update", method = RequestMethod.GET)
     public String userUpdate(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
-        UserRole userRole = userRoleDataService.findById(id);
-        UserRoleForm form = new UserRoleForm();
-        form.setId(userRole.getId());
-        form.setName(userRole.getName());
-        form.setDescription(userRole.getDescription());
-        ArrayList<Integer> activityList = new ArrayList<Integer>();
-        for (Activity activity : userRole.getActivities()) {
-            activityList.add(activity.getId());
-        }
-        form.setActivityId(activityList);
-        map.put("userRoleForm", form);
-        map.put("userRole", userRole);
-        map.put("activityList", activityDataService.listActivity());
-        return "user_role_form";
+        LocalUserForm form = localUserDataService.getLocalUserFormById(id);
+        map.put("localUserForm", form);
+        map.put("roleList", userRoleDataService.listUserRole());
+        return "user_form";
 
     }
 
@@ -244,44 +211,25 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
             return mav;
         }
         else{
-//            localUserDataService.saveRole(form);
+            String message = localUserDataService.saveUser(form);
             ModelAndView mav = new ModelAndView("user_panel");
-            if(form.isNew()){
-                mav.addObject("successMessage", "User was successfully added.");
-            }else{
-                mav.addObject("successMessage", "User was successfully updated.");
-            }
+            mav.addObject("successMessage", message);
             mav.addObject("user", new LocalUser() );
             mav.addObject("userList", localUserDataService.listLocalUser());
             mav.addObject("userRole", new UserRole() );
-            mav.addObject("userRoleList", userRoleDataService.listUserRole());
+            mav.addObject("roleList", userRoleDataService.listUserRole());
             return mav;
         }
 
     }
-
-/*
-    @RequestMapping(value="/user_panel", method = RequestMethod.GET)
-    public String userRole(HttpSession session, Map<String, Object> map)
-    {
-        map.put("userRoleForm", new UserRoleForm());
-        map.put("userRole", new UserRole() );
-        map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put("activity", new Activity() );
-        map.put("activityList", activityDataService.listActivity());
-        return "user_panel";
-    }
-*/
 
     @RequestMapping(value="/user_panel", method = RequestMethod.GET)
     public String userList(HttpSession session, Map<String, Object> map)
     {
         map.put("user", new LocalUser() );
         map.put("userList", localUserDataService.listLocalUser());
-/*
         map.put("userRole", new UserRole() );
-        map.put("userRoleList", userRoleDataService.listUserRole());
-*/
+        map.put("roleList", userRoleDataService.listUserRole());
         return "user_panel";
     }
 
