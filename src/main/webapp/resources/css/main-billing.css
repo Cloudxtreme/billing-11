@@ -12,6 +12,11 @@
 }
 
 .margin-nav {
-    margin-top: 33px;
+    margin-top: 11px;
     margin-right:15px;
+}
+
+.float-right{
+    float: right;
+    margin-left:5px;
 }
