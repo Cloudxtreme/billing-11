@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv;
 
 import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.DeviceDAO;
+import com.elstele.bill.dao.DeviceTypesDAO;
 import com.elstele.bill.form.DeviceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,15 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Autowired
     private DeviceDAO deviceDAO;
 
+    @Autowired
+    private DeviceTypesDAO deviceTypesDAO;
+
     @Override
     @Transactional
     public List<DeviceForm> getDevices() {
 
         List<DeviceForm> result = new ArrayList<DeviceForm>();
-        DeviceAssembler assembler = new DeviceAssembler();
+        DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO);
 
         List<Device> beans = deviceDAO.getDevices();
         for (Device curBean : beans) {
@@ -35,8 +39,33 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Override
     @Transactional
     public void addDevice(DeviceForm deviceForm){
-        DeviceAssembler deviceAssembler = new DeviceAssembler();
+        DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         deviceDAO.create(device);
     }
+
+    @Override
+    @Transactional
+    public void deleteDevice(Integer id){
+        deviceDAO.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public DeviceForm getById(Integer id){
+
+        DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO);
+        Device bean = deviceDAO.getById(id);
+        DeviceForm result = assembler.fromBeanToForm(bean);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void updateDevice(DeviceForm deviceForm){
+        DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO);
+        Device bean = assembler.fromFormToBean(deviceForm);
+        deviceDAO.update(bean);
+    }
+
 }

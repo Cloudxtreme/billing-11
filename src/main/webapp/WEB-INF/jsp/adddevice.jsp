@@ -31,8 +31,9 @@
               </div>
           </c:if>--%>
 
-        <%--<form:input path="id" id="id" type="hidden"/>--%>
-        <%--<form:input path="status" id="status" type="hidden"/>--%>
+        <form:input path="id" id="id" type="hidden"/>
+        <form:input path="status" id="status" type="hidden"/>
+
         <div class="form-group">
           <label for="name" class="col-lg-5 control-label">Device name #</label>
           <div class="col-lg-9">

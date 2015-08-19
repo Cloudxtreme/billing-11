@@ -25,19 +25,27 @@
    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
     <div>
            <table class="table table-striped">
+               <th></th>
               <TH>Name</th>
               <TH>Type</th>
               <th>Descpition</th>
               <th>Community</th>
               <th>Ip-address</th>
               <c:forEach items="${list}" var="current">
-                <tr>
-                  <td>${current.name}</td>
-                  <%---<td>${current.type}</td>--%>
-                  <td>${current.description}</td>
-                  <td>${current.community}</td>
-                  <td>${current.ip}</td>
-                </tr>
+                  <label for="${current.id}">
+                    <tr id="${current.id}">
+                        <td>
+                            <a href="${pageContext.request.contextPath}/device/${current.id}/update.html"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            &nbsp;&nbsp;
+                            <a href="${pageContext.request.contextPath}/device/${current.id}/delete.html" onclick="return confirm('Do you really want to delete device?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        </td>
+                      <td>${current.name}</td>
+                      <td>${current.devType.deviceType}</td>
+                      <td>${current.description}</td>
+                      <td>${current.community}</td>
+                      <td>${current.ip}</td>
+                    </tr>
+                  </label>
               </c:forEach>
         </table>
     </div>
