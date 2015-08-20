@@ -46,7 +46,9 @@ public class DeviceController {
         devType = deviceTypesDataService.getDeviceTypes();
 
         Map<Integer, String> map= new LinkedHashMap<Integer, String>();
-        for (DeviceTypesForm deviceTypesForm : devType) map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
+        for (DeviceTypesForm deviceTypesForm : devType) {
+            map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
+        }
 
         model.addObject("deviceTypesMap", map);
         return model;
@@ -54,7 +56,6 @@ public class DeviceController {
 
 
     @RequestMapping(value="/adddevice", method = RequestMethod.POST)
-    @ResponseBody
      public ModelAndView addDeviceFromForm(DeviceForm deviceForm, HttpServletRequest request){
 
         deviceDataService.addDevice(deviceForm);

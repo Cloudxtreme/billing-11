@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="inputLogin" class="col-lg-2 control-label">Login</label>
                 <div class="col-lg-10">
-                    <form:input path="name" class="form-control" id="inputLogin" placeholder="user"/>
+                    <form:input path="username" class="form-control" id="inputLogin" placeholder="user"/>
                 </div>
             </div>
             <div class="form-group">

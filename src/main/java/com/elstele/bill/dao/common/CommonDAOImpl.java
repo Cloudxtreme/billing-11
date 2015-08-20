@@ -1,5 +1,7 @@
 package com.elstele.bill.dao.common;
 
+import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Status;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,6 +58,21 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         T persistentObject = this.getById(id);
         if (persistentObject != null) {
             this.sessionFactory.getCurrentSession().delete(persistentObject);
+        }
+    }
+
+    @Override
+    public void setStatusDelete(CommonDomainBean persistentObject){
+        persistentObject.setStatus(Status.DELETED);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+    }
+
+    @Override
+    public void setStatusDelete(Integer id){
+        CommonDomainBean persistentObject = (CommonDomainBean)this.getById(id);
+        if (persistentObject != null) {
+            persistentObject.setStatus(Status.DELETED);
+            this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
         }
     }
 

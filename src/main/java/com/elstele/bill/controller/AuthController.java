@@ -24,7 +24,7 @@ public class AuthController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ModelAndView loginCall(@ModelAttribute("userForm") LocalUserForm localUserForm, HttpSession session,
                             HttpServletRequest request){
-        String userName = localUserForm.getName();
+        String userName = localUserForm.getUsername();
         String userPass = localUserForm.getPassword();
         ModelAndView mav = new ModelAndView("main");
         if (localUserDataService.isCredentialValid(userName, userPass)){
