@@ -2,10 +2,12 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.DeviceDataService;
 import com.elstele.bill.datasrv.DeviceTypesDataService;
+import com.elstele.bill.datasrv.IpDataService;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
+import com.elstele.bill.form.IpForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,9 @@ public class DeviceController {
     @Autowired
     private DeviceTypesDataService deviceTypesDataService;
 
+    @Autowired
+    private IpDataService ipDataService;
+
     @RequestMapping(value="/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList(HttpSession session){
@@ -45,13 +50,27 @@ public class DeviceController {
         ModelAndView model = new ModelAndView("adddevice");
         model.addObject("deviceForm",new DeviceForm());
 
+        //Adding deviceTypes list to the Select
         List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
         devType = deviceTypesDataService.getDeviceTypes();
-
         Map<Integer, String> map= new LinkedHashMap<Integer, String>();
         for (DeviceTypesForm deviceTypesForm : devType) map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
-
         model.addObject("deviceTypesMap", map);
+
+        //Adding Ip-addresses to the Select
+        List<IpForm> ipForms  = new ArrayList<IpForm>();
+        ipForms = ipDataService.getIpAddressList();
+        Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : ipForms) ipMap.put(ipForm.getId(), ipForm.getIpName());
+        model.addObject("ipAddressList", ipMap);
+
+        //Adding ip-nets list to the Select
+        Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : ipForms) ipMapNets.put(ipForm.getId(), ipForm.getNet());
+        model.addObject("ipNetList", ipMapNets);
+
+
+
         return model;
     }
 
@@ -65,6 +84,7 @@ public class DeviceController {
             deviceDataService.updateDevice(deviceForm);
         }
 
+        //redirect to the devices list after deleting
         List<DeviceForm> result = new ArrayList<DeviceForm>();
         result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("device");
@@ -77,6 +97,7 @@ public class DeviceController {
 
         deviceDataService.deleteDevice(id);
 
+        //redirect to the devices list after deleting
         List<DeviceForm> result = new ArrayList<DeviceForm>();
         result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("device");
@@ -90,12 +111,24 @@ public class DeviceController {
         DeviceForm form = new DeviceForm();
         form = deviceDataService.getById(id);
 
+        //Device Types extracting to the form for redact
         List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
         devType = deviceTypesDataService.getDeviceTypes();
-
         Map<Integer, String> map= new LinkedHashMap<Integer, String>();
         for (DeviceTypesForm deviceTypesForm : devType) map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
 
+        //Ip address extracting to the form for redact
+        List<IpForm> ipForms  = new ArrayList<IpForm>();
+        ipForms = ipDataService.getIpAddressList();
+        Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : ipForms) ipMap.put(ipForm.getId(), ipForm.getIpName());
+
+        //Ip-nets extracting to the form for redact
+        Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : ipForms) ipMapNets.put(ipForm.getId(), ipForm.getNet());
+
+        mav.addObject("ipNetList", ipMapNets);
+        mav.addObject("ipAddressList", ipMap);
         mav.addObject("deviceTypesMap", map);
         mav.addObject("deviceForm", form);
         return mav;

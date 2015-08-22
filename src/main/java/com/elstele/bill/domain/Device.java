@@ -11,7 +11,11 @@ public class Device extends CommonDomainBean {
     private String name;
     private String description;
     private String community;
-    private String ip;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ipAddress")
+    private Ip ipAdd;
 
 
 
@@ -54,11 +58,12 @@ public class Device extends CommonDomainBean {
         this.community = community;
     }
 
-    public String getIp() {
-        return ip;
+
+    public Ip getIpAdd() {
+        return ipAdd;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setIpAdd(Ip ipAdd) {
+        this.ipAdd = ipAdd;
     }
 }

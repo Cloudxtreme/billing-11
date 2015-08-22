@@ -63,12 +63,39 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="ip" class="col-lg-5 control-label">Device IP #</label>
-              <div class="col-lg-9">
-                <form:input path="ip" class="form-control" id="deviceIp" placeholder="Device IP"/>
+              <div class="form-group">
+                      <label for="ip" class="col-lg-5 control-label">Ip address</label>
+                  <div class="col-lg-9">
+                      <form:select path="ipForm.id" class="form-control" id="ip">
+                          <form:options items="${ipAddressList}" />
+                      </form:select>
+                      <input type="checkbox" onclick="toggle()" id="chkNet"/>
+                      <label for="chkNet">Show Network</label>
+                  </div>
               </div>
-            </div>
+
+
+
+              <script type="text/javascript">
+                  function toggle() {
+                      if (document.getElementById('chkNet').checked){
+                          document.getElementById('ipNetDiv').style.visibility = 'visible'
+                      } else {
+                          document.getElementById('ipNetDiv').style.visibility = 'hidden'
+                      }
+
+                  }
+
+              </script>
+              <div class="form-group" style="visibility: hidden" id="ipNetDiv">
+                  <label for="ipNet" class="col-lg-5 control-label">IpNet</label>
+                  <div class="col-lg-9">
+                      <form:select path="ipForm.id" class="form-control" id="ipNet">
+                          <form:options items="${ipNetList}" />
+                      </form:select>
+                  </div>
+              </div>
+
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
@@ -81,6 +108,7 @@
                   <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
+
 
         </fieldset>
     </form:form>

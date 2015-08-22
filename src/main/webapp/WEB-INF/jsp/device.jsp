@@ -43,7 +43,7 @@
                       <td>${current.devType.deviceType}</td>
                       <td>${current.description}</td>
                       <td>${current.community}</td>
-                      <td>${current.ip}</td>
+                      <td>${current.ipForm.ipName}</td>
                     </tr>
                   </label>
               </c:forEach>
