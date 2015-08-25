@@ -17,6 +17,37 @@
 <body>
   <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
+
+  <%--Modal window--%>
+  <form:form commandName="deviceTypeModalForm" class="form" action="${pageContext.request.contextPath}/adddevicetype.html" >
+      <fieldset>
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Add new device type</h4>
+                      </div>
+                      <div class="modal-body">
+
+                          <form:input path="id"  type="hidden"/>
+                          <div class="col-lg-9">
+                              <form:input path="deviceType" class="form-control" id="deviceTypeForm" placeholder="Type the new device type name"/>
+                          </div>
+
+
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
+                          <input type="submit" class="btn btn-primary" value="Add new device Type"/>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </fieldset>
+  </form:form>
+  <%--Main logic--%>
+
   <div class="col-lg-6">
     <form:form class="form" id="addDeviceForm" method="POST" commandName="deviceForm" action="${pageContext.request.contextPath}/adddevice.html">
       <fieldset>
@@ -46,7 +77,12 @@
                   <form:select path="devType.id" class="form-control" id="deviceTypes">
                   <form:options items="${deviceTypesMap}" />
                   </form:select>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="modal" data-target="#myModal">
+                  Add new Device Type
+              </button>
           </div>
+
         </div>
 
             <div class="form-group">
@@ -99,9 +135,9 @@
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                  <button type="reset" class="btn btn-default" onclick="cancelAction();">Cancel</button>
+                  <button type="reset" class="btn btn-default" onclick="redirectToDevicePage();">Cancel</button>
                   <script type="text/javascript">
-                      function cancelAction(){
+                      function redirectToDevicePage(){
                           window.location="${pageContext.request.contextPath}/device.html";
                       }
                   </script>
