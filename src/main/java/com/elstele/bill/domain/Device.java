@@ -14,7 +14,7 @@ public class Device extends CommonDomainBean {
 
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ipAddress")
+    @JoinColumn(name="ipAddress_id")
     private Ip ipAdd;
 
 

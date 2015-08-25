@@ -3,6 +3,7 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Set;
@@ -14,6 +15,8 @@ import java.util.Set;
         public String ipName;
         public String net;
 
+    @OneToOne(mappedBy = "ipAdd")
+    private Device device;
 
     public String getIpName() {
         return ipName;
@@ -31,5 +34,12 @@ import java.util.Set;
         this.net = net;
     }
 
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 }
 
