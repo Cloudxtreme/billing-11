@@ -126,7 +126,7 @@
               <div class="form-group" style="visibility: hidden" id="ipNetDiv">
                   <label for="ipNet" class="col-lg-5 control-label">IpNet</label>
                   <div class="col-lg-9">
-                      <form:select path="ipForm.id" class="form-control" id="ipNet">
+                      <form:select path="id" class="form-control" id="ipNet">
                           <form:options items="${ipNetList}" />
                       </form:select>
                   </div>

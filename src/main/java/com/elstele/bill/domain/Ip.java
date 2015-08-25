@@ -2,18 +2,18 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+    @Entity
     @Table(name="ipAddress")
     public class Ip extends CommonDomainBean{
 
         public String ipName;
-        public String net;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="subnet_id")
+    private IpSubnet ipSubnet;
 
     @OneToOne(mappedBy = "ipAdd")
     private Device device;
@@ -26,13 +26,6 @@ import java.util.Set;
         this.ipName = ipName;
     }
 
-    public String getNet() {
-        return net;
-    }
-
-    public void setNet(String net) {
-        this.net = net;
-    }
 
     public Device getDevice() {
         return device;
@@ -41,5 +34,13 @@ import java.util.Set;
     public void setDevice(Device device) {
         this.device = device;
     }
-}
+
+        public IpSubnet getIpSubnet() {
+            return ipSubnet;
+        }
+
+        public void setIpSubnet(IpSubnet ipSubnet) {
+            this.ipSubnet = ipSubnet;
+        }
+    }
 

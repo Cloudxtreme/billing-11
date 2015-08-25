@@ -3,11 +3,13 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.DeviceDataService;
 import com.elstele.bill.datasrv.DeviceTypesDataService;
 import com.elstele.bill.datasrv.IpDataService;
+import com.elstele.bill.datasrv.IpSubnetDataService;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.form.IpSubnetForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,9 @@ public class DeviceController {
 
     @Autowired
     private IpDataService ipDataService;
+
+    @Autowired
+    private IpSubnetDataService ipSubnetDataService;
 
 
     @ModelAttribute("deviceTypeModalForm")
@@ -71,8 +76,10 @@ public class DeviceController {
         model.addObject("ipAddressList", ipMap);
 
         //Adding ip-nets list to the Select
+        List<IpSubnetForm> subnetForms = new ArrayList<IpSubnetForm>();
+        subnetForms = ipSubnetDataService.getIpSubnets();
         Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) ipMapNets.put(ipForm.getId(), ipForm.getNet());
+        for (IpSubnetForm ipSubnetForm : subnetForms) ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
         model.addObject("ipNetList", ipMapNets);
 
 
@@ -130,8 +137,10 @@ public class DeviceController {
         for (IpForm ipForm : ipForms) ipMap.put(ipForm.getId(), ipForm.getIpName());
 
         //Ip-nets extracting to the form for redact
+        List<IpSubnetForm> subnetForms = new ArrayList<IpSubnetForm>();
+        subnetForms = ipSubnetDataService.getIpSubnets();
         Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) ipMapNets.put(ipForm.getId(), ipForm.getNet());
+        for (IpSubnetForm ipSubnetForm : subnetForms) ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
 
         mav.addObject("ipNetList", ipMapNets);
         mav.addObject("ipAddressList", ipMap);
