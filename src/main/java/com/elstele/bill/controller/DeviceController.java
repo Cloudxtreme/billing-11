@@ -10,6 +10,8 @@ import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
+import com.elstele.bill.utils.Status;
+import org.omg.PortableInterceptor.ACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,7 +74,10 @@ public class DeviceController {
         List<IpForm> ipForms  = new ArrayList<IpForm>();
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) ipMap.put(ipForm.getId(), ipForm.getIpName());
+        for (IpForm ipForm : ipForms)
+        {if (ipForm.getStatus() != Status.ACTIVE)
+            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
         model.addObject("ipAddressList", ipMap);
 
         //Adding ip-nets list to the Select
@@ -91,9 +96,12 @@ public class DeviceController {
     @RequestMapping(value="/adddevice", method = RequestMethod.POST)
     @ResponseBody
      public ModelAndView addOrUpdateDeviceFromForm(DeviceForm deviceForm, HttpServletRequest request){
+        Status status = Status.ACTIVE;
         if (deviceForm.getId() == null ) {
             deviceDataService.addDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
         } else {
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
             deviceDataService.updateDevice(deviceForm);
         }
 
@@ -108,7 +116,15 @@ public class DeviceController {
     @RequestMapping(value="/device/{id}/delete", method = RequestMethod.GET)
     public ModelAndView deleteDevice(@PathVariable("id") int id, HttpSession session){
 
+        Status status = Status.DELETED;
+        DeviceForm deviceForm =  deviceDataService.getById(id);
+        if (deviceForm.getIpForm().getId() != null){
+
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+        }
         deviceDataService.deleteDevice(id);
+
+
 
         //redirect to the devices list after deleting
         List<DeviceForm> result = new ArrayList<DeviceForm>();
@@ -123,6 +139,8 @@ public class DeviceController {
         ModelAndView mav = new ModelAndView("adddevice");
         DeviceForm form = new DeviceForm();
         form = deviceDataService.getById(id);
+        ipDataService.setStatus(form.getIpForm().getId(), Status.INACTIVE);
+
 
         //Device Types extracting to the form for redact
         List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
@@ -134,7 +152,10 @@ public class DeviceController {
         List<IpForm> ipForms  = new ArrayList<IpForm>();
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) ipMap.put(ipForm.getId(), ipForm.getIpName());
+        for (IpForm ipForm : ipForms)
+        {if (ipForm.getStatus() != Status.ACTIVE)
+            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
 
         //Ip-nets extracting to the form for redact
         List<IpSubnetForm> subnetForms = new ArrayList<IpSubnetForm>();
