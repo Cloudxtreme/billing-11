@@ -6,6 +6,7 @@ import com.elstele.bill.datasrv.IpDataService;
 import com.elstele.bill.datasrv.IpSubnetDataService;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
+import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
@@ -39,6 +40,7 @@ public class DeviceController {
 
     @Autowired
     private IpSubnetDataService ipSubnetDataService;
+
 
 
     @ModelAttribute("deviceTypeModalForm")
@@ -178,5 +180,21 @@ public class DeviceController {
         deviceTypesDataService.addDeviceType(elseDeviceTypesform);
         return "redirect:/adddevice.html";
     }
+
+
+    @RequestMapping(value="/getValidIps", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json, HttpServletResponse response, HttpServletRequest request){
+        Integer id = Integer.parseInt(json);
+        List<IpForm> list = ipDataService.getBySubnetId(id);
+        Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : list)
+        {if (ipForm.getStatus() != Status.ACTIVE)
+            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
+
+        return ipMap;
+    }
+
 
 }

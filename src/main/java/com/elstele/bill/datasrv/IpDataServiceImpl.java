@@ -51,5 +51,19 @@ public class IpDataServiceImpl implements IpDataService {
         ipDAO.setStatus(id, status);
     }
 
+    @Override
+    @Transactional
+    public List<IpForm> getBySubnetId(Integer id){
+        List<IpForm> result = new ArrayList<IpForm>();
+        IpAssembler assembler = new IpAssembler();
+
+        List<Ip> beans = ipDAO.getIpAddressListBySubnetId(id);
+        for (Ip curBean : beans) {
+            IpForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
 
 }

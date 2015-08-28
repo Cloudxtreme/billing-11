@@ -105,14 +105,17 @@
                       <form:select path="ipForm.id" class="form-control" id="ip">
                           <form:options items="${ipAddressList}" />
                       </form:select>
-                      <input type="checkbox" onclick="toggle()" id="chkNet"/>
-                      <label for="chkNet">Show Network</label>
+                      <%--%<form:form action="${pageContext.request.contextPath}/getValidIps" commandName="checkBox">--%>
+                          <input type="checkbox" class="checkbox" onclick="toggle()" id="chkNet" href="#subnet"/>
+                          <label for="chkNet">Show Network</label>
+                      <%--</form:form>--%>
                   </div>
               </div>
 
 
 
               <script type="text/javascript">
+
                   function toggle() {
                       if (document.getElementById('chkNet').checked){
                           document.getElementById('ipNetDiv').style.visibility = 'visible'
@@ -122,7 +125,10 @@
 
                   }
 
+
               </script>
+
+
               <div class="form-group" style="visibility: hidden" id="ipNetDiv">
                   <label for="ipNet" class="col-lg-5 control-label">IpNet</label>
                   <div class="col-lg-9">
@@ -132,6 +138,29 @@
                   </div>
               </div>
 
+              <script type="text/javascript">
+
+
+                  var requestTimer;
+                  $('#ipNet').on('change', function() {
+                      console.log(this);
+                      $.ajax({
+                          type: "POST",
+                          url: ${pageContext.request.contextPath}"/getValidIps",
+                          data: $('#ipNet').val(),
+                          datatype: "JSON",
+                          contentType: "application/json",
+                          success: function (data) {
+                              $('#ip').html('');
+                              var option_html = '';
+                              $.each(data, function(key, value) {
+                                  $('#ip').append('<option value="'+key+'">'+value+'</option>');
+                              });
+                          }
+                      });
+                  });
+
+              </script>
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">

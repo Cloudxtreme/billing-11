@@ -10,4 +10,5 @@ public interface IpDataService {
     public void update(IpForm ipForm);
     public IpForm getById(Integer id);
     public void setStatus(Integer id, Status status);
+    public List<IpForm> getBySubnetId(Integer id);
     }
