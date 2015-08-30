@@ -97,9 +97,12 @@ public class AccountForm {
         result = 31 * result + accountName.hashCode();
         result = 31 * result + accountType.hashCode();
         result = 31 * result + currentBalance.hashCode();
-        result = 31 * result + phyAddress.hashCode();
-        result = 31 * result + legalAddress.hashCode();
-
+        if (phyAddress != null) {
+            result = 31 * result + phyAddress.hashCode();
+        }
+        if (legalAddress != null) {
+            result = 31 * result + legalAddress.hashCode();
+        }
         return result;
     }
 }

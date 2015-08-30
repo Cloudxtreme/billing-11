@@ -62,17 +62,16 @@ $(document).ready(function() {
         });
 
 
-        var jsonData = JSON.stringify(data);
+        //var jsonData = JSON.stringify(data);
+        var jsonData = $('#crtAccountForm').serialize();
 
         $.ajax({
-            contentType : 'application/json; charset=utf-8',
             type: frm.attr('method'),
             url: action,
+            async: false,
             dataType : 'json',
             data : jsonData,
             success : function(callback){
-                /*alert("Response: Name: "+callback.name+"  DOB: "+callback.dob+"  Email: "+callback.email+"  Phone: "+callback.phone);*/
-                /*alert("Response here");*/
                 console.log("in success of Ajax call ADD ACCOUNT");
                 hideModalAddAccount();
                 clearForm();
@@ -136,7 +135,8 @@ function drawRow(rowData) {
     var row = $("<tr />")
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
     row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
-            "&nbsp&nbsp <a href=\"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
+            "&nbsp&nbsp " +
+            "<a href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" onclick=\"return confirm('Do you really want to delete account?')\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
     ));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
@@ -162,33 +162,4 @@ function hideShowLegalAddress(){
     }
 }
 
-/*
-$(document).ready(function () {
-    $("input#submit").click(function(){
-        console.log("button pushed");
 
-
-        var formdata = $("#myform").serializeArray();
-        var data = {};
-        $(formdata).each(function(index, obj){
-            data[obj.name] = obj.value;
-        });
-
-
-        */
-/*$.ajax({
-         type: "POST",
-         url: "process.php", //
-         data: $('form.contact').serialize(),
-         success: function(msg){
-         $("#thanks").html(msg)
-         $("#form-content").modal('hide');
-         },
-         error: function(){
-         alert("failure");
-         }
-         });*//*
-
-    });
-});
-*/

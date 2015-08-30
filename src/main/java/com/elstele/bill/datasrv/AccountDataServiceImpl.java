@@ -66,4 +66,12 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
         return result;
     }
+
+    @Override
+    @Transactional
+    public void softDeleteAccount(int id) {
+        Account account = accountDAO.getById(id);
+        account.setStatus(Status.DELETED);
+        accountDAO.update(account);
+    }
 }

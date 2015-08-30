@@ -58,9 +58,9 @@ public class AddressForm {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + street.hashCode();
-        result = 31 * result + building.hashCode();
+        int result = (id != null ? id : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (building != null ? building.hashCode() : 0);
         result = 31 * result + (flat != null ? flat.hashCode() : 0);
         return result;
     }
