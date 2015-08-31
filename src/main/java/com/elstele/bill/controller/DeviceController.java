@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -116,32 +117,24 @@ public class DeviceController {
     }
 
     @RequestMapping(value="/device/{id}/delete", method = RequestMethod.GET)
-    public ModelAndView deleteDevice(@PathVariable("id") int id, HttpSession session){
+    public String deleteDevice(@PathVariable("id") int id, HttpSession session, RedirectAttributes attributes){
 
         Status status = Status.DELETED;
-        DeviceForm deviceForm =  deviceDataService.getById(id);
-        ModelAndView mav = new ModelAndView("device");
+        DeviceForm deviceForm = deviceDataService.getById(id);
         try {
             if (deviceForm.getIpForm().getId() != null) {
 
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
             }
             deviceDataService.deleteDevice(id);
-
-
-            //redirect to the devices list after deleting
-            List<DeviceForm> result = new ArrayList<DeviceForm>();
-            result = deviceDataService.getDevices();
-
             String success = "device is deleted";
-            mav.addObject("list", result);
-            mav.addObject("succesMessage", success);
-        }catch (NullPointerException e){
+            attributes.addFlashAttribute("succesMessage", success);
+        } catch (NullPointerException e) {
             String error = e.getMessage();
-            mav.addObject("succesMessage", error);
+            attributes.addFlashAttribute("succesMessage", error);
 
         }
-        return mav;
+        return "redirect:/device.html";
     }
 
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)

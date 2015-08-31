@@ -28,16 +28,18 @@
    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
     <div>
 
-        <div  id="succesMessage" class="form-group" items="${succesMessage}" visible="hidden">
-            <label class="col-lg-8">${succesMessage}</label>
+        <div  id="succesMessage" class="alert alert-success" items="${succesMessage}" type="hidden">
+            <strong>Congratz! </strong>${succesMessage}
         </div>
 
-        <%--<script type="text/javascript ">
-
-            document.getElementById('succesMessage').style.display='hidden';
-            document.getElementById('succesMessage').style.display='block';
-
-
+<%--        <script type="text/javascript">
+            function success() {
+                if(document.getElementById('succesMessage').getAttribute(items) != null){
+                    this.style.visibility = "visible";
+                } else {
+                    this.style.visibility = "hidden";
+                }
+            }
         </script>--%>
 
         <table class="table table-striped">
