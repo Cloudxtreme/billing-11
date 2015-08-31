@@ -105,10 +105,10 @@
                       <form:select path="ipForm.id" class="form-control" id="ip">
                           <form:options items="${ipAddressList}" />
                       </form:select>
-                      <%--%<form:form action="${pageContext.request.contextPath}/getValidIps" commandName="checkBox">--%>
-                          <input type="checkbox" class="checkbox" onclick="toggle()" id="chkNet" href="#subnet"/>
+
+                          <input type="checkbox" class="checkbox" id="chkNet" href="#subnet"/>
                           <label for="chkNet">Show Network</label>
-                      <%--</form:form>--%>
+
                   </div>
               </div>
 
@@ -116,14 +116,30 @@
 
               <script type="text/javascript">
 
-                  function toggle() {
-                      if (document.getElementById('chkNet').checked){
-                          document.getElementById('ipNetDiv').style.visibility = 'visible'
-                      } else {
-                          document.getElementById('ipNetDiv').style.visibility = 'hidden'
-                      }
 
-                  }
+                document.getElementById('chkNet').onchange = function() {
+                    if ( document.getElementById('chkNet').checked ) {
+                        document.getElementById('ipNetDiv').style.visibility = 'visible'
+                    } else {
+                        document.getElementById('ipNetDiv').style.visibility = 'hidden'
+
+                        console.log(this);
+                        $.ajax({
+                            type: "get",
+                            url: ${pageContext.request.contextPath}"/returniplist",
+                            //data: $('#ipNet').val(),
+                            datatype: "JSON",
+                            contentType: "application/json",
+                            success: function (data) {
+                                $('#ip').html('');
+                                var option_html = '';
+                                $.each(data, function(key, value) {
+                                    $('#ip').append('<option value="'+key+'">'+value+'</option>');
+                                });
+                            }
+                        });
+                    }
+                };
 
 
               </script>
@@ -141,7 +157,6 @@
               <script type="text/javascript">
 
 
-                  var requestTimer;
                   $('#ipNet').on('change', function() {
                       console.log(this);
                       $.ajax({

@@ -120,19 +120,27 @@ public class DeviceController {
 
         Status status = Status.DELETED;
         DeviceForm deviceForm =  deviceDataService.getById(id);
-        if (deviceForm.getIpForm().getId() != null){
-
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
-        }
-        deviceDataService.deleteDevice(id);
-
-
-
-        //redirect to the devices list after deleting
-        List<DeviceForm> result = new ArrayList<DeviceForm>();
-        result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("device");
-        mav.addObject("list", result);
+        try {
+            if (deviceForm.getIpForm().getId() != null) {
+
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+            }
+            deviceDataService.deleteDevice(id);
+
+
+            //redirect to the devices list after deleting
+            List<DeviceForm> result = new ArrayList<DeviceForm>();
+            result = deviceDataService.getDevices();
+
+            String success = "device is deleted";
+            mav.addObject("list", result);
+            mav.addObject("succesMessage", success);
+        }catch (NullPointerException e){
+            String error = e.getMessage();
+            mav.addObject("succesMessage", error);
+
+        }
         return mav;
     }
 
@@ -193,6 +201,19 @@ public class DeviceController {
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
+        return ipMap;
+    }
+
+    @RequestMapping(value="returniplist", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<Integer, String> ipAddressListReturn(){
+        List<IpForm> ipForms  = new ArrayList<IpForm>();
+        ipForms = ipDataService.getIpAddressList();
+        Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
+        for (IpForm ipForm : ipForms)
+        {if (ipForm.getStatus() != Status.ACTIVE)
+            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
         return ipMap;
     }
 

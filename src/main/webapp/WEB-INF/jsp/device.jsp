@@ -22,9 +22,25 @@
 
 
 <div class="well">
+
+
+
    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
     <div>
-           <table class="table table-striped">
+
+        <div  id="succesMessage" class="form-group" items="${succesMessage}" visible="hidden">
+            <label class="col-lg-8">${succesMessage}</label>
+        </div>
+
+        <%--<script type="text/javascript ">
+
+            document.getElementById('succesMessage').style.display='hidden';
+            document.getElementById('succesMessage').style.display='block';
+
+
+        </script>--%>
+
+        <table class="table table-striped">
                <th></th>
               <TH>Name</th>
               <TH>Type</th>
