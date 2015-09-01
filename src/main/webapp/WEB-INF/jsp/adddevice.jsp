@@ -126,7 +126,7 @@
                         console.log(this);
                         $.ajax({
                             type: "get",
-                            url: ${pageContext.request.contextPath}"/returniplist",
+                            url: "${pageContext.request.contextPath}/returniplist",
                             //data: $('#ipNet').val(),
                             datatype: "JSON",
                             contentType: "application/json",
@@ -161,7 +161,7 @@
                       console.log(this);
                       $.ajax({
                           type: "POST",
-                          url: ${pageContext.request.contextPath}"/getValidIps",
+                          url: "${pageContext.request.contextPath}/getValidIps",
                           data: $('#ipNet').val(),
                           datatype: "JSON",
                           contentType: "application/json",
