@@ -143,7 +143,7 @@ public class DeviceController {
 
         } catch (NullPointerException e) {
             String error = e.getMessage();
-            result = "error";
+            result = error;
         }
 
         return result;
