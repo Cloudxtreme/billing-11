@@ -97,44 +97,56 @@ public class DeviceController {
 
 
     @RequestMapping(value="/adddevice", method = RequestMethod.POST)
-    @ResponseBody
-     public ModelAndView addOrUpdateDeviceFromForm(DeviceForm deviceForm, HttpServletRequest request){
+     public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, HttpServletRequest request){
         Status status = Status.ACTIVE;
-        if (deviceForm.getId() == null ) {
+        String result ="";
+        try{
+        if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
         } else {
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
             deviceDataService.updateDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+        }
+            result = "redirect:/device.html";
+         }catch (NullPointerException e){
+            System.out.println(e);
+            result = "redirect:/404.html";
         }
 
+
+        return result;
+
         //redirect to the devices list after deleting
-        List<DeviceForm> result = new ArrayList<DeviceForm>();
+        /*List<DeviceForm> result = new ArrayList<DeviceForm>();
         result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("device");
         mav.addObject("list", result);
-        return mav;
+        return mav;*/
     }
 
-    @RequestMapping(value="/device/{id}/delete", method = RequestMethod.GET)
-    public String deleteDevice(@PathVariable("id") int id, HttpSession session, RedirectAttributes attributes){
+    @RequestMapping(value="/device/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
+       /* String numberOnly= json.replaceAll("[^0-9]", "");*/
+        Integer id = Integer.parseInt(json);
+        String result = "";
 
         Status status = Status.DELETED;
         DeviceForm deviceForm = deviceDataService.getById(id);
         try {
             if (deviceForm.getIpForm().getId() != null) {
-
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
             }
             deviceDataService.deleteDevice(id);
-            String success = "device is deleted";
-            attributes.addFlashAttribute("succesMessage", success);
+            result = "success";
+
         } catch (NullPointerException e) {
             String error = e.getMessage();
-            attributes.addFlashAttribute("succesMessage", error);
-
+            result = "error";
         }
-        return "redirect:/device.html";
+
+        return result;
     }
 
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)

@@ -28,21 +28,14 @@
    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
     <div>
 
-        <div  id="succesMessage" class="alert alert-success" items="${succesMessage}" type="hidden">
-            <strong>Congratz! </strong>${succesMessage}
+        <div  id="succesMessage" class="alert alert-success" style="display: none">
+            <strong>Great. Nice job!</strong>
         </div>
 
-<%--        <script type="text/javascript">
-            function success() {
-                if(document.getElementById('succesMessage').getAttribute(items) != null){
-                    this.style.visibility = "visible";
-                } else {
-                    this.style.visibility = "hidden";
-                }
-            }
-        </script>--%>
 
-        <table class="table table-striped">
+
+
+        <table class="table table-striped" id ='table'>
                <th></th>
               <TH>Name</th>
               <TH>Type</th>
@@ -55,7 +48,7 @@
                         <td>
                             <a href="${pageContext.request.contextPath}/device/${current.id}/update.html"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             &nbsp;&nbsp;
-                            <a href="${pageContext.request.contextPath}/device/${current.id}/delete.html" onclick="return confirm('Do you really want to delete device?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a id ="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                       <td>${current.name}</td>
                       <td>${current.devType.deviceType}</td>
@@ -66,6 +59,41 @@
                   </label>
               </c:forEach>
         </table>
+
+        <script type="text/javascript">
+
+            $('#table tr #deleting').click(function () {
+                console.log(this);
+                var $tr = $(this).closest('tr');
+                var conf = confirm("Are you sure?");
+                if (conf == true){
+                $.ajax({
+                    type: "POST",
+                    url: '${pageContext.request.contextPath}/device/delete.html',
+                    data: $tr.attr('id'),
+                    datatype: "JSON",
+                    contentType: "application/json",
+                    success: function (data) {
+                        if(data == "success") { //ответ от сервака нужен
+                            $tr.fadeOut('slow',function(){
+                                $tr.remove()
+                            })
+                            document.getElementById('succesMessage').style.display="block";
+                            setTimeout(function() {
+                                $("#succesMessage").fadeOut(2000);
+                            });
+                        } else{
+                            alert("Delete is not finished");
+                        }
+                    }
+                });
+                } else {
+                    alert("Thats right decision");
+                }
+            });
+        </script>
+
+
     </div>
 </div>
 

@@ -179,9 +179,9 @@
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                  <button type="reset" class="btn btn-default" onclick="redirectToDevicePage();">Cancel</button>
+                  <button type="reset" class="btn btn-default" onclick=redirectToDevicePage();>Cancel</button>
                   <script type="text/javascript">
-                      function redirectToDevicePage(){
+                     function redirectToDevicePage(){
                           window.location="${pageContext.request.contextPath}/device.html";
                       }
                   </script>
