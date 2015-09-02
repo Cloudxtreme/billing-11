@@ -29,7 +29,7 @@ public class UserActivityDAOImpl extends CommonDAOImpl<Activity> implements User
 
     @Override
     public List listActivity(){
-        String hql = "from Activity";
+        String hql = "from Activity activity where activity.status <> 'DELETED' or activity.status is null ";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
         if (!query.list().isEmpty()){
             return query.list();

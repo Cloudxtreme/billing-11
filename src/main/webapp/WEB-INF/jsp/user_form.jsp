@@ -24,16 +24,16 @@
 <div class="col-lg-6">
     <form:form class="form-horizontal" method="POST" commandName="localUserForm" action="${pageContext.request.contextPath}/user_form.html">
         <fieldset>
-            <legend>User</legend>
+            <legend>Local User</legend>
             <div class="form-group">
                 <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
             </div>
             <form:hidden path="id" />
             <div class="form-group">
-                <label for="name" class="col-lg-3 control-label">Name</label>
+                <label for="username" class="col-lg-3 control-label">Name</label>
                 <div class="col-lg-9">
-                    <form:input path="name" class="form-control" id="name" placeholder="User Name" />
-                    <form:errors path="name" cssClass="alert-danger" />
+                    <form:input path="username" class="form-control" id="username" placeholder="User Name" />
+                    <form:errors path="username" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
@@ -41,6 +41,13 @@
                 <div class="col-lg-9">
                     <form:password path="password" class="form-control" id="password" placeholder="Enter your password" />
                     <form:errors path="password" cssClass="alert-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-lg-3 control-label">Confirm Password</label>
+                <div class="col-lg-9">
+                    <form:password path="passwordConfirm" class="form-control" id="password" placeholder="Confirm your password" />
+                    <form:errors path="passwordConfirm" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
