@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="linkToAccounts"><a href="${pageContext.request.contextPath}/accounts/accountHome.html">Accounts<span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
+                <li><a href="${pageContext.request.contextPath}/services/main.html">Services</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -39,13 +39,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown $1 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/user_panel.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel</a></li>
-                        <li><a href="/link2">Another action</a></li>
-                        <li><a href="link21">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/links">Separated link</a></li>
+                        <li><a href="${pageContext.request.contextPath}/user_panel.html">Show All Users</a></li>
+                        <li><a href="${pageContext.request.contextPath}/user_role_list.html">User Role</a></li>
+                        <li><a href="${pageContext.request.contextPath}/activity_list.html">Activity</a></li>
                     </ul>
                 </li>
             </ul>
