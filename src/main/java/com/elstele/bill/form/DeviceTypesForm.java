@@ -4,6 +4,15 @@ package com.elstele.bill.form;
 public class DeviceTypesForm {
     public Integer id;
     public String deviceType;
+    public String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;

@@ -25,13 +25,32 @@
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
     <div class="form-group">
       <label for="exampleInputFile"><h3>Select file to upload</h3></label>
-      <input type="file" id="exampleInputFile">
+      <input type="file" id="exampleInputFile" multiple >
+      <ul id="list" class="list-group"></ul>
 
       <p class="help-block">Example block-level help text here.</p>
     </div>
     <button type="submit" value="upload" class="btn btn-default">Upload File</button>
   </form:form>
 </div>
+
+
+<script type="text/javascript">
+
+  $('#exampleInputFile').change(function handleFileSelect(evt) {
+    var files = evt.target.files;
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      var sub = (f.name).substring(0,20);
+      $('#list').append('<li class="list-group-item"><strong>'+sub+'...</strong> <b>File type:</b> '+ (f.type || 'n/a')+ ' - ' +
+              f.size+' bytes, last modified: '+
+              (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a')+
+              '</li>');
+    }
+  })
+
+
+</script>
 
 
 </body>
