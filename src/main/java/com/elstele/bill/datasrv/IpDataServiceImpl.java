@@ -4,6 +4,7 @@ import com.elstele.bill.assembler.IpAssembler;
 import com.elstele.bill.dao.IpDAO;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,8 @@ public class IpDataServiceImpl implements IpDataService {
 
     @Override
     @Transactional
-    public void setStatus(Integer id, Status status){
-        ipDAO.setStatus(id, status);
+    public void setStatus(Integer id, IpStatus ipStatus){
+        ipDAO.setStatusById(ipStatus, id);
     }
 
     @Override

@@ -25,7 +25,7 @@
 
 
 
-   <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}\adddevice">Add New Device</a>
+   <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/adddevice">Add New Device</a>
     <div>
 
         <div  id="succesMessage" class="alert alert-success" style="display: none">

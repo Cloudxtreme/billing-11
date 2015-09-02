@@ -2,6 +2,7 @@ package com.elstele.bill.dao;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Ip;
+import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import org.hibernate.Query;
 import org.omg.PortableInterceptor.ACTIVE;
@@ -18,11 +19,12 @@ public class IpDAOImpl extends CommonDAOImpl<Ip> implements IpDAO{
         return (List<Ip>)query.list();
     }
 
+
     @Override
-    public void setStatusById(Integer id) {
+    public void setStatusById(IpStatus ipStatus, Integer id) {
         Ip ip = new Ip();
         ip = getById(id);
-        ip.setStatus(Status.ACTIVE);
+        ip.setIpStatus(ipStatus);
         update(ip);
     }
 

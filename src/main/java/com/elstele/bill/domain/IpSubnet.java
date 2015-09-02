@@ -1,10 +1,10 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.SubnetPurpose;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -12,8 +12,13 @@ import java.util.Set;
 public class IpSubnet extends CommonDomainBean {
     public String ipSubnet;
 
+    @Enumerated(EnumType.STRING)
+    public SubnetPurpose subnetPurpose;
+
     @OneToMany(mappedBy="ipSubnet")
     private Set<Ip> ipAdd;
+
+
 
 
     public String getIpSubnet() {
@@ -30,5 +35,13 @@ public class IpSubnet extends CommonDomainBean {
 
     public void setIpAdd(Set<Ip> ipAdd) {
         this.ipAdd = ipAdd;
+    }
+
+    public SubnetPurpose getSubnetPurpose() {
+        return subnetPurpose;
+    }
+
+    public void setSubnetPurpose(SubnetPurpose subnetPurpose) {
+        this.subnetPurpose = subnetPurpose;
     }
 }

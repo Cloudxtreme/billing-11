@@ -11,7 +11,9 @@ import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
+import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.SubnetPurpose;
 import org.omg.PortableInterceptor.ACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,7 +80,7 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getStatus() != Status.ACTIVE)
+        {if (ipForm.getIpStatus() != IpStatus.USED)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         model.addObject("ipAddressList", ipMap);
@@ -87,7 +89,10 @@ public class DeviceController {
         List<IpSubnetForm> subnetForms = new ArrayList<IpSubnetForm>();
         subnetForms = ipSubnetDataService.getIpSubnets();
         Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
-        for (IpSubnetForm ipSubnetForm : subnetForms) ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
+        for (IpSubnetForm ipSubnetForm : subnetForms)
+        {if (ipSubnetForm.getSubnetPurpose() == SubnetPurpose.MGMT)
+            ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
+        }
         model.addObject("ipNetList", ipMapNets);
 
 
@@ -98,15 +103,15 @@ public class DeviceController {
 
     @RequestMapping(value="/adddevice", method = RequestMethod.POST)
      public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, HttpServletRequest request){
-        Status status = Status.ACTIVE;
+        IpStatus ipStatus = IpStatus.USED;
         String result ="";
         try{
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
         } else {
             deviceDataService.updateDevice(deviceForm);
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
         }
             result = "redirect:/device.html";
          }catch (NullPointerException e){
@@ -132,11 +137,11 @@ public class DeviceController {
         Integer id = Integer.parseInt(json);
         String result = "";
 
-        Status status = Status.DELETED;
+        IpStatus ipStatus = IpStatus.FREE;
         DeviceForm deviceForm = deviceDataService.getById(id);
         try {
             if (deviceForm.getIpForm().getId() != null) {
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), status);
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
             }
             deviceDataService.deleteDevice(id);
             result = "success";
@@ -154,7 +159,7 @@ public class DeviceController {
         ModelAndView mav = new ModelAndView("adddevice");
         DeviceForm form = new DeviceForm();
         form = deviceDataService.getById(id);
-        ipDataService.setStatus(form.getIpForm().getId(), Status.INACTIVE);
+        ipDataService.setStatus(form.getIpForm().getId(), IpStatus.FREE);
 
 
         //Device Types extracting to the form for redact
@@ -168,7 +173,7 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getStatus() != Status.ACTIVE)
+        {if (ipForm.getIpStatus() != IpStatus.USED)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -176,7 +181,10 @@ public class DeviceController {
         List<IpSubnetForm> subnetForms = new ArrayList<IpSubnetForm>();
         subnetForms = ipSubnetDataService.getIpSubnets();
         Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
-        for (IpSubnetForm ipSubnetForm : subnetForms) ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
+        for (IpSubnetForm ipSubnetForm : subnetForms)
+        {if (ipSubnetForm.getSubnetPurpose() == SubnetPurpose.MGMT)
+            ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
+        }
 
         mav.addObject("ipNetList", ipMapNets);
         mav.addObject("ipAddressList", ipMap);
@@ -202,7 +210,7 @@ public class DeviceController {
         List<IpForm> list = ipDataService.getBySubnetId(id);
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : list)
-        {if (ipForm.getStatus() != Status.ACTIVE)
+        {if (ipForm.getIpStatus() != IpStatus.USED)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -216,7 +224,7 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getStatus() != Status.ACTIVE)
+        {if (ipForm.getIpStatus() != IpStatus.USED)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;

@@ -28,7 +28,7 @@
   <div class="content">
     <img src="resources/images/error-img.png" title="error" />
     <p><span><label>O</label>hh.....</span>You Requested the page that is no longer There.</p>
-    <a class="btn btn-warning btn-lg" onclick="window.history.back();">Return to previous page</a>
+    <a class="btn btn-default btn-lg" onclick="window.history.back();">Return to previous page</a>
     <div class="copy-right">
       <p>Or connect to our support team<br> Mail.Phone</p>
     </div>

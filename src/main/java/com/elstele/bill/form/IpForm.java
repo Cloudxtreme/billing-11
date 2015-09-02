@@ -1,5 +1,6 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 
 public class IpForm {
@@ -7,6 +8,16 @@ public class IpForm {
     public String ipName;
     public String net;
     public Status status;
+    public IpStatus ipStatus;
+
+
+    public IpStatus getIpStatus() {
+        return ipStatus;
+    }
+
+    public void setIpStatus(IpStatus ipStatus) {
+        this.ipStatus = ipStatus;
+    }
 
     public Integer getId() {
         return id;
