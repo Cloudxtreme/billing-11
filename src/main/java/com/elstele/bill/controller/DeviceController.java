@@ -122,12 +122,6 @@ public class DeviceController {
 
         return result;
 
-        //redirect to the devices list after deleting
-        /*List<DeviceForm> result = new ArrayList<DeviceForm>();
-        result = deviceDataService.getDevices();
-        ModelAndView mav = new ModelAndView("device");
-        mav.addObject("list", result);
-        return mav;*/
     }
 
     @RequestMapping(value="/device/delete", method = RequestMethod.POST)
