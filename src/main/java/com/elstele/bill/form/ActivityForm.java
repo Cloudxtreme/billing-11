@@ -1,6 +1,6 @@
 package com.elstele.bill.form;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 public class ActivityForm {
     // form:hidden - hidden value
