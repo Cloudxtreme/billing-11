@@ -63,7 +63,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         }
     }
 
-    //TODO please read Hibernate docs once again and decide if we really need this method
+    //TODO please read Hibernate docs once again, and decide if we really need this method
     @Override
     public void save(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
