@@ -45,6 +45,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
     @Override
     public void update(T transientObject) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
+        this.sessionFactory.getCurrentSession().flush();
+    }
+
+    @Override
+    public void updateAndMerge(T transientObject) {
         transientObject = (T)sessionFactory.getCurrentSession().merge(transientObject);
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();

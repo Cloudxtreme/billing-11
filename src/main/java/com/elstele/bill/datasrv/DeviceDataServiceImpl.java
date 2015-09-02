@@ -70,7 +70,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     public void updateDevice(DeviceForm deviceForm){
         DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device bean = assembler.fromFormToBean(deviceForm);
-        deviceDAO.update(bean);
+        deviceDAO.updateAndMerge(bean);
     }
 
 }
