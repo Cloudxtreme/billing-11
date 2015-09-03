@@ -1,6 +1,5 @@
 package com.elstele.bill.controller;
 
-import com.sun.javafx.sg.prism.NGShape;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +11,7 @@ public class UploadController {
 
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
     public ModelAndView setPagetoUpload(){
-        ModelAndView model = new ModelAndView("uploadCDR");
+        ModelAndView model = new ModelAndView("uploadKDF");
 
         return model;
     }

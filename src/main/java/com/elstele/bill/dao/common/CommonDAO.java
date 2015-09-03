@@ -21,6 +21,10 @@ public interface CommonDAO <T> {
 
     public void delete(Integer id);
 
+    public void setStatusDelete(CommonDomainBean persistentObject);
+
+    public void setStatusDelete(Integer id);
+
     /** same as update */
     public void save(T transientObject);
 

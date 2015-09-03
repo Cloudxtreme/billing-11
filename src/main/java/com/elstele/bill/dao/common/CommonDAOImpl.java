@@ -90,5 +90,24 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
         }
     }
+
+    @Override
+    public void setStatusDelete(CommonDomainBean persistentObject) {
+        persistentObject.setStatus(Status.DELETED);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+
+    }
+
+
+    @Override
+    public void setStatusDelete(Integer id) {
+        CommonDomainBean persistentObject = (CommonDomainBean) this.getById(id);
+        if (persistentObject != null) {
+            persistentObject.setStatus(Status.DELETED);
+            this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+
+        }
+
+    }
 }
 
