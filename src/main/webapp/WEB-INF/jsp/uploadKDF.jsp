@@ -22,6 +22,12 @@
 
 
 <div class="well">
+
+  <div  id="errorMessage" class="alert alert-warning" style="display: none">
+    <strong>This file have been add early</strong>
+  </div>
+
+
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
     <div class="form-group">
       <label for="exampleInputFile"><h3>Select file to upload</h3></label>
@@ -37,19 +43,32 @@
 
 <script type="text/javascript">
 
-
-
-  $('#exampleInputFile').change(function handleFileSelect(evt) {
+  var uniqFiles = [];
+  $('input:file').on('change',function(evt){
     var files = evt.target.files;
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) {
-      var sub = (f.name).substring(0,20);
-      $('#list').append('<li class="list-group-item"><strong>'+sub+'...</strong> <b>File type:</b> '+ (f.type || 'n/a')+ ' - ' +
-              f.size+' bytes, last modified: '+
-              (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a')+
+    for( var i = 0,f; f = files[i]; i++ ) {
+      if ($.inArray(f, uniqFiles) == -1) {
+        uniqFiles.push(f);
+      }
+      else {
+        document.getElementById('errorMessage').style.display="block";
+        setTimeout(function() {
+          $("#errorMessage").fadeOut(2000);
+        });
+
+      }
+    }
+
+    $('#list').html('');
+    for( var h = 0, q; q = uniqFiles[h]; h++ ){
+      var sub = (q.name).substring(0, 20);
+      $('#list').append('<li class="list-group-item" value="' + q.size + '"'+ '<a id ="+deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>' +'><strong>' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
+              q.size + ' bytes, last modified: ' +
+              (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
               '</li>');
     }
-  })
+  });
+
 
 
 </script>
