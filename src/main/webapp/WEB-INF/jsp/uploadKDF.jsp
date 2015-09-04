@@ -29,7 +29,7 @@
 
 
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
-    <div class="form-group">
+    <div class="form-group" id="idForm">
       <label for="exampleInputFile"><h3>Select file to upload</h3></label>
       <input type="file" id="exampleInputFile" multiple >
       <ul id="list" class="list-group"></ul>
@@ -62,10 +62,22 @@
     $('#list').html('');
     for( var h = 0, q; q = uniqFiles[h]; h++ ){
       var sub = (q.name).substring(0, 20);
-      $('#list').append('<li class="list-group-item" value="' + q.size + '"'+ '<a id ="+deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>' +'><strong>' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
+      $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
               q.size + ' bytes, last modified: ' +
               (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
               '</li>');
+    }
+  });
+
+  $('#idForm #list li .deleting').click(function() {
+    var $li = $(this).closest('li');
+    var conf = confirm("Are you sure?");
+    if (!conf) {
+      console.log('decline');
+    } else {
+      $li.fadeOut('slow', function () {
+        $li.remove();
+      });
     }
   });
 

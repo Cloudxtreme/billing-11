@@ -15,7 +15,7 @@ import java.util.Set;
     @Enumerated(EnumType.STRING)
     public IpStatus ipStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="subnet_id")
     private IpSubnet ipSubnet;
 

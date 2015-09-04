@@ -27,6 +27,8 @@ public class DeviceAssembler {
             //bunch device with deviceTypes
             deviceTypesForm.setId(bean.getDeviceTypes().getId());
             deviceTypesForm.setDeviceType(bean.getDeviceTypes().getDeviceType());
+            deviceTypesForm.setPortsNumber(bean.getDeviceTypes().getPortsNumber());
+            deviceTypesForm.setDescription(bean.getDeviceTypes().getDescription());
 
             //bunch device with Ip
             ipForm.setId(bean.getIpAdd().getId());
@@ -45,6 +47,7 @@ public class DeviceAssembler {
         bean.setDeviceTypes(deviceTypesDAO.getById(form.getDevType().getId()));
         if (form.getIpForm().getId() != null) {
             bean.setIpAdd(ipDAO.getById(form.getIpForm().getId()));
+
         }
         copyProperties(form, bean);
         return bean;

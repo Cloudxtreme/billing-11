@@ -31,8 +31,16 @@
                       <div class="modal-body">
 
                           <form:input path="id"  type="hidden"/>
-                          <div class="col-lg-9">
+                          <div class="col-xs-6 col-md-4">
                               <form:input path="deviceType" class="form-control" id="deviceTypeForm" placeholder="Type the new device type name"/>
+                          </div>
+
+                          <div class="col-xs-6 col-md-4">
+                              <form:input path="description" class="form-control" id="deviceTypeDescription" placeholder="Description"/>
+                          </div>
+
+                          <div class="col-xs-6 col-md-4">
+                              <form:input path="portsNumber" class="form-control" id="deviceTypePorts" placeholder="Ports"/>
                           </div>
 
 
