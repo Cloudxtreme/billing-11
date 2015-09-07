@@ -60,7 +60,7 @@
     }
 
     $('#list').html('');
-    for( var h = 0, q; q = uniqFiles[h]; h++ ){
+    for (var h = 0, q; q = uniqFiles[h]; h++) {
       var sub = (q.name).substring(0, 20);
       $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
               q.size + ' bytes, last modified: ' +
@@ -69,8 +69,15 @@
     }
   });
 
-  $('#idForm #list li .deleting').click(function() {
+  $('html').on('click','.glyphicon' , function() {
     var $li = $(this).closest('li');
+    var ident = $li.attr('value');
+    for (var i = 0, p; p = uniqFiles[i]; i++){
+      if (p.size != ident) {
+      } else {
+        uniqFiles.splice(i,1);
+      }
+    }
     var conf = confirm("Are you sure?");
     if (!conf) {
       console.log('decline');
