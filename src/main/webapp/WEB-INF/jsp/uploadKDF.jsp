@@ -31,7 +31,7 @@
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
     <div class="form-group" id="idForm">
       <label for="exampleInputFile"><h3>Select file to upload</h3></label>
-      <input type="file" id="exampleInputFile" multiple >
+      <input type="file" name="file" id="exampleInputFile" multiple >
       <ul id="list" class="list-group"></ul>
 
       <p class="help-block">Example block-level help text here.</p>

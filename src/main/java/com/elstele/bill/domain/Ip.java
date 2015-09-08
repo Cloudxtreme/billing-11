@@ -19,8 +19,7 @@ import java.util.Set;
     @JoinColumn(name="subnet_id")
     private IpSubnet ipSubnet;
 
-    @OneToOne(mappedBy = "ipAdd")
-    private Device device;
+
 
         public String getIpName() {
             return ipName;
@@ -28,15 +27,6 @@ import java.util.Set;
 
         public void setIpName(String ipName) {
             this.ipName = ipName;
-        }
-
-
-        public Device getDevice() {
-            return device;
-        }
-
-        public void setDevice(Device device) {
-            this.device = device;
         }
 
         public IpSubnet getIpSubnet() {
