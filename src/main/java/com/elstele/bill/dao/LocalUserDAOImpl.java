@@ -3,10 +3,8 @@ package com.elstele.bill.dao;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.LocalUser;
 import org.hibernate.Filter;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
-import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
