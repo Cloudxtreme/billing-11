@@ -38,6 +38,8 @@
 
       <p class="help-block">Example block-level help text here.</p>
     </div>
+      <div id="progressBar">
+      </div>
     <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar">Upload File</button>
   </form:form>
 </div>
@@ -69,8 +71,10 @@
       $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
               q.size + ' bytes, last modified: ' +
               (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
-              '</li>');
+              '<div></div></li>');
     }
+      $('<div/>').addClass('progress').text('0%').appendTo('.list-group-item');
+
   });
 
   $('html').on('click','.glyphicon' , function() {
@@ -96,15 +100,32 @@
   $('.btn-toolbar').on('click', function (){
       var reader = new FileReader();
       var data = new FormData();
-      var urlTemp = "${pageContext.request.contextPath}/uploadfile";
       for (var i = 0; i < uniqFiles.length; i++) {
-          data.append('file[]', uniqFiles[i]);
+          data.append(i, uniqFiles[i]);
       }
 
-      reader.onload = function() {
-          var xhr = new XMLHttpRequest();
+      $.ajax({
+          dataType: 'json',
+          url: "${pageContext.request.contextPath}/uploadfile",
+          data: data,
+          type: "POST",
+          enctype: 'multipart/form-data',
+          processData: false,
+          contentType: false,
+          success: function (result) {
+              alert('success' + JSON.stringify(result));
+          },
+          error: function (result) {
+              alert('error' + JSON.stringify(result));
+          }
+      });
 
-          xhr.upload.addEventListener("progress", function(e) {
+      /*var xhr = new XMLHttpRequest();
+
+      reader.onload = function() {
+
+
+          xhr.upload.addEventListener("progress", function (e) {
               if (e.lengthComputable) {
                   var progress = (e.loaded * 100) / e.total;
               }
@@ -113,26 +134,33 @@
 
           xhr.onreadystatechange = function () {
               if (this.readyState == 4) {
-                  if(this.status == 200) {
+                  if (this.status == 200) {
                   } else {
                   }
               }
           };
+      };
 
           xhr.open("POST", "${pageContext.request.contextPath}/uploadfile", true);
           var boundary = "xxxxxxxxx";
           xhr.setRequestHeader("Content-Type", "multipart/form-data, boundary="+boundary);
           xhr.setRequestHeader("Cache-Control", "no-cache");
-          xhr.send(data);
-      };
+
+          if(xhr.sendAsBinary) {
+              // только для firefox
+              xhr.sendAsBinary(data);
+          } else {
+              // chrome (так гласит спецификация W3C)
+              xhr.send(data);
+          }*/
+
   });
-
-
-
-
 
 </script>
 
 
 </body>
 </html>
+
+
+

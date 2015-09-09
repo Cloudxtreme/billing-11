@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import sun.net.ProgressEvent;
 import sun.net.ProgressListener;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -33,64 +36,42 @@ public class UploadController {
     ServletContext ctx;
 
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
-    public ModelAndView setPagetoUpload(){
+    public ModelAndView setPagetoUpload() {
         ModelAndView model = new ModelAndView("uploadKDF");
 
         return model;
     }
 
 
-
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
     @ResponseBody
-    public String putFileToFolder(@RequestParam("file") MultipartFile[] files, HttpServletRequest request, HttpServletResponse response){
+    public String putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) {
         String fileName = null;
-        ctx = request.getSession().getServletContext();
+        ctx = requestHttp.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files");
-        ModelAndView model = new ModelAndView("uploadKDF");
-        String result ="";
 
-        if (files != null && files.length > 0) {
-            for(int i = 0; i < files.length; i++) {
-                try {
-                    fileName = files[i].getContentType();
-                    if (fileName.equalsIgnoreCase("image/png")){
-                        byte[] bytes = files[i].getBytes();
-                        File uploadDir = new File("D:\\FolderForFile");
-                        String originalName = files[i].getOriginalFilename();
-                        BufferedOutputStream buffStream =
-                                new BufferedOutputStream(new FileOutputStream(path + File.separator +originalName));
-                        buffStream.write(bytes);
+        Iterator<String> iter = request.getFileNames();
+        MultipartFile multipartFile = null;
+        while(iter.hasNext()) {
+            multipartFile = request.getFile(iter.next());
 
 
-                        ProgressListener progressListener = new ProgressListener() {
-                            public void progressStart(ProgressEvent progressEvent) {
-
-                            }
-
-                            public void progressUpdate(ProgressEvent progressEvent) {
-
-                            }
-
-                            public void progressFinish(ProgressEvent progressEvent) {
-
-                            }
-                        };
-
-                        buffStream.close();
-                    } else {
-                        result="2";
-                    }
-
-                } catch (Exception e) {
-                    result="3";
+            try {
+                assert multipartFile != null;
+                fileName = multipartFile.getContentType();
+                if (fileName.equalsIgnoreCase("image/png")) {
+                    byte[] bytes = multipartFile.getBytes();
+                    String originalName = multipartFile.getOriginalFilename();
+                    BufferedOutputStream buffStream =
+                            new BufferedOutputStream(new FileOutputStream(path + File.separator + originalName));
+                    buffStream.write(bytes);
+                    buffStream.close();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            result="1";
-        } else {
-            result="Unable to upload. File is empty.";
-
         }
-        return  result;
+        return "success";
+
     }
 }
