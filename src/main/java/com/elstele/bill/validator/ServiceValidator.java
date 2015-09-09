@@ -21,6 +21,5 @@ public class ServiceValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "description.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "price.required");
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ip", "ip.required");
     }
 }

@@ -11,6 +11,5 @@ public interface ServiceDataService {
     public void deleteService(Integer id);
     public List<ServiceT> listService();
     public ServiceForm getServiceFormById(Integer id);
-//    public ServiceInternet findById(Integer id);
 
 }

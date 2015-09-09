@@ -18,14 +18,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Autowired
     private ServiceDAO serviceDAO;
 
-/*
-    @Override
-    @Transactional
-    public ServiceInternet findById(Integer id){
-        return serviceDAO.getById(id);
-    }
-*/
-
     @Override
     @Transactional
     public String saveService(ServiceForm form) {
