@@ -12,6 +12,8 @@
     <title>Add/Edit Service</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
     <spring:url value="/resources/js/service.js" var="service" />
     <script src="${service}"></script>
 

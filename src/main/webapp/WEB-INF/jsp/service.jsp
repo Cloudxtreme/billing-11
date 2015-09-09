@@ -13,8 +13,8 @@
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
-    <spring:url value="/resources/js/utils.js" var="utils" />
-    <script src="${utils}"></script>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
 </head>
 <body>
 

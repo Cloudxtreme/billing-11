@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="linkToAccounts"><a href="${pageContext.request.contextPath}/accounts/accountHome.html">Accounts<span class="sr-only">(current)</span></a></li>
-                <li><a href="${pageContext.request.contextPath}/service/main/">Services</a></li>
+                <li id="linkToServices"><a href="${pageContext.request.contextPath}/service/main/">Services</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
