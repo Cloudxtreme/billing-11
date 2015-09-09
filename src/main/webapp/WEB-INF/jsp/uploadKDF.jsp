@@ -23,7 +23,7 @@
 
 <div class="well">
 
-  <div  id="errorMessage" class="alert alert-warning" style="display: none">
+  <div  id="errorMessage" class="alert alert-warning" style="display: none"><strong>U tried to add the same file</strong>
   </div>
 
   <div  id="successMessage" class="alert alert-success" style="display: none">
@@ -38,7 +38,7 @@
 
       <p class="help-block">Example block-level help text here.</p>
     </div>
-    <button type="submit" value="upload" class="btn btn-default">Upload File</button>
+    <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar">Upload File</button>
   </form:form>
 </div>
 
@@ -52,13 +52,15 @@
       if ($.inArray(f, uniqFiles) == -1) {
         uniqFiles.push(f);
       }
-      else {
-        document.getElementById('errorMessage').style.display="block";
-        setTimeout(function() {
-          $("#errorMessage").fadeOut(2000);
-        });
-
+        else {
+          console.log('blalbla');
+          $('#errorMessage').css('display', 'block');
+          setTimeout(function () {
+              $("#errorMessage").fadeOut(2000);
+          });
       }
+
+
     }
 
     $('#list').html('');
@@ -91,69 +93,41 @@
   });
 
 
- /* $('.btn-default').on('click', function() {
-    uploadFile(uniqFiles);
+  $('.btn-toolbar').on('click', function (){
+      var reader = new FileReader();
+      var data = new FormData();
+      var urlTemp = "${pageContext.request.contextPath}/uploadfile";
+      for (var i = 0; i < uniqFiles.length; i++) {
+          data.append('file[]', uniqFiles[i]);
+      }
+
+      reader.onload = function() {
+          var xhr = new XMLHttpRequest();
+
+          xhr.upload.addEventListener("progress", function(e) {
+              if (e.lengthComputable) {
+                  var progress = (e.loaded * 100) / e.total;
+              }
+          }, false);
+
+
+          xhr.onreadystatechange = function () {
+              if (this.readyState == 4) {
+                  if(this.status == 200) {
+                  } else {
+                  }
+              }
+          };
+
+          xhr.open("POST", "${pageContext.request.contextPath}/uploadfile", true);
+          var boundary = "xxxxxxxxx";
+          xhr.setRequestHeader("Content-Type", "multipart/form-data, boundary="+boundary);
+          xhr.setRequestHeader("Cache-Control", "no-cache");
+          xhr.send(data);
+      };
   });
 
- function uploadFile(file){
-    var xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = function(event) {
-      log(event.loaded + ' / ' + event.total);
-    };
 
-
-    xhr.onload = xhr.onerror = function() {
-      if (this.status == 200) {
-        log("success");
-      } else {
-        log("error " + this.status);
-      }
-    };
-
-
-    xhr.open("POST", "${pageContext.request.contextPath}/uploadfile", true);
-    xhr.send(file);
-  };*/
-
-
-/*
- $('.btn-default').on('click', function() {
-    console.log(this);
-    $.ajax({
-      url: '${pageContext.request.contextPath}/uploadFile',
-      success: function (data) {
-        if (data == '1') {
-          document.getElementById('succesMessage').style.display="block";
-          $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
-          setTimeout(function() {
-            $("#succesMessage").fadeOut(2000);
-          });
-        } else if (data == '2'){
-          document.getElementById('errorMessage').style.display="block";
-          $('#errorMessage').append('<strong>File type is not IMAGE/PNG</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
-          });
-        } else if (data == '3'){
-          document.getElementById('errorMessage').style.display="block";
-          $('#errorMessage').append('<strong>You failed to upload file, please try again</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
-          });
-        } else {
-          document.getElementById('errorMessage').style.display = "block";
-          $('#errorMessage').append('<strong>Your file is empty</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
-          });
-        }
-
-
-      }
-    });
-    return false;
-  });
-*/
 
 
 

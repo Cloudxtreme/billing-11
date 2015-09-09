@@ -47,7 +47,6 @@ public class DeviceAssembler {
         bean.setDeviceTypes(deviceTypesDAO.getById(form.getDevType().getId()));
         if (form.getIpForm().getId() != null) {
             bean.setIpAdd(ipDAO.getById(form.getIpForm().getId()));
-
         }
         copyProperties(form, bean);
         return bean;
