@@ -1,5 +1,9 @@
 package com.elstele.bill.controller;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -15,9 +19,11 @@ import sun.net.ProgressListener;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 
 @Controller
@@ -33,11 +39,16 @@ public class UploadController {
         return model;
     }
 
+
+
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
-    public @ResponseBody String putFileToFolder(@RequestParam("file") MultipartFile[] files, HttpServletRequest request){
+    @ResponseBody
+    public String putFileToFolder(@RequestParam("file") MultipartFile[] files, HttpServletRequest request, HttpServletResponse response){
         String fileName = null;
         ctx = request.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files");
+        ModelAndView model = new ModelAndView("uploadKDF");
+        String result ="";
 
         if (files != null && files.length > 0) {
             for(int i = 0; i < files.length; i++) {
@@ -52,7 +63,7 @@ public class UploadController {
                         buffStream.write(bytes);
 
 
-                        /*ProgressListener progressListener = new ProgressListener() {
+                        ProgressListener progressListener = new ProgressListener() {
                             public void progressStart(ProgressEvent progressEvent) {
 
                             }
@@ -64,22 +75,22 @@ public class UploadController {
                             public void progressFinish(ProgressEvent progressEvent) {
 
                             }
-                        };*/
+                        };
 
                         buffStream.close();
                     } else {
-                        return "File type is not png";
+                        result="2";
                     }
 
-
-
                 } catch (Exception e) {
-                    return "You failed to upload " + files[i].getName() + ": " + e.getMessage() +"<br/>";
+                    result="3";
                 }
             }
-            return "";
+            result="1";
         } else {
-            return "Unable to upload. File is empty.";
+            result="Unable to upload. File is empty.";
+
         }
+        return  result;
     }
 }

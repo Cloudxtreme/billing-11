@@ -24,7 +24,9 @@
 <div class="well">
 
   <div  id="errorMessage" class="alert alert-warning" style="display: none">
-    <strong>This file have been add early</strong>
+  </div>
+
+  <div  id="successMessage" class="alert alert-success" style="display: none">
   </div>
 
 
@@ -87,6 +89,71 @@
       });
     }
   });
+
+
+ /* $('.btn-default').on('click', function() {
+    uploadFile(uniqFiles);
+  });
+
+ function uploadFile(file){
+    var xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = function(event) {
+      log(event.loaded + ' / ' + event.total);
+    };
+
+
+    xhr.onload = xhr.onerror = function() {
+      if (this.status == 200) {
+        log("success");
+      } else {
+        log("error " + this.status);
+      }
+    };
+
+
+    xhr.open("POST", "${pageContext.request.contextPath}/uploadfile", true);
+    xhr.send(file);
+  };*/
+
+
+/*
+ $('.btn-default').on('click', function() {
+    console.log(this);
+    $.ajax({
+      url: '${pageContext.request.contextPath}/uploadFile',
+      success: function (data) {
+        if (data == '1') {
+          document.getElementById('succesMessage').style.display="block";
+          $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
+          setTimeout(function() {
+            $("#succesMessage").fadeOut(2000);
+          });
+        } else if (data == '2'){
+          document.getElementById('errorMessage').style.display="block";
+          $('#errorMessage').append('<strong>File type is not IMAGE/PNG</strong>');
+          setTimeout(function() {
+            $("#errorMessage").fadeOut(2000);
+          });
+        } else if (data == '3'){
+          document.getElementById('errorMessage').style.display="block";
+          $('#errorMessage').append('<strong>You failed to upload file, please try again</strong>');
+          setTimeout(function() {
+            $("#errorMessage").fadeOut(2000);
+          });
+        } else {
+          document.getElementById('errorMessage').style.display = "block";
+          $('#errorMessage').append('<strong>Your file is empty</strong>');
+          setTimeout(function() {
+            $("#errorMessage").fadeOut(2000);
+          });
+        }
+
+
+      }
+    });
+    return false;
+  });
+*/
 
 
 

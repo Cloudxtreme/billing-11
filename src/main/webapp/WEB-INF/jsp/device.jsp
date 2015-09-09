@@ -74,7 +74,7 @@
                     datatype: "JSON",
                     contentType: "application/json",
                     success: function (data) {
-                        if(data == "success") { //ответ от сервака нужен
+                        if(data == "success") {
                             $tr.fadeOut('slow',function(){
                                 $tr.remove()
                             })
