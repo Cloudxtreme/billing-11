@@ -10,16 +10,15 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <title>Device</title>
-
+  <title>File uploading</title>
 
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
-
+  <<%--spring:url value="/resources/js/uploadingfile.js" var="uploadingFile" />
+  <script src="${uploadingFile}"></script>--%>
 
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
-
 
 <div class="well">
 
@@ -30,35 +29,42 @@
   </div>
 
 
+  <div id="spinner" class="spinner" style="display:none;">
+    <img id="img-spinner" src="resources/images/ajax-loader.gif" alt="Loading"/>
+  </div>
+  <legend><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select file to upload
+
+      <a href="${pageContext.request.contextPath}/uploadedfiles" ><span class="glyphicon glyphicon-folder-open float-right" data-toggle="modal" style="color: #4da309"> Uploaded files</span></a>
+  </legend>
+
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
     <div class="form-group" id="idForm">
-      <label for="exampleInputFile"><h3>Select file to upload</h3></label>
       <input type="file" name="file" id="exampleInputFile" multiple >
       <ul id="list" class="list-group"></ul>
 
       <p class="help-block">Example block-level help text here.</p>
     </div>
-    <button type="submit" value="upload" class="btn btn-default">Upload File</button>
+    <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar">Upload File</button>
   </form:form>
 </div>
 
-
 <script type="text/javascript">
-
   var uniqFiles = [];
-  $('input:file').on('change',function(evt){
+  $('input:file').on('change', function (evt) {
     var files = evt.target.files;
-    for( var i = 0,f; f = files[i]; i++ ) {
+    for (var i = 0, f; f = files[i]; i++) {
       if ($.inArray(f, uniqFiles) == -1) {
         uniqFiles.push(f);
       }
       else {
-        document.getElementById('errorMessage').style.display="block";
-        setTimeout(function() {
+        console.log('blalbla');
+        $('#errorMessage').css('display', 'block');
+        setTimeout(function () {
           $("#errorMessage").fadeOut(2000);
         });
-
       }
+
+
     }
 
     $('#list').html('');
@@ -69,15 +75,17 @@
               (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
               '</li>');
     }
+
+
   });
 
-  $('html').on('click','.glyphicon' , function() {
+  $('html').on('click', '.glyphicon-remove', function () {
     var $li = $(this).closest('li');
     var ident = $li.attr('value');
-    for (var i = 0, p; p = uniqFiles[i]; i++){
+    for (var i = 0, p; p = uniqFiles[i]; i++) {
       if (p.size != ident) {
       } else {
-        uniqFiles.splice(i,1);
+        uniqFiles.splice(i, 1);
       }
     }
     var conf = confirm("Are you sure?");
@@ -91,74 +99,76 @@
   });
 
 
- /* $('.btn-default').on('click', function() {
-    uploadFile(uniqFiles);
-  });
+  $('.btn-toolbar').on('click', function () {
+    var reader = new FileReader();
+    var data = new FormData();
+    for (var i = 0; i < uniqFiles.length; i++) {
+      data.append(i, uniqFiles[i]);
+    }
+    $('#spinner').show();
 
- function uploadFile(file){
-    var xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = function(event) {
-      log(event.loaded + ' / ' + event.total);
-    };
-
-
-    xhr.onload = xhr.onerror = function() {
-      if (this.status == 200) {
-        log("success");
-      } else {
-        log("error " + this.status);
-      }
-    };
-
-
-    xhr.open("POST", "${pageContext.request.contextPath}/uploadfile", true);
-    xhr.send(file);
-  };*/
-
-
-/*
- $('.btn-default').on('click', function() {
-    console.log(this);
     $.ajax({
-      url: '${pageContext.request.contextPath}/uploadFile',
-      success: function (data) {
-        if (data == '1') {
-          document.getElementById('succesMessage').style.display="block";
+      dataType: 'json',
+      url: "${pageContext.request.contextPath}/uploadfile",
+      data: data,
+      type: "POST",
+      enctype: 'multipart/form-data',
+      processData: false,
+      contentType: false,
+      success: function (result) {
+        if (result == "1") {
+          $('#spinner').hide();
+          document.getElementById('successMessage').style.display = "block";
           $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
-          setTimeout(function() {
-            $("#succesMessage").fadeOut(2000);
+          uniqFiles = [];
+          setTimeout(function () {
+            $("#successMessage").fadeOut(2500, function () {
+              $("#successMessage strong").remove();
+              $("#list li").remove();
+            });
           });
-        } else if (data == '2'){
-          document.getElementById('errorMessage').style.display="block";
-          $('#errorMessage').append('<strong>File type is not IMAGE/PNG</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
-          });
-        } else if (data == '3'){
-          document.getElementById('errorMessage').style.display="block";
-          $('#errorMessage').append('<strong>You failed to upload file, please try again</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
-          });
-        } else {
+          $('body').scrollTop(0);
+
+        } else if (result == "2") {
+          $('#spinner').hide();
           document.getElementById('errorMessage').style.display = "block";
-          $('#errorMessage').append('<strong>Your file is empty</strong>');
-          setTimeout(function() {
-            $("#errorMessage").fadeOut(2000);
+          $('#errorMessage').append('<strong>You tried to add file with incorrect type. Please delete it and try again</strong>');
+          setTimeout(function () {
+            $("#errorMessage").fadeOut(4000, function () {
+              $("#errorMessage strong").remove();
+            });
           });
+
+
+        } else if (result == "3") {
+          $('#spinner').hide();
+          document.getElementById('errorMessage').style.display = "block";
+          $('#errorMessage').append('<strong>Failed to file upload</strong>');
+          setTimeout(function () {
+            $("#errorMessage").fadeOut(2500, function () {
+              $("#errorMessage strong").remove();
+            });
+          });
+
+        } else {
+          $('#spinner').hide();
+          document.getElementById('errorMessage').style.display = "block";
+          $('#errorMessage').append('<strong>It is not available now please try again later</strong>');
+          setTimeout(function () {
+            $("#errorMessage").fadeOut(2500, function () {
+              $("#errorMessage strong").remove();
+            });
+          });
+
         }
-
-
       }
     });
-    return false;
+
   });
-*/
-
-
-
 </script>
-
 
 </body>
 </html>
+
+
+
