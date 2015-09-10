@@ -26,6 +26,11 @@ $(function() {
         $("#linkToUserPanel").addClass('selected');
         $("#linkToActivity").addClass('active');
     }
+    // --- For DEVICE Page ---
+    if(s.indexOf("device") > -1) {
+        $("#linkToUtils").addClass('selected');
+        $("#linkToDeviceList").addClass('active');
+    }
 
 });
 

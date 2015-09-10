@@ -15,6 +15,11 @@ public class ServiceT extends CommonDomainBean{
     private Float price;
     private String serviceType;
 
+/*
+    @OneToOne(mappedBy = "service")
+    private UserService userService;
+*/
+
     public String getName() {
         return name;
     }
@@ -45,4 +50,14 @@ public class ServiceT extends CommonDomainBean{
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
     }
+
+/*
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+*/
 }

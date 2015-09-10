@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,10 +24,10 @@
                         <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/service/catalog/">Catalog</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" id="linkToUtils">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
+                        <li id="linkToDeviceList"><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
                         <li><a href="/32">Another action</a></li>
                         <li><a href="/44">Something else here</a></li>
                         <li role="separator" class="divider"></li>

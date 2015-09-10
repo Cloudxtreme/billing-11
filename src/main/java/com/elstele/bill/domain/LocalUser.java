@@ -30,6 +30,11 @@ public class LocalUser extends CommonDomainBean implements Serializable {
     @Filter(name="showActive", condition="status != :exclude")
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 
+/*
+    @OneToOne(mappedBy = "localUser")
+    private UserService userService;
+*/
+
     public LocalUser(){
         super();
     }
@@ -63,7 +68,15 @@ public class LocalUser extends CommonDomainBean implements Serializable {
         userRoles.add(role);
     }
 
+/*
+    public UserService getUserService() {
+        return userService;
+    }
 
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+*/
 
     @Override
     public boolean equals(Object o) {
