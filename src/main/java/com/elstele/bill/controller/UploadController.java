@@ -1,23 +1,15 @@
 package com.elstele.bill.controller;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import com.elstele.bill.domain.UploadedFiles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import sun.net.ProgressEvent;
-import sun.net.ProgressListener;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,9 +17,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -77,5 +67,23 @@ public class UploadController {
 
         return "1";
 
+    }
+
+    @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
+    public ModelAndView addLoadedFiles(HttpServletRequest request, HttpServletResponse response){
+
+
+        String path = ctx.getRealPath("resources\\files");
+        File dir = new File(path);
+        File[] files = dir.listFiles();
+
+        ArrayList filPaths = new ArrayList();
+        for (File file : files) {
+            filPaths.add(file.getName());
+        }
+
+        ModelAndView model = new ModelAndView("uploadedfiles");
+        model.addObject("uploadedList", filPaths);
+        return model;
     }
 }
