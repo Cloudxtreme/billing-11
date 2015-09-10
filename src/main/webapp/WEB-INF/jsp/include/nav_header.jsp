@@ -16,7 +16,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="linkToAccounts"><a href="${pageContext.request.contextPath}/accounts/accountHome.html">Accounts<span class="sr-only">(current)</span></a></li>
-                <li id="linkToServices"><a href="${pageContext.request.contextPath}/service/main/">Services</a></li>
+                <li  id="linkToServices" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li id="linkToUserService"><a href="${pageContext.request.contextPath}/service/user/">Users Services</a></li>
+                        <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/service/catalog/">Catalog</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -38,12 +44,12 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
-                <li class="dropdown">
+                <li class="dropdown" id="linkToUserPanel">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/user_panel.html">Show All Users</a></li>
-                        <li><a href="${pageContext.request.contextPath}/user_role_list.html">User Role</a></li>
-                        <li><a href="${pageContext.request.contextPath}/activity_list.html">Activity</a></li>
+                        <li id="linkToUserList"><a href="${pageContext.request.contextPath}/user_panel.html">Show User Panel</a></li>
+                        <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/user_role_list.html">User Role</a></li>
+                        <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activity_list.html">Activity</a></li>
                     </ul>
                 </li>
             </ul>

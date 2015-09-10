@@ -23,3 +23,19 @@
 .panel > .border-top{
     border-top: 1px solid #dddddd;
 }
+
+.selected {
+    text-decoration: none;
+    outline: 0;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc !important;
+    border-radius: 4px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 11px !important;
+    padding-bottom: 9px !important;
+}
+.navbar-nav > li {
+    border: 1px solid #ffffff;
+}

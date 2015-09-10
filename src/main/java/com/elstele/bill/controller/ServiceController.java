@@ -64,7 +64,7 @@ public class ServiceController {
         }
 
     }
-    @RequestMapping(value="/service/main", method = RequestMethod.GET)
+    @RequestMapping(value="/service/catalog", method = RequestMethod.GET)
     public String serviceList(HttpSession session, Map<String, Object> map)
     {
         map.put("serviceList", serviceDataService.listService());
