@@ -1,33 +1,25 @@
 package com.elstele.bill.domain;
 
 public class UploadedFiles {
-    String fileName;
-    Long size;
-    String lastModified;
-    String fileStatus;
+    private String name;
+    private String fileStatus;
+    private String path;
 
-    public String getFileName(String name) {
-        return fileName;
+
+    public String getPath() {
+        return path;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public Long getSize() {
-        return size;
+    public String getName() {
+        return name;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public String getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(String lastModified) {
-        this.lastModified = lastModified;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFileStatus() {
