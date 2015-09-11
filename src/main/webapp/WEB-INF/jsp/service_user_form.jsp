@@ -31,12 +31,12 @@
             <div class="form-group">
                 <label class="col-lg-3 control-label">Services</label>
                 <div class="col-lg-9">
-                    <form:select path="service" multiple="false" class="form-control">
+                    <form:select path="serviceId" multiple="false" class="form-control">
                     <c:forEach items="${serviceList}" var="service">
-                        <form:option value="${service}" label="${service.name}"/>
+                        <form:option value="${service.id}" label="${service.name}"/>
                     </c:forEach>
                     </form:select>
-                    <form:errors path="service" cssClass="alert-danger" />
+                    <form:errors path="serviceId" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
@@ -55,7 +55,8 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <form:hidden path="user" />
+                    <form:hidden path="id" />
+                    <form:hidden path="userId" />
                     <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

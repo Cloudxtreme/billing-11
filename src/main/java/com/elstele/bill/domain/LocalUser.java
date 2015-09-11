@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @FilterDef(name="showActive", parameters={
@@ -22,6 +24,11 @@ public class LocalUser extends CommonDomainBean implements Serializable {
     @Column(unique = true)
     private String username;
     private String password;
+
+    @OneToMany(mappedBy="user")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<UserService> userServices = new HashSet<UserService>(0);
+
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "USER_USERROLE",
@@ -29,11 +36,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "USERROLE_ID", unique=false))
     @Filter(name="showActive", condition="status != :exclude")
     private List<UserRole> userRoles = new ArrayList<UserRole>();
-
-/*
-    @OneToOne(mappedBy = "localUser")
-    private UserService userService;
-*/
 
     public LocalUser(){
         super();
@@ -55,6 +57,13 @@ public class LocalUser extends CommonDomainBean implements Serializable {
         this.password = password;
     }
 
+    public Set<UserService> getUserServices() {
+        return userServices;
+    }
+
+    public void setUserServices(Set<UserService> userServices) {
+        this.userServices = userServices;
+    }
 
     public List<UserRole> getUserRoles() {
         return userRoles;
@@ -67,16 +76,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
     public void addUserRole(UserRole role){
         userRoles.add(role);
     }
-
-/*
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-*/
 
     @Override
     public boolean equals(Object o) {

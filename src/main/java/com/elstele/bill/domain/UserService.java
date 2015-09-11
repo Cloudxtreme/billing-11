@@ -1,28 +1,29 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@FilterDef(name="showActive", parameters={
-        @ParamDef( name="exclude", type="string" )
-})
 @Table(name="UserService")
 public class UserService extends CommonDomainBean{
     private Date dateStart;
     private Date dateEnd;
-    @OneToOne
-    @JoinColumn(name = "localUser_id")
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name="user_id")
     private LocalUser user;
-    @OneToOne
-    @JoinColumn(name = "service_id")
+
+    @OneToOne(cascade = CascadeType.ALL)
     private ServiceT service;
 
     public Date getDateStart() {

@@ -35,28 +35,47 @@
     <table id="userRoleTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
-            <th>User Name</th>
-            <th>User Service List</th>
+            <th>User</th>
+            <th>Service</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Price</th>
         </tr>
 
-        </tr>
-        <c:forEach items="${serviceList}" var="service">
-            <label for="${service.id}">
-                <tr id="${service.id}">
+        <c:forEach items="${localUserList}" var="localUser">
+            <label for="${localUser.id}">
+                <tr id="${localUser.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}/service/${service.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/service/${localUser.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/service/${service.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/service/${localUser.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
-                    <td>${service.name}</td>
-                    <td>${service.description}</td>
-                    <td>${service.price}</td>
+                    <td>${localUser.username}</td>
                 </tr>
+
+
+                <c:forEach items="${localUser.userServices}" var="userService">
+                    <label for="${userService.id}">
+                        <tr id="${userService.id}">
+                            <td>
+                                <a href="${pageContext.request.contextPath}/service/${userService.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                &nbsp;&nbsp;
+                                <a href="${pageContext.request.contextPath}/service/${userService.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>${userService.service.name}</td>
+                            <td>${userService.dateStart}</td>
+                            <td>${userService.dateEnd}</td>
+                            <td>${userService.service.price}</td>
+                        </tr>
+                    </label>
+                </c:forEach>
+
+
+
             </label>
         </c:forEach>
+
 
     </table>
 

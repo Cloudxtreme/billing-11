@@ -10,10 +10,10 @@ import java.util.Date;
 
 public class ServiceUserForm {
     private Integer id;
-    private LocalUser user;
-    private ArrayList<ServiceT> service;
-    private Date dateStart;
-    private Date dateEnd;
+    private Integer userId;
+    private Integer serviceId;
+    private String dateStart;
+    private String dateEnd;
 
     public Integer getId() {
         return id;
@@ -23,35 +23,35 @@ public class ServiceUserForm {
         this.id = id;
     }
 
-    public LocalUser getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(LocalUser user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public ArrayList<ServiceT> getService() {
-        return service;
+    public Integer getServiceId() {
+        return serviceId;
     }
 
-    public void setService(ArrayList<ServiceT> service) {
-        this.service = service;
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
-    public Date getDateStart() {
+    public String getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(String dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
+    public String getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(String dateEnd) {
         this.dateEnd = dateEnd;
     }
 

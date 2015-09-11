@@ -2,6 +2,7 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.LocalUserDataService;
 import com.elstele.bill.datasrv.ServiceDataService;
+import com.elstele.bill.datasrv.ServiceUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.form.ServiceForm;
@@ -36,6 +37,8 @@ public class ServiceUserController {
     @Autowired
     private LocalUserDataService localUserDataService;
 
+    @Autowired
+    private ServiceUserDataService serviceUserDataService;
     /*
     @RequestMapping(value = "/service/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
@@ -70,11 +73,30 @@ public class ServiceUserController {
 
     }
 */
+    @RequestMapping(value="/service/user/form", method = RequestMethod.POST)
+    public ModelAndView serviceUserModify(@ModelAttribute("serviceForm") ServiceUserForm form, BindingResult result){
+/*
+        serviceValidator.validate(form, result);
+        if (result.hasErrors()){
+            ModelAndView mav = new ModelAndView("/service_user_form");
+            mav.addObject("errorClass", "text-danger");
+            return mav;
+        }
+        else{
+*/
+            String message = serviceUserDataService.saveServiceUser(form);
+            ModelAndView mav = new ModelAndView("service_user");
+            mav.addObject("successMessage", message);
+//            mav.addObject("serviceList", serviceUserDataService.listService());
+            return mav;
+//        }
+
+    }
     @RequestMapping(value = "/service/user/{userId}/modify", method = RequestMethod.GET)
     public String serviceModify(@PathVariable("userId") Integer userId, HttpSession session, Map<String, Object> map) {
         LocalUser user = localUserDataService.findById(userId);
         ServiceUserForm form = new ServiceUserForm();
-        form.setUser(user);
+        form.setUserId(userId);
         map.put("serviceForm", form);
         map.put("user", user);
         map.put("serviceList", serviceDataService.listService());
@@ -83,7 +105,10 @@ public class ServiceUserController {
     @RequestMapping(value="/service/user/", method = RequestMethod.GET)
     public String serviceList(HttpSession session, Map<String, Object> map)
     {
-        map.put("serviceList", serviceDataService.listService());
+//        map.put("serviceList", serviceDataService.listService());
+//        map.put("userList", localUserDataService.listLocalUser());
+        map.put("localUserList", localUserDataService.listLocalUser());
+        map.put("serviceUserList", serviceUserDataService.listUserServices());
         return "service_user";
     }
 }
