@@ -46,23 +46,21 @@
             <label for="${localUser.id}">
                 <tr id="${localUser.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}/service/${localUser.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/service/${localUser.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/service/user/${localUser.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                     </td>
-                    <td>${localUser.username}</td>
+                    <td colspan="5">${localUser.username}</td>
                 </tr>
 
 
                 <c:forEach items="${localUser.userServices}" var="userService">
                     <label for="${userService.id}">
                         <tr id="${userService.id}">
+                            <td>&nbsp;</td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/service/${userService.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 &nbsp;&nbsp;
                                 <a href="${pageContext.request.contextPath}/service/${userService.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
-                            <td>&nbsp;</td>
                             <td>${userService.service.name}</td>
                             <td>${userService.dateStart}</td>
                             <td>${userService.dateEnd}</td>

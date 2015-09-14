@@ -87,7 +87,8 @@ public class ServiceUserController {
             String message = serviceUserDataService.saveServiceUser(form);
             ModelAndView mav = new ModelAndView("service_user");
             mav.addObject("successMessage", message);
-//            mav.addObject("serviceList", serviceUserDataService.listService());
+            mav.addObject("localUserList", localUserDataService.listLocalUser());
+            mav.addObject("serviceUserList", serviceUserDataService.listUserServices());
             return mav;
 //        }
 
