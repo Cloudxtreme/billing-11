@@ -54,14 +54,40 @@ public class AccountsController {
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
-    public @ResponseBody AccountForm addAccountFromForm(@RequestBody AccountForm accountForm, HttpServletRequest request) {
+    public @ResponseBody AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpServletRequest request) {
         accountDataService.saveAccount(accountForm);
         return new AccountForm();
     }
 
     @RequestMapping(value="/editAccount", method = RequestMethod.POST)
-    public @ResponseBody AccountForm editAccount(@RequestBody AccountForm accountForm, HttpServletRequest request) {
+    public @ResponseBody AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
         accountDataService.updateAccount(accountForm);
         return new AccountForm();
+    }
+
+    @RequestMapping(value="/editFull/{id}", method = RequestMethod.GET)
+    public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("accountFull");
+        AccountForm result = accountDataService.getAccountById(id);
+        mav.addObject("accountForm", result);
+        return mav;
+    }
+
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteAccount(@PathVariable int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("redirect:../accountHome");
+        accountDataService.softDeleteAccount(id);
+        return mav;
+    }
+
+    @RequestMapping(value="/save", method = RequestMethod.POST)
+    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
+        accountDataService.updateAccount(accountForm);
+
+        List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
+        ModelAndView mav = new ModelAndView("accounts_list");
+        mav.addObject("accountForm", new AccountForm());
+        mav.addObject("accountTypeList", types);
+        return mav;
     }
 }

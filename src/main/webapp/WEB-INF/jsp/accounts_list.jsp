@@ -38,7 +38,8 @@
 
             <div class="modal-body">
                 <div class="">
-                    <form:form class="form" id="crtAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/add.html">
+                    <form:form class="form" id="crtAccountForm" method="POST" modelAttribute="accountForm"
+                                action="${pageContext.request.contextPath}/accounts/add.html">
                         <fieldset>
                                 <%--<c:if  test="${empty errorMessage}">
                                     <div class="form-group">
@@ -53,6 +54,8 @@
                             <form:input path="id" id="id" type="hidden"/>
                             <form:input path="currentBalance" id="currentBalance" type="hidden"/>
                             <form:input path="status" id="status" type="hidden"/>
+                            <%--<form:input path="phyAddress" id="phyAddress" type="hidden"/>
+                            <form:input path="legalAddress" id="legalAddress" type="hidden"/>--%>
                             <div class="form-group">
                                 <label for="accountName" class="col-lg-5 control-label">Account #</label>
                                 <div class="col-lg-9">

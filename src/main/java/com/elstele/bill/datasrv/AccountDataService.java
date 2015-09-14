@@ -10,4 +10,5 @@ public interface AccountDataService {
     public void saveAccount(AccountForm form);
     public void updateAccount(AccountForm form);
     public AccountForm getAccountById(int id);
+    public void softDeleteAccount(int id);
 }

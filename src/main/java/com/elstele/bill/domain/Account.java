@@ -3,10 +3,7 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="Accounts")
@@ -15,8 +12,15 @@ public class Account extends CommonDomainBean {
     private String accountName;
     @Enumerated(EnumType.STRING)
     private Constants.AccountType accountType;
-
     private Float currentBalance;
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Address phyAddress;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Address legalAddress;
+
+
 
     public String getAccountName() {
         return accountName;
@@ -40,6 +44,22 @@ public class Account extends CommonDomainBean {
 
     public void setCurrentBalance(Float currentBalance) {
         this.currentBalance = currentBalance;
+    }
+
+    public Address getPhyAddress() {
+        return phyAddress;
+    }
+
+    public void setPhyAddress(Address phyAddress) {
+        this.phyAddress = phyAddress;
+    }
+
+    public Address getLegalAddress() {
+        return legalAddress;
+    }
+
+    public void setLegalAddress(Address legalAddress) {
+        this.legalAddress = legalAddress;
     }
 
     @Override
