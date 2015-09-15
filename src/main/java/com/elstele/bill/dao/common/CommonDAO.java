@@ -1,6 +1,8 @@
 package com.elstele.bill.dao.common;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 
 public interface CommonDAO <T> {
 
@@ -27,4 +29,5 @@ public interface CommonDAO <T> {
     /** same as update */
     public void save(T transientObject);
 
+    public Filter setFilter(Session session, String filterName);
 }

@@ -37,20 +37,6 @@ public class AccountServiceController {
     @Autowired
     private AccountServiceDataService accountServiceDataService;
     /*
-    @RequestMapping(value = "/service/{id}/delete", method = RequestMethod.GET)
-    public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
-        serviceDataService.deleteService(id);
-        map.put("serviceList", serviceDataService.listService());
-        map.put("successMessage","Service was successfully deleted.");
-        return "service";
-    }
-    @RequestMapping(value = "/service/{id}/update", method = RequestMethod.GET)
-    public String serviceUpdate(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
-        ServiceForm form = serviceDataService.getServiceFormById(id);
-        map.put("serviceForm", form);
-        return "service_form";
-
-    }
     @RequestMapping(value="/service/form", method = RequestMethod.POST)
     public ModelAndView serviceAdd(@ModelAttribute("serviceForm") ServiceForm form, BindingResult result){
 
@@ -63,13 +49,21 @@ public class AccountServiceController {
         else{
             String message = serviceDataService.saveService(form);
             ModelAndView mav = new ModelAndView("service");
- 0           mav.addObject("successMessage", message);
+            mav.addObject("successMessage", message);
             mav.addObject("serviceList", serviceDataService.listService());
             return mav;
         }
 
     }
 */
+    @RequestMapping(value = "/service/account/{id}/delete", method = RequestMethod.GET)
+    public String serviceDelete(@PathVariable("id") Integer idAccountService, HttpSession session, Map<String, Object> map) {
+        accountServiceDataService.deleteAccountService(idAccountService);
+        map.put("accountList", accountDataService.getAccountBeansList());
+        map.put("successMessage","Account Service was successfully deleted.");
+        return "account_service";
+    }
+
     @RequestMapping(value="/service/account/form", method = RequestMethod.POST)
     public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") AccountServiceForm form, BindingResult result){
 /*
@@ -85,7 +79,6 @@ public class AccountServiceController {
             ModelAndView mav = new ModelAndView("account_service");
             mav.addObject("successMessage", message);
             mav.addObject("accountList", accountDataService.getAccountBeansList());
-            mav.addObject("accountService", accountServiceDataService.listAccountServices());
             return mav;
 //        }
 
@@ -104,7 +97,6 @@ public class AccountServiceController {
     public String serviceList(HttpSession session, Map<String, Object> map)
     {
         map.put("accountList", accountDataService.getAccountBeansList());
-        map.put("accountService", accountServiceDataService.listAccountServices());
         return "account_service";
     }
 }

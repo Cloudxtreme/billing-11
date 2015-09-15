@@ -25,13 +25,12 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
     @Autowired
     private AccountDAO accountDAO;
 
-/*
     @Override
     @Transactional
-    public void deleteService(Integer id) {
-        serviceDAO.setStatusDelete(id);
+    public void deleteAccountService(Integer id) {
+        accountServiceDAO.setStatusDelete(id);
     }
-*/
+
     @Override
     @Transactional
     public List<AccountService> listAccountServices(){

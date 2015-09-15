@@ -2,14 +2,19 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@FilterDef(name="showActive", parameters={
+        @ParamDef( name="exclude", type="string" )
+})
 @Table(name="Accounts")
 public class Account extends CommonDomainBean {
 
@@ -27,6 +32,7 @@ public class Account extends CommonDomainBean {
 
     @OneToMany(mappedBy="account")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @Filter(name="showActive", condition="status != :exclude")
     private Set<AccountService> accountServices = new HashSet<AccountService>(0);
 
 

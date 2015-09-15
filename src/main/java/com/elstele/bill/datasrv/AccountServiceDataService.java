@@ -9,9 +9,9 @@ public interface AccountServiceDataService {
 
 /*
     public String saveService(ServiceForm form);
-    public void deleteService(Integer id);
 */
     public String saveAccountService(AccountServiceForm form);
+    public void deleteAccountService(Integer id);
     public AccountServiceForm getAccountServiceFormById(Integer id);
     public List<AccountService> listAccountServices();
 
