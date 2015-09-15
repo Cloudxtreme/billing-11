@@ -1,12 +1,11 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.LocalUserDataService;
+import com.elstele.bill.dao.AccountDAO;
+import com.elstele.bill.datasrv.AccountDataService;
+import com.elstele.bill.datasrv.AccountServiceDataService;
 import com.elstele.bill.datasrv.ServiceDataService;
-import com.elstele.bill.datasrv.ServiceUserDataService;
-import com.elstele.bill.domain.LocalUser;
-import com.elstele.bill.domain.ServiceInternet;
-import com.elstele.bill.form.ServiceForm;
-import com.elstele.bill.form.ServiceUserForm;
+import com.elstele.bill.domain.Account;
+import com.elstele.bill.form.AccountServiceForm;
 import com.elstele.bill.validator.ServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,24 +20,22 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-public class ServiceUserController {
+public class AccountServiceController {
 
     @Autowired
     private ServiceDataService serviceDataService;
-
-/*
-    @Autowired
-    private ServiceUserDataService serviceUserDataService;
-*/
 
     @Autowired
     private ServiceValidator serviceValidator;
 
     @Autowired
-    private LocalUserDataService localUserDataService;
+    private AccountDataService accountDataService;
 
     @Autowired
-    private ServiceUserDataService serviceUserDataService;
+    private AccountDAO accountDAO;
+
+    @Autowired
+    private AccountServiceDataService accountServiceDataService;
     /*
     @RequestMapping(value = "/service/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
@@ -73,43 +70,41 @@ public class ServiceUserController {
 
     }
 */
-    @RequestMapping(value="/service/user/form", method = RequestMethod.POST)
-    public ModelAndView serviceUserModify(@ModelAttribute("serviceForm") ServiceUserForm form, BindingResult result){
+    @RequestMapping(value="/service/account/form", method = RequestMethod.POST)
+    public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") AccountServiceForm form, BindingResult result){
 /*
         serviceValidator.validate(form, result);
         if (result.hasErrors()){
-            ModelAndView mav = new ModelAndView("/service_user_form");
+            ModelAndView mav = new ModelAndView("/account_service_form");
             mav.addObject("errorClass", "text-danger");
             return mav;
         }
         else{
 */
-            String message = serviceUserDataService.saveServiceUser(form);
-            ModelAndView mav = new ModelAndView("service_user");
+            String message = accountServiceDataService.saveAccountService(form);
+            ModelAndView mav = new ModelAndView("account_service");
             mav.addObject("successMessage", message);
-            mav.addObject("localUserList", localUserDataService.listLocalUser());
-            mav.addObject("serviceUserList", serviceUserDataService.listUserServices());
+            mav.addObject("accountList", accountDataService.getAccountBeansList());
+            mav.addObject("accountService", accountServiceDataService.listAccountServices());
             return mav;
 //        }
 
     }
-    @RequestMapping(value = "/service/user/{userId}/modify", method = RequestMethod.GET)
-    public String serviceModify(@PathVariable("userId") Integer userId, HttpSession session, Map<String, Object> map) {
-        LocalUser user = localUserDataService.findById(userId);
-        ServiceUserForm form = new ServiceUserForm();
-        form.setUserId(userId);
+    @RequestMapping(value = "/service/account/{accountId}/modify", method = RequestMethod.GET)
+    public String serviceModify(@PathVariable("accountId") Integer accountId, HttpSession session, Map<String, Object> map) {
+        Account account = accountDataService.getAccountBeanById(accountId);
+        AccountServiceForm form = new AccountServiceForm();
+        form.setAccountId(accountId);
         map.put("serviceForm", form);
-        map.put("user", user);
+        map.put("account", account);
         map.put("serviceList", serviceDataService.listService());
-        return "service_user_form";
+        return "account_service_form";
     }
-    @RequestMapping(value="/service/user/", method = RequestMethod.GET)
+    @RequestMapping(value="/service/account/", method = RequestMethod.GET)
     public String serviceList(HttpSession session, Map<String, Object> map)
     {
-//        map.put("serviceList", serviceDataService.listService());
-//        map.put("userList", localUserDataService.listLocalUser());
-        map.put("localUserList", localUserDataService.listLocalUser());
-        map.put("serviceUserList", serviceUserDataService.listUserServices());
-        return "service_user";
+        map.put("accountList", accountDataService.getAccountBeansList());
+        map.put("accountService", accountServiceDataService.listAccountServices());
+        return "account_service";
     }
 }

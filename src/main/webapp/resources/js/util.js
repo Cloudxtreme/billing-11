@@ -10,7 +10,7 @@ $(function() {
             $("#linkToServiceCatalog").addClass('active');
     }
     //  --- For ACCONT Page ---
-    if(s.indexOf("account") > -1) {
+    if(s.indexOf("accounts") > -1) {
         $("#linkToAccounts").addClass('selected');
     }
     // --- For USER PANEL ---

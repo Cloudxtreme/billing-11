@@ -1,11 +1,11 @@
 package com.elstele.bill.datasrv;
 
-import com.elstele.bill.assembler.ServiceUserAssembler;
-import com.elstele.bill.dao.LocalUserDAO;
+import com.elstele.bill.assembler.AccountServiceAssembler;
+import com.elstele.bill.dao.AccountDAO;
+import com.elstele.bill.dao.AccountServiceDAO;
 import com.elstele.bill.dao.ServiceDAO;
-import com.elstele.bill.dao.ServiceUserDAO;
-import com.elstele.bill.domain.UserService;
-import com.elstele.bill.form.ServiceUserForm;
+import com.elstele.bill.domain.AccountService;
+import com.elstele.bill.form.AccountServiceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +14,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ServiceUserDataServiceImpl implements ServiceUserDataService {
+public class AccountServiceDataServiceImpl implements AccountServiceDataService {
 
     @Autowired
-    private ServiceUserDAO serviceUserDAO;
+    private AccountServiceDAO accountServiceDAO;
 
     @Autowired
     private ServiceDAO serviceDAO;
 
     @Autowired
-    private LocalUserDAO localUserDAO;
+    private AccountDAO accountDAO;
 
 /*
     @Override
@@ -34,28 +34,28 @@ public class ServiceUserDataServiceImpl implements ServiceUserDataService {
 */
     @Override
     @Transactional
-    public List<UserService> listUserServices(){
-        return serviceUserDAO.listUserServices();
+    public List<AccountService> listAccountServices(){
+        return accountServiceDAO.listAccountServices();
     }
 
     @Override
     @Transactional
-    public String saveServiceUser(ServiceUserForm form) {
+    public String saveAccountService(AccountServiceForm form) {
 //        ServiceUserAssembler assembler = new ServiceUserAssembler();
 //        UserService service = assembler.fromFormToBean(form);
-        UserService service = new UserService();
-        service.setUser(localUserDAO.getById(form.getUserId()));
+        AccountService service = new AccountService();
+        service.setAccount(accountDAO.getById(form.getAccountId()));
         service.setDateStart(new Date());
         service.setDateEnd(new Date());
         service.setService(serviceDAO.getById(form.getServiceId()));
         service.setId(form.getId());
         String message = "Service was successfully ";
         if(form.isNew()){
-            serviceUserDAO.create(service);
+            accountServiceDAO.create(service);
             message += "added.";
         }
         else{
-            serviceUserDAO.update(service);
+            accountServiceDAO.update(service);
             message += "updated.";
         }
         return message;
@@ -63,12 +63,12 @@ public class ServiceUserDataServiceImpl implements ServiceUserDataService {
 
     @Override
     @Transactional
-    public ServiceUserForm getServiceUserFormById(Integer id){
-        ServiceUserAssembler assembler = new ServiceUserAssembler();
-        ServiceUserForm result = null;
-        UserService bean = serviceUserDAO.getById(id);
+    public AccountServiceForm getAccountServiceFormById(Integer id){
+        AccountServiceAssembler assembler = new AccountServiceAssembler();
+        AccountServiceForm result = null;
+        AccountService bean = accountServiceDAO.getById(id);
         if (bean != null){
-            ServiceUserForm form = assembler.fromBeanToForm(bean);
+            AccountServiceForm form = assembler.fromBeanToForm(bean);
             result = form;
         }
         return result;

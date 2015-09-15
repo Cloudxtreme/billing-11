@@ -1,16 +1,13 @@
 package com.elstele.bill.form;
 
-import com.elstele.bill.domain.LocalUser;
-import com.elstele.bill.domain.ServiceT;
-
 import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ServiceUserForm {
+public class AccountServiceForm {
     private Integer id;
-    private Integer userId;
+    private Integer accountId;
     private Integer serviceId;
     private String dateStart;
     private String dateEnd;
@@ -23,12 +20,12 @@ public class ServiceUserForm {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public Integer getServiceId() {

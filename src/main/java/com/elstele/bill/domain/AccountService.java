@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="UserService")
-public class UserService extends CommonDomainBean{
+@Table(name="AccountService")
+public class AccountService extends CommonDomainBean{
     private Date dateStart;
     private Date dateEnd;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name="user_id")
-    private LocalUser user;
+    @JoinColumn(name="account_id")
+    private Account account;
 
     @OneToOne(cascade = CascadeType.ALL)
     private ServiceT service;
@@ -42,12 +42,12 @@ public class UserService extends CommonDomainBean{
         this.dateEnd = dateEnd;
     }
 
-    public LocalUser getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(LocalUser user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public ServiceT getService() {

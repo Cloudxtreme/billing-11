@@ -20,7 +20,7 @@
                 <li  id="linkToServices" class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li id="linkToUserService"><a href="${pageContext.request.contextPath}/service/user/">Users Services</a></li>
+                        <li id="linkToUserService"><a href="${pageContext.request.contextPath}/service/account/">Account Services</a></li>
                         <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/service/catalog/">Catalog</a></li>
                     </ul>
                 </li>

@@ -23,48 +23,48 @@
 
 <div class="col-lg-6">
 
-    <legend>Users Services</legend>
+    <legend>Account Services</legend>
 
     <c:if test="${not empty successMessage}">
         <div class="alert alert-info" role="alert">${successMessage}</div>
     </c:if>
 
-    <a href="${pageContext.request.contextPath}/service/user/1/modify" class="btn btn-sm btn-primary" data-toggle="modal">Add Service to User</a>
+    <a href="${pageContext.request.contextPath}/service/account/1/modify" class="btn btn-sm btn-primary" data-toggle="modal">Add Service to Account</a>
 
 
-    <table id="userRoleTable" class="table table-striped table-hover">
+    <table id="accountServiceTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
-            <th>User</th>
+            <th>Account</th>
             <th>Service</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Price</th>
         </tr>
 
-        <c:forEach items="${localUserList}" var="localUser">
-            <label for="${localUser.id}">
-                <tr id="${localUser.id}">
+        <c:forEach items="${accountList}" var="account">
+            <label for="${account.id}">
+                <tr id="${account.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}/service/user/${localUser.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/service/account/${account.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                     </td>
-                    <td colspan="5">${localUser.username}</td>
+                    <td colspan="5">${account.accountName}</td>
                 </tr>
 
 
-                <c:forEach items="${localUser.userServices}" var="userService">
-                    <label for="${userService.id}">
-                        <tr id="${userService.id}">
+                <c:forEach items="${account.accountServices}" var="accountService">
+                    <label for="${accountService.id}">
+                        <tr id="${accountService.id}">
                             <td>&nbsp;</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/service/${userService.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                <a href="${pageContext.request.contextPath}/service/${accountService.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 &nbsp;&nbsp;
-                                <a href="${pageContext.request.contextPath}/service/${userService.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                <a href="${pageContext.request.contextPath}/service/${accountService.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
-                            <td>${userService.service.name}</td>
-                            <td>${userService.dateStart}</td>
-                            <td>${userService.dateEnd}</td>
-                            <td>${userService.service.price}</td>
+                            <td>${accountService.service.name}</td>
+                            <td>${accountService.dateStart}</td>
+                            <td>${accountService.dateEnd}</td>
+                            <td>${accountService.service.price}</td>
                         </tr>
                     </label>
                 </c:forEach>

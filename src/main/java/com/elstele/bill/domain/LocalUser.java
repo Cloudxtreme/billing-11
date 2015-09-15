@@ -24,11 +24,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
     @Column(unique = true)
     private String username;
     private String password;
-
-    @OneToMany(mappedBy="user")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<UserService> userServices = new HashSet<UserService>(0);
-
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "USER_USERROLE",
@@ -55,14 +50,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<UserService> getUserServices() {
-        return userServices;
-    }
-
-    public void setUserServices(Set<UserService> userServices) {
-        this.userServices = userServices;
     }
 
     public List<UserRole> getUserRoles() {

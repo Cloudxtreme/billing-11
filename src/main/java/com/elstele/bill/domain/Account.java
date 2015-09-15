@@ -2,8 +2,12 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="Accounts")
@@ -19,6 +23,11 @@ public class Account extends CommonDomainBean {
     private Address phyAddress;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address legalAddress;
+
+
+    @OneToMany(mappedBy="account")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<AccountService> accountServices = new HashSet<AccountService>(0);
 
 
 
@@ -60,6 +69,14 @@ public class Account extends CommonDomainBean {
 
     public void setLegalAddress(Address legalAddress) {
         this.legalAddress = legalAddress;
+    }
+
+    public Set<AccountService> getAccountServices() {
+        return accountServices;
+    }
+
+    public void setAccountServices(Set<AccountService> accountServices) {
+        this.accountServices = accountServices;
     }
 
     @Override

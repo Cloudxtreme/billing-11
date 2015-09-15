@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Add/Edit User to Service</title>
+    <title>Add/Edit Account to Service</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
@@ -22,9 +22,9 @@
 
 
 <div class="col-lg-6">
-    <form:form class="form-horizontal" method="POST" commandName="serviceForm" action="${pageContext.request.contextPath}/service/user/form">
+    <form:form class="form-horizontal" method="POST" commandName="serviceForm" action="${pageContext.request.contextPath}/service/account/form">
         <fieldset>
-            <legend>Add/Edit Service for User "<strong>${user.username}</strong>"</legend>
+            <legend>Add/Edit Service for Account "<strong>${account.accountName}</strong>"</legend>
             <div class="form-group">
                 <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
             </div>
@@ -56,7 +56,7 @@
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                     <form:hidden path="id" />
-                    <form:hidden path="userId" />
+                    <form:hidden path="accountId" />
                     <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
