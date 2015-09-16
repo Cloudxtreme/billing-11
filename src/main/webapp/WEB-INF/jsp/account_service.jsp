@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -60,8 +61,8 @@
                                 <a href="${pageContext.request.contextPath}/service/account/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
                             <td>${accountService.service.name}</td>
-                            <td>${accountService.dateStart}</td>
-                            <td>${accountService.dateEnd}</td>
+                            <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
+                            <td><fmt:formatDate value="${accountService.dateEnd}" pattern="yyyy-MM-dd" /></td>
                             <td>${accountService.service.price}</td>
                         </tr>
                     </label>

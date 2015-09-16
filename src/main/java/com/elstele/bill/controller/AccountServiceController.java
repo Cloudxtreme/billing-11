@@ -11,15 +11,18 @@ import com.elstele.bill.domain.ServiceT;
 import com.elstele.bill.form.AccountServiceForm;
 import com.elstele.bill.validator.ServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -51,6 +54,14 @@ public class AccountServiceController {
         return "account_service";
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @RequestMapping(value="/service/account/form", method = RequestMethod.POST)
     public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") AccountServiceForm form, BindingResult result){
 /*
@@ -79,8 +90,8 @@ public class AccountServiceController {
 //            form = accountServiceDataService.getAccountServiceFormById(accountServiceId);
             AccountService bean = accountServiceDataService.getAccountServiceBeanById(accountServiceId);
             form.setId(bean.getId());
-            form.setDateStart(bean.getDateStart().toString());
-            form.setDateEnd(bean.getDateEnd().toString());
+            form.setDateStart(bean.getDateStart());
+            form.setDateEnd(bean.getDateEnd());
             form.setServiceId(bean.getService().getId());
         }
         map.put("serviceForm", form);

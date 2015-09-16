@@ -44,8 +44,8 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
 //        UserService service = assembler.fromFormToBean(form);
         AccountService service = new AccountService();
         service.setAccount(accountDAO.getById(form.getAccountId()));
-        service.setDateStart(new Date());
-        service.setDateEnd(new Date());
+        service.setDateStart(form.getDateStart());
+        service.setDateEnd(form.getDateEnd());
         service.setService(serviceDAO.getById(form.getServiceId()));
         service.setId(form.getId());
         String message = "Service was successfully ";

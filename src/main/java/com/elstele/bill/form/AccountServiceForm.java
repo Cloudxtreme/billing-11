@@ -1,5 +1,8 @@
 package com.elstele.bill.form;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -9,8 +12,12 @@ public class AccountServiceForm {
     private Integer id;
     private Integer accountId;
     private Integer serviceId;
-    private String dateStart;
-    private String dateEnd;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date dateStart;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date dateEnd;
 
     public Integer getId() {
         return id;
@@ -36,19 +43,19 @@ public class AccountServiceForm {
         this.serviceId = serviceId;
     }
 
-    public String getDateStart() {
+    public Date getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(String dateStart) {
+    public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
 
-    public String getDateEnd() {
+    public Date getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(String dateEnd) {
+    public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 

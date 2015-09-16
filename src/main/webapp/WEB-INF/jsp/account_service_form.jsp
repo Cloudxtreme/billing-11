@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -42,14 +43,16 @@
             <div class="form-group">
                 <label for="dateStart" class="col-lg-3 control-label">Date Start</label>
                 <div class="col-lg-9">
-                    <form:input path="dateStart" class="form-control" id="dateStart" placeholder="Date Start"/>
+                    <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
+                    <form:input path="dateStart" class="form-control" id="dateStart" value="${dateString}" placeholder="yyyy-MM-dd"/>
                     <form:errors path="dateStart" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="dateEnd" class="col-lg-3 control-label">Date End</label>
                 <div class="col-lg-9">
-                    <form:input path="dateEnd" class="form-control" id="dateEnd" placeholder="Date End"/>
+                    <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
+                    <form:input path="dateEnd" class="form-control" id="dateEnd" value="${dateString}" placeholder="yyyy-MM-dd"/>
                     <form:errors path="dateEnd" cssClass="alert-danger" />
                 </div>
             </div>

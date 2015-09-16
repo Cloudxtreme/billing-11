@@ -2,6 +2,7 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import org.hibernate.annotations.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -15,7 +16,11 @@ import java.util.Set;
 @Entity
 @Table(name="AccountService")
 public class AccountService extends CommonDomainBean{
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateEnd;
 
     @ManyToOne(fetch = FetchType.EAGER)
