@@ -51,6 +51,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
     @Override
+    public void merge(T transientObject) {
+        this.sessionFactory.getCurrentSession().merge(transientObject);
+        this.sessionFactory.getCurrentSession().flush();
+    }
+
+    @Override
     public void delete(T persistentObject) {
         this.sessionFactory.getCurrentSession().delete(persistentObject);
     }

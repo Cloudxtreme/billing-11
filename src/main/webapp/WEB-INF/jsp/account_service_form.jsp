@@ -33,7 +33,7 @@
                 <div class="col-lg-9">
                     <form:select path="serviceId" multiple="false" class="form-control">
                     <c:forEach items="${serviceList}" var="service">
-                        <form:option value="${service.id}" label="${service.name}"/>
+                        <form:option value="${service.id}" label="${service.name}  (${service.price} грн.)"/>
                     </c:forEach>
                     </form:select>
                     <form:errors path="serviceId" cssClass="alert-danger" />

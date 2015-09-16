@@ -23,7 +23,7 @@ public class AccountService extends CommonDomainBean{
     @JoinColumn(name="account_id")
     private Account account;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private ServiceT service;
 
     public Date getDateStart() {

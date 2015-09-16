@@ -13,6 +13,7 @@ public interface AccountServiceDataService {
     public String saveAccountService(AccountServiceForm form);
     public void deleteAccountService(Integer id);
     public AccountServiceForm getAccountServiceFormById(Integer id);
+    public AccountService getAccountServiceBeanById(Integer id);
     public List<AccountService> listAccountServices();
 
 }

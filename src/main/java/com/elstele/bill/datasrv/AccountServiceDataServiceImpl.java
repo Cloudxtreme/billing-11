@@ -54,7 +54,7 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
             message += "added.";
         }
         else{
-            accountServiceDAO.update(service);
+            accountServiceDAO.merge(service);
             message += "updated.";
         }
         return message;
@@ -72,4 +72,11 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
         }
         return result;
     }
+
+    @Override
+    @Transactional
+    public AccountService getAccountServiceBeanById(Integer id){
+        return  accountServiceDAO.getById(id);
+    }
+
 }

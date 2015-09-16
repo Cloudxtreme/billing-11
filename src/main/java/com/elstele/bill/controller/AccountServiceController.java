@@ -1,10 +1,13 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.dao.AccountDAO;
+import com.elstele.bill.dao.AccountServiceDAO;
 import com.elstele.bill.datasrv.AccountDataService;
 import com.elstele.bill.datasrv.AccountServiceDataService;
 import com.elstele.bill.datasrv.ServiceDataService;
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.AccountService;
+import com.elstele.bill.domain.ServiceT;
 import com.elstele.bill.form.AccountServiceForm;
 import com.elstele.bill.validator.ServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,27 +38,11 @@ public class AccountServiceController {
     private AccountDAO accountDAO;
 
     @Autowired
+    private AccountServiceDAO accountServiceDAO;
+
+    @Autowired
     private AccountServiceDataService accountServiceDataService;
-    /*
-    @RequestMapping(value="/service/form", method = RequestMethod.POST)
-    public ModelAndView serviceAdd(@ModelAttribute("serviceForm") ServiceForm form, BindingResult result){
 
-        serviceValidator.validate(form, result);
-        if (result.hasErrors()){
-            ModelAndView mav = new ModelAndView("/service_form");
-            mav.addObject("errorClass", "text-danger");
-            return mav;
-        }
-        else{
-            String message = serviceDataService.saveService(form);
-            ModelAndView mav = new ModelAndView("service");
-            mav.addObject("successMessage", message);
-            mav.addObject("serviceList", serviceDataService.listService());
-            return mav;
-        }
-
-    }
-*/
     @RequestMapping(value = "/service/account/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer idAccountService, HttpSession session, Map<String, Object> map) {
         accountServiceDataService.deleteAccountService(idAccountService);
@@ -83,11 +70,19 @@ public class AccountServiceController {
 //        }
 
     }
-    @RequestMapping(value = "/service/account/{accountId}/modify", method = RequestMethod.GET)
-    public String serviceModify(@PathVariable("accountId") Integer accountId, HttpSession session, Map<String, Object> map) {
+    @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/modify", method = RequestMethod.GET)
+    public String serviceModify(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId, HttpSession session, Map<String, Object> map) {
         Account account = accountDataService.getAccountBeanById(accountId);
         AccountServiceForm form = new AccountServiceForm();
         form.setAccountId(accountId);
+        if(accountServiceId!=0){
+//            form = accountServiceDataService.getAccountServiceFormById(accountServiceId);
+            AccountService bean = accountServiceDataService.getAccountServiceBeanById(accountServiceId);
+            form.setId(bean.getId());
+            form.setDateStart(bean.getDateStart().toString());
+            form.setDateEnd(bean.getDateEnd().toString());
+            form.setServiceId(bean.getService().getId());
+        }
         map.put("serviceForm", form);
         map.put("account", account);
         map.put("serviceList", serviceDataService.listService());

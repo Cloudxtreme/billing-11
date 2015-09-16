@@ -17,6 +17,9 @@ public interface CommonDAO <T> {
     /** Save changes made to a persistent object.  */
     public void update(T transientObject);
 
+    /** Save changes made to a persistent object.  */
+    public void merge(T transientObject);
+
     /** Remove an object from persistent storage in the database */
     public void delete(T persistentObject);
 

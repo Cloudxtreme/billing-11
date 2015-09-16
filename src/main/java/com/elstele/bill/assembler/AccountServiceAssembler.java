@@ -9,7 +9,9 @@ public class AccountServiceAssembler {
         AccountServiceForm form = new AccountServiceForm();
         copyProperties(bean,form);
         return form;
+//    java.util.Date.getTime()/1000
     }
+
 
     public AccountService fromFormToBean(AccountServiceForm form){
         AccountService bean = new AccountService();
