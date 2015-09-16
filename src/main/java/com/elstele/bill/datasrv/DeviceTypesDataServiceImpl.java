@@ -58,4 +58,12 @@ public class DeviceTypesDataServiceImpl implements DeviceTypesDataService {
     public void deleteDeviceType(Integer id){
         deviceTypesDAO.delete(id);
     }
+
+    @Override
+    @Transactional
+    public void updateDeviceTypes(DeviceTypesForm deviceTypesForm){
+        DeviceTypesAssembler assembler = new DeviceTypesAssembler();
+        DeviceTypes bean = assembler.fromFormToBean(deviceTypesForm);
+        deviceTypesDAO.update(bean);
+    }
 }

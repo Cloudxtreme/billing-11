@@ -15,4 +15,6 @@ public interface DeviceTypesDataService {
     public DeviceTypesForm getById(Integer id);
 
     public void deleteDeviceType(Integer id);
+
+    public void updateDeviceTypes(DeviceTypesForm deviceTypesForm);
 }

@@ -283,6 +283,9 @@ th {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.glyphicon:hover{
+    cursor: pointer;
+}
 .glyphicon-asterisk:before {
     content: "\2a";
 }

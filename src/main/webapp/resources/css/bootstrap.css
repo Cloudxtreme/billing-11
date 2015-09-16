@@ -355,6 +355,9 @@ th {
 .glyphicon-remove:hover{
   cursor: pointer;
 }
+.glyphicon:hover{
+  cursor: pointer;
+}
 .glyphicon-zoom-in:before {
   content: "\e015";
 }
@@ -1118,6 +1121,7 @@ a {
 }
 a:hover,
 a:focus {
+  cursor: pointer;
   color: #23527c;
   text-decoration: none;
 }

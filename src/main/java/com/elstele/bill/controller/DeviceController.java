@@ -161,25 +161,6 @@ public class DeviceController {
         return result;
     }
 
-   /* @RequestMapping(value="/devicetypeslist/delete", method = RequestMethod.POST)
-    @ResponseBody
-    public String deleteDeviceType(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
-       *//* String numberOnly= json.replaceAll("[^0-9]", "");*//*
-        Integer id = Integer.parseInt(json);
-        String result = "";
-
-        try {
-            deviceTypesDataService.deleteDeviceType(id);
-            result = "success";
-
-        } catch (NullPointerException e) {
-            String error = e.getMessage();
-            result = error;
-        }
-
-        return result;
-    }*/
-
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)
     public ModelAndView editDevice(@PathVariable("id") int id, HttpSession session){
         ModelAndView mav = new ModelAndView("adddevice");
@@ -221,11 +202,23 @@ public class DeviceController {
 
 
     @RequestMapping(value="/adddevicetype", method = RequestMethod.POST)
-    public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
+     public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
         /*DeviceTypesForm elseDeviceTypesform = new DeviceTypesForm();
         elseDeviceTypesform.setDeviceType(deviceTypesForm.getDeviceType());*/
         deviceTypesDataService.addDeviceType(deviceTypesForm);
         return "redirect:/adddevice.html";
+    }
+
+    @RequestMapping(value="/editdevicetype", method = RequestMethod.POST)
+    @ResponseBody
+    public String editDeviceType(@RequestBody DeviceTypesForm deviceTypesForm, HttpServletRequest request, HttpServletResponse responseBody){
+        String result = "";
+        try {
+            deviceTypesDataService.updateDeviceTypes(deviceTypesForm);
+            return result = "1";
+        }catch(Exception e){
+            return result= e.toString();
+        }
     }
 
 
