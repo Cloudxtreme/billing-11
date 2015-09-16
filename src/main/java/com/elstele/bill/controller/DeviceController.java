@@ -53,6 +53,8 @@ public class DeviceController {
     }
 
 
+
+
     @RequestMapping(value="/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList(HttpSession session){
@@ -61,6 +63,16 @@ public class DeviceController {
         ModelAndView mav = new ModelAndView("device");
         mav.addObject("list", result);
         return mav;
+    }
+
+    @RequestMapping(value="/devicetypeslist", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView getDeviceTypeList(HttpSession session){
+        List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
+        devType = deviceTypesDataService.getDeviceTypes();
+        ModelAndView model = new ModelAndView("devicetypelist");
+        model.addObject("devicetypelist",devType);
+        return model;
     }
 
     @RequestMapping(value="/adddevice", method = RequestMethod.GET)
@@ -149,6 +161,25 @@ public class DeviceController {
         return result;
     }
 
+   /* @RequestMapping(value="/devicetypeslist/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteDeviceType(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
+       *//* String numberOnly= json.replaceAll("[^0-9]", "");*//*
+        Integer id = Integer.parseInt(json);
+        String result = "";
+
+        try {
+            deviceTypesDataService.deleteDeviceType(id);
+            result = "success";
+
+        } catch (NullPointerException e) {
+            String error = e.getMessage();
+            result = error;
+        }
+
+        return result;
+    }*/
+
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)
     public ModelAndView editDevice(@PathVariable("id") int id, HttpSession session){
         ModelAndView mav = new ModelAndView("adddevice");
@@ -224,6 +255,8 @@ public class DeviceController {
         }
         return ipMap;
     }
+
+
 
 
 }

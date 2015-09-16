@@ -54,21 +54,14 @@
           </div>
       </fieldset>
   </form:form>
+
+
+
   <%--Main logic--%>
 
   <div class="col-lg-6">
     <form:form class="form" id="addDeviceForm" method="POST" commandName="deviceForm" action="${pageContext.request.contextPath}/adddevice.html">
       <fieldset>
-          <%--<c:if  test="${empty errorMessage}">
-              <div class="form-group">
-                  <label class="col-lg-8">Please fill in all fields below.</label>
-              </div>
-          </c:if>
-          <c:if test="${not empty errorMessage}">
-              <div class="form-group">
-                  <label class="col-lg-8 text-warning">${errorMessage}</label>
-              </div>
-          </c:if>--%>
 
         <form:input path="id" id="id" type="hidden"/>
         <form:input path="status" id="status" type="hidden"/>
@@ -89,6 +82,9 @@
               <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="modal" data-target="#myModal">
                   Add new Device Type
               </button>
+              <a href="${pageContext.request.contextPath}/devicetypeslist"><button type="button" id="editDeviceType" class="btn btn-info btn-xs dropdown-toggle float-right">
+                  More information about device types
+              </button></a>
           </div>
 
         </div>
