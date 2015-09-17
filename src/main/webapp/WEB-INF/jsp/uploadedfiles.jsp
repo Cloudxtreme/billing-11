@@ -31,16 +31,18 @@
         <th></th>
         <th>File name</th>
         <th>File status</th>
+        <th>File size</th>
         <th></th>
         <c:forEach items="${uploadedList}" var="current">
-            <tr id="${current.path}" class="">
+            <tr id="${current.id}" class="">
                 <td>
                     <div class=".col-xs-6 .col-sm-3">
                     <input type="checkbox" name="optradio" class="check-box-table-cell">
                     </div>
                 </td>
-                <td>${current.name}</td>
+                <td>${current.path}</td>
                 <td>${current.fileStatus}</td>
+                <td>${current.fileSize}</td>
                 <td><a id="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
             </tr>
         </c:forEach>

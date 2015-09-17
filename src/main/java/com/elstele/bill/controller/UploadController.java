@@ -1,6 +1,10 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.domain.UploadedFiles;
+import com.elstele.bill.dao.UploadedFileInfoDAO;
+import com.elstele.bill.datasrv.UploadedFileInfoDataService;
+import com.elstele.bill.domain.UploadedFileInfo;
+import com.elstele.bill.form.UploadedFileInfoForm;
+import com.elstele.bill.utils.FileStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +16,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 
@@ -25,8 +26,11 @@ public class UploadController {
     @Autowired
     ServletContext ctx;
 
+    @Autowired
+    UploadedFileInfoDataService uploadedFileInfoDataService;
+
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
-    public ModelAndView setPagetoUpload() {
+    public ModelAndView setPageToUpload() {
         ModelAndView model = new ModelAndView("uploadKDF");
 
         return model;
@@ -35,7 +39,7 @@ public class UploadController {
 
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
     @ResponseBody
-    public String putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) {
+    public String putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) throws IOException {
         String fileName = null;
         ctx = requestHttp.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files");
@@ -44,12 +48,17 @@ public class UploadController {
         MultipartFile multipartFile = null;
         while(iter.hasNext()) {
             multipartFile = request.getFile(iter.next());
-
+            UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
+            uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
+            uploadedFileInfoForm.setFileName(multipartFile.getName());
+            uploadedFileInfoForm.setFileSize(multipartFile.getSize());
+            uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
+            uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
 
             try {
                 assert multipartFile != null;
                 fileName = multipartFile.getContentType();
-                if (fileName.equalsIgnoreCase("image/png")) {
+                if (fileName.equalsIgnoreCase("application/octet-stream")) {
                     byte[] bytes = multipartFile.getBytes();
                     String originalName = multipartFile.getOriginalFilename();
                     BufferedOutputStream buffStream =
@@ -71,21 +80,10 @@ public class UploadController {
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
     public ModelAndView addLoadedFiles(HttpServletRequest request, HttpServletResponse response){
 
-
-        String path = ctx.getRealPath("resources\\files");
-        File dir = new File(path);
-        File[] files = dir.listFiles();
-        List<UploadedFiles> filPaths = new ArrayList<UploadedFiles>();
-        assert files != null;
-        for (File file : files) {
-            UploadedFiles uploadedFiles = new UploadedFiles();
-            uploadedFiles.setPath(file.getPath());
-            uploadedFiles.setName(file.getName());
-            filPaths.add(uploadedFiles);
-        }
-
+        List<UploadedFileInfoForm> uploadedFileInfoForms = new ArrayList<UploadedFileInfoForm>();
+        uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
         ModelAndView model = new ModelAndView("uploadedfiles");
-        model.addObject("uploadedList", filPaths);
+        model.addObject("uploadedList", uploadedFileInfoForms);
         return model;
     }
 
@@ -94,8 +92,12 @@ public class UploadController {
     @RequestMapping(value="/uploadedfiles/delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
-        File file = new File(json);
+        Integer id = Integer.parseInt(json);
+        UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
+        String path = ctx.getRealPath("resources\\files");
+        File file = new File(path + File.separator + uploadedFileInfoForm.getPath());
         String result = "";
+        uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
         if (file.delete()) {
             result = "success";
         } else {
@@ -107,10 +109,26 @@ public class UploadController {
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
     public void handleFiles(@RequestBody String[] json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
-        List<File> list = new ArrayList<File>();
+        List<UploadedFileInfoForm> list = new ArrayList<UploadedFileInfoForm>();
+        String path = ctx.getRealPath("resources\\files");
         for (String str : json) {
-            File file = new File(str);
-            list.add(file);
+            UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(str));
+            InputStream fs = null;
+            byte[] buffer = new byte[32];
+            int count = 0;
+            try{
+                fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
+                while((count = fs.read(buffer)) != -1){
+                    if(buffer[0] != Integer.parseInt("A5", 16) && buffer[1] != Integer.parseInt("4C",16) ){
+                        continue;
+                    }else{
+
+                    }
+                }
+
+            }catch(Exception e){
+                System.out.println(e.toString());
+            }
         }
 
     }
