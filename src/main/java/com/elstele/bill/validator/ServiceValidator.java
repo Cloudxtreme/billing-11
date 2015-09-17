@@ -1,6 +1,6 @@
 package com.elstele.bill.validator;
 
-import com.elstele.bill.domain.ServiceInternet;
+import com.elstele.bill.domain.ServiceT;
 import com.elstele.bill.form.ServiceForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ServiceValidator implements Validator{
     @Override
     public boolean supports(Class<?> clazz) {
-        return ServiceInternet.class.isAssignableFrom(clazz);
+        return ServiceT.class.isAssignableFrom(clazz);
     }
 
     @Override

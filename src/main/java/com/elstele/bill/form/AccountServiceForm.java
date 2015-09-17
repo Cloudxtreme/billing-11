@@ -13,9 +13,13 @@ public class AccountServiceForm {
 //    private Integer accountId;
     private AccountForm account = new AccountForm();
     private ServiceForm service = new ServiceForm();
+
+    @NotNull
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
+
+    @NotNull
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateEnd;
