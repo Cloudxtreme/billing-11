@@ -10,8 +10,9 @@ import java.util.Date;
 
 public class AccountServiceForm {
     private Integer id;
-    private Integer accountId;
-    private Integer serviceId;
+//    private Integer accountId;
+    private AccountForm account = new AccountForm();
+    private ServiceForm service = new ServiceForm();
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
@@ -27,20 +28,20 @@ public class AccountServiceForm {
         this.id = id;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public AccountForm getAccount() {
+        return account;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setAccount(AccountForm account) {
+        this.account = account;
     }
 
-    public Integer getServiceId() {
-        return serviceId;
+    public ServiceForm getService() {
+        return service;
     }
 
-    public void setServiceId(Integer serviceId) {
-        this.serviceId = serviceId;
+    public void setService(ServiceForm service) {
+        this.service = service;
     }
 
     public Date getDateStart() {

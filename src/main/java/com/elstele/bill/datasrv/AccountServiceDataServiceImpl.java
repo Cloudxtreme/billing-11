@@ -40,21 +40,15 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
     @Override
     @Transactional
     public String saveAccountService(AccountServiceForm form) {
-//        ServiceUserAssembler assembler = new ServiceUserAssembler();
-//        UserService service = assembler.fromFormToBean(form);
-        AccountService service = new AccountService();
-        service.setAccount(accountDAO.getById(form.getAccountId()));
-        service.setDateStart(form.getDateStart());
-        service.setDateEnd(form.getDateEnd());
-        service.setService(serviceDAO.getById(form.getServiceId()));
-        service.setId(form.getId());
+        AccountServiceAssembler assembler = new AccountServiceAssembler();
+        AccountService accountService = assembler.fromFormToBeanAccountService(form);
         String message = "Service was successfully ";
         if(form.isNew()){
-            accountServiceDAO.create(service);
+            accountServiceDAO.create(accountService);
             message += "added.";
         }
         else{
-            accountServiceDAO.merge(service);
+            accountServiceDAO.update(accountService);
             message += "updated.";
         }
         return message;
@@ -67,7 +61,7 @@ public class AccountServiceDataServiceImpl implements AccountServiceDataService 
         AccountServiceForm result = null;
         AccountService bean = accountServiceDAO.getById(id);
         if (bean != null){
-            AccountServiceForm form = assembler.fromBeanToForm(bean);
+            AccountServiceForm form = assembler.fromBeanToFormAccountService(bean);
             result = form;
         }
         return result;
