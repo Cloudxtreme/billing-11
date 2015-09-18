@@ -43,7 +43,7 @@ public class ServiceController {
     public String serviceAdd(HttpSession session, Map<String, Object> map)
     {
         map.put("serviceForm", new ServiceForm());
-        map.put("service", new ServiceInternet() );
+//        map.put("service", new ServiceInternet() );
         return "service_form";
     }
     @RequestMapping(value="/service/form", method = RequestMethod.POST)

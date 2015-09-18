@@ -17,7 +17,11 @@ public class ServiceForm {
 
     private String phoneNumber;
 
+    private String username;
+    private String password;
     private String ip;
+    private String macaddress;
+
 
     private String serviceType;
 
@@ -59,6 +63,31 @@ public class ServiceForm {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMacaddress() {
+        return macaddress;
+    }
+
+    public void setMacaddress(String macaddress) {
+        this.macaddress = macaddress;
     }
 
     public String getIp() {

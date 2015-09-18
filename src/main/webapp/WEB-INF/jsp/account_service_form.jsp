@@ -57,13 +57,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
+                <div class="col-lg-9 col-lg-offset-3">
                     <form:hidden path="id" />
-<%--
-                    <form:input path="account.id" id="accountId" type="hidden"/>
---%>
                     <form:hidden path="account.id" />
-                    <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>

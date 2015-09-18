@@ -67,13 +67,36 @@
                             <form:errors path="price" cssClass="alert-danger" />
                         </div>
                     </div>
-                    <div class="form-group" id="internetService">
+                <div id="internetService">
+                    <div class="form-group">
+                        <label for="username" class="col-lg-3 control-label">User Name</label>
+                        <div class="col-lg-9">
+                            <form:input path="username" class="form-control" id="username" placeholder="User Name"/>
+                            <form:errors path="username" cssClass="alert-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-lg-3 control-label">Password</label>
+                        <div class="col-lg-9">
+                            <form:password path="password" class="form-control" id="password" placeholder="Password"/>
+                            <form:errors path="password" cssClass="alert-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="macaddress" class="col-lg-3 control-label">MacAddress</label>
+                        <div class="col-lg-9">
+                            <form:input path="macaddress" class="form-control" id="macaddress" placeholder="MacAddress"/>
+                            <form:errors path="macaddress" cssClass="alert-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="ip" class="col-lg-3 control-label">IP</label>
                         <div class="col-lg-9">
                             <form:input path="ip" class="form-control" id="ip" placeholder="IP"/>
                             <form:errors path="ip" cssClass="alert-danger" />
                         </div>
                     </div>
+                </div>
                     <div class="form-group" id="phoneService">
                         <label for="phoneNumber" class="col-lg-3 control-label">Phone Number</label>
                         <div class="col-lg-9">
@@ -82,9 +105,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
+                        <div class="col-lg-9 col-lg-offset-3">
                             <form:hidden path="id" />
-                            <button type="reset" class="btn btn-default">Cancel</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>

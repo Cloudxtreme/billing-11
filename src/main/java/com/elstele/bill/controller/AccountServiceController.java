@@ -54,6 +54,7 @@ public class AccountServiceController {
     public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") @Valid AccountServiceForm form, BindingResult result) {
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView("/account_service_form");
+            mav.addObject("serviceList", serviceDataService.listService());
             mav.addObject("errorClass", "text-danger");
             return mav;
         } else {
