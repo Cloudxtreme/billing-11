@@ -98,13 +98,35 @@
     }
   });
 
+  function isEmpty(myObject) {
+    for(var key in myObject) {
+      if (myObject.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   $('.btn-toolbar').on('click', function () {
     var reader = new FileReader();
     var data = new FormData();
+
+    if(uniqFiles.length == 0){
+      $('#spinner').hide();
+      document.getElementById('errorMessage').style.display = "block";
+      $('#errorMessage').append('<strong>Please select files to upload</strong>');
+      setTimeout(function () {
+        $("#errorMessage").fadeOut(3000, function () {
+          $("#errorMessage strong").remove();
+        });
+      });
+      return false;
+    }
     for (var i = 0; i < uniqFiles.length; i++) {
       data.append(i, uniqFiles[i]);
     }
+
+
     $('#spinner').show();
 
     $.ajax({
