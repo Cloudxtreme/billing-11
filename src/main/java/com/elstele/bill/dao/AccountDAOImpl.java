@@ -13,10 +13,11 @@ import java.util.List;
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
     @Override
-    public List<Account> getAccountsList(int limit, int offset) {
+    public List<Account> getAccountList(int limit, int offset) {
         Query q = getSessionFactory().getCurrentSession().
-                createQuery("select a from Account a order by a.accountName");
-        q.setFirstResult(0).setMaxResults(100);
+                createQuery("select a from Account a where status <> 'DELETED'" +
+                        "order by a.accountName");
+        q.setFirstResult(offset).setMaxResults(limit);
 
         return (List<Account>)q.list();
     }
@@ -27,4 +28,14 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
                 createCriteria(Account.class).add(Restrictions.ne("status", Status.DELETED))
                 .list();
     }
+
+    @Override
+    public Integer getActiveAccountsCount() {
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select count(* ) from Account a where status <> 'DELETED'");
+        Long res = (Long)q.uniqueResult();
+        return res.intValue();
+    }
+
+
 }
