@@ -1,5 +1,8 @@
 package com.elstele.bill.dao.common;
 
+import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Status;
+
 public interface CommonDAO <T> {
 
     /** Persist the newInstance object into database */
@@ -18,7 +21,17 @@ public interface CommonDAO <T> {
 
     public void delete(Integer id);
 
+    public void setStatusDelete(CommonDomainBean persistentObject);
+
+    public void setStatusDelete(Integer id);
+
     /** same as update */
     public void save(T transientObject);
+
+    public void setStatus(CommonDomainBean persistentObject, Status status);
+
+    public void setStatus(Integer id, Status status);
+
+    public void updateAndMerge(T transientObject);
 
 }

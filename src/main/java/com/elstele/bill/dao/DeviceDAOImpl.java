@@ -18,4 +18,5 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
         return (List<Device>)query.list();
 
     }
+
 }

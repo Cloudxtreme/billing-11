@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface ActivityDataService {
 
-    public void saveActivity(ActivityForm form);
+    public String saveActivity(ActivityForm form);
     public void deleteActivity(Integer id);
     public List<Activity> listActivity();
     public Activity findById(Integer id);
+    public ActivityForm getActivityFormById(Integer id);
 
 }

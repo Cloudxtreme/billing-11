@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface UserRoleDataService {
 
-    public void saveRole(UserRoleForm form);
+    public String saveRole(UserRoleForm form);
     public UserRole findById(Integer id);
     public void deleteRole(Integer id);
     public List<UserRole> listUserRole();
+    public UserRoleForm getUserRoleFormById(Integer id);
 }

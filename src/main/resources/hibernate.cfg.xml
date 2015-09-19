@@ -14,8 +14,9 @@
         <mapping class="com.elstele.bill.domain.Device"/>
         <mapping class="com.elstele.bill.domain.UserRole"/>
         <mapping class="com.elstele.bill.domain.Address"/>
-
-
+        <mapping class="com.elstele.bill.domain.DeviceTypes"/>
+        <mapping class="com.elstele.bill.domain.Ip"/>
+        <mapping class="com.elstele.bill.domain.IpSubnet"/>
 
     </session-factory>
          

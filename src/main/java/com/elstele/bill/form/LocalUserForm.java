@@ -1,6 +1,6 @@
 package com.elstele.bill.form;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public class LocalUserForm {
     private Integer id;
     @NotNull
-    private String name;
+    private String username;
     @NotNull
     private String password;
+    @NotNull
+    private String passwordConfirm;
     private ArrayList<Integer> roleId;
 
 
@@ -24,12 +26,12 @@ public class LocalUserForm {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -38,6 +40,14 @@ public class LocalUserForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public void setRoleId(ArrayList<Integer> role){

@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Add Activity</title>
+    <title>User Role</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
@@ -22,26 +22,22 @@
 
 
 <div class="col-lg-6">
+    <legend>User Role</legend>
+
         <fieldset>
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-info" role="alert">${successMessage}</div>
             </c:if>
-            <div class="row">
-                <div class="col-lg-4">
-                    <a href="${pageContext.request.contextPath}/user_role_form.html" class="btn btn-lg btn-primary" data-toggle="modal">Create New User Role</a>
-                </div>
-                <div class="pull-right margin-nav">
-                    <a href="${pageContext.request.contextPath}/user_panel.html">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
-                    </a>
-                </div>
-            </div>
+            <a href="${pageContext.request.contextPath}/user_role_form.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New User Role</a>
+            <a href="${pageContext.request.contextPath}/user_panel.html" class="margin-nav float-right">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
+            </a>
         <table id="userRoleTable" class="table table-striped table-hover">
             <tr>
                 <th>&nbsp;</th>
                 <th>Role Name</th>
                 <th>Role Description</th>
-                <th>Role Activities</th>
+                <th><a href="${pageContext.request.contextPath}/activity_list.html">Activity <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></th>
             </tr>
             <c:forEach items="${userRoleList}" var="userRole">
                 <label for="${userRole.id}">

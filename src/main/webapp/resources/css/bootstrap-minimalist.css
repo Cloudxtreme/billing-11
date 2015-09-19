@@ -1,4 +1,6 @@
+/*
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+*/
 /*!
  * bootswatch v3.3.4+1
  * Homepage: http://bootswatch.com
@@ -341,6 +343,9 @@ th {
 }
 .glyphicon-remove:before {
     content: "\e014";
+}
+.glyphicon-remove:hover{
+    cursor: pointer;
 }
 .glyphicon-zoom-in:before {
     content: "\e015";

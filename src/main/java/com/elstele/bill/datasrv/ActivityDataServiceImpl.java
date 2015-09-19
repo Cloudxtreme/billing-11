@@ -1,13 +1,13 @@
 package com.elstele.bill.datasrv;
 
+import com.elstele.bill.assembler.ActivityAssembler;
 import com.elstele.bill.dao.UserActivityDAO;
 import com.elstele.bill.domain.Activity;
 import com.elstele.bill.form.ActivityForm;
-import com.elstele.bill.form.UserPanelForm;
+import com.elstele.bill.utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -20,23 +20,25 @@ public class ActivityDataServiceImpl implements ActivityDataService {
 
     @Override
     @Transactional
-    public void saveActivity(ActivityForm form) {
-        Activity activity = new Activity();
-        activity.setName(form.getName());
-        activity.setDescription(form.getDescription());
+    public String saveActivity(ActivityForm form) {
+        ActivityAssembler assembler = new ActivityAssembler();
+        Activity activity = assembler.fromFormToBean(form);
+        String message = "Activity was successfully ";
         if(form.isNew()){
             userActivityDAO.create(activity);
+            message += "added.";
         }
         else{
-            activity.setId(form.getId());
             userActivityDAO.update(activity);
+            message += "updated.";
         }
+        return message;
     }
 
     @Override
     @Transactional
     public void deleteActivity(Integer id) {
-        userActivityDAO.delete(id);
+        userActivityDAO.setStatusDelete(id);
     }
 
     @Override
@@ -50,5 +52,20 @@ public class ActivityDataServiceImpl implements ActivityDataService {
     public Activity findById(Integer id){
         return userActivityDAO.getById(id);
     }
+
+    @Override
+    @Transactional
+    public ActivityForm getActivityFormById(Integer id){
+        ActivityAssembler assembler = new ActivityAssembler();
+        ActivityForm result = null;
+        Activity bean = userActivityDAO.getById(id);
+        if (bean != null){
+            ActivityForm form = assembler.fromBeanToForm(bean);
+            result = form;
+        }
+        return result;
+
+    }
+
 
 }
