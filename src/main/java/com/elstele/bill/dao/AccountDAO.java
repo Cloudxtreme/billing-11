@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface AccountDAO extends CommonDAO<Account>{
 
-    public List<Account> getAccountsList(int limit, int offset);
+    public List<Account> getAccountList(int limit, int offset);
     public List<Account> getAccountList();
+    public Integer getActiveAccountsCount();
 }
