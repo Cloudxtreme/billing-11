@@ -12,6 +12,8 @@
 <title>Accounts</title>
 
 <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+<spring:url value="/resources/js/util.js" var="util" />
+<script src="${util}"></script>
 <spring:url value="/resources/js/accounts.js" var="accounts" />
 <script src="${accounts}"></script>
 

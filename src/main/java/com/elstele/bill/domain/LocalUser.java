@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @FilterDef(name="showActive", parameters={
@@ -50,7 +52,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
         this.password = password;
     }
 
-
     public List<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -62,8 +63,6 @@ public class LocalUser extends CommonDomainBean implements Serializable {
     public void addUserRole(UserRole role){
         userRoles.add(role);
     }
-
-
 
     @Override
     public boolean equals(Object o) {

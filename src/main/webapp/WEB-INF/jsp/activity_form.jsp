@@ -12,6 +12,8 @@
     <title>Add/Edit Activity</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
 
 </head>
 <body>
@@ -41,9 +43,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
+                <div class="col-lg-9 col-lg-offset-3">
                     <form:hidden path="id" />
-                    <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>

@@ -35,6 +35,13 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
+    public List<Account> getAccountBeansList() {
+        return accountDAO.getAccountList();
+    }
+
+
+    @Override
+    @Transactional
     public List<AccountForm> getAccountsList(int rows, int page) {
         List<AccountForm> result = new ArrayList<AccountForm>();
         AccountAssembler assembler = new AccountAssembler();
@@ -78,6 +85,17 @@ public class AccountDataServiceImpl implements AccountDataService {
         if (bean != null){
             AccountForm form = assembler.fromBeanToForm(bean);
             result = form;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public Account getAccountBeanById(int id) {
+        Account result = null;
+        Account bean = accountDAO.getById(id);
+        if (bean != null){
+            result = bean;
         }
         return result;
     }

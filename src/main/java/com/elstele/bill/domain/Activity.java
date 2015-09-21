@@ -3,9 +3,6 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="Activity")

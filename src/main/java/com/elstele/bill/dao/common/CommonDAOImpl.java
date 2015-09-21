@@ -2,6 +2,8 @@ package com.elstele.bill.dao.common;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Status;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,6 +52,11 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
     @Override
+    public void merge(T transientObject) {
+        this.sessionFactory.getCurrentSession().merge(transientObject);
+    }
+
+    @Override
     public void updateAndMerge(T transientObject) {
         transientObject = (T)sessionFactory.getCurrentSession().merge(transientObject);
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
@@ -90,6 +97,15 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
         }
     }
+
+    @Override
+    public Filter setFilter(Session session, String filterName){
+        Filter filter = session.enableFilter(filterName);
+        if(filterName == "showActive")
+            filter.setParameter("exclude", new String("DELETED"));
+        return filter;
+    }
+
 
     @Override
     public void setStatusDelete(CommonDomainBean persistentObject) {
