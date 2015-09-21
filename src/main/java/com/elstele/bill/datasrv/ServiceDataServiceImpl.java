@@ -24,15 +24,11 @@ public class ServiceDataServiceImpl implements ServiceDataService {
         ServiceAssembler assembler = new ServiceAssembler();
         String message = "Service was successfully ";
         ServiceT service = new ServiceT();
-        switch(form.getServiceType()){
-            case "internet": {
-                service = assembler.fromFormToInternetBean(form);
-                break;
-            }
-            case "phone": {
-                service = assembler.fromFormToPhoneBean(form);
-                break;
-            }
+        if(form.getServiceType().equals("internet")) {
+            service = assembler.fromFormToInternetBean(form);
+        }
+        if(form.getServiceType().equals("phone")) {
+            service = assembler.fromFormToPhoneBean(form);
         }
         if(form.isNew()){
             serviceDAO.create(service);
