@@ -2,12 +2,12 @@ package com.elstele.bill.form;
 
 import com.elstele.bill.utils.Status;
 
-public class CallsForm {
+public class CallForm {
     private Integer id;
     private String numberA;
     private String numberB;
     private String startTime;
-    private String duration;
+    private Long duration;
     private Integer aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
@@ -53,11 +53,11 @@ public class CallsForm {
         this.startTime = startTime;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 

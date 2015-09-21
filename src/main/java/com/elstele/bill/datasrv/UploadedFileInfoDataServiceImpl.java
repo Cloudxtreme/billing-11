@@ -65,5 +65,14 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
         uploadedFileInfoDAO.setStatusDelete(id);
     }
 
+    @Override
+    @Transactional
+    public void setFileStatus(UploadedFileInfoForm uploadedFileInfoForm) {
+        UploadedFileInfoAssembler uploadedFileInfoAssembler = new UploadedFileInfoAssembler();
+        UploadedFileInfo uploadedFileInfo = uploadedFileInfoAssembler.fromFormToBean(uploadedFileInfoForm);
+        uploadedFileInfoDAO.update(uploadedFileInfo);
+    }
+
+
 
 }

@@ -7,11 +7,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="calls")
-public class Calls extends CommonDomainBean{
+public class Call extends CommonDomainBean{
     private String numberA;
     private String numberB;
     private String startTime;
-    private String duration;
+    private Long duration;
     private Integer aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
@@ -40,11 +40,11 @@ public class Calls extends CommonDomainBean{
         this.startTime = startTime;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 

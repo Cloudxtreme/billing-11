@@ -11,4 +11,5 @@ public interface UploadedFileInfoDataService {
     public UploadedFileInfoForm getById(Integer id);
     public void deleteUploadedFileInfo(Integer id);
     public void setUploadedFileInfoStatus(Integer id);
+    public void setFileStatus(UploadedFileInfoForm uploadedFileInfoForm);
 }

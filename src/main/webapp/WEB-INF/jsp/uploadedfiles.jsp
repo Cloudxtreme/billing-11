@@ -52,6 +52,15 @@
 
 <script type="text/javascript">
 
+    window.setInterval(function(){
+
+
+
+    },5000);
+
+
+
+
     $('.check-box-table-cell').click(function() {
         var checked = $(this).attr('checked');
         if(checked){
@@ -72,7 +81,6 @@
                 function(){
                    values.push($(this).attr('id'));
                 });
-        console.log(values);
         $.ajax({
             type:"post",
             url: '${pageContext.request.contextPath}/uploadedfiles/handle',
@@ -113,6 +121,20 @@
             alert("Thats right decision");
         }
     });
+
+    $(document).ready(function(){
+        var $tr = $('#table');
+
+
+        $($tr).find('td:nth-child(3)').each(function(){
+                $($tr).find('td:nth-child(3):contains("NEW")').css({
+                    'color': '#4da309',
+                    'font-weight': 'bold'});
+                $($tr).find('td:nth-child(3):contains("PROCESSED")').css({
+                    'color': '#e72510',
+                    'font-weight': 'bold'});
+        });
+    })
 
 
 </script>
