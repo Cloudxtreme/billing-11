@@ -344,6 +344,9 @@ th {
 .glyphicon-remove:before {
     content: "\e014";
 }
+.glyphicon-remove:hover{
+    cursor: pointer;
+}
 .glyphicon-zoom-in:before {
     content: "\e015";
 }

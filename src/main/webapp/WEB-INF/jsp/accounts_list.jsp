@@ -95,7 +95,13 @@
             <th>Status</th>
         </tr>
     </table>
-</div>
+    <div id="tableNavigation">
+        Page:<label id="pageNumber">${pageNum}</label> from <label id="totalPages">${pagesTotal}</label>
+        <a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick = "goToPrevPage();"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
+        &nbsp;&nbsp;
+        <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+    <div/>
+
 
 
 </div>

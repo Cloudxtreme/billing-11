@@ -1,10 +1,18 @@
 package com.elstele.bill.form;
 
 import com.elstele.bill.domain.DeviceTypes;
+import com.elstele.bill.domain.Ip;
+import com.elstele.bill.utils.Status;
 
 public class DeviceForm {
 
     private String name;
+    private Integer id;
+    private Status status;
+    private DeviceTypesForm devType;
+    private String description;
+    private String community;
+    private IpForm ipForm;
 
     public DeviceTypesForm getDevType() {
         return devType;
@@ -14,10 +22,21 @@ public class DeviceForm {
         this.devType = devType;
     }
 
-    private DeviceTypesForm devType;
-    private String description;
-    private String community;
-    private String ip;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;
@@ -43,11 +62,12 @@ public class DeviceForm {
         this.community = community;
     }
 
-    public String getIp() {
-        return ip;
+    public IpForm getIpForm() {
+        return ipForm;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setIpForm(IpForm ipForm) {
+        this.ipForm = ipForm;
     }
 }
+

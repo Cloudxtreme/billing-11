@@ -339,6 +339,9 @@ th {
 .glyphicon-remove:before {
   content: "\e014";
 }
+.glyphicon-remove:hover{
+  cursor: pointer;
+}
 .glyphicon-zoom-in:before {
   content: "\e015";
 }
@@ -1103,7 +1106,7 @@ a {
 a:hover,
 a:focus {
   color: #23527c;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:focus {
   outline: thin dotted;
