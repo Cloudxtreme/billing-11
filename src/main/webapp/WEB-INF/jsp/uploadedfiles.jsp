@@ -25,6 +25,9 @@
     <div  id="succesMessage" class="alert alert-success" style="display: none">
         <strong>Great. Nice job!</strong>
     </div>
+    <div  id="succesMessageReload" class="alert alert-success" style="display: none">
+        <strong>Hadling is successed. Page will reloads in few seconds!</strong>
+    </div>
 
     <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href="">Handle selected files</a>
     <table class="table table-striped" id ='table'>
@@ -48,18 +51,14 @@
         </c:forEach>
 
     </table>
+    <div class="progress" style="display: none;" id="progress">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+            <span class="sr-only">60% Complete</span>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-
-    window.setInterval(function(){
-
-
-
-    },5000);
-
-
-
 
     $('.check-box-table-cell').click(function() {
         var checked = $(this).attr('checked');
@@ -75,7 +74,6 @@
     });
 
     $('#handleBtn').click(function(){
-
         var values = new Array();
         $.each($(".check-box-table-cell:checked").closest("tr"),
                 function(){
@@ -88,8 +86,7 @@
             datatype: "JSON",
             contentType: "application/json",
             success: function (data) {}
-        })
-
+        });
     });
 
     $('#table tr #deleting').click(function () {
@@ -124,8 +121,6 @@
 
     $(document).ready(function(){
         var $tr = $('#table');
-
-
         $($tr).find('td:nth-child(3)').each(function(){
                 $($tr).find('td:nth-child(3):contains("NEW")').css({
                     'color': '#4da309',
@@ -134,6 +129,33 @@
                     'color': '#e72510',
                     'font-weight': 'bold'});
         });
+
+
+
+            function getProgress(){
+            $.ajax({
+                url: "${pageContext.request.contextPath}/uploadedfiles/handle/getprogress",
+                success : function(data){
+                    var width = (data);
+                    if(data >0 && data < 100){
+                        document.getElementById('progress').style.display = "block";
+                        $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
+                        setTimeout(getProgress,2000);
+                    }if (data == 100){
+                        $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
+                        clearInterval(interval);
+                        document.getElementById('succesMessageReload').style.display="block";
+                        setTimeout(function() {
+                            $("#succesMessageReload").fadeOut(3000);
+                            $("#progress-bar").fadeOut(1500);
+                            location.reload();
+                        },3000);
+
+                    }
+                }
+            })
+        }
+        var interval = setTimeout(getProgress,2000);
     })
 
 

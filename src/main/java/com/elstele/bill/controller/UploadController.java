@@ -33,6 +33,8 @@ public class UploadController {
     @Autowired
     CallDataService callDataService;
 
+    float progress;
+
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
     public ModelAndView setPageToUpload() {
         ModelAndView model = new ModelAndView("uploadKDF");
@@ -88,6 +90,7 @@ public class UploadController {
         uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
         ModelAndView model = new ModelAndView("uploadedfiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
+        progress = 0;
         return model;
     }
 
@@ -122,10 +125,12 @@ public class UploadController {
             byte[] buffer = new byte[32];
             int count = 0;
             int len;
+            long total= 0;
             try {
                 fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
                 do {
                     len = fs.read(buffer);
+
                     char[] hexChars = new char[buffer.length * 2];
                     for (int j = 0; j < buffer.length; j++) {
                         int v = buffer[j] & 0xFF;
@@ -153,10 +158,12 @@ public class UploadController {
                         callForm.setStartTime(startTime);
                         callDataService.addCalls(callForm);
 
-                        count++;
-                    }
 
-                    //Progress Bar
+                    }
+                    count++;
+
+                    progress = (((count*32)/(float)(uploadedFileInfoForm.getFileSize()*1.0))*100);
+
 
 
                 } while (len != -1);
@@ -166,7 +173,13 @@ public class UploadController {
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
             uploadedFileInfoDataService.setFileStatus(uploadedFileInfoForm);
+            progress = 100;
         }
 
+    }
+
+    @RequestMapping(value ="/uploadedfiles/handle/getprogress")
+    public @ResponseBody Float getProgress(){
+        return progress;
     }
 }
