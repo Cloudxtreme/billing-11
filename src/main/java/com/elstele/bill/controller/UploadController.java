@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -103,12 +105,15 @@ public class UploadController {
         UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
         String path = ctx.getRealPath("resources\\files");
         File file = new File(path + File.separator + uploadedFileInfoForm.getPath());
+        Path filePath = file.toPath();
         String result = "";
         uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
-        if (file.delete()) {
+        try{
+            Files.delete(filePath);
             result = "success";
-        } else {
-            result = "fail";
+        }catch(IOException e){
+            System.out.println(e);
+            return e.toString();
         }
         return result;
     }
@@ -168,6 +173,7 @@ public class UploadController {
 
                 } while (len != -1);
 
+            fs.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
