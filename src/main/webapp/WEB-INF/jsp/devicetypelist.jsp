@@ -105,7 +105,7 @@
           type: "POST",
           contentType: "application/json",
           success: function (data) {
-            if(data == '1') {
+            if(data == 'SUCCESS') {
               document.getElementById('succesMessage').style.display="block";
               setTimeout(function() {
                 $("#succesMessage").fadeOut(3000);

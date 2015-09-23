@@ -138,7 +138,7 @@
       processData: false,
       contentType: false,
       success: function (result) {
-        if (result == "1") {
+        if (result == "SUCCESS") {
           $('#spinner').hide();
           document.getElementById('successMessage').style.display = "block";
           $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
@@ -151,7 +151,7 @@
           });
           $('body').scrollTop(0);
 
-        } else if (result == "2") {
+        } else if (result == "INCORRECTTYPE") {
           $('#spinner').hide();
           document.getElementById('errorMessage').style.display = "block";
           $('#errorMessage').append('<strong>You tried to add file with incorrect type. Please delete it and try again</strong>');
@@ -162,7 +162,7 @@
           });
 
 
-        } else if (result == "3") {
+        } else if (result == "ERROR") {
           $('#spinner').hide();
           document.getElementById('errorMessage').style.display = "block";
           $('#errorMessage').append('<strong>Failed to file upload</strong>');

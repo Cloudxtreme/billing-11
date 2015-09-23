@@ -7,6 +7,7 @@ import com.elstele.bill.domain.UploadedFileInfo;
 import com.elstele.bill.form.CallsForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.FileStatus;
+import com.elstele.bill.utils.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,14 +38,13 @@ public class UploadController {
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
     public ModelAndView setPageToUpload() {
         ModelAndView model = new ModelAndView("uploadKDF");
-
         return model;
     }
 
 
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
     @ResponseBody
-    public String putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) throws IOException {
+    public ResponseToAjax putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) throws IOException {
         String fileName = null;
         ctx = requestHttp.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files");
@@ -52,16 +52,14 @@ public class UploadController {
         Iterator<String> iter = request.getFileNames();
         MultipartFile multipartFile = null;
         while(iter.hasNext()) {
-            multipartFile = request.getFile(iter.next());
-            UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
-            uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
-            uploadedFileInfoForm.setFileName(multipartFile.getName());
-            uploadedFileInfoForm.setFileSize(multipartFile.getSize());
-            uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
-            uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
-
             try {
-                assert multipartFile != null;
+                multipartFile = request.getFile(iter.next());
+                UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
+                uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
+                uploadedFileInfoForm.setFileName(multipartFile.getName());
+                uploadedFileInfoForm.setFileSize(multipartFile.getSize());
+                uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
+                uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
                 fileName = multipartFile.getContentType();
                 if (fileName.equalsIgnoreCase("application/octet-stream")) {
                     byte[] bytes = multipartFile.getBytes();
@@ -71,13 +69,13 @@ public class UploadController {
                     buffStream.write(bytes);
                     buffStream.close();
                 } else {
-                    return "2";
+                    return ResponseToAjax.INCORRECTTYPE;
                 }
             } catch (IOException e) {
-                return "3";
+                return ResponseToAjax.ERROR;
             }
         }
-        return "1";
+        return ResponseToAjax.SUCCESS;
 
 
     }

@@ -12,6 +12,7 @@ import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
 import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.ResponseToAjax;
 import com.elstele.bill.utils.Status;
 import com.elstele.bill.utils.SubnetPurpose;
 import org.hibernate.Hibernate;
@@ -139,10 +140,9 @@ public class DeviceController {
 
     @RequestMapping(value="/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
+    public ResponseToAjax deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
        /* String numberOnly= json.replaceAll("[^0-9]", "");*/
         Integer id = Integer.parseInt(json);
-        String result = "";
 
         IpStatus ipStatus = IpStatus.FREE;
         DeviceForm deviceForm = deviceDataService.getById(id);
@@ -151,14 +151,12 @@ public class DeviceController {
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
             }
             deviceDataService.deleteDevice(id);
-            result = "success";
+            return ResponseToAjax.SUCCESS;
 
         } catch (NullPointerException e) {
-            String error = e.getMessage();
-            result = error;
+            System.out.println(e.toString());
+            return ResponseToAjax.ERROR;
         }
-
-        return result;
     }
 
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)
@@ -211,13 +209,13 @@ public class DeviceController {
 
     @RequestMapping(value="/editdevicetype", method = RequestMethod.POST)
     @ResponseBody
-    public String editDeviceType(@RequestBody DeviceTypesForm deviceTypesForm, HttpServletRequest request, HttpServletResponse responseBody){
-        String result = "";
+    public ResponseToAjax editDeviceType(@RequestBody DeviceTypesForm deviceTypesForm, HttpServletRequest request, HttpServletResponse responseBody){
         try {
             deviceTypesDataService.updateDeviceTypes(deviceTypesForm);
-            return result = "1";
+            return ResponseToAjax.SUCCESS;
         }catch(Exception e){
-            return result= e.toString();
+            System.out.println(e.toString());
+            return ResponseToAjax.ERROR;
         }
     }
 
