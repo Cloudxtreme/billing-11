@@ -27,8 +27,8 @@
                 <li class="dropdown" id="linkToUtils">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li id="linkToDeviceList"><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
-                        <li><a href="/32">Another action</a></li>
+                        <li><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/uploadfile">KDF file processing</a></li>
                         <li><a href="/44">Something else here</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/55">Separated link</a></li>

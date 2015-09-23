@@ -36,9 +36,34 @@ public class DeviceTypesDataServiceImpl implements DeviceTypesDataService {
     @Transactional
     public void addDeviceType(DeviceTypesForm deviceTypesForm){
         DeviceTypesAssembler deviceTypesAssembler = new DeviceTypesAssembler();
-        /*DeviceTypes deviceTypes = deviceTypesAssembler.fromFormToBean(deviceTypesForm);*/
-        DeviceTypes deviceTypes = new DeviceTypes();
-        deviceTypes.setDeviceType(deviceTypesForm.getDeviceType());
+        DeviceTypes deviceTypes = deviceTypesAssembler.fromFormToBean(deviceTypesForm);
+        /*deviceTypes.setDeviceType(deviceTypesForm.getDeviceType());
+        deviceTypes.setDescription(deviceTypesForm.getDescription());
+        deviceTypes.setPortsNubmer(deviceTypesForm.getPortsNumber());*/
         deviceTypesDAO.create(deviceTypes);
+    }
+
+    @Override
+    @Transactional
+    public DeviceTypesForm getById(Integer id){
+
+        DeviceTypesAssembler assembler = new DeviceTypesAssembler();
+        DeviceTypes bean = deviceTypesDAO.getById(id);
+        DeviceTypesForm result = assembler.fromBeanToForm(bean);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void deleteDeviceType(Integer id){
+        deviceTypesDAO.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateDeviceTypes(DeviceTypesForm deviceTypesForm){
+        DeviceTypesAssembler assembler = new DeviceTypesAssembler();
+        DeviceTypes bean = assembler.fromFormToBean(deviceTypesForm);
+        deviceTypesDAO.update(bean);
     }
 }

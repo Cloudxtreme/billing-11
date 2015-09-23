@@ -14,6 +14,7 @@ import com.elstele.bill.form.IpSubnetForm;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import com.elstele.bill.utils.SubnetPurpose;
+import org.hibernate.Hibernate;
 import org.omg.PortableInterceptor.ACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,8 @@ public class DeviceController {
     }
 
 
+
+
     @RequestMapping(value="/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList(HttpSession session){
@@ -60,6 +63,16 @@ public class DeviceController {
         ModelAndView mav = new ModelAndView("device");
         mav.addObject("list", result);
         return mav;
+    }
+
+    @RequestMapping(value="/devicetypeslist", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView getDeviceTypeList(HttpSession session){
+        List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
+        devType = deviceTypesDataService.getDeviceTypes();
+        ModelAndView model = new ModelAndView("devicetypelist");
+        model.addObject("devicetypelist",devType);
+        return model;
     }
 
     @RequestMapping(value="/adddevice", method = RequestMethod.GET)
@@ -79,9 +92,9 @@ public class DeviceController {
         List<IpForm> ipForms  = new ArrayList<IpForm>();
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
-            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        for (IpForm ipForm : ipForms) {
+            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
+                ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         model.addObject("ipAddressList", ipMap);
 
@@ -167,7 +180,7 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -189,11 +202,23 @@ public class DeviceController {
 
 
     @RequestMapping(value="/adddevicetype", method = RequestMethod.POST)
-    public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
-        DeviceTypesForm elseDeviceTypesform = new DeviceTypesForm();
-        elseDeviceTypesform.setDeviceType(deviceTypesForm.getDeviceType());
-        deviceTypesDataService.addDeviceType(elseDeviceTypesform);
+     public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
+        /*DeviceTypesForm elseDeviceTypesform = new DeviceTypesForm();
+        elseDeviceTypesform.setDeviceType(deviceTypesForm.getDeviceType());*/
+        deviceTypesDataService.addDeviceType(deviceTypesForm);
         return "redirect:/adddevice.html";
+    }
+
+    @RequestMapping(value="/editdevicetype", method = RequestMethod.POST)
+    @ResponseBody
+    public String editDeviceType(@RequestBody DeviceTypesForm deviceTypesForm, HttpServletRequest request, HttpServletResponse responseBody){
+        String result = "";
+        try {
+            deviceTypesDataService.updateDeviceTypes(deviceTypesForm);
+            return result = "1";
+        }catch(Exception e){
+            return result= e.toString();
+        }
     }
 
 
@@ -204,7 +229,7 @@ public class DeviceController {
         List<IpForm> list = ipDataService.getBySubnetId(id);
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : list)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED )
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -218,11 +243,13 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
     }
+
+
 
 
 }
