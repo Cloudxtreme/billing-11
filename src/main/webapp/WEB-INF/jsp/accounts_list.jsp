@@ -12,6 +12,8 @@
 <title>Accounts</title>
 
 <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+<spring:url value="/resources/js/util.js" var="util" />
+<script src="${util}"></script>
 <spring:url value="/resources/js/accounts.js" var="accounts" />
 <script src="${accounts}"></script>
 
@@ -36,7 +38,8 @@
 
             <div class="modal-body">
                 <div class="">
-                    <form:form class="form" id="crtAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/add.html">
+                    <form:form class="form" id="crtAccountForm" method="POST" modelAttribute="accountForm"
+                                action="${pageContext.request.contextPath}/accounts/add.html">
                         <fieldset>
                                 <%--<c:if  test="${empty errorMessage}">
                                     <div class="form-group">
@@ -51,6 +54,8 @@
                             <form:input path="id" id="id" type="hidden"/>
                             <form:input path="currentBalance" id="currentBalance" type="hidden"/>
                             <form:input path="status" id="status" type="hidden"/>
+                            <%--<form:input path="phyAddress" id="phyAddress" type="hidden"/>
+                            <form:input path="legalAddress" id="legalAddress" type="hidden"/>--%>
                             <div class="form-group">
                                 <label for="accountName" class="col-lg-5 control-label">Account #</label>
                                 <div class="col-lg-9">
@@ -90,7 +95,13 @@
             <th>Status</th>
         </tr>
     </table>
-</div>
+    <div id="tableNavigation">
+        Page:<label id="pageNumber">${pageNum}</label> from <label id="totalPages">${pagesTotal}</label>
+        <a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick = "goToPrevPage();"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
+        &nbsp;&nbsp;
+        <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+    <div/>
+
 
 
 </div>

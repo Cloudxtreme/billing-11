@@ -1,14 +1,17 @@
+var pageResults = 10;
+
 $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
     $("li").removeClass('active');
     $("#linkToAccounts").addClass('active');
-    renderAccountsTable();
+    renderAccountsTable(pageResults, 1);
+    hideShowLegalAddress();
 });
 
 
-$(document).on("click", ".pushedit", function () {
-    console.log("pushedit push");
+$(document).on("click", ".pushEdit", function () {
+    console.log("pushEdit push");
     var accountId = $(this).data('id');
     $('#accAccountModal').modal('show');
     $("#accountName").val(accountId);
@@ -34,6 +37,24 @@ $(document).on("click", ".pushedit", function () {
 
 });
 
+function goToPrevPage() {
+    var currentPageNum = $("#pageNumber").text();
+    console.log("goPrev push with " + currentPageNum);
+    var nextPage = Number(currentPageNum)-1;
+    if (nextPage != 0){
+        renderAccountsTable(pageResults, nextPage);
+    }
+};
+
+function goToNextPage() {
+    var currentPageNum = $("#pageNumber").text();
+    var totalPages = $("#totalPages").text();
+    console.log("goNext push with " + currentPageNum);
+    var nextPage = Number(currentPageNum)+1;
+    if (nextPage <= totalPages){
+        renderAccountsTable(pageResults, nextPage);
+    }
+};
 
 $(document).ready(function() {
 
@@ -60,28 +81,48 @@ $(document).ready(function() {
             data[obj.name] = obj.value;
         });
 
+        var currentPageNum = $("#pageNumber").text();
 
-        var jsonData = JSON.stringify(data);
+        //var jsonData = JSON.stringify(data);
+        var jsonData = $('#crtAccountForm').serialize();
 
         $.ajax({
-            contentType : 'application/json; charset=utf-8',
             type: frm.attr('method'),
             url: action,
+            async: false,
             dataType : 'json',
             data : jsonData,
             success : function(callback){
-                /*alert("Response: Name: "+callback.name+"  DOB: "+callback.dob+"  Email: "+callback.email+"  Phone: "+callback.phone);*/
-                /*alert("Response here");*/
                 console.log("in success of Ajax call ADD ACCOUNT");
                 hideModalAddAccount();
                 clearForm();
                 /*$(this).html("Success!");*/
-                renderAccountsTable();
+                renderAccountsTable(pageResults, currentPageNum);
             },
             error : function(){
                 $(this).html("Error!");
             }
         });
+    });
+});
+
+
+$(document).ready(function() {
+    $('#accauntSaveBut').click(function(e) {
+        e.preventDefault();
+        $('#fullAccountForm').submit();
+    });
+});
+
+$(document).ready(function() {
+    $('#accountType').on('change', function (e) {
+        var valueSelected = this.value;
+        if (valueSelected == "PRIVATE"){
+            $("#legAddrBlock").hide();
+        }
+        if (valueSelected == "LEGAL"){
+            $("#legAddrBlock").show();
+        }
     });
 });
 
@@ -103,6 +144,22 @@ function renderAccountsTable(){
     });
 };
 
+
+function renderAccountsTable(rows, page){
+    console.log("page="+page+"row="+rows);
+    $.ajax({
+        url: 'accountsList?rows='+rows+'&page='+page,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            // since we are using jQuery, you don't need to parse response
+            drawTable(data);
+            setCurrentPageNumber(page);
+        }
+    });
+};
+
+
 function drawTable(data) {
     $("#accountsTable").find("tr:gt(0)").remove();
 
@@ -114,14 +171,20 @@ function drawTable(data) {
 function drawRow(rowData) {
     var row = $("<tr />")
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-    row.append($("<td><a href=\"\" class=\"pushedit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><i class=\"icon-pencil icon-2x\"></i>Edit</a></td>"));
-    row.append($("<td>" + rowData.accountName + "</td>"));
+    row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
+            "&nbsp&nbsp " +
+            "<a href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" onclick=\"return confirm('Do you really want to delete account?')\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
+    ));
+    row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
     row.append($("<td>" + rowData.currentBalance + "</td>"));
     row.append($("<td>" + rowData.status + "</td>"));
 
 }
 
+function setCurrentPageNumber(number){
+    $("#pageNumber").html(number);
+};
 
 function clearForm(){
     $( '#crtAccountForm' ).each(function(){
@@ -129,33 +192,14 @@ function clearForm(){
     });
 };
 
-/*
-$(document).ready(function () {
-    $("input#submit").click(function(){
-        console.log("button pushed");
+function hideShowLegalAddress(){
+    var valueSelected = $("#accountType").val();;
+    if (valueSelected == "PRIVATE"){
+        $("#legAddrBlock").hide();
+    }
+    if (valueSelected == "LEGAL"){
+        $("#legAddrBlock").show();
+    }
+}
 
 
-        var formdata = $("#myform").serializeArray();
-        var data = {};
-        $(formdata).each(function(index, obj){
-            data[obj.name] = obj.value;
-        });
-
-
-        */
-/*$.ajax({
-         type: "POST",
-         url: "process.php", //
-         data: $('form.contact').serialize(),
-         success: function(msg){
-         $("#thanks").html(msg)
-         $("#form-content").modal('hide');
-         },
-         error: function(){
-         alert("failure");
-         }
-         });*//*
-
-    });
-});
-*/
