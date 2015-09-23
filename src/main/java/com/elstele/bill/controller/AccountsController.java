@@ -29,9 +29,12 @@ public class AccountsController {
     public ModelAndView handleAccountHome(HttpSession session)
     {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
+        int totalPages = determineTotalPagesForOutput();
         ModelAndView mav = new ModelAndView("accounts_list");
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
+        mav.addObject("pageNum", 1);
+        mav.addObject("pagesTotal", totalPages);
         return mav;
     }
 
@@ -41,7 +44,7 @@ public class AccountsController {
     public List<AccountForm> getAccountsList(HttpServletRequest request,
                                              @RequestParam(value = "rows") int rows,
                                              @RequestParam(value = "page") int page){
-        List<AccountForm> result = accountDataService.getAccountsList();
+        List<AccountForm> result = accountDataService.getAccountsList(rows, page);
         return result;
     }
 
@@ -54,14 +57,51 @@ public class AccountsController {
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
-    public @ResponseBody AccountForm addAccountFromForm(@RequestBody AccountForm accountForm, HttpServletRequest request) {
+    public @ResponseBody AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpServletRequest request) {
         accountDataService.saveAccount(accountForm);
         return new AccountForm();
     }
 
     @RequestMapping(value="/editAccount", method = RequestMethod.POST)
-    public @ResponseBody AccountForm editAccount(@RequestBody AccountForm accountForm, HttpServletRequest request) {
+    public @ResponseBody AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
         accountDataService.updateAccount(accountForm);
         return new AccountForm();
     }
+
+    @RequestMapping(value="/editFull/{id}", method = RequestMethod.GET)
+    public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("accountFull");
+        AccountForm result = accountDataService.getAccountById(id);
+        mav.addObject("accountForm", result);
+        return mav;
+    }
+
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteAccount(@PathVariable int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("redirect:../accountHome");
+        accountDataService.softDeleteAccount(id);
+        return mav;
+    }
+
+    @RequestMapping(value="/save", method = RequestMethod.POST)
+    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
+        accountDataService.updateAccount(accountForm);
+        int totalPages = determineTotalPagesForOutput();
+        List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
+        ModelAndView mav = new ModelAndView("accounts_list");
+        mav.addObject("accountForm", new AccountForm());
+        mav.addObject("accountTypeList", types);
+        mav.addObject("pagesTotal", totalPages);
+
+        return mav;
+    }
+
+    private int determineTotalPagesForOutput() {
+        int accounts = accountDataService.getActiveAccountsCount();
+        if (accounts%10 == 0)
+            return accounts/10;
+        else
+            return (accounts/10)+1;
+    }
+
 }

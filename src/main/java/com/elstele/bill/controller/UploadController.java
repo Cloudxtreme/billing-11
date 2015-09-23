@@ -1,13 +1,12 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.dao.UploadedFileInfoDAO;
-import com.elstele.bill.datasrv.CallsDataService;
+import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.UploadedFileInfoDataService;
-import com.elstele.bill.domain.UploadedFileInfo;
-import com.elstele.bill.form.CallsForm;
+import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.FileStatus;
 import com.elstele.bill.utils.ResponseToAjax;
+import javafx.scene.control.ProgressBar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -33,7 +34,9 @@ public class UploadController {
     UploadedFileInfoDataService uploadedFileInfoDataService;
 
     @Autowired
-    CallsDataService callsDataService;
+    CallDataService callDataService;
+
+    float progress;
 
     @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
     public ModelAndView setPageToUpload() {
@@ -87,6 +90,7 @@ public class UploadController {
         uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
         ModelAndView model = new ModelAndView("uploadedfiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
+        progress = 0;
         return model;
     }
 
@@ -99,12 +103,15 @@ public class UploadController {
         UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
         String path = ctx.getRealPath("resources\\files");
         File file = new File(path + File.separator + uploadedFileInfoForm.getPath());
+        Path filePath = file.toPath();
         String result = "";
         uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
-        if (file.delete()) {
+        try{
+            Files.delete(filePath);
             result = "success";
-        } else {
-            result = "fail";
+        }catch(IOException e){
+            System.out.println(e);
+            return e.toString();
         }
         return result;
     }
@@ -121,10 +128,12 @@ public class UploadController {
             byte[] buffer = new byte[32];
             int count = 0;
             int len;
+            long total= 0;
             try {
                 fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
                 do {
                     len = fs.read(buffer);
+
                     char[] hexChars = new char[buffer.length * 2];
                     for (int j = 0; j < buffer.length; j++) {
                         int v = buffer[j] & 0xFF;
@@ -134,18 +143,47 @@ public class UploadController {
                     String tempStrHEX = new String(hexChars);
 
                     if (tempStrHEX.startsWith("A54C")) {
-                        System.out.println(tempStrHEX);
+                        Integer aon = Character.getNumericValue(tempStrHEX.charAt(4)) ;
+                        String numberA = tempStrHEX.substring(5,12);
+                        String numberB = tempStrHEX.substring(20,38).replaceAll("[^0-9]", "");
+                        String startTime = tempStrHEX.substring(46,48)+ "." +tempStrHEX.substring(48,50)+ "-" + tempStrHEX.substring(12, 14)+":"+tempStrHEX.substring(14,16);
+                        Long duration = Long.parseLong((tempStrHEX.substring(52, 54) + tempStrHEX.substring(16, 20)),16);
+                        String dvoCodeA = tempStrHEX.substring(42,44);
+                        String dvoCodeB = tempStrHEX.substring(44,46);
 
-                        CallsForm callsForm = new CallsForm();
+                        CallForm callForm = new CallForm();
+                        callForm.setAonKat(aon);;
+                        callForm.setNumberA(numberA);
+                        callForm.setNumberB(numberB);
+                        callForm.setDuration(duration);
+                        callForm.setDvoCodeA(dvoCodeA);
+                        callForm.setDvoCodeB(dvoCodeB);
+                        callForm.setStartTime(startTime);
+                        callDataService.addCalls(callForm);
 
-                        count++;
+
                     }
+                    count++;
+
+                    progress = (((count*32)/(float)(uploadedFileInfoForm.getFileSize()*1.0))*100);
+
+
+
                 } while (len != -1);
 
+            fs.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
+            uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
+            uploadedFileInfoDataService.setFileStatus(uploadedFileInfoForm);
+            progress = 100;
         }
 
+    }
+
+    @RequestMapping(value ="/uploadedfiles/handle/getprogress")
+    public @ResponseBody Float getProgress(){
+        return progress;
     }
 }

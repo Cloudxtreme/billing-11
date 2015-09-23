@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class UserRoleForm {
 
     // form:hidden - hidden value
-    Integer id;
+    private Integer id;
 
     @NotNull
     private String name;

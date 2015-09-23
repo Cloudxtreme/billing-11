@@ -1,6 +1,8 @@
 package com.elstele.bill.dao.common;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import com.elstele.bill.utils.Status;
 
 public interface CommonDAO <T> {
@@ -16,6 +18,9 @@ public interface CommonDAO <T> {
     /** Save changes made to a persistent object.  */
     public void update(T transientObject);
 
+    /** Save changes made to a persistent object.  */
+    public void merge(T transientObject);
+
     /** Remove an object from persistent storage in the database */
     public void delete(T persistentObject);
 
@@ -28,10 +33,11 @@ public interface CommonDAO <T> {
     /** same as update */
     public void save(T transientObject);
 
+    public Filter setFilter(Session session, String filterName);
+
     public void setStatus(CommonDomainBean persistentObject, Status status);
 
     public void setStatus(Integer id, Status status);
 
     public void updateAndMerge(T transientObject);
-
 }

@@ -2,21 +2,40 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
+import org.hibernate.annotations.*;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@FilterDef(name="showActive", parameters={
+        @ParamDef( name="exclude", type="string" )
+})
 @Table(name="Accounts")
 public class Account extends CommonDomainBean {
 
     private String accountName;
     @Enumerated(EnumType.STRING)
     private Constants.AccountType accountType;
-
     private Float currentBalance;
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Address phyAddress;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Address legalAddress;
+
+
+    @OneToMany(mappedBy="account")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Filter(name="showActive", condition="status != :exclude")
+    private Set<AccountService> accountServices = new HashSet<AccountService>(0);
+
+
 
     public String getAccountName() {
         return accountName;
@@ -40,6 +59,30 @@ public class Account extends CommonDomainBean {
 
     public void setCurrentBalance(Float currentBalance) {
         this.currentBalance = currentBalance;
+    }
+
+    public Address getPhyAddress() {
+        return phyAddress;
+    }
+
+    public void setPhyAddress(Address phyAddress) {
+        this.phyAddress = phyAddress;
+    }
+
+    public Address getLegalAddress() {
+        return legalAddress;
+    }
+
+    public void setLegalAddress(Address legalAddress) {
+        this.legalAddress = legalAddress;
+    }
+
+    public Set<AccountService> getAccountServices() {
+        return accountServices;
+    }
+
+    public void setAccountServices(Set<AccountService> accountServices) {
+        this.accountServices = accountServices;
     }
 
     @Override
