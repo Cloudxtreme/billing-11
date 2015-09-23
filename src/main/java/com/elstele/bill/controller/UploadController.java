@@ -58,13 +58,14 @@ public class UploadController {
             try {
                 multipartFile = request.getFile(iter.next());
                 UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
-                uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
-                uploadedFileInfoForm.setFileName(multipartFile.getName());
-                uploadedFileInfoForm.setFileSize(multipartFile.getSize());
-                uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
-                uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
+
                 fileName = multipartFile.getContentType();
                 if (fileName.equalsIgnoreCase("application/octet-stream")) {
+                    uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
+                    uploadedFileInfoForm.setFileName(multipartFile.getName());
+                    uploadedFileInfoForm.setFileSize(multipartFile.getSize());
+                    uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
+                    uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
                     byte[] bytes = multipartFile.getBytes();
                     String originalName = multipartFile.getOriginalFilename();
                     BufferedOutputStream buffStream =
