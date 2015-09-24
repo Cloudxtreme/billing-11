@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CallDAO extends CommonDAO<Call> {
     public List<Call> getCalls();
+    public Integer getCallsCount();
+    public List<Call> getCallsList(int limit, int offset);
 }

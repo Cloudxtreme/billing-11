@@ -159,6 +159,11 @@
               </div>
 
               <script type="text/javascript">
+                  $(function() {
+                      $("li").removeClass('active');
+                      $("#linkToUtils").addClass('selected');
+                      $("#linkToDeviceList").addClass('active');
+                  });
 
 
                   $('#ipNet').on('change', function() {

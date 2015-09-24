@@ -4,15 +4,16 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name="calls")
 public class Call extends CommonDomainBean{
     private String numberA;
     private String numberB;
-    private String startTime;
+    private Date startTime;
     private Long duration;
-    private Integer aonKat;
+    private String aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
 
@@ -32,11 +33,11 @@ public class Call extends CommonDomainBean{
         this.numberB = numberB;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
@@ -48,11 +49,11 @@ public class Call extends CommonDomainBean{
         this.duration = duration;
     }
 
-    public Integer getAonKat() {
+    public String getAonKat() {
         return aonKat;
     }
 
-    public void setAonKat(Integer aonKat) {
+    public void setAonKat(String aonKat) {
         this.aonKat = aonKat;
     }
 

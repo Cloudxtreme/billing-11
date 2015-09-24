@@ -121,6 +121,12 @@
         $tr.children('#updating').append('<a id="updatingBtn"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>');
 
       });
+      $(function() {
+        $("li").removeClass('active');
+        $("#linkToUtils").addClass('selected');
+        $("#linkToDeviceList").addClass('active');
+      });
+
 
     </script>
   </div>

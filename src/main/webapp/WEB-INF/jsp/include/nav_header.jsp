@@ -24,11 +24,12 @@
                         <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/service/catalog/">Catalog</a></li>
                     </ul>
                 </li>
+                <li id="linkToCallsList"><a href="${pageContext.request.contextPath}/callshome">Calls List</a></li>
                 <li class="dropdown" id="linkToUtils">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
-                        <li><a href="${pageContext.request.contextPath}/uploadfile">KDF file processing</a></li>
+                        <li id="linkToDeviceList"><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
+                        <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html">KDF file processing</a></li>
                         <li><a href="/44">Something else here</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/55">Separated link</a></li>

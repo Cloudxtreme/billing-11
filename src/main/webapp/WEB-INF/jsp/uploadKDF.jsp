@@ -49,6 +49,12 @@
 </div>
 
 <script type="text/javascript">
+  $(function() {
+    $("li").removeClass('active');
+    $("#linkToUtils").addClass('selected');
+    $("#linkToFileUploading").addClass('active');
+  });
+
   var uniqFiles = [];
   $('input:file').on('change', function (evt) {
     var files = evt.target.files;
