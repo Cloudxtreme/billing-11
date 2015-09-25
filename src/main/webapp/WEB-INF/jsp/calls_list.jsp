@@ -17,6 +17,11 @@
     <spring:url value="/resources/js/callslist.js" var="callslist"/>
     <script src="${callslist}"></script>
 
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+
 </head>
 <body>
 
@@ -24,6 +29,31 @@
 
 
 <div class="well">
+    <label>
+        Show
+        <select class="selectpicker" data-style="btn-info" id="selectEntries">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        entries
+    </label>
+
+    <form class="navbar-form" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Number A" id="searchNumberA">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Number B" id="searchNumberB">
+        </div>
+        <div class="form-group">
+            <input type="text" name="daterange" class="form-control" placeholder="Calls' start time date" id="searchDate"/>
+        </div>
+        <a class="btn btn-default" id="searchBtn">Search</a>
+    </form>
 
     <div id="callsTableDiv">
         <table id="callsTable" class="table table-striped">

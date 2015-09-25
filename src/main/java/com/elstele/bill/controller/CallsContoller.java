@@ -28,6 +28,15 @@ public class CallsContoller {
         return result;
     }
 
+    @RequestMapping(value="/searchCalls", method = RequestMethod.POST)
+    @ResponseBody
+    public List<CallForm> getAccountsListSearch(HttpServletRequest request, CallForm callForm,
+                                         @RequestParam(value = "rows") int rows,
+                                         @RequestParam(value = "page") int page){
+        List<CallForm> result = callDataService.getCallsList(rows, page);
+        return result;
+    }
+
     @RequestMapping(value="/callshome", method = RequestMethod.GET)
     public ModelAndView handleCallsHome(HttpSession session)
     {

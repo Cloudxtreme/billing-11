@@ -1,4 +1,4 @@
-var pageResults = 20;
+var pageResults = 10;
 
 $(function() {
     // set active navigation tab "Calls"
@@ -64,8 +64,77 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.aonKat + "</td>"));
     row.append($("<td>" + rowData.dvoCodeA + "</td>"));
     row.append($("<td>" + rowData.dvoCodeB + "</td>"));
-
 }
 
+$(document).ready(function(){
+    $('#selectEntries').on('change',function(){
+        pageResults = $("#selectEntries option:selected").val();
+        renderCallsTable(pageResults, 1);
 
+    });
+
+    $(".form-control").on('keydown',function(event) {
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+            return;
+        }
+        else {
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+    });
+
+    /*Date Range picker settings*/
+    var drp = $('input[name="daterange"]').data('daterangepicker');
+    $('input[name="daterange"]').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 10,
+        "timePicker24Hour": true,
+        locale: {
+            cancelLabel: 'Clear',
+            format: 'DD/MM/YYYY HH:mm'
+        },
+        autoUpdateInput: true
+    }).val('');
+
+
+    $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+        $('input[name="daterange"]').val('');
+    });
+
+
+    /*Search function logic*/
+    function searchValues(rows, page){
+        var numberA = $('#searchNumberA').val();
+        var numberB = $('#searchNumberB').val();
+        var dateSearch = $('#searchDate').val();
+        var callForm = {
+            "numberA" : numberA,
+            "numberB": numberB
+        };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            dataType : 'json',
+            url: 'searchCalls?rows='+rows+'&page='+page,
+            data: JSON.stringify(callForm), // Note it is important
+            success :function(data, textStatus, jqXHR) {
+                drawTable(data);
+                setCurrentPageNumber(page);
+            }
+        });
+    }
+
+    $('#searchBtn').on('click',function(){
+        console.log("Btn search was pressed");
+        searchValues(pageResults, 1);
+    });
+
+
+
+
+
+});
 
