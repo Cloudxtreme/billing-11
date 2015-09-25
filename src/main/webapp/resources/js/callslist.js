@@ -59,7 +59,7 @@ function drawRow(rowData) {
     var date = new Date(rowData.startTime);
     row.append($("<td>" + rowData.numberA + "</td>"));
     row.append($("<td>" + rowData.numberB + "</td>"));
-    row.append($("<td>" + date + "</td>"));
+    row.append($("<td>" + date.format('yyyy/mm/dd HH:MM:ss') + "</td>"));
     row.append($("<td>" + rowData.duration + "</td>"));
     row.append($("<td>" + rowData.aonKat + "</td>"));
     row.append($("<td>" + rowData.dvoCodeA + "</td>"));
@@ -69,6 +69,15 @@ function drawRow(rowData) {
 $(document).ready(function(){
     $('#selectEntries').on('change',function(){
         pageResults = $("#selectEntries option:selected").val();
+
+        $.ajax({
+            url: 'callsPages'+pageResults,
+            type: "get",
+            dataType: "json",
+            success: function() {
+            }
+        });
+
         renderCallsTable(pageResults, 1);
 
     });
@@ -109,7 +118,7 @@ $(document).ready(function(){
     function searchValues(rows, page){
         var numberA = $('#searchNumberA').val();
         var numberB = $('#searchNumberB').val();
-        var dateSearch = $('#searchDate').val();
+        var startTime = $('#searchDate').val();
         var callForm = {
             "numberA" : numberA,
             "numberB": numberB

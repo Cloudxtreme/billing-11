@@ -4,10 +4,7 @@ import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.form.CallForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +27,7 @@ public class CallsContoller {
 
     @RequestMapping(value="/searchCalls", method = RequestMethod.POST)
     @ResponseBody
-    public List<CallForm> getAccountsListSearch(HttpServletRequest request, CallForm callForm,
+    public List<CallForm> getAccountsListSearch(HttpServletRequest request, @RequestBody CallForm callForm,
                                          @RequestParam(value = "rows") int rows,
                                          @RequestParam(value = "page") int page){
         List<CallForm> result = callDataService.getCallsList(rows, page);
@@ -39,6 +36,17 @@ public class CallsContoller {
 
     @RequestMapping(value="/callshome", method = RequestMethod.GET)
     public ModelAndView handleCallsHome(HttpSession session)
+    {
+        int totalPages = determineTotalPagesForOutput();
+        ModelAndView mav = new ModelAndView("calls_list");
+        mav.addObject("pageNum", 1);
+        mav.addObject("pagesTotal", totalPages);
+        return mav;
+    }
+
+    @RequestMapping(value="/callsPages", method = RequestMethod.GET)
+    public ModelAndView handleCallsHomeOnChange(HttpServletRequest request,
+                                        @RequestParam(value = "pageResults") int pageResults)
     {
         int totalPages = determineTotalPagesForOutput();
         ModelAndView mav = new ModelAndView("calls_list");

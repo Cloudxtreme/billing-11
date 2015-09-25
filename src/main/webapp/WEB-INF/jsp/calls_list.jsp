@@ -16,6 +16,8 @@
     <script src="${util}"></script>
     <spring:url value="/resources/js/callslist.js" var="callslist"/>
     <script src="${callslist}"></script>
+    <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
+    <script src="${dateParsing}"></script>
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
@@ -49,8 +51,8 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Number B" id="searchNumberB">
         </div>
-        <div class="form-group">
-            <input type="text" name="daterange" class="form-control" placeholder="Calls' start time date" id="searchDate"/>
+        <div class="form-group ">
+            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="Calls' start time date" id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn">Search</a>
     </form>
@@ -75,6 +77,18 @@
             <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick="goToNextPage();"><span
                     class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
         </div>
+
+        <%--<ul class="pagination">
+            <li><a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick="goToPrevPage();"><span
+                    class="glyphicon glyphicon-backward" aria-hidden="true"></span></a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick="goToNextPage();"><span
+                    class="glyphicon glyphicon-forward" aria-hidden="true"></span></a></li>
+        </ul>--%>
 
 
     </div>

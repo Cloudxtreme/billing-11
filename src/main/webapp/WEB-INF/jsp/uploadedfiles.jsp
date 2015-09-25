@@ -60,6 +60,12 @@
 
 <script type="text/javascript">
 
+    $(function() {
+        $("li").removeClass('active');
+        $("#linkToUtils").addClass('selected');
+        $("#linkToFileUploading").addClass('active');
+    });
+
     $('.check-box-table-cell').click(function() {
         var checked = $(this).attr('checked');
         if(checked){
