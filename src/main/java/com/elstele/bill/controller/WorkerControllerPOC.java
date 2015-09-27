@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.CallBillingService;
 import com.elstele.bill.datasrv.WorkExecutorPOC;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.LocalUserForm;
@@ -22,6 +23,9 @@ public class WorkerControllerPOC {
     @Autowired
     private WorkExecutorPOC executor;
 
+    @Autowired
+    private CallBillingService billService;
+
     @RequestMapping(value="/starttask", method = RequestMethod.GET)
     @ResponseBody
     public String startTask(HttpServletRequest request,
@@ -42,6 +46,18 @@ public class WorkerControllerPOC {
         String result = "Task with " + taskId + " has status " + taskStatus;
         return result;
     }
+
+
+    @RequestMapping(value="/billCall", method = RequestMethod.GET)
+    @ResponseBody
+    public String billCall(HttpServletRequest request,
+                                  @RequestParam(value = "callId") Integer id){
+
+        billService.updateCallWithItCost(id);
+
+        return "";
+    }
+
 
 
 

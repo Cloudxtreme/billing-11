@@ -12,7 +12,8 @@ import java.util.List;
 
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
-    @Override
+
+
     public List<Account> getAccountList(int limit, int offset) {
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select a from Account a where status <> 'DELETED'" +
@@ -22,7 +23,6 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         return (List<Account>)q.list();
     }
 
-    @Override
     public List<Account> getAccountList() {
         Session session = getSessionFactory().getCurrentSession();
         setFilter(session, "showActive");
@@ -31,7 +31,6 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
                 .list();
     }
 
-    @Override
     public Integer getActiveAccountsCount() {
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select count(* ) from Account a where status <> 'DELETED'");
