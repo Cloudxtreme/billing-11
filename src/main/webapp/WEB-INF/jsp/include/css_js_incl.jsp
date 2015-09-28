@@ -9,6 +9,7 @@
 <spring:url value="/resources/js/jquery-1.11.3.js" var="jquery" />
 <spring:url value="/resources/js/bootstrap.js" var="bootstrapJs" />
 
+
 <script src="${jquery}"></script>
 <script src="${bootstrapJs}"></script>
 <link href="${bootstrap}" rel="stylesheet"/>

@@ -51,7 +51,7 @@
                 </a>
 
 
-                <c:forEach items="${account.accountServices}" var="accountService">
+                <c:forEach items="${account.serviceForms}" var="accountService">
                     <label for="${accountService.id}">
                         <tr id="${accountService.id}">
                             <td>&nbsp;</td>
@@ -60,10 +60,10 @@
                                 &nbsp;&nbsp;
                                 <a href="${pageContext.request.contextPath}/service/account/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
-                            <td>${accountService.service.name}</td>
+                            <td>${accountService.serviceType.name}</td>
                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                             <td><fmt:formatDate value="${accountService.dateEnd}" pattern="yyyy-MM-dd" /></td>
-                            <td>${accountService.service.price}</td>
+                            <td>${accountService.serviceType.price}</td>
                         </tr>
                     </label>
                 </c:forEach>

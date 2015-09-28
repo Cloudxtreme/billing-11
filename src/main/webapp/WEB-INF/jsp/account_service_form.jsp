@@ -15,6 +15,17 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/service.js" var="service" />
+    <script src="${service}"></script>
+
+<%-- Includes for DatePicker --%>
+    <spring:url value="/resources/js/moment-with-locales.min.js" var="moment-datepicker" />
+    <script src="${moment-datepicker}"></script>
+    <spring:url value="/resources/js/bootstrap-datepicker.min.js" var="datepicker" />
+    <script src="${datepicker}"></script>
+    <spring:url value="/resources/css/bootstrap-datepicker.min.css" var="datepickerCss" />
+    <link href="${datepickerCss}" rel="stylesheet"/>
+
 
 </head>
 <body>
@@ -32,34 +43,102 @@
             <div class="form-group">
                 <label class="col-lg-3 control-label">Services</label>
                 <div class="col-lg-9">
-                    <form:select path="service.id" multiple="false" class="form-control">
-                    <c:forEach items="${serviceList}" var="services">
-                        <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)"/>
+                    <c:set var="disable" value="false"/>
+                    <c:if test="${not empty serviceForm.serviceType.id}">
+                        <c:set var="disable" value="true"/>
+                        <form:hidden path="serviceType.id" id="getServiceType" data-parameter="${serviceForm.serviceType.serviceType}"/>
+                    </c:if>
+
+                    <form:select path="serviceType.id" multiple="false" class="form-control" disabled="${disable}">
+                    <form:option value="0" label="Choose..." onclick="hideServiceForm()"/>
+                    <c:forEach items="${serviceTypeList}" var="services">
+                        <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" onclick="showServiceForm('${services.serviceType}')"/>
                     </c:forEach>
                     </form:select>
-                    <form:errors path="service.id" cssClass="alert-danger" />
+                    <form:errors path="serviceType.id" cssClass="alert-danger" />
                 </div>
             </div>
-            <div class="form-group">
-                <label for="dateStart" class="col-lg-3 control-label">Date Start</label>
+            <div id="sharedServiceForm">
+                <div class="form-group">
+                    <label for="dateStart" class="col-lg-3 control-label">Date Start</label>
+                    <div class="col-lg-9">
+                        <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
+                        <div class='input-group date' id='datepicker1'>
+                            <form:input path="dateStart" class="form-control" value="${dateString}" placeholder="yyyy-MM-dd" readonly="true"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <form:errors path="dateStart" cssClass="alert-danger" />
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datepicker1').datepicker({
+                            format: 'yyyy-mm-dd'
+                        });
+                        $('#datepicker2').datepicker({
+                            format: 'yyyy-mm-dd'
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                    <label for="dateEnd" class="col-lg-3 control-label">Date End</label>
+                    <div class="col-lg-9">
+                        <fmt:formatDate value="${dateEnd.date}" var="dateString" pattern="yyyy-MM-dd" />
+                        <div class='input-group date' id='datepicker2'>
+                            <form:input path="dateEnd" class="form-control" value="${dateEnd}" placeholder="yyyy-MM-dd"  readonly="true"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <form:errors path="dateEnd" cssClass="alert-danger" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="internetService">
+                <div class="form-group">
+                    <label for="username" class="col-lg-3 control-label">User Name</label>
+                    <div class="col-lg-9">
+                        <form:errors path="serviceInternet.username" cssClass="alert-danger" />
+                        <form:input path="serviceInternet.username" class="form-control" id="username" placeholder="User Name"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-lg-3 control-label">Password</label>
+                    <div class="col-lg-9">
+                        <form:password path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
+                        <form:errors path="serviceInternet.password" cssClass="alert-danger" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="macaddress" class="col-lg-3 control-label">MacAddress</label>
+                    <div class="col-lg-9">
+                        <form:input path="serviceInternet.macaddress" class="form-control" id="macaddress" placeholder="MacAddress"/>
+                        <form:errors path="serviceInternet.macaddress" cssClass="alert-danger" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ip" class="col-lg-3 control-label">IP</label>
+                    <div class="col-lg-9">
+                        <form:input path="serviceInternet.ip" class="form-control" id="ip" placeholder="IP"/>
+                        <form:errors path="serviceInternet.ip" cssClass="alert-danger" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="phoneService">
+                <label for="phoneNumber" class="col-lg-3 control-label">Phone Number</label>
                 <div class="col-lg-9">
-                    <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
-                    <form:input path="dateStart" class="form-control" id="dateStart" value="${dateString}" placeholder="yyyy-MM-dd"/>
-                    <form:errors path="dateStart" cssClass="alert-danger" />
+                    <form:input path="servicePhone.phoneNumber" class="form-control" id="phoneNumber" placeholder="Phone Number"/>
+                    <form:errors path="servicePhone.phoneNumber" cssClass="alert-danger" />
                 </div>
             </div>
-            <div class="form-group">
-                <label for="dateEnd" class="col-lg-3 control-label">Date End</label>
-                <div class="col-lg-9">
-                    <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
-                    <form:input path="dateEnd" class="form-control" id="dateEnd" value="${dateString}" placeholder="yyyy-MM-dd"/>
-                    <form:errors path="dateEnd" cssClass="alert-danger" />
-                </div>
-            </div>
-            <div class="form-group">
+
+            <div class="form-group" id="submitBtn">
                 <div class="col-lg-9 col-lg-offset-3">
                     <form:hidden path="id" />
-                    <form:hidden path="account.id" />
+                    <form:hidden path="accountId"/>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>

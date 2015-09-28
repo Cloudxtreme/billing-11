@@ -12,9 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@FilterDef(name="showActive", parameters={
-        @ParamDef( name="exclude", type="string" )
-})
+@FilterDef(name="showActive", parameters={@ParamDef( name="exclude", type="string" )})
 @Table(name="Accounts")
 public class Account extends CommonDomainBean {
 
@@ -31,9 +29,9 @@ public class Account extends CommonDomainBean {
 
 
     @OneToMany(mappedBy="account")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.TRUE)
     @Filter(name="showActive", condition="status != :exclude")
-    private Set<AccountService> accountServices = new HashSet<AccountService>(0);
+    private Set<Service> accountServices = new HashSet<Service>(0);
 
 
 
@@ -77,11 +75,11 @@ public class Account extends CommonDomainBean {
         this.legalAddress = legalAddress;
     }
 
-    public Set<AccountService> getAccountServices() {
+    public Set<Service> getAccountServices() {
         return accountServices;
     }
 
-    public void setAccountServices(Set<AccountService> accountServices) {
+    public void setAccountServices(Set<Service> accountServices) {
         this.accountServices = accountServices;
     }
 
