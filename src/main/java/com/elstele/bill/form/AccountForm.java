@@ -4,6 +4,8 @@ package com.elstele.bill.form;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Status;
 
+import java.util.List;
+
 public class AccountForm {
     private Integer id;
     private Status status;
@@ -12,6 +14,7 @@ public class AccountForm {
     private Float currentBalance;
     private AddressForm phyAddress = new AddressForm();
     private AddressForm legalAddress = new AddressForm();
+    private List<ServiceForm> serviceForms;
 
 
     public Integer getId() {
@@ -68,6 +71,14 @@ public class AccountForm {
 
     public void setLegalAddress(AddressForm legalAddress) {
         this.legalAddress = legalAddress;
+    }
+
+    public List<ServiceForm> getServiceForms() {
+        return serviceForms;
+    }
+
+    public void setServiceForms(List<ServiceForm> serviceForms) {
+        this.serviceForms = serviceForms;
     }
 
     @Override

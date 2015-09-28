@@ -15,15 +15,17 @@
         <mapping class="com.elstele.bill.domain.Device"/>
         <mapping class="com.elstele.bill.domain.UserRole"/>
         <mapping class="com.elstele.bill.domain.DeviceTypes"/>
-        <mapping class="com.elstele.bill.domain.ServiceT"/>
+        <mapping class="com.elstele.bill.domain.ServiceType"/>
         <mapping class="com.elstele.bill.domain.ServiceInternet"/>
         <mapping class="com.elstele.bill.domain.ServicePhone"/>
-        <mapping class="com.elstele.bill.domain.AccountService"/>
-        <mapping class="com.elstele.bill.domain.DeviceTypes"/>
+        <mapping class="com.elstele.bill.domain.Service"/>
+        <mapping class="com.elstele.bill.domain.Address"/>
         <mapping class="com.elstele.bill.domain.Ip"/>
         <mapping class="com.elstele.bill.domain.IpSubnet"/>
         <mapping class="com.elstele.bill.domain.UploadedFileInfo"/>
         <mapping class="com.elstele.bill.domain.Call"/>
+
+
 
 
     </session-factory>

@@ -29,7 +29,7 @@
         <div class="alert alert-info" role="alert">${successMessage}</div>
     </c:if>
 
-    <a href="${pageContext.request.contextPath}/service/form" class="btn btn-sm btn-primary" data-toggle="modal">Create New Service</a>
+    <a href="${pageContext.request.contextPath}/serviceType/form" class="btn btn-sm btn-primary" data-toggle="modal">Create New Service</a>
 
 
     <table id="userRoleTable" class="table table-striped table-hover">
@@ -41,13 +41,13 @@
         </tr>
 
         </tr>
-        <c:forEach items="${serviceList}" var="service">
+        <c:forEach items="${serviceTypeList}" var="service">
             <label for="${service.id}">
                 <tr id="${service.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}/service/${service.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/serviceType/${service.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/service/${service.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
                     <td>${service.name}</td>
                     <td>${service.description}</td>

@@ -1,43 +1,31 @@
 $(document).ready(function() {
-
     hideServiceForm();
-
-    if($("#internetBtn").prop("checked")){
-        showInternetService()
-    }
-    if($("#phoneBtn").prop("checked")){
-        showPhoneService()
-    }
-
-
-    $('#internetBtn').click(function(e) {
-        showInternetService()
-    });
-    $('#phoneBtn').click(function(e) {
-        showPhoneService()
-    });
-});
+    if((typeof $('#getServiceType').data("parameter") !='undefined') )
+        showServiceForm($('#getServiceType').data("parameter"));
+ });
 
 function hideServiceForm(){
-    $('#formServiceHead').hide();
-    $('#formServiceBody').hide();
-}
-function showServiceForm(){
-    $('#formServiceHead').show();
-    $('#formServiceBody').show();
-}
-function hideAllServices(){
     $('#internetService').hide();
     $('#phoneService').hide();
-};
+    $('#sharedForm').hide();
+    $('#submitBtn').hide();
+    $('#sharedServiceForm').hide();
+}
 
-function showInternetService(){
-    showServiceForm();
-    hideAllServices();
-    $('#internetService').show();
-};
-function showPhoneService(){
-    showServiceForm();
-    hideAllServices();
-    $('#phoneService').show();
-};
+function showServiceForm(type){
+    $('#sharedForm').show();
+    $('#submitBtn').show();
+    $('#sharedServiceForm').show();
+    switch(type){
+        case 'internet':{
+            $('#internetService').show();
+            $('#phoneService').hide();
+            break;
+        }
+        case 'phone':{
+            $('#internetService').hide();
+            $('#phoneService').show();
+            break;
+        }
+    }
+}

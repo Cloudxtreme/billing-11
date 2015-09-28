@@ -8,14 +8,17 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name="AccountService")
-public class AccountService extends CommonDomainBean{
+@Table(name = "Service")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name="discriminator",
+        discriminatorType=DiscriminatorType.STRING
+)
+@DiscriminatorValue(value="MAIN")
+public class Service extends CommonDomainBean{
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
@@ -28,8 +31,8 @@ public class AccountService extends CommonDomainBean{
     @JoinColumn(name="account_id")
     private Account account;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private ServiceT service;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private ServiceType serviceType;
 
     public Date getDateStart() {
         return dateStart;
@@ -55,11 +58,12 @@ public class AccountService extends CommonDomainBean{
         this.account = account;
     }
 
-    public ServiceT getService() {
-        return service;
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 
-    public void setService(ServiceT service) {
-        this.service = service;
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
+
 }

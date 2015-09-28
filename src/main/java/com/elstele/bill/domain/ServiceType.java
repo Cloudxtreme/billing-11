@@ -5,9 +5,9 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Service")
+@Table(name="ServiceType")
 @Inheritance(strategy=InheritanceType.JOINED)
-public class ServiceT extends CommonDomainBean{
+public class ServiceType extends CommonDomainBean{
 
     @Column(unique = true)
     private String name;

@@ -1,16 +1,13 @@
-package com.elstele.bill.domain;
+package com.elstele.bill.form;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name="Service")
-@DiscriminatorValue("INTERNET")
-public class ServiceInternet extends Service {
-
+public class ServiceInternetForm {
     private String username;
-    private String macaddress;
-    private String ip;
     private String password;
+    private String ip;
+    private String macaddress;
+
+    public ServiceInternetForm(){
+    }
 
     public String getUsername() {
         return username;
@@ -28,6 +25,14 @@ public class ServiceInternet extends Service {
         this.password = password;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
     public String getMacaddress() {
         return macaddress;
     }
@@ -36,11 +41,4 @@ public class ServiceInternet extends Service {
         this.macaddress = macaddress;
     }
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 }

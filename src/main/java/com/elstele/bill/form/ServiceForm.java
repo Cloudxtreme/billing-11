@@ -1,114 +1,88 @@
 package com.elstele.bill.form;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
+import java.util.Date;
+
 public class ServiceForm {
-    // form:hidden - hidden value
     private Integer id;
+    private Integer accountId;
+    private ServiceInternetForm serviceInternet = new ServiceInternetForm();
+    private ServicePhoneForm servicePhone = new ServicePhoneForm();
+    private ServiceTypeForm serviceType = new ServiceTypeForm();
+
 
     @NotNull
-    private String name;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date dateStart;
 
     @NotNull
-    private String description;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date dateEnd;
 
-    @NotNull
-    private Float price;
-
-    private String phoneNumber;
-
-    private String username;
-    private String password;
-    private String ip;
-    private String macaddress;
-
-
-    private String serviceType;
-
-    public void setId(Integer id){
-        this.id = id;
-    }
-
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName(){
-        return name;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
-    public String getDescription(){
-        return description;
+    public ServiceInternetForm getServiceInternet() {
+        return serviceInternet;
     }
 
-    public Float getPrice() {
-        return price;
+    public void setServiceInternet(ServiceInternetForm serviceInternet) {
+        this.serviceInternet = serviceInternet;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public ServicePhoneForm getServicePhone() {
+        return servicePhone;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setServicePhone(ServicePhoneForm servicePhone) {
+        this.servicePhone = servicePhone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMacaddress() {
-        return macaddress;
-    }
-
-    public void setMacaddress(String macaddress) {
-        this.macaddress = macaddress;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getServiceType() {
+    public ServiceTypeForm getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(String serviceType) {
+    public void setServiceType(ServiceTypeForm serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     //Check if this is for New of Update
     public boolean isNew() {
         return (this.id == null);
     }
-
 }
