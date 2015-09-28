@@ -1,9 +1,11 @@
+var pageResults = 10;
+
 $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
-//    $("li").removeClass('active');
-//    $("#linkToAccounts").addClass('active');
-    renderAccountsTable();
+    $("li").removeClass('active');
+    $("#linkToAccounts").addClass('active');
+    renderAccountsTable(pageResults, 1);
     hideShowLegalAddress();
 });
 
@@ -35,6 +37,24 @@ $(document).on("click", ".pushEdit", function () {
 
 });
 
+function goToPrevPage() {
+    var currentPageNum = $("#pageNumber").text();
+    console.log("goPrev push with " + currentPageNum);
+    var nextPage = Number(currentPageNum)-1;
+    if (nextPage != 0){
+        renderAccountsTable(pageResults, nextPage);
+    }
+};
+
+function goToNextPage() {
+    var currentPageNum = $("#pageNumber").text();
+    var totalPages = $("#totalPages").text();
+    console.log("goNext push with " + currentPageNum);
+    var nextPage = Number(currentPageNum)+1;
+    if (nextPage <= totalPages){
+        renderAccountsTable(pageResults, nextPage);
+    }
+};
 
 $(document).ready(function() {
 
@@ -61,6 +81,7 @@ $(document).ready(function() {
             data[obj.name] = obj.value;
         });
 
+        var currentPageNum = $("#pageNumber").text();
 
         //var jsonData = JSON.stringify(data);
         var jsonData = $('#crtAccountForm').serialize();
@@ -76,7 +97,7 @@ $(document).ready(function() {
                 hideModalAddAccount();
                 clearForm();
                 /*$(this).html("Success!");*/
-                renderAccountsTable();
+                renderAccountsTable(pageResults, currentPageNum);
             },
             error : function(){
                 $(this).html("Error!");
@@ -123,6 +144,22 @@ function renderAccountsTable(){
     });
 };
 
+
+function renderAccountsTable(rows, page){
+    console.log("page="+page+"row="+rows);
+    $.ajax({
+        url: 'accountsList?rows='+rows+'&page='+page,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            // since we are using jQuery, you don't need to parse response
+            drawTable(data);
+            setCurrentPageNumber(page);
+        }
+    });
+};
+
+
 function drawTable(data) {
     $("#accountsTable").find("tr:gt(0)").remove();
 
@@ -145,6 +182,9 @@ function drawRow(rowData) {
 
 }
 
+function setCurrentPageNumber(number){
+    $("#pageNumber").html(number);
+};
 
 function clearForm(){
     $( '#crtAccountForm' ).each(function(){

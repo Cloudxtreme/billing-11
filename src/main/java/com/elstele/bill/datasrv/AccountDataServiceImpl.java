@@ -39,6 +39,22 @@ public class AccountDataServiceImpl implements AccountDataService {
         return accountDAO.getAccountList();
     }
 
+
+    @Override
+    @Transactional
+    public List<AccountForm> getAccountsList(int rows, int page) {
+        List<AccountForm> result = new ArrayList<AccountForm>();
+        AccountAssembler assembler = new AccountAssembler();
+        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
+        int offset = page*rows;
+        List<Account> beans = accountDAO.getAccountList(rows, offset);
+        for (Account curBean : beans){
+            AccountForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
     @Override
     @Transactional
     public void saveAccount(AccountForm form) {
@@ -90,5 +106,11 @@ public class AccountDataServiceImpl implements AccountDataService {
         Account account = accountDAO.getById(id);
         account.setStatus(Status.DELETED);
         accountDAO.update(account);
+    }
+
+    @Override
+    @Transactional
+    public int getActiveAccountsCount() {
+        return accountDAO.getActiveAccountsCount();
     }
 }

@@ -3,6 +3,7 @@ package com.elstele.bill.dao.common;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import org.hibernate.Filter;
 import org.hibernate.Session;
+import com.elstele.bill.utils.Status;
 
 public interface CommonDAO <T> {
 
@@ -33,4 +34,10 @@ public interface CommonDAO <T> {
     public void save(T transientObject);
 
     public Filter setFilter(Session session, String filterName);
+
+    public void setStatus(CommonDomainBean persistentObject, Status status);
+
+    public void setStatus(Integer id, Status status);
+
+    public void updateAndMerge(T transientObject);
 }

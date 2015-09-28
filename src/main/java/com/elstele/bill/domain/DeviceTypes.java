@@ -30,7 +30,7 @@ public class DeviceTypes extends CommonDomainBean{
     }
 
     public void setDeviceType(String deviceType) {
-        deviceType = deviceType;
+        this.deviceType = deviceType;
     }
 
 }

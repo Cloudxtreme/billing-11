@@ -15,11 +15,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     @Autowired
     private SessionFactory sessionFactory;
     private Class<T> type;
+
     /**
-    more example see here
-    http://www.codeproject.com/Articles/251166/The-Generic-DAO-pattern-in-Java-with-Spring-3-and
-    */
-     public CommonDAOImpl() {
+     * more example see here
+     * http://www.codeproject.com/Articles/251166/The-Generic-DAO-pattern-in-Java-with-Spring-3-and
+     */
+    public CommonDAOImpl() {
         Type t = getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) t;
         type = (Class) pt.getActualTypeArguments()[0];
@@ -35,12 +36,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
     @Override
     public Integer create(T o) {
-        return (Integer)this.sessionFactory.getCurrentSession().save(o);
+        return (Integer) this.sessionFactory.getCurrentSession().save(o);
     }
 
     @Override
     public T getById(Integer id) {
-        T persistentObject = (T)this.sessionFactory.getCurrentSession().get(type, id);
+        T persistentObject = (T) this.sessionFactory.getCurrentSession().get(type, id);
         return persistentObject;
     }
 
@@ -53,6 +54,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     @Override
     public void merge(T transientObject) {
         this.sessionFactory.getCurrentSession().merge(transientObject);
+    }
+
+    @Override
+    public void updateAndMerge(T transientObject) {
+        transientObject = (T)sessionFactory.getCurrentSession().merge(transientObject);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
 
@@ -69,17 +76,24 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         }
     }
 
+    //TODO please read Hibernate docs once again, and decide if we really need this method
     @Override
-    public void setStatusDelete(CommonDomainBean persistentObject){
-        persistentObject.setStatus(Status.DELETED);
+    public void save(T transientObject) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
+        this.sessionFactory.getCurrentSession().flush();
+    }
+
+    @Override
+    public void setStatus(CommonDomainBean persistentObject, Status status) {
+        persistentObject.setStatus(status);
         this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
     }
 
     @Override
-    public void setStatusDelete(Integer id){
-        CommonDomainBean persistentObject = (CommonDomainBean)this.getById(id);
+    public void setStatus(Integer id, Status status) {
+        CommonDomainBean persistentObject = (CommonDomainBean) this.getById(id);
         if (persistentObject != null) {
-            persistentObject.setStatus(Status.DELETED);
+            persistentObject.setStatus(status);
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
         }
     }
@@ -93,10 +107,23 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
 
-    //TODO please read Hibernate docs once again and decide if we really need this method
     @Override
-    public void save(T transientObject) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
-        this.sessionFactory.getCurrentSession().flush();
+    public void setStatusDelete(CommonDomainBean persistentObject) {
+        persistentObject.setStatus(Status.DELETED);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+
+    }
+
+
+    @Override
+    public void setStatusDelete(Integer id) {
+        CommonDomainBean persistentObject = (CommonDomainBean) this.getById(id);
+        if (persistentObject != null) {
+            persistentObject.setStatus(Status.DELETED);
+            this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+
+        }
+
     }
 }
+
