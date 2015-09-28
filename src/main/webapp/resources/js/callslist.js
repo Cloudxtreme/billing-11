@@ -59,7 +59,7 @@ function drawRow(rowData) {
     var date = new Date(rowData.startTime);
     row.append($("<td>" + rowData.numberA + "</td>"));
     row.append($("<td>" + rowData.numberB + "</td>"));
-    row.append($("<td>" + date.format('yyyy/mm/dd HH:MM:ss') + "</td>"));
+    row.append($("<td>" + date.format('yyyy/mm/dd HH:MM') + "</td>"));
     row.append($("<td>" + rowData.duration + "</td>"));
     row.append($("<td>" + rowData.aonKat + "</td>"));
     row.append($("<td>" + rowData.dvoCodeA + "</td>"));
@@ -71,10 +71,11 @@ $(document).ready(function(){
         pageResults = $("#selectEntries option:selected").val();
 
         $.ajax({
-            url: 'callsPages'+pageResults,
-            type: "get",
+            url: 'callsPages?pageResults='+pageResults,
+            type: "post",
             dataType: "json",
-            success: function() {
+            success: function(data) {
+                $('#totalPages').text(data);
             }
         });
 
@@ -82,7 +83,7 @@ $(document).ready(function(){
 
     });
 
-    $(".form-control").on('keydown',function(event) {
+   $(".form-control").on('keydown',function(event) {
         if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
             (event.keyCode == 65 && event.ctrlKey === true) ||
             (event.keyCode >= 35 && event.keyCode <= 39)) {
@@ -95,6 +96,7 @@ $(document).ready(function(){
         }
     });
 
+
     /*Date Range picker settings*/
     var drp = $('input[name="daterange"]').data('daterangepicker');
     $('input[name="daterange"]').daterangepicker({
@@ -103,7 +105,7 @@ $(document).ready(function(){
         "timePicker24Hour": true,
         locale: {
             cancelLabel: 'Clear',
-            format: 'DD/MM/YYYY HH:mm'
+            format: 'YYYY/MM/DD HH:mm'
         },
         autoUpdateInput: true
     }).val('');
@@ -118,7 +120,7 @@ $(document).ready(function(){
     function searchValues(rows, page){
         var numberA = $('#searchNumberA').val();
         var numberB = $('#searchNumberB').val();
-        var startTime = $('#searchDate').val();
+        var timeRange = $('#searchDate').val();
         var callForm = {
             "numberA" : numberA,
             "numberB": numberB
@@ -127,8 +129,7 @@ $(document).ready(function(){
             type: "POST",
             contentType: "application/json",
             dataType : 'json',
-            url: 'searchCalls?rows='+rows+'&page='+page,
-            data: JSON.stringify(callForm), // Note it is important
+            url: 'searchCalls?rows='+rows+'&page='+page+'&numberA='+numberA+'&numberB='+numberB+'&timeRange='+timeRange,
             success :function(data, textStatus, jqXHR) {
                 drawTable(data);
                 setCurrentPageNumber(page);
@@ -137,7 +138,6 @@ $(document).ready(function(){
     }
 
     $('#searchBtn').on('click',function(){
-        console.log("Btn search was pressed");
         searchValues(pageResults, 1);
     });
 

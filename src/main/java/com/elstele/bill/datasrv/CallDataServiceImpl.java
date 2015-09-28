@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,6 +41,21 @@ public class CallDataServiceImpl implements CallDataService {
         page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
         int offset = page*rows;
         List<Call> beans = callDAO.getCallsList(rows, offset);
+        for (Call curBean : beans){
+            CallForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<CallForm> callsListSelectionBySearch(int rows, int page, String numberA, String numberB, Date startDate, Date endDate) {
+        List<CallForm> result = new ArrayList<CallForm>();
+        CallAssembler assembler = new CallAssembler();
+        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
+        int offset = page*rows;
+        List<Call> beans = callDAO.callsListSelectionBySearch(rows, offset, numberA, numberB, startDate, endDate);
         for (Call curBean : beans){
             CallForm curForm = assembler.fromBeanToForm(curBean);
             result.add(curForm);
