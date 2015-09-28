@@ -141,6 +141,13 @@ $(document).ready(function(){
         searchValues(pageResults, 1);
     });
 
+    $('#eraseSearch').on('click',function(){
+        $('#searchNumberA').val('');
+        $('#searchNumberB').val('');
+        $('#searchDate').val('');
+        renderCallsTable(pageResults, 1);
+    })
+
 
 
 

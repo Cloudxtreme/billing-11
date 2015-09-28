@@ -48,13 +48,18 @@
 
     <form class="navbar-form" role="search">
         <div class="form-group">
+            <a href="#" class="btn btn-primary btn-sm link-btn" id="eraseSearch"><span
+                    class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+        </div>
+        <div class="form-group">
             <input type="text" class="form-control" placeholder="Number A" id="searchNumberA">
         </div>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Number B" id="searchNumberB">
         </div>
         <div class="form-group ">
-            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="Calls' start time date" id="searchDate"/>
+            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="Calls' start time date"
+                   id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn">Search</a>
     </form>
