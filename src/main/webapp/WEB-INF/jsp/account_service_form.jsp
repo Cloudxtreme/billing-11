@@ -26,6 +26,16 @@
     <spring:url value="/resources/css/bootstrap-datepicker.min.css" var="datepickerCss" />
     <link href="${datepickerCss}" rel="stylesheet"/>
 
+    <script type="text/javascript">
+        $(function () {
+            $('#datepicker1').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
 
 </head>
 <body>
@@ -64,7 +74,7 @@
                     <div class="col-lg-9">
                         <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
                         <div class='input-group date' id='datepicker1'>
-                            <form:input path="dateStart" class="form-control" value="${dateString}" placeholder="yyyy-MM-dd" readonly="true"/>
+                            <form:input path="dateStart" id="dateStart" class="form-control" value="${dateString}" placeholder="yyyy-MM-dd" readonly="true"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -72,22 +82,12 @@
                         <form:errors path="dateStart" cssClass="alert-danger" />
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datepicker1').datepicker({
-                            format: 'yyyy-mm-dd'
-                        });
-                        $('#datepicker2').datepicker({
-                            format: 'yyyy-mm-dd'
-                        });
-                    });
-                </script>
                 <div class="form-group">
                     <label for="dateEnd" class="col-lg-3 control-label">Date End</label>
                     <div class="col-lg-9">
                         <fmt:formatDate value="${dateEnd.date}" var="dateString" pattern="yyyy-MM-dd" />
                         <div class='input-group date' id='datepicker2'>
-                            <form:input path="dateEnd" class="form-control" value="${dateEnd}" placeholder="yyyy-MM-dd"  readonly="true"/>
+                            <form:input path="dateEnd" class="form-control" value="${dateEnd}" id="dateEnd" placeholder="yyyy-MM-dd"  readonly="true"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
