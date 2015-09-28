@@ -1,6 +1,7 @@
 package com.elstele.bill.datasrv;
 
 import com.elstele.bill.assembler.ServiceAssembler;
+import com.elstele.bill.assembler.ServiceTypeAssembler;
 import com.elstele.bill.dao.AccountDAO;
 import com.elstele.bill.dao.ServiceDAO;
 import com.elstele.bill.dao.ServiceTypeDAO;
@@ -9,6 +10,7 @@ import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceForm;
+import com.elstele.bill.form.ServiceTypeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +40,11 @@ public class ServiceDataServiceImpl implements ServiceDataService {
         return serviceDAO.listServices();
     }
 
+
     @Override
     @Transactional
     public String saveService(ServiceForm form) {
         ServiceAssembler assembler = new ServiceAssembler();
-        String message = "Service was successfully ";
-        ServiceT service = new ServiceT();
-        if(form.getServiceType().equals("internet")) {
-            service = assembler.fromFormToInternetBean(form);
-        }
-        if(form.getServiceType().equals("phone")) {
-            service = assembler.fromFormToPhoneBean(form);
         Service service = new Service();
         ServiceType servType = serviceTypeDAO.getById(form.getServiceType().getId());
         if(servType.getServiceType().equals("internet")) {
