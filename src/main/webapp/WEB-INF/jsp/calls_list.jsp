@@ -85,18 +85,6 @@
                     class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
         </div>
 
-        <%--<ul class="pagination">
-            <li><a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick="goToPrevPage();"><span
-                    class="glyphicon glyphicon-backward" aria-hidden="true"></span></a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick="goToNextPage();"><span
-                    class="glyphicon glyphicon-forward" aria-hidden="true"></span></a></li>
-        </ul>--%>
-
 
     </div>
 </div>

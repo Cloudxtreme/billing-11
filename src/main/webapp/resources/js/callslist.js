@@ -1,6 +1,6 @@
 var pageResults = 10;
 
-$(function() {
+$(function () {
     // set active navigation tab "Calls"
     console.log("start js onLoad");
     $("li").removeClass('active');
@@ -11,8 +11,8 @@ $(function() {
 function goToPrevPage() {
     var currentPageNum = $("#pageNumber").text();
     console.log("goPrev push with " + currentPageNum);
-    var nextPage = Number(currentPageNum)-1;
-    if (nextPage != 0){
+    var nextPage = Number(currentPageNum) - 1;
+    if (nextPage != 0) {
         renderCallsTable(pageResults, nextPage);
     }
 };
@@ -21,24 +21,23 @@ function goToNextPage() {
     var currentPageNum = $("#pageNumber").text();
     var totalPages = $("#totalPages").text();
     console.log("goNext push with " + currentPageNum);
-    var nextPage = Number(currentPageNum)+1;
-    if (nextPage <= totalPages){
+    var nextPage = Number(currentPageNum) + 1;
+    if (nextPage <= totalPages) {
         renderCallsTable(pageResults, nextPage);
     }
 };
 
-function setCurrentPageNumber(number){
+function setCurrentPageNumber(number) {
     $("#pageNumber").html(number);
 };
 
-function renderCallsTable(rows, page){
-    console.log("page="+page+"row="+rows);
+function renderCallsTable(rows, page) {
+    console.log("page=" + page + "row=" + rows);
     $.ajax({
-        url: 'callsList?rows='+rows+'&page='+page,
+        url: 'callsList?rows=' + rows + '&page=' + page,
         type: "get",
         dataType: "json",
-        success: function(data, textStatus, jqXHR) {
-            // since we are using jQuery, you don't need to parse response
+        success: function (data, textStatus, jqXHR) {
             drawTable(data);
             setCurrentPageNumber(page);
         }
@@ -66,15 +65,15 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.dvoCodeB + "</td>"));
 }
 
-$(document).ready(function(){
-    $('#selectEntries').on('change',function(){
+$(document).ready(function () {
+    $('#selectEntries').on('change', function () {
         pageResults = $("#selectEntries option:selected").val();
 
         $.ajax({
-            url: 'callsPages?pageResults='+pageResults,
+            url: 'callsPages?pageResults=' + pageResults,
             type: "post",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 $('#totalPages').text(data);
             }
         });
@@ -83,13 +82,15 @@ $(document).ready(function(){
 
     });
 
-   $(".form-control").on('keydown',function(event) {
-        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
+    $(".form-control").on('keydown', function (event) {
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
             (event.keyCode == 65 && event.ctrlKey === true) ||
             (event.keyCode >= 35 && event.keyCode <= 39)) {
             return;
         }
-        else {
+        if (event.keyCode == 13) {
+            searchValues(pageResults, 1)
+        } else {
             if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
                 event.preventDefault();
             }
@@ -111,45 +112,47 @@ $(document).ready(function(){
     }).val('');
 
 
-    $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+    $('input[name="daterange"]').on('cancel.daterangepicker', function (ev, picker) {
         $('input[name="daterange"]').val('');
     });
 
 
     /*Search function logic*/
-    function searchValues(rows, page){
+    function searchValues(rows, page) {
         var numberA = $('#searchNumberA').val();
         var numberB = $('#searchNumberB').val();
         var timeRange = $('#searchDate').val();
         var callForm = {
-            "numberA" : numberA,
+            "numberA": numberA,
             "numberB": numberB
         };
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            dataType : 'json',
-            url: 'searchCalls?rows='+rows+'&page='+page+'&numberA='+numberA+'&numberB='+numberB+'&timeRange='+timeRange,
-            success :function(data, textStatus, jqXHR) {
+            dataType: 'json',
+            url: 'searchCalls?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+            success: function (data, textStatus, jqXHR) {
                 drawTable(data);
                 setCurrentPageNumber(page);
             }
         });
     }
 
-    $('#searchBtn').on('click',function(){
+    $('#searchBtn').on('click', function () {
         searchValues(pageResults, 1);
     });
+    $('.form-control').bind('keypress', function (e) {
+        if (e.keyCode == 13) {
+            searchValues(pageResults, 1);
+        }
+    });
 
-    $('#eraseSearch').on('click',function(){
+    $('#eraseSearch').on('click', function () {
         $('#searchNumberA').val('');
         $('#searchNumberB').val('');
         $('#searchDate').val('');
         renderCallsTable(pageResults, 1);
     })
-
-
-
 
 
 });
