@@ -52,6 +52,7 @@ a:hover {
 abbr[title] {
   border-bottom: 1px dotted;
 }
+
 b,
 strong {
   font-weight: bold;
@@ -91,6 +92,18 @@ svg:not(:root) {
 }
 figure {
   margin: 1em 40px;
+}
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+  text-align:center;
+  z-index:1234;
+  overflow: auto;
+  width: 100px;
+  height: 102px;
 }
 hr {
   height: 0;
@@ -340,6 +353,9 @@ th {
   content: "\e014";
 }
 .glyphicon-remove:hover{
+  cursor: pointer;
+}
+.glyphicon:hover{
   cursor: pointer;
 }
 .glyphicon-zoom-in:before {
@@ -1105,6 +1121,7 @@ a {
 }
 a:hover,
 a:focus {
+  cursor: pointer;
   color: #23527c;
   text-decoration: none;
 }

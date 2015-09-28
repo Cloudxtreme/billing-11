@@ -1,12 +1,13 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 
 public class IpForm {
     public Integer id;
     public String ipName;
-    public String net;
+    public IpSubnet ipSubnet;
     public Status status;
     public IpStatus ipStatus;
 
@@ -35,12 +36,13 @@ public class IpForm {
         this.ipName = ipName;
     }
 
-    public String getNet() {
-        return net;
+
+    public IpSubnet getIpSubnet() {
+        return ipSubnet;
     }
 
-    public void setNet(String net) {
-        this.net = net;
+    public void setIpSubnet(IpSubnet ipSubnet) {
+        this.ipSubnet = ipSubnet;
     }
 
     public Status getStatus() {

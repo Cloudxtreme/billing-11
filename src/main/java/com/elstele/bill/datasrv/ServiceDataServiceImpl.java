@@ -42,6 +42,13 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Transactional
     public String saveService(ServiceForm form) {
         ServiceAssembler assembler = new ServiceAssembler();
+        String message = "Service was successfully ";
+        ServiceT service = new ServiceT();
+        if(form.getServiceType().equals("internet")) {
+            service = assembler.fromFormToInternetBean(form);
+        }
+        if(form.getServiceType().equals("phone")) {
+            service = assembler.fromFormToPhoneBean(form);
         Service service = new Service();
         ServiceType servType = serviceTypeDAO.getById(form.getServiceType().getId());
         if(servType.getServiceType().equals("internet")) {

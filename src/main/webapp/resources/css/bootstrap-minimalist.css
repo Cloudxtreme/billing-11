@@ -283,6 +283,15 @@ th {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.glyphicon:hover{
+    cursor: pointer;
+}
+.glyphicon-ok:hover{
+    cursor: pointer;
+}
+.glyphicon-edit:hover{
+    cursor: pointer;
+}
 .glyphicon-asterisk:before {
     content: "\2a";
 }

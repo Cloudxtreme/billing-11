@@ -12,8 +12,10 @@ import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
 import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.ResponseToAjax;
 import com.elstele.bill.utils.Status;
 import com.elstele.bill.utils.SubnetPurpose;
+import org.hibernate.Hibernate;
 import org.omg.PortableInterceptor.ACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,8 @@ public class DeviceController {
     }
 
 
+
+
     @RequestMapping(value="/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList(HttpSession session){
@@ -60,6 +64,16 @@ public class DeviceController {
         ModelAndView mav = new ModelAndView("device");
         mav.addObject("list", result);
         return mav;
+    }
+
+    @RequestMapping(value="/devicetypeslist", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView getDeviceTypeList(HttpSession session){
+        List<DeviceTypesForm> devType = new ArrayList<DeviceTypesForm>();
+        devType = deviceTypesDataService.getDeviceTypes();
+        ModelAndView model = new ModelAndView("devicetypelist");
+        model.addObject("devicetypelist",devType);
+        return model;
     }
 
     @RequestMapping(value="/adddevice", method = RequestMethod.GET)
@@ -79,9 +93,9 @@ public class DeviceController {
         List<IpForm> ipForms  = new ArrayList<IpForm>();
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
-            ipMap.put(ipForm.getId(), ipForm.getIpName());
+        for (IpForm ipForm : ipForms) {
+            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
+                ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         model.addObject("ipAddressList", ipMap);
 
@@ -126,10 +140,9 @@ public class DeviceController {
 
     @RequestMapping(value="/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
+    public ResponseToAjax deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
        /* String numberOnly= json.replaceAll("[^0-9]", "");*/
         Integer id = Integer.parseInt(json);
-        String result = "";
 
         IpStatus ipStatus = IpStatus.FREE;
         DeviceForm deviceForm = deviceDataService.getById(id);
@@ -138,14 +151,12 @@ public class DeviceController {
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
             }
             deviceDataService.deleteDevice(id);
-            result = "success";
+            return ResponseToAjax.SUCCESS;
 
         } catch (NullPointerException e) {
-            String error = e.getMessage();
-            result = error;
+            System.out.println(e.toString());
+            return ResponseToAjax.ERROR;
         }
-
-        return result;
     }
 
     @RequestMapping(value="/device/{id}/update", method = RequestMethod.GET)
@@ -167,7 +178,7 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -189,11 +200,23 @@ public class DeviceController {
 
 
     @RequestMapping(value="/adddevicetype", method = RequestMethod.POST)
-    public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
-        DeviceTypesForm elseDeviceTypesform = new DeviceTypesForm();
-        elseDeviceTypesform.setDeviceType(deviceTypesForm.getDeviceType());
-        deviceTypesDataService.addDeviceType(elseDeviceTypesform);
+     public String doAddDeviceType(@ModelAttribute("deviceTypeModalForm") DeviceTypesForm deviceTypesForm, HttpServletResponse response){
+        /*DeviceTypesForm elseDeviceTypesform = new DeviceTypesForm();
+        elseDeviceTypesform.setDeviceType(deviceTypesForm.getDeviceType());*/
+        deviceTypesDataService.addDeviceType(deviceTypesForm);
         return "redirect:/adddevice.html";
+    }
+
+    @RequestMapping(value="/editdevicetype", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseToAjax editDeviceType(@RequestBody DeviceTypesForm deviceTypesForm, HttpServletRequest request, HttpServletResponse responseBody){
+        try {
+            deviceTypesDataService.updateDeviceTypes(deviceTypesForm);
+            return ResponseToAjax.SUCCESS;
+        }catch(Exception e){
+            System.out.println(e.toString());
+            return ResponseToAjax.ERROR;
+        }
     }
 
 
@@ -204,7 +227,7 @@ public class DeviceController {
         List<IpForm> list = ipDataService.getBySubnetId(id);
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : list)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED )
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
 
@@ -218,11 +241,13 @@ public class DeviceController {
         ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipForms)
-        {if (ipForm.getIpStatus() != IpStatus.USED)
+        {if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
             ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
     }
+
+
 
 
 }
