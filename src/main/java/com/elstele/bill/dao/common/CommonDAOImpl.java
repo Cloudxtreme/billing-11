@@ -41,7 +41,9 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
     @Override
     public T getById(Integer id) {
-        T persistentObject = (T) this.sessionFactory.getCurrentSession().get(type, id);
+        Session session = this.sessionFactory.getCurrentSession();
+        setFilter(session,"showActive");
+        T persistentObject = (T) session.get(type, id);
         return persistentObject;
     }
 

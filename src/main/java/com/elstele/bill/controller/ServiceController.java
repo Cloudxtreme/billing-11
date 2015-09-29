@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.AccountDataService;
 import com.elstele.bill.datasrv.ServiceDataService;
 import com.elstele.bill.datasrv.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceInternet;
+import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.ServiceInternetForm;
 import com.elstele.bill.validator.ServiceValidator;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -36,12 +38,14 @@ public class ServiceController {
     @Autowired
     private ServiceValidator serviceValidator;
 
-    @RequestMapping(value = "/service/account/{id}/delete", method = RequestMethod.GET)
-    public String serviceDelete(@PathVariable("id") Integer idAccountService, HttpSession session, Map<String, Object> map) {
-        serviceDataService.deleteService(idAccountService);
-        map.put("accountList", accountDataService.getAccountsList());
-        map.put("successMessage","Account Service was successfully deleted.");
-        return "account_service";
+    @RequestMapping(value="/service/account/{accountId}/{accountServiceId}/delete", method = RequestMethod.GET)
+    public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId, HttpServletRequest request) {
+        serviceDataService.deleteService(accountServiceId);
+        ModelAndView mav = new ModelAndView("accountFull");
+        AccountForm result = accountDataService.getAccountById(accountId);
+        mav.addObject("accountForm", result);
+        mav.addObject("successMessage", "Service was successfully deleted.");
+        return mav;
     }
 
     @InitBinder
@@ -64,11 +68,11 @@ public class ServiceController {
             return mav;
         } else {
             String message = serviceDataService.saveService(form);
-            ModelAndView mav = new ModelAndView("account_service");
+            ModelAndView mav = new ModelAndView("accountFull");
             mav.addObject("successMessage", message);
-            mav.addObject("accountList", accountDataService.getAccountsList());
+            AccountForm res = accountDataService.getAccountById(form.getAccountId());
+            mav.addObject("accountForm", res);
             return mav;
-
         }
     }
     @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/modify", method = RequestMethod.GET)

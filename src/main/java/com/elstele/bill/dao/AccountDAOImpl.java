@@ -14,7 +14,9 @@ import java.util.List;
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
     @Override
     public List<Account> getAccountList(int limit, int offset) {
-        Query q = getSessionFactory().getCurrentSession().
+        Session session = getSessionFactory().getCurrentSession();
+        setFilter(session, "showActive");
+        Query q = session.
                 createQuery("select a from Account a where status <> 'DELETED'" +
                         "order by a.accountName");
         q.setFirstResult(offset).setMaxResults(limit);
@@ -33,6 +35,8 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
 
     @Override
     public Integer getActiveAccountsCount() {
+        Session session = getSessionFactory().getCurrentSession();
+        setFilter(session, "showActive");
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select count(* ) from Account a where status <> 'DELETED'");
         Long res = (Long)q.uniqueResult();
