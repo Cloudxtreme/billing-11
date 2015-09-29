@@ -63,7 +63,7 @@
                             <td>${accountService.serviceType.name}</td>
                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                             <td><fmt:formatDate value="${accountService.dateEnd}" pattern="yyyy-MM-dd" /></td>
-                            <td>${accountService.serviceType.price}</td>
+                            <td><%--${accountService.serviceType.price}--%></td>
                         </tr>
                     </label>
                 </c:forEach>
