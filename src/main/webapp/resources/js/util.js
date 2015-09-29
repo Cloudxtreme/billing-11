@@ -2,14 +2,16 @@ $(function() {
     // highlighting the selected menu
     var s = window.location.href;
     // --- For SERVICE ---
-    if(s.indexOf("service") > -1) {
+    if(s.indexOf("service/account") > -1) {
         $("#linkToServices").addClass('selected');
-        if(s.indexOf("user") > -1)
-            $("#linkToUserService").addClass('active');
-        else
-            $("#linkToServiceCatalog").addClass('active');
+        $("#linkToUserService").addClass('active');
     }
-    //  --- For ACCONT Page ---
+    // --- For SERVICE TYPE/CATALOG
+    if(s.indexOf("catalog") > -1) {
+        $("#linkToServices").addClass('selected');
+        $("#linkToServiceCatalog").addClass('active');
+    }
+    //  --- For ACCOUNT Page ---
     if(s.indexOf("accounts") > -1) {
         $("#linkToAccounts").addClass('selected');
     }

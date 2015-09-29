@@ -25,6 +25,32 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     @Override
+    public Integer getCallsCountWithSearchValues(String numberA, String numberB, Date startDate, Date endDate) {
+        StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
+        if (numberA!=null && !numberA.isEmpty()) {
+            numberA = "and numberA like '%" + numberA + "%'";
+            queryStart.append(numberA);
+        }
+        if (numberB!=null && !numberB.isEmpty()) {
+            numberB = " and numberB like '%" + numberB + "%'";
+            queryStart.append(numberB);
+        }
+        if (startDate != null) {
+            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + startDate + "'");
+            queryStart.append(startDateString);
+
+        }
+        if (endDate != null) {
+            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + endDate + "'");
+            queryStart.append(endDateString);
+        }
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery(queryStart.toString());
+        Long res = (Long) q.uniqueResult();
+        return res.intValue();
+    }
+
+    @Override
     public List<Call> getCallsList(int limit, int offset) {
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select a from Call a order by a.startTime");

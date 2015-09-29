@@ -35,6 +35,12 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Override
     @Transactional
+    public int getCallsCountWithSearchValues(String numberA, String numberB, Date startDate, Date endDate) {
+        return callDAO.getCallsCountWithSearchValues(numberA, numberB, startDate, endDate);
+    }
+
+    @Override
+    @Transactional
     public List<CallForm> getCallsList(int rows, int page) {
         List<CallForm> result = new ArrayList<CallForm>();
         CallAssembler assembler = new CallAssembler();

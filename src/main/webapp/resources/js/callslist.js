@@ -32,17 +32,30 @@ function setCurrentPageNumber(number) {
 };
 
 function renderCallsTable(rows, page) {
-    console.log("page=" + page + "row=" + rows);
-    $.ajax({
-        url: 'callsList?rows=' + rows + '&page=' + page,
-        type: "get",
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            drawTable(data);
-            setCurrentPageNumber(page);
-        }
-    });
-};
+    var numberA = $('#searchNumberA').val();
+    var numberB = $('#searchNumberB').val();
+    var timeRange = $('#searchDate').val();
+
+    if(isNaN(numberA) || isNaN(numberB)){
+        document.getElementById('errorMessage').style.display="block";
+        setTimeout(function() {
+            $("#errorMessage").fadeOut(2000);
+        });
+    }else {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            dataType: 'json',
+            url: 'callsList?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+            success: function (data, textStatus, jqXHR) {
+                drawTable(data);
+                setCurrentPageNumber(page);
+            }
+        });
+        getPageCounts();
+
+    }
+}
 
 function drawTable(data) {
     $("#callsTable").find("tr:gt(0)").remove();
@@ -65,26 +78,31 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.dvoCodeB + "</td>"));
 }
 
+function getPageCounts(){
+    var numberA = $('#searchNumberA').val();
+    var numberB = $('#searchNumberB').val();
+    var timeRange = $('#searchDate').val();
+    pageResults = $("#selectEntries option:selected").val();
+    $.ajax({
+        url: 'callsPages?pageResults=' + pageResults + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            $('#totalPages').text(data);
+        }
+    });
+}
+
 $(document).ready(function () {
     $('#selectEntries').on('change', function () {
-        pageResults = $("#selectEntries option:selected").val();
-
-        $.ajax({
-            url: 'callsPages?pageResults=' + pageResults,
-            type: "post",
-            dataType: "json",
-            success: function (data) {
-                $('#totalPages').text(data);
-            }
-        });
-
+        getPageCounts();
         renderCallsTable(pageResults, 1);
 
     });
 
     $(".form-control").on('keydown', function (event) {
         if (event.keyCode == 13) {
-            searchValues(pageResults, 1)
+            renderCallsTable(pageResults,1);
         }
     });
 
@@ -108,35 +126,8 @@ $(document).ready(function () {
     });
 
 
-    /*Search function logic*/
-    function searchValues(rows, page) {
-        var numberA = $('#searchNumberA').val();
-        var numberB = $('#searchNumberB').val();
-        var timeRange = $('#searchDate').val();
-
-        if(isNaN(numberA) || isNaN(numberB)){
-            document.getElementById('errorMessage').style.display="block";
-            setTimeout(function() {
-                $("#errorMessage").fadeOut(2000);
-            });
-        }else {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: 'json',
-                url: 'searchCalls?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
-                success: function (data, textStatus, jqXHR) {
-                    drawTable(data);
-                    setCurrentPageNumber(page);
-                }
-            });
-
-        }
-
-    }
-
     $('#searchBtn').on('click', function () {
-        searchValues(pageResults, 1);
+        renderCallsTable(pageResults,1);
     });
 
     $('#eraseSearch').on('click', function () {

@@ -9,6 +9,7 @@ import java.util.List;
 public interface CallDAO extends CommonDAO<Call> {
     public List<Call> getCalls();
     public Integer getCallsCount();
+    public Integer getCallsCountWithSearchValues(String numberA, String numberB, Date startDate, Date endDate);
     public List<Call> getCallsList(int limit, int offset);
     public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate);
 }
