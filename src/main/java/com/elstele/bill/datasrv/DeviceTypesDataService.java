@@ -11,4 +11,10 @@ public interface DeviceTypesDataService {
     public List<DeviceTypesForm> getDeviceTypes();
 
     public void addDeviceType(DeviceTypesForm deviceTypesForm);
+
+    public DeviceTypesForm getById(Integer id);
+
+    public void deleteDeviceType(Integer id);
+
+    public void updateDeviceTypes(DeviceTypesForm deviceTypesForm);
 }

@@ -13,6 +13,8 @@ import java.util.Set;
 public class DeviceTypes extends CommonDomainBean{
 
     public String deviceType;
+    public String description;
+    public Integer portsNumber;
 
     @OneToMany(mappedBy="deviceTypes")
     private Set<Device> devices;
@@ -33,4 +35,19 @@ public class DeviceTypes extends CommonDomainBean{
         this.deviceType = deviceType;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getPortsNumber() {
+        return portsNumber;
+    }
+
+    public void setPortsNumber(Integer portsNumber) {
+        this.portsNumber = portsNumber;
+    }
 }

@@ -27,6 +27,8 @@ public class DeviceAssembler {
             //bunch device with deviceTypes
             deviceTypesForm.setId(bean.getDeviceTypes().getId());
             deviceTypesForm.setDeviceType(bean.getDeviceTypes().getDeviceType());
+            deviceTypesForm.setPortsNumber(bean.getDeviceTypes().getPortsNumber());
+            deviceTypesForm.setDescription(bean.getDeviceTypes().getDescription());
 
             //bunch device with Ip
             ipForm.setId(bean.getIpAdd().getId());

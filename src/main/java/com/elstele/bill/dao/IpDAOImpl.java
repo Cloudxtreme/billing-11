@@ -2,6 +2,7 @@ package com.elstele.bill.dao;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Ip;
+import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import org.hibernate.Query;
@@ -33,4 +34,7 @@ public class IpDAOImpl extends CommonDAOImpl<Ip> implements IpDAO{
         Query query = getSessionFactory().getCurrentSession().createQuery("from Ip where ipSubnet.id is "+id);
         return (List<Ip>)query.list();
     }
+
+
+
 }

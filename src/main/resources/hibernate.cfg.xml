@@ -11,6 +11,7 @@
         <mapping class="com.elstele.bill.domain.LocalUser"/>
         <mapping class="com.elstele.bill.domain.Activity"/>
         <mapping class="com.elstele.bill.domain.Account"/>
+        <mapping class="com.elstele.bill.domain.Address"/>
         <mapping class="com.elstele.bill.domain.Device"/>
         <mapping class="com.elstele.bill.domain.UserRole"/>
         <mapping class="com.elstele.bill.domain.DeviceTypes"/>
@@ -21,6 +22,9 @@
         <mapping class="com.elstele.bill.domain.Address"/>
         <mapping class="com.elstele.bill.domain.Ip"/>
         <mapping class="com.elstele.bill.domain.IpSubnet"/>
+        <mapping class="com.elstele.bill.domain.UploadedFileInfo"/>
+        <mapping class="com.elstele.bill.domain.Call"/>
+
 
 
 
