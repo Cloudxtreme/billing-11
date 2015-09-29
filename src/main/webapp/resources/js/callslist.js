@@ -1,4 +1,4 @@
-var pageResults = 10;
+var pageResults = 25;
 
 $(function () {
     // set active navigation tab "Calls"
@@ -83,17 +83,8 @@ $(document).ready(function () {
     });
 
     $(".form-control").on('keydown', function (event) {
-        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
-            (event.keyCode == 65 && event.ctrlKey === true) ||
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
-            return;
-        }
         if (event.keyCode == 13) {
             searchValues(pageResults, 1)
-        } else {
-            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault();
-            }
         }
     });
 
@@ -122,29 +113,30 @@ $(document).ready(function () {
         var numberA = $('#searchNumberA').val();
         var numberB = $('#searchNumberB').val();
         var timeRange = $('#searchDate').val();
-        var callForm = {
-            "numberA": numberA,
-            "numberB": numberB
-        };
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            dataType: 'json',
-            url: 'searchCalls?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
-            success: function (data, textStatus, jqXHR) {
-                drawTable(data);
-                setCurrentPageNumber(page);
-            }
-        });
+
+        if(isNaN(numberA) || isNaN(numberB)){
+            document.getElementById('errorMessage').style.display="block";
+            setTimeout(function() {
+                $("#errorMessage").fadeOut(2000);
+            });
+        }else {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: 'json',
+                url: 'searchCalls?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+                success: function (data, textStatus, jqXHR) {
+                    drawTable(data);
+                    setCurrentPageNumber(page);
+                }
+            });
+
+        }
+
     }
 
     $('#searchBtn').on('click', function () {
         searchValues(pageResults, 1);
-    });
-    $('.form-control').bind('keypress', function (e) {
-        if (e.keyCode == 13) {
-            searchValues(pageResults, 1);
-        }
     });
 
     $('#eraseSearch').on('click', function () {

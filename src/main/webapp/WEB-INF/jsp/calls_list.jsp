@@ -39,16 +39,15 @@
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>
-            <option value="25">25</option>
+            <option value="25" selected="selected">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
         entries
     </label>
-
     <form class="navbar-form" role="search">
         <div class="form-group">
-            <a href="#" class="btn btn-primary btn-sm link-btn" id="eraseSearch"><span
+            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span
                     class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
         </div>
         <div class="form-group">
@@ -62,6 +61,12 @@
                    id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn">Search</a>
+        &nbsp;&nbsp;
+        <div class="form-group">
+            <div  id="errorMessage" class="error alert-warning" style="display: none">
+                <strong>You can use only digits for searching</strong>
+            </div>
+        </div>
     </form>
 
     <div id="callsTableDiv">

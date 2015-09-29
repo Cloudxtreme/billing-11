@@ -33,25 +33,30 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<Call>) q.list();
     }
 
+
+    @Override
     public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate) {
-        String queryStart = "select a from Call a where 1=1 ";
-        String queryEnd = " order by a.startTime";
+        StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
+        StringBuffer queryEnd =  new StringBuffer(" order by a.startTime");
         if (numberA!=null && !numberA.isEmpty()) {
             numberA = "and numberA like '%" + numberA + "%'";
-            queryStart += numberA;
+            queryStart.append(numberA);
         }
         if (numberB!=null && !numberB.isEmpty()) {
             numberB = " and numberB like '%" + numberB + "%'";
-            queryStart += numberB;
+            queryStart.append(numberB);
         }
         if (startDate != null) {
-            queryStart += " and a.startTime >= '" + startDate + "'";
+            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + startDate + "'");
+            queryStart.append(startDateString);
+
         }
         if (endDate != null) {
-            queryStart += " and a.startTime <= '" + endDate + "'";
+            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + endDate + "'");
+            queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
-                createQuery(queryStart + queryEnd);
+                createQuery(queryStart.append(queryEnd).toString());
         q.setFirstResult(offset).setMaxResults(limit);
         return (List<Call>) q.list();
     }

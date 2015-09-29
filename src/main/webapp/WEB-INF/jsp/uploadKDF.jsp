@@ -32,14 +32,17 @@
   <div id="spinner" class="spinner" style="display:none;">
     <img id="img-spinner" src="resources/images/ajax-loader.gif" alt="Loading"/>
   </div>
-  <legend><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select file to upload
-
-      <a href="${pageContext.request.contextPath}/uploadedfiles" ><span class="glyphicon glyphicon-folder-open float-right" data-toggle="modal" style="color: #4da309"> Uploaded files</span></a>
+  <legend>
+    <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select file to upload
+    &nbsp;&nbsp;
+    <a href="${pageContext.request.contextPath}/uploadedfiles" style="text-decoration: none; color: rgba(88,124,173,0.54)"><span class="glyphicon glyphicon-folder-open"></span> Uploaded files</a>
   </legend>
 
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
     <div class="form-group" id="idForm">
-      <input type="file" name="file" id="exampleInputFile" multiple >
+      <span class="file-input btn btn-info btn-file">
+        Browse file to upload <input type="file" id="exampleInputFile" multiple>
+      </span>
       <ul id="list" class="list-group"></ul>
 
       <p class="help-block">Example block-level help text here.</p>
