@@ -82,17 +82,17 @@ public class CallsContoller {
     }
 
     private int determineTotalPagesForOutput(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
-        int accounts = 0;
+        int callsCount = 0;
         if (tempObjectForCallsRequestParam.getStartDate() == null && tempObjectForCallsRequestParam.getEndDate() == null &&
                 tempObjectForCallsRequestParam.getCallNumberA() == null && tempObjectForCallsRequestParam.getCallNumberB() == null) {
-            accounts = callDataService.getCallsCount();
+            callsCount = callDataService.getCallsCount();
         } else {
-            accounts = callDataService.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
+            callsCount = callDataService.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
         }
         int containedCount = tempObjectForCallsRequestParam.getPageResults();
-        if (accounts % containedCount == 0)
-            return accounts / containedCount;
+        if (callsCount % containedCount == 0)
+            return callsCount / containedCount;
         else
-            return (accounts / containedCount) + 1;
+            return (callsCount / containedCount) + 1;
     }
 }
