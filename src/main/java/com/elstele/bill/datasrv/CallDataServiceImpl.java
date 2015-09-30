@@ -4,6 +4,7 @@ import com.elstele.bill.assembler.CallAssembler;
 import com.elstele.bill.dao.CallDAO;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.form.CallForm;
+import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,8 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Override
     @Transactional
-    public int getCallsCountWithSearchValues(String numberA, String numberB, Date startDate, Date endDate) {
-        return callDAO.getCallsCountWithSearchValues(numberA, numberB, startDate, endDate);
+    public int getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
+        return callDAO.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
     }
 
     @Override

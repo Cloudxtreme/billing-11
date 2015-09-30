@@ -2,6 +2,7 @@ package com.elstele.bill.dao;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Call;
+import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
@@ -25,23 +26,23 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     @Override
-    public Integer getCallsCountWithSearchValues(String numberA, String numberB, Date startDate, Date endDate) {
+    public Integer getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
         StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
-        if (numberA!=null && !numberA.isEmpty()) {
-            numberA = "and numberA like '%" + numberA + "%'";
+        if (tempObjectForCallsRequestParam.getCallNumberA()!=null && !tempObjectForCallsRequestParam.getCallNumberA().isEmpty()) {
+            StringBuffer numberA = new StringBuffer("and numberA like '%" + tempObjectForCallsRequestParam.getCallNumberA() + "%'");
             queryStart.append(numberA);
         }
-        if (numberB!=null && !numberB.isEmpty()) {
-            numberB = " and numberB like '%" + numberB + "%'";
+        if (tempObjectForCallsRequestParam.getCallNumberB()!=null && !tempObjectForCallsRequestParam.getCallNumberB().isEmpty()) {
+            StringBuffer numberB = new StringBuffer(" and numberB like '%" + tempObjectForCallsRequestParam.getCallNumberB() + "%'");
             queryStart.append(numberB);
         }
-        if (startDate != null) {
-            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + startDate + "'");
+        if (tempObjectForCallsRequestParam.getStartDate() != null) {
+            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + tempObjectForCallsRequestParam.getStartDate() + "'");
             queryStart.append(startDateString);
 
         }
-        if (endDate != null) {
-            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + endDate + "'");
+        if (tempObjectForCallsRequestParam.getEndDate() != null) {
+            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + tempObjectForCallsRequestParam.getEndDate() + "'");
             queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
