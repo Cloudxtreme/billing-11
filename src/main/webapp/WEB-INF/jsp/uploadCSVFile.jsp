@@ -55,7 +55,7 @@
       <div id="spinner" class="modal-dialog" style="display:none;">
         <div class="modal-content">
           <div class="modal-body">
-            <img id="img-responsive" src="resources/images/720.gif" alt="Loading"/>
+            <img id="img-responsive" src="resources/images/loaderLine.gif" alt="Loading"/>
           </div>
         </div>
       </div>
