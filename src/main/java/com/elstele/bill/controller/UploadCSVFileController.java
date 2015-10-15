@@ -46,16 +46,24 @@ public class UploadCSVFileController {
                     try {
                         MultipartFile multipartFile = file.getFile(iter.next());
                         File fileFromMulti = CallForCSVHelper.convert(multipartFile);
+                        String fileName =  fileFromMulti.getName();
                         String line = "";
                         fileReader = new BufferedReader(new FileReader(fileFromMulti));
                         int counter = 1;
                         boolean firstLine = true;
                         while ((line = fileReader.readLine()) != null) {
-                            if (firstLine) {
-                                firstLine = false;
-                            } else {
-                                counter++;
-                                CallForCSVForm callForCSVForm = CallForCSVHelper.arrayHandlingMethod(line);
+                            CallForCSVForm callForCSVForm = new CallForCSVForm();
+                            counter++;
+                            if(!fileName.contains("ukr")){
+
+                                if (firstLine) {
+                                    firstLine = false;
+                                } else {
+                                    callForCSVForm = CallForCSVHelper.arrayHandlingMethodCSV(line);
+                                    callForCSVDataService.addReportData(callForCSVForm);
+                                }
+                            }else {
+                                callForCSVForm = CallForCSVHelper.arrayHandlingMethodCSVUkrNet(line);
                                 callForCSVDataService.addReportData(callForCSVForm);
                             }
                         }

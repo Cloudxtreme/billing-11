@@ -50,6 +50,7 @@ template {
 a {
     background-color: transparent;
 }
+
 a:active,
 a:hover {
     outline: 0;
@@ -1370,6 +1371,17 @@ a.text-success:hover {
 }
 a.text-info:hover {
     color: #2d6987;
+}
+a.undefaultStyleA{
+    background-color: transparent;
+    color: #029acf;
+    font-weight: 200;
+}
+a.undefaultStyleA:hover{
+    font-weight: 200;
+    cursor: pointer;
+    color: #122b40;
+    text-decoration: none !important;
 }
 .text-warning {
     color: #c09853;
@@ -5874,6 +5886,11 @@ button.close {
 .modal-title {
     margin: 0;
     line-height: 1.42857143;
+}
+body .modal-admin {
+    width: 250px;
+    position: relative;
+    padding: 20px;
 }
 .modal-body {
     position: relative;

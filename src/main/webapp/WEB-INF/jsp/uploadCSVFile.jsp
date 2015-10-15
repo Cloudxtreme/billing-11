@@ -36,7 +36,40 @@
 
   <legend>
     <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select CSV file to upload
+    &nbsp;&nbsp;
+    <a id="reportsList" href="#reportModal" data-toggle="modal" style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
+            class="glyphicon glyphicon-th-large"></span> Generate report</a>
   </legend>
+    <div class="modal" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-body">
+          <a class="undefaultStyleA" name="longReport"><span class="glyphicon glyphicon-save-file"></span>Long report</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="longReportRA"><span class="glyphicon glyphicon-save-file"></span>Long report RA</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="longReportRAUkrTel"><span class="glyphicon glyphicon-save-file"></span>Long report RA ukrtel</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="longReportRAVega"><span class="glyphicon glyphicon-save-file"></span>Long report RA vega</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="longReportVega"><span class="glyphicon glyphicon-save-file"></span>Long report vega</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="shortReportRE"><span class="glyphicon glyphicon-save-file"></span>Short report RE</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="shortReportREUkrTel"><span class="glyphicon glyphicon-save-file"></span>Short report RE ukrtel</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="shortReportREVega"><span class="glyphicon glyphicon-save-file"></span>Short report RE Vega</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="shortReportVega"><span class="glyphicon glyphicon-save-file"></span>Short report Vega</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="localCallsCostReport"><span class="glyphicon glyphicon-save-file"></span>Local calls cost report</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="localCallsDetailReport"><span class="glyphicon glyphicon-save-file"></span>Local calls detail report</a>
+          &nbsp;&nbsp;
+          <a class="undefaultStyleA" name="localCallsMainReport"><span class="glyphicon glyphicon-save-file"></span>Local calls main report</a>
+        </div>
+      </div>
+
+    </div>
 
   <%--Form for uploading files--%>
   <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
@@ -53,7 +86,7 @@
 
       <%--Spinner(Loader) body--%>
       <div id="spinner" class="modal-dialog" style="display:none;">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 298px !important;">
           <div class="modal-body">
             <img id="img-responsive" src="resources/images/loaderLine.gif" alt="Loading"/>
           </div>

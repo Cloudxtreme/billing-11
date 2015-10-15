@@ -2,6 +2,7 @@ var uniqFiles = [];
 
 $(document).ready(function () {
 
+
     function centerModal() {
         $(this).css('display', 'block');
         var $dialog = $(this).find(".modal-dialog");
@@ -135,6 +136,23 @@ $(document).ready(function () {
         });
 
     });
+
+    $('.undefaultStyleA').on('click', function getNameValue(){
+        var reportName = this.attr('name');
+        reportCreatingRequest(reportName);
+    }
+
+    function reportCreatingRequest(reportName){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            dataType: 'json',
+            url: 'reportCreating?reportName=' + reportName,
+            success: function (data) {
+            }
+        })
+    }
+
 
 
 
