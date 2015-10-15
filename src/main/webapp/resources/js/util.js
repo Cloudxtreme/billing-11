@@ -42,7 +42,12 @@ $(function() {
     // --- For File Uploading LISTPage ---
     if(s.indexOf("uploadfile") > -1) {
         $("#linkToUtils").addClass('selected');
-        $("#linkToFileUploading").addClass('active');
+        $("#linkToFile").addClass('active');
+    }
+    // --- For CSV FILE Uploading LISTPage ---
+    if(s.indexOf("uploadCSVFile") > -1) {
+        $("#linkToUtils").addClass('selected');
+        $("#linkToFile").addClass('active');
     }
     // --- For Calls List LISTPage ---
     if(s.indexOf("callshome") > -1) {

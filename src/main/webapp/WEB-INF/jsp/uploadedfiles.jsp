@@ -64,6 +64,8 @@
         $("li").removeClass('active');
         $("#linkToUtils").addClass('selected');
         $("#linkToFileUploading").addClass('active');
+        $("#linkToFile").addClass('active');
+
     });
 
     $('.check-box-table-cell').click(function() {
