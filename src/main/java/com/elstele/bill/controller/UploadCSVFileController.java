@@ -3,6 +3,7 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.utils.CallForCSVHelper;
+import com.elstele.bill.utils.ReportCreater;
 import com.elstele.bill.utils.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,4 +86,24 @@ public class UploadCSVFileController {
         return ResponseToAjax.FULLOPERATION;
     }
 
+    @RequestMapping(value = "/reportCreating", method = RequestMethod.GET)
+    @ResponseBody
+    public void generateAndDownloadReport(HttpServletRequest request, @RequestParam(value = "reportName") String reportName, HttpServletResponse response) throws IOException {
+        File file = new File("D:/files.txt");
+        InputStream is = new FileInputStream(file);
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\""
+                + file.getName() + "\"");
+        OutputStream os = response.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = is.read(buffer)) != -1) {
+            os.write(buffer, 0, len);
+        }
+        os.flush();
+        os.close();
+        is.close();
+
+    }
 }

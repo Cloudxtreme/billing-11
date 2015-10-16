@@ -138,9 +138,9 @@ $(document).ready(function () {
     });
 
     $('.undefaultStyleA').on('click', function getNameValue(){
-        var reportName = this.attr('name');
+        var reportName = $(this).attr("name");
         reportCreatingRequest(reportName);
-    }
+    });
 
     function reportCreatingRequest(reportName){
         $.ajax({
