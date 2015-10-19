@@ -22,9 +22,12 @@ public class BillingCallsProcessor {
     private final Integer pageSize = 50;
     private Integer processedCallsCounter;
 
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
+
 
     public void processCalls(){
+
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
+
         processedCallsCounter = 0;
         Integer callsCount =  callDataService.getUnbilledCallsCount();
         Integer pagesCount = callsCount/pageSize;
@@ -33,7 +36,7 @@ public class BillingCallsProcessor {
 
         for (int i=0; i<pagesCount+1; i++){
             System.out.println("-------------Active Count in Executor:" + executor.getActiveCount());
-            waitForExecutorReady(executor);
+            waitForExecutorHasNoActiveTasks(executor);
 
             Integer tempCallsCount =  callDataService.getUnbilledCallsCount();
             List<Integer> curCallIds = callDataService.getUnbilledCallsIdList(pageSize, 0);
@@ -44,6 +47,13 @@ public class BillingCallsProcessor {
         }
 
         System.out.println("Processed calls:" + processedCallsCounter);
+        shutdownExecutor(executor);
+    }
+
+    private void shutdownExecutor(ThreadPoolExecutor executor) {
+        waitForExecutorHasNoActiveTasks(executor);
+        executor.shutdown();
+        System.out.println("Executor switched off");
     }
 
     private void putCallsToExecutor(ThreadPoolExecutor executor, List<Integer> curCallIds) {
@@ -55,7 +65,7 @@ public class BillingCallsProcessor {
         }
     }
 
-    private void waitForExecutorReady(ThreadPoolExecutor executor) {
+    private void waitForExecutorHasNoActiveTasks(ThreadPoolExecutor executor) {
         while(executor.getActiveCount() > 0){
             try {
                 System.out.println("-----wait-----");
