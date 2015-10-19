@@ -9,6 +9,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,10 +61,10 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
         return dbResult;
     }
 
-    public float getUsdRateForCall(String strDate) {
+    public float getUsdRateForCall(Date date) {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(
                 "select value from usd_rate where date = :calldate")
-                .setParameter("calldate", strDate);
+                .setDate("calldate", date);
         Float rate = (Float)query.uniqueResult();
         return rate;
     }

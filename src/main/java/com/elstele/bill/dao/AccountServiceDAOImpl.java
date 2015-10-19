@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class AccountServiceDAOImpl extends CommonDAOImpl<AccountService> implements AccountServiceDAO {
 
-    @Override
+
     public List listAccountServices(){
         String hql = "from AccountService service where service.status <> 'DELETED' or service.status is null ";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);

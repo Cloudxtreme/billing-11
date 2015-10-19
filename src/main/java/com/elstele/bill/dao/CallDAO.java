@@ -9,4 +9,6 @@ public interface CallDAO extends CommonDAO<Call> {
     public List<Call> getCalls();
     public Integer getCallsCount();
     public List<Call> getCallsList(int limit, int offset);
+    public Integer getUnbilledCallsCount();
+    public List<Integer> getUnbilledCallIds(int limit, int offset);
 }

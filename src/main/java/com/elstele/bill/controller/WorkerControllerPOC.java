@@ -1,9 +1,8 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.CallBillingService;
-import com.elstele.bill.datasrv.WorkExecutorPOC;
-import com.elstele.bill.form.AccountForm;
-import com.elstele.bill.form.LocalUserForm;
+import com.elstele.bill.executors.BillingCallsProcessor;
+import com.elstele.bill.executors.WorkExecutorPOC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/worker")
@@ -25,6 +21,10 @@ public class WorkerControllerPOC {
 
     @Autowired
     private CallBillingService billService;
+
+    @Autowired
+    private BillingCallsProcessor callBillProcessor;
+
 
     @RequestMapping(value="/starttask", method = RequestMethod.GET)
     @ResponseBody
@@ -53,7 +53,11 @@ public class WorkerControllerPOC {
     public String billCall(HttpServletRequest request,
                                   @RequestParam(value = "callId") Integer id){
 
-        billService.updateCallWithItCost(id);
+        //this call need to be in runnable
+        //billService.updateCallWithItCost(id);
+        callBillProcessor.processCalls();
+
+
 
         return "";
     }

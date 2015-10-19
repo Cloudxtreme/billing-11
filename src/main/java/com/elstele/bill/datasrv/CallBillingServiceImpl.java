@@ -28,12 +28,17 @@ public class CallBillingServiceImpl implements CallBillingService{
         Call currentCall = callDAO.getById(callId);
 
         CallDirection direction =  billingDAO.getCallDirection(currentCall.getNumberB());
-        List<CallBillRule> billRules = billingDAO.getCallBillingRule(direction.getPref_profile());
-        recalculateCallDurationForSomePrefixes(currentCall);
-        calculateCallCost(currentCall, billRules);
-        correctCostByVatAndUsdRate(currentCall, direction);
+        if (direction.getPref_profile() != null) {
+            List<CallBillRule> billRules = billingDAO.getCallBillingRule(direction.getPref_profile());
+            recalculateCallDurationForSomePrefixes(currentCall);
+            calculateCallCost(currentCall, billRules);
+            correctCostByVatAndUsdRate(currentCall, direction);
+            callDAO.update(currentCall);
+        } else {
+            //TODO throw here custom exception
+            System.out.println("there is no direction for call with ID:" + currentCall.getId() + " with numB:" + currentCall.getNumberB());
+        }
 
-        callDAO.update(currentCall);
     }
 
     private void correctCostByVatAndUsdRate(Call currentCall, CallDirection direction) {
@@ -41,11 +46,11 @@ public class CallBillingServiceImpl implements CallBillingService{
         if (direction.isDollar()){
             Calendar cal = Calendar.getInstance();
             cal.setTime(currentCall.getStartTime());
-            int year = cal.get(Calendar.YEAR);
+            /*int year = cal.get(Calendar.YEAR);
             int callStartMonth = cal.get(Calendar.MONTH);
             int callStartDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-            String strDate = year + "-" + callStartMonth + "-" + callStartDayOfMonth;
-            float usdRate = billingDAO.getUsdRateForCall(strDate);
+            String strDate = year + "-" + callStartMonth + "-" + callStartDayOfMonth;*/
+            float usdRate = billingDAO.getUsdRateForCall(cal.getTime());
             float curCost = currentCall.getCostTotal();
             currentCall.setCostTotal((float) (curCost*1.2*usdRate));
         } else {

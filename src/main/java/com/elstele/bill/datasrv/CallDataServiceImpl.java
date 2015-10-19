@@ -18,7 +18,6 @@ public class CallDataServiceImpl implements CallDataService {
     CallDAO callDAO;
 
 
-    @Override
     @Transactional
     public void addCalls(CallForm callForm) {
         CallAssembler assembler = new CallAssembler();
@@ -26,13 +25,11 @@ public class CallDataServiceImpl implements CallDataService {
         callDAO.create(call);
     }
 
-    @Override
     @Transactional
     public int getCallsCount() {
         return callDAO.getCallsCount();
     }
 
-    @Override
     @Transactional
     public List<CallForm> getCallsList(int rows, int page) {
         List<CallForm> result = new ArrayList<CallForm>();
@@ -45,5 +42,15 @@ public class CallDataServiceImpl implements CallDataService {
             result.add(curForm);
         }
         return result;
+    }
+
+    @Transactional
+    public Integer getUnbilledCallsCount() {
+        return callDAO.getUnbilledCallsCount();
+    }
+
+    @Transactional
+    public List<Integer> getUnbilledCallsIdList(int limit, int offset) {
+        return callDAO.getUnbilledCallIds(limit, offset);
     }
 }
