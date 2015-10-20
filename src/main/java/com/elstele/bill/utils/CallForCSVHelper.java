@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -15,7 +18,7 @@ import java.util.regex.Pattern;
 public class CallForCSVHelper {
 
 
-    public static CallForCSVForm arrayHandlingMethodCSV(String line) {
+    public static CallForCSVForm arrayHandlingMethodCSV(String line) throws ParseException {
         final String DELIMITER = ";";
         String[] data = line.split(DELIMITER);
 
@@ -30,7 +33,7 @@ public class CallForCSVHelper {
         String dir_descr = dir_descr_orig.replace("'", "");
         dir_descr = dir_descr.replace("'", "\'");
 
-        String startTime = startTimeHandling(call_start);
+        Date startTime = startTimeHandling(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
 
 
@@ -47,7 +50,7 @@ public class CallForCSVHelper {
         return callForCSVForm;
     }
 
-    public static CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) {
+    public static CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) throws ParseException {
         final String DELIMITER = " ";
         Pattern pattern  = Pattern.compile("\\s{2,}");
         Matcher matcher = pattern.matcher(line);
@@ -79,7 +82,7 @@ public class CallForCSVHelper {
         String dir_descr = dir_descr_orig.replace("'", "");
         dir_descr = dir_descr.replace("'", "\'");
 
-        String startTime = startTimeHandlingUkrNet(call_start);
+        Date startTime = startTimeHandlingUkrNet(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
 
 
@@ -96,21 +99,26 @@ public class CallForCSVHelper {
         return callForCSVForm;
     }
 
-    public static String startTimeHandling(String call_start){
-        String listStart[] = call_start.split(" ");
-        String listDate[] = listStart[0].split("\\.");
-        String startTime = listDate[2] + "-" + listDate[1] + "-" + listDate[0] + " " + listStart[1];
+    public static Date startTimeHandling(String call_start) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String year = call_start.substring(6,10);
+        String month = call_start.substring(3,5);
+        String day = call_start.substring(0,2);
+        String time = call_start.substring(10,18);
+        Date startTime = sdf.parse(year+"-"+month+"-"+day + " "+ time);
         return startTime;
     }
 
-    public static String startTimeHandlingUkrNet(String call_start){
+    public static Date startTimeHandlingUkrNet(String call_start) throws ParseException {
         String year = call_start.substring(0,4);
         String month = call_start.substring(4,6);
         String day = call_start.substring(6,8);
         String hour = call_start.substring(8,10);
         String min = call_start.substring(10,12);
         String sec = call_start.substring(12,14);
-        String startTime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+        String startTimeStr = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startTime = sdf.parse(startTimeStr);
         return startTime;
     }
 

@@ -1,9 +1,13 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Table;
 
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import java.util.Date;
 
 @Entity
 @Table(name="callForCSV")
@@ -11,7 +15,11 @@ public class CallForCSV extends CommonDomainBean {
     private String numberA;
     private String numberB;
     private String duration;
-    private String startTime;
+
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
+
     private String dirPrefix;
     private String dirDescrpOrg;
     private String costCallTotal;
@@ -42,12 +50,12 @@ public class CallForCSV extends CommonDomainBean {
         this.duration = duration;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public Date getStartTime() {
+        return startTime;
     }
 
     public String getDirPrefix() {

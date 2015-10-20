@@ -1,10 +1,12 @@
 package com.elstele.bill.form;
 
+import java.util.Date;
+
 public class CallForCSVForm {
     private String numberA;
     private String numberB;
     private String duration;
-    private String startTime;
+    private Date startTime;
     private String dirPrefix;
     private String dirDescrpOrg;
     private String costCallTotal;
@@ -34,12 +36,12 @@ public class CallForCSVForm {
         this.duration = duration;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public Date getStartTime() {
+        return startTime;
     }
 
     public String getDirPrefix() {

@@ -1,66 +1,106 @@
 package com.elstele.bill.utils;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
+import com.elstele.bill.datasrv.CallForCSVDataServiceImpl;
+import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.form.CallForCSVForm;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.ServletContext;
+import javax.swing.text.html.HTMLDocument;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class ReportCreater {
 
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
+    public void callLongReportCreate(String path, String fileName, CallForCSVDataService callForCSVDataService) throws IOException {
+        try {
 
-    public void callLongReportCreate() {
-        String tempStartTime = callForCSVDataService.getDateInterval();
-        String startDay = "1";
-        String endDay="01";
-        String year = tempStartTime.substring(0,5);
-        String month = tempStartTime.substring(5,7);
-        String monthStart = "";
-        String monthEnd = " ";
-        if(month.equals("01")){
-            startDay = "31";
-            monthStart = "12";
-            monthEnd = "02";
-        }if(month.equals("02")){
-            startDay = "31";
-            monthStart = "01";
-            monthEnd = "03";
-        }if ( month.equals("03")&&(Integer.parseInt(year) % 4) == 0){
-            startDay = "29";
-            monthStart = "02";
-            monthEnd = "04";
-        }if( month.equals("03")&&(Integer.parseInt(year) % 4)!= 0){
-            startDay = "28";
-            monthStart = "02";
-            monthEnd = "04";
-        }if(month.equals("04")){
-            startDay = "31";
-            monthStart = "03";
-            monthEnd = "05";
-        }
+            Date tempStartTime = callForCSVDataService.getDateInterval();
+            File file = new File(path + File.separator + tempStartTime.toString().substring(0, 7) + "_" + fileName + ".txt");
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            PrintWriter bw = new PrintWriter(fw);
+            Calendar c = Calendar.getInstance();
+            c.setTime(tempStartTime);
+            c.add(Calendar.MONTH, 1);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            Date endTime = c.getTime();
+            c.add(Calendar.MONTH, -2);
+            c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            Date startTime = c.getTime();
 
+            List<CallForCSVForm> csvCallsWithUniqueNumber = new ArrayList<CallForCSVForm>();
+            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime);
+            Double costTotalForPeriod = 0.0;
+            for (CallForCSVForm callForCSVForm : csvCallsWithUniqueNumber) {
+                String numberAShort = callForCSVForm.getNumberA().substring(1, 7);
+                Double costTotalForThisNumber = 0.0;
 
-        if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07") || month.equals("08") || month.equals("10") || month.equals("12")) {
-            endDay = "31";
-        }
-        if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-            endDay = "30";
-        }
-        if (month.equals("02") && (Integer.parseInt(year) % 4) == 0) {
-            endDay = "29";
-        }
-        if (month.equals("02") && (Integer.parseInt(year) % 4) != 0) {
-            endDay = "28";
-        }
+                String firstString = "мНЛЕП РЕКЕТНМЮ, Я ЙНРНПНЦН ГБНМХКХ: " + numberAShort + "\r\n";
+                String secondString = new String(firstString.getBytes("koi8-r"), "windows-1251");
+                bw.write(secondString);
 
-        String startTime = year + "-" + month + "-" + startDay + " 00:00:00";
-        String endTime = year + "-" + month + "-" + endDay + " 23:59:59";
-        List<CallForCSVForm> csvCallsWithUniqueNumber = new ArrayList<CallForCSVForm>();
-        csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime);
+                firstString = "--------------------------------------------------------------------------------\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
 
+                firstString = "          |             |             Кому звонили                 |       |    \r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = "   Дата   |  Время |Длит|------------------------------------------| Сумма |Зак.\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = "          |             |  Код  | Телефон   | Город или страна     |       |    \r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = "----------|--------|----|-------|-----------|----------------------|-------|----\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                List<CallForCSVForm> callForCSVFormListByNumberA = callForCSVDataService.getCallForCSVByNumberA(callForCSVForm.getNumberA(),startTime, endTime);
+                for(CallForCSVForm callForCSVFormByNumberA : callForCSVFormListByNumberA){
+                    String shortNumberB = callForCSVFormByNumberA.getNumberB().substring(0, callForCSVFormByNumberA.getDirPrefix().length());
+                    bw.printf("%-18s|%4d|%-7s|%-11s|%-22s|%7.2f|\r\n",callForCSVFormByNumberA.getStartTime().toString(),callForCSVFormByNumberA.getDuration(),
+                            callForCSVFormByNumberA.getDirPrefix(),shortNumberB,callForCSVFormByNumberA.getDirDescrpOrg(),callForCSVFormByNumberA.getCostCallTotal());
+                    costTotalForThisNumber += Double.parseDouble(callForCSVFormByNumberA.getCostCallTotal());
+                }
+
+                firstString = "----------|--------|----|-------|-----------|----------------------|-------|----\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = " Всего "+ Math.round(costTotalForThisNumber * 100.0) / 100.0 + "\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = " В том числе НДС " + Math.round((costTotalForThisNumber * 0.2) * 100.0) / 100 + "\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                firstString = "--------------------------------------------------------------------------------\r\n";
+                secondString = new String(firstString.getBytes("koi8"), "windows-1251");
+                bw.write(secondString);
+
+                bw.write("\r\n");
+
+                bw.write("\r\n");
+                costTotalForPeriod += costTotalForThisNumber;
+
+            }
+            String firstString = " Итого "+ Math.round(costTotalForPeriod*100.0)/100 + "\r\n";
+            String secondString = new String(firstString.getBytes("koi8-r"), "windows-1251");
+            bw.write(secondString);
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
