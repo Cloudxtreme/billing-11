@@ -34,16 +34,8 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Override
     @Transactional
-    public List<CallForCSVForm> getUniqueNumberA(Date startTime, Date finishTime) {
-
-        List<CallForCSVForm> result = new ArrayList<CallForCSVForm>();
-        CallForCSVAssembler assembler = new CallForCSVAssembler();
-
-        List<CallForCSV> beans = callForCSVDAO.getUniqueNumberA(startTime, finishTime);
-        for (CallForCSV curBean : beans) {
-            CallForCSVForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
+    public List<String> getUniqueNumberA(Date startTime, Date finishTime, String provider) {
+        List<String> result = callForCSVDAO.getUniqueNumberA(startTime, finishTime, provider);
         return result;
     }
 
@@ -56,15 +48,9 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Override
     @Transactional
-    public List<CallForCSVForm> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime) {
-        List<CallForCSVForm> result = new ArrayList<CallForCSVForm>();
-        CallForCSVAssembler assembler = new CallForCSVAssembler();
+    public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime) {
 
-        List<CallForCSV> beans = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime);
-        for (CallForCSV curBean : beans) {
-            CallForCSVForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
+        List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime);
         return result;
     }
 }

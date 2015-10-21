@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.dao.CallForCSVDAO;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.utils.CallForCSVHelper;
@@ -21,6 +22,8 @@ import java.util.Locale;
 
 @Controller
 public class UploadCSVFileController {
+    @Autowired
+    CallForCSVDAO callForCSVDAO;
 
     @Autowired
     ServletContext ctx;

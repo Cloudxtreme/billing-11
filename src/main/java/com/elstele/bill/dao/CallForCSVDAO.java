@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CallForCSVDAO extends CommonDAO<CallForCSV> {
     public void clearReportDataTable();
-    public List<CallForCSV> getUniqueNumberA(Date startTime, Date finishTime);
+    public List<String> getUniqueNumberA(Date startTime, Date finishTime, String provider);
     public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime);
     public Date getDateInterval ();
 

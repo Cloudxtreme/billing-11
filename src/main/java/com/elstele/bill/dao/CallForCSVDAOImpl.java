@@ -3,8 +3,10 @@ package com.elstele.bill.dao;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.CallForCSV;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,17 +21,16 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
     }
 
     @Override
-    public List<CallForCSV> getUniqueNumberA(Date startTime, Date finishTime) {
-
-        Query query = getSessionFactory().getCurrentSession().createQuery("from CallForCSV  where numberA IN (select distinct numberA from CallForCSV " +
-                "where startTime >='"+ startTime + "' and startTime <= '" + finishTime +"' and costCallTotal IS NOT NULL order by numberA)");
-        return (List<CallForCSV>)query.list();
+    public List<String> getUniqueNumberA(Date startTime, Date finishTime, String provider) {
+        SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from callForCSV " +
+                "where startTime >='"+ startTime + "' and startTime <= '" + finishTime +"' and provider ='"+ provider +"' and costCallTotal Is not null order by numberA");
+        return (List<String>)createSQLQuery.list();
     }
 
     @Override
     public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from CallForCSV  where numberA =' "+ numberA+"' and startTime >='"+ startTime
-                + "'and startTime <='" + endTime + "'order by startTime");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from CallForCSV  where numberA ='" + numberA + "' and startTime >='" + startTime
+                + "' and startTime <='" + endTime + "' order by startTime");
         return (List<CallForCSV>)query.list();
     }
 

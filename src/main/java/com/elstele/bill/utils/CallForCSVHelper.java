@@ -68,7 +68,7 @@ public class CallForCSVHelper {
         if (checkWithRegExp(dir_prefix, "/^0.*/")) {
             dir_prefix = dir_prefix;
         }
-        if (checkWithRegExp(dir_prefix, "/^800.*/")) {
+        if (dir_prefix.startsWith("8")) {
             dir_prefix = "0" + dir_prefix;
         }
         if (checkWithRegExp(dir_prefix, "/^[1-7].*/")) {
