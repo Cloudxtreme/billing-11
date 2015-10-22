@@ -39,6 +39,7 @@ $(document).ready(function () {
 
     });
 
+
     $('html').on('click', '.glyphicon-remove', function () {
         var $li = $(this).closest('li');
         var conf = confirm("Are you sure?");
@@ -137,24 +138,56 @@ $(document).ready(function () {
 
     });
 
-    $('.undefaultStyleA').on('click', function getNameValue(){
-        var reportName = $(this).attr("name");
-        reportCreatingRequest(reportName);
+    $('#generateReport').on('click', function getNameValue() {
+        var values = [];
+        $.each($(".check-box-table-cell:checked"),
+            function () {
+                var tr = $(this).closest("tr");
+                values.push(tr.attr('id'));
+                tr.removeClass("info");
+                tr.addClass("success");
+                $(this).attr('checked', false);
+            });
+        reportCreatingRequest(values);
+
     });
 
-    function reportCreatingRequest(reportName){
+    $('.unDefaultTDStyle').on('click', function () {
+        var checked =  $(this).parents('tr').find('input[type="checkbox"]').prop('checked');
+        if (checked) {
+            $(this).parents('tr').find('input[type="checkbox"]').prop('checked', false);
+            $(this).closest("tr").removeClass("info");
+
+        }
+        else {
+            $(this).parents('tr').find('input[type="checkbox"]').prop('checked', true);
+            $(this).closest("tr").addClass("info")
+        }
+    });
+
+    function reportCreatingRequest(reportNames) {
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             dataType: 'json',
-            url: 'reportCreating?reportName=' + reportName,
+            data: JSON.stringify(reportNames),
+            url: 'reportCreating',
             success: function (data) {
             }
         })
     }
 
+    $('.check-box-table-cell').click(function () {
+        var checked = $(this).attr('checked');
+        if (checked) {
+            $(this).attr('checked', false);
+            $(this).closest("tr").removeClass("info");
 
-
-
+        }
+        else {
+            $(this).attr('checked', true);
+            $(this).closest("tr").addClass("info")
+        }
+    });
 
 });

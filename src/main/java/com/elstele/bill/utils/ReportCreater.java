@@ -35,23 +35,28 @@ public class ReportCreater {
         if (!file.exists()) {
             file.createNewFile();
         }
-        PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, true)), true, "cp1251");
+        PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
         return bw;
     }
 
     public static void filePrintingCreate(PrintStream bw, CallForCSVDataService callForCSVDataService, String fileName) {
         Double costTotalForPeriod = 0.0;
         String provider = "";
-        if (fileName.equalsIgnoreCase("longReport") || fileName.equalsIgnoreCase("longReportRA")) {
+        if (fileName.equalsIgnoreCase("longReport") || fileName.equalsIgnoreCase("longReportRAVega")) {
             provider = "2";
         }
         if (fileName.equalsIgnoreCase("longReportRAUkrTel")) {
             provider = "1";
         }
-        List<String> csvCallsWithUniqueNumberList = getUniqueNumbersA(callForCSVDataService, provider);
+        List<String> csvCallsWithUniqueNumberList = getUniqueNumbersA(callForCSVDataService, provider, fileName);
         for (String numberA : csvCallsWithUniqueNumberList) {
             String firstString = "";
-            List<CallForCSV> callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA);
+            List<CallForCSV> callForCSVListByNumberA = new LinkedList<CallForCSV>();
+            if (fileName.equals("longReportRA") && !fileName.contains("RAUkrTel")) {
+                callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA);
+            } else {
+                callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA, provider);
+            }
             mainHeaderprint(bw, numberA, firstString, fileName);
             Double costTotalForThisNumber = 0.0;
             costTotalForThisNumber = callForCSVDataPrint(bw, callForCSVListByNumberA, fileName);
@@ -62,33 +67,33 @@ public class ReportCreater {
         bw.close();
     }
 
-    public static void mainHeaderprint(PrintStream bw, String numberA, String firstString, String fileName) {
-        String numberAShort = "";
-
-        if (fileName.equalsIgnoreCase("longReport")|| fileName.equalsIgnoreCase("longReportRA")) {
-            numberAShort = numberA.substring(6, 12);
+    public static List<String> getUniqueNumbersA(CallForCSVDataService callForCSVDataService, String provider, String fileName) {
+        Date tempStartTime = getTempStartTime(callForCSVDataService);
+        Date endTime = getEndTimeDate(tempStartTime);
+        Date startTime = getStartTimeDate(tempStartTime);
+        List<String> csvCallsWithUniqueNumber = new ArrayList<String>();
+        if (fileName.equalsIgnoreCase("longReportRA")) {
+            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime);
+        } else {
+            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime, provider);
         }
-        if (fileName.equalsIgnoreCase("longReportRAUkrTel")) {
-            numberAShort = numberA.substring(1, numberA.length());
-        }
+        return csvCallsWithUniqueNumber;
+    }
 
-        firstString = "Номер телефона, с которого звонили: " + numberAShort;
-        bw.println(firstString);
+    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA, String provider) {
+        Date tempStartTime = getTempStartTime(callForCSVDataService);
+        Date endTime = getEndTimeDate(tempStartTime);
+        Date startTime = getStartTimeDate(tempStartTime);
+        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime, provider);
+        return result;
+    }
 
-        firstString = "--------------------------------------------------------------------------------";
-        bw.println(firstString);
-
-        firstString = "          |             |             Кому звонили                 |       |    ";
-        bw.println(firstString);
-
-        firstString = "   Дата   |  Время |Длит|------------------------------------------| Сумма |Зак.";
-        bw.println(firstString);
-
-        firstString = "          |             |  Код  | Телефон   | Город или страна     |       |    ";
-        bw.println(firstString);
-
-        firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
-        bw.println(firstString);
+    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA) {
+        Date tempStartTime = getTempStartTime(callForCSVDataService);
+        Date endTime = getEndTimeDate(tempStartTime);
+        Date startTime = getStartTimeDate(tempStartTime);
+        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
+        return result;
     }
 
     public static Double callForCSVDataPrint(PrintStream bw, List<CallForCSV> callForCSVListByNumberA, String fileName) {
@@ -120,8 +125,7 @@ public class ReportCreater {
                         descrOrg,
                         costTotal
                 );
-            }
-            if (fileName.equalsIgnoreCase("longReportRAUkrTel")|| fileName.equalsIgnoreCase("longReportRA")) {
+            } else {
 
                 bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
                         reportDate,
@@ -137,6 +141,28 @@ public class ReportCreater {
             costTotalForThisNumber += costTotal;
         }
         return costTotalForThisNumber;
+    }
+
+    public static void mainHeaderprint(PrintStream bw, String numberA, String firstString, String fileName) {
+        String numberAShort = numberA.substring(1, numberA.length());
+
+        firstString = "Номер телефона, с которого звонили: " + numberAShort;
+        bw.println(firstString);
+
+        firstString = "--------------------------------------------------------------------------------";
+        bw.println(firstString);
+
+        firstString = "          |             |             Кому звонили                 |       |    ";
+        bw.println(firstString);
+
+        firstString = "   Дата   |  Время |Длит|------------------------------------------| Сумма |Зак.";
+        bw.println(firstString);
+
+        firstString = "          |             |  Код  | Телефон   | Город или страна     |       |    ";
+        bw.println(firstString);
+
+        firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
+        bw.println(firstString);
     }
 
     public static Double endOfTheHeaderPrint(PrintStream bw, String firstString, Double costTotalForPeriod, Double costTotalForThisNumber) {
@@ -157,22 +183,6 @@ public class ReportCreater {
         bw.println("\r\n");
         costTotalForPeriod += costTotalForThisNumber;
         return costTotalForPeriod;
-    }
-
-    public static List<String> getUniqueNumbersA(CallForCSVDataService callForCSVDataService, String provider) {
-        Date tempStartTime = getTempStartTime(callForCSVDataService);
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
-        List<String> csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime, provider);
-        return csvCallsWithUniqueNumber;
-    }
-
-    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA) {
-        Date tempStartTime = getTempStartTime(callForCSVDataService);
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
-        return result;
     }
 
     public static Date getTempStartTime(CallForCSVDataService callForCSVDataService) {
@@ -197,7 +207,6 @@ public class ReportCreater {
         Date startTime = c.getTime();
         return startTime;
     }
-
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

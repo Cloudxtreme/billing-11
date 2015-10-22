@@ -1372,12 +1372,24 @@ a.text-success:hover {
 a.text-info:hover {
     color: #2d6987;
 }
-a.undefaultStyleA{
+a.unDefaultTDStyle {
     background-color: transparent;
     color: #029acf;
     font-weight: 200;
 }
-a.undefaultStyleA:hover{
+a.unDefaultTDStyle:hover{
+    font-weight: 200;
+    cursor: pointer;
+    color: #122b40;
+    text-decoration: none !important;
+}
+td.unDefaultTDStyle:hover{
+    font-weight: 200;
+    cursor: pointer;
+    color: #122b40;
+    text-decoration: none !important;
+}
+td.unDefaultTDStyle:hover{
     font-weight: 200;
     cursor: pointer;
     color: #122b40;

@@ -41,6 +41,13 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Override
     @Transactional
+    public List<String> getUniqueNumberA(Date startTime, Date finishTime) {
+        List<String> result = callForCSVDAO.getUniqueNumberA(startTime, finishTime);
+        return result;
+    }
+
+    @Override
+    @Transactional
     public Date getDateInterval() {
         Date result = callForCSVDAO.getDateInterval();
         return  result;
@@ -51,6 +58,13 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
     public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime) {
 
         List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime, String provider) {
+        List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime, provider);
         return result;
     }
 }

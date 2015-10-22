@@ -45,12 +45,14 @@ public class UploadCSVFileController {
                 Iterator<String> iter = file.getFileNames();
                 Locale.setDefault(new Locale("ru_RU.CP1251"));
                 Locale locale2 = Locale.getDefault();
-                callForCSVDataService.clearReportTable();
                 while (iter.hasNext()) {
                     try {
                         MultipartFile multipartFile = file.getFile(iter.next());
                         File fileFromMulti = CallForCSVHelper.convert(multipartFile);
                         String fileName =  fileFromMulti.getName();
+                        if(!fileName.contains("ukr")){
+                            callForCSVDataService.clearReportTable();
+                        }
                         String line = "";
                         fileReader = new BufferedReader(new FileReader(fileFromMulti));
                         int counter = 1;
@@ -89,13 +91,16 @@ public class UploadCSVFileController {
         return ResponseToAjax.FULLOPERATION;
     }
 
-    @RequestMapping(value = "/reportCreating", method = RequestMethod.GET)
+    @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
-    public void generateAndDownloadReport(HttpServletRequest request, @RequestParam(value = "reportName") String reportName, HttpServletResponse response,  HttpServletRequest requestHttp) throws IOException {
+    public ResponseToAjax generateAndDownloadReport(HttpServletRequest request, @RequestBody String[] json , HttpServletResponse response,  HttpServletRequest requestHttp) throws IOException {
         ctx = requestHttp.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files\\csvFiles");
         ReportCreater reportCreater = new ReportCreater();
-        reportCreater.callLongReportCreate(path, reportName, callForCSVDataService);
+        for (String reportName : json ) {
+            reportCreater.callLongReportCreate(path, reportName, callForCSVDataService);
+        }
+        return ResponseToAjax.SUCCESS;
 
     }
 }

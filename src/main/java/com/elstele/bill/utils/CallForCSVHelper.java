@@ -22,7 +22,7 @@ public class CallForCSVHelper {
         final String DELIMITER = ";";
         String[] data = line.split(DELIMITER);
 
-        String numberA = data[0];
+        String numberA = data[0].substring(5,12);
         String numberB = data[1];
         String duration = data[2];
         String call_start = data[3];
