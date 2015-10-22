@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +33,8 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Override
     @Transactional
-    public List<String> getUniqueNumberA(Date startTime, Date finishTime, String provider) {
-        List<String> result = callForCSVDAO.getUniqueNumberA(startTime, finishTime, provider);
+    public List<String> getUniqueNumberAWithProvider(Date startTime, Date finishTime, String provider) {
+        List<String> result = callForCSVDAO.getUniqueNumberAWithProvider(startTime, finishTime, provider);
         return result;
     }
 
@@ -63,8 +62,8 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Override
     @Transactional
-    public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime, String provider) {
-        List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime, provider);
+    public List<CallForCSV> getCallForCSVByNumberAWithProvider(String numberA, Date startTime, Date endTime, String provider) {
+        List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, provider);
         return result;
     }
 }

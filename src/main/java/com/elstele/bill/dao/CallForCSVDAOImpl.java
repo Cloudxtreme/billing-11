@@ -21,7 +21,7 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
     }
 
     @Override
-    public List<String> getUniqueNumberA(Date startTime, Date finishTime, String provider) {
+    public List<String> getUniqueNumberAWithProvider(Date startTime, Date finishTime, String provider) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from callForCSV " +
                 "where startTime >='"+ startTime + "' and startTime <= '" + finishTime +"' and provider ='"+ provider +"' and costCallTotal Is not null order by numberA");
         return (List<String>)createSQLQuery.list();
@@ -42,7 +42,7 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
     }
 
     @Override
-    public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime, String provider) {
+    public List<CallForCSV> getCallForCSVByNumberAWithProvider(String numberA, Date startTime, Date endTime, String provider) {
         Query query = getSessionFactory().getCurrentSession().createQuery("from CallForCSV  where numberA ='" + numberA + "' and startTime >='" + startTime
                 + "' and startTime <='" + endTime + "' and provider ='"+ provider +"' order by startTime");
         return (List<CallForCSV>)query.list();

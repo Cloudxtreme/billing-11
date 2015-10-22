@@ -1,17 +1,9 @@
 package com.elstele.bill.utils;
 
-import com.elstele.bill.dao.CallForCSVDAO;
-import com.elstele.bill.dao.CallForCSVDAOImpl;
 import com.elstele.bill.datasrv.CallForCSVDataService;
-import com.elstele.bill.datasrv.CallForCSVDataServiceImpl;
 import com.elstele.bill.domain.CallForCSV;
-import com.elstele.bill.form.CallForCSVForm;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.ServletContext;
-import javax.swing.text.html.HTMLDocument;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,12 +43,7 @@ public class ReportCreater {
         List<String> csvCallsWithUniqueNumberList = getUniqueNumbersA(callForCSVDataService, provider, fileName);
         for (String numberA : csvCallsWithUniqueNumberList) {
             String firstString = "";
-            List<CallForCSV> callForCSVListByNumberA = new LinkedList<CallForCSV>();
-            if (fileName.equals("longReportRA") && !fileName.contains("RAUkrTel")) {
-                callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA);
-            } else {
-                callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA, provider);
-            }
+            List<CallForCSV> callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA, provider, fileName);
             mainHeaderprint(bw, numberA, firstString, fileName);
             Double costTotalForThisNumber = 0.0;
             costTotalForThisNumber = callForCSVDataPrint(bw, callForCSVListByNumberA, fileName);
@@ -72,27 +59,25 @@ public class ReportCreater {
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
         List<String> csvCallsWithUniqueNumber = new ArrayList<String>();
+
         if (fileName.equalsIgnoreCase("longReportRA")) {
             csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime);
         } else {
-            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime, provider);
+            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, provider);
         }
         return csvCallsWithUniqueNumber;
     }
 
-    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA, String provider) {
+    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA, String provider, String fileName) {
         Date tempStartTime = getTempStartTime(callForCSVDataService);
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime, provider);
-        return result;
-    }
-
-    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA) {
-        Date tempStartTime = getTempStartTime(callForCSVDataService);
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
+        List<CallForCSV> result = new ArrayList<CallForCSV>();
+        if (fileName.equals("longReportRA") && !fileName.contains("RAUkrTel")) {
+            result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
+        } else {
+            result = callForCSVDataService.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, provider);
+        }
         return result;
     }
 
