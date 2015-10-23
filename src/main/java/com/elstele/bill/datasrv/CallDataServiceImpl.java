@@ -19,7 +19,6 @@ public class CallDataServiceImpl implements CallDataService {
     @Autowired
     CallDAO callDAO;
 
-
     @Override
     @Transactional
     public void addCalls(CallForm callForm) {
@@ -67,6 +66,34 @@ public class CallDataServiceImpl implements CallDataService {
             CallForm curForm = assembler.fromBeanToForm(curBean);
             result.add(curForm);
         }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
+        List<String> result = callDAO.getUniqueNumberAFromCalls(startTime, finishTime);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime) {
+        List<Call> result = callDAO.getCallByNumberA(numberA, startTime, endTime);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk) {
+        List<String> result = callDAO.getUniqueNumberAFromCallsWithTrunk(startTime, finishTime, outputTrunk);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
+        List<Call> result = callDAO.getCallByNumberAWithTrunk(numberA, startTime, finishTime, outputTrunk);
         return result;
     }
 }

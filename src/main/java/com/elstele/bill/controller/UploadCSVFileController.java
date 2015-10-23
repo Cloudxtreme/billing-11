@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.dao.CallForCSVDAO;
+import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.utils.CallForCSVHelper;
@@ -22,14 +22,15 @@ import java.util.Locale;
 
 @Controller
 public class UploadCSVFileController {
-    @Autowired
-    CallForCSVDAO callForCSVDAO;
 
     @Autowired
     ServletContext ctx;
 
     @Autowired
     CallForCSVDataService callForCSVDataService;
+
+    @Autowired
+    ReportCreater reportCreater;
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
@@ -96,9 +97,8 @@ public class UploadCSVFileController {
     public ResponseToAjax generateAndDownloadReport(HttpServletRequest request, @RequestBody String[] json , HttpServletResponse response,  HttpServletRequest requestHttp) throws IOException {
         ctx = requestHttp.getSession().getServletContext();
         String path = ctx.getRealPath("resources\\files\\csvFiles");
-        ReportCreater reportCreater = new ReportCreater();
         for (String reportName : json ) {
-            reportCreater.callLongReportCreate(path, reportName, callForCSVDataService);
+            reportCreater.callLongReportCreate(path, reportName);
         }
         return ResponseToAjax.SUCCESS;
 

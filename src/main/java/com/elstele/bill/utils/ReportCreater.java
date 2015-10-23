@@ -1,27 +1,36 @@
 package com.elstele.bill.utils;
 
+import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
+import com.elstele.bill.domain.Call;
 import com.elstele.bill.domain.CallForCSV;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class ReportCreater {
 
-    public void callLongReportCreate(String path, String fileName, CallForCSVDataService callForCSVDataService) throws IOException {
+    @Autowired
+    CallForCSVDataService callForCSVDataService;
 
+    @Autowired
+    CallDataService callDataService;
+
+    public void callLongReportCreate(String path, String fileName) throws IOException {
         try {
-            PrintStream bw = createFileForWriting(path, fileName, callForCSVDataService);
-            filePrintingCreate(bw, callForCSVDataService, fileName);
+            PrintStream bw = createFileForWriting(path, fileName);
+            filePrintingCreate(bw, fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    public static PrintStream createFileForWriting(String path, String fileName, CallForCSVDataService callForCSVDataService) throws IOException {
+    public PrintStream createFileForWriting(String path, String fileName) throws IOException {
         Date tempStartTime = callForCSVDataService.getDateInterval();
         File file = new File(path + File.separator + tempStartTime.toString().substring(0, 7) + "_" + fileName + ".txt");
         if (!file.exists()) {
@@ -31,48 +40,64 @@ public class ReportCreater {
         return bw;
     }
 
-    public static void filePrintingCreate(PrintStream bw, CallForCSVDataService callForCSVDataService, String fileName) {
+    public void filePrintingCreate(PrintStream bw, String fileName) {
         Double costTotalForPeriod = 0.0;
         String provider = "";
-        if (fileName.equalsIgnoreCase("longReport") || fileName.equalsIgnoreCase("longReportRAVega")) {
+        String outputTrunk = "";
+        if (fileName.equalsIgnoreCase("longReportRAVega")) {
             provider = "2";
         }
         if (fileName.equalsIgnoreCase("longReportRAUkrTel")) {
             provider = "1";
         }
-        List<String> csvCallsWithUniqueNumberList = getUniqueNumbersA(callForCSVDataService, provider, fileName);
-        for (String numberA : csvCallsWithUniqueNumberList) {
+        if (fileName.equalsIgnoreCase("longReportVega") || fileName.equalsIgnoreCase("longReport")) {
+            outputTrunk = "05";
+        }
+
+        List<String> listWithNumberA = getUniqueNumbersA(provider, fileName);
+        for (String numberA : listWithNumberA) {
             String firstString = "";
-            List<CallForCSV> callForCSVListByNumberA = getCallForCSVByNumbersA(callForCSVDataService, numberA, provider, fileName);
-            mainHeaderprint(bw, numberA, firstString, fileName);
-            Double costTotalForThisNumber = 0.0;
-            costTotalForThisNumber = callForCSVDataPrint(bw, callForCSVListByNumberA, fileName);
-            costTotalForPeriod = endOfTheHeaderPrint(bw, firstString, costTotalForPeriod, costTotalForThisNumber);
+            if (fileName.equalsIgnoreCase("longReportVega") || fileName.equalsIgnoreCase("longReport")) {
+                List<Call> callsListByNumberA = getCallByNumbersA(numberA, fileName);
+                mainHeaderprint(bw, numberA);
+                Double costTotalForThisNumber = 0.0;
+                costTotalForThisNumber = callDataPrint(bw, callsListByNumberA, fileName);
+                costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
+            } else {
+                List<CallForCSV> callForCSVListByNumberA = getCallForCSVByNumbersA(numberA, provider, fileName);
+                mainHeaderprint(bw, numberA);
+                Double costTotalForThisNumber = 0.0;
+                costTotalForThisNumber = callForCSVDataPrint(bw, callForCSVListByNumberA, fileName);
+                costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
+            }
         }
         String firstString = " Итого " + round(costTotalForPeriod, 2);
         bw.println(firstString);
         bw.close();
     }
 
-    public static List<String> getUniqueNumbersA(CallForCSVDataService callForCSVDataService, String provider, String fileName) {
-        Date tempStartTime = getTempStartTime(callForCSVDataService);
+    public List<String> getUniqueNumbersA(String provider, String fileName) {
+        Date tempStartTime = getTempStartTime();
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
-        List<String> csvCallsWithUniqueNumber = new ArrayList<String>();
+        List<String> listWithNumberA = new ArrayList<String>();
 
-        if (fileName.equalsIgnoreCase("longReportRA")) {
-            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberA(startTime, endTime);
-        } else {
-            csvCallsWithUniqueNumber = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, provider);
+        if (fileName.equalsIgnoreCase("longReportVega") || fileName.equalsIgnoreCase("longReport")) {
+            listWithNumberA = callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, "05");
         }
-        return csvCallsWithUniqueNumber;
+        if (fileName.equalsIgnoreCase("longReportRA")) {
+            listWithNumberA = callForCSVDataService.getUniqueNumberA(startTime, endTime);
+        } else {
+            listWithNumberA = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, provider);
+        }
+        return listWithNumberA;
     }
 
-    public static List<CallForCSV> getCallForCSVByNumbersA(CallForCSVDataService callForCSVDataService, String numberA, String provider, String fileName) {
-        Date tempStartTime = getTempStartTime(callForCSVDataService);
+    public List<CallForCSV> getCallForCSVByNumbersA(String numberA, String provider, String fileName) {
+        Date tempStartTime = getTempStartTime();
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
-        List<CallForCSV> result = new ArrayList<CallForCSV>();
+        List<CallForCSV> result = new ArrayList();
         if (fileName.equals("longReportRA") && !fileName.contains("RAUkrTel")) {
             result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
         } else {
@@ -81,12 +106,18 @@ public class ReportCreater {
         return result;
     }
 
-    public static Double callForCSVDataPrint(PrintStream bw, List<CallForCSV> callForCSVListByNumberA, String fileName) {
+    public List<Call> getCallByNumbersA(String numberA, String fileName) {
+        Date tempStartTime = getTempStartTime();
+        Date endTime = getEndTimeDate(tempStartTime);
+        Date startTime = getStartTimeDate(tempStartTime);
+        List<Call> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
+        return result;
+    }
+
+    public Double callForCSVDataPrint(PrintStream bw, List<CallForCSV> callForCSVListByNumberA, String fileName) {
         Double costTotalForThisNumber = 0.0;
 
         for (CallForCSV callForCSVByNumberA : callForCSVListByNumberA) {
-
-
             String numberB = callForCSVByNumberA.getNumberB();
             String duration = callForCSVByNumberA.getDuration();
             String dirPrefix = callForCSVByNumberA.getDirPrefix();
@@ -128,8 +159,40 @@ public class ReportCreater {
         return costTotalForThisNumber;
     }
 
-    public static void mainHeaderprint(PrintStream bw, String numberA, String firstString, String fileName) {
+    public Double callDataPrint(PrintStream bw, List<Call> callListByNumberA, String fileName) {
+        Double costTotalForThisNumber = 0.0;
+
+        for (Call call : callListByNumberA) {
+            String numberB = call.getNumberB();
+            String duration = call.getDuration().toString();
+            String dirPrefix = "0 while";
+            String dirPrefixCutted = dirPrefix.substring(2, dirPrefix.length());
+            String descrOrg = "0 while";
+            Double costTotal = (double)call.getCostTotal();
+
+            Date startTimeVal = call.getStartTime();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String reportDate = df.format(startTimeVal);
+
+            String shortNumberB = call.getNumberB().substring(dirPrefix.length(), numberB.length());
+
+                bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
+                        reportDate,
+                        duration,
+                        dirPrefixCutted,
+                        shortNumberB,
+                        descrOrg,
+                        costTotal
+                );
+
+            costTotalForThisNumber += costTotal;
+        }
+        return costTotalForThisNumber;
+    }
+
+    public void mainHeaderprint(PrintStream bw, String numberA) {
         String numberAShort = numberA.substring(1, numberA.length());
+        String firstString = "";
 
         firstString = "Номер телефона, с которого звонили: " + numberAShort;
         bw.println(firstString);
@@ -150,8 +213,9 @@ public class ReportCreater {
         bw.println(firstString);
     }
 
-    public static Double endOfTheHeaderPrint(PrintStream bw, String firstString, Double costTotalForPeriod, Double costTotalForThisNumber) {
+    public Double endOfTheHeaderPrint(PrintStream bw, Double costTotalForPeriod, Double costTotalForThisNumber) {
 
+        String firstString = "";
         firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
         bw.println(firstString);
 
@@ -170,12 +234,12 @@ public class ReportCreater {
         return costTotalForPeriod;
     }
 
-    public static Date getTempStartTime(CallForCSVDataService callForCSVDataService) {
+    public Date getTempStartTime() {
         Date tempStartTime = callForCSVDataService.getDateInterval();
         return tempStartTime;
     }
 
-    public static Date getEndTimeDate(Date tempStartTime) {
+    public Date getEndTimeDate(Date tempStartTime) {
         Calendar c = Calendar.getInstance();
         c.setTime(tempStartTime);
         c.add(Calendar.MONTH, 1);
@@ -184,7 +248,7 @@ public class ReportCreater {
         return endTime;
     }
 
-    public static Date getStartTimeDate(Date tempStartTime) {
+    public Date getStartTimeDate(Date tempStartTime) {
         Calendar c = Calendar.getInstance();
         c.setTime(tempStartTime);
         c.add(Calendar.MONTH, -1);
@@ -193,7 +257,7 @@ public class ReportCreater {
         return startTime;
     }
 
-    public static double round(double value, int places) {
+    public double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         long factor = (long) Math.pow(10, places);

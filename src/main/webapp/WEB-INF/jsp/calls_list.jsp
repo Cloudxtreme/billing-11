@@ -79,6 +79,7 @@
                 <th>AON Category</th>
                 <th>DVO Code A</th>
                 <th>DVO Code B</th>
+                <th>Cost call total</th>
             </tr>
         </table>
         <div id="tableNavigation">

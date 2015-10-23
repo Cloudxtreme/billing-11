@@ -16,7 +16,11 @@ public class Call extends CommonDomainBean{
     private String aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
-
+    private Float costTotal;
+    private String ikNum;
+    private String vkNum;
+    private String inputTrunk;
+    private String outputTrunk;
     public String getNumberA() {
         return numberA;
     }
@@ -73,5 +77,44 @@ public class Call extends CommonDomainBean{
         this.dvoCodeB = dvoCodeB;
     }
 
+    public Float getCostTotal() {
+        return costTotal;
+    }
+
+    public void setCostTotal(Float costTotal) {
+        this.costTotal = costTotal;
+    }
+
+    public String getIkNum() {
+        return ikNum;
+    }
+
+    public void setIkNum(String LKNum) {
+        this.ikNum = LKNum;
+    }
+
+    public String getVkNum() {
+        return vkNum;
+    }
+
+    public void setVkNum(String VKNum) {
+        this.vkNum = VKNum;
+    }
+
+    public String getInputTrunk() {
+        return inputTrunk;
+    }
+
+    public void setInputTrunk(String inputTrunk) {
+        this.inputTrunk = inputTrunk;
+    }
+
+    public String getOutputTrunk() {
+        return outputTrunk;
+    }
+
+    public void setOutputTrunk(String outputTrunk) {
+        this.outputTrunk = outputTrunk;
+    }
 }
 

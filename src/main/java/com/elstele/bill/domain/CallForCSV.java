@@ -25,7 +25,6 @@ public class CallForCSV extends CommonDomainBean {
     private String costCallTotal;
     private String provider;
 
-
     public String getNumberA() {
         return numberA;
     }

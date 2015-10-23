@@ -6,7 +6,6 @@ import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.FileStatus;
 import com.elstele.bill.utils.ResponseToAjax;
-import javafx.scene.control.ProgressBar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -141,6 +140,7 @@ public class UploadController {
                 String flagString = "";
                 String yearFromFileName = "20" + uploadedFileInfoForm.getPath().substring(0, 2);
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
+                Float costTotal = 0f;
 
                 do {
                     len = fs.read(buffer);
@@ -161,6 +161,10 @@ public class UploadController {
                     String dvoCodeA = "";
                     String dvoCodeB = "";
 
+
+                    costTotal++;
+
+
                     if (tempStrHEX.startsWith("A54C") && !numberA.equalsIgnoreCase("0000000")) {
                         //first packet
                         flagString = tempStrHEX;
@@ -175,11 +179,16 @@ public class UploadController {
                         dvoCodeA = flagString.substring(42, 44);
                         dvoCodeB = flagString.substring(44, 46);
                         duration = Long.parseLong((tempStrHEX.substring(52, 54) + tempStrHEX.substring(16, 20)), 16);
+                        String vkNum = tempStrHEX.substring(46,49);
+                        String ikNum = tempStrHEX.substring(49,52);
+                        String inputTrunk = tempStrHEX.substring(42,44);
+                        String outputTrunk = tempStrHEX.substring(44,46);
 
                         String startTimeHour = flagString.substring(12, 14);
                         String startTimeMinutes = flagString.substring(14, 16);
                         String startMonth = flagString.substring(48, 50);
                         String startDate = flagString.substring(46, 48);
+                        String prefix = flagString.substring(0,4);
 
                         if ((startMonth.equalsIgnoreCase("12")) && (monthFromFileName.equalsIgnoreCase("01"))) {
                             int yearInt = Integer.parseInt(yearFromFileName);
@@ -212,6 +221,11 @@ public class UploadController {
                         callForm.setDvoCodeA(dvoCodeA);
                         callForm.setDvoCodeB(dvoCodeB);
                         callForm.setStartTime(startTimeInDateFormat);
+                        callForm.setCostTotal(costTotal);
+                        callForm.setIkNum(ikNum);
+                        callForm.setVkNum(vkNum);
+                        callForm.setInputTrunk(inputTrunk);
+                        callForm.setOutputTrunk(outputTrunk);
                         callDataService.addCalls(callForm);
                     }
                     count++;

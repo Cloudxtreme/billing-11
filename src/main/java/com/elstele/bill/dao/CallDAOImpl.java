@@ -4,6 +4,7 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -87,5 +88,35 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         q.setFirstResult(offset).setMaxResults(limit);
         return (List<Call>) q.list();
     }
+
+    @Override
+    public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
+        SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
+                "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
+        return (List<String>)createSQLQuery.list();
+    }
+
+    @Override
+    public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
+                + "' and startTime <='" + endTime + "' order by startTime");
+        return (List<Call>)query.list();
+    }
+
+    @Override
+    public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk) {
+        SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
+                "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and outputTrunk ='" + outputTrunk + "' and costTotal Is not null order by numberA");
+        return (List<String>)createSQLQuery.list();
+    }
+
+    @Override
+    public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
+                + "' and startTime <='" + finishTime + "' and outputTrunk ='" + outputTrunk + "' order by startTime");
+        return (List<Call>)query.list();
+    }
+
+
 
 }

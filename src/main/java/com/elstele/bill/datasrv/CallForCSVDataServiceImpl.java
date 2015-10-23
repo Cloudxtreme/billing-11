@@ -55,7 +55,6 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
     @Override
     @Transactional
     public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime) {
-
         List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberA(numberA, startTime, endTime);
         return result;
     }
