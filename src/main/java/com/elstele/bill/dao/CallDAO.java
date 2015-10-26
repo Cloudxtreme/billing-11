@@ -17,4 +17,6 @@ public interface CallDAO extends CommonDAO<Call> {
     public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime);
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk);
     public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk);
+    public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime);
+    public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime);
 }

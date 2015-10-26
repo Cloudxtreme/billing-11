@@ -96,4 +96,18 @@ public class CallDataServiceImpl implements CallDataService {
         List<Call> result = callDAO.getCallByNumberAWithTrunk(numberA, startTime, finishTime, outputTrunk);
         return result;
     }
+
+    @Override
+    @Transactional
+    public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime){
+        List<String> result = callDAO.getUniqueLocalNumberAFromCalls(startTime, finishTime);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime) {
+        List<Call> result = callDAO.getLocalCalls(numberA, startTime, endTime);
+        return result;
+    }
 }

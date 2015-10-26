@@ -21,6 +21,9 @@ public class Call extends CommonDomainBean{
     private String vkNum;
     private String inputTrunk;
     private String outputTrunk;
+    private Integer callDirectionId;
+
+
     public String getNumberA() {
         return numberA;
     }
@@ -115,6 +118,14 @@ public class Call extends CommonDomainBean{
 
     public void setOutputTrunk(String outputTrunk) {
         this.outputTrunk = outputTrunk;
+    }
+
+    public Integer getCallDirectionId() {
+        return callDirectionId;
+    }
+
+    public void setCallDirectionId(Integer callDirectionId) {
+        this.callDirectionId = callDirectionId;
     }
 }
 

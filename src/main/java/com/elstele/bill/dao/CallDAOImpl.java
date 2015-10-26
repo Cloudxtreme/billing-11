@@ -29,11 +29,11 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     @Override
     public Integer getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
         StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
-        if (tempObjectForCallsRequestParam.getCallNumberA()!=null && !tempObjectForCallsRequestParam.getCallNumberA().isEmpty()) {
+        if (tempObjectForCallsRequestParam.getCallNumberA() != null && !tempObjectForCallsRequestParam.getCallNumberA().isEmpty()) {
             StringBuffer numberA = new StringBuffer("and numberA like '%" + tempObjectForCallsRequestParam.getCallNumberA() + "%'");
             queryStart.append(numberA);
         }
-        if (tempObjectForCallsRequestParam.getCallNumberB()!=null && !tempObjectForCallsRequestParam.getCallNumberB().isEmpty()) {
+        if (tempObjectForCallsRequestParam.getCallNumberB() != null && !tempObjectForCallsRequestParam.getCallNumberB().isEmpty()) {
             StringBuffer numberB = new StringBuffer(" and numberB like '%" + tempObjectForCallsRequestParam.getCallNumberB() + "%'");
             queryStart.append(numberB);
         }
@@ -43,7 +43,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
 
         }
         if (tempObjectForCallsRequestParam.getEndDate() != null) {
-            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + tempObjectForCallsRequestParam.getEndDate() + "'");
+            StringBuffer endDateString = new StringBuffer(" and a.startTime <= '" + tempObjectForCallsRequestParam.getEndDate() + "'");
             queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
@@ -65,12 +65,12 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     @Override
     public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate) {
         StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
-        StringBuffer queryEnd =  new StringBuffer(" order by a.startTime");
-        if (numberA!=null && !numberA.isEmpty()) {
+        StringBuffer queryEnd = new StringBuffer(" order by a.startTime");
+        if (numberA != null && !numberA.isEmpty()) {
             numberA = "and numberA like '%" + numberA + "%'";
             queryStart.append(numberA);
         }
-        if (numberB!=null && !numberB.isEmpty()) {
+        if (numberB != null && !numberB.isEmpty()) {
             numberB = " and numberB like '%" + numberB + "%'";
             queryStart.append(numberB);
         }
@@ -80,7 +80,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
 
         }
         if (endDate != null) {
-            StringBuffer endDateString =new StringBuffer( " and a.startTime <= '" + endDate + "'");
+            StringBuffer endDateString = new StringBuffer(" and a.startTime <= '" + endDate + "'");
             queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
@@ -93,30 +93,44 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
-        return (List<String>)createSQLQuery.list();
+        return (List<String>) createSQLQuery.list();
     }
 
     @Override
     public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime) {
         Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
                 + "' and startTime <='" + endTime + "' order by startTime");
-        return (List<Call>)query.list();
+        return (List<Call>) query.list();
     }
 
     @Override
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and outputTrunk ='" + outputTrunk + "' and costTotal Is not null order by numberA");
-        return (List<String>)createSQLQuery.list();
+        return (List<String>) createSQLQuery.list();
     }
 
     @Override
     public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
         Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
                 + "' and startTime <='" + finishTime + "' and outputTrunk ='" + outputTrunk + "' order by startTime");
-        return (List<Call>)query.list();
+        return (List<Call>) query.list();
     }
 
+    @Override
+    public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime) {
+        SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
+                "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and ( numberA like ('7895%') or numberA like ('7896%') or numberA like ('7897%'))" +
+                "   and costTotal Is null order by numberA");
+        return (List<String>) createSQLQuery.list();
+    }
+
+    @Override
+    public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where callDirectionId is null and startTime >='" + startTime
+                + "' and startTime <='" + endTime + "' and (numberA ='" + numberA + "' or numberA = '048" + numberA + "')  order by startTime");
+        return (List<Call>) query.list();
+    }
 
 
 }
