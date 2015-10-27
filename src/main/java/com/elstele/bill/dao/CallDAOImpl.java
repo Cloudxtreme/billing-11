@@ -7,18 +7,17 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
 
-    @Override
     public List<Call> getCalls() {
         return null;
     }
 
-    @Override
     public Integer getCallsCount() {
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select count(* ) from Call");
@@ -133,4 +132,18 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
 
+    public Integer getUnbilledCallsCount() {
+        Query q = getSessionFactory().getCurrentSession().
+        createSQLQuery("SELECT count(*) from calls where costtotal IS NULL and numberb like ('0%')");
+        return ((BigInteger)q.uniqueResult()).intValue();
+    }
+
+    public List<Integer> getUnbilledCallIds(int limit, int offset) {
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select c.id from Call c where c.costTotal is null AND c.numberB like ?  " +
+                        "order by c.id");
+        q.setString(0, "0%");
+        q.setFirstResult(offset).setMaxResults(limit);
+        return (List<Integer>)q.list();
+    }
 }

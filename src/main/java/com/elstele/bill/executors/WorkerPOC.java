@@ -12,7 +12,6 @@ public class WorkerPOC implements Runnable{
         this.taskId = taskId;
     }
 
-    @Override
     public void run() {
         try {
             while(progress != 100) {

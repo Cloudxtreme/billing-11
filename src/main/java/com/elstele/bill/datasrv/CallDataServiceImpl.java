@@ -27,13 +27,11 @@ public class CallDataServiceImpl implements CallDataService {
         callDAO.create(call);
     }
 
-    @Override
     @Transactional
     public int getCallsCount() {
         return callDAO.getCallsCount();
     }
 
-    @Override
     @Transactional
     public int getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
         return callDAO.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
@@ -109,5 +107,15 @@ public class CallDataServiceImpl implements CallDataService {
     public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime) {
         List<Call> result = callDAO.getLocalCalls(numberA, startTime, endTime);
         return result;
+    }
+
+    @Transactional
+    public Integer getUnbilledCallsCount() {
+        return callDAO.getUnbilledCallsCount();
+    }
+
+    @Transactional
+    public List<Integer> getUnbilledCallsIdList(int limit, int offset) {
+        return callDAO.getUnbilledCallIds(limit, offset);
     }
 }

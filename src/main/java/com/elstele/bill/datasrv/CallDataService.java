@@ -21,4 +21,6 @@ public interface CallDataService {
     public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime);
     public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime);
 
+    public Integer getUnbilledCallsCount();
+    public List<Integer> getUnbilledCallsIdList(int limit, int offset);
 }
