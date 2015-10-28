@@ -85,7 +85,6 @@ public class UploadCSVFileController {
                         CallForCSVForm callForCSVForm = new CallForCSVForm();
                         counter++;
                         if (!fileName.contains("ukr")) {
-
                             if (firstLine) {
                                 firstLine = false;
                             } else {

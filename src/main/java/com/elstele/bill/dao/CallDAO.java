@@ -21,4 +21,7 @@ public interface CallDAO extends CommonDAO<Call> {
     public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime);
     public Integer getUnbilledCallsCount();
     public List<Integer> getUnbilledCallIds(int limit, int offset);
+    public List<Integer> getCallIdsWithNullCostTotal();
+    public List<Integer> getUnbilledCallIds();
+
 }

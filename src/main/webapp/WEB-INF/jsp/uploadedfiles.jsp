@@ -30,6 +30,8 @@
     </div>
 
     <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href="">Handle selected files</a>
+    <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href="">Press for deduction cost total</a>
+
     <table class="table table-striped" id ='table'>
         <th></th>
         <th>File name</th>
@@ -164,7 +166,27 @@
             })
         }
         var interval = setTimeout(getProgress,2000);
-    })
+    });
+
+    $('#handleCostTotal').on('click', function(){
+        $.ajax({
+            url: "${pageContext.request.contextPath}/uploadedfiles/handle/costTotalDeduct",
+            type: "Post",
+            success: function(data){
+                if(data == "success") {
+                    $tr.fadeOut('slow',function(){
+                        $tr.remove()
+                    });
+                    document.getElementById('succesMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#succesMessage").fadeOut(2000);
+                    });
+                } else{
+                    alert("Cost does not deducted");
+                }
+            }
+        })
+    });
 
 
 </script>

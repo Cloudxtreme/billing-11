@@ -155,5 +155,13 @@ public class Call extends CommonDomainBean{
     public void setCallDirectionId(Integer callDirectionId) {
         this.callDirectionId = callDirectionId;
     }
+
+    public Float getCostTotal() {
+        return costTotal;
+    }
+
+    public void setCostTotal(Float costTotal) {
+        this.costTotal = costTotal;
+    }
 }
 

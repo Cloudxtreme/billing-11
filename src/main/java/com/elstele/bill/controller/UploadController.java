@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.CallBillingService;
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.UploadedFileInfoDataService;
 import com.elstele.bill.form.CallForm;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -36,7 +38,8 @@ public class UploadController {
     @Autowired
     CallDataService callDataService;
 
-
+    @Autowired
+    CallBillingService callBillingService;
 
     float progress;
 
@@ -140,8 +143,6 @@ public class UploadController {
                 String flagString = "";
                 String yearFromFileName = "20" + uploadedFileInfoForm.getPath().substring(0, 2);
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
-                Float costTotal = 0f;
-
                 do {
                     len = fs.read(buffer);
 
@@ -160,9 +161,6 @@ public class UploadController {
                     Long duration = null;
                     String dvoCodeA = "";
                     String dvoCodeB = "";
-
-
-                    costTotal++;
 
 
                     if (tempStrHEX.startsWith("A54C") && !numberA.equalsIgnoreCase("0000000")) {
@@ -196,7 +194,6 @@ public class UploadController {
                             yearFromFileName = Integer.toString(yearInt);
                         }
 
-
                         startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                         Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
@@ -221,7 +218,6 @@ public class UploadController {
                         callForm.setDvoCodeA(dvoCodeA);
                         callForm.setDvoCodeB(dvoCodeB);
                         callForm.setStartTime(startTimeInDateFormat);
-                        callForm.setCostTotal(costTotal);
                         callForm.setIkNum(ikNum);
                         callForm.setVkNum(vkNum);
                         callForm.setInputTrunk(inputTrunk);
@@ -244,6 +240,15 @@ public class UploadController {
             progress = 100;
         }
 
+    }
+
+    @RequestMapping(value = "/uploadedfiles/handle/costTotalDeduct")
+    public @ResponseBody ResponseToAjax costTotalDeduct() {
+        List<Integer> listId = callDataService.getUnbilledCallsIdList();
+        for ( Integer id : listId) {
+            callBillingService.updateCallWithItCost(id);
+        }
+        return  ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")

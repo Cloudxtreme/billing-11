@@ -146,4 +146,20 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         q.setFirstResult(offset).setMaxResults(limit);
         return (List<Integer>)q.list();
     }
+
+    public List<Integer> getUnbilledCallIds() {
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select c.id from Call c where c.costTotal is null AND c.numberB like ?  " +
+                        "order by c.id");
+        q.setString(0, "0%");
+        return (List<Integer>)q.list();
+    }
+
+
+    public List<Integer> getCallIdsWithNullCostTotal() {
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select c.id from Call c where c.costTotal is null "+
+                        "order by c.id");
+        return (List<Integer>)q.list();
+    }
 }
