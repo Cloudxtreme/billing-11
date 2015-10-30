@@ -17,7 +17,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -60,6 +63,8 @@ public class UploadCSVFileController {
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
+        String path = ctx.getRealPath("resources\\files\\csvFiles");
+        model.addObject("filesList", getFileList(path));
         return model;
     }
 
@@ -155,14 +160,48 @@ public class UploadCSVFileController {
             if (reportName.equalsIgnoreCase("localCallsDetailReport")) {
                 localCallsDetailReportCreater.reportCreateMain(path, reportName);
             }
-            if(reportName.equalsIgnoreCase("localCallsMainReport")){
+            if (reportName.equalsIgnoreCase("localCallsMainReport")) {
                 localCallsMainReportCreater.reportCreateMain(path, reportName);
             }
-            if(reportName.equalsIgnoreCase("localCallsCostReport")){
+            if (reportName.equalsIgnoreCase("localCallsCostReport")) {
                 localCallsCostReportCreater.reportCreateMain(path, reportName);
             }
         }
         return ResponseToAjax.SUCCESS;
 
+    }
+
+
+    public List<String> getFileList(String path) {
+        File fileDir = new File(path);
+        File[] filesArr = fileDir.listFiles();
+        List<String> filesNameList = new ArrayList<String>();
+        for (int i = 0; i < filesArr.length; i++) {
+            if (filesArr[i].isFile()) {
+                try {
+                    filesNameList.add(filesArr[i].getName());
+                    System.out.println("File " + filesArr[i].getName() + " is added to List");
+                } catch (SecurityException e) {
+                    System.out.println(e.toString());
+                }
+            } else if (filesArr[i].isDirectory()) {
+                File[] fileArrWithChildDirectory = filesArr[i].listFiles();
+                System.out.println(filesArr[i].getName() + " is Directory");
+                assert fileArrWithChildDirectory != null;
+                for (int j = 0; j < fileArrWithChildDirectory.length; j++) {
+                    if (fileArrWithChildDirectory[j].isFile()) {
+                        try {
+                            filesNameList.add(fileArrWithChildDirectory[j].getName());
+                            System.out.println(fileArrWithChildDirectory[j].getName() + " is added to List");
+                        } catch (SecurityException e) {
+                            System.out.println(e.toString());
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return filesNameList;
     }
 }

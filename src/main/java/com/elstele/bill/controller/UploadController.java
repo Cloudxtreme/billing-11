@@ -129,6 +129,19 @@ public class UploadController {
     @ResponseBody
     public void handleFiles(@RequestBody String[] json, HttpSession session, HttpServletResponse response, HttpServletRequest request) {
         String path = ctx.getRealPath("resources\\files");
+        File fileDir = new File(path);
+        if(!fileDir.exists()) {
+            boolean fileMark = false;
+            try {
+                fileDir.mkdir();
+                fileMark = true;
+            } catch (SecurityException e) {
+                System.out.println(e.toString());
+            }
+            if (fileMark) {
+                System.out.println("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
+            }
+        }
         char[] hexArray = "0123456789ABCDEF".toCharArray();
         long fullFilesSize = 0;
         for ( int i = 0; i< json.length; i++){
@@ -200,8 +213,7 @@ public class UploadController {
 
                         startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                        String testDateStr = "2015/08/15 12:30";
-                        Date testDate = simpleDateFormat.parse(testDateStr);
+
                         Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
 
                         String calling = "";
@@ -223,7 +235,7 @@ public class UploadController {
                         callForm.setDuration(duration);
                         callForm.setDvoCodeA(dvoCodeA);
                         callForm.setDvoCodeB(dvoCodeB);
-                        callForm.setStartTime(testDate);
+                        callForm.setStartTime(startTimeInDateFormat);
                         callForm.setIkNum(ikNum);
                         callForm.setVkNum(vkNum);
                         callForm.setInputTrunk(inputTrunk);

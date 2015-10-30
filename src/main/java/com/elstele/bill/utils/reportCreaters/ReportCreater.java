@@ -128,7 +128,7 @@ public class ReportCreater {
                 System.out.println(e.toString());
             }
             if(fileMet){
-                System.out.println("File dir is created");
+                System.out.println("File dir " + fileDir.getAbsolutePath() + " is created");
             }
         }
     }
@@ -144,7 +144,7 @@ public class ReportCreater {
                 System.out.println(e.toString());
             }
             if(fileMet){
-                System.out.println("File directory is created");
+                System.out.println("File directory " + directory.getAbsolutePath() + " is created");
             }
         }
         return directory.getPath();

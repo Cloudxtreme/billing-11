@@ -202,6 +202,17 @@
         </div>
 
     </form:form>
+
+        <table class="table table-striped"  id ='table'>
+            <TH>Report name</th >
+            <c:forEach items="${filesList}" var="current">
+                <label for="${current}">
+                    <tr id="${current}">
+                        <td>${current}</td>
+                    </tr>
+                </label>
+            </c:forEach>
+        </table>
 </div>
 </body>
 </html>

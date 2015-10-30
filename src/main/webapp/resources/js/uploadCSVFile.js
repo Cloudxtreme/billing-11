@@ -173,6 +173,22 @@ $(document).ready(function () {
             data: JSON.stringify(reportNames),
             url: 'reportCreating',
             success: function (data) {
+                if(data =="SUCCESS"){
+                    document.getElementById('successMessage').style.display = "block";
+                    $('#successMessage').append('<strong>Report created successfully</strong>');
+                    $("#successMessage").fadeOut(2500, function () {
+                        $("#successMessage strong").remove();
+                        location.reload();
+                    });
+                }else{
+                    document.getElementById('errorMessage').style.display = "block";
+                    $('#errorMessage').append('<strong>Failed to generate report. Please try again later</strong>');
+                    setTimeout(function () {
+                        $("#errorMessage").fadeOut(2500, function () {
+                            $("#errorMessage strong").remove();
+                        });
+                    });
+                }
             }
         })
     }
