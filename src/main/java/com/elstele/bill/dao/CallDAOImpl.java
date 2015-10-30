@@ -2,9 +2,11 @@ package com.elstele.bill.dao;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Call;
+import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -29,11 +31,11 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     public Integer getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
         StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
         if (tempObjectForCallsRequestParam.getCallNumberA() != null && !tempObjectForCallsRequestParam.getCallNumberA().isEmpty()) {
-            StringBuffer numberA = new StringBuffer("and numberA like '%" + tempObjectForCallsRequestParam.getCallNumberA() + "%'");
+            StringBuffer numberA = new StringBuffer("and numberA like '" + tempObjectForCallsRequestParam.getCallNumberA() + "%'");
             queryStart.append(numberA);
         }
         if (tempObjectForCallsRequestParam.getCallNumberB() != null && !tempObjectForCallsRequestParam.getCallNumberB().isEmpty()) {
-            StringBuffer numberB = new StringBuffer(" and numberB like '%" + tempObjectForCallsRequestParam.getCallNumberB() + "%'");
+            StringBuffer numberB = new StringBuffer(" and numberB like '" + tempObjectForCallsRequestParam.getCallNumberB() + "%'");
             queryStart.append(numberB);
         }
         if (tempObjectForCallsRequestParam.getStartDate() != null) {
@@ -66,11 +68,11 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
         StringBuffer queryEnd = new StringBuffer(" order by a.startTime");
         if (numberA != null && !numberA.isEmpty()) {
-            numberA = "and numberA like '%" + numberA + "%'";
+            numberA = "and numberA like '" + numberA + "%'";
             queryStart.append(numberA);
         }
         if (numberB != null && !numberB.isEmpty()) {
-            numberB = " and numberB like '%" + numberB + "%'";
+            numberB = " and numberB like '" + numberB + "%'";
             queryStart.append(numberB);
         }
         if (startDate != null) {
@@ -96,10 +98,14 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     @Override
-    public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
-                + "' and startTime <='" + endTime + "' order by startTime");
-        return (List<Call>) query.list();
+    public List<CallTransformerDir> getCallByNumberA(String numberA, Date startTime, Date endTime) {
+        String q = "Select calls.numberb as numberB, calls.startTime as startTime, calls.duration as duration, calls.costTotal as costTotal, directions.description as description," +
+                " directions.prefix as prefix from calls, directions " +
+                "where calls.callDirectionId = directions.id and calls.startTime >= '"+startTime +"' and calls.startTime <= '"+ endTime+"' and " +
+                "calls.numberA = '"+ numberA+"' order by calls.startTime";
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(q)
+                .setResultTransformer(Transformers.aliasToBean(CallTransformerDir.class));
+        return (List<CallTransformerDir>) query.list();
     }
 
     @Override
@@ -110,10 +116,14 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     @Override
-    public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where numberA ='" + numberA + "' and startTime >='" + startTime
-                + "' and startTime <='" + finishTime + "' and outputTrunk ='" + outputTrunk + "' order by startTime");
-        return (List<Call>) query.list();
+    public List<CallTransformerDir> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
+        String q = "Select calls.numberb as numberB, calls.startTime as startTime, calls.duration as duration, calls.costTotal as costTotal, directions.description as description," +
+                " directions.prefix as prefix from calls, directions " +
+                "where calls.callDirectionId = directions.id and calls.startTime >= '"+startTime +"' and calls.startTime <= '"+ finishTime+"' and " +
+                "calls.numberA = '"+ numberA+"' and calls.outputTrunk='"+outputTrunk +"' order by calls.startTime";
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(q)
+                .setResultTransformer(Transformers.aliasToBean(CallTransformerDir.class));
+        return (List<CallTransformerDir>) query.list();
     }
 
     @Override

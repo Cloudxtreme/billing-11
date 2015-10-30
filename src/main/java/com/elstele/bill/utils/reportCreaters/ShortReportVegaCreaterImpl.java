@@ -2,6 +2,7 @@ package com.elstele.bill.utils.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.domain.Call;
+import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.reportCreaters.reportsInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ShortReportVegaCreaterImpl extends  ReportCreater implements Report
         Double costTotalForPeriod = 0.0;
         List<String> listWithNumberA = getUniqueNumbersA();
         for (String numberA : listWithNumberA) {
-            List<Call> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
+            List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
             Double costTotalForThisNumber = 0.0;
             costTotalForThisNumber = costTotalForThisCallNumberOperation(bw, callsListByNumberA);
             costTotalForPeriod += costTotalForThisNumber;
@@ -51,11 +52,11 @@ public class ShortReportVegaCreaterImpl extends  ReportCreater implements Report
         return listWithNumberA;
     }
 
-    public List<Call> getCallsFromDBByNumbersA(String numberA) {
+    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA) {
         Date tempStartTime = getTempStartTime();
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
-        List<Call> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
+        List<CallTransformerDir> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
         return result;
     }
 }

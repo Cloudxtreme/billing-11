@@ -2,8 +2,8 @@ package com.elstele.bill.utils.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
-import com.elstele.bill.domain.Call;
 import com.elstele.bill.domain.CallForCSV;
+import com.elstele.bill.utils.CallTransformerDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,10 +108,10 @@ public class ReportCreater {
         return costTotalForThisNumber;
     }
 
-    public Double costTotalForThisCallNumberOperation(PrintStream bw, List<Call> callListByNumberA) {
+    public Double costTotalForThisCallNumberOperation(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
-        for (Call call : callListByNumberA) {
-            Double costTotal = (double)call.getCostTotal();
+        for (CallTransformerDir call : callListByNumberA) {
+            Double costTotal = (double)call.getCosttotal();
             costTotalForThisNumber += costTotal;
         }
         return costTotalForThisNumber;

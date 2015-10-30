@@ -30,7 +30,7 @@
     </div>
 
     <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href="">Handle selected files</a>
-    <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href="">Press for deduction cost total</a>
+    <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href="">Calculate call's total cost</a>
 
     <table class="table table-striped" id ='table'>
         <th></th>
@@ -170,7 +170,7 @@
 
     $('#handleCostTotal').on('click', function(){
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadedfiles/handle/costTotalDeduct",
+            url: "${pageContext.request.contextPath}/worker/billCall",
             type: "Post",
             success: function(data){
                 if(data == "success") {
@@ -182,7 +182,7 @@
                         $("#succesMessage").fadeOut(2000);
                     });
                 } else{
-                    alert("Cost does not deducted");
+                    alert("Cost does not calculated");
                 }
             }
         })

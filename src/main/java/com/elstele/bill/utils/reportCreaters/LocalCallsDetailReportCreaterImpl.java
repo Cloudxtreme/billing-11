@@ -85,7 +85,7 @@ public class LocalCallsDetailReportCreaterImpl extends ReportCreater implements 
             Date startTimeVal = call.getStartTime();
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);
-            String shortNumberB = "";
+            String shortNumberB = numberB;
             if (numberB.startsWith("97") && numberB.length() == 8){
                 shortNumberB = numberB.substring(1,8);
             }if(numberB.startsWith("92") || numberB.startsWith("93")|| numberB.startsWith("94") || numberB.startsWith("95")|| numberB.startsWith("96") && numberB.length()==7){

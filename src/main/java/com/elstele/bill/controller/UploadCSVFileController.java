@@ -54,6 +54,8 @@ public class UploadCSVFileController {
 
     @Autowired
     LocalCallsMainReportCreaterImpl localCallsMainReportCreater;
+    @Autowired
+    LocalCallsCostReportCreaterImpl localCallsCostReportCreater;
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
@@ -155,6 +157,9 @@ public class UploadCSVFileController {
             }
             if(reportName.equalsIgnoreCase("localCallsMainReport")){
                 localCallsMainReportCreater.reportCreateMain(path, reportName);
+            }
+            if(reportName.equalsIgnoreCase("localCallsCostReport")){
+                localCallsCostReportCreater.reportCreateMain(path, reportName);
             }
         }
         return ResponseToAjax.SUCCESS;

@@ -1,7 +1,7 @@
 package com.elstele.bill.utils.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.domain.Call;
+import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.reportCreaters.reportsInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class LongReportVegaCreaterImpl extends ReportCreater implements ReportCr
         Double costTotalForPeriod = 0.0;
         List<String> listWithNumberA = getUniqueNumbersA();
         for (String numberA : listWithNumberA) {
-            List<Call> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
+            List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
             mainHeaderPrint(bw, numberA);
             Double costTotalForThisNumber = 0.0;
             costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
@@ -52,31 +52,30 @@ public class LongReportVegaCreaterImpl extends ReportCreater implements ReportCr
         return listWithNumberA;
     }
 
-    public List<Call> getCallsFromDBByNumbersA(String numberA) {
+    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA) {
         Date tempStartTime = getTempStartTime();
         Date endTime = getEndTimeDate(tempStartTime);
         Date startTime = getStartTimeDate(tempStartTime);
-        List<Call> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
+        List<CallTransformerDir> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
         return result;
     }
-    public Double callDataPrint(PrintStream bw, List<Call> callListByNumberA) {
+    public Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
 
-        for (Call call : callListByNumberA) {
-            String numberB = call.getNumberB();
+        for (CallTransformerDir call : callListByNumberA) {
+            String numberB = call.getNumberb();
             String duration = call.getDuration().toString();
-            String dirPrefix = "0 while";
-            String dirPrefixCutted = dirPrefix.substring(2, dirPrefix.length());
-            String descrOrg = "0 while";
-            Double costTotal = (double)call.getCostTotal();
-            Date startTimeVal = call.getStartTime();
+            String dirPrefix = call.getPrefix();
+            String descrOrg = call.getDescription();
+            Double costTotal = (double)call.getCosttotal();
+            Date startTimeVal = call.getStarttime();
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);
-            String shortNumberB = call.getNumberB().substring(dirPrefix.length(), numberB.length());
+            String shortNumberB = call.getNumberb().substring(dirPrefix.length(), numberB.length());
             bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
                     reportDate,
                     duration,
-                    dirPrefixCutted,
+                    dirPrefix,
                     shortNumberB,
                     descrOrg,
                     costTotal

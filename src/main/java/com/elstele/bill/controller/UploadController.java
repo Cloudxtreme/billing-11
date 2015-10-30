@@ -3,6 +3,7 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.CallBillingService;
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.UploadedFileInfoDataService;
+import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.FileStatus;
@@ -40,6 +41,9 @@ public class UploadController {
 
     @Autowired
     CallBillingService callBillingService;
+
+    @Autowired
+    private BillingCallsProcessor callBillProcessor;
 
     float progress;
 
@@ -196,6 +200,8 @@ public class UploadController {
 
                         startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                        String testDateStr = "2015/08/15 12:30";
+                        Date testDate = simpleDateFormat.parse(testDateStr);
                         Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
 
                         String calling = "";
@@ -217,7 +223,7 @@ public class UploadController {
                         callForm.setDuration(duration);
                         callForm.setDvoCodeA(dvoCodeA);
                         callForm.setDvoCodeB(dvoCodeB);
-                        callForm.setStartTime(startTimeInDateFormat);
+                        callForm.setStartTime(testDate);
                         callForm.setIkNum(ikNum);
                         callForm.setVkNum(vkNum);
                         callForm.setInputTrunk(inputTrunk);
@@ -242,12 +248,9 @@ public class UploadController {
 
     }
 
-    @RequestMapping(value = "/uploadedfiles/handle/costTotalDeduct")
-    public @ResponseBody ResponseToAjax costTotalDeduct() {
-        List<Integer> listId = callDataService.getUnbilledCallsIdList();
-        for ( Integer id : listId) {
-            callBillingService.updateCallWithItCost(id);
-        }
+    @RequestMapping(value = "/worker/billCall")
+    public @ResponseBody ResponseToAjax costTotalCalculate() {
+        callBillProcessor.processCalls();
         return  ResponseToAjax.SUCCESS;
     }
 

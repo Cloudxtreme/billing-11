@@ -4,6 +4,7 @@ import com.elstele.bill.assembler.CallAssembler;
 import com.elstele.bill.dao.CallDAO;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.form.CallForm;
+import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,8 +77,8 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Override
     @Transactional
-    public List<Call> getCallByNumberA(String numberA, Date startTime, Date endTime) {
-        List<Call> result = callDAO.getCallByNumberA(numberA, startTime, endTime);
+    public List<CallTransformerDir> getCallByNumberA(String numberA, Date startTime, Date endTime) {
+        List<CallTransformerDir> result = callDAO.getCallByNumberA(numberA, startTime, endTime);
         return result;
     }
 
@@ -90,8 +91,8 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Override
     @Transactional
-    public List<Call> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
-        List<Call> result = callDAO.getCallByNumberAWithTrunk(numberA, startTime, finishTime, outputTrunk);
+    public List<CallTransformerDir> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
+        List<CallTransformerDir> result = callDAO.getCallByNumberAWithTrunk(numberA, startTime, finishTime, outputTrunk);
         return result;
     }
 
