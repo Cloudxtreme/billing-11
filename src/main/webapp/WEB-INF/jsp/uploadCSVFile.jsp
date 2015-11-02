@@ -172,6 +172,7 @@
                             </tr>
 
                         </table>
+                        <button id="selectAllBtn" type="button" class="btn btn-info float-lt">Select all</button>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>

@@ -26,6 +26,7 @@ import java.util.Locale;
 @Controller
 public class UploadCSVFileController {
 
+    private static final int BUFFER_SIZE = 4096;
     @Autowired
     ServletContext ctx;
     @Autowired
@@ -63,8 +64,6 @@ public class UploadCSVFileController {
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
-        String path = ctx.getRealPath("resources\\files\\csvFiles");
-        model.addObject("filesList", getFileList(path));
         return model;
     }
 
@@ -180,39 +179,42 @@ public class UploadCSVFileController {
         return ResponseToAjax.SUCCESS;
     }
 
-
-
-    public List<String> getFileList(String path) {
-        File fileDir = new File(path);
-        File[] filesArr = fileDir.listFiles();
-        List<String> filesNameList = new ArrayList<String>();
-        for (int i = 0; i < filesArr.length; i++) {
-            if (filesArr[i].isFile()) {
-                try {
-                    filesNameList.add(filesArr[i].getName());
-                    System.out.println("File " + filesArr[i].getName() + " is added to Array");
-                } catch (SecurityException e) {
-                    System.out.println(e.toString());
-                }
-            } else if (filesArr[i].isDirectory()) {
-                File[] fileArrWithChildDirectory = filesArr[i].listFiles();
-                System.out.println(filesArr[i].getName() + " is Directory");
-                assert fileArrWithChildDirectory != null;
-                for (int j = 0; j < fileArrWithChildDirectory.length; j++) {
-                    if (fileArrWithChildDirectory[j].isFile()) {
-                        try {
-                            filesNameList.add(fileArrWithChildDirectory[j].getName());
-                            System.out.println(fileArrWithChildDirectory[j].getName() + " is added to Array");
-                        } catch (SecurityException e) {
-                            System.out.println(e.toString());
-                        }
-                    }
-
-                }
-
-            }
+    @RequestMapping(value="downloadFile", method = RequestMethod.GET)
+    public void doDownload(HttpServletRequest request,
+                           HttpServletResponse response,
+                           @RequestParam(value = "fileId") String id) throws IOException {
+        String path = ctx.getRealPath("resources\\files\\csvFiles");
+        String childPath = path +File.separator + id.substring(0,7);
+        String fullPath = childPath + File.separator + id;
+        File downloadFile = new File(fullPath);
+        System.out.println(fullPath);
+        FileInputStream inputStream = new FileInputStream(downloadFile);
+        String mimeType = ctx.getMimeType(fullPath);
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
         }
-        return filesNameList;
+        System.out.println("MIME type: " + mimeType);
+
+        response.setContentType(mimeType);
+        response.setContentLength((int) downloadFile.length());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                downloadFile.getName());
+        response.setHeader(headerKey, headerValue);
+
+        OutputStream outStream = response.getOutputStream();
+
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int bytesRead = -1;
+
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+
+        inputStream.close();
+        outStream.close();
+
     }
 
 }

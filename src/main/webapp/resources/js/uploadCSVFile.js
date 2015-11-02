@@ -206,51 +206,39 @@ $(document).ready(function () {
         }
     });
 
-
-
+    $('#selectAllBtn').on('click', function () {
+        $('.check-box-table-cell').attr('checked', true);
+        $('#table tr:not(:first-child)').addClass("info");
+    });
 
     $.ajax({
-        type:"Post",
-        url:'/uploadCSVFile/generateFileTree',
-        success: function(data){
+        type: "Post",
+        url: '/uploadCSVFile/generateFileTree',
+        success: function (data) {
             console.log(data);
             $('#fileTree').fileTree({
                 data: data,
                 sortable: false,
-                selectable: true
+                selectable: false
             });
         }
     });
 
+    $('#fileTree').on('click', '.file', function () {
+        var selected = $(this).hasClass('selected');
+        if (selected) {
+            $(this).removeClass('selected');
+        }else{
+            $(this).addClass('selected');
+            var id = $(this).attr('data-id');
+            $.ajax({
+                type: "GET",
+                url: 'downloadFile?fileId=' + id,
+                contentType: "application/json",
+                dataType: 'json'
+            })
+        }
+    });
 
- /*   var data = [{
-        id: 'dir-1',
-        name: 'Root',
-        type: 'dir',
-        children: [
-            {
-                id: 'dir-2',
-                name: 'Sub_dir',
-                type: 'dir',
-                children: [{
-                    id: 'file-1',
-                    name: 'file-tree-master.zip',
-                    type: 'zip',
-                    url: '1.zip'
-                }]
-            }, {
-                id: 'file-2',
-                name: 'File tree',
-                type: 'zip',
-                url: '2.zip'
-            }
-        ]
-    }];
 
-    $('#fileTree').fileTree({
-        data: data,
-        sortable: false,
-        selectable: true
-    });*/
-})
-;
+});
