@@ -13,15 +13,24 @@
     <title>File uploading</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/css/file-tree.min.css" var="fileTreeCss"/>
+    <link href="${fileTreeCss}" rel="stylesheet"/>
 
     <spring:url value="/resources/js/uploadCSVFile.js" var="csvScript"/>
     <script src="${csvScript}"></script>
+    <spring:url value="/resources/js/file-tree.min.js" var="fileTreeMin"/>
+    <script src="${fileTreeMin}"></script>
+    <spring:url value="/resources/js/jquery-ui.min.js" var="jqueryMinUi"/>
+    <script src="${jqueryMinUi}"></script>
+    <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
+    <script src="${nestedFileTree}"></script>
+
 
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
-<div class="well">
+<div class="well well-lg">
 
     <%--Error Message body--%>
     <div id="errorMessage" class="alert alert-warning" style="display: none">
@@ -57,7 +66,7 @@
                             <th></th>
                             <TH>Name</th>
 
-                            <tr  id="longReport">
+                            <tr id="longReport">
                                 <td>
                                     <div class=".col-xs-6 .col-sm-3">
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
@@ -79,7 +88,7 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Long Report RA UkrTel</td>
+                                <td class="unDefaultTDStyle">Long Report RA UkrTel</td>
                             </tr>
                             <tr id="longReportRAVega">
                                 <td>
@@ -87,7 +96,7 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Long Report RA Vega</td>
+                                <td class="unDefaultTDStyle">Long Report RA Vega</td>
                             </tr>
                             <tr id="longReportVega">
                                 <td>
@@ -95,9 +104,9 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Long Report Vega</td>
+                                <td class="unDefaultTDStyle">Long Report Vega</td>
                             </tr>
-                            <tr  id="shortReport">
+                            <tr id="shortReport">
                                 <td>
                                     <div class=".col-xs-6 .col-sm-3">
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
@@ -119,7 +128,7 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Short Report RE UkrTel</td>
+                                <td class="unDefaultTDStyle">Short Report RE UkrTel</td>
                             </tr>
                             <tr id="shortReportREVega">
                                 <td>
@@ -127,7 +136,7 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Short Report RE Vega</td>
+                                <td class="unDefaultTDStyle">Short Report RE Vega</td>
                             </tr>
                             <tr id="shortReportVega">
                                 <td>
@@ -135,7 +144,7 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Short Report Vega</td>
+                                <td class="unDefaultTDStyle">Short Report Vega</td>
                             </tr>
                             <tr id="localCallsCostReport">
                                 <td>
@@ -143,9 +152,9 @@
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
                                     </div>
                                 </td>
-                                <td class="unDefaultTDStyle" >Local Calls Cost Report</td>
+                                <td class="unDefaultTDStyle">Local Calls Cost Report</td>
                             </tr>
-                            <tr  id="localCallsDetailReport">
+                            <tr id="localCallsDetailReport">
                                 <td>
                                     <div class=".col-xs-6 .col-sm-3">
                                         <input type="checkbox" name="optradio" class="check-box-table-cell">
@@ -166,7 +175,9 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal" id="generateReport">Generate</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal" id="generateReport">
+                                Generate
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -202,17 +213,12 @@
         </div>
 
     </form:form>
+        &nbsp;&nbsp;
+    <div class="row">
+        <div id="fileTree" class="col-md-4"></div>
+    </div>
 
-        <table class="table table-striped"  id ='table'>
-            <TH>Report name</th >
-            <c:forEach items="${filesList}" var="current">
-                <label for="${current}">
-                    <tr id="${current}">
-                        <td>${current}</td>
-                    </tr>
-                </label>
-            </c:forEach>
-        </table>
+
 </div>
 </body>
 </html>

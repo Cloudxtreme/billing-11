@@ -153,7 +153,7 @@ $(document).ready(function () {
     });
 
     $('.unDefaultTDStyle').on('click', function () {
-        var checked =  $(this).parents('tr').find('input[type="checkbox"]').prop('checked');
+        var checked = $(this).parents('tr').find('input[type="checkbox"]').prop('checked');
         if (checked) {
             $(this).parents('tr').find('input[type="checkbox"]').prop('checked', false);
             $(this).closest("tr").removeClass("info");
@@ -173,14 +173,14 @@ $(document).ready(function () {
             data: JSON.stringify(reportNames),
             url: 'reportCreating',
             success: function (data) {
-                if(data =="SUCCESS"){
+                if (data == "SUCCESS") {
                     document.getElementById('successMessage').style.display = "block";
                     $('#successMessage').append('<strong>Report created successfully</strong>');
                     $("#successMessage").fadeOut(2500, function () {
                         $("#successMessage strong").remove();
                         location.reload();
                     });
-                }else{
+                } else {
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong>Failed to generate report. Please try again later</strong>');
                     setTimeout(function () {
@@ -206,4 +206,51 @@ $(document).ready(function () {
         }
     });
 
-});
+
+
+
+    $.ajax({
+        type:"Post",
+        url:'/uploadCSVFile/generateFileTree',
+        success: function(data){
+            console.log(data);
+            $('#fileTree').fileTree({
+                data: data,
+                sortable: false,
+                selectable: true
+            });
+        }
+    });
+
+
+ /*   var data = [{
+        id: 'dir-1',
+        name: 'Root',
+        type: 'dir',
+        children: [
+            {
+                id: 'dir-2',
+                name: 'Sub_dir',
+                type: 'dir',
+                children: [{
+                    id: 'file-1',
+                    name: 'file-tree-master.zip',
+                    type: 'zip',
+                    url: '1.zip'
+                }]
+            }, {
+                id: 'file-2',
+                name: 'File tree',
+                type: 'zip',
+                url: '2.zip'
+            }
+        ]
+    }];
+
+    $('#fileTree').fileTree({
+        data: data,
+        sortable: false,
+        selectable: true
+    });*/
+})
+;

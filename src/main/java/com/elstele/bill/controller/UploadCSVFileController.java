@@ -2,6 +2,7 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
+import com.elstele.bill.form.FileDirTreeGeneraterForm;
 import com.elstele.bill.utils.CallForCSVHelper;
 import com.elstele.bill.utils.reportCreaters.*;
 import com.elstele.bill.utils.ResponseToAjax;
@@ -17,7 +18,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -66,6 +66,15 @@ public class UploadCSVFileController {
         String path = ctx.getRealPath("resources\\files\\csvFiles");
         model.addObject("filesList", getFileList(path));
         return model;
+    }
+
+    @RequestMapping(value="/uploadCSVFile/generateFileTree", method = RequestMethod.POST)
+    @ResponseBody
+    public FileDirTreeGeneraterForm[] generateFileTree(){
+        String path = ctx.getRealPath("resources\\files\\csvFiles");
+        FileTreeGenerater fileTreeGenerater = new FileTreeGenerater();
+        FileDirTreeGeneraterForm[] fileDirTreeGeneraterForms = fileTreeGenerater.getFileTreeArray(path);
+        return fileDirTreeGeneraterForms;
     }
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.POST)
@@ -121,6 +130,7 @@ public class UploadCSVFileController {
         return ResponseToAjax.FULLOPERATION;
     }
 
+
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json, HttpServletRequest requestHttp) throws IOException {
@@ -168,8 +178,8 @@ public class UploadCSVFileController {
             }
         }
         return ResponseToAjax.SUCCESS;
-
     }
+
 
 
     public List<String> getFileList(String path) {
@@ -180,7 +190,7 @@ public class UploadCSVFileController {
             if (filesArr[i].isFile()) {
                 try {
                     filesNameList.add(filesArr[i].getName());
-                    System.out.println("File " + filesArr[i].getName() + " is added to List");
+                    System.out.println("File " + filesArr[i].getName() + " is added to Array");
                 } catch (SecurityException e) {
                     System.out.println(e.toString());
                 }
@@ -192,7 +202,7 @@ public class UploadCSVFileController {
                     if (fileArrWithChildDirectory[j].isFile()) {
                         try {
                             filesNameList.add(fileArrWithChildDirectory[j].getName());
-                            System.out.println(fileArrWithChildDirectory[j].getName() + " is added to List");
+                            System.out.println(fileArrWithChildDirectory[j].getName() + " is added to Array");
                         } catch (SecurityException e) {
                             System.out.println(e.toString());
                         }
@@ -204,4 +214,5 @@ public class UploadCSVFileController {
         }
         return filesNameList;
     }
+
 }
