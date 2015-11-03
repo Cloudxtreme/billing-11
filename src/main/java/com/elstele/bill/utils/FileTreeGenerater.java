@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.reportCreaters;
+package com.elstele.bill.utils;
 
 import antlr.StringUtils;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;

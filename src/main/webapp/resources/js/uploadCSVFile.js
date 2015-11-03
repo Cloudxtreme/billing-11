@@ -207,10 +207,12 @@ $(document).ready(function () {
     });
 
     $('#selectAllBtn').on('click', function () {
-        $('.check-box-table-cell').attr('checked', true);
-        $('#table tr:not(:first-child)').addClass("info");
+        var $checkboxesAll = $('.check-box-table-cell');
+        var $checkboxesChecked = $('.check-box-table-cell:checked');
+        var boolCondition = !$checkboxesAll.length == $checkboxesChecked.length;
+        $checkboxesAll.prop('checked', boolCondition);
+        $($checkboxesAll).closest('tr')[boolCondition ? 'addClass' : 'removeClass']('info');
     });
-
     $.ajax({
         type: "Post",
         url: '/uploadCSVFile/generateFileTree',
@@ -228,17 +230,33 @@ $(document).ready(function () {
         var selected = $(this).hasClass('selected');
         if (selected) {
             $(this).removeClass('selected');
-        }else{
+        } else {
             $(this).addClass('selected');
             var id = $(this).attr('data-id');
+            window.location.href = 'downloadFile?fileId=' + id;
             $.ajax({
                 type: "GET",
                 url: 'downloadFile?fileId=' + id,
                 contentType: "application/json",
                 dataType: 'json'
-            })
+            });
+            setTimeout(function () {
+                $('.file').removeClass("selected");
+            }, 1500);
         }
     });
 
+    $('#fileTree').on('click', '.glyphicon-download-alt', function () {
+        var directoryName = $(this).attr('name');
+        window.location.href = 'downloadZIP?directoryName=' + directoryName;
+        $.ajax({
+            type: "GET",
+            url: 'downloadZIP?directoryName=' + directoryName,
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    })
 
-});
+
+    })
+;

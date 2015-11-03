@@ -65,4 +65,11 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
         List<CallForCSV> result = callForCSVDAO.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, provider);
         return result;
     }
+
+    @Override
+    @Transactional
+    public String getDescriptionFromDirections(String dirPrefix) {
+        String result = callForCSVDAO.getDescriptionFromDirections(dirPrefix);
+        return result;
+    }
 }

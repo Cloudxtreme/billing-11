@@ -1,35 +1,39 @@
 package com.elstele.bill.utils;
 
+
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CallForCSVHelper {
+@Service
+public class CallFromCSVFileToDBParser {
 
+    @Autowired
+    CallForCSVDataService callForCSVDataService;
+    Map<String, String> directionMap = new HashMap();
 
-    public static CallForCSVForm arrayHandlingMethodCSV(String line) throws ParseException {
+    public CallForCSVForm arrayHandlingMethodCSV(String line) throws ParseException {
         final String DELIMITER = ";";
         String[] data = line.split(DELIMITER);
 
-        String numberA = data[0].substring(5,12);
+        String numberA = data[0].substring(5, 12);
         String numberB = data[1];
         String duration = data[2];
         String call_start = data[3];
         String dir_prefix = data[4];
         String dir_descr_orig = data[5];
         String cost_without_nds = data[9];
-
         String dir_descr = dir_descr_orig.replace("'", "");
         dir_descr = dir_descr.replace("'", "\'");
 
@@ -50,7 +54,7 @@ public class CallForCSVHelper {
         return callForCSVForm;
     }
 
-    public static CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) throws ParseException {
+    public CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) throws ParseException {
         final String DELIMITER = " ";
         Pattern pattern  = Pattern.compile("\\s{2,}");
         Matcher matcher = pattern.matcher(line);
@@ -58,12 +62,12 @@ public class CallForCSVHelper {
 
         String[] data = result.split(DELIMITER);
 
-        String numberA = data[0].substring(2,9);
+        String numberA = data[0].substring(2, 9);
         String numberB = data[3];
         String duration = data[7];
         String call_start = data[1];
         String dir_prefix = data[4];
-        String dir_descr_orig = "no data";
+        String dir_descr = "";
         String cost_without_nds = data[9];
         if (checkWithRegExp(dir_prefix, "/^0.*/")) {
             dir_prefix = dir_prefix;
@@ -75,16 +79,20 @@ public class CallForCSVHelper {
             dir_prefix = "00" + dir_prefix;
         }
 
-        //Comparing dir_prefix to detect direction value;
-        //
-
-
-        String dir_descr = dir_descr_orig.replace("'", "");
+        dir_descr = directionMap.get(dir_prefix);
+        if(dir_descr==null){
+            dir_descr = callForCSVDataService.getDescriptionFromDirections(dir_prefix);
+            if(dir_descr!= null){
+                directionMap.put(dir_prefix, dir_descr);
+            }else{
+                dir_descr ="no data";
+            }
+        }
+        dir_descr = dir_descr.replace("'", "");
         dir_descr = dir_descr.replace("'", "\'");
 
         Date startTime = startTimeHandlingUkrNet(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
-
 
         CallForCSVForm callForCSVForm = new CallForCSVForm();
         callForCSVForm.setNumberA(numberA);
@@ -99,7 +107,7 @@ public class CallForCSVHelper {
         return callForCSVForm;
     }
 
-    public static Date startTimeHandling(String call_start) throws ParseException {
+    public Date startTimeHandling(String call_start) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String year = call_start.substring(6,10);
         String month = call_start.substring(3,5);
@@ -109,7 +117,7 @@ public class CallForCSVHelper {
         return startTime;
     }
 
-    public static Date startTimeHandlingUkrNet(String call_start) throws ParseException {
+    public Date startTimeHandlingUkrNet(String call_start) throws ParseException {
         String year = call_start.substring(0,4);
         String month = call_start.substring(4,6);
         String day = call_start.substring(6,8);
@@ -123,14 +131,14 @@ public class CallForCSVHelper {
     }
 
 
-    public static String costWithNDS(String costWithoutNDS){
+    public String costWithNDS(String costWithoutNDS){
         if (costWithoutNDS.indexOf(",") == 0) {
             costWithoutNDS = "0" + costWithoutNDS;
         }
         return Double.toString(Double.parseDouble(costWithoutNDS) * 1.2);
     }
 
-    public static File convert(MultipartFile file) throws IOException {
+    public File convert(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
@@ -139,7 +147,7 @@ public class CallForCSVHelper {
         return convFile;
     }
 
-    public static boolean checkWithRegExp(String strToCheck, String strPattern){
+    public boolean checkWithRegExp(String strToCheck, String strPattern){
         Pattern p = Pattern.compile(strPattern);
         Matcher m = p.matcher(strToCheck);
         return m.matches();

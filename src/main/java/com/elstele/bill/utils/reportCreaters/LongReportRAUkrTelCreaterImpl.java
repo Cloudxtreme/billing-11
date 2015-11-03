@@ -64,7 +64,6 @@ public class LongReportRAUkrTelCreaterImpl extends ReportCreater implements Repo
             String numberB = callForCSVByNumberA.getNumberB();
             String duration = callForCSVByNumberA.getDuration();
             String dirPrefix = callForCSVByNumberA.getDirPrefix();
-            String dirPrefixCutted = dirPrefix.substring(2, dirPrefix.length());
             String descrOrg = callForCSVByNumberA.getDirDescrpOrg();
             Double costTotal = Double.parseDouble(callForCSVByNumberA.getCostCallTotal());
             Date startTimeVal = callForCSVByNumberA.getStartTime();
