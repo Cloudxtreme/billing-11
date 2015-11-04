@@ -77,7 +77,7 @@ public class UploadCSVFileController {
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax fileCSVUploadSubmit(MultipartHttpServletRequest file, HttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) throws IOException {
+    public ResponseToAjax fileCSVUploadSubmit(MultipartHttpServletRequest file) {
         if (file != null) {
             BufferedReader fileReader = null;
             Iterator<String> iter = file.getFileNames();
@@ -132,7 +132,7 @@ public class UploadCSVFileController {
 
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json, HttpServletRequest requestHttp) throws IOException {
+    public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException {
         path = ctx.getRealPath("resources\\files\\csvFiles");
         for (String reportName : json) {
             if (reportName.equalsIgnoreCase("longReport")) {

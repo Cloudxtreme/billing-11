@@ -3,6 +3,8 @@ package com.elstele.bill.utils;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,11 +22,13 @@ import java.util.regex.Pattern;
 @Service
 public class CallFromCSVFileToDBParser {
 
+    final static Logger log = LogManager.getLogger(CallFromCSVFileToDBParser.class);
+
     @Autowired
     CallForCSVDataService callForCSVDataService;
     Map<String, String> directionMap = new HashMap();
 
-    public CallForCSVForm arrayHandlingMethodCSV(String line) throws ParseException {
+    public CallForCSVForm arrayHandlingMethodCSV(String line) {
         final String DELIMITER = ";";
         String[] data = line.split(DELIMITER);
 
@@ -40,7 +45,6 @@ public class CallFromCSVFileToDBParser {
         Date startTime = startTimeHandling(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
 
-
         CallForCSVForm callForCSVForm = new CallForCSVForm();
         callForCSVForm.setNumberA(numberA);
         callForCSVForm.setNumberB(numberB);
@@ -54,7 +58,7 @@ public class CallFromCSVFileToDBParser {
         return callForCSVForm;
     }
 
-    public CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) throws ParseException {
+    public CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) {
         final String DELIMITER = " ";
         Pattern pattern  = Pattern.compile("\\s{2,}");
         Matcher matcher = pattern.matcher(line);
@@ -107,17 +111,22 @@ public class CallFromCSVFileToDBParser {
         return callForCSVForm;
     }
 
-    public Date startTimeHandling(String call_start) throws ParseException {
+    public Date startTimeHandling(String call_start) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String year = call_start.substring(6,10);
         String month = call_start.substring(3,5);
         String day = call_start.substring(0,2);
         String time = call_start.substring(10,18);
-        Date startTime = sdf.parse(year+"-"+month+"-"+day + " "+ time);
+        Date startTime = new Date();
+        try {
+            startTime = sdf.parse(year + "-" + month + "-" + day + " " + time);
+        }catch(ParseException e){
+            log.error(e);
+        }
         return startTime;
     }
 
-    public Date startTimeHandlingUkrNet(String call_start) throws ParseException {
+    public Date startTimeHandlingUkrNet(String call_start) {
         String year = call_start.substring(0,4);
         String month = call_start.substring(4,6);
         String day = call_start.substring(6,8);
@@ -126,7 +135,12 @@ public class CallFromCSVFileToDBParser {
         String sec = call_start.substring(12,14);
         String startTimeStr = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date startTime = sdf.parse(startTimeStr);
+        Date startTime = new Date();
+        try {
+            startTime = sdf.parse(startTimeStr);
+        }catch(ParseException e){
+            log.error(e);
+        }
         return startTime;
     }
 
@@ -138,12 +152,16 @@ public class CallFromCSVFileToDBParser {
         return Double.toString(Double.parseDouble(costWithoutNDS) * 1.2);
     }
 
-    public File convert(MultipartFile file) throws IOException {
+    public File convert(MultipartFile file) {
         File convFile = new File(file.getOriginalFilename());
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
+        try {
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+        }catch(IOException e){
+            log.error(e);
+        }
         return convFile;
     }
 
