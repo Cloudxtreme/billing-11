@@ -1,8 +1,8 @@
-package com.elstele.bill.utils.reportCreaters;
+package com.elstele.bill.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.utils.CallTransformerDir;
-import com.elstele.bill.utils.reportCreaters.reportsInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreaters.reportsInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,42 +19,46 @@ public class LongReportVegaCreaterImpl extends ReportCreater implements ReportCr
     @Autowired
     CallDataService callDataService;
 
-    public void reportCreateMain(String path, String fileName){
-        PrintStream bw = createFileForWriting(path, fileName);
-        filePrintingCreate(bw);
+    public void reportCreateMain(String path, String fileName, String year, String month) {
+        PrintStream bw = createFileForWriting(path, fileName, year, month);
+        filePrintingCreate(bw, year, month);
     }
 
-    public void filePrintingCreate(PrintStream bw){
-        Double costTotalForPeriod = 0.0;
-        List<String> listWithNumberA = getUniqueNumbersA();
-        for (String numberA : listWithNumberA) {
-            List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
-            mainHeaderPrint(bw, numberA);
-            Double costTotalForThisNumber = 0.0;
-            costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
-            costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
+    public void filePrintingCreate(PrintStream bw, String year, String month) {
+        try {
+            Double costTotalForPeriod = 0.0;
+            List<String> listWithNumberA = getUniqueNumbersA(year, month);
+            for (String numberA : listWithNumberA) {
+                List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
+                mainHeaderPrint(bw, numberA);
+                Double costTotalForThisNumber = 0.0;
+                costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
+                costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
+            }
+            String firstString = " Итого " + round(costTotalForPeriod, 2);
+            bw.println(firstString);
+            bw.close();
+            log.info("Report generating is Done");
+        } catch (Exception e) {
+            log.error(e);
         }
-        String firstString = " Итого " + round(costTotalForPeriod, 2);
-        bw.println(firstString);
-        bw.close();
     }
 
-    public List<String> getUniqueNumbersA() {
-        Date tempStartTime = getTempStartTime();
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
+    public List<String> getUniqueNumbersA(String year, String month) {
+        Date endTime = getEndTimeDate(year, month);
+        Date startTime = getStartTimeDate(year, month);
         List<String> listWithNumberA = new ArrayList<String>();
         listWithNumberA = callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, "05");
         return listWithNumberA;
     }
 
-    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA) {
-        Date tempStartTime = getTempStartTime();
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
+    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+        Date endTime = getEndTimeDate(year, month);
+        Date startTime = getStartTimeDate(year, month);
         List<CallTransformerDir> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
         return result;
     }
+
     public Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
 
@@ -63,7 +67,7 @@ public class LongReportVegaCreaterImpl extends ReportCreater implements ReportCr
             String duration = call.getDuration().toString();
             String dirPrefix = call.getPrefix();
             String descrOrg = call.getDescription();
-            Double costTotal = (double)call.getCosttotal();
+            Double costTotal = (double) call.getCosttotal();
             Date startTimeVal = call.getStarttime();
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);

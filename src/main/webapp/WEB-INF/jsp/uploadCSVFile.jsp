@@ -60,6 +60,47 @@
                                     aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myReportModal" style="color: #d9230f;">Select reports to
                                 generate</h4>
+                            &nbsp;&nbsp;
+
+                            <form class="navbar-form">
+                                <div class="form-group">
+                                    <label>Year
+                                        <select class="selectpicker" id="yearSelect">
+                                            <option>2014</option>
+                                            <option selected="selected">2015</option>
+                                            <option>2016</option>
+                                            <option>2017</option>
+                                            <option>2018</option>
+                                            <option>2019</option>
+                                            <option>2020</option>
+                                            <option>2021</option>
+                                            <option>2022</option>
+                                            <option>2023</option>
+                                            <option>2024</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>Month
+                                        <select class="selectpicker" id="monthSelect">
+                                            <option>01</option>
+                                            <option>02</option>
+                                            <option>03</option>
+                                            <option>04</option>
+                                            <option>05</option>
+                                            <option>06</option>
+                                            <option>07</option>
+                                            <option>08</option>
+                                            <option>09</option>
+                                            <option>10</option>
+                                            <option>11</option>
+                                            <option>12</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </form>
+
                         </div>
                         <table class="table table-striped" id='table'>
 
@@ -214,7 +255,7 @@
         </div>
 
     </form:form>
-        &nbsp;&nbsp;
+    &nbsp;&nbsp;
     <div class="row">
         <div id="fileTree" class="col-md-4"></div>
     </div>

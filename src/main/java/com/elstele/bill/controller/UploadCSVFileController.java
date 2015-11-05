@@ -3,8 +3,11 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;
+import com.elstele.bill.reportCreaters.*;
 import com.elstele.bill.utils.*;
-import com.elstele.bill.utils.reportCreaters.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.QueryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Iterator;
@@ -60,6 +62,8 @@ public class UploadCSVFileController {
     @Autowired
     FileDownloadWorker fileDownloadWorker;
 
+    final static Logger log = LogManager.getLogger(UploadCSVFileController.class);
+
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
@@ -89,7 +93,12 @@ public class UploadCSVFileController {
                     File fileFromMulti = callFromCSVFileToDBParser.convert(multipartFile);
                     String fileName = fileFromMulti.getName();
                     if (!fileName.contains("ukr")) {
-                        callForCSVDataService.clearReportTable();
+                        try {
+                            callForCSVDataService.clearReportTable();
+                            log.info("Table cleared");
+                        } catch (QueryException e) {
+                            log.warn(e);
+                        }
                     }
                     String line = "";
                     fileReader = new BufferedReader(new FileReader(fileFromMulti));
@@ -112,14 +121,14 @@ public class UploadCSVFileController {
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error(e);
                     return ResponseToAjax.ERROR;
                 } finally {
                     try {
                         assert fileReader != null;
                         fileReader.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
                 return ResponseToAjax.SUCCESS;
@@ -134,48 +143,56 @@ public class UploadCSVFileController {
     @ResponseBody
     public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException {
         path = ctx.getRealPath("resources\\files\\csvFiles");
-        for (String reportName : json) {
-            if (reportName.equalsIgnoreCase("longReport")) {
-                longReportCreaterImpl.reportCreateMain(path, reportName);
+        try {
+            String year = json[0];
+            String month = json[1];
+            for (String reportName : json) {
+                if (reportName.equalsIgnoreCase("longReport")) {
+                    longReportCreaterImpl.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("longReportVega")) {
+                    longReportVegaCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("longReportRA")) {
+                    longReportRACreaterImpl.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("longReportRAUkrTel")) {
+                    longReportRAUkrTelCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("longReportRAVega")) {
+                    longReportRAVegaCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("shortReport")) {
+                    shortReportCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("shortReportRE")) {
+                    shortReportRECreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("shortReportREUkrTel")) {
+                    shortReportREUkrTelCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("shortReportREVega")) {
+                    shortReportREVegaCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("shortReportVega")) {
+                    shortReportVegaCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("localCallsDetailReport")) {
+                    localCallsDetailReportCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("localCallsMainReport")) {
+                    localCallsMainReportCreater.reportCreateMain(path, reportName, year, month);
+                }
+                if (reportName.equalsIgnoreCase("localCallsCostReport")) {
+                    localCallsCostReportCreater.reportCreateMain(path, reportName, year, month);
+                }
             }
-            if (reportName.equalsIgnoreCase("longReportVega")) {
-                longReportVegaCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("longReportRA")) {
-                longReportRACreaterImpl.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("longReportRAUkrTel")) {
-                longReportRAUkrTelCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("longReportRAVega")) {
-                longReportRAVegaCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("shortReport")) {
-                shortReportCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("shortReportRE")) {
-                shortReportRECreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("shortReportREUkrTel")) {
-                shortReportREUkrTelCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("shortReportREVega")) {
-                shortReportREVegaCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("shortReportVega")) {
-                shortReportVegaCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("localCallsDetailReport")) {
-                localCallsDetailReportCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("localCallsMainReport")) {
-                localCallsMainReportCreater.reportCreateMain(path, reportName);
-            }
-            if (reportName.equalsIgnoreCase("localCallsCostReport")) {
-                localCallsCostReportCreater.reportCreateMain(path, reportName);
-            }
+            log.info("All files is generated successful");
+            return ResponseToAjax.SUCCESS;
+        } catch (NullPointerException e) {
+            log.error(e);
+            return ResponseToAjax.ERROR;
         }
-        return ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "downloadFile", method = RequestMethod.GET)

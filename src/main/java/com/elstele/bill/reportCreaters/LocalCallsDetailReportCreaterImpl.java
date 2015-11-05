@@ -1,12 +1,11 @@
-package com.elstele.bill.utils.reportCreaters;
+package com.elstele.bill.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.domain.Call;
-import com.elstele.bill.utils.reportCreaters.reportsInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreaters.reportsInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,23 +19,28 @@ public class LocalCallsDetailReportCreaterImpl extends ReportCreater implements 
     @Autowired
     CallDataService callDataService;
 
-    public void reportCreateMain(String path, String fileName) {
-        PrintStream bw = createFileForWriting(path, fileName);
-        filePrintingCreate(bw);
+    public void reportCreateMain(String path, String fileName, String year, String month) {
+        PrintStream bw = createFileForWriting(path, fileName, year, month);
+        filePrintingCreate(bw, year, month);
     }
 
-    public void filePrintingCreate(PrintStream bw) {
-        Double totalCallDuration = 0.0;
-        List<String> listWithNumberA = getUniqueNumbersA();
-        for (String numberA : listWithNumberA) {
-            List<Call> callsListByNumberA = getCallsFromDBByNumbersA(numberA);
-            mainHeaderPrint(bw, numberA);
-            Double callDurationTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
-            totalCallDuration = endOfTheHeaderPrint(bw, totalCallDuration, callDurationTotalForThisNumber);
+    public void filePrintingCreate(PrintStream bw, String year, String month) {
+        try {
+            Double totalCallDuration = 0.0;
+            List<String> listWithNumberA = getUniqueNumbersA(year, month);
+            for (String numberA : listWithNumberA) {
+                List<Call> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
+                mainHeaderPrint(bw, numberA);
+                Double callDurationTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
+                totalCallDuration = endOfTheHeaderPrint(bw, totalCallDuration, callDurationTotalForThisNumber);
+            }
+            String firstString = " Итого " + round(totalCallDuration, 2);
+            bw.println(firstString);
+            bw.close();
+            log.info("Report generating is Done");
+        } catch (Exception e) {
+            log.error(e);
         }
-        String firstString = " Итого " + round(totalCallDuration, 2);
-        bw.println(firstString);
-        bw.close();
     }
 
     public void mainHeaderPrint(PrintStream bw, String numberA) {
@@ -82,10 +86,11 @@ public class LocalCallsDetailReportCreaterImpl extends ReportCreater implements 
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);
             String shortNumberB = numberB;
-            if (numberB.startsWith("97") && numberB.length() == 8){
-                shortNumberB = numberB.substring(1,8);
-            }if(numberB.startsWith("92") || numberB.startsWith("93")|| numberB.startsWith("94") || numberB.startsWith("95")|| numberB.startsWith("96") && numberB.length()==7){
-                shortNumberB= numberB.substring(1,7);
+            if (numberB.startsWith("97") && numberB.length() == 8) {
+                shortNumberB = numberB.substring(1, 8);
+            }
+            if (numberB.startsWith("92") || numberB.startsWith("93") || numberB.startsWith("94") || numberB.startsWith("95") || numberB.startsWith("96") && numberB.length() == 7) {
+                shortNumberB = numberB.substring(1, 7);
             }
 
             bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
@@ -102,19 +107,17 @@ public class LocalCallsDetailReportCreaterImpl extends ReportCreater implements 
         return callDurationTotalForThisNumber;
     }
 
-    public List<String> getUniqueNumbersA() {
-        Date tempStartTime = getTempStartTime();
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
+    public List<String> getUniqueNumbersA(String year, String month) {
+        Date endTime = getEndTimeDate(year, month);
+        Date startTime = getStartTimeDate(year, month);
         List<String> listWithNumberA = new ArrayList<String>();
         listWithNumberA = callDataService.getUniqueLocalNumberAFromCalls(startTime, endTime);
         return listWithNumberA;
     }
 
-    public List<Call> getCallsFromDBByNumbersA(String numberA) {
-        Date tempStartTime = getTempStartTime();
-        Date endTime = getEndTimeDate(tempStartTime);
-        Date startTime = getStartTimeDate(tempStartTime);
+    public List<Call> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+        Date endTime = getEndTimeDate(year, month);
+        Date startTime = getStartTimeDate(year, month);
         List<Call> result = callDataService.getLocalCalls(numberA, startTime, endTime);
         return result;
     }

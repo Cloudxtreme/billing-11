@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.reportCreaters;
+package com.elstele.bill.reportCreaters;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
@@ -9,7 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.EndDocument;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -23,12 +27,10 @@ public class ReportCreater {
     final static Logger log = LogManager.getLogger(ReportCreater.class);
 
 
-
-    public PrintStream createFileForWriting(String path, String fileName) {
-        Date tempStartTime = callForCSVDataService.getDateInterval();
+    public PrintStream createFileForWriting(String path, String fileName, String year, String month) {
         createMainFolder(path);
-        String pathDir = createFolderWithDate(path, tempStartTime);
-        File file = new File(pathDir + File.separator + tempStartTime.toString().substring(0, 7) + "_" + fileName + ".txt");
+        String pathDir = createFolderWithDate(path, year, month);
+        File file = new File(pathDir + File.separator + year + "-" + month + "_" + fileName + ".txt");
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -36,7 +38,7 @@ public class ReportCreater {
             PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
             log.info("File " + file.getName() + " is successful created for writing");
             return bw;
-        }catch(IOException e){
+        } catch (IOException e) {
             log.error(e);
             return null;
         }
@@ -86,27 +88,44 @@ public class ReportCreater {
         return costTotalForPeriod;
     }
 
-    public Date getTempStartTime() {
-        Date tempStartTime = callForCSVDataService.getDateInterval();
-        return tempStartTime;
+
+    public Date getEndTimeDate(String year, String month) {
+        String endDay = "";
+        if ((month.equalsIgnoreCase("01")) || (month.equalsIgnoreCase("03")) || (month.equalsIgnoreCase("05")) || (month.equalsIgnoreCase("07")) || (month.equalsIgnoreCase("08"))
+                || (month.equalsIgnoreCase("10")) || (month.equalsIgnoreCase("12"))){
+            endDay = "31";
+        }
+        if(month.equalsIgnoreCase("04")|| month.equalsIgnoreCase("06")||month.equalsIgnoreCase("09")||month.equalsIgnoreCase("11")){
+            endDay="30";
+        }
+        if(month.equalsIgnoreCase("02")&& (Integer.parseInt(year)%4) == 0){
+            endDay="29";
+        }
+        if(month.equalsIgnoreCase("02")&& (Integer.parseInt(year)%4) != 0){
+            endDay="28";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String startTime = year + "/" + month + "/" + endDay + " 23:59";
+        try {
+            Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
+            return startTimeInDateFormat;
+        } catch (ParseException e) {
+            log.error(e);
+            return null;
+        }
     }
 
-    public Date getEndTimeDate(Date tempStartTime) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(tempStartTime);
-        c.add(Calendar.MONTH, 1);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        Date endTime = c.getTime();
-        return endTime;
-    }
-
-    public Date getStartTimeDate(Date tempStartTime) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(tempStartTime);
-        c.add(Calendar.MONTH, -1);
-        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        Date startTime = c.getTime();
-        return startTime;
+    public Date getStartTimeDate(String year, String month) {
+        String startDay = "01";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String startTime = year + "/" + month + "/" + startDay + " 00:00";
+        try {
+            Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
+            return startTimeInDateFormat;
+        } catch (ParseException e) {
+            log.error(e);
+            return null;
+        }
     }
 
     public Double costTotalForThisNumberOperation(List<CallForCSV> callListByNumberA) {
@@ -121,39 +140,39 @@ public class ReportCreater {
     public Double costTotalForThisCallNumberOperation(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
         for (CallTransformerDir call : callListByNumberA) {
-            Double costTotal = (double)call.getCosttotal();
+            Double costTotal = (double) call.getCosttotal();
             costTotalForThisNumber += costTotal;
         }
         return costTotalForThisNumber;
     }
 
-    public void createMainFolder(String path){
+    public void createMainFolder(String path) {
         File fileDir = new File(path);
-        if(!fileDir.exists()){
+        if (!fileDir.exists()) {
             boolean fileMet = false;
-            try{
+            try {
                 fileDir.mkdir();
                 fileMet = true;
-            }catch (SecurityException e ){
+            } catch (SecurityException e) {
                 log.error(e);
             }
-            if(fileMet){
+            if (fileMet) {
                 log.info("File dir " + fileDir.getAbsolutePath() + " is created");
             }
         }
     }
 
-    public String createFolderWithDate(String path, Date tempStartTime){
-        File directory = new File(path +File.separator +  tempStartTime.toString().substring(0,7));
-        if(!directory.exists()){
+    public String createFolderWithDate(String path, String year, String month) {
+        File directory = new File(path + File.separator + year + "-" + month);
+        if (!directory.exists()) {
             boolean fileMet = false;
-            try{
+            try {
                 directory.mkdir();
                 fileMet = true;
-            }catch (SecurityException e ){
+            } catch (SecurityException e) {
                 log.error(e);
             }
-            if(fileMet){
+            if (fileMet) {
                 log.info("File directory " + directory.getAbsolutePath() + " is created");
             }
         }

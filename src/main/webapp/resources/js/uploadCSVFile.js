@@ -140,6 +140,10 @@ $(document).ready(function () {
 
     $('#generateReport').on('click', function getNameValue() {
         var values = [];
+        var year= $('#yearSelect option:selected').val();
+        var month = $('#monthSelect option:selected').val();
+        values.push(year);
+        values.push(month);
         $.each($(".check-box-table-cell:checked"),
             function () {
                 var tr = $(this).closest("tr");
