@@ -18,13 +18,9 @@ public class LongReportRACreaterImpl extends ReportCreater implements ReportCrea
     @Autowired
     CallForCSVDataService callForCSVDataService;
 
-    public void reportCreateMain(String path, String fileName) throws IOException {
-        try {
-            PrintStream bw = createFileForWriting(path, fileName);
-            filePrintingCreate(bw);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void reportCreateMain(String path, String fileName){
+        PrintStream bw = createFileForWriting(path, fileName);
+        filePrintingCreate(bw);
     }
 
     public void filePrintingCreate(PrintStream bw) {

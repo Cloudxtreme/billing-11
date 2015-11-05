@@ -215,7 +215,7 @@ $(document).ready(function () {
     });
     $.ajax({
         type: "Post",
-        url: '/uploadCSVFile/generateFileTree',
+            url: 'uploadCSVFile/generateFileTree',
         success: function (data) {
             console.log(data);
             $('#fileTree').fileTree({

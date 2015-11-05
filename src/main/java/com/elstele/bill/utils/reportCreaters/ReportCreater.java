@@ -4,6 +4,8 @@ import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.utils.CallTransformerDir;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +20,26 @@ public class ReportCreater {
 
     @Autowired
     CallDataService callDataService;
+    final static Logger log = LogManager.getLogger(ReportCreater.class);
 
 
-    public PrintStream createFileForWriting(String path, String fileName) throws IOException {
+
+    public PrintStream createFileForWriting(String path, String fileName) {
         Date tempStartTime = callForCSVDataService.getDateInterval();
         createMainFolder(path);
         String pathDir = createFolderWithDate(path, tempStartTime);
         File file = new File(pathDir + File.separator + tempStartTime.toString().substring(0, 7) + "_" + fileName + ".txt");
-        if (!file.exists()) {
-            file.createNewFile();
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
+            log.info("File " + file.getName() + " is successful created for writing");
+            return bw;
+        }catch(IOException e){
+            log.error(e);
+            return null;
         }
-        PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
-        return bw;
     }
 
     public void mainHeaderPrint(PrintStream bw, String numberA) {
@@ -125,10 +135,10 @@ public class ReportCreater {
                 fileDir.mkdir();
                 fileMet = true;
             }catch (SecurityException e ){
-                System.out.println(e.toString());
+                log.error(e);
             }
             if(fileMet){
-                System.out.println("File dir " + fileDir.getAbsolutePath() + " is created");
+                log.info("File dir " + fileDir.getAbsolutePath() + " is created");
             }
         }
     }
@@ -141,10 +151,10 @@ public class ReportCreater {
                 directory.mkdir();
                 fileMet = true;
             }catch (SecurityException e ){
-                System.out.println(e.toString());
+                log.error(e);
             }
             if(fileMet){
-                System.out.println("File directory " + directory.getAbsolutePath() + " is created");
+                log.info("File directory " + directory.getAbsolutePath() + " is created");
             }
         }
         return directory.getPath();
@@ -152,7 +162,6 @@ public class ReportCreater {
 
     public double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
-
         long factor = (long) Math.pow(10, places);
         value = value * factor;
         long tmp = Math.round(value);

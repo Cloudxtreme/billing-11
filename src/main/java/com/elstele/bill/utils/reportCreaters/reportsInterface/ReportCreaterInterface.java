@@ -5,7 +5,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 public interface ReportCreaterInterface <T>{
-    public void reportCreateMain(String path, String fileName) throws IOException;
+    public void reportCreateMain(String path, String fileName);
     public void filePrintingCreate(PrintStream bw);
     public List<String> getUniqueNumbersA();
     public List<T> getCallsFromDBByNumbersA(String numberA);
