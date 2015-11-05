@@ -50,8 +50,11 @@ public class AccountAssembler {
             if(bean instanceof ServiceInternet) {
                 form = servAssembler.fromInternetBeanToForm((ServiceInternet) bean);
             }
-            if(bean instanceof ServicePhone) {
+            else if(bean instanceof ServicePhone) {
                 form = servAssembler.fromPhoneBeanToForm((ServicePhone) bean);
+            }
+            else{
+                form = servAssembler.fromServiceBeanToForm(bean);
             }
             serviceForms.add(form);
         }

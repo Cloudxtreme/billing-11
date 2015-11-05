@@ -66,5 +66,11 @@ public class IpDataServiceImpl implements IpDataService {
         return result;
     }
 
+    @Override
+    @Transactional
+    public Integer getSubnetIdByIpId(Integer id){
+        Ip bean = ipDAO.getById(id);
+        return bean.getIpSubnet().getId();
+    }
 
 }

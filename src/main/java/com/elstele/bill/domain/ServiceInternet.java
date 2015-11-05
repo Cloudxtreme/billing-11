@@ -9,8 +9,16 @@ public class ServiceInternet extends Service {
 
     private String username;
     private String macaddress;
-    private String ip;
     private String password;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ipAddress_id")
+    private Ip ipAddress;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="device_id")
+    private Device device;
+    private Integer port;
 
     public String getUsername() {
         return username;
@@ -36,11 +44,27 @@ public class ServiceInternet extends Service {
         this.macaddress = macaddress;
     }
 
-    public String getIp() {
-        return ip;
+    public Ip getIpAddress() {
+        return ipAddress;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setIpAddress(Ip ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
     }
 }

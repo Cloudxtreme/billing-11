@@ -1,6 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Constants;
 import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,9 +23,8 @@ public class Service extends CommonDomainBean{
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date dateEnd;
+
+    private Constants.Period period;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -42,12 +42,12 @@ public class Service extends CommonDomainBean{
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
+    public Constants.Period getPeriod() {
+        return period;
     }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setPeriod(Constants.Period period) {
+        this.period = period;
     }
 
     public Account getAccount() {

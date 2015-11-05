@@ -7,4 +7,6 @@ public class Constants {
 
     public enum AccountType { PRIVATE, LEGAL }
 
+    public enum Period { WEEK, MONTH, YEAR }
+
 }

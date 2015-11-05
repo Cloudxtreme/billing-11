@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.IndexedPropertyDescriptor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.elstele.bill.domain.Device;
 
@@ -58,11 +59,23 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Override
     @Transactional
     public DeviceForm getById(Integer id){
-
         DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device bean = deviceDAO.getById(id);
         DeviceForm result = assembler.fromBeanToForm(bean);
         return result;
+    }
+
+    @Override
+    @Transactional
+    public List<Integer> getDeviceFreePorts(Integer id){
+        List<Integer> freePorts = new ArrayList();
+        Device device = deviceDAO.getById(id);
+        List<Integer> usedPorts = deviceDAO.getDeviceUsagePorts(id);
+        for (int i=1; i<=device.getDeviceTypes().getPortsNumber(); i++){
+            if( usedPorts==null || !usedPorts.contains(i) )
+                freePorts.add(i);
+        }
+        return freePorts;
     }
 
     @Override

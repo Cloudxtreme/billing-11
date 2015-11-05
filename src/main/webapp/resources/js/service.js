@@ -27,5 +27,10 @@ function showServiceForm(type){
             $('#phoneService').show();
             break;
         }
+        case 'marker':{
+            $('#internetService').hide();
+            $('#phoneService').hide();
+            break;
+        }
     }
 }

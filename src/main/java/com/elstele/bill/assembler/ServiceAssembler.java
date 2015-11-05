@@ -1,14 +1,46 @@
 package com.elstele.bill.assembler;
-import com.elstele.bill.domain.ServiceInternet;
-import com.elstele.bill.domain.ServicePhone;
+import com.elstele.bill.dao.DeviceTypesDAO;
+import com.elstele.bill.dao.IpDAO;
+import com.elstele.bill.datasrv.DeviceDataService;
+import com.elstele.bill.datasrv.DeviceTypesDataService;
+import com.elstele.bill.datasrv.IpDataService;
+import com.elstele.bill.domain.*;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 public class ServiceAssembler{
 
+    @Autowired
+    private DeviceDataService deviceDataService;
+
+    @Autowired
+    private DeviceTypesDataService deviceTypesDataService;
+
+    @Autowired
+    private IpDataService ipDataService;
+
+    @Autowired
+    private DeviceTypesDAO deviceTypesDAO;
+
+    @Autowired
+    private IpDAO ipDAO;
+
+
     String[] propsToSkip = {"serviceInternet", "servicePhone","serviceType"};
+    String[] propsToSkipInternetSrv = {"device"};
+
+    public ServiceForm fromServiceBeanToForm(Service bean){
+        ServiceForm form = new ServiceForm();
+        copyProperties(bean, form, propsToSkip);
+        form.setAccountId(bean.getAccount().getId());
+        ServiceTypeAssembler ServiceTypeAssembler = new ServiceTypeAssembler();
+        form.setServiceType(ServiceTypeAssembler.fromBeanToForm(bean.getServiceType()));
+        return form;
+    }
+
 
     public ServiceForm fromInternetBeanToForm(ServiceInternet bean){
         ServiceForm form = new ServiceForm();
@@ -18,7 +50,23 @@ public class ServiceAssembler{
 
         ServiceTypeAssembler ServiceTypeAssembler = new ServiceTypeAssembler();
         form.setServiceType(ServiceTypeAssembler.fromBeanToForm(bean.getServiceType()));
-        return form;
+
+        if(bean.getDevice().getId() != null) {
+            DeviceForm devForm = new DeviceForm();
+            devForm.setId(bean.getDevice().getId());
+            form.getServiceInternet().setDevice(devForm);
+        }
+        if(bean.getIpAddress().getId() != null) {
+            IpForm ip = new IpForm();
+            ip.setId(bean.getIpAddress().getId());
+            form.getServiceInternet().setIp(ip);
+            if(bean.getIpAddress().getIpSubnet().getId() != null) {
+                IpSubnet ipSubnet = new IpSubnet();
+                ipSubnet.setId(bean.getIpAddress().getIpSubnet().getId());
+                form.getServiceInternet().getIp().setIpSubnet(ipSubnet);
+            }
+        }
+         return form;
     }
 
     private ServiceInternetForm serviceInternetFromBeanToForm(ServiceInternet bean, ServiceInternetForm form) {
@@ -26,7 +74,7 @@ public class ServiceAssembler{
             if (form == null){
                 form = new ServiceInternetForm();
             }
-            copyProperties(bean, form);
+            copyProperties(bean, form, propsToSkipInternetSrv);
         }
         return form;
     }
@@ -51,14 +99,27 @@ public class ServiceAssembler{
         return form;
     }
 
-    public ServiceInternet fromFormToInternetBean(ServiceForm form){
-        ServiceInternet bean = new ServiceInternet();
+    public Service fromFormToServiceBean(ServiceForm form){
+        Service bean = new Service();
         copyProperties(form, bean, propsToSkip);
-        if (form.getServiceInternet() != null){
-                bean.setStatus(Status.ACTIVE);
-                copyProperties(form.getServiceInternet(), bean);
-        }
         return bean;
+    }
+
+    public ServiceInternet fromFormToInternetBean(ServiceForm form, ServiceInternet service){
+        copyProperties(form, service, propsToSkip);
+        if (form.getServiceInternet() != null){
+            service.setStatus(Status.ACTIVE);
+            copyProperties(form.getServiceInternet(), service, propsToSkipInternetSrv);
+
+            Device device = new Device();
+            device.setId(form.getServiceInternet().getDevice().getId());
+            service.setDevice(device);
+
+            Ip ip = new Ip();
+            ip.setId(form.getServiceInternet().getIp().getId());
+            service.setIpAddress(ip);
+        }
+        return service;
     }
 
     public ServicePhone fromFormToPhoneBean(ServiceForm form){

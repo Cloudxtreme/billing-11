@@ -14,5 +14,7 @@ public interface DeviceDataService {
 
     public DeviceForm getById(Integer id);
 
+    public List<Integer> getDeviceFreePorts(Integer id);
+
     public void updateDevice(DeviceForm deviceForm);
 }

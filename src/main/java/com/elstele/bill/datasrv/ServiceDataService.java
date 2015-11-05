@@ -11,6 +11,7 @@ public interface ServiceDataService {
     public void deleteService(Integer id);
     public ServiceForm getServiceFormById(Integer id);
     public Service getServiceBeanById(Integer id);
+    public void changeIpAddressIfNeed (Service service, ServiceForm form);
     public List<Service> listServices();
 
 }

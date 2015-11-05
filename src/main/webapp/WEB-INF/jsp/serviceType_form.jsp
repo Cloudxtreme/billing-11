@@ -37,6 +37,9 @@
                                 <label for="phoneService" class="radio-inline"><strong>
                                     <form:radiobutton path="serviceType" value="phone" id="phoneService"/> Phone
                                 </strong></label>
+                                <label for="markerService" class="radio-inline"><strong>
+                                    <form:radiobutton path="serviceType" value="marker" id="markerService"/> Marker
+                                </strong></label>
                                 <form:errors path="serviceType" cssClass="alert-danger" />
                             </div>
                         </div>

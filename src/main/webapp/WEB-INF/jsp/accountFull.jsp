@@ -13,6 +13,8 @@
     <title>Account Detail</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
 
@@ -136,7 +138,7 @@
                                     <th>&nbsp;</th>
                                     <th>Service</th>
                                     <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>Period</th>
                                     <th>Price</th>
                                 </tr>
 
@@ -150,7 +152,7 @@
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
-                                            <td><fmt:formatDate value="${accountService.dateEnd}" pattern="yyyy-MM-dd" /></td>
+                                            <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>
                                         </tr>
                                     </label>
