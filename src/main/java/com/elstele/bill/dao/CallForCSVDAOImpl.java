@@ -49,13 +49,6 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
     }
 
     @Override
-    public Date getDateInterval() {
-        Query query = getSessionFactory().getCurrentSession().createQuery("select startTime from CallForCSV");
-        query.setMaxResults(1);
-        return (Date) query.uniqueResult();
-    }
-
-    @Override
     public String getDescriptionFromDirections(String dirPrefix) {
         Query query = getSessionFactory().getCurrentSession().createSQLQuery("Select description from directions where prefix='" + dirPrefix + "' ");
         return (String)query.uniqueResult();
