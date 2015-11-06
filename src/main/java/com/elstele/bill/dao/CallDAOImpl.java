@@ -4,18 +4,22 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.TempObjectForCallsRequestParam;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.LogManager;
 
 @Service
 public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
-
+    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
     public List<Call> getCalls() {
         return null;
     }
@@ -27,7 +31,6 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return res.intValue();
     }
 
-    @Override
     public Integer getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
         StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
         if (tempObjectForCallsRequestParam.getCallNumberA() != null && !tempObjectForCallsRequestParam.getCallNumberA().isEmpty()) {
@@ -53,7 +56,6 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return res.intValue();
     }
 
-    @Override
     public List<Call> getCallsList(int limit, int offset) {
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select a from Call a order by a.startTime");
@@ -63,7 +65,6 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
 
-    @Override
     public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate) {
         StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
         StringBuffer queryEnd = new StringBuffer(" order by a.startTime");
@@ -90,14 +91,12 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<Call>) q.list();
     }
 
-    @Override
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
         return (List<String>) createSQLQuery.list();
     }
 
-    @Override
     public List<CallTransformerDir> getCallByNumberA(String numberA, Date startTime, Date endTime) {
         String q = "Select calls.numberb as numberB, calls.startTime as startTime, calls.duration as duration, calls.costTotal as costTotal, directions.description as description," +
                 " directions.prefix as prefix from calls, directions " +
@@ -108,14 +107,12 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<CallTransformerDir>) query.list();
     }
 
-    @Override
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and outputTrunk ='" + outputTrunk + "' and costTotal Is not null order by numberA");
         return (List<String>) createSQLQuery.list();
     }
 
-    @Override
     public List<CallTransformerDir> getCallByNumberAWithTrunk(String numberA, Date startTime, Date finishTime, String outputTrunk) {
         String q = "Select calls.numberb as numberB, calls.startTime as startTime, calls.duration as duration, calls.costTotal as costTotal, directions.description as description," +
                 " directions.prefix as prefix from calls, directions " +
@@ -126,7 +123,6 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<CallTransformerDir>) query.list();
     }
 
-    @Override
     public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and ( numberA like ('7895%') or numberA like ('7896%') or numberA like ('7897%'))" +
@@ -134,7 +130,6 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<String>) createSQLQuery.list();
     }
 
-    @Override
     public List<Call> getLocalCalls(String numberA, Date startTime, Date endTime) {
         Query query = getSessionFactory().getCurrentSession().createQuery("from Call  where callDirectionId is null and startTime >='" + startTime
                 + "' and startTime <='" + endTime + "' and (numberA ='" + numberA + "' or numberA = '048" + numberA + "')  order by startTime");
@@ -165,6 +160,21 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<Integer>)q.list();
     }
 
+    public List<String> getYearsList() {
+        try {
+            SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) from calls ORDER BY DATE_PART('year', starttime)");
+            List listWithResult = query.list();
+            List<String> result = new ArrayList<>();
+            for(Object object : listWithResult){
+                result.add(object.toString());
+            }
+            log.info("Date selecting from DB is successed");
+            return result;
+        }catch(SQLGrammarException e){
+            log.error(e);
+            return new ArrayList<>();
+        }
+    }
 
     public List<Integer> getCallIdsWithNullCostTotal() {
         Query q = getSessionFactory().getCurrentSession().

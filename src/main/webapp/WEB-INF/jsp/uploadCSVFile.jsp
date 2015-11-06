@@ -64,21 +64,16 @@
 
                             <form class="navbar-form">
                                 <div class="form-group">
+
                                     <label>Year
                                         <select class="selectpicker" id="yearSelect">
-                                            <option>2014</option>
-                                            <option selected="selected">2015</option>
-                                            <option>2016</option>
-                                            <option>2017</option>
-                                            <option>2018</option>
-                                            <option>2019</option>
-                                            <option>2020</option>
-                                            <option>2021</option>
-                                            <option>2022</option>
-                                            <option>2023</option>
-                                            <option>2024</option>
+                                            <c:forEach items="${yearLsit}" var="current">
+                                                <option>${current}</option>
+                                            </c:forEach>
                                         </select>
+
                                     </label>
+
                                 </div>
                                 &nbsp;&nbsp;
                                 <div class="form-group">

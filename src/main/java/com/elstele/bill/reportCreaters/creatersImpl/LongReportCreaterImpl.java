@@ -1,22 +1,25 @@
-package com.elstele.bill.reportCreaters;
+package com.elstele.bill.reportCreaters.creatersImpl;
 
-import com.elstele.bill.datasrv.CallForCSVDataService;
-import com.elstele.bill.domain.CallForCSV;
-import com.elstele.bill.reportCreaters.reportsInterface.ReportCreaterInterface;
+import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
+import com.elstele.bill.utils.CallTransformerDir;
+import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 @Service
-public class LongReportRAVegaCreaterImpl extends ReportCreater implements ReportCreaterInterface {
+public class LongReportCreaterImpl extends ReportCreater implements ReportCreaterInterface {
 
     @Autowired
-    CallForCSVDataService callForCSVDataService;
+    CallDataService callDataService;
 
     public void reportCreateMain(String path, String fileName, String year, String month) {
         PrintStream bw = createFileForWriting(path, fileName, year, month);
@@ -28,10 +31,9 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
             Double costTotalForPeriod = 0.0;
             List<String> listWithNumberA = getUniqueNumbersA(year, month);
             for (String numberA : listWithNumberA) {
-                List<CallForCSV> callForCSVListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
+                List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
                 mainHeaderPrint(bw, numberA);
-                Double costTotalForThisNumber = 0.0;
-                costTotalForThisNumber = dataPrint(bw, callForCSVListByNumberA);
+                Double costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
                 costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
             }
             String firstString = " Итого " + round(costTotalForPeriod, 2);
@@ -46,29 +48,24 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
     public List<String> getUniqueNumbersA(String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<String> listWithNumberA = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, "2");
+        List<String> listWithNumberA;
+        listWithNumberA = callDataService.getUniqueNumberAFromCalls(startTime, endTime);
         return listWithNumberA;
     }
 
-    public List<CallForCSV> getCallsFromDBByNumbersA(String numberA, String year, String month) {
-        Date endTime = getEndTimeDate(year, month);
-        Date startTime = getStartTimeDate(year, month);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, "2");
-        return result;
-    }
-
-    public Double dataPrint(PrintStream bw, List<CallForCSV> callForCSVListByNumberA) {
+    public Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
-        for (CallForCSV callForCSVByNumberA : callForCSVListByNumberA) {
-            String numberB = callForCSVByNumberA.getNumberB();
-            String duration = callForCSVByNumberA.getDuration();
-            String dirPrefix = callForCSVByNumberA.getDirPrefix();
-            String descrOrg = callForCSVByNumberA.getDirDescrpOrg();
-            Double costTotal = Double.parseDouble(callForCSVByNumberA.getCostCallTotal());
-            Date startTimeVal = callForCSVByNumberA.getStartTime();
+
+        for (CallTransformerDir callTransformerDir : callListByNumberA) {
+            String numberB = callTransformerDir.getNumberb();
+            String duration = callTransformerDir.getDuration().toString();
+            String dirPrefix = callTransformerDir.getPrefix();
+            String descrOrg = callTransformerDir.getDescription();
+            Double costTotal = (double) callTransformerDir.getCosttotal();
+            Date startTimeVal = callTransformerDir.getStarttime();
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);
-            String shortNumberB = callForCSVByNumberA.getNumberB().substring(dirPrefix.length(), numberB.length());
+            String shortNumberB = callTransformerDir.getNumberb().substring(dirPrefix.length(), numberB.length());
             bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
                     reportDate,
                     duration,
@@ -77,8 +74,17 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
                     descrOrg,
                     costTotal
             );
+
             costTotalForThisNumber += costTotal;
         }
         return costTotalForThisNumber;
     }
+
+    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+        Date endTime = getEndTimeDate(year, month);
+        Date startTime = getStartTimeDate(year, month);
+        List<CallTransformerDir> result = callDataService.getCallByNumberA(numberA, startTime, endTime);
+        return result;
+    }
+
 }

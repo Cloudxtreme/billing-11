@@ -1,8 +1,9 @@
-package com.elstele.bill.reportCreaters;
+package com.elstele.bill.reportCreaters.creatersImpl;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.domain.CallForCSV;
-import com.elstele.bill.reportCreaters.reportsInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
+import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,6 @@ public class LongReportRAUkrTelCreaterImpl extends ReportCreater implements Repo
     public void filePrintingCreate(PrintStream bw, String year, String month) {
         try {
             Double costTotalForPeriod = 0.0;
-            String provider = "1";
             List<String> listWithNumberA = getUniqueNumbersA(year, month);
             for (String numberA : listWithNumberA) {
                 List<CallForCSV> callForCSVListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);

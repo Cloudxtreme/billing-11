@@ -76,7 +76,6 @@ public class CallsContoller {
         tempObjectForCallsRequestParam.setEndDate(timeRange);
         tempObjectForCallsRequestParam.setStartDate(timeRange);
         tempObjectForCallsRequestParam.setPageResults(pageResults);
-
         int totalPages = determineTotalPagesForOutput(tempObjectForCallsRequestParam);
         return Integer.toString(totalPages);
     }

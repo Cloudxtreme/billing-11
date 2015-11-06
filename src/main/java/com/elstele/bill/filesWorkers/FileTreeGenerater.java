@@ -1,6 +1,5 @@
-package com.elstele.bill.utils;
+package com.elstele.bill.filesWorkers;
 
-import antlr.StringUtils;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;
 import com.elstele.bill.form.FileInDirTreeGeneraterForm;
 import org.apache.logging.log4j.LogManager;

@@ -1,7 +1,8 @@
-package com.elstele.bill.reportCreaters;
+package com.elstele.bill.reportCreaters.creatersImpl;
 
 import com.elstele.bill.domain.Call;
-import com.elstele.bill.reportCreaters.reportsInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
+import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
@@ -36,9 +37,9 @@ public class LocalCallsCostReportCreaterImpl extends LocalCallsDetailReportCreat
             String firstString = " Общая длительность переговоров- " + round(totalLocalCallsCost, 2) + " UAH";
             bw.println(firstString);
             bw.close();
-            log.info("Report generating is Done");
+            ReportCreater.log.info("Report generating is Done");
         } catch (Exception e) {
-            log.error(e);
+            ReportCreater.log.error(e);
         }
     }
 
@@ -50,4 +51,5 @@ public class LocalCallsCostReportCreaterImpl extends LocalCallsDetailReportCreat
         }
         return callDurationTotalForThisNumber;
     }
+
 }

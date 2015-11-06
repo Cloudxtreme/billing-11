@@ -1,4 +1,4 @@
-package com.elstele.bill.reportCreaters;
+package com.elstele.bill.reportCreaters.reportParent;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
@@ -9,9 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.events.EndDocument;
 import java.io.*;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,7 +22,7 @@ public class ReportCreater {
 
     @Autowired
     CallDataService callDataService;
-    final static Logger log = LogManager.getLogger(ReportCreater.class);
+    final public static Logger log = LogManager.getLogger(ReportCreater.class);
 
 
     public PrintStream createFileForWriting(String path, String fileName, String year, String month) {

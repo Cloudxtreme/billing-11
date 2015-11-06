@@ -1,6 +1,5 @@
-package com.elstele.bill.reportCreaters.reportsInterface;
+package com.elstele.bill.reportCreaters.reportInterface;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 

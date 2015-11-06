@@ -28,7 +28,7 @@ import java.util.*;
 
 
 @Controller
-public class UploadController {
+public class HandleKDFController {
 
     @Autowired
     ServletContext ctx;
@@ -47,67 +47,25 @@ public class UploadController {
 
     float progress;
 
-    @RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
-    public ModelAndView setPageToUpload() {
-        ModelAndView model = new ModelAndView("uploadKDF");
-        return model;
-    }
 
 
-    @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseToAjax putFileToFolder(MultipartHttpServletRequest request, HttpServletResponse response, HttpServletRequest requestHttp) throws IOException {
-        String fileName = null;
-        ctx = requestHttp.getSession().getServletContext();
-        String path = ctx.getRealPath("resources\\files");
-
-        Iterator<String> iter = request.getFileNames();
-        MultipartFile multipartFile = null;
-        while (iter.hasNext()) {
-            try {
-                multipartFile = request.getFile(iter.next());
-                UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
-
-                fileName = multipartFile.getContentType();
-                if (fileName.equalsIgnoreCase("application/octet-stream")) {
-                    uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
-                    uploadedFileInfoForm.setFileName(multipartFile.getName());
-                    uploadedFileInfoForm.setFileSize(multipartFile.getSize());
-                    uploadedFileInfoForm.setFileStatus(FileStatus.NEW);
-                    uploadedFileInfoDataService.addUploadedFileInfo(uploadedFileInfoForm);
-                    byte[] bytes = multipartFile.getBytes();
-                    String originalName = multipartFile.getOriginalFilename();
-                    BufferedOutputStream buffStream =
-                            new BufferedOutputStream(new FileOutputStream(path + File.separator + originalName));
-                    buffStream.write(bytes);
-                    buffStream.close();
-                } else {
-                    return ResponseToAjax.INCORRECTTYPE;
-                }
-            } catch (IOException e) {
-                return ResponseToAjax.ERROR;
-            }
-        }
-        return ResponseToAjax.SUCCESS;
 
 
-    }
+
 
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
-    public ModelAndView addLoadedFiles(HttpServletRequest request, HttpServletResponse response) {
-
-        List<UploadedFileInfoForm> uploadedFileInfoForms = new ArrayList<UploadedFileInfoForm>();
+    public ModelAndView addLoadedFiles() {
+        List<UploadedFileInfoForm> uploadedFileInfoForms;
         uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
-        ModelAndView model = new ModelAndView("uploadedfiles");
+        ModelAndView model = new ModelAndView("uploadedKDFFiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
         progress = 0;
         return model;
     }
 
-
     @RequestMapping(value = "/uploadedfiles/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+    public String deleteDevice(@RequestBody String json) {
         Integer id = Integer.parseInt(json);
         UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
         String path = ctx.getRealPath("resources\\files");
@@ -127,7 +85,7 @@ public class UploadController {
 
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
-    public void handleFiles(@RequestBody String[] json, HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+    public void handleFiles(@RequestBody String[] json) {
         String path = ctx.getRealPath("resources\\files");
         File fileDir = new File(path);
         if(!fileDir.exists()) {

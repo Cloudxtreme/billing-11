@@ -110,6 +110,18 @@ public class CallDataServiceImpl implements CallDataService {
         return result;
     }
 
+    @Override
+    @Transactional
+    public List<String> getYearsList() {
+        List<String> yearsList = callDAO.getYearsList();
+        List<String> modifiedYearsList = new ArrayList<>();
+        for(String yearStr : yearsList){
+            String modifiedYearStr = yearStr.substring(0, 4);
+            modifiedYearsList.add(modifiedYearStr);
+        }
+        return modifiedYearsList;
+    }
+
     @Transactional
     public Integer getUnbilledCallsCount() {
         return callDAO.getUnbilledCallsCount();
