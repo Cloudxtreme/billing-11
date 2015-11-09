@@ -1,9 +1,10 @@
-package com.elstele.bill.reportCreaters.creatersImpl;
+package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.domain.CallForCSV;
-import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
-import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreators.factory.ReportDetails;
+import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
+import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class LongReportRAVegaCreaterImpl extends ReportCreater implements ReportCreaterInterface {
-
+public class LongGeneralReportRACreatorImpl extends GeneralReportCreator implements ReportCreator {
     @Autowired
     CallForCSVDataService callForCSVDataService;
 
-    public void reportCreateMain(String path, String fileName, String year, String month) {
-        PrintStream bw = createFileForWriting(path, fileName, year, month);
-        filePrintingCreate(bw, year, month);
+    public void create(ReportDetails reportDetails) {
+        PrintStream bw = createFileForWriting(reportDetails);
+        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
     }
 
     public void filePrintingCreate(PrintStream bw, String year, String month) {
@@ -31,8 +31,7 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
             for (String numberA : listWithNumberA) {
                 List<CallForCSV> callForCSVListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
                 mainHeaderPrint(bw, numberA);
-                Double costTotalForThisNumber = 0.0;
-                costTotalForThisNumber = dataPrint(bw, callForCSVListByNumberA);
+                Double costTotalForThisNumber = dataPrint(bw, callForCSVListByNumberA);
                 costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
             }
             String firstString = " Итого " + round(costTotalForPeriod, 2);
@@ -47,14 +46,14 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
     public List<String> getUniqueNumbersA(String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<String> listWithNumberA = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, "2");
+        List<String> listWithNumberA = callForCSVDataService.getUniqueNumberA(startTime, endTime);
         return listWithNumberA;
     }
 
     public List<CallForCSV> getCallsFromDBByNumbersA(String numberA, String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, "2");
+        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
         return result;
     }
 
@@ -69,6 +68,7 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
             Date startTimeVal = callForCSVByNumberA.getStartTime();
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String reportDate = df.format(startTimeVal);
+
             String shortNumberB = callForCSVByNumberA.getNumberB().substring(dirPrefix.length(), numberB.length());
             bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
                     reportDate,
@@ -82,4 +82,5 @@ public class LongReportRAVegaCreaterImpl extends ReportCreater implements Report
         }
         return costTotalForThisNumber;
     }
+
 }

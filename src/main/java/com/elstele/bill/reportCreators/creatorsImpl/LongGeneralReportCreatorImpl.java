@@ -1,32 +1,32 @@
-package com.elstele.bill.reportCreaters.creatersImpl;
+package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
+import com.elstele.bill.reportCreators.factory.ReportDetails;
+import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.utils.CallTransformerDir;
-import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 @Service
-public class LongReportCreaterImpl extends ReportCreater implements ReportCreaterInterface {
+public class LongGeneralReportCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
     @Autowired
     CallDataService callDataService;
 
-    public void reportCreateMain(String path, String fileName, String year, String month) {
-        PrintStream bw = createFileForWriting(path, fileName, year, month);
-        filePrintingCreate(bw, year, month);
+    public void create(ReportDetails reportDetails) {
+        PrintStream bw = createFileForWriting(reportDetails);
+        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
     }
 
-    public void filePrintingCreate(PrintStream bw, String year, String month) {
+    private void filePrintingCreate(PrintStream bw, String year, String month) {
         try {
             Double costTotalForPeriod = 0.0;
             List<String> listWithNumberA = getUniqueNumbersA(year, month);
@@ -45,7 +45,7 @@ public class LongReportCreaterImpl extends ReportCreater implements ReportCreate
         }
     }
 
-    public List<String> getUniqueNumbersA(String year, String month) {
+    private List<String> getUniqueNumbersA(String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
         List<String> listWithNumberA;
@@ -53,7 +53,7 @@ public class LongReportCreaterImpl extends ReportCreater implements ReportCreate
         return listWithNumberA;
     }
 
-    public Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
+    private Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
 
         for (CallTransformerDir callTransformerDir : callListByNumberA) {
@@ -80,7 +80,7 @@ public class LongReportCreaterImpl extends ReportCreater implements ReportCreate
         return costTotalForThisNumber;
     }
 
-    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+    private List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
         List<CallTransformerDir> result = callDataService.getCallByNumberA(numberA, startTime, endTime);

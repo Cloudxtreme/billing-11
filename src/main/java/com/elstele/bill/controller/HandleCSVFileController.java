@@ -1,11 +1,11 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.CallForCSVDataService;
+import com.elstele.bill.datasrv.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
 import com.elstele.bill.filesWorkers.FileTreeGenerater;
 import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;
-import com.elstele.bill.reportCreaters.factory.ReportsFactory;
 import com.elstele.bill.utils.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +31,7 @@ public class HandleCSVFileController {
     @Autowired
     FileDownloadWorker fileDownloadWorker;
     @Autowired
-    ReportsFactory factory;
+    ReportDataService reportDataService;
     @Autowired
     CallFromCSVFileToDBParser callFromCSVFileToDBParser;
     @Autowired
@@ -107,8 +107,7 @@ public class HandleCSVFileController {
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException {
-        path = ctx.getRealPath("resources\\files\\csvFiles");
-        return  factory.getReporter(json, path);
+        return  reportDataService.createReport(json);
     }
 
     @RequestMapping(value = "downloadFile", method = RequestMethod.GET)

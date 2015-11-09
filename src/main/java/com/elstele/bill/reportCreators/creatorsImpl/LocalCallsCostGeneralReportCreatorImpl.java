@@ -1,19 +1,20 @@
-package com.elstele.bill.reportCreaters.creatersImpl;
+package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.domain.Call;
-import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
-import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreators.factory.ReportDetails;
+import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
+import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
 import java.util.List;
 
 @Service
-public class LocalCallsCostReportCreaterImpl extends LocalCallsDetailReportCreaterImpl implements ReportCreaterInterface {
+public class LocalCallsCostGeneralReportCreatorImpl extends LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
 
-    public void reportCreateMain(String path, String fileName, String year, String month) {
-        PrintStream bw = createFileForWriting(path, fileName, year, month);
-        filePrintingCreate(bw, year, month);
+    public void create(ReportDetails reportDetails) {
+        PrintStream bw = createFileForWriting(reportDetails);
+        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
     }
 
     @Override
@@ -37,9 +38,9 @@ public class LocalCallsCostReportCreaterImpl extends LocalCallsDetailReportCreat
             String firstString = " Общая длительность переговоров- " + round(totalLocalCallsCost, 2) + " UAH";
             bw.println(firstString);
             bw.close();
-            ReportCreater.log.info("Report generating is Done");
+            GeneralReportCreator.log.info("Report generating is Done");
         } catch (Exception e) {
-            ReportCreater.log.error(e);
+            GeneralReportCreator.log.error(e);
         }
     }
 

@@ -1,28 +1,28 @@
-package com.elstele.bill.reportCreaters.creatersImpl;
+package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.reportCreaters.reportParent.ReportCreater;
+import com.elstele.bill.reportCreators.factory.ReportDetails;
+import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.utils.CallTransformerDir;
-import com.elstele.bill.reportCreaters.reportInterface.ReportCreaterInterface;
+import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class LongReportVegaCreaterImpl extends ReportCreater implements ReportCreaterInterface {
+public class LongGeneralReportVegaCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
     @Autowired
     CallDataService callDataService;
 
-    public void reportCreateMain(String path, String fileName, String year, String month) {
-        PrintStream bw = createFileForWriting(path, fileName, year, month);
-        filePrintingCreate(bw, year, month);
+    public void create(ReportDetails reportDetails) {
+        PrintStream bw = createFileForWriting(reportDetails);
+        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
     }
 
     public void filePrintingCreate(PrintStream bw, String year, String month) {

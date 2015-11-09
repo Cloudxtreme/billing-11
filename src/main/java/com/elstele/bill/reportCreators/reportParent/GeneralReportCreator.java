@@ -1,8 +1,9 @@
-package com.elstele.bill.reportCreaters.reportParent;
+package com.elstele.bill.reportCreators.reportParent;
 
 import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.domain.CallForCSV;
+import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.utils.CallTransformerDir;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,20 +16,20 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class ReportCreater {
+public class GeneralReportCreator {
 
     @Autowired
     CallForCSVDataService callForCSVDataService;
 
     @Autowired
     CallDataService callDataService;
-    final public static Logger log = LogManager.getLogger(ReportCreater.class);
+    final public static Logger log = LogManager.getLogger(GeneralReportCreator.class);
 
 
-    public PrintStream createFileForWriting(String path, String fileName, String year, String month) {
-        createMainFolder(path);
-        String pathDir = createFolderWithDate(path, year, month);
-        File file = new File(pathDir + File.separator + year + "-" + month + "_" + fileName + ".txt");
+    public PrintStream createFileForWriting(ReportDetails reportDetails) {
+        createMainFolder(reportDetails.getPath());
+        String pathDir = createFolderWithDate(reportDetails.getPath(), reportDetails.getYear(), reportDetails.getMonth());
+        File file = new File(pathDir + File.separator + reportDetails.getYear() + "-" + reportDetails.getMonth() + "_" + reportDetails.getReportName() + ".txt");
         try {
             if (!file.exists()) {
                 file.createNewFile();
