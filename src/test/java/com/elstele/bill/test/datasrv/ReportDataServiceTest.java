@@ -40,7 +40,7 @@ public class ReportDataServiceTest {
     @Test
     public void testCorrectGettingObjectFromFactory(){
         ReportCreator reportCreator = factory.getCreator(reportDetails.getReportName());
-        assertNotNull(reportCreator);
+        assertNull(reportCreator);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
