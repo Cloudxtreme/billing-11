@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.CSVParserDataService;
 import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.datasrv.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
@@ -33,66 +34,14 @@ public class HandleCSVFileController {
     @Autowired
     ReportDataService reportDataService;
     @Autowired
-    CallFromCSVFileToDBParser callFromCSVFileToDBParser;
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
-    final static Logger log = LogManager.getLogger(FileUploadController.class);
+    CSVParserDataService csvParserDataService;
+
 
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax fileCSVUploadSubmit(MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
-        if (multiPartHTTPServletRequestFiles != null) {
-            BufferedReader fileReader = null;
-            Iterator<String> iter = multiPartHTTPServletRequestFiles.getFileNames();
-            Locale.setDefault(new Locale("ru_RU.CP1251"));
-            while (iter.hasNext()) {
-                try {
-                    MultipartFile multipartFile = multiPartHTTPServletRequestFiles.getFile(iter.next());
-                    File fileFromMulti = callFromCSVFileToDBParser.convert(multipartFile);
-                    String fileName = fileFromMulti.getName();
-                    if (!fileName.contains("ukr")) {
-                        try {
-                            callForCSVDataService.clearReportTable();
-                            log.info("Table cleared");
-                        } catch (QueryException e) {
-                            log.warn(e);
-                        }
-                    }
-                    String line;
-                    fileReader = new BufferedReader(new FileReader(fileFromMulti));
-                    boolean firstLine = true;
-                    while ((line = fileReader.readLine()) != null) {
-                        CallForCSVForm callForCSVForm;
-                        if (!fileName.contains("ukr")) {
-                            if (firstLine) {
-                                firstLine = false;
-                            } else {
-                                callForCSVForm = callFromCSVFileToDBParser.arrayHandlingMethodCSV(line);
-                                callForCSVDataService.addReportData(callForCSVForm);
-                            }
-                        } else {
-                            callForCSVForm = callFromCSVFileToDBParser.arrayHandlingMethodCSVUkrNet(line);
-                            callForCSVDataService.addReportData(callForCSVForm);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    log.error(e);
-                    return ResponseToAjax.ERROR;
-                } finally {
-                    try {
-                        assert fileReader != null;
-                        fileReader.close();
-                    } catch (IOException e) {
-                        log.error(e);
-                    }
-                }
-                return ResponseToAjax.SUCCESS;
-            }
-
-        }
-        return ResponseToAjax.FULLOPERATION;
+     return csvParserDataService.parse(multiPartHTTPServletRequestFiles);
     }
 
     @RequestMapping(value = "/uploadCSVFile/generateFileTree", method = RequestMethod.POST)
@@ -100,8 +49,7 @@ public class HandleCSVFileController {
     public FileDirTreeGeneraterForm[] generateFileTree() {
         path = ctx.getRealPath("resources\\files\\csvFiles");
         FileTreeGenerater fileTreeGenerater = new FileTreeGenerater();
-        FileDirTreeGeneraterForm[] fileDirTreeGeneraterForms = fileTreeGenerater.getFileTreeArray(path);
-        return fileDirTreeGeneraterForms;
+        return fileTreeGenerater.getFileTreeArray(path);
     }
 
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
