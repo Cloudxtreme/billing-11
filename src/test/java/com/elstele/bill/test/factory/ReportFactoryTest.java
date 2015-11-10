@@ -20,9 +20,7 @@ public class ReportFactoryTest {
 
     private String reportName;
     private ReportCreator expectedCreator;
-
-    @Autowired
-    ReportCreatorFactory reportCreatorFactory;
+    ReportCreatorFactory reportCreatorFactory = new ReportCreatorFactory();
 
     public ReportFactoryTest(String reportName, ReportCreator expectedCreator) {
         this.reportName = reportName;
