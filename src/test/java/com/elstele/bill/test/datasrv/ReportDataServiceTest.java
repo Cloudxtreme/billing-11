@@ -1,14 +1,12 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.datasrv.ReportDataService;
+
 import com.elstele.bill.datasrv.ReportDataServiceImpl;
-import com.elstele.bill.reportCreators.creatorsImpl.LongGeneralReportCreatorImpl;
+
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +14,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import javax.servlet.ServletContext;
-
 import static org.junit.Assert.*;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ReportDataServiceTest {
     @Mock
