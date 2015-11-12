@@ -9,4 +9,8 @@ public class Constants {
 
     public enum Period { WEEK, MONTH, YEAR }
 
+    public enum TransactionSource { HANDMADE, BANK }
+
+    public enum TransactionDirection { DEBIT, CREDIT }
+
 }
