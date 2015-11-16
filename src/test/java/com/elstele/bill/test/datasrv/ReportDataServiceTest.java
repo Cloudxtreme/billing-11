@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 public class ReportDataServiceTest {
     @Mock
     ReportCreatorFactory factory;
-    @Mock
     ReportDetails reportDetails;
     @InjectMocks
     private ReportDataServiceImpl reportDataService;
@@ -36,7 +35,7 @@ public class ReportDataServiceTest {
     @Test
     public void testCorrectGettingObjectFromFactory(){
         ReportCreator reportCreator = factory.getCreator(reportDetails.getReportName());
-        assertNull(reportCreator);
+        assertNotNull(reportCreator);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)

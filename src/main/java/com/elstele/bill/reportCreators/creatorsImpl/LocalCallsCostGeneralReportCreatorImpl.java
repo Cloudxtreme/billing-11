@@ -1,5 +1,6 @@
 package com.elstele.bill.reportCreators.creatorsImpl;
 
+import com.elstele.bill.datasrv.CallDataService;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 import java.io.PrintStream;
 import java.util.List;
 
-@Service
 public class LocalCallsCostGeneralReportCreatorImpl extends LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
+
+    public LocalCallsCostGeneralReportCreatorImpl(CallDataService callDataService) {
+        super(callDataService);
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

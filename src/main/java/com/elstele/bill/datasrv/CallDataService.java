@@ -25,7 +25,5 @@ public interface CallDataService {
 
     public Integer getUnbilledCallsCount();
     public List<Integer> getUnbilledCallsIdList(int limit, int offset);
-    public List<Integer> getCallIdsWithNullCostTotal();
-    public List<Integer> getUnbilledCallsIdList();
 
 }

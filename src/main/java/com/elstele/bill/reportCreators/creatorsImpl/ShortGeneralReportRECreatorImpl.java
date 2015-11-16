@@ -12,11 +12,13 @@ import java.io.*;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class ShortGeneralReportRECreatorImpl extends GeneralReportCreator implements ReportCreator {
 
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
+    private CallForCSVDataService callForCSVDataService;
+
+    public ShortGeneralReportRECreatorImpl(CallForCSVDataService callForCSVDataService) {
+        this.callForCSVDataService = callForCSVDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

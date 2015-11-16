@@ -1,5 +1,7 @@
 package com.elstele.bill.test.factory;
 
+import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.CallDataServiceImpl;
 import com.elstele.bill.reportCreators.creatorsImpl.LongGeneralReportCreatorImpl;
 import com.elstele.bill.reportCreators.creatorsImpl.ShortGeneralReportCreatorImpl;
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
@@ -20,6 +22,7 @@ public class ReportFactoryTest {
 
     private String reportName;
     private ReportCreator expectedCreator;
+    static CallDataService callDataService = new CallDataServiceImpl();
     ReportCreatorFactory reportCreatorFactory = new ReportCreatorFactory();
 
     public ReportFactoryTest(String reportName, ReportCreator expectedCreator) {
@@ -30,8 +33,8 @@ public class ReportFactoryTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][]{
-                {"longReport", new LongGeneralReportCreatorImpl()},
-                {"shortReport", new ShortGeneralReportCreatorImpl()},
+                {"longReport", new LongGeneralReportCreatorImpl(callDataService)},
+                {"shortReport", new ShortGeneralReportCreatorImpl(callDataService)},
                 {"IncorrectData", null},
                 {"IncorrectData2", null}
         });

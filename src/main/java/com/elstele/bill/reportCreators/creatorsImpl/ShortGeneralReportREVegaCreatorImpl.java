@@ -12,10 +12,12 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class ShortGeneralReportREVegaCreatorImpl extends GeneralReportCreator implements ReportCreator {
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
+    private CallForCSVDataService callForCSVDataService;
+
+    public ShortGeneralReportREVegaCreatorImpl(CallForCSVDataService callForCSVDataService) {
+        this.callForCSVDataService = callForCSVDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

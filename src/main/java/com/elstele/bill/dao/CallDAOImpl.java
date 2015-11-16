@@ -5,10 +5,12 @@ import com.elstele.bill.domain.Call;
 import com.elstele.bill.utils.CallTransformerDir;
 import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -162,12 +164,9 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
 
     public List<String> getYearsList() {
         try {
-            SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) from calls ORDER BY DATE_PART('year', starttime)");
-            List listWithResult = query.list();
-            List<String> result = new ArrayList<>();
-            for(Object object : listWithResult){
-                result.add(object.toString());
-            }
+            SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) as YEAR from calls ORDER BY DATE_PART('year', starttime)")
+                    .addScalar("YEAR", new StringType());
+            List<String> result = (List<String>)query.list();
             log.info("Date selecting from DB is successed");
             return result;
         }catch(SQLGrammarException e){

@@ -12,11 +12,13 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class ShortGeneralReportVegaCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
-    @Autowired
-    CallDataService callDataService;
+    private CallDataService callDataService;
+
+    public ShortGeneralReportVegaCreatorImpl(CallDataService callDataService) {
+        this.callDataService = callDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);
@@ -30,7 +32,7 @@ public class ShortGeneralReportVegaCreatorImpl extends GeneralReportCreator impl
             for (String numberA : listWithNumberA) {
                 List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
                 Double costTotalForThisNumber = 0.0;
-                costTotalForThisNumber = costTotalForThisCallNumberOperation(bw, callsListByNumberA);
+                costTotalForThisNumber = costTotalForThisCallNumberOperation(callsListByNumberA);
                 costTotalForPeriod += costTotalForThisNumber;
                 String firstString = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
                 bw.println(firstString);

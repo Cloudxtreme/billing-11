@@ -1,28 +1,19 @@
 package com.elstele.bill.reportCreators.reportParent;
 
-import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.datasrv.CallForCSVDataService;
+
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
+import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
 import com.elstele.bill.utils.CallTransformerDir;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Service
 public class GeneralReportCreator {
 
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
-
-    @Autowired
-    CallDataService callDataService;
     final public static Logger log = LogManager.getLogger(GeneralReportCreator.class);
 
 
@@ -45,7 +36,7 @@ public class GeneralReportCreator {
 
     public void mainHeaderPrint(PrintStream bw, String numberA) {
         String numberAShort = numberA.substring(1, numberA.length());
-        String firstString = "";
+        String firstString;
 
         firstString = "Номер телефона, с которого звонили: " + numberAShort;
         bw.println(firstString);
@@ -89,25 +80,14 @@ public class GeneralReportCreator {
 
 
     public Date getEndTimeDate(String year, String month) {
-        String endDay = "";
-        if ((month.equalsIgnoreCase("01")) || (month.equalsIgnoreCase("03")) || (month.equalsIgnoreCase("05")) || (month.equalsIgnoreCase("07")) || (month.equalsIgnoreCase("08"))
-                || (month.equalsIgnoreCase("10")) || (month.equalsIgnoreCase("12"))){
-            endDay = "31";
-        }
-        if(month.equalsIgnoreCase("04")|| month.equalsIgnoreCase("06")||month.equalsIgnoreCase("09")||month.equalsIgnoreCase("11")){
-            endDay="30";
-        }
-        if(month.equalsIgnoreCase("02")&& (Integer.parseInt(year)%4) == 0){
-            endDay="29";
-        }
-        if(month.equalsIgnoreCase("02")&& (Integer.parseInt(year)%4) != 0){
-            endDay="28";
-        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Integer.parseInt(year));
+        calendar.set(Calendar.MONTH, Integer.parseInt(month));
+        String endDay = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         String startTime = year + "/" + month + "/" + endDay + " 23:59";
         try {
-            Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
-            return startTimeInDateFormat;
+            return simpleDateFormat.parse(startTime);
         } catch (ParseException e) {
             log.error(e);
             return null;
@@ -115,12 +95,10 @@ public class GeneralReportCreator {
     }
 
     public Date getStartTimeDate(String year, String month) {
-        String startDay = "01";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String startTime = year + "/" + month + "/" + startDay + " 00:00";
+        String startTime = year + "/" + month + "/" + ReportConstants.startDay + " 00:00";
         try {
-            Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
-            return startTimeInDateFormat;
+            return simpleDateFormat.parse(startTime);
         } catch (ParseException e) {
             log.error(e);
             return null;
@@ -136,7 +114,7 @@ public class GeneralReportCreator {
         return costTotalForThisNumber;
     }
 
-    public Double costTotalForThisCallNumberOperation(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
+    public Double costTotalForThisCallNumberOperation(List<CallTransformerDir> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
         for (CallTransformerDir call : callListByNumberA) {
             Double costTotal = (double) call.getCosttotal();

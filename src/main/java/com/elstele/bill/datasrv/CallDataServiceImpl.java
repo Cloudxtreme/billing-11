@@ -132,14 +132,4 @@ public class CallDataServiceImpl implements CallDataService {
         return callDAO.getUnbilledCallIds(limit, offset);
     }
 
-    @Transactional
-    public List<Integer> getUnbilledCallsIdList() {
-        return callDAO.getUnbilledCallIds();
-    }
-
-    @Transactional
-    public List<Integer> getCallIdsWithNullCostTotal() {
-        return callDAO.getCallIdsWithNullCostTotal();
-    }
-
 }

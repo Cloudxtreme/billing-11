@@ -14,11 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class LongGeneralReportVegaCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
-    @Autowired
-    CallDataService callDataService;
+    private CallDataService callDataService;
+
+    public LongGeneralReportVegaCreatorImpl(CallDataService callDataService) {
+        this.callDataService = callDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

@@ -1,5 +1,8 @@
 package com.elstele.bill.reportCreators.factory;
 
+import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.CallDataServiceImpl;
+import com.elstele.bill.datasrv.CallForCSVDataService;
 import com.elstele.bill.reportCreators.creatorsImpl.*;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.apache.logging.log4j.LogManager;
@@ -12,90 +15,67 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportCreatorFactory {
     @Autowired
-    LongGeneralReportCreatorImpl longGeneralReportCreator;
+    CallDataService callDataService;
     @Autowired
-    LongGeneralReportVegaCreatorImpl longGeneralReportVegaCreator;
-    @Autowired
-    LongGeneralReportRACreatorImpl longGeneralReportRACreator;
-    @Autowired
-    LongGeneralReportRAUkrTelCreatorImpl longGeneralReportRAUkrTelCreator;
-    @Autowired
-    LongGeneralReportRAVegaCreatorImpl longGeneralReportRAVegaCreator;
-    @Autowired
-    ShortGeneralReportCreatorImpl shortGeneralReportCreator;
-    @Autowired
-    ShortGeneralReportRECreatorImpl shortGeneralReportRECreator;
-    @Autowired
-    ShortGeneralReportREUkrTelCreatorImpl shortGeneralReportREUkrTelCreator;
-    @Autowired
-    ShortGeneralReportREVegaCreatorImpl shortGeneralReportREVegaCreator;
-    @Autowired
-    ShortGeneralReportVegaCreatorImpl shortGeneralReportVegaCreator;
-    @Autowired
-    @Qualifier("localCallsDetailGeneralReportCreatorImpl")
-    LocalCallsDetailGeneralReportCreatorImpl localCallsDetailGeneralReportCreator;
-    @Autowired
-    LocalCallsMainGeneralReportCreatorImpl localCallsMainGeneralReportCreator;
-    @Autowired
-    LocalCallsCostGeneralReportCreatorImpl localCallsCostGeneralReportCreator;
-
+    CallForCSVDataService callForCSVDataService;
     final static Logger log = LogManager.getLogger(ReportCreatorFactory.class);
-    public ReportCreator getCreator(String reportName){
+
+    public ReportCreator getCreator(String reportName) {
         ReportCreator reportCreator;
         switch (reportName) {
-            case "longReport":{
-                reportCreator = longGeneralReportCreator;
+            case "longReport": {
+                reportCreator = new LongGeneralReportCreatorImpl(callDataService);
                 break;
             }
-            case "longReportVega":{
-                reportCreator = longGeneralReportVegaCreator;
+            case "longReportVega": {
+                reportCreator = new LongGeneralReportVegaCreatorImpl(callDataService);
                 break;
             }
-            case "longReportRA":{
-                reportCreator = longGeneralReportRACreator;
+            case "longReportRA": {
+                reportCreator = new LongGeneralReportRACreatorImpl(callForCSVDataService);
                 break;
             }
-            case "longReportRAUkrTel":{
-                reportCreator =longGeneralReportRAUkrTelCreator;
+            case "longReportRAUkrTel": {
+                reportCreator = new LongGeneralReportRAUkrTelCreatorImpl(callForCSVDataService);
                 break;
             }
-            case "longReportRAVega":{
-                reportCreator = longGeneralReportRAVegaCreator;
+            case "longReportRAVega": {
+                reportCreator = new LongGeneralReportRAVegaCreatorImpl(callForCSVDataService);
                 break;
             }
-            case "shortReport":{
-                reportCreator = shortGeneralReportCreator;
+            case "shortReport": {
+                reportCreator = new ShortGeneralReportCreatorImpl(callDataService);
                 break;
             }
-            case "shortReportRE":{
-                reportCreator = shortGeneralReportRECreator;
+            case "shortReportRE": {
+                reportCreator = new ShortGeneralReportREVegaCreatorImpl(callForCSVDataService);
                 break;
             }
-            case "shortReportREUkrTel":{
-                reportCreator = shortGeneralReportREUkrTelCreator;
+            case "shortReportREUkrTel": {
+                reportCreator = new ShortGeneralReportREVegaCreatorImpl(callForCSVDataService);
                 break;
             }
-            case "shortReportREVega":{
-                reportCreator = shortGeneralReportREVegaCreator;
+            case "shortReportREVega": {
+                reportCreator = new ShortGeneralReportREVegaCreatorImpl(callForCSVDataService);
                 break;
             }
-            case "shortReportVega":{
-                reportCreator = shortGeneralReportVegaCreator;
+            case "shortReportVega": {
+                reportCreator = new ShortGeneralReportVegaCreatorImpl(callDataService);
                 break;
             }
-            case "localCallsDetailReport":{
-                reportCreator = localCallsDetailGeneralReportCreator;
+            case "localCallsDetailReport": {
+                reportCreator = new LocalCallsDetailGeneralReportCreatorImpl(callDataService);
                 break;
             }
-            case "localCallsMainReport":{
-                reportCreator = localCallsMainGeneralReportCreator;
+            case "localCallsMainReport": {
+                reportCreator = new LocalCallsMainGeneralReportCreatorImpl(callDataService);
                 break;
             }
-            case "localCallsCostReport":{
-                reportCreator = localCallsCostGeneralReportCreator;
+            case "localCallsCostReport": {
+                reportCreator = new LocalCallsCostGeneralReportCreatorImpl(callDataService);
                 break;
             }
-            default:{
+            default: {
                 reportCreator = null;
                 log.warn(" report name does not match with any cases ");
             }

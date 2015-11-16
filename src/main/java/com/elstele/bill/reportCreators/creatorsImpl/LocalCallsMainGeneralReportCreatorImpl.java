@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.io.PrintStream;
 import java.util.List;
 
-@Service
 public class LocalCallsMainGeneralReportCreatorImpl extends LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
 
-    @Autowired
-    CallDataService callDataService;
+    public LocalCallsMainGeneralReportCreatorImpl(CallDataService callDataService) {
+        super(callDataService);
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

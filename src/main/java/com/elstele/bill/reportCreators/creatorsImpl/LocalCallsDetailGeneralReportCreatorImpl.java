@@ -15,11 +15,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class LocalCallsDetailGeneralReportCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
-    @Autowired
-    CallDataService callDataService;
+
+    private CallDataService callDataService;
+
+    public LocalCallsDetailGeneralReportCreatorImpl(CallDataService callDataService) {
+        this.callDataService = callDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);

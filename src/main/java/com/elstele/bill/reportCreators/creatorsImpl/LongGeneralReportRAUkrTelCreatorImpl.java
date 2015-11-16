@@ -14,11 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class LongGeneralReportRAUkrTelCreatorImpl extends GeneralReportCreator implements ReportCreator {
 
-    @Autowired
-    CallForCSVDataService callForCSVDataService;
+    private CallForCSVDataService callForCSVDataService;
+
+    public LongGeneralReportRAUkrTelCreatorImpl(CallForCSVDataService callForCSVDataService) {
+        this.callForCSVDataService = callForCSVDataService;
+    }
 
     public void create(ReportDetails reportDetails) {
         PrintStream bw = createFileForWriting(reportDetails);
