@@ -1,12 +1,10 @@
 package com.elstele.bill.reportCreators.creatorsImpl;
 
-import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
-import com.elstele.bill.utils.CallTransformerDir;
+import com.elstele.bill.utils.CallTO;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Date;
@@ -30,7 +28,7 @@ public class ShortGeneralReportCreatorImpl extends GeneralReportCreator implemen
             Double costTotalForPeriod = 0.0;
             List<String> listWithNumberA = getUniqueNumbersA(year, month);
             for (String numberA : listWithNumberA) {
-                List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
+                List<CallTO> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
                 Double costTotalForThisNumber = 0.0;
                 costTotalForThisNumber = costTotalForThisCallNumberOperation(callsListByNumberA);
                 costTotalForPeriod += costTotalForThisNumber;
@@ -54,10 +52,10 @@ public class ShortGeneralReportCreatorImpl extends GeneralReportCreator implemen
         return listWithNumberA;
     }
 
-    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+    public List<CallTO> getCallsFromDBByNumbersA(String numberA, String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<CallTransformerDir> result = callDataService.getCallByNumberA(numberA, startTime, endTime);
+        List<CallTO> result = callDataService.getCallByNumberA(numberA, startTime, endTime);
         return result;
     }
 

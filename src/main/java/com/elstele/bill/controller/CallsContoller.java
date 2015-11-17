@@ -1,9 +1,8 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.form.CallForm;
-import com.elstele.bill.utils.TempObjectForCallsRequestParam;
-import org.json.simple.JSONObject;
+import com.elstele.bill.utils.CallsRequestParamTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -53,9 +52,9 @@ public class CallsContoller {
 
     @RequestMapping(value = "/callshome", method = RequestMethod.GET)
     public ModelAndView handleCallsHome(HttpSession session) {
-        TempObjectForCallsRequestParam tempObjectForCallsRequestParam = new TempObjectForCallsRequestParam();
-        tempObjectForCallsRequestParam.setPageResults(10);
-        int totalPages = determineTotalPagesForOutput(tempObjectForCallsRequestParam);
+        CallsRequestParamTO callsRequestParamTO = new CallsRequestParamTO();
+        callsRequestParamTO.setPageResults(10);
+        int totalPages = determineTotalPagesForOutput(callsRequestParamTO);
         ModelAndView mav = new ModelAndView("calls_list");
         mav.addObject("pageNum", 1);
         mav.addObject("pagesTotal", totalPages);
@@ -70,25 +69,25 @@ public class CallsContoller {
                                           @RequestParam(value = "numberB") String numberB,
                                           @RequestParam(value = "timeRange") String timeRange) throws ParseException {
 
-        TempObjectForCallsRequestParam tempObjectForCallsRequestParam = new TempObjectForCallsRequestParam();
-        tempObjectForCallsRequestParam.setCallNumberA(numberA);
-        tempObjectForCallsRequestParam.setCallNumberB(numberB);
-        tempObjectForCallsRequestParam.setEndDate(timeRange);
-        tempObjectForCallsRequestParam.setStartDate(timeRange);
-        tempObjectForCallsRequestParam.setPageResults(pageResults);
-        int totalPages = determineTotalPagesForOutput(tempObjectForCallsRequestParam);
+        CallsRequestParamTO callsRequestParamTO = new CallsRequestParamTO();
+        callsRequestParamTO.setCallNumberA(numberA);
+        callsRequestParamTO.setCallNumberB(numberB);
+        callsRequestParamTO.setEndDate(timeRange);
+        callsRequestParamTO.setStartDate(timeRange);
+        callsRequestParamTO.setPageResults(pageResults);
+        int totalPages = determineTotalPagesForOutput(callsRequestParamTO);
         return Integer.toString(totalPages);
     }
 
-    private int determineTotalPagesForOutput(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
+    private int determineTotalPagesForOutput(CallsRequestParamTO callsRequestParamTO) {
         int callsCount = 0;
-        if (tempObjectForCallsRequestParam.getStartDate() == null && tempObjectForCallsRequestParam.getEndDate() == null &&
-                tempObjectForCallsRequestParam.getCallNumberA() == null && tempObjectForCallsRequestParam.getCallNumberB() == null) {
+        if (callsRequestParamTO.getStartDate() == null && callsRequestParamTO.getEndDate() == null &&
+                callsRequestParamTO.getCallNumberA() == null && callsRequestParamTO.getCallNumberB() == null) {
             callsCount = callDataService.getCallsCount();
         } else {
-            callsCount = callDataService.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
+            callsCount = callDataService.getCallsCountWithSearchValues(callsRequestParamTO);
         }
-        int containedCount = tempObjectForCallsRequestParam.getPageResults();
+        int containedCount = callsRequestParamTO.getPageResults();
         if (callsCount % containedCount == 0)
             return callsCount / containedCount;
         else

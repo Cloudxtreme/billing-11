@@ -1,15 +1,13 @@
 package com.elstele.bill.reportCreators.factory;
 
-import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.datasrv.CallDataServiceImpl;
-import com.elstele.bill.datasrv.CallForCSVDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
 import com.elstele.bill.reportCreators.creatorsImpl.*;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
+import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +18,7 @@ public class ReportCreatorFactory {
     CallForCSVDataService callForCSVDataService;
     final static Logger log = LogManager.getLogger(ReportCreatorFactory.class);
 
-    public ReportCreator getCreator(String reportName) {
+    public ReportCreator getCreator(String reportName) throws IncorrectReportNameException {
         ReportCreator reportCreator;
         switch (reportName) {
             case "longReport": {
@@ -76,8 +74,8 @@ public class ReportCreatorFactory {
                 break;
             }
             default: {
-                reportCreator = null;
-                log.warn(" report name does not match with any cases ");
+                log.debug(" report name does not match with any cases ");
+                throw new IncorrectReportNameException("Report name does not match with any cases");
             }
         }
         return reportCreator;

@@ -3,8 +3,8 @@ package com.elstele.bill.test.datasrv;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.elstele.bill.dao.LocalUserDAOImpl;
-import com.elstele.bill.datasrv.LocalUserDataServiceImpl;
+import com.elstele.bill.dao.impl.LocalUserDAOImpl;
+import com.elstele.bill.datasrv.implementes.LocalUserDataServiceImpl;
 import com.elstele.bill.domain.LocalUser;
 import org.junit.After;
 import org.junit.Before;

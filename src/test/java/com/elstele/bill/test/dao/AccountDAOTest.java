@@ -1,12 +1,11 @@
 package com.elstele.bill.test.dao;
 
-import com.elstele.bill.dao.AccountDAO;
+import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Status;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

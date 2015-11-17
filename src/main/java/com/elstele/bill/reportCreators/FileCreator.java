@@ -9,7 +9,7 @@ import java.io.*;
 public class FileCreator {
     final public static Logger log = LogManager.getLogger(FileCreator.class);
 
-    public PrintStream createFileForWriting(ReportDetails reportDetails) {
+    public static PrintStream createFileForWriting(ReportDetails reportDetails) {
         createMainFolder(reportDetails.getPath());
         String pathDir = createFolderWithDate(reportDetails.getPath(), reportDetails.getYear(), reportDetails.getMonth());
         File file = new File(pathDir + File.separator + reportDetails.getYear() + "-" + reportDetails.getMonth() + "_" + reportDetails.getReportName() + ".txt");
@@ -26,7 +26,7 @@ public class FileCreator {
         }
     }
 
-    public void createMainFolder(String path) {
+    public static void createMainFolder(String path) {
         File fileDir = new File(path);
         if (!fileDir.exists()) {
             boolean fileMet = false;
@@ -42,7 +42,7 @@ public class FileCreator {
         }
     }
 
-    public String createFolderWithDate(String path, String year, String month) {
+    public static String createFolderWithDate(String path, String year, String month) {
         File directory = new File(path + File.separator + year + "-" + month);
         if (!directory.exists()) {
             boolean fileMet = false;

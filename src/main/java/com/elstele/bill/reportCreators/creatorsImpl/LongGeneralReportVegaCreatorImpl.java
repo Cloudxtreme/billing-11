@@ -1,12 +1,10 @@
 package com.elstele.bill.reportCreators.creatorsImpl;
 
-import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
-import com.elstele.bill.utils.CallTransformerDir;
+import com.elstele.bill.utils.CallTO;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -32,7 +30,7 @@ public class LongGeneralReportVegaCreatorImpl extends GeneralReportCreator imple
             Double costTotalForPeriod = 0.0;
             List<String> listWithNumberA = getUniqueNumbersA(year, month);
             for (String numberA : listWithNumberA) {
-                List<CallTransformerDir> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
+                List<CallTO> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
                 mainHeaderPrint(bw, numberA);
                 Double costTotalForThisNumber = 0.0;
                 costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
@@ -50,22 +48,19 @@ public class LongGeneralReportVegaCreatorImpl extends GeneralReportCreator imple
     public List<String> getUniqueNumbersA(String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<String> listWithNumberA;
-        listWithNumberA = callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, "05");
-        return listWithNumberA;
+        return callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, "05");
     }
 
-    public List<CallTransformerDir> getCallsFromDBByNumbersA(String numberA, String year, String month) {
+    public List<CallTO> getCallsFromDBByNumbersA(String numberA, String year, String month) {
         Date endTime = getEndTimeDate(year, month);
         Date startTime = getStartTimeDate(year, month);
-        List<CallTransformerDir> result = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
-        return result;
+        return callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
     }
 
-    public Double callDataPrint(PrintStream bw, List<CallTransformerDir> callListByNumberA) {
+    public Double callDataPrint(PrintStream bw, List<CallTO> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
 
-        for (CallTransformerDir call : callListByNumberA) {
+        for (CallTO call : callListByNumberA) {
             String numberB = call.getNumberb();
             String duration = call.getDuration().toString();
             String dirPrefix = call.getPrefix();

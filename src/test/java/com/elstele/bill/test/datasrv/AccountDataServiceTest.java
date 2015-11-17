@@ -1,8 +1,7 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.dao.AccountDAOImpl;
-import com.elstele.bill.datasrv.AccountDataService;
-import com.elstele.bill.datasrv.AccountDataServiceImpl;
+import com.elstele.bill.dao.impl.AccountDAOImpl;
+import com.elstele.bill.datasrv.implementes.AccountDataServiceImpl;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Constants;

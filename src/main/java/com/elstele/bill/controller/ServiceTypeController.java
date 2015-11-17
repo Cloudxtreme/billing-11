@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.ServiceTypeDataService;
+import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.CallBillingService;
+import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.executors.WorkExecutorPOC;
 import org.springframework.beans.factory.annotation.Autowired;

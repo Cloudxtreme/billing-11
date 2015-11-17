@@ -4,7 +4,7 @@ package com.elstele.bill.reportCreators.reportParent;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
-import com.elstele.bill.utils.CallTransformerDir;
+import com.elstele.bill.utils.CallTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.*;
@@ -96,7 +96,7 @@ public class GeneralReportCreator {
 
     public Date getStartTimeDate(String year, String month) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String startTime = year + "/" + month + "/" + ReportConstants.startDay + " 00:00";
+        String startTime = year + "/" + month + "/" + ReportConstants.START_DAY + " 00:00";
         try {
             return simpleDateFormat.parse(startTime);
         } catch (ParseException e) {
@@ -114,9 +114,9 @@ public class GeneralReportCreator {
         return costTotalForThisNumber;
     }
 
-    public Double costTotalForThisCallNumberOperation(List<CallTransformerDir> callListByNumberA) {
+    public Double costTotalForThisCallNumberOperation(List<CallTO> callListByNumberA) {
         Double costTotalForThisNumber = 0.0;
-        for (CallTransformerDir call : callListByNumberA) {
+        for (CallTO call : callListByNumberA) {
             Double costTotal = (double) call.getCosttotal();
             costTotalForThisNumber += costTotal;
         }

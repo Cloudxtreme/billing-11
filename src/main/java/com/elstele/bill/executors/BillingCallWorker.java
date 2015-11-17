@@ -1,8 +1,7 @@
 package com.elstele.bill.executors;
 
-import com.elstele.bill.datasrv.CallBillingService;
+import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.elstele.bill.test.dao;
 
-import com.elstele.bill.dao.LocalUserDAOImpl;
+import com.elstele.bill.dao.impl.LocalUserDAOImpl;
 import com.elstele.bill.domain.LocalUser;
 import org.junit.Before;
 import org.junit.Test;

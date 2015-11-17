@@ -1,11 +1,10 @@
 package com.elstele.bill.reportCreators.creatorsImpl;
 
-import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
 import java.util.List;

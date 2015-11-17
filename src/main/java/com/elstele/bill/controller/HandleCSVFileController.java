@@ -1,32 +1,27 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.CSVParserDataService;
-import com.elstele.bill.datasrv.CallForCSVDataService;
-import com.elstele.bill.datasrv.ReportDataService;
+import com.elstele.bill.datasrv.interfaces.CSVParserDataService;
+import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
 import com.elstele.bill.filesWorkers.FileTreeGenerater;
-import com.elstele.bill.form.CallForCSVForm;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;
 import com.elstele.bill.utils.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.QueryException;
+import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
+import com.elstele.bill.utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Iterator;
-import java.util.Locale;
 
 @Controller
 public class HandleCSVFileController {
 
-    String path;
+    private String path;
     @Autowired
     ServletContext ctx;
     @Autowired
@@ -36,6 +31,12 @@ public class HandleCSVFileController {
     @Autowired
     CSVParserDataService csvParserDataService;
 
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleResourceNotFoundException() {
+        return "404";
+    }
 
 
     @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.POST)
@@ -54,7 +55,8 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException {
+    public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException, IncorrectReportNameException {
+        if(json == null)throw  new ResourceNotFoundException();
         return  reportDataService.createReport(json);
     }
 

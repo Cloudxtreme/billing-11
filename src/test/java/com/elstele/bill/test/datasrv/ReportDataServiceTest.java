@@ -1,12 +1,13 @@
 package com.elstele.bill.test.datasrv;
 
 
-import com.elstele.bill.datasrv.ReportDataServiceImpl;
+import com.elstele.bill.datasrv.implementes.ReportDataServiceImpl;
 
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 
+import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,13 +34,13 @@ public class ReportDataServiceTest {
     }
 
     @Test
-    public void testCorrectGettingObjectFromFactory(){
+    public void testCorrectGettingObjectFromFactory() throws IncorrectReportNameException {
         ReportCreator reportCreator = factory.getCreator(reportDetails.getReportName());
         assertNotNull(reportCreator);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testEmptyArrayEntrance(){
+    public void testEmptyArrayEntrance() throws IncorrectReportNameException {
         String[] testArray = new String[0];
         reportDataService.createReport(testArray);
     }

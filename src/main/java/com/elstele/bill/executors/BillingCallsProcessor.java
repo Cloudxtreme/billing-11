@@ -1,6 +1,6 @@
 package com.elstele.bill.executors;
 
-import com.elstele.bill.datasrv.CallDataService;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class BillingCallsProcessor {
         processedCallsCounter = 0;
         Integer callsCount =  callDataService.getUnbilledCallsCount();
         Integer pagesCount = callsCount/pageSize;
-        System.out.println("-------------Initial call count:" + callsCount);
+        System.out.println("-------------Initial call countForTO:" + callsCount);
 
 
         for (int i=0; i<pagesCount+1; i++){
@@ -40,7 +40,7 @@ public class BillingCallsProcessor {
 
             Integer tempCallsCount =  callDataService.getUnbilledCallsCount();
             List<Integer> curCallIds = callDataService.getUnbilledCallsIdList(pageSize, 0);
-            System.out.println("-------------Call count at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
+            System.out.println("-------------Call countForTO at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
 
             putCallsToExecutor(executor, curCallIds);
 

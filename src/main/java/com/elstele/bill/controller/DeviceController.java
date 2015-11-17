@@ -1,33 +1,24 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.DeviceDataService;
-import com.elstele.bill.datasrv.DeviceTypesDataService;
-import com.elstele.bill.datasrv.IpDataService;
-import com.elstele.bill.datasrv.IpSubnetDataService;
-import com.elstele.bill.domain.Device;
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
+import com.elstele.bill.datasrv.interfaces.DeviceDataService;
+import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
+import com.elstele.bill.datasrv.interfaces.IpDataService;
+import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.ResponseToAjax;
-import com.elstele.bill.utils.Status;
 import com.elstele.bill.utils.SubnetPurpose;
-import org.hibernate.Hibernate;
-import org.omg.PortableInterceptor.ACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.*;
 
 

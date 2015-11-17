@@ -1,8 +1,8 @@
 package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.AuthController;
-import com.elstele.bill.dao.LocalUserDAO;
-import com.elstele.bill.datasrv.LocalUserDataService;
+import com.elstele.bill.dao.interfaces.LocalUserDAO;
+import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import org.junit.Before;
 import org.junit.Test;

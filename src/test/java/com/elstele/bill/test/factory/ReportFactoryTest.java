@@ -1,16 +1,15 @@
 package com.elstele.bill.test.factory;
 
-import com.elstele.bill.datasrv.CallDataService;
-import com.elstele.bill.datasrv.CallDataServiceImpl;
+import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.datasrv.implementes.CallDataServiceImpl;
 import com.elstele.bill.reportCreators.creatorsImpl.LongGeneralReportCreatorImpl;
 import com.elstele.bill.reportCreators.creatorsImpl.ShortGeneralReportCreatorImpl;
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
+import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,7 +40,7 @@ public class ReportFactoryTest {
     }
 
     @Test
-    public void factoryCreateTest() {
+    public void factoryCreateTest() throws IncorrectReportNameException {
         ReportCreator reportCreator = reportCreatorFactory.getCreator(reportName);
         assertEquals(expectedCreator, reportCreator);
     }

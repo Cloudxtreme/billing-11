@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.LocalUserDataService;
+import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import org.springframework.beans.factory.annotation.Autowired;

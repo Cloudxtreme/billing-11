@@ -1,5 +1,6 @@
 package com.elstele.bill.reportCreators.dateparser;
 
+import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,24 +13,17 @@ import java.util.GregorianCalendar;
 
 public class DateReportParser {
     final public static Logger log = LogManager.getLogger(DateReportParser.class);
-    private String year;
-    private String month;
 
-    public DateReportParser(String year, String month) {
-        this.year = year;
-        this.month = month;
-    }
-
-    public Date parseEndTime() {
-        Integer yearInt = Integer.parseInt(year);
-        Integer monthInt = Integer.parseInt(month);
-        Integer startDayInt = Integer.parseInt(ReportConstants.startDay);
+    public static Date parseEndTime(ReportDetails reportDetails) {
+        Integer yearInt = Integer.parseInt(reportDetails.getYear());
+        Integer monthInt = Integer.parseInt(reportDetails.getMonth());
+        Integer startDayInt = Integer.parseInt(ReportConstants.START_DAY);
         Calendar calendar = new GregorianCalendar(yearInt, monthInt, startDayInt);
         calendar.set(Calendar.YEAR, yearInt);
         calendar.set(Calendar.MONTH, monthInt);
         String endDay = Integer.toString(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String endTime = year + "/" + month + "/" + endDay + " 23:59";
+        String endTime = reportDetails.getYear() + "/" + reportDetails.getMonth() + "/" + endDay + " 23:59";
         try {
             Date startTimeInDateFormat = simpleDateFormat.parse(endTime);
             log.info("End time is "+ startTimeInDateFormat );
@@ -40,12 +34,12 @@ public class DateReportParser {
         }
     }
 
-    public Date parseStartTime() {
+    public static Date parseStartTime(ReportDetails reportDetails) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String startTime = year + "/" + month + "/" + ReportConstants.startDay + " 00:00";
+        String startTime = reportDetails.getYear() + "/" + reportDetails.getMonth() + "/" + ReportConstants.START_DAY + " 00:00";
         try {
             Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
-            log.info("Start time is "+ startTimeInDateFormat);
+            log.info("Start time is " + startTimeInDateFormat);
             return startTimeInDateFormat;
         } catch (ParseException e) {
             log.error(e);
