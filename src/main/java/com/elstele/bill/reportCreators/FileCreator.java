@@ -21,7 +21,7 @@ public class FileCreator {
             log.info("File " + file.getName() + " is successful created for writing");
             return bw;
         } catch (IOException e) {
-            log.error(e);
+            log.error(e  + " Method = createFileForWriting");
             return null;
         }
     }

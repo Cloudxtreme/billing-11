@@ -35,7 +35,7 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/test/resources/test-servlet-context.xml")
+@ContextConfiguration("classpath:test-servlet-context.xml")
 public class AuthControllerTest {
 
     @Autowired

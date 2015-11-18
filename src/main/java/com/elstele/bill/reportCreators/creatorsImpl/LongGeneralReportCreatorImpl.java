@@ -43,8 +43,10 @@ public class LongGeneralReportCreatorImpl extends GeneralReportCreator implement
             costTotalForPeriod += costTotalCounter.countForTO(callsListByNumberA);
         }
         String firstString = " Итого " + ReportsStringCreator.round(costTotalForPeriod, 2);
-        ps.println(firstString);
-        ps.close();
+        if (ps != null) {
+            ps.println(firstString);
+            ps.close();
+        }
         log.info("Report generating is Done");
     }
 }

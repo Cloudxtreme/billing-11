@@ -8,12 +8,14 @@ import com.elstele.bill.utils.CallsRequestParamTO;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.SessionFactory;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @Service
 public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
+
     public List<Call> getCalls() {
         return null;
     }
@@ -93,9 +96,14 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
-        SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
-                "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
-        return (List<String>) createSQLQuery.list();
+        try {
+            SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from calls " +
+                    "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
+            return (List<String>) createSQLQuery.list();
+        }catch(SQLGrammarException e){
+            log.error(e + " method = getUniqueNumberAFromCalls");
+            return new ArrayList<>();
+        }
     }
 
     public List<CallTO> getCallByNumberA(String numberA, Date startTime, Date endTime) {
@@ -103,9 +111,14 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                 " directions.prefix as prefix from calls, directions " +
                 "where calls.callDirectionId = directions.id and calls.startTime >= '"+startTime +"' and calls.startTime <= '"+ endTime+"' and " +
                 "calls.numberA = '"+ numberA+"' order by calls.startTime";
-        Query query = getSessionFactory().getCurrentSession().createSQLQuery(q)
-                .setResultTransformer(Transformers.aliasToBean(CallTO.class));
-        return (List<CallTO>) query.list();
+        try {
+            Query query = getSessionFactory().getCurrentSession().createSQLQuery(q)
+                    .setResultTransformer(Transformers.aliasToBean(CallTO.class));
+            return (List<CallTO>) query.list();
+        }catch(SQLGrammarException e){
+            log.error(e + " method = getCallByNumberA");
+            return new ArrayList<>();
+        }
     }
 
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk) {
@@ -180,4 +193,5 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                         "order by c.id");
         return (List<Integer>)q.list();
     }
+
 }

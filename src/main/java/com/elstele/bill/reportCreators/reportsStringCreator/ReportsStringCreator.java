@@ -1,6 +1,7 @@
 package com.elstele.bill.reportCreators.reportsStringCreator;
 
 import com.elstele.bill.utils.CallTO;
+import org.apache.logging.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,11 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 public class ReportsStringCreator {
-    private  Double costTotalForThisNumber = 0.0;
+    private Double costTotalForThisNumber = 0.0;
     private static List<String> stringList = new ArrayList<>();
+    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(ReportsStringCreator.class);
 
 
-    public  List<String> stringCreate(String numberA, List<CallTO> callListByNumberA){
+    public List<String> stringCreate(String numberA, List<CallTO> callListByNumberA) {
         header(numberA);
         callData(callListByNumberA);
         footerCreate();
@@ -21,7 +23,7 @@ public class ReportsStringCreator {
 
     }
 
-    public  void header(String numberA){
+    public void header(String numberA) {
         String numberAShort = numberA.substring(1, numberA.length());
         String firstString;
         firstString = "Номер телефона, с которого звонили: " + numberAShort;
@@ -38,24 +40,28 @@ public class ReportsStringCreator {
         stringList.add(firstString);
     }
 
-    public  void callData(List<CallTO> callListByNumberA){
-        for (CallTO callTO : callListByNumberA) {
-            String numberB = callTO.getNumberb();
-            String duration = callTO.getDuration().toString();
-            String dirPrefix = callTO.getPrefix();
-            String descrOrg = callTO.getDescription();
-            Double costTotal = (double) callTO.getCosttotal();
-            Date startTimeVal = callTO.getStarttime();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            String reportDate = df.format(startTimeVal);
-            String shortNumberB = callTO.getNumberb().substring(dirPrefix.length(), numberB.length());
-            String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
-            stringList.add(result);
-            costTotalForThisNumber += costTotal;
+    public void callData(List<CallTO> callListByNumberA) {
+        try {
+            for (CallTO callTO : callListByNumberA) {
+                String numberB = callTO.getNumberb();
+                String duration = callTO.getDuration().toString();
+                String dirPrefix = callTO.getPrefix();
+                String descrOrg = callTO.getDescription();
+                Double costTotal = (double) callTO.getCosttotal();
+                Date startTimeVal = callTO.getStarttime();
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                String reportDate = df.format(startTimeVal);
+                String shortNumberB = callTO.getNumberb().substring(dirPrefix.length(), numberB.length());
+                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                stringList.add(result);
+                costTotalForThisNumber += costTotal;
+            }
+        } catch (Exception e) {
+            log.error(e + " Method  = callData ");
         }
     }
 
-    private  void footerCreate(){
+    private void footerCreate() {
         String firstString;
         firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
         stringList.add(firstString);
@@ -73,10 +79,15 @@ public class ReportsStringCreator {
     }
 
     public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
+        try {
+            if (places < 0) throw new IllegalArgumentException();
+            long factor = (long) Math.pow(10, places);
+            value = value * factor;
+            long tmp = Math.round(value);
+            return (double) tmp / factor;
+        } catch (IllegalArgumentException e) {
+            log.error(e + "Method = round ");
+            return 0.0;
+        }
     }
 }

@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/test-servlet-context.xml")
+@ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
