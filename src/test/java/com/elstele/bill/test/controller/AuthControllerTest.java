@@ -77,8 +77,8 @@ public class AuthControllerTest {
 
         this.mockMvc.perform(post("/login")
                 .session(mockSession)
-                .param("userName", "testUser")
-                .param("userPass", "qwerty")
+                .param("username", "testUser")
+                .param("password", "qwerty")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("main"))
