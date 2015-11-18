@@ -123,9 +123,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         if (persistentObject != null) {
             persistentObject.setStatus(Status.DELETED);
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
-
         }
-
     }
 }
 

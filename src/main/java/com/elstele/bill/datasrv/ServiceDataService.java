@@ -9,9 +9,11 @@ public interface ServiceDataService {
 
     public String saveService(ServiceForm form);
     public void deleteService(Integer id);
-    public ServiceForm getServiceFormById(Integer id);
+    public ServiceForm getServiceFormById(Integer serviceId);
+    public Integer getCurrentIpAddress (ServiceForm serviceForm);
+    public Integer getCurrentIpAddressByServiceFormId(Integer serviceFormId);
+    public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId);
     public Service getServiceBeanById(Integer id);
-    public void changeIpAddressIfNeed (Service service, ServiceForm form);
     public List<Service> listServices();
 
 }

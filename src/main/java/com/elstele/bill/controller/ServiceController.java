@@ -45,7 +45,7 @@ public class ServiceController {
     private DeviceDataService deviceDataService;
 
     @RequestMapping(value="/service/account/{accountId}/{accountServiceId}/delete", method = RequestMethod.GET)
-    public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId, HttpServletRequest request) {
+    public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId) {
         serviceDataService.deleteService(accountServiceId);
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(accountId);
@@ -88,34 +88,24 @@ public class ServiceController {
 
     @RequestMapping(value="/getIpAddressList/{idObj}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json, @PathVariable("idObj") Integer idObj, HttpServletResponse response, HttpServletRequest request){
+    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json, @PathVariable("idObj") Integer idObj){
         Integer idSubNet = Integer.parseInt(json);
-        Integer currIpAddressId = -1;
-        if(idObj>0){
-            ServiceForm serv = serviceDataService.getServiceFormById(idObj);
-            currIpAddressId = serv.getServiceInternet().getIp().getId();
-        }
+        Integer currIpAddressId = serviceDataService.getCurrentIpAddressByServiceFormId(idObj);
         List<IpForm> ipFormsList = ipDataService.getBySubnetId( idSubNet );
-        Map<Integer, String> ipMap= new LinkedHashMap<Integer, String>();
+        Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipFormsList){
             if (ipForm.getIpStatus() != IpStatus.USED  ||  (ipForm.getId()==currIpAddressId) )
-            ipMap.put(ipForm.getId(), ipForm.getIpName());
+                ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
     }
 
     @RequestMapping(value="/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)
     @ResponseBody
-    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("serviceId") Integer serviceId, HttpServletResponse response, HttpServletRequest request){
+    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("serviceId") Integer serviceId){
         Integer deviceId = Integer.parseInt(json);
         List<Integer> deviceFreePortList = deviceDataService.getDeviceFreePorts(deviceId);
-
-        // Add Current Port to List
-        if(serviceId>0){
-            ServiceForm serviseForm = serviceDataService.getServiceFormById(serviceId);
-            if( deviceId.equals(serviseForm.getServiceInternet().getDevice().getId()) )
-                deviceFreePortList.add(0,serviseForm.getServiceInternet().getPort());
-        }
+        deviceFreePortList = serviceDataService.addCurrentDevicePortToList(deviceFreePortList,serviceId,deviceId);
         return deviceFreePortList;
     }
 
@@ -123,13 +113,10 @@ public class ServiceController {
     @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/modify", method = RequestMethod.GET)
     public String serviceModify(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId, HttpSession session, Map<String, Object> map) {
         List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
-        ServiceForm form = new ServiceForm();
-        Integer idCurrentIpAddress = 0;
-        if (accountServiceId != 0) {
-            form = serviceDataService.getServiceFormById(accountServiceId);
-            idCurrentIpAddress = form.getServiceInternet().getIp().getId();
-        }
+        ServiceForm form = serviceDataService.getServiceFormById(accountServiceId);
         form.setAccountId(accountId);
+        Integer idCurrentIpAddress = serviceDataService.getCurrentIpAddress(form);
+
         map.put("serviceForm", form);
         map.put("account", accountDataService.getAccountById(accountId));
         map.put("servicePeriodList", period);

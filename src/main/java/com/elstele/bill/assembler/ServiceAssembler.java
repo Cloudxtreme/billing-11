@@ -1,36 +1,83 @@
 package com.elstele.bill.assembler;
-import com.elstele.bill.dao.DeviceTypesDAO;
-import com.elstele.bill.dao.IpDAO;
-import com.elstele.bill.datasrv.DeviceDataService;
-import com.elstele.bill.datasrv.DeviceTypesDataService;
+import com.elstele.bill.dao.AccountDAO;
+import com.elstele.bill.dao.ServiceDAO;
+import com.elstele.bill.dao.ServiceTypeDAO;
 import com.elstele.bill.datasrv.IpDataService;
 import com.elstele.bill.domain.*;
+import com.elstele.bill.domain.Service;
 import com.elstele.bill.form.*;
+import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.*;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
+@org.springframework.stereotype.Service
 public class ServiceAssembler{
-
-    @Autowired
-    private DeviceDataService deviceDataService;
-
-    @Autowired
-    private DeviceTypesDataService deviceTypesDataService;
 
     @Autowired
     private IpDataService ipDataService;
 
     @Autowired
-    private DeviceTypesDAO deviceTypesDAO;
+    private ServiceDAO serviceDAO;
 
     @Autowired
-    private IpDAO ipDAO;
+    private ServiceTypeDAO serviceTypeDAO;
+
+    @Autowired
+    private AccountDAO accountDAO;
 
 
     String[] propsToSkip = {"serviceInternet", "servicePhone","serviceType"};
     String[] propsToSkipInternetSrv = {"device"};
+
+    public ServiceForm getServiceFormByBean (Service serviceBean){
+        ServiceForm serviceForm = null;
+        if (serviceBean != null){
+            if (serviceBean instanceof ServiceInternet) {
+                serviceForm = fromInternetBeanToForm((ServiceInternet)serviceBean);
+            }
+            else if (serviceBean instanceof ServicePhone) {
+                serviceForm = fromPhoneBeanToForm((ServicePhone)serviceBean);
+            }
+            else if (serviceBean instanceof Service) {
+                serviceForm = fromServiceBeanToForm(serviceBean);
+            }
+        }
+        return serviceForm;
+    }
+
+    public Service getServiceBeanByForm(ServiceForm serviceForm){
+        Service service = null;
+        ServiceType servType = serviceTypeDAO.getById(serviceForm.getServiceType().getId());
+        if (("internet").equals(servType.getServiceType())) {
+            if (!serviceForm.isNew()) {
+                service = serviceDAO.getById(serviceForm.getId());
+                if (serviceForm.getServiceInternet().getIp().getId() != ((ServiceInternet) service).getIpAddress().getId()) {
+                    ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
+                    ipDataService.setStatus(serviceForm.getServiceInternet().getIp().getId(), IpStatus.USED);
+                }
+            } else {
+                service = new ServiceInternet();
+                ipDataService.setStatus(serviceForm.getServiceInternet().getIp().getId(), IpStatus.USED);
+            }
+            service = fromFormToInternetBean(serviceForm, (ServiceInternet) service);
+        }
+        else if (("phone").equals(servType.getServiceType())) {
+            service = fromFormToPhoneBean(serviceForm);
+        }
+        else if (("marker").equals(servType.getServiceType())) {
+            service = fromFormToServiceBean(serviceForm);
+        }
+
+        if (service != null) {
+            service.setAccount(accountDAO.getById(serviceForm.getAccountId()));
+            service.setServiceType(servType);
+        }
+        return service;
+    }
+
 
     public ServiceForm fromServiceBeanToForm(Service bean){
         ServiceForm form = new ServiceForm();

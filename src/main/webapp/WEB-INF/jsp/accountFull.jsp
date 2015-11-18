@@ -27,7 +27,7 @@
 
 <div class="well">
         <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
-        <a href="${pageContext.request.contextPath}/transaction/${id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
+        <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
 
     <div id="accountMainDetail">
         <form:form class="form-horizontal" id="fullAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/save.html">
