@@ -1,9 +1,7 @@
 package com.elstele.bill.datasrv;
 
 import com.elstele.bill.assembler.ServiceAssembler;
-import com.elstele.bill.dao.AccountDAO;
 import com.elstele.bill.dao.ServiceDAO;
-import com.elstele.bill.dao.ServiceTypeDAO;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.utils.IpStatus;
@@ -41,14 +39,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     public String saveService(ServiceForm form) {
         Service service = serviceAssembler.getServiceBeanByForm(form);
         return serviceDAO.saveService(service, form.isNew());
-    }
-
-    @Transactional
-    private void changeIpAddressIfNeed(Service service, ServiceForm form) {
-        if (form.getServiceInternet().getIp().getId() != ((ServiceInternet) service).getIpAddress().getId()) {
-            ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
-            ipDataService.setStatus(form.getServiceInternet().getIp().getId(), IpStatus.USED);
-        }
     }
 
     @Override

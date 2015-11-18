@@ -9,7 +9,6 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -63,6 +62,7 @@ public class ServiceAssembler{
                 ipDataService.setStatus(serviceForm.getServiceInternet().getIp().getId(), IpStatus.USED);
             }
             service = fromFormToInternetBean(serviceForm, (ServiceInternet) service);
+            changeIpAddressIfNeed(service,serviceForm);
         }
         else if (("phone").equals(servType.getServiceType())) {
             service = fromFormToPhoneBean(serviceForm);
@@ -78,6 +78,12 @@ public class ServiceAssembler{
         return service;
     }
 
+    private void changeIpAddressIfNeed(Service service, ServiceForm form) {
+        if (form.getServiceInternet().getIp().getId() != ((ServiceInternet) service).getIpAddress().getId()) {
+            ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
+            ipDataService.setStatus(form.getServiceInternet().getIp().getId(), IpStatus.USED);
+        }
+    }
 
     public ServiceForm fromServiceBeanToForm(Service bean){
         ServiceForm form = new ServiceForm();
