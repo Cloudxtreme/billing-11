@@ -49,9 +49,9 @@ public class AddressForm {
         AddressForm that = (AddressForm) o;
 
         if (id != that.id) return false;
-        if (!building.equals(that.building)) return false;
+        if (building != null ? !building.equals(that.building) : that.building != null) return false;
         if (flat != null ? !flat.equals(that.flat) : that.flat != null) return false;
-        if (!street.equals(that.street)) return false;
+        if (street != null ? !street.equals(that.street) : that.street != null) return false;
 
         return true;
     }

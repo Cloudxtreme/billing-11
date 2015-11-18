@@ -115,7 +115,7 @@ public class CallDataServiceImpl implements CallDataService {
     @Transactional
     public List<String> getYearsList() {
         List<String> yearsList = callDAO.getYearsList();
-        List<String> modifiedYearsList = new ArrayList<>();
+        List<String> modifiedYearsList = new ArrayList<String>();
         for(String yearStr : yearsList){
             String modifiedYearStr = yearStr.substring(0, 4);
             modifiedYearsList.add(modifiedYearStr);

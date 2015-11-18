@@ -77,4 +77,10 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+        <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
+    </bean>
+
+    <bean id="ctx" class="org.springframework.mock.web.MockServletContext"/>
+
 </beans>
