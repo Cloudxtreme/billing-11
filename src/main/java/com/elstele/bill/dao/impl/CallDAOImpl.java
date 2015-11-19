@@ -176,14 +176,17 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
 
     public List<String> getYearsList() {
         try {
-            SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) as YEAR from calls ORDER BY DATE_PART('year', starttime)")
-                    .addScalar("YEAR", new StringType());
-            List<String> result = (List<String>)query.list();
+            SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) from calls ORDER BY DATE_PART('year', starttime)");
+            List listWithResult = query.list();
+            List<String> result = new ArrayList<String>();
+            for(Object object : listWithResult){
+                result.add(object.toString());
+            }
             log.info("Date selecting from DB is successed");
             return result;
         }catch(SQLGrammarException e){
             log.error(e);
-            return new ArrayList<>();
+            return new ArrayList<String>();
         }
     }
 
