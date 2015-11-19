@@ -66,25 +66,25 @@ public class AuthControllerTest {
     }
 
     @Test
-     public void loginPageResponseValidUser() throws Exception {
+    public void loginPageResponseValidUser() throws Exception {
         LocalUser lu = new LocalUser();
         lu.setUsername("testUser");
         lu.setPassword("qwerty");
         lu.setId(1);
 
         when(localUserDataService.isCredentialValid("testUser", "qwerty")).thenReturn(true);
-        when(localUserDataService.getUserByNameAndPass("testUser","qwerty")).thenReturn(lu);
+        when(localUserDataService.getUserByNameAndPass("testUser", "qwerty")).thenReturn(lu);
 
         this.mockMvc.perform(post("/login")
                 .session(mockSession)
-                .param("userName", "testUser")
-                .param("userPass", "qwerty")
+                .param("username", "testUser")
+                .param("password", "qwerty")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("main"))
                 .andExpect(forwardedUrl("main"))
                 .andExpect(request().sessionAttribute(LOCAL_USER, notNullValue()));
-                //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
+        //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
     }
 
     @Test

@@ -15,18 +15,23 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportDataServiceTest {
-    @Mock
-    ReportCreatorFactory factory;
-    ReportDetails reportDetails;
+
+    private ReportCreatorFactory factory;
+    private ReportDetails reportDetails;
+
     @InjectMocks
     private ReportDataServiceImpl reportDataService;
 
     @Before
-    public void fullReportDetails(){
+    public void fullReportDetails() {
+        factory  = new ReportCreatorFactory();
+        reportDetails = new ReportDetails();
         reportDetails.setMonth("01");
         reportDetails.setPath("resources\\files\\csvFiles");
         reportDetails.setReportName("longReport");
@@ -46,10 +51,9 @@ public class ReportDataServiceTest {
     }
 
     @After
-    public void eraseDataFromReportDetails(){
+    public void eraseDataFromReportDetails() {
         reportDetails = null;
     }
-
 
 
 }

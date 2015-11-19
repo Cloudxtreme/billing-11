@@ -20,28 +20,25 @@ import static org.junit.Assert.*;
 public class ReportFactoryTest {
 
     private String reportName;
-    private ReportCreator expectedCreator;
-    static CallDataService callDataService = new CallDataServiceImpl();
     ReportCreatorFactory reportCreatorFactory = new ReportCreatorFactory();
 
-    public ReportFactoryTest(String reportName, ReportCreator expectedCreator) {
+    public ReportFactoryTest(String reportName) {
         this.reportName = reportName;
-        this.expectedCreator = expectedCreator;
     }
 
     @Parameterized.Parameters
     public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][]{
-                {"longReport", new LongGeneralReportCreatorImpl(callDataService)},
-                {"shortReport", new ShortGeneralReportCreatorImpl(callDataService)},
-                {"IncorrectData", null},
-                {"IncorrectData2", null}
+                {"longReport"},
+                {"shortReport"},
+                {"longReportRA"},
+                {"localCallsMainReport"}
         });
     }
 
     @Test
     public void factoryCreateTest() throws IncorrectReportNameException {
         ReportCreator reportCreator = reportCreatorFactory.getCreator(reportName);
-        assertEquals(expectedCreator, reportCreator);
+        assertNotNull(reportCreator);
     }
 }
