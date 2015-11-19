@@ -13,7 +13,6 @@ public interface ServiceDataService {
     public Integer getCurrentIpAddress (ServiceForm serviceForm);
     public Integer getCurrentIpAddressByServiceFormId(Integer serviceFormId);
     public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId);
-    public Service getServiceBeanById(Integer id);
     public List<Service> listServices();
 
 }

@@ -4,7 +4,6 @@ import com.elstele.bill.assembler.ServiceAssembler;
 import com.elstele.bill.dao.ServiceDAO;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.ServiceForm;
-import com.elstele.bill.utils.IpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +17,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
 
     @Autowired
     private ServiceAssembler serviceAssembler;
-
-    @Autowired
-    private IpDataService ipDataService;
 
     @Override
     @Transactional
@@ -50,12 +46,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
             serviceForm = serviceAssembler.getServiceFormByBean(serviceBean);
         }
         return serviceForm;
-    }
-
-    @Override
-    @Transactional
-    public Service getServiceBeanById(Integer id) {
-        return serviceDAO.getById(id);
     }
 
     @Override
