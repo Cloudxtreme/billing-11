@@ -41,12 +41,6 @@ public class HandleKDFController {
 
     float progress;
 
-
-
-
-
-
-
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
     public ModelAndView addLoadedFiles() {
         List<UploadedFileInfoForm> uploadedFileInfoForms;
@@ -102,20 +96,17 @@ public class HandleKDFController {
         }
         for (String str : json) {
             UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(str));
-            InputStream fs = null;
             byte[] buffer = new byte[32];
             int count = 0;
             int len;
-            long total = 0;
             try {
-                fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
+                InputStream fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
                 String flagString = "";
                 String yearFromFileName = "20" + uploadedFileInfoForm.getPath().substring(0, 2);
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
                 do {
                     len = fs.read(buffer);
 
-                    //Parse byte packet to string hex
                     char[] hexChars = new char[buffer.length * 2];
                     for (int j = 0; j < buffer.length; j++) {
                         int v = buffer[j] & 0xFF;
@@ -125,11 +116,11 @@ public class HandleKDFController {
 
                     String tempStrHEX = new String(hexChars);
                     String numberA = tempStrHEX.substring(5, 12);
-                    String numberB = "";
-                    String startTime = "";
-                    Long duration = null;
-                    String dvoCodeA = "";
-                    String dvoCodeB = "";
+                    String numberB ;
+                    String startTime;
+                    Long duration;
+                    String dvoCodeA;
+                    String dvoCodeB;
 
 
                     if (tempStrHEX.startsWith("A54C") && !numberA.equalsIgnoreCase("0000000")) {
@@ -195,12 +186,8 @@ public class HandleKDFController {
                         callDataService.addCalls(callForm);
                     }
                     count++;
-
                     progress = (((count * 32) / (float) (uploadedFileInfoForm.getFileSize() * 1.0)) * 100);
-
-
                 } while (len != -1);
-
                 fs.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
