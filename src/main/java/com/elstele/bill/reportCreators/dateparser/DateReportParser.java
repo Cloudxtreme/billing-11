@@ -16,7 +16,7 @@ public class DateReportParser {
 
     public static Date parseEndTime(ReportDetails reportDetails) {
         Integer yearInt = Integer.parseInt(reportDetails.getYear());
-        Integer monthInt = Integer.parseInt(reportDetails.getMonth());
+        Integer monthInt = Integer.parseInt(reportDetails.getMonth()) - 1;
         Integer startDayInt = Integer.parseInt(ReportConstants.START_DAY);
         Calendar calendar = new GregorianCalendar(yearInt, monthInt, startDayInt);
         calendar.set(Calendar.YEAR, yearInt);

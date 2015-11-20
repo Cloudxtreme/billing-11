@@ -11,15 +11,15 @@ public class FileCreator {
 
     public static PrintStream createFileForWriting(ReportDetails reportDetails) {
         createMainFolder(reportDetails.getPath());
-        String pathDir = createFolderWithDate(reportDetails.getPath(), reportDetails.getYear(), reportDetails.getMonth());
+        String pathDir = createFolderWithDate(reportDetails);
         File file = new File(pathDir + File.separator + reportDetails.getYear() + "-" + reportDetails.getMonth() + "_" + reportDetails.getReportName() + ".txt");
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            PrintStream bw = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
+            PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
             log.info("File " + file.getName() + " is successful created for writing");
-            return bw;
+            return ps;
         } catch (IOException e) {
             log.error(e  + " Method = createFileForWriting");
             return null;
@@ -42,8 +42,8 @@ public class FileCreator {
         }
     }
 
-    public static String createFolderWithDate(String path, String year, String month) {
-        File directory = new File(path + File.separator + year + "-" + month);
+    public static String createFolderWithDate(ReportDetails reportDetails) {
+        File directory = new File(reportDetails.getPath() + File.separator + reportDetails.getYear() + "-" + reportDetails.getMonth());
         if (!directory.exists()) {
             boolean fileMet = false;
             try {

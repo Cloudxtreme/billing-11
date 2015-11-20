@@ -2,68 +2,51 @@ package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
 import com.elstele.bill.domain.CallForCSV;
+import com.elstele.bill.reportCreators.CostTotalCounter;
+import com.elstele.bill.reportCreators.FileCreator;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
-import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
+import com.elstele.bill.reportCreators.reportStringsWriter.ReportStringsWriter;
+import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.Date;
 import java.util.List;
 
-public class ShortGeneralReportRECreatorImpl extends GeneralReportCreator implements ReportCreator {
+public class ShortGeneralReportRECreatorImpl implements ReportCreator {
 
     private CallForCSVDataService callForCSVDataService;
+    final public static Logger log = LogManager.getLogger(ShortGeneralReportRECreatorImpl.class);
 
     public ShortGeneralReportRECreatorImpl(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
     }
 
     public void create(ReportDetails reportDetails) {
-        PrintStream bw = createFileForWriting(reportDetails);
-        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
-    }
+        Double costTotalForPeriod = 0.0;
+        Date startTime = DateReportParser.parseStartTime(reportDetails);
+        Date endTime = DateReportParser.parseEndTime(reportDetails);
 
-    public void filePrintingCreate(PrintStream bw, String year, String month) {
-        try {
-            Double costTotalForPeriod = 0.0;
-            List<String> listWithNumberA = getUniqueNumbersA(year, month);
-            for (String numberA : listWithNumberA) {
-                List<CallForCSV> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
-                Double costTotalForThisNumber = 0.0;
-                costTotalForThisNumber = costTotalForThisNumberOperation(callsListByNumberA);
-                costTotalForPeriod += costTotalForThisNumber;
-                String firstString = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
-                bw.println(firstString);
-            }
-            String firstString = "Общая стоимость переговоров -  " + round(costTotalForPeriod, 2) + " грн";
-            bw.println(firstString);
-            bw.close();
-            log.info("Report generating is Done");
-        } catch (Exception e) {
-            log.error(e);
-        }
-    }
-
-    public List<CallForCSV> getCallsFromDBByNumbersA(String numberA, String year, String month) {
-        Date endTime = getEndTimeDate(year, month);
-        Date startTime = getStartTimeDate(year, month);
-        List<CallForCSV> result = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
-        return result;
-    }
-
-    public List<String> getUniqueNumbersA(String year, String month) {
-        Date endTime = getEndTimeDate(year, month);
-        Date startTime = getStartTimeDate(year, month);
         List<String> listWithNumberA = callForCSVDataService.getUniqueNumberA(startTime, endTime);
-        return listWithNumberA;
-    }
+        PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        for (String numberA : listWithNumberA) {
+            List<CallForCSV> callsListByNumberA = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
+            ReportStringCreator stringCreator = new ReportStringCreator();
+            List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA);
 
-    public Double costTotalForThisNumberOperation(List<CallForCSV> callListByNumberA) {
-        Double costTotalForThisNumber = 0.0;
-        for (CallForCSV callForCSV : callListByNumberA) {
-            Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
-            costTotalForThisNumber += costTotal;
+            ReportStringsWriter.write(stringList, ps);
+            CostTotalCounter costTotalCounter = new CostTotalCounter();
+            costTotalForPeriod += costTotalCounter.countForCSV(callsListByNumberA);
         }
-        return costTotalForThisNumber;
+        String footerString = "Общая стоимость переговоров -  " + ReportStringCreator.round(costTotalForPeriod, 2) + " грн";
+        if (ps != null) {
+            ps.println(footerString);
+            ps.close();
+        }
+        log.info("Report generating is Done");
+
     }
 }

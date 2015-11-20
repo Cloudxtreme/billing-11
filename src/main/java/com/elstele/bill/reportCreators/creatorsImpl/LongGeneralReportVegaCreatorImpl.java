@@ -1,88 +1,51 @@
 package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.reportCreators.CostTotalCounter;
+import com.elstele.bill.reportCreators.FileCreator;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
-import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
+import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
+import com.elstele.bill.reportCreators.reportStringsWriter.ReportStringsWriter;
+import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
 import com.elstele.bill.utils.CallTO;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class LongGeneralReportVegaCreatorImpl extends GeneralReportCreator implements ReportCreator {
+public class LongGeneralReportVegaCreatorImpl implements ReportCreator {
 
     private CallDataService callDataService;
+    final public static Logger log = LogManager.getLogger(LongGeneralReportVegaCreatorImpl.class);
 
     public LongGeneralReportVegaCreatorImpl(CallDataService callDataService) {
         this.callDataService = callDataService;
     }
 
     public void create(ReportDetails reportDetails) {
-        PrintStream bw = createFileForWriting(reportDetails);
-        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
-    }
+        Double costTotalForPeriod = 0.0;
+        Date startTime = DateReportParser.parseStartTime(reportDetails);
+        Date endTime = DateReportParser.parseEndTime(reportDetails);
 
-    public void filePrintingCreate(PrintStream bw, String year, String month) {
-        try {
-            Double costTotalForPeriod = 0.0;
-            List<String> listWithNumberA = getUniqueNumbersA(year, month);
-            for (String numberA : listWithNumberA) {
-                List<CallTO> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
-                mainHeaderPrint(bw, numberA);
-                Double costTotalForThisNumber = 0.0;
-                costTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
-                costTotalForPeriod = endOfTheHeaderPrint(bw, costTotalForPeriod, costTotalForThisNumber);
-            }
-            String firstString = " Итого " + round(costTotalForPeriod, 2);
-            bw.println(firstString);
-            bw.close();
-            log.info("Report generating is Done");
-        } catch (Exception e) {
-            log.error(e);
+        List<String> listWithNumberA = callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, ReportConstants.OUTPUT_TRUNK);
+        PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        for (String numberA : listWithNumberA) {
+            List<CallTO> callsListByNumberA = callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, ReportConstants.OUTPUT_TRUNK);
+            ReportStringCreator stringCreator = new ReportStringCreator();
+            List<String> stringList = stringCreator.createCallTOStrings(numberA, callsListByNumberA);
+            ReportStringsWriter.write(stringList, ps);
+            CostTotalCounter costTotalCounter = new CostTotalCounter();
+            costTotalForPeriod += costTotalCounter.countForTO(callsListByNumberA);
         }
-    }
-
-    public List<String> getUniqueNumbersA(String year, String month) {
-        Date endTime = getEndTimeDate(year, month);
-        Date startTime = getStartTimeDate(year, month);
-        return callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, "05");
-    }
-
-    public List<CallTO> getCallsFromDBByNumbersA(String numberA, String year, String month) {
-        Date endTime = getEndTimeDate(year, month);
-        Date startTime = getStartTimeDate(year, month);
-        return callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, "05");
-    }
-
-    public Double callDataPrint(PrintStream bw, List<CallTO> callListByNumberA) {
-        Double costTotalForThisNumber = 0.0;
-
-        for (CallTO call : callListByNumberA) {
-            String numberB = call.getNumberb();
-            String duration = call.getDuration().toString();
-            String dirPrefix = call.getPrefix();
-            String descrOrg = call.getDescription();
-            Double costTotal = (double) call.getCosttotal();
-            Date startTimeVal = call.getStarttime();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            String reportDate = df.format(startTimeVal);
-            String shortNumberB = call.getNumberb().substring(dirPrefix.length(), numberB.length());
-            bw.printf("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n",
-                    reportDate,
-                    duration,
-                    dirPrefix,
-                    shortNumberB,
-                    descrOrg,
-                    costTotal
-            );
-
-            costTotalForThisNumber += costTotal;
+        String footerString = " Итого " + ReportStringCreator.round(costTotalForPeriod, 2);
+        if (ps != null) {
+            ps.println(footerString);
+            ps.close();
         }
-        return costTotalForThisNumber;
+        log.info("Report generating is Done");
     }
-
-
 }

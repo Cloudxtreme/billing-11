@@ -46,11 +46,11 @@ public class ReportCreatorFactory {
                 break;
             }
             case "shortReportRE": {
-                reportCreator = new ShortGeneralReportREVegaCreatorImpl(callForCSVDataService);
+                reportCreator = new ShortGeneralReportRECreatorImpl(callForCSVDataService);
                 break;
             }
             case "shortReportREUkrTel": {
-                reportCreator = new ShortGeneralReportREVegaCreatorImpl(callForCSVDataService);
+                reportCreator = new ShortGeneralReportREUkrTelCreatorImpl(callForCSVDataService);
                 break;
             }
             case "shortReportREVega": {

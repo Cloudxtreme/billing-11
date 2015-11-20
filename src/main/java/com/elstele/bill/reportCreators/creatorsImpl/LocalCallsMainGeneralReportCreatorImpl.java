@@ -2,50 +2,52 @@ package com.elstele.bill.reportCreators.creatorsImpl;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.domain.Call;
+import com.elstele.bill.reportCreators.CostTotalCounter;
+import com.elstele.bill.reportCreators.FileCreator;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
+import com.elstele.bill.reportCreators.reportStringsWriter.ReportStringsWriter;
+import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.List;
 
-public class LocalCallsMainGeneralReportCreatorImpl extends LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
+public class LocalCallsMainGeneralReportCreatorImpl implements ReportCreator {
+
+    final public static Logger log = LogManager.getLogger(LocalCallsDetailGeneralReportCreatorImpl.class);
+    private CallDataService callDataService;
 
     public LocalCallsMainGeneralReportCreatorImpl(CallDataService callDataService) {
-        super(callDataService);
+        this.callDataService = callDataService;
     }
 
     public void create(ReportDetails reportDetails) {
-        PrintStream bw = createFileForWriting(reportDetails);
-        filePrintingCreate(bw, reportDetails.getYear(), reportDetails.getMonth());
+        Double durationTotalForPeriod = 0.0;
+        Integer strIndex = 0;
+        Date startTime = DateReportParser.parseStartTime(reportDetails);
+        Date endTime = DateReportParser.parseEndTime(reportDetails);
+
+        List<String> listWithNumberA = callDataService.getUniqueLocalNumberAFromCalls(startTime, endTime);
+        PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        for (String numberA : listWithNumberA) {
+            strIndex++;
+            List<Call> callsListByNumberA = callDataService.getLocalCalls(numberA, startTime, endTime);
+            ReportStringCreator stringCreator = new ReportStringCreator();
+            List<String> stringList = stringCreator.createCallStringsShort(numberA, callsListByNumberA, strIndex);
+            ReportStringsWriter.write(stringList, ps);
+            CostTotalCounter costTotalCounter = new CostTotalCounter();
+            durationTotalForPeriod += costTotalCounter.countForCall(callsListByNumberA);
+        }
+        String footerString = " Общая длительность переговоров- " + ReportStringCreator.round(durationTotalForPeriod, 2) + " секунд";
+        if (ps != null) {
+            ps.println(footerString);
+            ps.close();
+        }
+        log.info("Report generating is Done");
     }
 
-    public void filePrintingCreate(PrintStream bw, String year, String month) {
-        try {
-            Double totalCallDuration = 0.0;
-            List<String> listWithNumberA = getUniqueNumbersA(year, month);
-            Integer strIndex = 0;
-            for (String numberA : listWithNumberA) {
-                List<Call> callsListByNumberA = getCallsFromDBByNumbersA(numberA, year, month);
-                Double callDurationTotalForThisNumber = callDataPrint(bw, callsListByNumberA);
-                strIndex++;
-                String strForPrint = strIndex + " " + numberA.substring(1, numberA.length()) + " " + round(callDurationTotalForThisNumber, 2) + " секунд";
-                bw.println(strForPrint);
-                totalCallDuration += callDurationTotalForThisNumber;
-            }
-            String firstString = " Общая длительность переговоров- " + round(totalCallDuration, 2) + " секунд";
-            bw.println(firstString);
-            bw.close();
-            log.info("Report generating is Done");
-        } catch (Exception e) {
-            log.error(e);
-        }
-    }
-
-    public Double callDataPrint(PrintStream bw, List<Call> callListByNumberA) {
-        Double callDurationTotalForThisNumber = 0.0;
-        for (Call call : callListByNumberA) {
-            callDurationTotalForThisNumber += call.getDuration();
-        }
-        return callDurationTotalForThisNumber;
-    }
 }

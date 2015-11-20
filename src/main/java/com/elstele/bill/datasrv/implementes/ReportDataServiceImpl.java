@@ -4,7 +4,6 @@ import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.utils.ResponseToAjax;
 import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +21,7 @@ public class ReportDataServiceImpl implements ReportDataService {
     @Autowired
     ReportCreatorFactory factory;
 
-    final static Logger log = LogManager.getLogger(GeneralReportCreator.class);
+    final static Logger log = LogManager.getLogger(ReportDataServiceImpl.class);
 
 
     @Override

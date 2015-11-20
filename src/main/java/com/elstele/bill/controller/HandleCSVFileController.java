@@ -55,7 +55,7 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax generateAndDownloadReport(@RequestBody String[] json) throws IOException, IncorrectReportNameException {
+    public ResponseToAjax generateReport(@RequestBody String[] json) throws IOException, IncorrectReportNameException {
         if(json == null)throw  new ResourceNotFoundException();
         return  reportDataService.createReport(json);
     }

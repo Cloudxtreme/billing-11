@@ -1,5 +1,6 @@
 package com.elstele.bill.reportCreators;
 
+import com.elstele.bill.domain.Call;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.utils.CallTO;
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class CostTotalCounter {
-    private Double costTotalForThisNumber = 0.0;
+    private Double costTotalForPeriod = 0.0;
+    private Double totalLocalCallsCost = 0.0;
     final public static Logger log = LogManager.getLogger(CostTotalCounter.class);
 
 
@@ -16,12 +18,12 @@ public class CostTotalCounter {
         try {
             for (CallTO callTO : callsListByNumberA) {
                 Double costTotal = (double) callTO.getCosttotal();
-                costTotalForThisNumber += costTotal;
+                costTotalForPeriod += costTotal;
             }
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         } catch (RuntimeException e) {
             log.error(e + " Method = countForTO");
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         }
     }
 
@@ -29,26 +31,42 @@ public class CostTotalCounter {
         try {
             for (CallForCSV callForCSV : callForCSVByNumberA) {
                 Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
-                costTotalForThisNumber += costTotal;
+                costTotalForPeriod += costTotal;
             }
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         } catch (RuntimeException e) {
             log.error(e + " Method = countForTO");
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         }
     }
 
-
-    public Double costTotalForThisNumberOperation(List<CallForCSV> callListByNumberA) {
+    public Double countForCall(List<Call> callForCSVByNumberA) {
         try {
-            for (CallForCSV callForCSV : callListByNumberA) {
-                Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
-                costTotalForThisNumber += costTotal;
+            for (Call call : callForCSVByNumberA) {
+                costTotalForPeriod += call.getDuration();
             }
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         } catch (RuntimeException e) {
             log.error(e + " Method = countForTO");
-            return costTotalForThisNumber;
+            return costTotalForPeriod;
         }
     }
+
+    public Double countLocalForCall(List<Call> callForCSVByNumberA) {
+        try {
+            for (Call call : callForCSVByNumberA) {
+                costTotalForPeriod += call.getDuration();
+            }
+            if (costTotalForPeriod > 36000) {
+                totalLocalCallsCost = (costTotalForPeriod - 36000) * 0.0009;
+            }
+            return totalLocalCallsCost;
+        } catch (RuntimeException e) {
+            log.error(e + " Method = countForTO");
+            return costTotalForPeriod;
+        }
+    }
+
+
+
 }

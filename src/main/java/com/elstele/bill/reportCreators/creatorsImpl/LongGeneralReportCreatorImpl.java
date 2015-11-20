@@ -5,9 +5,8 @@ import com.elstele.bill.reportCreators.CostTotalCounter;
 import com.elstele.bill.reportCreators.FileCreator;
 import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
-import com.elstele.bill.reportCreators.reportParent.GeneralReportCreator;
 import com.elstele.bill.reportCreators.reportStringsWriter.ReportStringsWriter;
-import com.elstele.bill.reportCreators.reportsStringCreator.ReportsStringCreator;
+import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
 import com.elstele.bill.utils.CallTO;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class LongGeneralReportCreatorImpl extends GeneralReportCreator implements ReportCreator {
+public class LongGeneralReportCreatorImpl implements ReportCreator {
 
     final public static Logger log = LogManager.getLogger(LongGeneralReportCreatorImpl.class);
     private CallDataService callDataService;
@@ -36,15 +35,15 @@ public class LongGeneralReportCreatorImpl extends GeneralReportCreator implement
         PrintStream ps = FileCreator.createFileForWriting(reportDetails);
         for (String numberA : listWithNumberA) {
             List<CallTO> callsListByNumberA = callDataService.getCallByNumberA(numberA, startTime, endTime);
-            ReportsStringCreator stringCreator = new ReportsStringCreator();
-            List<String> stringList = stringCreator.stringCreate(numberA, callsListByNumberA);
+            ReportStringCreator stringCreator = new ReportStringCreator();
+            List<String> stringList = stringCreator.createCallTOStrings(numberA, callsListByNumberA);
             ReportStringsWriter.write(stringList, ps);
             CostTotalCounter costTotalCounter = new CostTotalCounter();
             costTotalForPeriod += costTotalCounter.countForTO(callsListByNumberA);
         }
-        String firstString = " Итого " + ReportsStringCreator.round(costTotalForPeriod, 2);
+        String footerString = " Итого " + ReportStringCreator.round(costTotalForPeriod, 2);
         if (ps != null) {
-            ps.println(firstString);
+            ps.println(footerString);
             ps.close();
         }
         log.info("Report generating is Done");
