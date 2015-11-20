@@ -32,10 +32,10 @@
                             <label class="col-lg-3 control-label">Service Type</label>
                             <div class="col-lg-9">
                                 <label for="internetService" class="radio-inline"><strong>
-                                    <form:radiobutton path="serviceType" value="internet" id="internetService"/> Internet
+                                    <form:radiobutton path="serviceType" value="INTERNET" id="internetService"/> Internet
                                 </strong></label>
                                 <label for="phoneService" class="radio-inline"><strong>
-                                    <form:radiobutton path="serviceType" value="phone" id="phoneService"/> Phone
+                                    <form:radiobutton path="serviceType" value="PHONE" id="phoneService"/> Phone
                                 </strong></label>
                                 <form:errors path="serviceType" cssClass="alert-danger" />
                             </div>

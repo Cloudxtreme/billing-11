@@ -1,6 +1,8 @@
 package com.elstele.bill.domain.common;
 
 import com.elstele.bill.utils.Status;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,8 +11,8 @@ import java.io.Serializable;
 public class CommonDomainBean implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name="id")
-    @GeneratedValue
+    @Column(name="id", columnDefinition = "serial")
+    @Generated(GenerationTime.INSERT)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
