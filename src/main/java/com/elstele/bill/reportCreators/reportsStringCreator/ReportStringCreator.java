@@ -85,7 +85,7 @@ public class ReportStringCreator {
                 String duration = callTO.getDuration().toString();
                 String dirPrefix = callTO.getPrefix();
                 String descrOrg = callTO.getDescription();
-                Double costTotal = (double) callTO.getCosttotal();
+                Float costTotal = callTO.getCosttotal();
                 Date startTimeVal = callTO.getStarttime();
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);

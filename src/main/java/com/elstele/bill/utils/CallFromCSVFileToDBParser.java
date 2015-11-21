@@ -25,7 +25,7 @@ public class CallFromCSVFileToDBParser {
 
     @Autowired
     CallForCSVDataService callForCSVDataService;
-    Map<String, String> directionMap = new HashMap();
+    private Map<String, String> directionMap = new HashMap<>();
 
     public CallForCSVForm arrayHandlingMethodCSV(String line) {
         final String DELIMITER = ";";
@@ -59,7 +59,7 @@ public class CallFromCSVFileToDBParser {
 
     public CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) {
         final String DELIMITER = " ";
-        Pattern pattern  = Pattern.compile("\\s{2,}");
+        Pattern pattern = Pattern.compile("\\s{2,}");
         Matcher matcher = pattern.matcher(line);
         String result = matcher.replaceAll(" ");
 
@@ -83,12 +83,12 @@ public class CallFromCSVFileToDBParser {
         }
 
         dir_descr = directionMap.get(dir_prefix);
-        if(dir_descr==null){
+        if (dir_descr == null) {
             dir_descr = callForCSVDataService.getDescriptionFromDirections(dir_prefix);
-            if(dir_descr!= null){
+            if (dir_descr != null) {
                 directionMap.put(dir_prefix, dir_descr);
-            }else{
-                dir_descr ="no data";
+            } else {
+                dir_descr = "no data";
             }
         }
         dir_descr = dir_descr.replace("'", "");
@@ -112,39 +112,39 @@ public class CallFromCSVFileToDBParser {
 
     public Date startTimeHandling(String call_start) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String year = call_start.substring(6,10);
-        String month = call_start.substring(3,5);
-        String day = call_start.substring(0,2);
-        String time = call_start.substring(10,18);
+        String year = call_start.substring(6, 10);
+        String month = call_start.substring(3, 5);
+        String day = call_start.substring(0, 2);
+        String time = call_start.substring(10, 18);
         Date startTime = new Date();
         try {
             startTime = sdf.parse(year + "-" + month + "-" + day + " " + time);
-        }catch(ParseException e){
+        } catch (ParseException e) {
             log.error(e);
         }
         return startTime;
     }
 
     public Date startTimeHandlingUkrNet(String call_start) {
-        String year = call_start.substring(0,4);
-        String month = call_start.substring(4,6);
-        String day = call_start.substring(6,8);
-        String hour = call_start.substring(8,10);
-        String min = call_start.substring(10,12);
-        String sec = call_start.substring(12,14);
+        String year = call_start.substring(0, 4);
+        String month = call_start.substring(4, 6);
+        String day = call_start.substring(6, 8);
+        String hour = call_start.substring(8, 10);
+        String min = call_start.substring(10, 12);
+        String sec = call_start.substring(12, 14);
         String startTimeStr = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startTime = new Date();
         try {
             startTime = sdf.parse(startTimeStr);
-        }catch(ParseException e){
+        } catch (ParseException e) {
             log.error(e);
         }
         return startTime;
     }
 
 
-    public String costWithNDS(String costWithoutNDS){
+    public String costWithNDS(String costWithoutNDS) {
         if (costWithoutNDS.indexOf(",") == 0) {
             costWithoutNDS = "0" + costWithoutNDS;
         }
@@ -158,13 +158,13 @@ public class CallFromCSVFileToDBParser {
             FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             log.error(e);
         }
         return convFile;
     }
 
-    public boolean checkWithRegExp(String strToCheck, String strPattern){
+    public boolean checkWithRegExp(String strToCheck, String strPattern) {
         Pattern p = Pattern.compile(strPattern);
         Matcher m = p.matcher(strToCheck);
         return m.matches();

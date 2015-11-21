@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class CommonDomainBean implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name="id", columnDefinition = "serial")
-    @Generated(GenerationTime.INSERT)
+    @Column(name="id")
+    @GeneratedValue
     private Integer id;
 
     @Enumerated(EnumType.STRING)

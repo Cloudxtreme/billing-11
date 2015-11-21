@@ -26,7 +26,7 @@ public class LocalCallsCostGeneralReportCreatorImpl implements ReportCreator {
     }
 
     public void create(ReportDetails reportDetails) {
-        Double totalLocalCallsCost = 0.0;
+        Float totalLocalCallsCost = 0.0f;
         Integer strIndex = 0;
         Date startTime = DateReportParser.parseStartTime(reportDetails);
         Date endTime = DateReportParser.parseEndTime(reportDetails);
@@ -39,8 +39,7 @@ public class LocalCallsCostGeneralReportCreatorImpl implements ReportCreator {
             ReportStringCreator stringCreator = new ReportStringCreator();
             List<String> stringList = stringCreator.createCallsCostStringsShort(numberA, callsListByNumberA, strIndex);
             ReportStringsWriter.write(stringList, ps);
-            CostTotalCounter costTotalCounter = new CostTotalCounter();
-            totalLocalCallsCost += costTotalCounter.countLocalForCall(callsListByNumberA);
+            totalLocalCallsCost += CostTotalCounter.countLocalForCall(callsListByNumberA);
         }
         String footerString = " Общая стоимость переговоров- " + ReportStringCreator.round(totalLocalCallsCost, 2) + " UAH";
         if (ps != null) {

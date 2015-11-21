@@ -53,13 +53,13 @@ public class CostTotalCounterTest {
 
     @Test
     public void countForTOTest() {
-        Double costTotal = costTotalCounter.countForTO(callTOList);
+        Float costTotal = costTotalCounter.countForTO(callTOList);
         assertTrue(costTotal == 30);
     }
 
     @Test
     public void countForCSVTest() {
-        Double costTotalCSV = costTotalCounter.countForCSV(callForCSVList);
+        Float costTotalCSV = costTotalCounter.countForCSV(callForCSVList);
         assertTrue(costTotalCSV == 30);
     }
 }
