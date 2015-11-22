@@ -16,17 +16,17 @@ public class DeviceTypes extends CommonDomainBean{
     public String description;
     public Integer portsNumber;
 
-    @OneToMany(mappedBy="deviceTypes")
-    private Set<Device> devices;
+    /*@OneToMany(mappedBy="deviceTypes")
+    private Set<Device> devices;*/
 
-    public Set<Device> getDevices() {
+  /*  public Set<Device> getDevices() {
         return devices;
     }
 
     public void setDevices(Set<Device> devices) {
         this.devices = devices;
     }
-
+*/
     public String getDeviceType() {
         return deviceType;
     }

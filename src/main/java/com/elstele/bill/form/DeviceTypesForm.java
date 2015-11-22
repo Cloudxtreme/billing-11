@@ -1,20 +1,14 @@
 package com.elstele.bill.form;
 
 
+import com.elstele.bill.utils.Status;
+
 public class DeviceTypesForm {
     public Integer id;
     public String deviceType;
-    public String status;
+    public Status status;
     public String description;
     public Integer portsNumber;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public Integer getId() {
         return id;
@@ -46,5 +40,13 @@ public class DeviceTypesForm {
 
     public void setPortsNumber(Integer portsNumber) {
         this.portsNumber = portsNumber;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
