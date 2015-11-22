@@ -8,6 +8,7 @@ import com.elstele.bill.domain.Service;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.IpStatus;
 import com.elstele.bill.utils.Status;
+import static com.elstele.bill.utils.Constants.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -50,7 +51,7 @@ public class ServiceAssembler{
     public Service getServiceBeanByForm(ServiceForm serviceForm){
         Service service = null;
         ServiceType servType = serviceTypeDAO.getById(serviceForm.getServiceType().getId());
-        if (("internet").equals(servType.getServiceType())) {
+        if (SERVICE_INTERNET.equals(servType.getServiceType())) {
             if (!serviceForm.isNew()) {
                 service = serviceDAO.getById(serviceForm.getId());
                 if (serviceForm.getServiceInternet().getIp().getId() != ((ServiceInternet) service).getIpAddress().getId()) {
@@ -64,10 +65,10 @@ public class ServiceAssembler{
             service = fromFormToInternetBean(serviceForm, (ServiceInternet) service);
             changeIpAddressIfNeed(service,serviceForm);
         }
-        else if (("phone").equals(servType.getServiceType())) {
+        else if (SERVICE_PHONE.equals(servType.getServiceType())) {
             service = fromFormToPhoneBean(serviceForm);
         }
-        else if (("marker").equals(servType.getServiceType())) {
+        else if (SERVICE_MARKER.equals(servType.getServiceType())) {
             service = fromFormToServiceBean(serviceForm);
         }
 

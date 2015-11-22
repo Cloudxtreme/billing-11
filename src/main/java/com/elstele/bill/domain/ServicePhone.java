@@ -1,10 +1,11 @@
 package com.elstele.bill.domain;
 
 import javax.persistence.*;
+import static com.elstele.bill.utils.Constants.SERVICE_PHONE;
 
 @Entity
 @Table(name="Service")
-@DiscriminatorValue("PHONE")
+@DiscriminatorValue(SERVICE_PHONE)
 public class ServicePhone extends Service {
 
     private String phoneNumber;

@@ -211,15 +211,16 @@
                     });
 
                     function callAjaxGetPortList(){
-                        idService = 0;
+                        var idService = 0;
+                        var sendData = $('#device').val();
                         if($('#id').val()!=""){
                             idService= $('#id').val();
                         }
                         $.ajax({
                             type: "POST",
                             url: "${pageContext.request.contextPath}/getDeviceFreePortList/"+idService,
-                            data: $('#device').val(),
-                            datatype: "JSON",
+                            data: sendData,
+                            datatype: "json",
                             contentType: "application/json",
                             success: function (data) {
                                 $('#devicePorts').html('');

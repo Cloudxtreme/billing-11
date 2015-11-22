@@ -4,7 +4,6 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.datasrv.IpDataService;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
-import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.utils.IpStatus;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;

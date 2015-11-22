@@ -16,6 +16,7 @@ function showServiceForm(type){
     $('#sharedForm').show();
     $('#submitBtn').show();
     $('#sharedServiceForm').show();
+    type = type.toLowerCase();
     switch(type){
         case 'internet':{
             $('#internetService').show();

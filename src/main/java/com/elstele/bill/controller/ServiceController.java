@@ -102,7 +102,7 @@ public class ServiceController {
 
     @RequestMapping(value="/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)
     @ResponseBody
-    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("serviceId") Integer serviceId){
+    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("idObj") Integer serviceId){
         Integer deviceId = Integer.parseInt(json);
         List<Integer> deviceFreePortList = deviceDataService.getDeviceFreePorts(deviceId);
         deviceFreePortList = serviceDataService.addCurrentDevicePortToList(deviceFreePortList,serviceId,deviceId);
