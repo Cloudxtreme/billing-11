@@ -13,7 +13,7 @@ public class Device extends CommonDomainBean {
     private String community;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ipAddress_id")
     private Ip ipAdd;
 
