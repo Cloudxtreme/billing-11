@@ -127,7 +127,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Сервисы
-                                <a href="/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
                             </h3>
                         </div>
                         <div class="panel-body">

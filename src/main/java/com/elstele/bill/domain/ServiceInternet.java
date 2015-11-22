@@ -8,9 +8,19 @@ import javax.persistence.*;
 public class ServiceInternet extends Service {
 
     private String username;
-    private String macaddress;
-    private String ip;
     private String password;
+    private String macaddress;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ip")
+    private Ip ip;
+
+    private Boolean softblock;
+
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="device")
+    private Device device;
+    private Integer port;
 
     public String getUsername() {
         return username;
@@ -36,11 +46,35 @@ public class ServiceInternet extends Service {
         this.macaddress = macaddress;
     }
 
-    public String getIp() {
+    public Ip getIp() {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public void setIp(Ip ip) {
         this.ip = ip;
+    }
+
+    public Boolean getSoftblock() {
+        return softblock;
+    }
+
+    public void setSoftblock(Boolean softblock) {
+        this.softblock = softblock;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
     }
 }
