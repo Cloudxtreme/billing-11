@@ -12,6 +12,5 @@ public interface CallDataService {
     public int getCallsCount();
     public int getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam);
     public List<CallForm> getCallsList(int rows, int page);
-    public List<CallForm> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate);
 
 }

@@ -1,4 +1,4 @@
-package com.elstele.bill.datasrv;
+package com.elstele.bill.executors;
 
 
 import com.elstele.bill.executors.WorkerPOC;
@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
 @Scope("singleton")
 public class WorkExecutorPOC {
 
     ConcurrentHashMap<Integer, WorkerPOC> taskMap = new ConcurrentHashMap<Integer, WorkerPOC>();
-    ExecutorService executor = Executors.newFixedThreadPool(5);
+    ThreadPoolExecutor executor = (ThreadPoolExecutor)Executors.newFixedThreadPool(5);
 
 
     public void startTask(Integer taskId){

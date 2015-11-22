@@ -11,8 +11,8 @@ import java.util.List;
 public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType> implements ServiceTypeDAO {
 
     @Override
-    public List listServiceType(){
-        String hql = "from ServiceType service where service.status <> 'DELETED' or service.status is null ";
+    public List listAccountServices(){
+        String hql = "from AccountService service where service.status <> 'DELETED' or service.status is null ";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
         if (!query.list().isEmpty()){
             return query.list();

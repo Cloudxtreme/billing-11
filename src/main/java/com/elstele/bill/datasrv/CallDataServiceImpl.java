@@ -4,13 +4,11 @@ import com.elstele.bill.assembler.CallAssembler;
 import com.elstele.bill.dao.CallDAO;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.form.CallForm;
-import com.elstele.bill.utils.TempObjectForCallsRequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,7 +18,6 @@ public class CallDataServiceImpl implements CallDataService {
     CallDAO callDAO;
 
 
-    @Override
     @Transactional
     public void addCalls(CallForm callForm) {
         CallAssembler assembler = new CallAssembler();
@@ -28,19 +25,11 @@ public class CallDataServiceImpl implements CallDataService {
         callDAO.create(call);
     }
 
-    @Override
     @Transactional
     public int getCallsCount() {
         return callDAO.getCallsCount();
     }
 
-    @Override
-    @Transactional
-    public int getCallsCountWithSearchValues(TempObjectForCallsRequestParam tempObjectForCallsRequestParam) {
-        return callDAO.getCallsCountWithSearchValues(tempObjectForCallsRequestParam);
-    }
-
-    @Override
     @Transactional
     public List<CallForm> getCallsList(int rows, int page) {
         List<CallForm> result = new ArrayList<CallForm>();
@@ -55,18 +44,13 @@ public class CallDataServiceImpl implements CallDataService {
         return result;
     }
 
-    @Override
     @Transactional
-    public List<CallForm> callsListSelectionBySearch(int rows, int page, String numberA, String numberB, Date startDate, Date endDate) {
-        List<CallForm> result = new ArrayList<CallForm>();
-        CallAssembler assembler = new CallAssembler();
-        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
-        int offset = page*rows;
-        List<Call> beans = callDAO.callsListSelectionBySearch(rows, offset, numberA, numberB, startDate, endDate);
-        for (Call curBean : beans){
-            CallForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
-        return result;
+    public Integer getUnbilledCallsCount() {
+        return callDAO.getUnbilledCallsCount();
+    }
+
+    @Transactional
+    public List<Integer> getUnbilledCallsIdList(int limit, int offset) {
+        return callDAO.getUnbilledCallIds(limit, offset);
     }
 }

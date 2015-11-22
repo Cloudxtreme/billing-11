@@ -34,12 +34,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
+
     public Integer create(T o) {
         return (Integer) this.sessionFactory.getCurrentSession().save(o);
     }
 
-    @Override
+
     public T getById(Integer id) {
         Session session = this.sessionFactory.getCurrentSession();
         setFilter(session,"showActive");
@@ -47,30 +47,29 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         return persistentObject;
     }
 
-    @Override
+
     public void update(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
 
-    @Override
+
     public void merge(T transientObject) {
         this.sessionFactory.getCurrentSession().merge(transientObject);
     }
 
-    @Override
+
     public void updateAndMerge(T transientObject) {
         transientObject = (T)sessionFactory.getCurrentSession().merge(transientObject);
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
 
-    @Override
+
     public void delete(T persistentObject) {
         this.sessionFactory.getCurrentSession().delete(persistentObject);
     }
 
-    @Override
     public void delete(Integer id) {
         T persistentObject = this.getById(id);
         if (persistentObject != null) {
@@ -79,19 +78,18 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
     //TODO please read Hibernate docs once again, and decide if we really need this method
-    @Override
     public void save(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
     }
 
-    @Override
+
     public void setStatus(CommonDomainBean persistentObject, Status status) {
         persistentObject.setStatus(status);
         this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
     }
 
-    @Override
+
     public void setStatus(Integer id, Status status) {
         CommonDomainBean persistentObject = (CommonDomainBean) this.getById(id);
         if (persistentObject != null) {
@@ -100,7 +98,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         }
     }
 
-    @Override
+
     public Filter setFilter(Session session, String filterName){
         Filter filter = session.enableFilter(filterName);
         if(filterName == "showActive")
@@ -108,8 +106,6 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         return filter;
     }
 
-
-    @Override
     public void setStatusDelete(CommonDomainBean persistentObject) {
         persistentObject.setStatus(Status.DELETED);
         this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
@@ -117,7 +113,6 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     }
 
 
-    @Override
     public void setStatusDelete(Integer id) {
         CommonDomainBean persistentObject = (CommonDomainBean) this.getById(id);
         if (persistentObject != null) {
