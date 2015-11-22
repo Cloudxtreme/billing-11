@@ -26,7 +26,7 @@ public class LocalCallsMainGeneralReportCreatorImpl implements ReportCreator {
     }
 
     public void create(ReportDetails reportDetails) {
-        Double durationTotalForPeriod = 0.0;
+        Float durationTotalForPeriod = 0.0f;
         Integer strIndex = 0;
         Date startTime = DateReportParser.parseStartTime(reportDetails);
         Date endTime = DateReportParser.parseEndTime(reportDetails);
@@ -39,8 +39,7 @@ public class LocalCallsMainGeneralReportCreatorImpl implements ReportCreator {
             ReportStringCreator stringCreator = new ReportStringCreator();
             List<String> stringList = stringCreator.createCallStringsShort(numberA, callsListByNumberA, strIndex);
             ReportStringsWriter.write(stringList, ps);
-            CostTotalCounter costTotalCounter = new CostTotalCounter();
-            durationTotalForPeriod += costTotalCounter.countForCall(callsListByNumberA);
+            durationTotalForPeriod += CostTotalCounter.countForCall(callsListByNumberA);
         }
         String footerString = " Общая длительность переговоров- " + ReportStringCreator.round(durationTotalForPeriod, 2) + " секунд";
         if (ps != null) {

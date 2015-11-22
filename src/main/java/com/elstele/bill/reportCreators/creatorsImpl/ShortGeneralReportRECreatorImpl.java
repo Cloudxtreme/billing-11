@@ -26,7 +26,7 @@ public class ShortGeneralReportRECreatorImpl implements ReportCreator {
     }
 
     public void create(ReportDetails reportDetails) {
-        Double costTotalForPeriod = 0.0;
+        Float costTotalForPeriod = 0.0f;
         Date startTime = DateReportParser.parseStartTime(reportDetails);
         Date endTime = DateReportParser.parseEndTime(reportDetails);
 
@@ -38,8 +38,7 @@ public class ShortGeneralReportRECreatorImpl implements ReportCreator {
             List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA);
 
             ReportStringsWriter.write(stringList, ps);
-            CostTotalCounter costTotalCounter = new CostTotalCounter();
-            costTotalForPeriod += costTotalCounter.countForCSV(callsListByNumberA);
+            costTotalForPeriod += CostTotalCounter.countForCSV(callsListByNumberA);
         }
         String footerString = "Общая стоимость переговоров -  " + ReportStringCreator.round(costTotalForPeriod, 2) + " грн";
         if (ps != null) {

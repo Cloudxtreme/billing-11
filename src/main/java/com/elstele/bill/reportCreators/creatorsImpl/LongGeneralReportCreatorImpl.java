@@ -27,7 +27,7 @@ public class LongGeneralReportCreatorImpl implements ReportCreator {
     }
 
     public void create(ReportDetails reportDetails) {
-        Double costTotalForPeriod = 0.0;
+        Float costTotalForPeriod = 0.0f;
         Date startTime = DateReportParser.parseStartTime(reportDetails);
         Date endTime = DateReportParser.parseEndTime(reportDetails);
 
@@ -38,8 +38,7 @@ public class LongGeneralReportCreatorImpl implements ReportCreator {
             ReportStringCreator stringCreator = new ReportStringCreator();
             List<String> stringList = stringCreator.createCallTOStrings(numberA, callsListByNumberA);
             ReportStringsWriter.write(stringList, ps);
-            CostTotalCounter costTotalCounter = new CostTotalCounter();
-            costTotalForPeriod += costTotalCounter.countForTO(callsListByNumberA);
+            costTotalForPeriod += CostTotalCounter.countForTO(callsListByNumberA);
         }
         String footerString = " Итого " + ReportStringCreator.round(costTotalForPeriod, 2);
         if (ps != null) {
