@@ -2,6 +2,7 @@ package com.elstele.bill.controller;
 
 
 import com.elstele.bill.datasrv.AccountDataService;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Constants;
 
@@ -104,4 +105,17 @@ public class AccountsController {
             return (accounts/10)+1;
     }
 
+
+    //getListOfStreets
+    @RequestMapping(value="/getListOfStreets", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
+        List<String> result = new ArrayList<>();
+        result.add("Армейская");
+        result.add("Абрикосовая");
+        result.add("Ананасовая");
+        result.add("Пущкинская");
+        result.add(query);
+        return accountDataService.getStreets(query);
+    }
 }

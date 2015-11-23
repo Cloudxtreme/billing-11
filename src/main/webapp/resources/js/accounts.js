@@ -126,6 +126,24 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function() {
+    $('#phyAddressStreet').typeahead({
+        onSelect: function(item) {
+            console.log(item);
+        },
+        ajax: {
+            url: ".././getListOfStreets.html",
+            timeout: 500,
+            displayField: "name",
+            triggerLength: 1,
+            method: "get",
+            loadingClass: "loading-circle"
+
+        }
+    });
+})
+
+
 function hideModalAddAccount(){
     $("#accAccountModal").modal('hide');
 };

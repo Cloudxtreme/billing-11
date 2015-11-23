@@ -15,6 +15,8 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
+    <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
 
@@ -75,7 +77,8 @@
                                 <div class="form-group">
                                     <label for="phyAddressStreet" class="col-lg-2 control-label">Street</label>
                                     <div class="col-lg-9">
-                                        <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet" placeholder="5th Avenue"/>
+                                        <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
+                                                    data-provide="typeahead" placeholder="5th Avenue"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
