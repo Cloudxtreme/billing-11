@@ -186,7 +186,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
             return result;
         }catch(SQLGrammarException e){
             log.error(e);
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 

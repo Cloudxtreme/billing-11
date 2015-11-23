@@ -38,8 +38,10 @@ public class CallDAOTest {
     private Date startDate;
     private Date endDate;
     private List<String> expectedList = new ArrayList<>();
+    private List<String> localExpectedList = new ArrayList<>();
     private Call call;
     private Call call1;
+    private Call call2;
 
     @Autowired
     private CallDAOImpl callDAO;
@@ -70,7 +72,6 @@ public class CallDAOTest {
         call.setStartTime(startDate);
 
         expectedList.add(call.getNumberA());
-
         callDAO.save(call);
 
         call1 = new Call();
@@ -91,8 +92,14 @@ public class CallDAOTest {
         call1.setStartTime(startDate);
 
         expectedList.add(call1.getNumberA());
-
         callDAO.save(call1);
+
+        call2 = new Call();
+        call2.setNumberA("7895111");
+        call2.setStartTime(startDate);
+
+        localExpectedList.add(call2.getNumberA());
+        callDAO.save(call2);
     }
 
     @Test
@@ -108,6 +115,27 @@ public class CallDAOTest {
             callList = (callDAO.getCallByNumberA(numberA, startDate, endDate));
             assertNotNull(callList);
         }
+    }
+
+    @Test
+    public void getLocalCallsTest(){
+        List<Call> callList;
+        for(String numberA : expectedList){
+            callList = callDAO.getLocalCalls(numberA, startDate , endDate);
+            assertTrue(callList.isEmpty());
+        }
+    }
+
+    @Test
+    public void getUniqueLocalNumberAFromCallsTest(){
+        List<String> stringList  = callDAO.getUniqueLocalNumberAFromCalls(startDate, endDate);
+        assertEquals(localExpectedList, stringList);
+    }
+
+    @Test
+    public void getCallsListTest(){
+        List<Call> callList = callDAO.getCallsList(0, 0);
+        assertTrue(callList.isEmpty());
     }
 
 }

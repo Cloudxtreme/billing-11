@@ -31,6 +31,7 @@ public class AuthController {
             LocalUser curUser = localUserDataService.getUserByNameAndPass(userName, userPass);
             session.setMaxInactiveInterval(1200);
             session.setAttribute(LOCAL_USER, curUser);
+            mav.addObject("username", userName);
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");

@@ -35,10 +35,7 @@ $(document).ready(function () {
                 (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
                 '</li>');
         }
-
-
     });
-
 
     $('html').on('click', '.glyphicon-remove', function () {
         var $li = $(this).closest('li');
@@ -52,7 +49,6 @@ $(document).ready(function () {
             uniqFiles = [];
         }
     });
-
 
     $('.btn-toolbar').on('click', function () {
         var data = new FormData();
@@ -71,7 +67,6 @@ $(document).ready(function () {
         for (var i = 0; i < uniqFiles.length; i++) {
             data.append(i, uniqFiles[i]);
         }
-
 
         $('#spinner').show();
 
@@ -153,7 +148,6 @@ $(document).ready(function () {
                 $(this).attr('checked', false);
             });
         reportCreatingRequest(values);
-
     });
 
     $('.unDefaultTDStyle').on('click', function () {
@@ -260,7 +254,4 @@ $(document).ready(function () {
             dataType: 'json'
         });
     })
-
-
-    })
-;
+});

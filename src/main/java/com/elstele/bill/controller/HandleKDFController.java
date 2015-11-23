@@ -70,7 +70,6 @@ public class HandleKDFController {
         }
         return result;
     }
-
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
     public void handleFiles(@RequestBody String[] json) {
@@ -106,14 +105,12 @@ public class HandleKDFController {
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
                 do {
                     len = fs.read(buffer);
-
                     char[] hexChars = new char[buffer.length * 2];
                     for (int j = 0; j < buffer.length; j++) {
                         int v = buffer[j] & 0xFF;
                         hexChars[j * 2] = hexArray[v >>> 4];
                         hexChars[j * 2 + 1] = hexArray[v & 0x0F];
                     }
-
                     String tempStrHEX = new String(hexChars);
                     String numberA = tempStrHEX.substring(5, 12);
                     String numberB ;
@@ -121,7 +118,6 @@ public class HandleKDFController {
                     Long duration;
                     String dvoCodeA;
                     String dvoCodeB;
-
 
                     if (tempStrHEX.startsWith("A54C") && !numberA.equalsIgnoreCase("0000000")) {
                         //first packet
@@ -153,16 +149,11 @@ public class HandleKDFController {
                             yearInt = yearInt - 1;
                             yearFromFileName = Integer.toString(yearInt);
                         }
-
                         startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-
                         Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
-
                         String calling = "";
                         String called = "";
-
-
                         if (aon.equalsIgnoreCase("f")) {
                             calling = numberB;
                             called = numberA;
@@ -196,7 +187,6 @@ public class HandleKDFController {
             uploadedFileInfoDataService.setFileStatus(uploadedFileInfoForm);
             progress = 100;
         }
-
     }
 
     @RequestMapping(value = "/worker/billCall")
@@ -209,7 +199,4 @@ public class HandleKDFController {
     public @ResponseBody Float getProgress() {
         return progress;
     }
-
-
-
 }

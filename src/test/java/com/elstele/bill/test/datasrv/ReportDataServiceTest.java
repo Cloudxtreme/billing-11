@@ -3,6 +3,8 @@ package com.elstele.bill.test.datasrv;
 
 import com.elstele.bill.datasrv.implementes.ReportDataServiceImpl;
 
+import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.reportCreators.creatorsImpl.LongGeneralReportCreatorImpl;
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
@@ -27,6 +29,8 @@ public class ReportDataServiceTest {
 
     @InjectMocks
     private ReportDataServiceImpl reportDataService;
+    @Autowired
+    CallDataService callDataService;
 
     @Before
     public void fullReportDetails() {
@@ -41,7 +45,7 @@ public class ReportDataServiceTest {
     @Test
     public void testCorrectGettingObjectFromFactory() throws IncorrectReportNameException {
         ReportCreator reportCreator = factory.getCreator(reportDetails.getReportName());
-        assertNotNull(reportCreator);
+        assertTrue(reportCreator instanceof LongGeneralReportCreatorImpl);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)

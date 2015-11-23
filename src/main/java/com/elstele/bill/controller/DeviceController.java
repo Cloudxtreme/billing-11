@@ -127,7 +127,6 @@ public class DeviceController {
             }
             deviceDataService.deleteDevice(id);
             return ResponseToAjax.SUCCESS;
-
         } catch (NullPointerException e) {
             System.out.println(e.toString());
             return ResponseToAjax.ERROR;

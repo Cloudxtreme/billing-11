@@ -35,11 +35,15 @@ public class CallDataServiceTest {
 
     private List<String> numbersList;
     private List<CallTO> callTOList;
+    private List<Call> callList;
+    private List<String> localCallsString;
     private Date endDate;
     private Date startDate;
     private CallTO callTO;
     private CallTO callTO1;
     private Call call;
+    private Call call1;
+    private Call call2;
 
     @Before
     public void setUp(){
@@ -52,6 +56,7 @@ public class CallDataServiceTest {
         c.add(Calendar.DATE, 1);
         endDate = c.getTime();
 
+        callList = new ArrayList<>();
         call = new Call();
         call.setStatus(Status.ACTIVE);
         call.setCallDirectionId(11);
@@ -61,9 +66,9 @@ public class CallDataServiceTest {
         call.setNumberB("8888888");
         call.setOutputTrunk("05");
         call.setStartTime(startDate);
+        callList.add(call);
 
-
-        Call call1 = new Call();
+        call1 = new Call();
         call1.setStatus(Status.ACTIVE);
         call1.setCallDirectionId(9);
         call1.setCostTotal(113.111f);
@@ -76,6 +81,14 @@ public class CallDataServiceTest {
         numbersList = new ArrayList<>();
         numbersList.add(call1.getNumberA());
         numbersList.add(call.getNumberA());
+        callList.add(call);
+        callList.add(call1);
+
+        call2 = new Call();
+        call2.setStartTime(startDate);
+        call2.setNumberA("7895111");
+        localCallsString = new ArrayList<>();
+        localCallsString.add(call2.getNumberA());
 
         callTO1 = new CallTO();
         callTO1.setCosttotal(113.111f);
@@ -113,6 +126,21 @@ public class CallDataServiceTest {
         assertEquals(callTOs, callTOList);
         assertTrue(callTOs.contains(callTO));
         assertTrue(callTOs.contains(callTO1));
+    }
+
+    @Test
+    public void getLocalCallsTest(){
+        when(callDAO.getLocalCalls(call.getNumberA(), startDate, endDate)).thenReturn(callList);
+        List<Call> calls = callDataService.getLocalCalls(call.getNumberA(), startDate, endDate);
+        assertEquals(calls, callList);
+        assertTrue(calls.contains(call));
+    }
+
+    @Test
+    public void getUniqueLocalNumberAFromCallsTest(){
+        when(callDAO.getUniqueLocalNumberAFromCalls(startDate, endDate)).thenReturn(localCallsString);
+        List<String> actualLocalNumbersList = callDataService.getUniqueLocalNumberAFromCalls(startDate,endDate);
+        assertEquals(actualLocalNumbersList, localCallsString);
     }
 
 

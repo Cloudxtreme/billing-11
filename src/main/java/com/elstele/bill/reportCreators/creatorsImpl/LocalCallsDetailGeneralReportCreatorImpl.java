@@ -38,7 +38,7 @@ public class LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
             ReportStringCreator stringCreator = new ReportStringCreator();
             List<String> stringList = stringCreator.createCallStrings(numberA, callsListByNumberA);
             ReportStringsWriter.write(stringList, ps);
-            durationTotalForPeriod += CostTotalCounter.countForCall(callsListByNumberA);
+            durationTotalForPeriod += CostTotalCounter.countDurationForCall(callsListByNumberA);
         }
         String footerString = " Итого " + ReportStringCreator.round(durationTotalForPeriod, 2);
         if (ps != null) {

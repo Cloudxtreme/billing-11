@@ -72,7 +72,7 @@
                     datatype: "JSON",
                     contentType: "application/json",
                     success: function (data) {
-                        if(data == "success") {
+                        if(data == "SUCCESS") {
                             $tr.fadeOut('slow',function(){
                                 $tr.remove()
                             })

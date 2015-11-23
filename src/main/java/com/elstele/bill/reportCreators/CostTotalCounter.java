@@ -27,7 +27,7 @@ public class CostTotalCounter {
         return costTotalForPeriod;
     }
 
-    public static Float countForCall(List<Call> callForCSVByNumberA) {
+    public static Float countDurationForCall(List<Call> callForCSVByNumberA) {
         Float costTotalForPeriod = 0.0f;
         for (Call call : callForCSVByNumberA) {
             costTotalForPeriod += call.getDuration();
