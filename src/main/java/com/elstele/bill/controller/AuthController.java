@@ -1,9 +1,12 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.dao.interfaces.USDRateDAO;
 import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
+import com.elstele.bill.datasrv.interfaces.USDRateDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,13 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
+    @Autowired
+    USDRateDataService usdRateDataService;
+
+    @Scheduled(fixedDelay = 1000*60*60*24)
+    public void getUSDRate(){
+        usdRateDataService.setRate();
+    }
 
     @Autowired
     private LocalUserDataService localUserDataService;

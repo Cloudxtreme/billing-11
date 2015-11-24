@@ -5,6 +5,7 @@ import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.FileStatus;
 import com.elstele.bill.utils.ResponseToAjax;
+import com.elstele.bill.utils.USDRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
