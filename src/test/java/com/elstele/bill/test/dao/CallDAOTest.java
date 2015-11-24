@@ -2,24 +2,21 @@ package com.elstele.bill.test.dao;
 
 
 import com.elstele.bill.dao.impl.CallDAOImpl;
-import com.elstele.bill.dao.interfaces.CallDAO;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.utils.CallTO;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resources;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

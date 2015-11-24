@@ -1,12 +1,11 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.Enums.IpStatus;
 
 import javax.persistence.*;
-import java.util.Set;
 
-    @Entity
+@Entity
     @Table(name="ipAddress")
     public class Ip extends CommonDomainBean{
 

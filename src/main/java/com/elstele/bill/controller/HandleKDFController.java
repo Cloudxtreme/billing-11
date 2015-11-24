@@ -2,13 +2,12 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
-import com.elstele.bill.datasrv.interfaces.USDRateDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
-import com.elstele.bill.utils.FileStatus;
-import com.elstele.bill.utils.ResponseToAjax;
+import com.elstele.bill.utils.Enums.FileStatus;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

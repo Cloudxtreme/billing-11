@@ -1,16 +1,11 @@
 package com.elstele.bill.utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.elstele.bill.dao.interfaces.USDRateDAO;
+import com.elstele.bill.utils.Constants.Constants;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -22,8 +17,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 public class USDRate{
     private USDRateDAO usdRateDAO;
@@ -43,7 +36,7 @@ public class USDRate{
             CloseableHttpResponse response =  httpClient.execute(get);
             HttpEntity entity = response.getEntity();
             JSONObject exchangeRates = new JSONObject(EntityUtils.toString(entity));
-            Date timeStampDate = new Date((exchangeRates.getLong("timestamp")*1000));
+            Date timeStampDate = new Date((exchangeRates.getLong("timestamp")* Constants.SECOND));
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = dateFormat.format(timeStampDate);
             Date rateDate = dateFormat.parse(formattedDate);

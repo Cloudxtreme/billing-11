@@ -8,16 +8,14 @@ import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.IpSubnetForm;
-import com.elstele.bill.utils.IpStatus;
-import com.elstele.bill.utils.ResponseToAjax;
-import com.elstele.bill.utils.SubnetPurpose;
+import com.elstele.bill.utils.Enums.IpStatus;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
+import com.elstele.bill.utils.Enums.SubnetPurpose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -96,15 +94,14 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(DeviceForm deviceForm) {
-        IpStatus ipStatus = IpStatus.USED;
         String result;
         try {
             if (deviceForm.getId() == null) {
                 deviceDataService.addDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             } else {
                 deviceDataService.updateDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             }
             result = "redirect:/device.html";
         } catch (NullPointerException e) {
@@ -119,11 +116,10 @@ public class DeviceController {
     @ResponseBody
     public ResponseToAjax deleteDevice(@RequestBody String json) {
         Integer id = Integer.parseInt(json);
-        IpStatus ipStatus = IpStatus.FREE;
         DeviceForm deviceForm = deviceDataService.getById(id);
         try {
             if (deviceForm.getIpForm().getId() != null) {
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
             }
             deviceDataService.deleteDevice(id);
             return ResponseToAjax.SUCCESS;

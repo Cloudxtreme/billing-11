@@ -4,6 +4,7 @@ import com.elstele.bill.controller.AuthController;
 import com.elstele.bill.dao.interfaces.LocalUserDAO;
 import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
+import com.elstele.bill.utils.Constants.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,12 +22,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.UUID;
-
-import static org.mockito.Matchers.isNotNull;
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.when;
 
-import static com.elstele.bill.utils.Constants.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -83,7 +80,7 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("main"))
                 .andExpect(forwardedUrl("main"))
-                .andExpect(request().sessionAttribute(LOCAL_USER, notNullValue()));
+                .andExpect(request().sessionAttribute(Constants.LOCAL_USER, notNullValue()));
         //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
     }
 
@@ -105,14 +102,14 @@ public class AuthControllerTest {
     @Test
     public void logoutCall() throws Exception {
 
-        mockSession.setAttribute(LOCAL_USER, new LocalUser());
+        mockSession.setAttribute(Constants.LOCAL_USER, new LocalUser());
         this.mockMvc.perform(get("/logout")
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login_page"))
                 .andExpect(forwardedUrl("login_page"))
-                .andExpect(request().sessionAttribute(LOCAL_USER, nullValue()))
+                .andExpect(request().sessionAttribute(Constants.LOCAL_USER, nullValue()))
                 .andExpect(model().attribute("errorMessage", nullValue()));
     }
 

@@ -5,7 +5,7 @@ import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
 import com.elstele.bill.filesWorkers.FileTreeGenerater;
 import com.elstele.bill.form.FileDirTreeGeneraterForm;
-import com.elstele.bill.utils.*;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
 import com.elstele.bill.utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

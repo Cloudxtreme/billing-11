@@ -1,7 +1,7 @@
 package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.form.IpForm;
-import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.Enums.IpStatus;
 
 import java.util.List;
 

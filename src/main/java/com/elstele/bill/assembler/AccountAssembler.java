@@ -5,8 +5,7 @@ import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.ServiceForm;
-import com.elstele.bill.form.ServiceInternetForm;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.Iterator;

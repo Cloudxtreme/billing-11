@@ -1,8 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import com.elstele.bill.utils.IpStatus;
-import com.elstele.bill.utils.SubnetPurpose;
+import com.elstele.bill.utils.Enums.SubnetPurpose;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,9 +16,6 @@ public class IpSubnet extends CommonDomainBean {
 
     @OneToMany(mappedBy="ipSubnet")
     private Set<Ip> ipAdd;
-
-
-
 
     public String getIpSubnet() {
         return ipSubnet;
