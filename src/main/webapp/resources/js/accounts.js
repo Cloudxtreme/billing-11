@@ -130,6 +130,26 @@ $(document).ready(function() {
     $('#phyAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
+            $('#phyAddressStreetId').val(item.value);
+        },
+        ajax: {
+            url: ".././getListOfStreets.html",
+            timeout: 500,
+            displayField: "name",
+            triggerLength: 1,
+            method: "get",
+            loadingClass: "loading-circle"
+
+        }
+    });
+})
+
+
+$(document).ready(function() {
+    $('#legalAddressStreet').typeahead({
+        onSelect: function(item) {
+            console.log(item);
+            $('#legalAddressStreetId').val(item.value);
         },
         ajax: {
             url: ".././getListOfStreets.html",
