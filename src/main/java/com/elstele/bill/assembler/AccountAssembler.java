@@ -5,7 +5,6 @@ import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.ServiceForm;
-import com.elstele.bill.form.ServiceInternetForm;
 import com.elstele.bill.utils.Status;
 
 import java.util.ArrayList;
@@ -17,11 +16,12 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 public class AccountAssembler {
 
-    String[] propsToSkip = {"phyAddress", "legalAddress","serviceForms"};
+    String[] accountPropsToSkip = {"phyAddress", "legalAddress","serviceForms"};
+    String[] addressPropsToSkip = {"street", "streetId"};
 
     public AccountForm fromBeanToForm(Account bean){
         AccountForm form = new AccountForm();
-        copyProperties(bean, form, propsToSkip);
+        copyProperties(bean, form, accountPropsToSkip);
 
         form.setPhyAddress( addressAssembleFromBeanToForm(bean.getPhyAddress(), form.getPhyAddress()) );
         form.setLegalAddress( addressAssembleFromBeanToForm(bean.getLegalAddress(), form.getLegalAddress()) );
@@ -35,7 +35,11 @@ public class AccountAssembler {
             if (form == null){
                 form = new AddressForm();
             }
-            copyProperties(bean, form);
+            copyProperties(bean, form, addressPropsToSkip);
+            if (bean.getStreet() != null){
+                form.setStreet(bean.getStreet().getName());
+                form.setStreetId(bean.getStreet().getId());
+            }
         }
         return form;
     }
@@ -63,7 +67,7 @@ public class AccountAssembler {
 
     public Account fromFormToBean(AccountForm form){
         Account bean = new Account();
-        copyProperties(form, bean, propsToSkip);
+        copyProperties(form, bean, accountPropsToSkip);
         bean.setPhyAddress( addressAssembleFromFormToBean(form.getPhyAddress(), bean.getPhyAddress()) );
         bean.setLegalAddress( addressAssembleFromFormToBean(form.getLegalAddress(), bean.getLegalAddress()) );
 
@@ -75,7 +79,11 @@ public class AccountAssembler {
             if (bean == null){
                 bean = new Address();
                 bean.setStatus(Status.ACTIVE);
-                copyProperties(form, bean);
+                copyProperties(form, bean, addressPropsToSkip);
+                if (form.getStreetId() != null){
+                    Street str = new Street(form.getStreetId(), form.getStreet());
+                    bean.setStreet(str);
+                }
             }
         }
         return bean;

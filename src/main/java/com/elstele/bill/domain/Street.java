@@ -12,6 +12,13 @@ public class Street extends CommonDomainBean {
     @Column(name = "street_name")
     private String name;
 
+    public Street(){};  //for hibernate we need default constructor
+
+    public Street(Integer id, String name){
+        setId(id);
+        setName(name);
+    }
+
     public String getName() {
         return name;
     }
