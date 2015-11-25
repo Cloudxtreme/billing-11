@@ -70,6 +70,5 @@ public class FileCreatorTest {
         FileCreator.createFolderWithDate(reportDetails);
         assertTrue(fileMainFolder.exists());
         assertTrue(fileMainFolder.isDirectory());
-
     }
 }
