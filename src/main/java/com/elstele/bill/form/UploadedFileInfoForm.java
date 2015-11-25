@@ -1,6 +1,6 @@
 package com.elstele.bill.form;
 
-import com.elstele.bill.utils.FileStatus;
+import com.elstele.bill.utils.Enums.FileStatus;
 
 public class UploadedFileInfoForm {
     private Integer id;

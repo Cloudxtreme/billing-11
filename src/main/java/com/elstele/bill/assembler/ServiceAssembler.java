@@ -2,7 +2,7 @@ package com.elstele.bill.assembler;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.form.*;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 

@@ -1,4 +1,4 @@
-package com.elstele.bill.utils;
+package com.elstele.bill.utils.Enums;
 
 public enum ResponseToAjax {
     SUCCESS,

@@ -6,7 +6,7 @@ import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

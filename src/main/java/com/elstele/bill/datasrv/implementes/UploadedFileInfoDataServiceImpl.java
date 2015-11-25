@@ -5,7 +5,7 @@ import com.elstele.bill.dao.interfaces.UploadedFileInfoDAO;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.domain.UploadedFileInfo;
 import com.elstele.bill.form.UploadedFileInfoForm;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

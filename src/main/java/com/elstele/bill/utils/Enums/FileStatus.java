@@ -1,3 +1,3 @@
-package com.elstele.bill.utils;
+package com.elstele.bill.utils.Enums;
 
 public enum FileStatus {NEW, PROCESSED}

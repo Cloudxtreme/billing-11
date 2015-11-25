@@ -3,7 +3,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;

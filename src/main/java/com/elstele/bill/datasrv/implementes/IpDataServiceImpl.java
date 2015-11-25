@@ -5,7 +5,7 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.IpForm;
-import com.elstele.bill.utils.IpStatus;
+import com.elstele.bill.utils.Enums.IpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
