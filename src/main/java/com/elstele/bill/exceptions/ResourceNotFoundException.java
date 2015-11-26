@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.exceptions;
+package com.elstele.bill.exceptions;
 
 
 public class ResourceNotFoundException extends  RuntimeException {

@@ -26,7 +26,7 @@ public class DateReportParser {
         String endTime = reportDetails.getYear() + "/" + reportDetails.getMonth() + "/" + endDay + " 23:59";
         try {
             Date startTimeInDateFormat = simpleDateFormat.parse(endTime);
-            log.info("End time is "+ startTimeInDateFormat );
+            log.info("End time is " + startTimeInDateFormat);
             return startTimeInDateFormat;
         } catch (ParseException e) {
             log.error(e);
@@ -44,6 +44,17 @@ public class DateReportParser {
         } catch (ParseException e) {
             log.error(e);
             return null;
+        }
+    }
+
+    public static Date getNowDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(new Date());
+        try {
+            return dateFormat.parse(formattedDate);
+        } catch (ParseException e) {
+            log.error("Exception while calling getNowDate:" + e);
+            return new Date();
         }
     }
 }

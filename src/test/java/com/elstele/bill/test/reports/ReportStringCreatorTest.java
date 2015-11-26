@@ -2,7 +2,7 @@ package com.elstele.bill.test.reports;
 
 
 import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

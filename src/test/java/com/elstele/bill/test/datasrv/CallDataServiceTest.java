@@ -2,9 +2,9 @@ package com.elstele.bill.test.datasrv;
 
 
 import com.elstele.bill.dao.interfaces.CallDAO;
-import com.elstele.bill.datasrv.implementes.CallDataServiceImpl;
+import com.elstele.bill.datasrv.impl.CallDataServiceImpl;
 import com.elstele.bill.domain.Call;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;

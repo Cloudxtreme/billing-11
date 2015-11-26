@@ -10,8 +10,7 @@
 <head>
     <title>Page not found. 404</title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
-    <meta name="keywords"
-          content="404 iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
+    <meta name="keywords" content="404 iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
     <spring:url value="/resources/css/404.css" var="PageNotFoundCss"/>
     <link href="${PageNotFoundCss}" rel="stylesheet"/>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>

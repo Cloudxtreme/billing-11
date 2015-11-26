@@ -2,7 +2,7 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.form.CallForm;
-import com.elstele.bill.utils.CallsRequestParamTO;
+import com.elstele.bill.reportCreators.CallsRequestParamTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

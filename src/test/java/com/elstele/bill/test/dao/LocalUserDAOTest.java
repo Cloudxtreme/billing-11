@@ -49,10 +49,6 @@ public class LocalUserDAOTest {
 
         LocalUser bean = dao.getById(id);
         assertTrue(bean == null);
-
-
-
-
     }
 
     @Test
@@ -81,8 +77,4 @@ public class LocalUserDAOTest {
         assertNotNull(lu2);
 
     }
-
-
-
-
 }

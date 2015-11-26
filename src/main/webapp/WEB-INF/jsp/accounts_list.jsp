@@ -22,12 +22,8 @@
 
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
-
-
 <div class="well">
     <a href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal">Create New Account</a>
-
-
     <div id="accAccountModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -41,21 +37,9 @@
                     <form:form class="form" id="crtAccountForm" method="POST" modelAttribute="accountForm"
                                 action="${pageContext.request.contextPath}/accounts/add.html">
                         <fieldset>
-                                <%--<c:if  test="${empty errorMessage}">
-                                    <div class="form-group">
-                                        <label class="col-lg-8">Please fill in all fields below.</label>
-                                    </div>
-                                </c:if>
-                                <c:if test="${not empty errorMessage}">
-                                    <div class="form-group">
-                                        <label class="col-lg-8 text-warning">${errorMessage}</label>
-                                    </div>
-                                </c:if>--%>
                             <form:input path="id" id="id" type="hidden"/>
                             <form:input path="currentBalance" id="currentBalance" type="hidden"/>
                             <form:input path="status" id="status" type="hidden"/>
-                            <%--<form:input path="phyAddress" id="phyAddress" type="hidden"/>
-                            <form:input path="legalAddress" id="legalAddress" type="hidden"/>--%>
                             <div class="form-group">
                                 <label for="accountName" class="col-lg-5 control-label">Account #</label>
                                 <div class="col-lg-9">
@@ -70,8 +54,6 @@
                                     </form:select>
                                 </div>
                             </div>
-
-
                         </fieldset>
                     </form:form>
                 </div>
@@ -83,8 +65,6 @@
         </div>
     </div>
 </div>
-
-
 <div id="accountsTableDiv">
     <table id="accountsTable" class="table table-striped">
         <tr>
@@ -100,16 +80,7 @@
         <a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick = "goToPrevPage();"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
         &nbsp;&nbsp;
         <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
-    <div/>
-
-
-
+    </div>
 </div>
-
-
-
-
-
-
 </body>
 </html>

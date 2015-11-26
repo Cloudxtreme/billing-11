@@ -3,7 +3,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.CallDAOImpl;
 import com.elstele.bill.domain.Call;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

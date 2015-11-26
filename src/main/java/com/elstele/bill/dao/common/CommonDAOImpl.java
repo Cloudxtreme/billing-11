@@ -3,6 +3,7 @@ package com.elstele.bill.dao.common;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Filter;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +121,10 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
 
         }
+    }
 
+    public void clearTable(String tableName){
+        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery("DELETE FROM " + tableName);
     }
 }
 

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import com.elstele.bill.dao.impl.LocalUserDAOImpl;
-import com.elstele.bill.datasrv.implementes.LocalUserDataServiceImpl;
+import com.elstele.bill.datasrv.impl.LocalUserDataServiceImpl;
 import com.elstele.bill.domain.LocalUser;
 import org.junit.After;
 import org.junit.Before;

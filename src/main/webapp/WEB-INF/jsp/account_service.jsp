@@ -23,7 +23,6 @@
 <div class="col-lg-6">
 
     <legend>Account Services</legend>
-
     <c:if test="${not empty successMessage}">
         <div class="alert alert-info" role="alert">${successMessage}</div>
     </c:if>
@@ -42,27 +41,26 @@
             <label for="${account.id}">
                 <tr id="${account.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}/service/account/${account.id}/0/modify"><span
-                                class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/service/account/${account.id}/0/modify"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                     </td>
-                    <td colspan="5"><a
-                            href="${pageContext.request.contextPath}/service/account/${account.id}/0/modify">${account.accountName}</a>
+                    <td colspan="5">
+                        <a href="${pageContext.request.contextPath}/service/account/${account.id}/0/modify">${account.accountName}</a>
                     </td>
                 </tr>
-                </a>
-
 
                 <c:forEach items="${account.serviceForms}" var="accountService">
                     <label for="${accountService.id}">
                         <tr id="${accountService.id}">
                             <td>&nbsp;</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/service/account/${account.id}/${accountService.id}/modify"><span
-                                        class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                <a href="${pageContext.request.contextPath}/service/account/${account.id}/${accountService.id}/modify">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </a>
                                 &nbsp;&nbsp;
                                 <a href="${pageContext.request.contextPath}/service/account/${accountService.id}/delete"
-                                   onclick="return confirm('Do you really want to delete account service?')"><span
-                                        class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                   onclick="return confirm('Do you really want to delete account service?')">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
                             </td>
                             <td>${accountService.serviceType.name}</td>
                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd"/></td>
@@ -71,14 +69,9 @@
                         </tr>
                     </label>
                 </c:forEach>
-
-
             </label>
         </c:forEach>
-
-
     </table>
-
 </div>
 
 </body>

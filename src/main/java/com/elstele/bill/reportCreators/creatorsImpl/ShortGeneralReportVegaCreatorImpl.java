@@ -8,7 +8,7 @@ import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
 import com.elstele.bill.reportCreators.reportStringsWriter.ReportStringsWriter;
 import com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -5,7 +5,7 @@ import com.elstele.bill.controller.HandleCSVFileController;
 import com.elstele.bill.datasrv.interfaces.CSVParserDataService;
 import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
-import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
+import com.elstele.bill.exceptions.IncorrectReportNameException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

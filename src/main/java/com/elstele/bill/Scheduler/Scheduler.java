@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.Scheduler;
+package com.elstele.bill.Scheduler;
 
 import com.elstele.bill.datasrv.interfaces.USDRateDataService;
 import com.elstele.bill.utils.Constants.Constants;
@@ -18,7 +18,7 @@ public class Scheduler {
     USDRateDataService usdRateDataService;
 
     @Scheduled(cron = Constants.EVERY_DAY_IN_10_30)
-    public void getUSDRate(){
-        usdRateDataService.setRate();
+    public void getUSDRateXML(){
+        usdRateDataService.getXMLUSDRate();
     }
 }

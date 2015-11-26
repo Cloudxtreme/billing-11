@@ -2,7 +2,7 @@ package com.elstele.bill.reportCreators.reportsStringCreator;
 
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.domain.CallForCSV;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

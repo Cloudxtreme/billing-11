@@ -1,4 +1,4 @@
-package com.elstele.bill.datasrv.implementes;
+package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.ServiceTypeAssembler;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;

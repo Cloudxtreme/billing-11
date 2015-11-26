@@ -4,7 +4,7 @@ import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
 import com.elstele.bill.reportCreators.creatorsImpl.*;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
-import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
+import com.elstele.bill.exceptions.IncorrectReportNameException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

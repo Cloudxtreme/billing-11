@@ -1,7 +1,7 @@
 package com.elstele.bill.test.datasrv;
 
 
-import com.elstele.bill.datasrv.implementes.ReportDataServiceImpl;
+import com.elstele.bill.datasrv.impl.ReportDataServiceImpl;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.reportCreators.creatorsImpl.LongGeneralReportCreatorImpl;
@@ -9,13 +9,12 @@ import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 
-import com.elstele.bill.utils.exceptions.IncorrectReportNameException;
+import com.elstele.bill.exceptions.IncorrectReportNameException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.exceptions;
+package com.elstele.bill.exceptions;
 
 public class IncorrectReportNameException extends Exception {
     public IncorrectReportNameException() {

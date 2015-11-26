@@ -1,4 +1,4 @@
-package com.elstele.bill.datasrv.implementes;
+package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;

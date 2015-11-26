@@ -4,7 +4,7 @@ package com.elstele.bill.test.reports;
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.CostTotalCounter;
-import com.elstele.bill.utils.CallTO;
+import com.elstele.bill.reportCreators.CallTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

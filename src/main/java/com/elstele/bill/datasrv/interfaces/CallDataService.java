@@ -3,8 +3,8 @@ package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.Call;
 import com.elstele.bill.form.CallForm;
-import com.elstele.bill.utils.CallTO;
-import com.elstele.bill.utils.CallsRequestParamTO;
+import com.elstele.bill.reportCreators.CallTO;
+import com.elstele.bill.reportCreators.CallsRequestParamTO;
 
 import java.util.Date;
 import java.util.List;
