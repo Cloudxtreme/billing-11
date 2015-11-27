@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv;
 
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.form.ServiceForm;
+import com.elstele.bill.form.ServiceInternetAttributeForm;
 
 import java.util.List;
 

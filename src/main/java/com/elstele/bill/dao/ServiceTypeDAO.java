@@ -1,6 +1,7 @@
 package com.elstele.bill.dao;
 
 import com.elstele.bill.dao.common.CommonDAO;
+import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
 
 import java.util.List;

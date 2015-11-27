@@ -14,6 +14,8 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/serviceAttribute.js" var="serviceAttribute" />
+    <script src="${serviceAttribute}"></script>
 
 </head>
 <body>
@@ -22,25 +24,32 @@
 
 
 <div class="col-lg-6">
+    <label class="">&nbsp;</label>
     <form:form class="form-horizontal" method="POST" commandName="serviceForm" action="${pageContext.request.contextPath}/serviceType/form">
         <fieldset>
-            <legend>Add/Edit Service</legend>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add/Edit Service</h3>
+                </div>
+                <div class="panel-body">
                     <div class="form-group">
                         <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
                     </div>
                     <div class="form-group">
                             <label class="col-lg-3 control-label">Service Type</label>
                             <div class="col-lg-9">
-                                <label for="internetService" class="radio-inline"><strong>
-                                    <form:radiobutton path="serviceType" value="INTERNET" id="internetService"/> Internet
-                                </strong></label>
-                                <label for="phoneService" class="radio-inline"><strong>
-                                    <form:radiobutton path="serviceType" value="PHONE" id="phoneService"/> Phone
-                                </strong></label>
-                                <label for="markerService" class="radio-inline"><strong>
-                                    <form:radiobutton path="serviceType" value="MARKER" id="markerService"/> Marker
-                                </strong></label>
-                                <form:errors path="serviceType" cssClass="alert-danger" />
+                                <fieldset id="serviceType">
+                                    <label class="radio-inline"><strong>
+                                        <form:radiobutton path="serviceType" value="INTERNET"/> Internet
+                                    </strong></label>
+                                    <label class="radio-inline"><strong>
+                                        <form:radiobutton path="serviceType" value="PHONE"/> Phone
+                                    </strong></label>
+                                    <label class="radio-inline"><strong>
+                                        <form:radiobutton path="serviceType" value="MARKER"/> Marker
+                                    </strong></label>
+                                    <form:errors path="serviceType" cssClass="alert-danger" />
+                                </fieldset>
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,10 +79,53 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
+                </div>
+            </div>
         </fieldset>
     </form:form>
 
 </div>
+
+<div class="col-lg-6" id="serviceInternetAttribute">
+    <label class="">&nbsp;</label>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Service Attributes
+                        <a href="${pageContext.request.contextPath}/serviceAttribute/${serviceForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                <table id="serviceInternetAttributeTable" class="table table-striped table-hover">
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Attribute</th>
+                        <th>Operation</th>
+                        <th>Value</th>
+                    </tr>
+
+                    <c:forEach items="${serviceInternetAttributeList}" var="serviceInternetAttribute">
+                        <label for="${serviceInternetAttribute.id}">
+                            <tr id="${serviceInternetAttribute.id}">
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/serviceAttribute/${serviceForm.id}/${serviceInternetAttribute.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    &nbsp;&nbsp;
+                                    <a href="${pageContext.request.contextPath}/serviceAttribute/${serviceForm.id}/${serviceInternetAttribute.id}/delete" onclick="return confirm('Do you really want to delete service attribute?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                </td>
+                                <td>${serviceInternetAttribute.attribute}</td>
+                                <td>${serviceInternetAttribute.operation}</td>
+                                <td>${serviceInternetAttribute.value}</td>
+                            </tr>
+                        </label>
+                    </c:forEach>
+                </table>
+                </div>
+            </div>
+            <c:if test="${not empty successMessage}">
+            <div class="alert alert-info" role="alert">${successMessage}</div>
+            </c:if>&nbsp;
+        </div>
+    </div>
+
 
 </body>
 </html>

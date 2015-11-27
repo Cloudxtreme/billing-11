@@ -49,7 +49,9 @@ public class IpDataServiceImpl implements IpDataService {
     @Override
     @Transactional
     public void setStatus(Integer id, IpStatus ipStatus){
-        ipDAO.setStatusById(ipStatus, id);
+        if(id != null) {
+            ipDAO.setStatusById(ipStatus, id);
+        }
     }
 
     @Override

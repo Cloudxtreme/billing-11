@@ -48,7 +48,6 @@
                     </td>
                     <td colspan="5"><a href="${pageContext.request.contextPath}/service/account/${account.id}/0/modify">${account.accountName}</a></td>
                 </tr>
-                </a>
 
 
                 <c:forEach items="${account.serviceForms}" var="accountService">
@@ -68,11 +67,8 @@
                     </label>
                 </c:forEach>
 
-
-
             </label>
         </c:forEach>
-
 
     </table>
 

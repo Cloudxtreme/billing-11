@@ -4,6 +4,7 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.datasrv.IpDataService;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
+import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.utils.IpStatus;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,5 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
         if (service instanceof ServiceInternet)
             ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
     }
+
 }

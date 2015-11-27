@@ -41,22 +41,22 @@ public class AccountAssembler {
     }
 
     private List<ServiceForm> serviceAssembleFromBeanToForm(Set<Service> beans, List<ServiceForm> serviceForms) {
-        ServiceAssembler servAssembler = new ServiceAssembler();
         serviceForms = new ArrayList<ServiceForm>();
-        Iterator iterator = beans.iterator();
-        while(iterator.hasNext()){
-            Service bean = (Service) iterator.next();
-            ServiceForm form = new ServiceForm();
-            if(bean instanceof ServiceInternet) {
-                form = servAssembler.fromInternetBeanToForm((ServiceInternet) bean);
+        if(beans!=null) {
+            ServiceAssembler servAssembler = new ServiceAssembler();
+            Iterator iterator = beans.iterator();
+            while (iterator.hasNext()) {
+                Service bean = (Service) iterator.next();
+                ServiceForm form;
+                if (bean instanceof ServiceInternet) {
+                    form = servAssembler.fromInternetBeanToForm((ServiceInternet) bean);
+                } else if (bean instanceof ServicePhone) {
+                    form = servAssembler.fromPhoneBeanToForm((ServicePhone) bean);
+                } else {
+                    form = servAssembler.fromServiceBeanToForm(bean);
+                }
+                serviceForms.add(form);
             }
-            else if(bean instanceof ServicePhone) {
-                form = servAssembler.fromPhoneBeanToForm((ServicePhone) bean);
-            }
-            else{
-                form = servAssembler.fromServiceBeanToForm(bean);
-            }
-            serviceForms.add(form);
         }
         return serviceForms;
     }

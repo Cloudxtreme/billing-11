@@ -115,7 +115,6 @@ public class ServiceController {
         List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
         ServiceForm form = serviceDataService.getServiceFormById(accountServiceId);
         form.setAccountId(accountId);
-        Integer idCurrentIpAddress = serviceDataService.getCurrentIpAddress(form);
 
         map.put("serviceForm", form);
         map.put("account", accountDataService.getAccountById(accountId));
@@ -123,7 +122,7 @@ public class ServiceController {
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
         map.put("devicesList", deviceDataService.getDevices());
         map.put("ipNetList", ipSubnetDataService.getIpSubnets());
-        map.put("currentIpAddress", idCurrentIpAddress);
+        map.put("currentIpAddress", serviceDataService.getCurrentIpAddress(form));
         return "account_service_form";
     }
 
