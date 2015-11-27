@@ -20,6 +20,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -31,21 +33,21 @@ import static org.junit.Assert.*;
 public class TransactionDAOTest {
 
     @Autowired
-    private TransactionDAO transactionDAO;
-    @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private TransactionDAO transactionDAO;
     @Autowired
     private AccountDAO accountDAO;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         String hql = String.format("delete from Transaction");
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.executeUpdate();
     }
 
     @Test
-    public void createUpdateAndDeleteTransaction(){
+    public void dbTransactionManupulation() {
         java.util.Date date = new java.util.Date();
 
         Account ac1 = new Account();
@@ -53,7 +55,7 @@ public class TransactionDAOTest {
         ac1.setCurrentBalance(20F);
         ac1.setAccountType(Constants.AccountType.PRIVATE);
         ac1.setStatus(Status.ACTIVE);
-        accountDAO.create(ac1);
+        int accountId = accountDAO.create(ac1);
 
         Transaction trans1 = new Transaction();
         trans1.setDate(new Timestamp(date.getTime()));
@@ -83,12 +85,22 @@ public class TransactionDAOTest {
         assertTrue(trans2.equals(bean2));
 
 
+        /*--- GET List ---*/
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        transactionList.add(trans1);
+        transactionList.add(trans2);
+        List<Transaction> transactionListFromDB = transactionDAO.getTransactionList(accountId);
+        assertTrue(transactionList.equals(transactionListFromDB));
+
+
+        /*--- Update ---*/
         trans1.setDirection(Constants.TransactionDirection.CREDIT);
         transactionDAO.update(trans1);
         bean1 = transactionDAO.getById(id1);
         assertTrue(bean1.getDirection().equals(Constants.TransactionDirection.CREDIT));
 
 
+        /*--- Delete ---*/
         transactionDAO.delete(id1);
         Transaction res = transactionDAO.getById(id1);
         assertTrue(res == null);
@@ -97,5 +109,4 @@ public class TransactionDAOTest {
         res = transactionDAO.getById(id2);
         assertTrue(res.getStatus().equals(Status.DELETED));
     }
-
 }
