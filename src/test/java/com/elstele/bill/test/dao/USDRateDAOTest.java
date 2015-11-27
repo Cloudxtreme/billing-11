@@ -2,7 +2,6 @@ package com.elstele.bill.test.dao;
 
 
 import com.elstele.bill.dao.impl.USDRateDAOImpl;
-import org.hibernate.exception.SQLGrammarException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
