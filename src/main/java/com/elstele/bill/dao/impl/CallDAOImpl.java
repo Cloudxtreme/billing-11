@@ -33,7 +33,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
     }
 
     public Integer getCallsCountWithSearchValues(CallsRequestParamTO callsRequestParamTO) {
-        StringBuffer queryStart = new StringBuffer("select countForTO(* ) from Call where 1=1 ");
+        StringBuffer queryStart = new StringBuffer("select count(* ) from Call where 1=1 ");
         if (callsRequestParamTO.getCallNumberA() != null && !callsRequestParamTO.getCallNumberA().isEmpty()) {
             StringBuffer numberA = new StringBuffer("and numberA like '" + callsRequestParamTO.getCallNumberA() + "%'");
             queryStart.append(numberA);
