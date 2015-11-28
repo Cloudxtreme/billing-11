@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <label for="password" class="col-lg-3 control-label">Password</label>
                     <div class="col-lg-9">
-                        <form:password path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
+                        <form:input path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
                         <form:errors path="serviceInternet.password" cssClass="alert-danger" />
                     </div>
                 </div>
