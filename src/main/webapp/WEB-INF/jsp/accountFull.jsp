@@ -54,6 +54,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="accountFIO" class="col-lg-2 control-label">Фио</label>
+                                    <div class="col-lg-9">
+                                        <form:input path="fio" class="form-control" id="accountFIO" placeholder="Фио"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="accountType" class="col-lg-2 control-label">Account Type</label>
                                     <div class="col-lg-9">
                                         <form:select path="accountType" class="form-control" id="accountType">
@@ -65,6 +71,7 @@
                         </div>
                     </div>
 
+                    <%--Physical Address--%>
                     <div id="phyAddrBlock" class="col-lg-6">
                         <form:input path="phyAddress.id" id="id" type="hidden"/>
                         <%--<form:input path="phyAddress.status" id="status" type="hidden"/>--%>

@@ -6,14 +6,18 @@ import javax.persistence.*;
 import static com.elstele.bill.utils.Constants.SERVICE_INTERNET;
 
 @Entity
-@Table(name="ServiceInternetAttribute")
+@Table(name="pacattributes")
 public class ServiceInternetAttribute  extends CommonDomainBean {
 
+    @Column(name = "attribute")
     private String attribute;
+    @Column(name = "op")
     private String operation;
+    @Column(name = "value")
     private String value;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "packetid")
     private ServiceType serviceType;
 
     public String getAttribute() {

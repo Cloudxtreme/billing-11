@@ -23,7 +23,8 @@ public class Account extends CommonDomainBean {
     @Enumerated(EnumType.STRING)
     private Constants.AccountType accountType;
     private Float currentBalance;
-
+    @Column(name = "user_fio")
+    private String fio;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address phyAddress;
@@ -84,6 +85,14 @@ public class Account extends CommonDomainBean {
 
     public void setAccountServices(Set<Service> accountServices) {
         this.accountServices = accountServices;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     @Override

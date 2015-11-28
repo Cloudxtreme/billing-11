@@ -76,6 +76,9 @@ public class AccountAssembler {
 
     private Address addressAssembleFromFormToBean(AddressForm form, Address bean) {
         if (form != null){
+            if (isAddressEmpty(form)){
+                return null;
+            }
             if (bean == null){
                 bean = new Address();
                 bean.setStatus(Status.ACTIVE);
@@ -87,6 +90,15 @@ public class AccountAssembler {
             }
         }
         return bean;
+    }
+
+    private boolean isAddressEmpty(AddressForm form) {
+        if (form != null){
+            if(form.getId() != null || form.getStreetId() != null){
+                return false;
+            }
+        }
+        return true;
     }
 
 
