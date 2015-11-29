@@ -28,8 +28,15 @@
 
 
 <div class="well">
-        <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
-        <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
+    <div id="topButtons">
+        <div id="buttonPanel" class="col-lg-6">
+            <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
+            <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
+        </div>
+        <div id="balansPanel" class="col-lg-6">
+            <span class="btn btn-sm btn-warning float-right">Баланс ${accountForm.currentBalance}</span>
+        </div>
+    </div>
 
     <div id="accountMainDetail">
         <form:form class="form-horizontal" id="fullAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/save.html">
