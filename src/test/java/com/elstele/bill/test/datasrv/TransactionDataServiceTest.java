@@ -10,6 +10,7 @@ import com.elstele.bill.test.builder.ObjectBuilder;
 import com.elstele.bill.utils.Constants;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -49,6 +50,7 @@ public class TransactionDataServiceTest {
     }
 
     @Test
+    @Ignore
     public void getTransactionListTest(){
         when(transactionDAO.getTransactionList(1)).thenReturn(transactionListSample);
 
