@@ -54,16 +54,12 @@ public class ServiceAssembler{
         if (SERVICE_INTERNET.equals(servType.getServiceType())) {
             if (!serviceForm.isNew()) {
                 service = serviceDAO.getById(serviceForm.getId());
-                if (serviceForm.getServiceInternet().getIp().getId() != ((ServiceInternet) service).getIpAddress().getId()) {
-                    ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
-                    ipDataService.setStatus(serviceForm.getServiceInternet().getIp().getId(), IpStatus.USED);
-                }
+                changeIpAddressIfNeed(service, serviceForm);
             } else {
                 service = new ServiceInternet();
                 ipDataService.setStatus(serviceForm.getServiceInternet().getIp().getId(), IpStatus.USED);
             }
             service = fromFormToInternetBean(serviceForm, (ServiceInternet) service);
-            changeIpAddressIfNeed(service,serviceForm);
         }
         else if (SERVICE_PHONE.equals(servType.getServiceType())) {
             service = fromFormToPhoneBean(serviceForm);
