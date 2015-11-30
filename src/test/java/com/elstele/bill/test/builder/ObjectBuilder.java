@@ -37,13 +37,11 @@ public class ObjectBuilder {
     }
     public AccountForm createAccountForm(Integer id, String name, Float balance, Constants.AccountType acType){
         AccountForm af = new AccountForm();
+        af.setId(id);
         af.setAccountName(name);
         af.setCurrentBalance(balance);
         af.setAccountType(acType);
         af.setStatus(Status.ACTIVE);
-        List<ServiceForm> servF = new ArrayList<ServiceForm>();
-        af.setServiceForms(servF);
-        af.setId(id);
         return af;
     }
 
