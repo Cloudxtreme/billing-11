@@ -1,5 +1,7 @@
 package com.elstele.bill.reportCreators;
 
+import org.apache.logging.log4j.Logger;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ public class CallsRequestParamTO {
     private int pageResults;
     private Date startDate;
     private Date endDate;
+    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallsRequestParamTO.class);
 
     DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
@@ -42,21 +45,30 @@ public class CallsRequestParamTO {
         return startDate;
     }
 
-    public void setStartDate(String timeRange) throws ParseException {
-        if (timeRange.length() >= 16 && timeRange.length() < 36){
+    public void setStartDate(String timeRange) {
+        if (timeRange.length() >= 16 && timeRange.length() < 36) {
             String startDateTemp = timeRange.substring(0, 16);
-            startDate = df.parse(startDateTemp);
+            try {
+                startDate = df.parse(startDateTemp);
+            } catch (ParseException e) {
+                log.error(e + "Method setStartDate");
+            }
         }
+
     }
 
-    public Date getEndDate(){
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String timeRange) throws ParseException {
-        if (timeRange.length() >= 16 && timeRange.length() < 36){
+    public void setEndDate(String timeRange) {
+        if (timeRange.length() >= 16 && timeRange.length() < 36) {
             String endDateTemp = timeRange.substring(19, 35);
-            endDate = df.parse(endDateTemp);
+            try {
+                endDate = df.parse(endDateTemp);
+            } catch (ParseException e) {
+                log.error(e + "Method setEndDate");
+            }
         }
     }
 }

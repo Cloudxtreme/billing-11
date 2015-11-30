@@ -20,14 +20,6 @@ public class IpDAOImpl extends CommonDAOImpl<Ip> implements IpDAO {
 
 
     @Override
-    public void setStatusById(IpStatus ipStatus, Integer id) {
-        Ip ip = new Ip();
-        ip = getById(id);
-        ip.setIpStatus(ipStatus);
-        update(ip);
-    }
-
-    @Override
     public List<Ip> getIpAddressListBySubnetId(Integer id){
         Query query = getSessionFactory().getCurrentSession().createQuery("from Ip where ipSubnet.id is "+id);
         return (List<Ip>)query.list();

@@ -14,10 +14,7 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
 
     @Override
     public List<Device> getDevices() {
-
         Query query = getSessionFactory().getCurrentSession().createQuery("from Device");
         return (List<Device>)query.list();
-
     }
-
 }

@@ -13,8 +13,6 @@ public class DeviceTypesDAOImpl extends CommonDAOImpl<DeviceTypes> implements De
     
     @Override
     public List<DeviceTypes> getDeviceTypes(){
-
-
         Query query = getSessionFactory().getCurrentSession().createQuery("from DeviceTypes");
         return (List<DeviceTypes>)query.list();
     }
