@@ -10,10 +10,10 @@ import java.util.Date;
 
 public class ServiceInternetAttributeForm {
     private Integer id;
-    private Integer serviceTypeId;
     private String attribute;
     private String operation;
     private String value;
+    private Integer serviceTypeId;
 
     public Integer getId() {
         return id;
@@ -21,14 +21,6 @@ public class ServiceInternetAttributeForm {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getServiceTypeId() {
-        return serviceTypeId;
-    }
-
-    public void setServiceTypeId(Integer serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
     }
 
     public String getAttribute() {
@@ -53,6 +45,14 @@ public class ServiceInternetAttributeForm {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Integer getServiceTypeId() {
+        return serviceTypeId;
+    }
+
+    public void setServiceTypeId(Integer serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 
     //Check if this is for New of Update

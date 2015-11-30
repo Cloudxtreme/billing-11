@@ -1,8 +1,13 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="ServiceType")
@@ -14,6 +19,10 @@ public class ServiceType extends CommonDomainBean{
     private String description;
     private Float price;
     private String serviceType;
+
+    @OneToMany(mappedBy="serviceType")
+    @LazyCollection(LazyCollectionOption.TRUE)
+    private Set<ServiceInternetAttribute> serviceInternetAttributes = new HashSet<ServiceInternetAttribute>(0);
 
     public String getName() {
         return name;
@@ -44,5 +53,13 @@ public class ServiceType extends CommonDomainBean{
     }
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public Set<ServiceInternetAttribute> getServiceInternetAttributes() {
+        return serviceInternetAttributes;
+    }
+
+    public void setServiceInternetAttributes(Set<ServiceInternetAttribute> serviceInternetAttributes) {
+        this.serviceInternetAttributes = serviceInternetAttributes;
     }
 }

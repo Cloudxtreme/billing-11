@@ -16,8 +16,8 @@ public class ServiceInternetAttribute  extends CommonDomainBean {
     @Column(name = "value")
     private String value;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "packetid")
+    @ManyToOne
+    @JoinColumn(name="packetid")
     private ServiceType serviceType;
 
     public String getAttribute() {
