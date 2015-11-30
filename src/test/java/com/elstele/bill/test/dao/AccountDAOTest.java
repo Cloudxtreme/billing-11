@@ -95,8 +95,6 @@ public class AccountDAOTest {
         int id1 = dao.create(ac1);
         int id2 = dao.create(ac2);
 
-        dao.flush();
-
         List<Account> resList = dao.getAccountList();
 
         assertTrue(resList.size() == 2);
