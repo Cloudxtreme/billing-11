@@ -53,7 +53,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Override
     @Transactional
     public void deleteDevice(Integer id){
-        deviceDAO.delete(id);
+        deviceDAO.setStatusDelete(id);
     }
 
     @Override

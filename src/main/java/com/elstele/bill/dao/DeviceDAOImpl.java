@@ -13,7 +13,7 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
 
     @Override
     public List<Device> getDevices() {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Device");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Device where status  <> 'DELETED' order by name");
         return (List<Device>)query.list();
     }
 

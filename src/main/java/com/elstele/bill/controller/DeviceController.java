@@ -140,20 +140,23 @@ public class DeviceController {
 
     @RequestMapping(value="/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax deleteDevice(@RequestBody String json, HttpSession session, HttpServletResponse response, HttpServletRequest request){
-       /* String numberOnly= json.replaceAll("[^0-9]", "");*/
-        Integer id = Integer.parseInt(json);
+    public ResponseToAjax deleteDevice(@RequestBody String json){
+        Integer deveceId = Integer.parseInt(json);
 
-        IpStatus ipStatus = IpStatus.FREE;
-        DeviceForm deviceForm = deviceDataService.getById(id);
+        //TODO move all this logic to dataservice layer during refactoring, after controller will be covered by tests
+        //only one call deviceDataService.deleteDevice(deveceId) need to be here,
+        //so we need to move all unnecessary logic from controller
+        //think about try-catch block
+        
+        DeviceForm deviceForm = deviceDataService.getById(deveceId);
         try {
             if (deviceForm.getIpForm().getId() != null) {
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), ipStatus);
+                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
             }
-            deviceDataService.deleteDevice(id);
+            deviceDataService.deleteDevice(deveceId);
             return ResponseToAjax.SUCCESS;
 
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseToAjax.ERROR;
         }
