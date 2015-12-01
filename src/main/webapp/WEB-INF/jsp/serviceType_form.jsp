@@ -66,6 +66,16 @@
                             <form:errors path="description" cssClass="alert-danger" />
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="serviceBussType" class="col-lg-3 control-label">Business type</label>
+                        <div class="col-lg-9">
+                            <form:select path="bussType" class="form-control" id="serviceBussType">
+                                <form:options items="${bussTypes}" />
+                            </form:select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="price" class="col-lg-3 control-label">Price</label>
                         <div class="col-lg-9">

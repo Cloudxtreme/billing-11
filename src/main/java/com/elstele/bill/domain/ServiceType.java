@@ -1,6 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Constants;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -19,6 +20,8 @@ public class ServiceType extends CommonDomainBean{
     private String description;
     private Float price;
     private String serviceType;
+    @Enumerated(EnumType.STRING)
+    private Constants.AccountType bussType;
 
     @OneToMany(mappedBy="serviceType")
     @LazyCollection(LazyCollectionOption.TRUE)
@@ -61,5 +64,13 @@ public class ServiceType extends CommonDomainBean{
 
     public void setServiceInternetAttributes(Set<ServiceInternetAttribute> serviceInternetAttributes) {
         this.serviceInternetAttributes = serviceInternetAttributes;
+    }
+
+    public Constants.AccountType getBussType() {
+        return bussType;
+    }
+
+    public void setBussType(Constants.AccountType bussType) {
+        this.bussType = bussType;
     }
 }

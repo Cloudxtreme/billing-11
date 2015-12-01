@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,8 +42,10 @@ public class ServiceTypeController {
     @RequestMapping(value = "/serviceType/{id}/update", method = RequestMethod.GET)
     public String serviceUpdate(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         ServiceTypeForm form = serviceTypeDataService.getServiceTypeFormById(id);
+        List<Constants.AccountType> bussTypes = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         map.put("serviceForm", form);
         map.put("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(form.getId()));
+        map.put("bussTypes", bussTypes);
         return "serviceType_form";
 
     }

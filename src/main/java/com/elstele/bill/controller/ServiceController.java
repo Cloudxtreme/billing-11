@@ -1,6 +1,7 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.*;
+import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.IpStatus;
@@ -115,11 +116,12 @@ public class ServiceController {
         List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
         ServiceForm form = serviceDataService.getServiceFormById(accountServiceId);
         form.setAccountId(accountId);
+        AccountForm account = accountDataService.getAccountById(accountId);
 
         map.put("serviceForm", form);
-        map.put("account", accountDataService.getAccountById(accountId));
+        map.put("account", account);
         map.put("servicePeriodList", period);
-        map.put("serviceTypeList", serviceTypeDataService.listServiceType());
+        map.put("serviceTypeList", serviceTypeDataService.listServiceTypeByBussType(account.getAccountType()));
         map.put("devicesList", deviceDataService.getDevices());
         map.put("ipNetList", ipSubnetDataService.getIpSubnets());
         map.put("currentIpAddress", serviceDataService.getCurrentIpAddress(form));
