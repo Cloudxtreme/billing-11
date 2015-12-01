@@ -26,8 +26,7 @@ public class CallForCSVDataServiceImpl implements CallForCSVDataService {
 
     @Transactional
     public void clearReportTable() {
-        callForCSVDAO.clearTable("callForCSV");
-
+        callForCSVDAO.clearTable();
     }
 
     @Transactional

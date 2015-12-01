@@ -44,10 +44,6 @@ public class ServiceDAOTest {
 
     @Before
     public void setUp(){
-        serviceDAO.clearTable("Service");
-        serviceTypeDAO.clearTable("ServiceType");
-        accountDAO.clearTable("Accounts");
-
         expected = new ArrayList<>();
 
         Service service = new Service();
@@ -74,9 +70,6 @@ public class ServiceDAOTest {
 
     @After
     public void tearDown(){
-        serviceDAO.clearTable("Service");
-        serviceTypeDAO.clearTable("ServiceType");
-        accountDAO.clearTable("Accounts");
         expected = null;
     }
 

@@ -45,10 +45,6 @@ public class DeviceDAOTest {
     @Before
     public void setUp(){
         expected = new ArrayList<>();
-        deviceDAO.clearTable("Devices");
-        deviceTypesDAO.clearTable("devicetypes");
-        ipDAO.clearTable("ipAddress");
-        ipSubnetDAO.clearTable("ipsubnet");
 
         Device device1 = new Device();
         Device device2 = new Device();
@@ -81,10 +77,6 @@ public class DeviceDAOTest {
     @After
     public void tearDown(){
         expected = null;
-        deviceDAO.clearTable("Devices");
-        deviceTypesDAO.clearTable("devicetypes");
-        ipDAO.clearTable("ipAddress");
-        ipSubnetDAO.clearTable("ipsubnet");
     }
 
     @Test

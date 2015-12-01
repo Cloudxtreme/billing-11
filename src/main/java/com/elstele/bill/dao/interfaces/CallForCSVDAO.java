@@ -12,5 +12,6 @@ public interface CallForCSVDAO extends CommonDAO<CallForCSV> {
     public List<CallForCSV> getCallForCSVByNumberA(String numberA, Date startTime, Date endTime);
     public List<CallForCSV> getCallForCSVByNumberAWithProvider(String numberA, Date startTime, Date endTime, String provider);
     public String getDescriptionFromDirections(String dirPrefix);
+    public void clearTable();
 
 }

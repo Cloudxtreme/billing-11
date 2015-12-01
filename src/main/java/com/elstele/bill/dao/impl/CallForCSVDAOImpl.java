@@ -47,4 +47,10 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
         return (String)query.uniqueResult();
     }
 
+    @Override
+    public void clearTable() {
+        SQLQuery sqlQuery = getSessionFactory().getCurrentSession().createSQLQuery("DELETE FROM callForCSV");
+        sqlQuery.executeUpdate();
+    }
+
 }

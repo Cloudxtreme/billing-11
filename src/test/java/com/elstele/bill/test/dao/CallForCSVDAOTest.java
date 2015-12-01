@@ -89,7 +89,6 @@ public class CallForCSVDAOTest {
 
     @After
     public void tearDown() {
-        callForCSVDAO.clearTable("callForCSV");
         expectedNumberAList = null;
         call1 = null;
         call2 = null;

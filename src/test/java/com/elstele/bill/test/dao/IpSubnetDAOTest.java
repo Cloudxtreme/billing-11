@@ -35,7 +35,6 @@ public class IpSubnetDAOTest {
     @Before
     public void setUp(){
         expected = new ArrayList<>();
-        ipSubnetDAO.clearTable("ipsubnet");
 
         IpSubnet subnet = new IpSubnet();
         ipSubnetDAO.save(subnet);
@@ -49,7 +48,6 @@ public class IpSubnetDAOTest {
     @After
     public void tearDown(){
         expected = null;
-        ipSubnetDAO.clearTable("ipsubnet");
     }
 
     @Test

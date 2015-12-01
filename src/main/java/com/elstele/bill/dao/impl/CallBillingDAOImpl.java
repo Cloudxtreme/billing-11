@@ -69,7 +69,6 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
         return rate;
     }
 
-
     private String createSQLSearchConditionForDirection(String numberB) {
         StringBuffer resBuff =  new StringBuffer();
         String prefix = numberB.substring(0, numberB.length()-3);

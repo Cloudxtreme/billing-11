@@ -58,7 +58,6 @@ public class UserRoleDAOTest {
 
     @After
     public void tearDown(){
-        userRoleDAO.clearTable("userrole");
         expectedUserRoleList = null;
     }
 

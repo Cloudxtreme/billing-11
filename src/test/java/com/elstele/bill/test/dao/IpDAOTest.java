@@ -40,8 +40,6 @@ public class IpDAOTest {
     @Before
     public void setUp(){
         expected = new ArrayList<>();
-        ipDAO.clearTable("ipAddress");
-        ipSubnetDAO.clearTable("ipsubnet");
 
         Ip ip = new Ip();
         ip.setIpStatus(IpStatus.FREE);
@@ -61,8 +59,6 @@ public class IpDAOTest {
     @After
     public void tearDown(){
         expected =null;
-        ipDAO.clearTable("ipAddress");
-        ipSubnetDAO.clearTable("ipsubnet");
     }
 
     @Test

@@ -34,8 +34,6 @@ public class DeviceTypesDAOTest {
 
     @Before
     public void setUp() {
-        deviceTypesDAO.clearTable("DeviceTypes");
-
         type = new DeviceTypes();
         deviceTypesDAO.save(type);
 
@@ -47,7 +45,6 @@ public class DeviceTypesDAOTest {
     public void tearDown() {
         type = null;
         type1 = null;
-        deviceTypesDAO.clearTable("DeviceTypes");
     }
 
     @Test

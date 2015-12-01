@@ -57,7 +57,6 @@ public class UploadedFileInfoDAOTest {
     @After
     public void tearDown(){
         expected = null;
-        uploadedFileInfoDAO.clearTable("uploadedfileinfo");
     }
 
     @Test

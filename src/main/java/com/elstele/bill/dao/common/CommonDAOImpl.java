@@ -122,10 +122,5 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
         }
     }
-
-    public void clearTable(String tableName){
-        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery("DELETE FROM " + tableName);
-        sqlQuery.executeUpdate();
-    }
 }
 

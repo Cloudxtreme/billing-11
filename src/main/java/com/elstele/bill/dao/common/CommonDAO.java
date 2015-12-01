@@ -40,6 +40,4 @@ public interface CommonDAO <T> {
     public void setStatus(Integer id, Status status);
 
     public void updateAndMerge(T transientObject);
-
-    public void clearTable(String tableName);
 }
