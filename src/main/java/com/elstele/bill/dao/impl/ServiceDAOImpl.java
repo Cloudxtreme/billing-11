@@ -3,9 +3,11 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 
 import com.elstele.bill.dao.interfaces.ServiceDAO;
+import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServiceInternetAttribute;
+import com.elstele.bill.utils.Enums.IpStatus;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 

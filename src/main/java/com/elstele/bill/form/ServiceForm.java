@@ -1,6 +1,6 @@
 package com.elstele.bill.form;
 
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Constants.Constants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;

@@ -4,7 +4,7 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
 import com.elstele.bill.domain.ServiceType;
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Constants.Constants;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Constants.Constants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

@@ -7,7 +7,7 @@ import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
 import com.elstele.bill.test.builder.ObjectBuilder;
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Constants.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

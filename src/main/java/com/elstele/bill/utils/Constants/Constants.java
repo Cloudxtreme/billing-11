@@ -13,4 +13,14 @@ public class  Constants {
     public static final int HOUR = 3600000;
     public static final String EVERY_DAY_IN_10_30 = "0 30 10 * * *";
 
+    public enum Period { WEEK, MONTH, YEAR }
+
+    public enum TransactionSource { HANDMADE, BANK }
+
+    public enum TransactionDirection { DEBIT, CREDIT }
+
+    public static final String SERVICE_INTERNET = "INTERNET";
+    public static final String SERVICE_PHONE = "PHONE";
+    public static final String SERVICE_MARKER = "MARKER";
+
 }

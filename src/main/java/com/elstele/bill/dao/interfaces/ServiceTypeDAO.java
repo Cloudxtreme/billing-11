@@ -3,7 +3,7 @@ package com.elstele.bill.dao.interfaces;
 import com.elstele.bill.dao.common.CommonDAO;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Constants.Constants;
 
 import java.util.List;
 

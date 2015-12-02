@@ -1,7 +1,7 @@
 package com.elstele.bill.domain;
 
 import javax.persistence.*;
-import static com.elstele.bill.utils.Constants.SERVICE_INTERNET;
+import static com.elstele.bill.utils.Constants.Constants.SERVICE_INTERNET;
 
 @Entity
 @Table(name="Service")

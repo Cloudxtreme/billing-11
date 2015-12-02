@@ -3,7 +3,6 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
-import static com.elstele.bill.utils.Constants.SERVICE_INTERNET;
 
 @Entity
 @Table(name="pacattributes")

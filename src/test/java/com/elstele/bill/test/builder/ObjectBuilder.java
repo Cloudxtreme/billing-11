@@ -7,8 +7,8 @@ import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.TransactionForm;
-import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Enums.Status;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

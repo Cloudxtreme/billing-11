@@ -1,15 +1,15 @@
 package com.elstele.bill.test.dao;
 
-import com.elstele.bill.dao.AccountDAO;
-import com.elstele.bill.dao.ServiceDAO;
-import com.elstele.bill.dao.ServiceTypeDAO;
+import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.ServiceDAO;
+import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.test.builder.ObjectBuilder;
-import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.elstele.bill.utils.Constants.*;
+import static com.elstele.bill.utils.Constants.Constants.*;
 import static org.junit.Assert.*;
 
 
