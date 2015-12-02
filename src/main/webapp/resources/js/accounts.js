@@ -4,7 +4,6 @@ $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    $("#linkToAccounts").addClass('active');
     renderAccountsTable(pageResults, 1);
     hideShowLegalAddress();
 });
@@ -127,6 +126,44 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function() {
+    $('#phyAddressStreet').typeahead({
+        onSelect: function(item) {
+            console.log(item);
+            $('#phyAddressStreetId').val(item.value);
+        },
+        ajax: {
+            url: ".././getListOfStreets.html",
+            timeout: 500,
+            displayField: "name",
+            triggerLength: 1,
+            method: "get",
+            loadingClass: "loading-circle"
+
+        }
+    });
+})
+
+
+$(document).ready(function() {
+    $('#legalAddressStreet').typeahead({
+        onSelect: function(item) {
+            console.log(item);
+            $('#legalAddressStreetId').val(item.value);
+        },
+        ajax: {
+            url: ".././getListOfStreets.html",
+            timeout: 500,
+            displayField: "name",
+            triggerLength: 1,
+            method: "get",
+            loadingClass: "loading-circle"
+
+        }
+    });
+})
+
+
 function hideModalAddAccount(){
     $("#accAccountModal").modal('hide');
 };
@@ -176,6 +213,7 @@ function drawRow(rowData) {
             "<a href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" onclick=\"return confirm('Do you really want to delete account?')\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
     ));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
+    row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.fio + " </a></td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));
     row.append($("<td>" + rowData.currentBalance + "</td>"));
     row.append($("<td>" + rowData.status + "</td>"));

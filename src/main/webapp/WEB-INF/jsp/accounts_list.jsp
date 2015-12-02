@@ -68,11 +68,12 @@
 <div id="accountsTableDiv">
     <table id="accountsTable" class="table table-striped">
         <tr>
-            <th>Action</th>
-            <th>Account Name</th>
-            <th>Account Type</th>
-            <th>Balance</th>
-            <th>Status</th>
+            <th>Действия</th>
+            <th>ID(Лиц счет)</th>
+            <th>Фио(Организация)</th>
+            <th>Тип</th>
+            <th>Баланс</th>
+            <th>Статус</th>
         </tr>
     </table>
     <div id="tableNavigation">

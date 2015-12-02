@@ -18,9 +18,8 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-         http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task.xsd
-        ">
- 
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">    
+    
     <context:annotation-config />
     <context:component-scan base-package="com.elstele.bill" />
  
@@ -37,7 +36,7 @@
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
     <task:executor id="executor" pool-size="5"/>
     <task:scheduler id="scheduler" pool-size="10"/>
-    <bean id="scheduller" class="com.elstele.bill.Scheduler.Scheduler"/>
+    <!--<bean id="scheduller" class="com.elstele.bill.scheduler.Scheduler"/>-->
 
     <bean id="jspViewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -101,5 +100,7 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+   <!-- <task:annotation-driven />
+    <bean id="transactionSheduler" class="com.elstele.bill.scheduler.TransactionScheduler"></bean>-->
 
 </beans>

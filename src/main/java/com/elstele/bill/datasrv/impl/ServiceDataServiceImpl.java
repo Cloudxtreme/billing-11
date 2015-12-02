@@ -1,6 +1,7 @@
 package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.ServiceAssembler;
+import com.elstele.bill.domain.*;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
@@ -10,9 +11,11 @@ import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceForm;
+import com.elstele.bill.form.ServiceInternetAttributeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -22,20 +25,17 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     private ServiceDAO serviceDAO;
 
     @Autowired
-    private ServiceTypeDAO serviceTypeDAO;
-
-    @Autowired
-    private AccountDAO accountDAO;
+    private ServiceAssembler serviceAssembler;
 
     @Override
     @Transactional
     public void deleteService(Integer id) {
-        serviceDAO.setStatusDelete(id);
+        serviceDAO.deleteService(id);
     }
 
     @Override
     @Transactional
-    public List<Service> listServices(){
+    public List<Service> listServices() {
         return serviceDAO.listServices();
     }
 
@@ -43,53 +43,46 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Override
     @Transactional
     public String saveService(ServiceForm form) {
-        ServiceAssembler assembler = new ServiceAssembler();
-        Service service = new Service();
-        ServiceType servType = serviceTypeDAO.getById(form.getServiceType().getId());
-        if(servType.getServiceType().equals("internet")) {
-            service = assembler.fromFormToInternetBean(form);
-        }
-        if(servType.getServiceType().equals("phone")) {
-            service = assembler.fromFormToPhoneBean(form);
-        }
-        service.setAccount(accountDAO.getById(form.getAccountId()));
-        service.setServiceType(servType);
-
-        String message = "Service was successfully ";
-        if(form.isNew()){
-            serviceDAO.create(service);
-            message += "added.";
-        }
-        else{
-            serviceDAO.update(service);
-            message += "updated.";
-        }
-        return message;
+        Service service = serviceAssembler.getServiceBeanByForm(form);
+        return serviceDAO.saveService(service, form.isNew());
     }
 
     @Override
     @Transactional
-    public ServiceForm getServiceFormById(Integer id){
-        ServiceAssembler assembler = new ServiceAssembler();
-        ServiceForm result = null;
-        Service bean = serviceDAO.getById(id);
-        if (bean != null){
-            if (bean instanceof ServiceInternet) {
-                ServiceForm form = assembler.fromInternetBeanToForm((ServiceInternet)bean);
-                result = form;
-            }
-            if (bean instanceof ServicePhone) {
-                ServiceForm form = assembler.fromPhoneBeanToForm((ServicePhone)bean);
-                result = form;
-            }
+    public ServiceForm getServiceFormById(Integer serviceId) {
+        ServiceForm serviceForm = new ServiceForm();
+        if( serviceId>0 ) {
+            Service serviceBean = serviceDAO.getById(serviceId);
+            serviceForm = serviceAssembler.getServiceFormByBean(serviceBean);
         }
-        return result;
+        return serviceForm;
+    }
+
+    @Override
+    public Integer getCurrentIpAddress (ServiceForm serviceForm){
+        Integer currentIpAddress = 0;
+        if (serviceForm.getServiceInternet().getIp() != null) {
+            currentIpAddress = serviceForm.getServiceInternet().getIp().getId();
+        }
+        return currentIpAddress;
     }
 
     @Override
     @Transactional
-    public Service getServiceBeanById(Integer id){
-        return  serviceDAO.getById(id);
+    public Integer getCurrentIpAddressByServiceFormId(Integer serviceFormId){
+        ServiceForm serv = getServiceFormById(serviceFormId);
+        return getCurrentIpAddress(serv);
+    }
+
+    @Override
+    @Transactional
+    public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId){
+        if(serviceId>0){
+            ServiceForm serviseForm = getServiceFormById(serviceId);
+            if( deviceId.equals(serviseForm.getServiceInternet().getDevice().getId()) )
+                deviceFreePortList.add(0,serviseForm.getServiceInternet().getPort());
+        }
+        return deviceFreePortList;
     }
 
 }

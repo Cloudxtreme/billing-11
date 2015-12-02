@@ -3,6 +3,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
@@ -43,5 +44,11 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         return res.intValue();
     }
 
-
+    @Override
+    public List<Street> getListOfStreets(String query) {
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("from Street");//s where s.name like :target");
+        //q.setString("target", query);
+        return q.list();
+    }
 }

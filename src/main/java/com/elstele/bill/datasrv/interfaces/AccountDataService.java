@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv.interfaces;
 
 
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface AccountDataService {
     public Account getAccountBeanById(int id);
     public void softDeleteAccount(int id);
     public int getActiveAccountsCount();
+    public List<Street> getStreets(String likeThis);
 }

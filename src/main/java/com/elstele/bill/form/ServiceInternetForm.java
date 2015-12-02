@@ -3,8 +3,10 @@ package com.elstele.bill.form;
 public class ServiceInternetForm {
     private String username;
     private String password;
-    private String ip;
     private String macaddress;
+    private DeviceForm device;
+    private IpForm ip;
+    private Integer port;
 
     public ServiceInternetForm(){
     }
@@ -25,14 +27,6 @@ public class ServiceInternetForm {
         this.password = password;
     }
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
     public String getMacaddress() {
         return macaddress;
     }
@@ -41,4 +35,27 @@ public class ServiceInternetForm {
         this.macaddress = macaddress;
     }
 
+    public IpForm getIp() {
+        return ip;
+    }
+
+    public void setIp(IpForm ip) {
+        this.ip = ip;
+    }
+
+    public DeviceForm getDevice() {
+        return device;
+    }
+
+    public void setDevice(DeviceForm device) {
+        this.device = device;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
 }

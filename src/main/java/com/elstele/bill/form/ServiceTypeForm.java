@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.utils.Constants.Constants;
+
 import javax.validation.constraints.NotNull;
 
 public class ServiceTypeForm {
@@ -16,6 +18,8 @@ public class ServiceTypeForm {
     private Float price;
 
     private String serviceType;
+
+    private Constants.AccountType bussType;
 
     public Integer getId() {
         return id;
@@ -62,4 +66,11 @@ public class ServiceTypeForm {
         return (this.id == null);
     }
 
+    public Constants.AccountType getBussType() {
+        return bussType;
+    }
+
+    public void setBussType(Constants.AccountType bussType) {
+        this.bussType = bussType;
+    }
 }

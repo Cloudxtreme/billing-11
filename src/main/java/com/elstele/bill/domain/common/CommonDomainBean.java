@@ -1,5 +1,7 @@
 package com.elstele.bill.domain.common;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;

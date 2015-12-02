@@ -83,4 +83,8 @@
 
     <bean id="ctx" class="org.springframework.mock.web.MockServletContext"/>
 
+   <!-- <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+        <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
+    </bean>-->
+
 </beans>

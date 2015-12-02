@@ -32,9 +32,6 @@
             $('#datepicker1').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
         });
     </script>
 
@@ -86,16 +83,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="dateEnd" class="col-lg-3 control-label">Date End</label>
+                    <label for="period" class="col-lg-3 control-label">Period</label>
                     <div class="col-lg-9">
-                        <fmt:formatDate value="${dateEnd.date}" var="dateString" pattern="yyyy-MM-dd" />
-                        <div class='input-group date' id='datepicker2'>
-                            <form:input path="dateEnd" class="form-control" value="${dateEnd}" id="dateEnd" placeholder="yyyy-MM-dd"  readonly="true"/>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        <form:errors path="dateEnd" cssClass="alert-danger" />
+                        <form:select path="period" class="form-control" id="period">
+                            <form:options items="${servicePeriodList}" />
+                        </form:select>
+                        <form:errors path="period" cssClass="alert-danger" />
                     </div>
                 </div>
             </div>
@@ -111,7 +104,7 @@
                 <div class="form-group">
                     <label for="password" class="col-lg-3 control-label">Password</label>
                     <div class="col-lg-9">
-                        <form:password path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
+                        <form:input path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
                         <form:errors path="serviceInternet.password" cssClass="alert-danger" />
                     </div>
                 </div>
@@ -122,14 +115,132 @@
                         <form:errors path="serviceInternet.macaddress" cssClass="alert-danger" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="ip" class="col-lg-3 control-label">IP</label>
+
+                <div class="form-group" id="ipNetDiv">
+                    <label for="ipNet" class="col-lg-3 control-label">IpNet</label>
                     <div class="col-lg-9">
-                        <form:input path="serviceInternet.ip" class="form-control" id="ip" placeholder="IP"/>
-                        <form:errors path="serviceInternet.ip" cssClass="alert-danger" />
+                        <form:select path="serviceInternet.ip.ipSubnet.id" class="form-control" id="ipNet">
+                            <c:forEach items="${ipNetList}" var="ipNets">
+                                <form:option value="${ipNets.id}" label="${ipNets.ipSubnet}"/>
+                            </c:forEach>
+                        </form:select>
                     </div>
                 </div>
+                <div class="form-group" id="ipAddressDiv">
+                    <label for="ipAddress" class="col-lg-3 control-label">Ip Address</label>
+                    <label class="col-lg-5 control-label" id="ipAddressSelect">
+                        <span id="ipAddressCurrent" class="form-control">none</span>
+                        <form:select path="serviceInternet.ip.id" class="form-control" id="ipAddress">
+                            <form:options items="${ipAddressList}" />
+                        </form:select>
+                    </label>
+                    <label for="changeIp" class="col-lg-3">
+                        <input type="checkbox" class="checkbox" id="changeIp" href="#subnet"/> Change IP Address
+                    </label>
+                </div>
+                <script type="text/javascript">
+                    $(function(){
+                        $('#ipAddress').hide();
+                        $('#ipAddressCurrent').show();
+                        callAjaxGetValidIp();
+                    });
+
+                    document.getElementById('changeIp').onchange = function() {
+                        if ( document.getElementById('changeIp').checked ) {
+                            $('#ipAddress').show();
+                            $('#ipAddressCurrent').hide();
+                        } else {
+                            $('#ipAddress').hide();
+                            $('#ipAddressCurrent').show();
+                            $('#ipAddressCurrent').html($('#ipAddress').find(":selected").text());
+                        }
+                    };  console.log(this);
+
+                        function callAjaxGetValidIp(){
+                            serviceId = 0;
+                            if($('#id').val()!=""){
+                                serviceId = $('#id').val();
+                            }
+                            $.ajax({
+                            type: "POST",
+                            url: "${pageContext.request.contextPath}/getIpAddressList/"+serviceId,
+                            data: $('#ipNet').val(),
+                            datatype: "JSON",
+                            contentType: "application/json",
+                            success: function (data) {
+                                $('#ipAddress').html('');
+                                var option_html = '';
+                                $.each(data, function(key, value) {
+                                    var selected = "";
+                                    if((${currentIpAddress})==key){
+                                        selected = "selected";
+                                    }
+                                    $('#ipAddress').append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+                                });
+                                $('#ipAddressCurrent').html($('#ipAddress').find(":selected").text());
+                            }
+                        });
+                    }
+
+                    $('#ipNet').on('change', function() {
+                        callAjaxGetValidIp();
+                    });
+                </script>
+
+
+                <div class="form-group">
+                    <label for="device" class="col-lg-3 control-label">Device</label>
+                    <div class="col-lg-9">
+                        <form:select path="serviceInternet.device.id" class="form-control" id="device">
+                            <c:forEach items="${devicesList}" var="devices">
+                                <form:option value="${devices.id}" label="${devices.name}"/>
+                            </c:forEach>
+                        </form:select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="devicePorts" class="col-lg-3 control-label">Port</label>
+                    <div class="col-lg-9">
+                        <form:select path="serviceInternet.port" class="form-control" id="devicePorts">
+                            <form:options items="${devicePortList}" />
+                        </form:select>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function(){
+                        callAjaxGetPortList();
+                    });
+
+                    function callAjaxGetPortList(){
+                        var idService = 0;
+                        var sendData = $('#device').val();
+                        if($('#id').val()!=""){
+                            idService= $('#id').val();
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "${pageContext.request.contextPath}/getDeviceFreePortList/"+idService,
+                            data: sendData,
+                            datatype: "json",
+                            contentType: "application/json",
+                            success: function (data) {
+                                $('#devicePorts').html('');
+                                var option_html = '';
+                                $.each(data, function(key, value) {
+                                    $('#devicePorts').append('<option value="'+value+'">'+value+'</option>');
+                                });
+                            }
+                        });
+                    }
+                    $('#device').on('change', function() {
+                        callAjaxGetPortList();
+                    });
+                </script>
+
             </div>
+
+
+
             <div class="form-group" id="phoneService">
                 <label for="phoneNumber" class="col-lg-3 control-label">Phone Number</label>
                 <div class="col-lg-9">
@@ -149,6 +260,5 @@
     </form:form>
 
 </div>
-
 </body>
 </html>

@@ -13,6 +13,10 @@
     <title>Account Detail</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
+    <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
+    <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
@@ -24,7 +28,15 @@
 
 
 <div class="well">
-        <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
+    <div id="topButtons">
+        <div id="buttonPanel" class="col-lg-6">
+            <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
+            <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
+        </div>
+        <div id="balansPanel" class="col-lg-6">
+            <span class="btn btn-sm btn-warning float-right">Баланс ${accountForm.currentBalance}</span>
+        </div>
+    </div>
 
     <div id="accountMainDetail">
         <form:form class="form-horizontal" id="fullAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/save.html">
@@ -49,6 +61,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="accountFIO" class="col-lg-2 control-label">Фио</label>
+                                    <div class="col-lg-9">
+                                        <form:input path="fio" class="form-control" id="accountFIO" placeholder="Фио"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="accountType" class="col-lg-2 control-label">Account Type</label>
                                     <div class="col-lg-9">
                                         <form:select path="accountType" class="form-control" id="accountType">
@@ -60,6 +78,7 @@
                         </div>
                     </div>
 
+                    <%--Physical Address--%>
                     <div id="phyAddrBlock" class="col-lg-6">
                         <form:input path="phyAddress.id" id="id" type="hidden"/>
                         <%--<form:input path="phyAddress.status" id="status" type="hidden"/>--%>
@@ -72,7 +91,9 @@
                                 <div class="form-group">
                                     <label for="phyAddressStreet" class="col-lg-2 control-label">Street</label>
                                     <div class="col-lg-9">
-                                        <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet" placeholder="5th Avenue"/>
+                                        <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
+                                                    data-provide="typeahead" placeholder="5th Avenue"/>
+                                        <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -102,7 +123,9 @@
                                 <div class="form-group">
                                     <label for="legalAddressStreet" class="col-lg-2 control-label">Street</label>
                                     <div class="col-lg-9">
-                                        <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet" placeholder="5th Avenue"/>
+                                        <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
+                                                    data-provide="typeahead" placeholder="5th Avenue"/>
+                                        <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -136,7 +159,7 @@
                                     <th>&nbsp;</th>
                                     <th>Service</th>
                                     <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>Period</th>
                                     <th>Price</th>
                                 </tr>
 
@@ -150,7 +173,7 @@
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
-                                            <td><fmt:formatDate value="${accountService.dateEnd}" pattern="yyyy-MM-dd" /></td>
+                                            <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>
                                         </tr>
                                     </label>

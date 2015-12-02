@@ -37,6 +37,7 @@
             <th>&nbsp;</th>
             <th>Service Name</th>
             <th>Description</th>
+            <th>Type</th>
             <th>Price</th>
         </tr>
 
@@ -51,6 +52,7 @@
                     </td>
                     <td>${service.name}</td>
                     <td>${service.description}</td>
+                    <td>${service.bussType}</td>
                     <td>${service.price}</td>
                 </tr>
             </label>

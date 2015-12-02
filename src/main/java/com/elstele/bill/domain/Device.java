@@ -17,13 +17,9 @@ public class Device extends CommonDomainBean {
     @JoinColumn(name="ipAddress_id")
     private Ip ipAdd;
 
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="deviceType_id")
     private DeviceTypes deviceTypes;
-
-
 
     public DeviceTypes getDeviceTypes() {
         return deviceTypes;
@@ -40,8 +36,6 @@ public class Device extends CommonDomainBean {
         this.name = name;
     }
 
-
-
     public String getDescription() {
         return description;
     }
@@ -57,7 +51,6 @@ public class Device extends CommonDomainBean {
     public void setCommunity(String community) {
         this.community = community;
     }
-
 
     public Ip getIpAdd() {
         return ipAdd;

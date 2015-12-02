@@ -119,12 +119,8 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         if (persistentObject != null) {
             persistentObject.setStatus(Status.DELETED);
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
-
         }
-    }
 
-    public void clearTable(String tableName){
-        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery("DELETE FROM " + tableName);
     }
 }
 

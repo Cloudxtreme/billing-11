@@ -16,6 +16,7 @@ public class AccountForm {
     private AddressForm phyAddress = new AddressForm();
     private AddressForm legalAddress = new AddressForm();
     private List<ServiceForm> serviceForms;
+    private String fio;
 
 
     public Integer getId() {
@@ -80,6 +81,14 @@ public class AccountForm {
 
     public void setServiceForms(List<ServiceForm> serviceForms) {
         this.serviceForms = serviceForms;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     @Override

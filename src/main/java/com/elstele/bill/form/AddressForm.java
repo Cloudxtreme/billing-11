@@ -5,6 +5,7 @@ public class AddressForm {
     private String street;
     private String building;
     private String flat;
+    private Integer streetId;
 
     public AddressForm(){
     }
@@ -39,6 +40,14 @@ public class AddressForm {
 
     public void setFlat(String flat) {
         this.flat = flat;
+    }
+
+    public Integer getStreetId() {
+        return streetId;
+    }
+
+    public void setStreetId(Integer streetId) {
+        this.streetId = streetId;
     }
 
     @Override

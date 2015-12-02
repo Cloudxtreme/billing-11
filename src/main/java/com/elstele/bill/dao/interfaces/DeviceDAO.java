@@ -9,5 +9,6 @@ import java.util.List;
 public interface DeviceDAO extends CommonDAO<Device>{
 
     public List<Device> getDevices();
+    public List<Integer> getDeviceUsagePorts(Integer id);
 
 }

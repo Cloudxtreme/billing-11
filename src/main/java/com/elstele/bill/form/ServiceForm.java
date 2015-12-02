@@ -1,5 +1,6 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.utils.Constants.Constants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
@@ -20,10 +21,7 @@ public class ServiceForm {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;
 
-    @NotNull
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date dateEnd;
+    private Constants.Period period;
 
     public Integer getId() {
         return id;
@@ -73,12 +71,12 @@ public class ServiceForm {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
+    public Constants.Period getPeriod() {
+        return period;
     }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setPeriod(Constants.Period period) {
+        this.period = period;
     }
 
     //Check if this is for New of Update

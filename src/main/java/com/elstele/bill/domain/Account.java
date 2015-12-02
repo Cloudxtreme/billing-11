@@ -23,7 +23,8 @@ public class Account extends CommonDomainBean {
     @Enumerated(EnumType.STRING)
     private Constants.AccountType accountType;
     private Float currentBalance;
-
+    @Column(name = "user_fio")
+    private String fio;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address phyAddress;
@@ -86,32 +87,43 @@ public class Account extends CommonDomainBean {
         this.accountServices = accountServices;
     }
 
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Account)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Account account = (Account) o;
 
-        if (getId() != account.getId()) return false;
-        if (getStatus() != account.getStatus()) return false;
-        if (accountName != null ? !accountName.equals(account.accountName) : account.accountName != null) return false;
-        if (accountType != account.accountType) return false;
-        if (currentBalance != null ? !currentBalance.equals(account.currentBalance) : account.currentBalance != null)
+        if (!accountName.equals(account.accountName)) return false;
+        if (accountServices != null ? !accountServices.equals(account.accountServices) : account.accountServices != null)
             return false;
+        if (accountType != account.accountType) return false;
+        if (!currentBalance.equals(account.currentBalance)) return false;
+        if (fio != null ? !fio.equals(account.fio) : account.fio != null) return false;
+        if (legalAddress != null ? !legalAddress.equals(account.legalAddress) : account.legalAddress != null)
+            return false;
+        if (phyAddress != null ? !phyAddress.equals(account.phyAddress) : account.phyAddress != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = accountName != null ? accountName.hashCode() : 0;
-        result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
-        result = 31 * result + (currentBalance != null ? currentBalance.hashCode() : 0);
-        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
-        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
-
-
+        int result = accountName.hashCode();
+        result = 31 * result + accountType.hashCode();
+        result = 31 * result + currentBalance.hashCode();
+        result = 31 * result + (fio != null ? fio.hashCode() : 0);
+        result = 31 * result + (phyAddress != null ? phyAddress.hashCode() : 0);
+        result = 31 * result + (legalAddress != null ? legalAddress.hashCode() : 0);
+        result = 31 * result + (accountServices != null ? accountServices.hashCode() : 0);
         return result;
     }
 }

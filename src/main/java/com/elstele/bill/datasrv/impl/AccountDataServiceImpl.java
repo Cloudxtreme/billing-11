@@ -5,6 +5,7 @@ import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,5 +114,10 @@ public class AccountDataServiceImpl implements AccountDataService {
     @Transactional
     public int getActiveAccountsCount() {
         return accountDAO.getActiveAccountsCount();
+    }
+
+    @Transactional
+    public List<Street> getStreets(String likeThis) {
+        return accountDAO.getListOfStreets(likeThis);
     }
 }

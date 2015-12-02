@@ -1,26 +1,26 @@
 package com.elstele.bill.domain;
 
 import javax.persistence.*;
+import static com.elstele.bill.utils.Constants.Constants.SERVICE_INTERNET;
 
 @Entity
 @Table(name="Service")
-@DiscriminatorValue("INTERNET")
+@DiscriminatorValue(SERVICE_INTERNET)
 public class ServiceInternet extends Service {
 
     private String username;
-    private String password;
     private String macaddress;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="ip")
-    private Ip ip;
-
+    private String password;
     private Boolean softblock;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="device")
     private Device device;
     private Integer port;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="ip")
+    private Ip ipAddress;
 
     public String getUsername() {
         return username;
@@ -46,13 +46,14 @@ public class ServiceInternet extends Service {
         this.macaddress = macaddress;
     }
 
-    public Ip getIp() {
-        return ip;
+    public Ip getIpAddress() {
+        return ipAddress;
     }
 
-    public void setIp(Ip ip) {
-        this.ip = ip;
+    public void setIpAddress(Ip ip) {
+        this.ipAddress = ip;
     }
+
 
     public Boolean getSoftblock() {
         return softblock;
@@ -77,4 +78,5 @@ public class ServiceInternet extends Service {
     public void setPort(Integer port) {
         this.port = port;
     }
+
 }
