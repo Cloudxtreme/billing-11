@@ -25,6 +25,7 @@
         <mapping class="com.elstele.bill.domain.IpSubnet"/>
         <mapping class="com.elstele.bill.domain.UploadedFileInfo"/>
         <mapping class="com.elstele.bill.domain.Call"/>
+        <mapping class="com.elstele.bill.domain.CallForCSV"/>
         <mapping class="com.elstele.bill.domain.Transaction"/>
         <mapping class="com.elstele.bill.domain.Street"/>
 

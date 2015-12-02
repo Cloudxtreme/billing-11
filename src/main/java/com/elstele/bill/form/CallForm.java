@@ -1,6 +1,7 @@
 package com.elstele.bill.form;
 
-import com.elstele.bill.utils.Status;
+
+import com.elstele.bill.utils.Enums.Status;
 
 import java.util.Date;
 
@@ -14,6 +15,11 @@ public class CallForm {
     private String dvoCodeA;
     private String dvoCodeB;
     private Status status;
+    private Float costTotal;
+    private String ikNum;
+    private String vkNum;
+    private String inputTrunk;
+    private String outputTrunk;
 
     public Status getStatus() {
         return status;
@@ -86,4 +92,46 @@ public class CallForm {
     public void setDvoCodeB(String dvoCodeB) {
         this.dvoCodeB = dvoCodeB;
     }
+
+    public Float getCostTotal() {
+        return costTotal;
+    }
+
+    public void setCostTotal(Float costTotal) {
+        this.costTotal = costTotal;
+    }
+
+    public String getIkNum() {
+        return ikNum;
+    }
+
+    public void setIkNum(String ikNum) {
+        this.ikNum = ikNum;
+    }
+
+    public String getVkNum() {
+        return vkNum;
+    }
+
+    public void setVkNum(String vkNum) {
+        this.vkNum = vkNum;
+    }
+
+    public String getInputTrunk() {
+
+        return inputTrunk;
+    }
+
+    public void setInputTrunk(String inputTrunk) {
+        this.inputTrunk = inputTrunk;
+    }
+
+    public String getOutputTrunk() {
+        return outputTrunk;
+    }
+
+    public void setOutputTrunk(String outputTrunk) {
+        this.outputTrunk = outputTrunk;
+    }
 }
+

@@ -12,7 +12,7 @@
 
   <title>Device Type</title>
 
-
+  <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
 

@@ -1,14 +1,14 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.LocalUserDataService;
-import com.elstele.bill.datasrv.UserRoleDataService;
+import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
+import com.elstele.bill.datasrv.interfaces.UserRoleDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.ActivityForm;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.domain.Activity;
-import com.elstele.bill.datasrv.ActivityDataService;
+import com.elstele.bill.datasrv.interfaces.ActivityDataService;
 import com.elstele.bill.validator.ActivityValidator;
 import com.elstele.bill.validator.LocalUserValidator;
 import com.elstele.bill.validator.UserRoleValidator;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Controller

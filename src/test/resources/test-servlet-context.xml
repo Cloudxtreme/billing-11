@@ -20,41 +20,42 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-
+    <context:annotation-config/>
+    <context:component-scan base-package="com.elstele.bill, com.elstele.bill.test"/>
     <!-- Enables the Spring MVC @Controller programming model -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <bean id="jspViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
-                  value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
-        <property name="contentType" value="text/html;charset=UTF-8" />
+                  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
 
     </bean>
 
-    <context:component-scan base-package="com.elstele.bill" />
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="classpath:jdbc_for_test.properties" />
+          p:location="classpath:jdbc_for_test.properties"/>
 
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
           p:driverClassName="${jdbc.driverClassName}"
           p:url="${jdbc.databaseurl}"
           p:username="${jdbc.username}"
-          p:password="${jdbc.password}" />
+          p:password="${jdbc.password}"/>
 
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
         </property>
@@ -73,13 +74,17 @@
 
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+        <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
+    </bean>
+
+    <bean id="ctx" class="org.springframework.mock.web.MockServletContext"/>
 
    <!-- <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
         <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
     </bean>-->
-
-    <bean id="ctx" class="org.springframework.mock.web.MockServletContext"/>
 
 </beans>

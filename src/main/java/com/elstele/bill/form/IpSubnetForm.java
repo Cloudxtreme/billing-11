@@ -1,8 +1,7 @@
 package com.elstele.bill.form;
 
 
-import com.elstele.bill.utils.IpStatus;
-import com.elstele.bill.utils.SubnetPurpose;
+import com.elstele.bill.utils.Enums.SubnetPurpose;
 
 public class IpSubnetForm {
     Integer id;

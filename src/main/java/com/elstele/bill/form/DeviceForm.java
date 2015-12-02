@@ -1,8 +1,6 @@
 package com.elstele.bill.form;
 
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 
 public class DeviceForm {
 

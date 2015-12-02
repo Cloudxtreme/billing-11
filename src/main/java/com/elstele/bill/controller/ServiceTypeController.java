@@ -1,8 +1,8 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
+import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.validator.ServiceAttributeValidator;

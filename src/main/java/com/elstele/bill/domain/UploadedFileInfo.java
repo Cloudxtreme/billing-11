@@ -2,7 +2,7 @@ package com.elstele.bill.domain;
 
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import com.elstele.bill.utils.FileStatus;
+import com.elstele.bill.utils.Enums.FileStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

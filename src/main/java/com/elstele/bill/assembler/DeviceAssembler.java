@@ -1,13 +1,11 @@
 package com.elstele.bill.assembler;
 
-import com.elstele.bill.dao.DeviceTypesDAO;
-import com.elstele.bill.dao.IpDAO;
+import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
+import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
-import com.sun.istack.internal.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 

@@ -1,12 +1,11 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.dao.AccountDAOImpl;
-import com.elstele.bill.datasrv.AccountDataService;
-import com.elstele.bill.datasrv.AccountDataServiceImpl;
+import com.elstele.bill.dao.impl.AccountDAOImpl;
+import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
-import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

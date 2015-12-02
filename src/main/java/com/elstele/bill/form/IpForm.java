@@ -1,8 +1,8 @@
 package com.elstele.bill.form;
 
 import com.elstele.bill.domain.IpSubnet;
-import com.elstele.bill.utils.IpStatus;
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.IpStatus;
+import com.elstele.bill.utils.Enums.Status;
 
 public class IpForm {
     public Integer id;

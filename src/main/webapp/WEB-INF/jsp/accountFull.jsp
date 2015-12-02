@@ -19,7 +19,7 @@
     <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
-
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 </head>
 <body>
 

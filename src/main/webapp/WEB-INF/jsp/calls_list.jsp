@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Calls List</title>
-
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
@@ -39,16 +39,15 @@
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>
-            <option value="25">25</option>
+            <option value="25" selected="selected">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
         entries
     </label>
-
     <form class="navbar-form" role="search">
         <div class="form-group">
-            <a href="#" class="btn btn-primary btn-sm link-btn" id="eraseSearch"><span
+            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span
                     class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
         </div>
         <div class="form-group">
@@ -62,6 +61,12 @@
                    id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn">Search</a>
+        &nbsp;&nbsp;
+        <div class="form-group">
+            <div  id="errorMessage" class="error alert-warning" style="display: none">
+                <strong>You can use only digits for searching</strong>
+            </div>
+        </div>
     </form>
 
     <div id="callsTableDiv">
@@ -74,6 +79,7 @@
                 <th>AON Category</th>
                 <th>DVO Code A</th>
                 <th>DVO Code B</th>
+                <th>Cost call total</th>
             </tr>
         </table>
         <div id="tableNavigation">

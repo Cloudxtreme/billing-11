@@ -11,6 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Welcome</title>
 
+<link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 <spring:url value="/resources/css/bootstrap-minimalist.css" var="bootstrapCss" />
 <spring:url value="/resources/css/main-billing.css" var="mainCss" />
 <link href="${bootstrapCss}" rel="stylesheet" />

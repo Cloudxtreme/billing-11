@@ -1,5 +1,6 @@
-var pageResults = 10;
+var pageResults = 25;
 
+//Function which starts first
 $(function () {
     // set active navigation tab "Calls"
     console.log("start js onLoad");
@@ -8,6 +9,7 @@ $(function () {
     renderCallsTable(pageResults, 1);
 });
 
+//Go to the previous page by click on the button BACK
 function goToPrevPage() {
     var currentPageNum = $("#pageNumber").text();
     console.log("goPrev push with " + currentPageNum);
@@ -17,6 +19,7 @@ function goToPrevPage() {
     }
 };
 
+//Go to the next page by click to the button Forward
 function goToNextPage() {
     var currentPageNum = $("#pageNumber").text();
     var totalPages = $("#totalPages").text();
@@ -27,23 +30,39 @@ function goToNextPage() {
     }
 };
 
+//Setting the current page number, uses by renderCallsTable function
 function setCurrentPageNumber(number) {
     $("#pageNumber").html(number);
 };
 
+//Main Function for getting and searching CallForms from server-side
 function renderCallsTable(rows, page) {
-    console.log("page=" + page + "row=" + rows);
-    $.ajax({
-        url: 'callsList?rows=' + rows + '&page=' + page,
-        type: "get",
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            drawTable(data);
-            setCurrentPageNumber(page);
-        }
-    });
-};
+    var numberA = $('#searchNumberA').val();
+    var numberB = $('#searchNumberB').val();
+    var timeRange = $('#searchDate').val();
 
+    if(isNaN(numberA) || isNaN(numberB)){
+        document.getElementById('errorMessage').style.display="block";
+        setTimeout(function() {
+            $("#errorMessage").fadeOut(2000);
+        });
+    }else {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            dataType: 'json',
+            url: 'callsList?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+            success: function (data, textStatus, jqXHR) {
+                drawTable(data);
+                setCurrentPageNumber(page);
+            }
+        });
+        getPageCounts();
+
+    }
+}
+
+//Function for drawing the table
 function drawTable(data) {
     $("#callsTable").find("tr:gt(0)").remove();
 
@@ -52,6 +71,7 @@ function drawTable(data) {
     }
 }
 
+//Function for drawing the rows of the table
 function drawRow(rowData) {
     var row = $("<tr />");
     $("#callsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
@@ -63,42 +83,56 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.aonKat + "</td>"));
     row.append($("<td>" + rowData.dvoCodeA + "</td>"));
     row.append($("<td>" + rowData.dvoCodeB + "</td>"));
+    row.append($("<td>" + rowData.costTotal + "</td>"));
+}
+
+//Helps us to get the page counts while we use search function
+function getPageCounts(){
+    var numberA = $('#searchNumberA').val();
+    var numberB = $('#searchNumberB').val();
+    var timeRange = $('#searchDate').val();
+    pageResults = $("#selectEntries option:selected").val();
+    $.ajax({
+        url: 'callsPages?pageResults=' + pageResults + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            $('#totalPages').text(data);
+        }
+    });
 }
 
 $(document).ready(function () {
+    //Listener to changing entries values
     $('#selectEntries').on('change', function () {
-        pageResults = $("#selectEntries option:selected").val();
-
-        $.ajax({
-            url: 'callsPages?pageResults=' + pageResults,
-            type: "post",
-            dataType: "json",
-            success: function (data) {
-                $('#totalPages').text(data);
-            }
-        });
-
+        getPageCounts();
         renderCallsTable(pageResults, 1);
 
     });
 
+    //Call the search function by ENTER button pressing
     $(".form-control").on('keydown', function (event) {
-        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
-            (event.keyCode == 65 && event.ctrlKey === true) ||
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
-            return;
-        }
         if (event.keyCode == 13) {
-            searchValues(pageResults, 1)
-        } else {
-            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault();
-            }
+            renderCallsTable(pageResults,1);
         }
     });
 
+    //Call the search function by pressing SEARCH button
+    $('#searchBtn').on('click', function () {
+        renderCallsTable(pageResults,1);
+    });
 
-    /*Date Range picker settings*/
+    //Clear field's values and come back to the initial statement
+    $('#eraseSearch').on('click', function () {
+        $('#searchNumberA').val('');
+        $('#searchNumberB').val('');
+        $('#searchDate').val('');
+        renderCallsTable(pageResults, 1);
+    })
+
+
+
+    //Date range picker settings
     var drp = $('input[name="daterange"]').data('daterangepicker');
     $('input[name="daterange"]').daterangepicker({
         timePicker: true,
@@ -112,47 +146,12 @@ $(document).ready(function () {
     }).val('');
 
 
+    //Date range picker. Helps us to erase data from field when Clear button was pressed
     $('input[name="daterange"]').on('cancel.daterangepicker', function (ev, picker) {
         $('input[name="daterange"]').val('');
     });
 
 
-    /*Search function logic*/
-    function searchValues(rows, page) {
-        var numberA = $('#searchNumberA').val();
-        var numberB = $('#searchNumberB').val();
-        var timeRange = $('#searchDate').val();
-        var callForm = {
-            "numberA": numberA,
-            "numberB": numberB
-        };
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            dataType: 'json',
-            url: 'searchCalls?rows=' + rows + '&page=' + page + '&numberA=' + numberA + '&numberB=' + numberB + '&timeRange=' + timeRange,
-            success: function (data, textStatus, jqXHR) {
-                drawTable(data);
-                setCurrentPageNumber(page);
-            }
-        });
-    }
-
-    $('#searchBtn').on('click', function () {
-        searchValues(pageResults, 1);
-    });
-    $('.form-control').bind('keypress', function (e) {
-        if (e.keyCode == 13) {
-            searchValues(pageResults, 1);
-        }
-    });
-
-    $('#eraseSearch').on('click', function () {
-        $('#searchNumberA').val('');
-        $('#searchNumberB').val('');
-        $('#searchDate').val('');
-        renderCallsTable(pageResults, 1);
-    })
 
 
 });

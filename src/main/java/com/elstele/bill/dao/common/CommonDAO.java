@@ -1,9 +1,9 @@
 package com.elstele.bill.dao.common;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Filter;
 import org.hibernate.Session;
-import com.elstele.bill.utils.Status;
 
 public interface CommonDAO <T> {
 
@@ -40,4 +40,6 @@ public interface CommonDAO <T> {
     public void setStatus(Integer id, Status status);
 
     public void updateAndMerge(T transientObject);
+
+    public void clearTable(String tableName);
 }

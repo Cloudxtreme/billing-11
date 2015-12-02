@@ -1,6 +1,6 @@
 package com.elstele.bill.test.dao;
 
-import com.elstele.bill.dao.LocalUserDAOImpl;
+import com.elstele.bill.dao.impl.LocalUserDAOImpl;
 import com.elstele.bill.domain.LocalUser;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/test-servlet-context.xml")
+@ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -49,10 +49,6 @@ public class LocalUserDAOTest {
 
         LocalUser bean = dao.getById(id);
         assertTrue(bean == null);
-
-
-
-
     }
 
     @Test
@@ -81,8 +77,4 @@ public class LocalUserDAOTest {
         assertNotNull(lu2);
 
     }
-
-
-
-
 }

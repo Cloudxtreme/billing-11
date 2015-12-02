@@ -25,6 +25,7 @@
     <script src="${datepicker}"></script>
     <spring:url value="/resources/css/bootstrap-datepicker.min.css" var="datepickerCss" />
     <link href="${datepickerCss}" rel="stylesheet"/>
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 
     <script type="text/javascript">
         $(function () {

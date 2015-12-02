@@ -29,7 +29,15 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li id="linkToDeviceList"><a href="${pageContext.request.contextPath}/device.html">Devices List</a></li>
-                        <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html">KDF file processing</a></li>
+
+                        <li class="dropdown-submenu" id="linkToFile">
+                            <a tabindex="-1" href="#">Files uploading</a>
+                            <ul class="dropdown-menu">
+                                <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html">KDF file processing</a></li>
+                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadCSVFile.html">CSV file processing</a></li>
+                            </ul>
+                        </li>
+
                         <li><a href="/44">Something else here</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/55">Separated link</a></li>

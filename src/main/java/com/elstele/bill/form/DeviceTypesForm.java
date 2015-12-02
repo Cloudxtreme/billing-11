@@ -1,7 +1,7 @@
 package com.elstele.bill.form;
 
 
-import com.elstele.bill.utils.Status;
+import com.elstele.bill.utils.Enums.Status;
 
 public class DeviceTypesForm {
     public Integer id;
