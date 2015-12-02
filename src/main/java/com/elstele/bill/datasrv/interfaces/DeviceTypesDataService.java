@@ -9,7 +9,7 @@ public interface DeviceTypesDataService {
 
     public List<DeviceTypesForm> getDeviceTypes();
 
-    public void addDeviceType(DeviceTypesForm deviceTypesForm);
+    public Integer addDeviceType(DeviceTypesForm deviceTypesForm);
 
     public DeviceTypesForm getById(Integer id);
 

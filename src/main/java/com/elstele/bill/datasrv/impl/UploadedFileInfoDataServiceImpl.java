@@ -37,10 +37,10 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public void addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm){
+    public Integer addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm){
         UploadedFileInfoAssembler uploadedFileInfoAssembler = new UploadedFileInfoAssembler();
         UploadedFileInfo uploadedFileInfo = uploadedFileInfoAssembler.fromFormToBean(uploadedFileInfoForm);
-        uploadedFileInfoDAO.create(uploadedFileInfo);
+        return uploadedFileInfoDAO.create(uploadedFileInfo);
     }
 
     @Override
@@ -51,7 +51,6 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
         UploadedFileInfoForm result = uploadedFileInfoAssembler.fromBeanToForm(bean);
         return result;
     }
-
 
     @Override
     @Transactional
@@ -67,7 +66,7 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public void setFileStatus(UploadedFileInfoForm uploadedFileInfoForm) {
+    public void updateFile(UploadedFileInfoForm uploadedFileInfoForm) {
         UploadedFileInfoAssembler uploadedFileInfoAssembler = new UploadedFileInfoAssembler();
         UploadedFileInfo uploadedFileInfo = uploadedFileInfoAssembler.fromFormToBean(uploadedFileInfoForm);
         uploadedFileInfoDAO.update(uploadedFileInfo);

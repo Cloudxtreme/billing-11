@@ -12,16 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class DeviceTypesDataServiceImpl implements DeviceTypesDataService {
     @Autowired
     DeviceTypesDAO deviceTypesDAO;
 
-
     @Override
     @Transactional
     public List<DeviceTypesForm> getDeviceTypes() {
-
         List<DeviceTypesForm> result = new ArrayList<DeviceTypesForm>();
         DeviceTypesAssembler assembler = new DeviceTypesAssembler();
 
@@ -35,19 +34,15 @@ public class DeviceTypesDataServiceImpl implements DeviceTypesDataService {
 
     @Override
     @Transactional
-    public void addDeviceType(DeviceTypesForm deviceTypesForm){
+    public Integer addDeviceType(DeviceTypesForm deviceTypesForm){
         DeviceTypesAssembler deviceTypesAssembler = new DeviceTypesAssembler();
         DeviceTypes deviceTypes = deviceTypesAssembler.fromFormToBean(deviceTypesForm);
-        /*deviceTypes.setDeviceType(deviceTypesForm.getDeviceType());
-        deviceTypes.setDescription(deviceTypesForm.getDescription());
-        deviceTypes.setPortsNubmer(deviceTypesForm.getPortsNumber());*/
-        deviceTypesDAO.create(deviceTypes);
+        return deviceTypesDAO.create(deviceTypes);
     }
 
     @Override
     @Transactional
     public DeviceTypesForm getById(Integer id){
-
         DeviceTypesAssembler assembler = new DeviceTypesAssembler();
         DeviceTypes bean = deviceTypesDAO.getById(id);
         DeviceTypesForm result = assembler.fromBeanToForm(bean);

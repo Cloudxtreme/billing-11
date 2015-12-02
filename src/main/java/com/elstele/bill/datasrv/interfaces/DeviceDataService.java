@@ -7,7 +7,7 @@ import java.util.List;
 public interface DeviceDataService {
     public List<DeviceForm> getDevices();
 
-    public void addDevice(DeviceForm deviceForm);
+    public Integer addDevice(DeviceForm deviceForm);
 
     public void deleteDevice(Integer id);
 

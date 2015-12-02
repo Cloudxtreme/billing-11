@@ -43,10 +43,10 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public void addDevice(DeviceForm deviceForm){
+    public Integer addDevice(DeviceForm deviceForm){
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
-        deviceDAO.create(device);
+        return deviceDAO.create(device);
     }
 
     @Override
