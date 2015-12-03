@@ -4,7 +4,7 @@ import com.elstele.bill.controller.AuthController;
 import com.elstele.bill.dao.interfaces.LocalUserDAO;
 import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

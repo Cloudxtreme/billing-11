@@ -4,7 +4,7 @@ import com.elstele.bill.dao.impl.AccountDAOImpl;
 import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;

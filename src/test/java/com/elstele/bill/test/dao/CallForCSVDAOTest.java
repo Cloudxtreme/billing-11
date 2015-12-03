@@ -2,10 +2,8 @@ package com.elstele.bill.test.dao;
 
 
 import com.elstele.bill.dao.impl.CallForCSVDAOImpl;
-import com.elstele.bill.dao.interfaces.CallForCSVDAO;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
-import com.elstele.bill.utils.Constants.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

@@ -3,10 +3,9 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.*;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceType;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
