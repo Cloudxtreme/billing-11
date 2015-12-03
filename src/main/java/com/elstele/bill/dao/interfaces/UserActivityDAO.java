@@ -9,7 +9,4 @@ import java.util.List;
 
 public interface UserActivityDAO extends CommonDAO <Activity> {
     public List<Activity> listActivity();
-    public Integer insertUserActivity(Activity activity);
-    public void updateUserActivity(Activity activity);
-    public void deleteUserActivity(Integer activityId);
 }

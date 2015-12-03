@@ -50,4 +50,28 @@ public class ServiceInternetAttribute  extends CommonDomainBean {
     public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceInternetAttribute that = (ServiceInternetAttribute) o;
+
+        if (attribute != null ? !attribute.equals(that.attribute) : that.attribute != null) return false;
+        if (operation != null ? !operation.equals(that.operation) : that.operation != null) return false;
+        if (serviceType != null ? !serviceType.equals(that.serviceType) : that.serviceType != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = attribute != null ? attribute.hashCode() : 0;
+        result = 31 * result + (operation != null ? operation.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
+        return result;
+    }
 }

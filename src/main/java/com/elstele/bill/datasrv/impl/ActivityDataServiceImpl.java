@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,14 +44,16 @@ public class ActivityDataServiceImpl implements ActivityDataService {
 
     @Override
     @Transactional
-    public List<Activity> listActivity(){
-        return userActivityDAO.listActivity();
-    }
+    public List<ActivityForm> listActivity(){
+        List<ActivityForm> result = new ArrayList<ActivityForm>();
+        ActivityAssembler assembler = new ActivityAssembler();
 
-    @Override
-    @Transactional
-    public Activity findById(Integer id){
-        return userActivityDAO.getById(id);
+        List<Activity> beans = userActivityDAO.listActivity();
+        for (Activity curBean : beans){
+            ActivityForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
     }
 
     @Override

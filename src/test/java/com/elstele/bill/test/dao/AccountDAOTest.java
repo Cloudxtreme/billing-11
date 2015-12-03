@@ -40,6 +40,7 @@ public class AccountDAOTest {
     Account ac1;
     Account ac2;
 
+
     @Before
     public void setUp(){
         String clearAccounts = String.format("delete from Account");

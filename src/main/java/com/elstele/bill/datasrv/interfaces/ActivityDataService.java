@@ -9,8 +9,7 @@ public interface ActivityDataService {
 
     public String saveActivity(ActivityForm form);
     public void deleteActivity(Integer id);
-    public List<Activity> listActivity();
-    public Activity findById(Integer id);
+    public List<ActivityForm> listActivity();
     public ActivityForm getActivityFormById(Integer id);
 
 }

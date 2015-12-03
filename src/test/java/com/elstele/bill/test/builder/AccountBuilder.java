@@ -24,6 +24,11 @@ public class AccountBuilder implements TestObjectCreator<AccountBuilder, Account
         return account;
     }
 
+    public AccountBuilder withId(Integer id){
+        account.setId(id);
+        return this;
+    }
+
     public AccountBuilder withAccName(String name){
         account.setAccountName(name);
         return this;

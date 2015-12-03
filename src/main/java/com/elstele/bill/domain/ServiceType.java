@@ -72,4 +72,26 @@ public class ServiceType extends CommonDomainBean{
     public void setBussType(Constants.AccountType bussType) {
         this.bussType = bussType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceType that = (ServiceType) o;
+
+        if (!name.equals(that.name)) return false;
+        if (!price.equals(that.price)) return false;
+        if (!serviceType.equals(that.serviceType)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + serviceType.hashCode();
+        return result;
+    }
 }

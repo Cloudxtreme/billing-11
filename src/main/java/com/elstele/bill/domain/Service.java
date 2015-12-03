@@ -66,4 +66,27 @@ public class Service extends CommonDomainBean{
         this.serviceType = serviceType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Service service = (Service) o;
+
+        if (account != null ? !account.equals(service.account) : service.account != null) return false;
+        if (dateStart != null ? !dateStart.equals(service.dateStart) : service.dateStart != null) return false;
+        if (period != service.period) return false;
+        if (serviceType != null ? !serviceType.equals(service.serviceType) : service.serviceType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = dateStart != null ? dateStart.hashCode() : 0;
+        result = 31 * result + (period != null ? period.hashCode() : 0);
+        result = 31 * result + (account != null ? account.hashCode() : 0);
+        result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
+        return result;
+    }
 }

@@ -21,7 +21,7 @@ public class UserRole extends CommonDomainBean{
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "ROLE_ACTIVITY",
             joinColumns = @JoinColumn(name = "USERROLE_ID", unique=false),
             inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID", unique=false))
@@ -64,4 +64,26 @@ public class UserRole extends CommonDomainBean{
         activities.remove(activity);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserRole userRole = (UserRole) o;
+
+        if (activities != null ? !activities.equals(userRole.activities) : userRole.activities != null) return false;
+        if (description != null ? !description.equals(userRole.description) : userRole.description != null)
+            return false;
+        if (!name.equals(userRole.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (activities != null ? activities.hashCode() : 0);
+        return result;
+    }
 }
