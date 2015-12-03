@@ -1,4 +1,4 @@
-package com.elstele.bill.datasrv;
+package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.TransactionForm;

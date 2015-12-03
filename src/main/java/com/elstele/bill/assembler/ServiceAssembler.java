@@ -9,7 +9,7 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.elstele.bill.utils.Enums.Status;
-import static com.elstele.bill.utils.Constants.Constants.*;
+import static com.elstele.bill.utils.Constants.*;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 

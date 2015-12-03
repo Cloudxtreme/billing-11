@@ -1,13 +1,13 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.dao.TransactionDAOImpl;
-import com.elstele.bill.datasrv.TransactionDataServiceImpl;
+import com.elstele.bill.dao.impl.TransactionDAOImpl;
+import com.elstele.bill.datasrv.impl.TransactionDataServiceImpl;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
 import com.elstele.bill.test.builder.ObjectBuilder;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

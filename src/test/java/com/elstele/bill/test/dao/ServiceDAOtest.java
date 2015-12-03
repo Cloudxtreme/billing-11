@@ -8,7 +8,7 @@ import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.test.builder.ObjectBuilder;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.elstele.bill.utils.Constants.Constants.*;
+import static com.elstele.bill.utils.Constants.*;
 import static org.junit.Assert.*;
 
 
@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ServiceDAOtest {
+public class ServiceDAOTest {
 
     @Autowired
     private SessionFactory sessionFactory;

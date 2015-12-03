@@ -1,6 +1,7 @@
-package com.elstele.bill.dao;
+package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
+import com.elstele.bill.dao.interfaces.TransactionDAO;
 import com.elstele.bill.domain.Transaction;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;

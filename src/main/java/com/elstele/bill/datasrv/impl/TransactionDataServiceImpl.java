@@ -1,7 +1,8 @@
-package com.elstele.bill.datasrv;
+package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.TransactionAssembler;
-import com.elstele.bill.dao.TransactionDAO;
+import com.elstele.bill.dao.interfaces.TransactionDAO;
+import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;

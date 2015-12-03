@@ -3,7 +3,7 @@ package com.elstele.bill.datasrv.interfaces;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 
 import java.util.List;
 

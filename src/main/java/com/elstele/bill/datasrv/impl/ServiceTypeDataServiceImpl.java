@@ -1,14 +1,14 @@
 package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.ServiceTypeAssembler;
-import com.elstele.bill.dao.ServiceAttributeDAO;
+import com.elstele.bill.dao.interfaces.ServiceAttributeDAO;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

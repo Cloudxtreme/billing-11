@@ -9,5 +9,5 @@ import java.util.List;
 public interface IpDAO extends CommonDAO<Ip> {
     public List<Ip> getIpAddressList();
     public List<Ip> getIpAddressListBySubnetId(Integer id);
-
+    public void setStatusById(IpStatus ipStatus, Integer id);
 }

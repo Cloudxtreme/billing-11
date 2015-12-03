@@ -4,7 +4,7 @@ import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
-import com.elstele.bill.utils.Constants.Constants;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
