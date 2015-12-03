@@ -1,12 +1,12 @@
 package com.elstele.bill.test.dao;
 
 
-import com.elstele.bill.dao.impl.USDRateDAOImpl;
+import com.elstele.bill.dao.impl.DeviceTypesDAOImpl;
+import com.elstele.bill.domain.DeviceTypes;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +15,42 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class USDRateDAOTest {
+public class DeviceTypesDAOTest {
 
     @Autowired
-    USDRateDAOImpl usdRateDAO;
-    private Date date;
-    private Double value;
+    DeviceTypesDAOImpl deviceTypesDAO;
+
+    private DeviceTypes type1;
+    private DeviceTypes type;
 
     @Before
     public void setUp() {
-        date = new Date();
-        value = 20.00;
+        type = new DeviceTypes();
+        deviceTypesDAO.save(type);
+
+        type1 = new DeviceTypes();
+        deviceTypesDAO.save(type1);
     }
 
     @After
     public void tearDown() {
-        date = null;
-        value = null;
+        type = null;
+        type1 = null;
     }
 
     @Test
-    public void setUSDRateValueTest() {
-        usdRateDAO.setUSDRateValue(date, value);
+    public void getDeviceTypesTest() {
+        List<DeviceTypes> actual = deviceTypesDAO.getDeviceTypes();
+        assertTrue(actual.contains(type1));
+        assertTrue(actual.contains(type));
     }
 }

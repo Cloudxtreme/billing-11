@@ -12,7 +12,6 @@ public class Device extends CommonDomainBean {
     private String description;
     private String community;
 
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ipAddress_id")
     private Ip ipAdd;

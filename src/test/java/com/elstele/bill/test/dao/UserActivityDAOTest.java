@@ -59,8 +59,7 @@ public class UserActivityDAOTest {
 
     @After
     public void tearDown(){
-        //TODO investigate this comment
-        //userActivityDAO.clearTable("activity");
+        userActivityDAO.clearTable("activity");
         activity4 = null;
         expected = null;
     }

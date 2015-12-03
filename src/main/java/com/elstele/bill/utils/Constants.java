@@ -1,4 +1,4 @@
-package com.elstele.bill.utils.Constants;
+package com.elstele.bill.utils;
 
 
 public class  Constants {

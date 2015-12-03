@@ -14,13 +14,6 @@ import java.util.List;
 public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements CallForCSVDAO {
 
     @Override
-    public void clearReportDataTable() {
-        String hql = "delete from CallForCSV";
-        Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-        query.executeUpdate();
-    }
-
-    @Override
     public List<String> getUniqueNumberAWithProvider(Date startTime, Date finishTime, String provider) {
         SQLQuery createSQLQuery = getSessionFactory().getCurrentSession().createSQLQuery("select distinct numberA from callForCSV " +
                 "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and provider ='" + provider + "' and costCallTotal Is not null order by numberA");
@@ -52,6 +45,12 @@ public class CallForCSVDAOImpl extends CommonDAOImpl<CallForCSV> implements Call
     public String getDescriptionFromDirections(String dirPrefix) {
         Query query = getSessionFactory().getCurrentSession().createSQLQuery("Select description from directions where prefix='" + dirPrefix + "' ");
         return (String)query.uniqueResult();
+    }
+
+    @Override
+    public void clearTable() {
+        SQLQuery sqlQuery = getSessionFactory().getCurrentSession().createSQLQuery("DELETE FROM callForCSV");
+        sqlQuery.executeUpdate();
     }
 
 }

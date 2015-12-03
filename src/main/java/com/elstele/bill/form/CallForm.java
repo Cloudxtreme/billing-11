@@ -20,6 +20,33 @@ public class CallForm {
     private String vkNum;
     private String inputTrunk;
     private String outputTrunk;
+    private Float costRegular;
+    private Float costPref;
+    private Integer callDirectionId;
+
+    public Float getCostRegular() {
+        return costRegular;
+    }
+
+    public void setCostRegular(Float costRegular) {
+        this.costRegular = costRegular;
+    }
+
+    public Float getCostPref() {
+        return costPref;
+    }
+
+    public void setCostPref(Float costPref) {
+        this.costPref = costPref;
+    }
+
+    public Integer getCallDirectionId() {
+        return callDirectionId;
+    }
+
+    public void setCallDirectionId(Integer callDirectionId) {
+        this.callDirectionId = callDirectionId;
+    }
 
     public Status getStatus() {
         return status;

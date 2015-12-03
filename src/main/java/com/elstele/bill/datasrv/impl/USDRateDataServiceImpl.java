@@ -51,9 +51,9 @@ public class USDRateDataServiceImpl implements USDRateDataService {
         } catch (ParserConfigurationException e) {
             log.error(e + " Method sendLiveRequest");
         } catch (SAXException e) {
-            log.error(e + " Method sendLiveRequest");
+            e.printStackTrace();
         } catch (IOException e) {
-            log.error(e + " Method sendLiveRequest");
+            e.printStackTrace();
         }
     }
 }

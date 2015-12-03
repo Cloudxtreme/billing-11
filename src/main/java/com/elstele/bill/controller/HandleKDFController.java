@@ -183,7 +183,7 @@ public class HandleKDFController {
                 System.out.println(e.toString());
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
-            uploadedFileInfoDataService.setFileStatus(uploadedFileInfoForm);
+            uploadedFileInfoDataService.updateFile(uploadedFileInfoForm);
             progress = 100;
         }
     }
