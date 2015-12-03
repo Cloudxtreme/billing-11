@@ -15,8 +15,6 @@ public class IpAssembler {
         return form;
     }
 
-
-
     public Ip fromFormToBean(IpForm form){
         Ip bean = new Ip();
         copyProperties(form, bean);
