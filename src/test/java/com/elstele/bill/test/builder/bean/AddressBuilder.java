@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.Address;
 import com.elstele.bill.domain.Street;
@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 /**
  * Created by ivan on 15/11/30.
  */
-public class AddressBuilder implements TestObjectCreator<AddressBuilder, Address>{
+public class AddressBuilder implements TestObjectCreator<AddressBuilder, Address> {
     private Address address;
     private SecureRandom random = new SecureRandom();
 

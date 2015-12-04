@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.ServicePhone;

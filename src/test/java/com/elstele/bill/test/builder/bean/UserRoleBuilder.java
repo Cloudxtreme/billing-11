@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.Activity;
 import com.elstele.bill.domain.UserRole;
@@ -33,6 +33,23 @@ public class UserRoleBuilder {
         List<Activity> acList = new ArrayList<Activity>();
         acList.add(ac1);
         acList.add(ac2);
+        userRole.setActivities(acList);
+        return this;
+    }
+
+    public UserRoleBuilder withId(Integer id){
+        userRole.setId(id);
+        return this;
+    }
+    public UserRoleBuilder withName(String name){
+        userRole.setName(name);
+        return this;
+    }
+    public UserRoleBuilder withDescription(String description){
+        userRole.setDescription(description);
+        return this;
+    }
+    public UserRoleBuilder withActivities(List<Activity> acList){
         userRole.setActivities(acList);
         return this;
     }

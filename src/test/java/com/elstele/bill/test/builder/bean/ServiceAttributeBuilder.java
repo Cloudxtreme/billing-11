@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;

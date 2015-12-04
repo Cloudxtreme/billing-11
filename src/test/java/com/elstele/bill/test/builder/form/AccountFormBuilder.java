@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.form;
 
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Constants;
