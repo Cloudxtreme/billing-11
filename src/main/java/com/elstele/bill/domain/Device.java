@@ -58,4 +58,29 @@ public class Device extends CommonDomainBean {
     public void setIpAdd(Ip ipAdd) {
         this.ipAdd = ipAdd;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Device device = (Device) o;
+
+        if (name != null ? !name.equals(device.name) : device.name != null) return false;
+        if (description != null ? !description.equals(device.description) : device.description != null) return false;
+        if (community != null ? !community.equals(device.community) : device.community != null) return false;
+        if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
+        return !(deviceTypes != null ? !deviceTypes.equals(device.deviceTypes) : device.deviceTypes != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (community != null ? community.hashCode() : 0);
+        result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
+        result = 31 * result + (deviceTypes != null ? deviceTypes.hashCode() : 0);
+        return result;
+    }
 }

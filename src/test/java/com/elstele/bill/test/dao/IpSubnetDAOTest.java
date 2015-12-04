@@ -3,6 +3,8 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.IpSubnetDAOImpl;
 import com.elstele.bill.domain.IpSubnet;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -27,32 +29,30 @@ import static org.junit.Assert.*;
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IpSubnetDAOTest {
-
-    List<IpSubnet> expected;
     @Autowired
     IpSubnetDAOImpl ipSubnetDAO;
+    private IpSubnet subnet;
+    private IpSubnet subnet1;
 
     @Before
     public void setUp(){
-        expected = new ArrayList<>();
-
-        IpSubnet subnet = new IpSubnet();
+        subnet = new IpSubnet();
         ipSubnetDAO.save(subnet);
-        expected.add(subnet);
 
-        IpSubnet subnet1 = new IpSubnet();
+        subnet1 = new IpSubnet();
         ipSubnetDAO.save(subnet1);
-        expected.add(subnet1);
     }
 
     @After
     public void tearDown(){
-        expected = null;
+        subnet = null;
+        subnet1 = null;
     }
 
     @Test
     public void getSubnetsTest(){
         List<IpSubnet> actual = ipSubnetDAO.getSubnets();
-        assertEquals(actual, expected);
+        assertTrue(actual.contains(subnet));
+        assertTrue(actual.contains(subnet1));
     }
 }

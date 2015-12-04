@@ -44,6 +44,7 @@ public class CallDataServiceTest {
     private Call call;
     private Call call1;
     private Call call2;
+    private CallForm callForm;
 
     @Before
     public void setUp() {
@@ -55,6 +56,18 @@ public class CallDataServiceTest {
         c.setTime(startDate);
         c.add(Calendar.DATE, 1);
         endDate = c.getTime();
+
+        callForm = new CallForm();
+        callForm.setStatus(Status.ACTIVE);
+        callForm.setCallDirectionId(11);
+        callForm.setCostTotal(113.111f);
+        callForm.setDuration(122l);
+        callForm.setId(1);
+        callForm.setNumberA("1111111");
+        callForm.setNumberB("8888888");
+        callForm.setOutputTrunk("05");
+        callForm.setStartTime(startDate);
+
 
         callList = new ArrayList<>();
         call = new Call();
@@ -118,13 +131,14 @@ public class CallDataServiceTest {
     public void addCallsTest() {
         CallForm callFormExpected = new CallForm();
         callFormExpected.setId(1);
+        callFormExpected.setNumberB("8888888");
         when(callDAO.create(call)).thenReturn(1);
 
         CallForm callForm = new CallForm();
         callForm.setNumberB("8888888");
         callForm.setId(1);
         callDataService.addCalls(callForm);
-        assertEquals(callForm.getId(), callFormExpected.getId());
+        assertTrue(callForm.equals(callFormExpected));
     }
 
     @Test
@@ -169,11 +183,7 @@ public class CallDataServiceTest {
     public void getCallsListTest() {
         when(callDAO.getCallsList(10, 10)).thenReturn(callList);
         List<CallForm> actualList = callDataService.getCallsList(10, 2);
-        for (CallForm form : actualList) {
-            assertTrue(form.getNumberA() != null);
-            assertTrue(form.getNumberB() != null);
-            assertTrue(form.getId() != null);
-        }
+        assertTrue(actualList.contains(callForm));
     }
 
     @Test
@@ -182,10 +192,7 @@ public class CallDataServiceTest {
         listExpected.add(call);
         when(callDAO.callsListSelectionBySearch(10, 10, call.getNumberA(), call.getNumberB(), startDate, endDate)).thenReturn(listExpected);
         List<CallForm> actualList = callDataService.callsListSelectionBySearch(10, 2, call.getNumberA(), call.getNumberB(), startDate, endDate);
-        for (CallForm form : actualList) {
-            assertEquals(form.getNumberA(), call.getNumberA());
-            assertEquals(form.getId(), call.getId());
-        }
+        assertTrue(actualList.contains(callForm));
     }
 
     @Test

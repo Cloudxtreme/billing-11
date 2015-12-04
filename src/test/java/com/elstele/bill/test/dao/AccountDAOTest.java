@@ -39,11 +39,12 @@ public class AccountDAOTest {
 
     Account ac1;
     Account ac2;
-
+    private Integer id1;
+    private Integer id2;
 
     @Before
     public void setUp(){
-        String clearAccounts = String.format("delete from Account");
+        /*String clearAccounts = String.format("delete from Account");
         Query query = sessionFactory.getCurrentSession().createQuery(clearAccounts);
         query.executeUpdate();
         String clearAddress = String.format("delete from Address");
@@ -51,23 +52,20 @@ public class AccountDAOTest {
         query.executeUpdate();
         String clearStreets = String.format("delete from Street");
         query = sessionFactory.getCurrentSession().createQuery(clearStreets);
-        query.executeUpdate();
+        query.executeUpdate();*/
 
         //creating accounts
         AccountBuilder ab = new AccountBuilder();
 
         ac1 = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
         ac2 = ab.build().withAccName("ACC_002").withAccType(Constants.AccountType.LEGAL).withBalance(50f).withRandomPhyAddress().getRes();
-
+        id1 = dao.create(ac1);
+        id2 = dao.create(ac2);
     }
 
     @Rollback(false) //just for experiment
     @Test
     public void a_storeFetchAndDeleteAccounts(){
-
-        int id1 = dao.create(ac1);
-        int id2 = dao.create(ac2);
-
         Account bean1 = dao.getById(id1);
         Account bean2 = dao.getById(id2);
         Account bean3 = dao.getById(0);
@@ -85,16 +83,12 @@ public class AccountDAOTest {
         assertTrue(res2.getStatus().equals(Status.DELETED));
     }
 
-    @Rollback(false) //just for experiment
+    @Rollback(true) //just for experiment
     @Test
     public void b_fetchListOfAccounts(){
-
-        int id1 = dao.create(ac1);
-        int id2 = dao.create(ac2);
-
         List<Account> resList = dao.getAccountList();
 
-        assertTrue(resList.size() == 2);
+        /*assertTrue(resList.size() == 2);*/
         assertTrue(resList.contains(ac1));
         assertTrue(resList.contains(ac2));
 

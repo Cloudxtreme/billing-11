@@ -80,10 +80,9 @@ public class ServiceType extends CommonDomainBean{
 
         ServiceType that = (ServiceType) o;
 
-        if (!name.equals(that.name)) return false;
-        if (!price.equals(that.price)) return false;
-        if (!serviceType.equals(that.serviceType)) return false;
-
+        if (name != null && that.name != null) return name.equals(that.name);
+        if (price != null && that.price != null) return price.equals(that.price);
+        if (serviceType != null && that.serviceType != null) return serviceType.equals(that.serviceType);
         return true;
     }
 

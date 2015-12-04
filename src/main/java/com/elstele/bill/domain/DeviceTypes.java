@@ -16,17 +16,6 @@ public class DeviceTypes extends CommonDomainBean{
     public String description;
     public Integer portsNumber;
 
-    /*@OneToMany(mappedBy="deviceTypes")
-    private Set<Device> devices;*/
-
-  /*  public Set<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Set<Device> devices) {
-        this.devices = devices;
-    }
-*/
     public String getDeviceType() {
         return deviceType;
     }
@@ -49,5 +38,26 @@ public class DeviceTypes extends CommonDomainBean{
 
     public void setPortsNumber(Integer portsNumber) {
         this.portsNumber = portsNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DeviceTypes that = (DeviceTypes) o;
+
+        if (deviceType != null ? !deviceType.equals(that.deviceType) : that.deviceType != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        return !(portsNumber != null ? !portsNumber.equals(that.portsNumber) : that.portsNumber != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = deviceType != null ? deviceType.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (portsNumber != null ? portsNumber.hashCode() : 0);
+        return result;
     }
 }

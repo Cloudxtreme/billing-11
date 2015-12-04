@@ -57,6 +57,4 @@ public class ReportDataServiceTest {
     public void eraseDataFromReportDetails() {
         reportDetails = null;
     }
-
-
 }

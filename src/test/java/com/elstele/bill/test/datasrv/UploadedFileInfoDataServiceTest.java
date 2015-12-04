@@ -58,10 +58,7 @@ public class UploadedFileInfoDataServiceTest {
         when(dao.getUploadedFileInfoList()).thenReturn(fileInfos);
 
         List<UploadedFileInfoForm> actual = dataService.getUploadedFileInfoList();
-        for(UploadedFileInfoForm form : actual){
-            assertEquals(form.getId(), fileForm.getId());
-            assertEquals(form.getFileName(), fileForm.getFileName());
-        }
+        assertTrue(actual.contains(fileForm));
     }
 
     @Test

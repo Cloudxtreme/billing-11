@@ -32,6 +32,7 @@ public class IpDataServiceTest {
 
     private Ip ip;
     private Ip ip1;
+    private IpSubnet ipSubnet;
 
     @Before
     public void setUp(){
@@ -41,7 +42,7 @@ public class IpDataServiceTest {
         ip = new Ip();
         ip.setId(1);
         ip.setIpName("98.99.11.11");
-        IpSubnet ipSubnet = new IpSubnet();
+        ipSubnet = new IpSubnet();
         ipSubnet.setIpSubnet("192.168.1.1");
         ip.setIpSubnet(ipSubnet);
 
@@ -66,28 +67,23 @@ public class IpDataServiceTest {
         IpForm form = new IpForm();
         form.setId(1);
         form.setIpName("98.99.11.11");
+        form.setIpSubnet(ipSubnet);
 
         List<IpForm> actualList = ipDataService.getIpAddressList();
-        for(IpForm formIn : actualList){
-            assertEquals(formIn.getIpName(), ip.getIpName());
-            assertEquals(formIn.getId(), ip.getId());
-        }
+        assertTrue(actualList.contains(form));
     }
 
     @Test
     public void getBySubnetIdTest(){
         IpForm form = new IpForm();
-        IpSubnet ipSubnet = new IpSubnet();
-        ipSubnet.setIpSubnet("192.168.1.1");
+        form.setId(1);
+        form.setIpName("98.99.11.11");
         form.setIpSubnet(ipSubnet);
 
         List<Ip> ipList = new ArrayList<>();
         ipList.add(ip);
         when(ipDAO.getIpAddressListBySubnetId(1)).thenReturn(ipList);
         List<IpForm> actual = ipDataService.getBySubnetId(1);
-        for(IpForm ipForm : actual){
-            assertEquals(ipForm.getIpSubnet(), ip.getIpSubnet());
-            assertEquals(ipForm.getIpName(), ip.getIpName());
-        }
+        assertTrue(actual.contains(form));
     }
 }

@@ -67,10 +67,7 @@ public class DeviceTypesDataServiceTest {
         form.setDeviceType("D-Link");
 
         List<DeviceTypesForm> actualList = deviceTypesDataService.getDeviceTypes();
-        for(DeviceTypesForm formIn : actualList){
-            assertEquals(formIn.getDeviceType(), types.getDeviceType());
-            assertEquals(formIn.getId(), types.getId());
-        }
+        assertTrue(actualList.contains(form));
     }
 
     @Test

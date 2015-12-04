@@ -5,6 +5,8 @@ import com.elstele.bill.dao.impl.IpSubnetDAOImpl;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.utils.Enums.IpStatus;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -28,49 +30,47 @@ import static org.junit.Assert.*;
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IpDAOTest {
+
     @Autowired
     IpDAOImpl ipDAO;
     @Autowired
     IpSubnetDAOImpl ipSubnetDAO;
 
-    private List<Ip> expected;
     private Ip ip1;
     private int subnetId;
+    private Ip ip;
 
     @Before
     public void setUp(){
-        expected = new ArrayList<>();
-
-        Ip ip = new Ip();
+        ip = new Ip();
         ip.setIpStatus(IpStatus.FREE);
         IpSubnet subnet = new IpSubnet();
         subnetId = ipSubnetDAO.create(subnet);
         ip.setIpSubnet(subnet);
         ipDAO.save(ip);
-        expected.add(ip);
 
         ip1 = new Ip();
         ip1.setIpStatus(IpStatus.USED);
         ip1.setIpSubnet(subnet);
         ipDAO.save(ip1);
-        expected.add(ip1);
     }
 
     @After
     public void tearDown(){
-        expected =null;
+        ip =null;
+        ip1 = null;
     }
 
     @Test
     public void getIpAddressListTest(){
         List<Ip> actual = ipDAO.getIpAddressList();
-        assertEquals(actual, expected);
+        assertTrue(actual.contains(ip));
         assertTrue(actual.contains(ip1));
     }
 
     @Test
     public void getIpAddressListBySubnetIdTest(){
         List<Ip> actual = ipDAO.getIpAddressListBySubnetId(subnetId);
-        assertEquals(actual,expected);
+        assertTrue(actual.contains(ip));
     }
 }

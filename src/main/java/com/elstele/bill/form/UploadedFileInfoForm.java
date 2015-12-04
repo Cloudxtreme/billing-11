@@ -48,4 +48,29 @@ public class UploadedFileInfoForm {
     public void setFileStatus(FileStatus fileStatus) {
         this.fileStatus = fileStatus;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UploadedFileInfoForm)) return false;
+
+        UploadedFileInfoForm that = (UploadedFileInfoForm) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
+        if (fileSize != null ? !fileSize.equals(that.fileSize) : that.fileSize != null) return false;
+        if (path != null ? !path.equals(that.path) : that.path != null) return false;
+        return fileStatus == that.fileStatus;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+        result = 31 * result + (fileSize != null ? fileSize.hashCode() : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (fileStatus != null ? fileStatus.hashCode() : 0);
+        return result;
+    }
 }

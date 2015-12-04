@@ -59,4 +59,29 @@ public class ServiceInternetAttributeForm {
     public boolean isNew() {
         return (this.id == null);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceInternetAttributeForm that = (ServiceInternetAttributeForm) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (attribute != null ? !attribute.equals(that.attribute) : that.attribute != null) return false;
+        if (operation != null ? !operation.equals(that.operation) : that.operation != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        return !(serviceTypeId != null ? !serviceTypeId.equals(that.serviceTypeId) : that.serviceTypeId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
+        result = 31 * result + (operation != null ? operation.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (serviceTypeId != null ? serviceTypeId.hashCode() : 0);
+        return result;
+    }
 }

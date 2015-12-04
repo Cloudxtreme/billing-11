@@ -44,16 +44,12 @@ public class LocalUserAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         LocalUserForm actual = assembler.fromBeanToForm(localUser);
-        assertEquals(actual.getId(), localUser.getId());
-        assertEquals(actual.getUsername(), localUser.getUsername());
-        assertEquals(actual.getPassword(), localUser.getPassword());
+        assertTrue(actual.equals(localUserForm));
     }
 
     @Test
     public void fromFormToBeanTest(){
         LocalUser actual = assembler.fromFormToBean(localUserForm);
-        assertEquals(actual.getId(), localUser.getId());
-        assertEquals(actual.getUsername(), localUser.getUsername());
-        assertEquals(actual.getPassword(), localUser.getPassword());
+        assertTrue(actual.equals(localUser));
     }
 }

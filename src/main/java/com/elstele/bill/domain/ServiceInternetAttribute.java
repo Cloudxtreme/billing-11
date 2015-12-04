@@ -60,7 +60,7 @@ public class ServiceInternetAttribute  extends CommonDomainBean {
 
         if (attribute != null ? !attribute.equals(that.attribute) : that.attribute != null) return false;
         if (operation != null ? !operation.equals(that.operation) : that.operation != null) return false;
-        if (serviceType != null ? !serviceType.equals(that.serviceType) : that.serviceType != null) return false;
+        if (serviceType != null && that.serviceType != null) return serviceType.equals(that.serviceType);
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;

@@ -32,7 +32,6 @@ public class CallForCSVDAOTest {
     @Autowired
     CallForCSVDAOImpl callForCSVDAO;
 
-    private List<String> expectedNumberAList;
     private Date startDate;
     private Date endDate;
     private CallForCSV call1;
@@ -42,7 +41,6 @@ public class CallForCSVDAOTest {
 
     @Before
     public void setUp() {
-        expectedNumberAList = new ArrayList<>();
 
         startDate = new Date();
         Calendar c = Calendar.getInstance();
@@ -74,11 +72,6 @@ public class CallForCSVDAOTest {
         call4.setNumberA("7890222");
         call4.setStartTime(new Date());
 
-        expectedNumberAList.add(call1.getNumberA());
-        expectedNumberAList.add(call2.getNumberA());
-        expectedNumberAList.add(call3.getNumberA());
-        expectedNumberAList.add(call4.getNumberA());
-
         callForCSVDAO.save(call1);
         callForCSVDAO.save(call2);
         callForCSVDAO.save(call3);
@@ -87,7 +80,6 @@ public class CallForCSVDAOTest {
 
     @After
     public void tearDown() {
-        expectedNumberAList = null;
         call1 = null;
         call2 = null;
         call3 = null;
@@ -100,7 +92,6 @@ public class CallForCSVDAOTest {
         assertTrue(actual.contains(call1.getNumberA()));
         assertTrue(actual.contains(call2.getNumberA()));
         assertFalse(actual.contains(call3.getNumberA()));
-        assertNotEquals(actual, expectedNumberAList);
     }
 
     @Test

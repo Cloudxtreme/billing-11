@@ -45,28 +45,24 @@ public class ServiceTypeAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         ServiceTypeForm actual = assembler.fromBeanToForm(serviceType);
-        assertEquals(actual.getId(), serviceType.getId());
-        assertEquals(actual.getName(), serviceType.getName());
+        assertTrue(actual.equals(serviceTypeForm));
     }
 
     @Test
     public void fromFormToBeanTest(){
         ServiceType actual = assembler.fromFormToBean(serviceTypeForm);
-        assertEquals(actual.getId(), serviceTypeForm.getId());
-        assertEquals(actual.getName(), serviceType.getName());
+        assertTrue(actual.equals(serviceType));
     }
 
     @Test
     public void fromBeanToFormIpSubnetTest(){
         ServiceInternetAttributeForm actual = assembler.fromServiceInternetAttributeBeanToForm(serviceInternetAttribute);
-        assertEquals(actual.getId(), serviceInternetAttribute.getId());
-        assertEquals(actual.getValue(), serviceInternetAttribute.getValue());
+        assertTrue(actual.equals(serviceInternetAttributeForm));
     }
 
     @Test
     public void fromFormToBeanIpSubnetTest(){
         ServiceInternetAttribute actual = assembler.fromServiceInternetAttributeFormToBean(serviceInternetAttributeForm);
-        assertEquals(actual.getId(), serviceInternetAttributeForm.getId());
-        assertEquals(actual.getValue(), serviceInternetAttributeForm.getValue());
+        assertTrue(actual.equals(serviceInternetAttribute));
     }
 }

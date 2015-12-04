@@ -42,15 +42,13 @@ public class CallForCSVAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         CallForCSVForm actual = assembler.fromBeanToForm(callForCSV);
-        assertEquals(actual.getNumberB(), callForCSV.getNumberB());
-        assertEquals(actual.getCostCallTotal(), callForCSV.getCostCallTotal());
+        assertTrue(actual.equals(callForCSVForm));
     }
 
     @Test
     public void fromFormToBeanTest(){
         CallForCSV actual = assembler.fromFormToBean(callForCSVForm);
-        assertEquals(actual.getNumberB(), callForCSVForm.getNumberB());
-        assertEquals(actual.getCostCallTotal(), callForCSVForm.getCostCallTotal());
+        assertTrue(actual.equals(callForCSV));
     }
 
 }

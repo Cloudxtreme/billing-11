@@ -44,14 +44,12 @@ public class UploadedFileInfoAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         UploadedFileInfoForm actual = assembler.fromBeanToForm(fileInfo);
-        assertEquals(actual.getId(), fileInfo.getId());
-        assertEquals(actual.getFileSize(), fileInfo.getFileSize());
+        assertTrue(actual.equals(form));
     }
 
     @Test
     public void fromFormToBeanTest(){
         UploadedFileInfo actual = assembler.fromFormToBean(form);
-        assertEquals(actual.getId(), fileInfo.getId());
-        assertEquals(actual.getFileSize(), fileInfo.getFileSize());
+        assertTrue(actual.equals(fileInfo));
     }
 }

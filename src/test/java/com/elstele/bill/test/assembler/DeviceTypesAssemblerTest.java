@@ -34,14 +34,12 @@ public class DeviceTypesAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         DeviceTypesForm actual = assembler.fromBeanToForm(types);
-        assertEquals(actual.getId(), types.getId());
-        assertEquals(actual.getPortsNumber(), types.getPortsNumber());
+        assertTrue(actual.equals(form));
     }
 
     @Test
     public void fromFormToBeanTest(){
         DeviceTypes actual = assembler.fromFormToBean(form);
-        assertEquals(actual.getId(), form.getId());
-        assertEquals(actual.getPortsNumber(), form.getPortsNumber());
+        assertTrue(actual.equals(types));
     }
 }

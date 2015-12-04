@@ -9,6 +9,8 @@ import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -40,14 +42,14 @@ public class DeviceDAOTest {
     IpSubnetDAOImpl ipSubnetDAO;
     @Autowired
     IpDAOImpl ipDAO;
-    private List<Device> expected;
+
+    private Device device1;
+    private Device device2;
 
     @Before
     public void setUp(){
-        expected = new ArrayList<>();
-
-        Device device1 = new Device();
-        Device device2 = new Device();
+        device1 = new Device();
+        device2 = new Device();
 
         DeviceTypes types1 = new DeviceTypes();
         deviceTypesDAO.save(types1);
@@ -65,24 +67,24 @@ public class DeviceDAOTest {
 
         device1.setIpAdd(ip1);
         device1.setDeviceTypes(types1);
-        expected.add(device1);
         deviceDAO.save(device1);
 
         device2.setIpAdd(ip2);
         device2.setDeviceTypes(types1);
-        expected.add(device2);
         deviceDAO.save(device2);
     }
 
     @After
     public void tearDown(){
-        expected = null;
+        device1 = null;
+        device2 = null;
     }
 
     @Test
     public void getDevicesTest(){
         List<Device> actual = deviceDAO.getDevices();
-        assertEquals(actual, expected);
+        assertTrue(actual.contains(device1));
+        assertTrue(actual.contains(device2));
     }
 
 }

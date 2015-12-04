@@ -48,28 +48,24 @@ public class IpAssemblerTest {
     @Test
     public void fromBeanToFormTest(){
         IpForm actual = assembler.fromBeanToForm(ip);
-        assertEquals(actual.getId(), ip.getId());
-        assertEquals(actual.getIpName(), ip.getIpName());
+        assertTrue(actual.equals(ipForm));
     }
 
     @Test
     public void fromFormToBeanTest(){
         Ip actual = assembler.fromFormToBean(ipForm);
-        assertEquals(actual.getId(), ipForm.getId());
-        assertEquals(actual.getIpName(), ipForm.getIpName());
+        assertTrue(actual.equals(ip));
     }
 
     @Test
      public void fromBeanToFormIpSubnetTest(){
         IpSubnetForm actual = assembler.fromBeanToFormIpSubnet(subnet);
-        assertEquals(actual.getId(), subnet.getId());
-        assertEquals(actual.getIpSubnet(), subnet.getIpSubnet());
+        assertTrue(actual.equals(subnetForm));
     }
 
     @Test
     public void fromFormToBeanIpSubnetTest(){
         IpSubnet actual = assembler.fromFormToBeanIpSubnet(subnetForm);
-        assertEquals(actual.getId(), subnetForm.getId());
-        assertEquals(actual.getIpSubnet(), subnetForm.getIpSubnet());
+        assertTrue(actual.equals(subnet));
     }
 }

@@ -75,4 +75,36 @@ public class CallForCSVForm {
     public void setProvider(String provider) {
         this.provider = provider;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CallForCSVForm that = (CallForCSVForm) o;
+
+        if (numberA != null ? !numberA.equals(that.numberA) : that.numberA != null) return false;
+        if (numberB != null ? !numberB.equals(that.numberB) : that.numberB != null) return false;
+        if (duration != null ? !duration.equals(that.duration) : that.duration != null) return false;
+        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
+        if (dirPrefix != null ? !dirPrefix.equals(that.dirPrefix) : that.dirPrefix != null) return false;
+        if (dirDescrpOrg != null ? !dirDescrpOrg.equals(that.dirDescrpOrg) : that.dirDescrpOrg != null) return false;
+        if (costCallTotal != null ? !costCallTotal.equals(that.costCallTotal) : that.costCallTotal != null)
+            return false;
+        return !(provider != null ? !provider.equals(that.provider) : that.provider != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = numberA != null ? numberA.hashCode() : 0;
+        result = 31 * result + (numberB != null ? numberB.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (dirPrefix != null ? dirPrefix.hashCode() : 0);
+        result = 31 * result + (dirDescrpOrg != null ? dirDescrpOrg.hashCode() : 0);
+        result = 31 * result + (costCallTotal != null ? costCallTotal.hashCode() : 0);
+        result = 31 * result + (provider != null ? provider.hashCode() : 0);
+        return result;
+    }
 }

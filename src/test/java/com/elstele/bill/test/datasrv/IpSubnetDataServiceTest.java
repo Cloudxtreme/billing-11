@@ -51,11 +51,12 @@ public class IpSubnetDataServiceTest {
         subnetList.add(subnet1);
         when(ipSubnetDAO.getSubnets()).thenReturn(subnetList);
 
+        IpSubnetForm ipSubnetForm = new IpSubnetForm();
+        ipSubnetForm.setId(1);
+        ipSubnetForm.setIpSubnet("192.168.0.1");
+
         List<IpSubnetForm> actual = ipSubnetDataService.getIpSubnets();
-        for(IpSubnetForm form : actual){
-            assertEquals(form.getId(), subnet1.getId());
-            assertEquals(form.getIpSubnet(), subnet1.getIpSubnet());
-        }
+        assertTrue(actual.contains(ipSubnetForm));
     }
 
 }

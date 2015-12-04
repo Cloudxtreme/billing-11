@@ -24,6 +24,7 @@ public class CallForm {
     private Float costPref;
     private Integer callDirectionId;
 
+
     public Float getCostRegular() {
         return costRegular;
     }
@@ -160,5 +161,37 @@ public class CallForm {
     public void setOutputTrunk(String outputTrunk) {
         this.outputTrunk = outputTrunk;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CallForm callForm = (CallForm) o;
+
+        if (id != null ? !id.equals(callForm.id) : callForm.id != null) return false;
+        if (numberA != null ? !numberA.equals(callForm.numberA) : callForm.numberA != null) return false;
+        if (numberB != null ? !numberB.equals(callForm.numberB) : callForm.numberB != null) return false;
+        if (startTime != null ? !startTime.equals(callForm.startTime) : callForm.startTime != null) return false;
+        if (duration != null ? !duration.equals(callForm.duration) : callForm.duration != null) return false;
+        if (aonKat != null ? !aonKat.equals(callForm.aonKat) : callForm.aonKat != null) return false;
+        if (dvoCodeA != null ? !dvoCodeA.equals(callForm.dvoCodeA) : callForm.dvoCodeA != null) return false;
+        if (dvoCodeB != null ? !dvoCodeB.equals(callForm.dvoCodeB) : callForm.dvoCodeB != null) return false;
+        if (status != null && callForm.status != null) {
+            return status == callForm.status;
+        }
+        if (costTotal != null ? !costTotal.equals(callForm.costTotal) : callForm.costTotal != null) return false;
+        if (ikNum != null ? !ikNum.equals(callForm.ikNum) : callForm.ikNum != null) return false;
+        if (vkNum != null ? !vkNum.equals(callForm.vkNum) : callForm.vkNum != null) return false;
+        if (inputTrunk != null ? !inputTrunk.equals(callForm.inputTrunk) : callForm.inputTrunk != null) return false;
+        if (outputTrunk != null ? !outputTrunk.equals(callForm.outputTrunk) : callForm.outputTrunk != null)
+            return false;
+        if (costRegular != null ? !costRegular.equals(callForm.costRegular) : callForm.costRegular != null)
+            return false;
+        if (costPref != null ? !costPref.equals(callForm.costPref) : callForm.costPref != null) return false;
+        return !(callDirectionId != null ? !callDirectionId.equals(callForm.callDirectionId) : callForm.callDirectionId != null);
+
+    }
+
 }
 

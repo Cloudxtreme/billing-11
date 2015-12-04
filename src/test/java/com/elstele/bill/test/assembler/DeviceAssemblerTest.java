@@ -11,6 +11,7 @@ import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,15 +57,23 @@ public class DeviceAssemblerTest {
         deviceTypes.setId(5);
         device.setIpAdd(ip);
         device.setDeviceTypes(deviceTypes);
+        device.setStatus(Status.ACTIVE);
 
         deviceForm = new DeviceForm();
         deviceForm.setId(1);
+        DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
+        deviceTypesForm.setId(5);
+        IpForm ipForm = new IpForm();
+        ipForm.setId(10);
+        deviceForm.setIpForm(ipForm);
+        deviceForm.setDevType(deviceTypesForm);
+        deviceForm.setStatus(Status.ACTIVE);
     }
 
     @Test
     public void fromBeanToFormTest(){
         DeviceForm actual = deviceAssembler.fromBeanToForm(device);
-        assertEquals(actual.getId(), device.getId());
+        assertTrue(actual.equals(deviceForm));
     }
 
     @Test
@@ -72,6 +81,6 @@ public class DeviceAssemblerTest {
         when(ipDAO.getById(10)).thenReturn(ip);
         when(deviceTypesDAO.getById(5)).thenReturn(deviceTypes);
         Device actual = deviceAssembler.fromFormToBean(deviceForm);
-        assertEquals(actual.getId(), device.getId());
+        assertTrue(actual.equals(device));
     }
 }

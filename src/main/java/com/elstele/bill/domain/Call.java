@@ -163,5 +163,54 @@ public class Call extends CommonDomainBean{
     public void setCostTotal(Float costTotal) {
         this.costTotal = costTotal;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Call call = (Call) o;
+
+        if (numberA != null ? !numberA.equals(call.numberA) : call.numberA != null) return false;
+        if (numberB != null ? !numberB.equals(call.numberB) : call.numberB != null) return false;
+        if (startTime != null ? !startTime.equals(call.startTime) : call.startTime != null) return false;
+        if (duration != null ? !duration.equals(call.duration) : call.duration != null) return false;
+        if (aonKat != null ? !aonKat.equals(call.aonKat) : call.aonKat != null) return false;
+        if (dvoCodeA != null ? !dvoCodeA.equals(call.dvoCodeA) : call.dvoCodeA != null) return false;
+        if (dvoCodeB != null ? !dvoCodeB.equals(call.dvoCodeB) : call.dvoCodeB != null) return false;
+        if (ikNum != null ? !ikNum.equals(call.ikNum) : call.ikNum != null) return false;
+        if (vkNum != null ? !vkNum.equals(call.vkNum) : call.vkNum != null) return false;
+        if (inputTrunk != null ? !inputTrunk.equals(call.inputTrunk) : call.inputTrunk != null) return false;
+        if (outputTrunk != null ? !outputTrunk.equals(call.outputTrunk) : call.outputTrunk != null) return false;
+        if (secRegular != null ? !secRegular.equals(call.secRegular) : call.secRegular != null) return false;
+        if (secPref != null ? !secPref.equals(call.secPref) : call.secPref != null) return false;
+        if (costRegular != null ? !costRegular.equals(call.costRegular) : call.costRegular != null) return false;
+        if (costPref != null ? !costPref.equals(call.costPref) : call.costPref != null) return false;
+        if (costTotal != null ? !costTotal.equals(call.costTotal) : call.costTotal != null) return false;
+        return !(callDirectionId != null ? !callDirectionId.equals(call.callDirectionId) : call.callDirectionId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = numberA != null ? numberA.hashCode() : 0;
+        result = 31 * result + (numberB != null ? numberB.hashCode() : 0);
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (aonKat != null ? aonKat.hashCode() : 0);
+        result = 31 * result + (dvoCodeA != null ? dvoCodeA.hashCode() : 0);
+        result = 31 * result + (dvoCodeB != null ? dvoCodeB.hashCode() : 0);
+        result = 31 * result + (ikNum != null ? ikNum.hashCode() : 0);
+        result = 31 * result + (vkNum != null ? vkNum.hashCode() : 0);
+        result = 31 * result + (inputTrunk != null ? inputTrunk.hashCode() : 0);
+        result = 31 * result + (outputTrunk != null ? outputTrunk.hashCode() : 0);
+        result = 31 * result + (secRegular != null ? secRegular.hashCode() : 0);
+        result = 31 * result + (secPref != null ? secPref.hashCode() : 0);
+        result = 31 * result + (costRegular != null ? costRegular.hashCode() : 0);
+        result = 31 * result + (costPref != null ? costPref.hashCode() : 0);
+        result = 31 * result + (costTotal != null ? costTotal.hashCode() : 0);
+        result = 31 * result + (callDirectionId != null ? callDirectionId.hashCode() : 0);
+        return result;
+    }
 }
 

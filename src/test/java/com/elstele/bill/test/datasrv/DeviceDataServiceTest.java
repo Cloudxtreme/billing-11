@@ -43,6 +43,7 @@ public class DeviceDataServiceTest {
 
     private List<Device> deviceList;
     private Device device;
+    private DeviceForm form;
 
     @Before
     public void setUp() {
@@ -57,7 +58,9 @@ public class DeviceDataServiceTest {
         device.setName("device1");
 
         DeviceTypes deviceTypes= new DeviceTypes();
+        deviceTypes.setId(4);
         Ip ip = new Ip();
+        ip.setId(5);
         device.setDeviceTypes(deviceTypes);
         device.setIpAdd(ip);
 
@@ -74,6 +77,18 @@ public class DeviceDataServiceTest {
         deviceList.add(device);
         deviceList.add(device1);
         deviceList.add(device2);
+
+        form = new DeviceForm();
+        form.setId(1);
+        form.setStatus(Status.ACTIVE);
+        form.setName("device1");
+        DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
+        deviceTypesForm.setId(4);
+        IpForm ipForm = new IpForm();
+        ipForm.setId(5);
+        form.setDevType(deviceTypesForm);
+        form.setIpForm(ipForm);
+
     }
 
     @After
@@ -88,16 +103,8 @@ public class DeviceDataServiceTest {
         oneDeviceInList.add(device);
         when(deviceDAO.getDevices()).thenReturn(oneDeviceInList);
 
-        DeviceForm form = new DeviceForm();
-        form.setId(1);
-        form.setStatus(Status.ACTIVE);
-        form.setName("device1");
-
         List<DeviceForm> actual = deviceDataService.getDevices();
-        for (DeviceForm deviceForm : actual) {
-            assertEquals(deviceForm.getId(), form.getId());
-            assertEquals(deviceForm.getName(), form.getName());
-        }
+        assertTrue(actual.contains(form));
     }
 
     @Test
