@@ -1,12 +1,10 @@
 package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.interfaces.TransactionDAO;
-import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
-import com.elstele.bill.test.builder.AccountBuilder;
-import com.elstele.bill.test.builder.ObjectBuilder;
-import com.elstele.bill.test.builder.TransactionBuilder;
+import com.elstele.bill.test.builder.bean.AccountBuilder;
+import com.elstele.bill.test.builder.bean.TransactionBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
@@ -18,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;

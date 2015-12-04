@@ -1,4 +1,4 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Address;
@@ -8,7 +8,7 @@ import com.elstele.bill.utils.Enums.Status;
 /**
  * Created by ivan on 15/11/30.
  */
-public class AccountBuilder implements TestObjectCreator<AccountBuilder, Account>{
+public class AccountBuilder implements TestObjectCreator<AccountBuilder, Account> {
     private Account account;
 
     public AccountBuilder build() {

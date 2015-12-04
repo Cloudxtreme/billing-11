@@ -2,7 +2,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.AccountDAOImpl;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.test.builder.AccountBuilder;
+import com.elstele.bill.test.builder.bean.AccountBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;

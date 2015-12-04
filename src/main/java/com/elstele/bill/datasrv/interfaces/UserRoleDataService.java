@@ -10,6 +10,6 @@ public interface UserRoleDataService {
     public String saveRole(UserRoleForm form);
     public UserRole findById(Integer id);
     public void deleteRole(Integer id);
-    public List<UserRole> listUserRole();
+    public List<UserRoleForm> listUserRole();
     public UserRoleForm getUserRoleFormById(Integer id);
 }

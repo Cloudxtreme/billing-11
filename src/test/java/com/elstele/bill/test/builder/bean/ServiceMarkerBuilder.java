@@ -1,6 +1,8 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
-import com.elstele.bill.domain.*;
+import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.Service;
+import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.commons.lang.RandomStringUtils;
@@ -9,29 +11,27 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
-public class ServiceInternetBuilder {
-    private ServiceInternet service;
+public class ServiceMarkerBuilder{
+    private Service service;
     Random random = new Random();
 
-    public ServiceInternetBuilder build() {
-        service = new ServiceInternet();
+    public ServiceMarkerBuilder build() {
+        service = new Service();
         service.setStatus(Status.ACTIVE);
         return this;
     }
 
-    public ServiceInternet getRes() {
+    public Service getRes() {
         if (service == null){
             build();
         }
         return service;
     }
 
-    public ServiceInternetBuilder randomService(){
+    public ServiceMarkerBuilder randomService(){
         Constants.Period periodRandom = Constants.Period.values()[(int) (Math.random() * Constants.Period.values().length)];
         service.setPeriod(periodRandom);
         service.setDateStart(getTimestamp());
-        service.setUsername(RandomStringUtils.randomAlphanumeric(4));
-        service.setPassword(RandomStringUtils.randomAlphanumeric(4));
 
         AccountBuilder ab = new AccountBuilder();
         Account account = ab.build().withAccName(RandomStringUtils.randomAlphanumeric(8)).withAccType(Constants.AccountType.PRIVATE).withBalance(random.nextFloat()).withRandomPhyAddress().getRes();
@@ -43,11 +43,11 @@ public class ServiceInternetBuilder {
         return this;
     }
 
-    public ServiceInternetBuilder withAccount(Account account){
+    public ServiceMarkerBuilder withAccount(Account account){
         service.setAccount(account);
         return this;
     }
-    public ServiceInternetBuilder withServiceType(ServiceType serviceType){
+    public ServiceMarkerBuilder withServiceType(ServiceType serviceType){
         service.setServiceType(serviceType);
         return this;
     }

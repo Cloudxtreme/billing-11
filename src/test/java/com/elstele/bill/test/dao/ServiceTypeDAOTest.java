@@ -2,7 +2,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.ServiceTypeDAOImpl;
 import com.elstele.bill.domain.ServiceType;
-import com.elstele.bill.test.builder.ServiceTypeBuilder;
+import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
