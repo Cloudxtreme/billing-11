@@ -88,9 +88,9 @@ public class AccountDAOTest {
     public void b_fetchListOfAccounts(){
         List<Account> resList = dao.getAccountList();
 
-        /*assertTrue(resList.size() == 2);*/
+        /*assert    True(resList.size() == 2);*/
         assertTrue(resList.contains(ac1));
         assertTrue(resList.contains(ac2));
 
-    }
-}
+        }
+        }

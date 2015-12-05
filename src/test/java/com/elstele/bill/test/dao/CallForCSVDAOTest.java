@@ -123,9 +123,9 @@ public class CallForCSVDAOTest {
     @Test
     public void getDescriptionFromDirections() {
         String actualDescription = callForCSVDAO.getDescriptionFromDirections(call1.getDirPrefix());
-        assertEquals(actualDescription, "Гондурас");
+        assertEquals(actualDescription, "Р“РѕРЅРґСѓСЂР°СЃ");
 
         String actualDescription1 = callForCSVDAO.getDescriptionFromDirections(call3.getDirPrefix());
-        assertEquals(actualDescription1, "Днепропетровская обл.");
+        assertEquals(actualDescription1, "Р”РЅРµРїСЂРѕРїРµС‚СЂРѕРІСЃРєР°СЏ РѕР±Р».");
     }
 }

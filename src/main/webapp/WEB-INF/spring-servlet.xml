@@ -36,7 +36,7 @@
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
     <task:executor id="executor" pool-size="5"/>
     <task:scheduler id="scheduler" pool-size="10"/>
-    <bean id="scheduller" class="com.elstele.bill.Scheduler.Scheduler"/>
+    <bean id="schedulerbean" class="com.elstele.bill.scheduler.Scheduler"/>
 
     <bean id="jspViewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -99,8 +99,5 @@
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
-   <!-- <task:annotation-driven />
-    <bean id="transactionSheduler" class="com.elstele.bill.scheduler.TransactionScheduler"></bean>-->
 
 </beans>
