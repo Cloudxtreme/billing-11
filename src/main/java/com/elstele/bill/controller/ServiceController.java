@@ -1,6 +1,7 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.*;
+import com.elstele.bill.domain.OnlineStatistic;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.form.AccountForm;
@@ -135,4 +136,17 @@ public class ServiceController {
         map.put("accountList", accountDataService.getAccountsList());
         return "account_service";
     }
+
+    @RequestMapping(value="/getOnline", method = RequestMethod.GET)
+    @ResponseBody
+    public List<OnlineStatistic> getUsersOnline(){
+        return serviceDataService.getUsersOnline();
+    }
+
+    @RequestMapping(value = "/statistic/statonline", method = RequestMethod.GET)
+    public ModelAndView userOnlineHome(HttpSession session) {
+        ModelAndView mav = new ModelAndView("statonline");
+        return mav;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.elstele.bill.datasrv.interfaces;
 
+import com.elstele.bill.domain.OnlineStatistic;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
@@ -15,5 +16,6 @@ public interface ServiceDataService {
     public Integer getCurrentIpAddressByServiceFormId(Integer serviceFormId);
     public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId);
     public List<Service> listServices();
+    public List<OnlineStatistic> getUsersOnline();
 
 }

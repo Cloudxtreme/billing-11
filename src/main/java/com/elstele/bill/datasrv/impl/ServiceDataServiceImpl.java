@@ -85,4 +85,8 @@ public class ServiceDataServiceImpl implements ServiceDataService {
         return deviceFreePortList;
     }
 
+    @Transactional
+    public List<OnlineStatistic> getUsersOnline() {
+        return serviceDAO.getUserOnline();
+    }
 }
