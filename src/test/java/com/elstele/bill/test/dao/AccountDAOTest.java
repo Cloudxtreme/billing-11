@@ -83,7 +83,7 @@ public class AccountDAOTest {
         assertTrue(res2.getStatus().equals(Status.DELETED));
     }
 
-    @Rollback(true) //just for experiment
+    @Rollback(false) //just for experiment
     @Test
     public void b_fetchListOfAccounts(){
         List<Account> resList = dao.getAccountList();
