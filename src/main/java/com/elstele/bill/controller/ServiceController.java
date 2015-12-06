@@ -137,16 +137,4 @@ public class ServiceController {
         return "account_service";
     }
 
-    @RequestMapping(value="/getOnline", method = RequestMethod.GET)
-    @ResponseBody
-    public List<OnlineStatistic> getUsersOnline(){
-        return serviceDataService.getUsersOnline();
-    }
-
-    @RequestMapping(value = "/statistic/statonline", method = RequestMethod.GET)
-    public ModelAndView userOnlineHome(HttpSession session) {
-        ModelAndView mav = new ModelAndView("statonline");
-        return mav;
-    }
-
 }

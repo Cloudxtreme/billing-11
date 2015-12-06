@@ -1,7 +1,7 @@
 $(document).ready(function() {
     console.log("start js onLoad");
-    renderOnlineTable();
-
+    renderOnlineTable();//for first time calling
+    setInterval(renderOnlineTable, 5000); //for next repeating
 });
 
 
@@ -11,7 +11,7 @@ function renderOnlineTable(){
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
-            // since we are using jQuery, you don't need to parse response
+            $("#onlineUserCount").text("Users online: " + data.length);
             drawTable(data);
         }
     });

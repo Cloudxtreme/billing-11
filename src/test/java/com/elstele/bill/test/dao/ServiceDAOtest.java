@@ -71,6 +71,7 @@ public class ServiceDAOTest {
         serviceType = objectBuilder.createServiceType(1,70F,"Serv1","Description1");
         serviceType.setServiceType(SERVICE_PHONE);
         int serviceTypeId = serviceTypeDAO.create(serviceType);
+
     }
 
     @Test

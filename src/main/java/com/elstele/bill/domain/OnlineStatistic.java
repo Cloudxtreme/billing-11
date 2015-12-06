@@ -88,4 +88,38 @@ public class OnlineStatistic {
     public void setAcctoutputoctets(BigInteger acctoutputoctets) {
         this.acctoutputoctets = acctoutputoctets;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OnlineStatistic that = (OnlineStatistic) o;
+
+        if (!acctinputoctets.equals(that.acctinputoctets)) return false;
+        if (!acctoutputoctets.equals(that.acctoutputoctets)) return false;
+        if (!acctsessiontime.equals(that.acctsessiontime)) return false;
+        if (!acctstarttime.equals(that.acctstarttime)) return false;
+        if (!framedipaddress.equals(that.framedipaddress)) return false;
+        if (!nasipaddress.equals(that.nasipaddress)) return false;
+        if (!nasportid.equals(that.nasportid)) return false;
+        if (!user_fio.equals(that.user_fio)) return false;
+        if (!username.equals(that.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + user_fio.hashCode();
+        result = 31 * result + nasipaddress.hashCode();
+        result = 31 * result + nasportid.hashCode();
+        result = 31 * result + acctstarttime.hashCode();
+        result = 31 * result + acctsessiontime.hashCode();
+        result = 31 * result + framedipaddress.hashCode();
+        result = 31 * result + acctinputoctets.hashCode();
+        result = 31 * result + acctoutputoctets.hashCode();
+        return result;
+    }
 }
