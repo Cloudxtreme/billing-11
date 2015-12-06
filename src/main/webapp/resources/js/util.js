@@ -66,6 +66,12 @@ $(function() {
         $("#linkToUtils").addClass('selected');
         $("#linkToDeviceList").addClass('active');
     }
+    //linkToUserOnline
+    else if(s.indexOf("statonline") > -1) {
+        $("#linkToUserOnline").addClass('active');
+        $("#linkToUserOnline").addClass('selected');
+    }
+
 
 });
 

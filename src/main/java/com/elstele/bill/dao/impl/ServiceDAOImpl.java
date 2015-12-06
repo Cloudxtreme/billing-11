@@ -4,11 +4,13 @@ import com.elstele.bill.dao.common.CommonDAOImpl;
 
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
+import com.elstele.bill.domain.OnlineStatistic;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.utils.Enums.IpStatus;
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -31,6 +33,8 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
 
     @Override
     public String saveService(Service service, boolean isNewObject) {
+        //TODO message return here is not a good idea
+        //need to be refactored
         String message = "Service was successfully ";
         if (isNewObject) {
             create(service);
@@ -50,4 +54,19 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
             ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
     }
 
+    public List<OnlineStatistic> getUserOnline() {
+
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(
+                "select o.username, a.user_fio, text(o.nasipaddress) as nasipaddress, " +
+                        "o.nasportid, to_char(o.acctstarttime, 'YYYY-MM-DD HH24:MI:SS') as acctstarttime, o.acctsessiontime, " +
+                        "text(o.framedipaddress) as framedipaddress, o.acctinputoctets, o.acctoutputoctets " +
+                        "from pppoe_online as o, accounts as a, service as s " +
+                        "where " +
+                        "o.username = s.username and " +
+                        "s.account_id = a.id " +
+                        "order by o.username")
+                .setResultTransformer(Transformers.aliasToBean(OnlineStatistic.class));
+        List <OnlineStatistic> dbResult = query.list();
+        return dbResult;
+    }
 }
