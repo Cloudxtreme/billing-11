@@ -83,4 +83,35 @@ public class ServiceForm {
     public boolean isNew() {
         return (this.id == null);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceForm that = (ServiceForm) o;
+
+        if (!accountId.equals(that.accountId)) return false;
+        if (!dateStart.equals(that.dateStart)) return false;
+        if (!id.equals(that.id)) return false;
+        if (period != that.period) return false;
+        if (serviceInternet != null ? !serviceInternet.equals(that.serviceInternet) : that.serviceInternet != null)
+            return false;
+        if (servicePhone != null ? !servicePhone.equals(that.servicePhone) : that.servicePhone != null) return false;
+        if (serviceType != null ? !serviceType.equals(that.serviceType) : that.serviceType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + accountId.hashCode();
+        result = 31 * result + (serviceInternet != null ? serviceInternet.hashCode() : 0);
+        result = 31 * result + (servicePhone != null ? servicePhone.hashCode() : 0);
+        result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
+        result = 31 * result + dateStart.hashCode();
+        result = 31 * result + period.hashCode();
+        return result;
+    }
 }

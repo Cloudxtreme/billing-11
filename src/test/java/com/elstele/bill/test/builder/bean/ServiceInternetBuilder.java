@@ -43,14 +43,41 @@ public class ServiceInternetBuilder {
         return this;
     }
 
+    public ServiceInternetBuilder withId(Integer id){
+        service.setId(id);
+        return this;
+    }
+
+    public ServiceInternetBuilder withPeriod(Constants.Period period){
+        service.setPeriod(period);
+        return this;
+    }
+
+    public ServiceInternetBuilder withDateStart(Date date){
+        service.setDateStart(date);
+        return this;
+    }
+
+    public ServiceInternetBuilder withUsername(String username){
+        service.setUsername(username);
+        return this;
+    }
+
+    public ServiceInternetBuilder withPassword(String password){
+        service.setPassword(password);
+        return this;
+    }
+
     public ServiceInternetBuilder withAccount(Account account){
         service.setAccount(account);
         return this;
     }
+
     public ServiceInternetBuilder withServiceType(ServiceType serviceType){
         service.setServiceType(serviceType);
         return this;
     }
+
     private Timestamp getTimestamp(){
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());

@@ -43,10 +43,26 @@ public class ServiceMarkerBuilder{
         return this;
     }
 
+    public ServiceMarkerBuilder withId(Integer id){
+        service.setId(id);
+        return this;
+    }
+
+    public ServiceMarkerBuilder withPeriod(Constants.Period period){
+        service.setPeriod(period);
+        return this;
+    }
+
+    public ServiceMarkerBuilder withDateStart(Date date){
+        service.setDateStart(date);
+        return this;
+    }
+
     public ServiceMarkerBuilder withAccount(Account account){
         service.setAccount(account);
         return this;
     }
+
     public ServiceMarkerBuilder withServiceType(ServiceType serviceType){
         service.setServiceType(serviceType);
         return this;

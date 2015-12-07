@@ -16,4 +16,21 @@ public class ServicePhoneForm {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServicePhoneForm that = (ServicePhoneForm) o;
+
+        if (!phoneNumber.equals(that.phoneNumber)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return phoneNumber.hashCode();
+    }
 }
