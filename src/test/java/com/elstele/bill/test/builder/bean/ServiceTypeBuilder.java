@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class ServiceTypeBuilder {
     private ServiceType serviceType;
-    Random random = new Random();
 
     public ServiceTypeBuilder build() {
         serviceType = new ServiceType();
@@ -24,6 +23,11 @@ public class ServiceTypeBuilder {
             build();
         }
         return serviceType;
+    }
+
+    public ServiceTypeBuilder withId(Integer id){
+        serviceType.setId(id);
+        return this;
     }
 
     public ServiceTypeBuilder withName(String name){

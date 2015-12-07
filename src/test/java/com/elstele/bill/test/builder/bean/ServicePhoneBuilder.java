@@ -44,6 +44,22 @@ public class ServicePhoneBuilder{
         return this;
     }
 
+    public ServicePhoneBuilder withId(Integer id){
+        service.setId(id);
+        return this;
+    }
+    public ServicePhoneBuilder withDateStart(Date date){
+        service.setDateStart(date);
+        return this;
+    }
+    public ServicePhoneBuilder withPeriod(Constants.Period period){
+        service.setPeriod(period);
+        return this;
+    }
+    public ServicePhoneBuilder withPhoneNumber(String phone){
+        service.setPhoneNumber(phone);
+        return this;
+    }
     public ServicePhoneBuilder withAccount(Account account){
         service.setAccount(account);
         return this;

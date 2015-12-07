@@ -35,13 +35,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
 
     @Override
     @Transactional
-    public List<Service> listServices() {
-        return serviceDAO.listServices();
-    }
-
-
-    @Override
-    @Transactional
     public String saveService(ServiceForm form) {
         Service service = serviceAssembler.getServiceBeanByForm(form);
         return serviceDAO.saveService(service, form.isNew());
@@ -78,9 +71,9 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Transactional
     public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId){
         if(serviceId>0){
-            ServiceForm serviseForm = getServiceFormById(serviceId);
-            if( deviceId.equals(serviseForm.getServiceInternet().getDevice().getId()) )
-                deviceFreePortList.add(0,serviseForm.getServiceInternet().getPort());
+            ServiceForm serviceForm = getServiceFormById(serviceId);
+            if( deviceId.equals(serviceForm.getServiceInternet().getDevice().getId()) )
+                deviceFreePortList.add(0,serviceForm.getServiceInternet().getPort());
         }
         return deviceFreePortList;
     }
