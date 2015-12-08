@@ -11,6 +11,7 @@ public class DeviceForm {
     private String description;
     private String community;
     private IpForm ipForm;
+    private AddressForm deviceAddressForm;
 
     public DeviceTypesForm getDevType() {
         return devType;
@@ -66,6 +67,14 @@ public class DeviceForm {
 
     public void setIpForm(IpForm ipForm) {
         this.ipForm = ipForm;
+    }
+
+    public AddressForm getDeviceAddressForm() {
+        return deviceAddressForm;
+    }
+
+    public void setDeviceAddressForm(AddressForm deviceAddressForm) {
+        this.deviceAddressForm = deviceAddressForm;
     }
 
     @Override

@@ -93,7 +93,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
                                                     data-provide="typeahead" placeholder="5th Avenue"/>
-                                        <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
+                                        <form:input path="phyAddress.id" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -125,7 +125,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
                                                     data-provide="typeahead" placeholder="5th Avenue"/>
-                                        <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
+                                        <form:input path="legalAddress.id" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

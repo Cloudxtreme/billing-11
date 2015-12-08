@@ -4,10 +4,7 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
-import com.elstele.bill.form.DeviceForm;
-import com.elstele.bill.form.DeviceTypesForm;
-import com.elstele.bill.form.IpForm;
-import com.elstele.bill.form.IpSubnetForm;
+import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
@@ -71,6 +68,12 @@ public class DeviceController {
         for (DeviceTypesForm deviceTypesForm : devType)
             map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
         model.addObject("deviceTypesMap", map);
+
+        List<StreetForm> streetFormList = deviceDataService.getStreets();
+        Map<Integer, String> streetMap = new LinkedHashMap<Integer, String>();
+        for (StreetForm streetForm : streetFormList)
+            streetMap.put(streetForm.getId(), streetForm.getName());
+        model.addObject("streetsMap", streetMap);
 
         List<IpForm> ipForms = ipDataService.getIpAddressList();
         Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();

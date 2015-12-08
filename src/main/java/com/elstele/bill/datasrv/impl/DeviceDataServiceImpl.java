@@ -1,11 +1,14 @@
 package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.DeviceAssembler;
+import com.elstele.bill.assembler.StreetAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.DeviceForm;
+import com.elstele.bill.form.StreetForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +87,18 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device bean = assembler.fromFormToBean(deviceForm);
         deviceDAO.update(bean);
+    }
+
+    @Override
+    @Transactional
+    public List<StreetForm> getStreets(){
+        StreetAssembler assembler = new StreetAssembler();
+        List<Street> streets = deviceDAO.getStreets();
+        List<StreetForm> result = new ArrayList<>();
+        for(Street street : streets){
+            result.add(assembler.fromBeanToForm(street));
+        }
+        return result;
     }
 
 }

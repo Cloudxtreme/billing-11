@@ -67,7 +67,7 @@
         <form:input path="status" id="status" type="hidden"/>
 
         <div class="form-group">
-          <label for="name" class="col-lg-5 control-label">Device name #</label>
+          <label for="name" class="col-lg-5 control-label">Device name</label>
           <div class="col-lg-9">
             <form:input path="name" class="form-control" id="deviceName" placeholder="Device name"/>
           </div>
@@ -86,18 +86,30 @@
                   More information about device types
               </button></a>
           </div>
-
         </div>
 
+          <div class="form-group">
+              <div class="rowStreet">
+                  <label for="streets" class="col-lg-5 control-label">Street</label>
+                  <div class="col-md-8">
+                      <form:select path="deviceAddressForm.street" class="form-control" id="streets">
+                          <form:options items="${streetsMap}" />
+                      </form:select>
+                  </div>
+                  <div class = "col-md-1"><form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="Building"/></div>
+                  <div class = "col-md-1"><form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="Flat"/></div>
+              </div>
+          </div>
+
             <div class="form-group">
-              <label for="description" class="col-lg-5 control-label">Device description #</label>
+              <label for="description" class="col-lg-5 control-label">Device description</label>
               <div class="col-lg-9">
                 <form:input path="description" class="form-control" id="deviceDescription" placeholder="Device description"/>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="community" class="col-lg-5 control-label">Device community #</label>
+              <label for="community" class="col-lg-5 control-label">Device community</label>
               <div class="col-lg-9">
                 <form:input path="community" class="form-control" id="deviceCommunity" placeholder="Device community"/>
               </div>

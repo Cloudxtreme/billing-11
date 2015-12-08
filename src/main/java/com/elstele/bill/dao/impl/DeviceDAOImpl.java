@@ -3,6 +3,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.domain.Device;
+import com.elstele.bill.domain.Street;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,13 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
             return (List<Integer>)query.list();
         }
         return null;
+    }
+
+    @Override
+    public List<Street> getStreets(){
+        String q = "from Street";
+        Query query = getSessionFactory().getCurrentSession().createQuery(q);
+        return  (List<Street>)query.list();
     }
 
 }

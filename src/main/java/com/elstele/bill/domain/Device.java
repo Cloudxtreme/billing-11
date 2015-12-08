@@ -6,19 +6,23 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="Devices")
+@Table(name = "Devices")
 public class Device extends CommonDomainBean {
     private String name;
     private String description;
     private String community;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="ipAddress_id")
+    @JoinColumn(name = "ipAddress_id")
     private Ip ipAdd;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="deviceType_id")
+    @JoinColumn(name = "deviceType_id")
     private DeviceTypes deviceTypes;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "deviceAddress_id")
+    private Address deviceAddress;
 
     public DeviceTypes getDeviceTypes() {
         return deviceTypes;
@@ -27,6 +31,7 @@ public class Device extends CommonDomainBean {
     public void setDeviceTypes(DeviceTypes deviceTypes) {
         this.deviceTypes = deviceTypes;
     }
+
     public String getName() {
         return name;
     }
@@ -51,6 +56,14 @@ public class Device extends CommonDomainBean {
         this.community = community;
     }
 
+    public Address getDeviceAddress() {
+        return deviceAddress;
+    }
+
+    public void setDeviceAddress(Address deviceAddress) {
+        this.deviceAddress = deviceAddress;
+    }
+
     public Ip getIpAdd() {
         return ipAdd;
     }
@@ -58,6 +71,7 @@ public class Device extends CommonDomainBean {
     public void setIpAdd(Ip ipAdd) {
         this.ipAdd = ipAdd;
     }
+
 
     @Override
     public boolean equals(Object o) {
