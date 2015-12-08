@@ -3,6 +3,7 @@ package com.elstele.bill.assembler;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.domain.Device;
+import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
@@ -21,7 +22,8 @@ public class DeviceAssembler {
     public DeviceForm fromBeanToForm(Device bean){
         DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
         IpForm ipForm = new IpForm();
-        if (bean.getDeviceTypes() != null && bean.getIpAdd() != null) {
+        AddressForm addressForm = new AddressForm();
+        if (bean.getDeviceTypes() != null && bean.getIpAdd() != null && bean.getDeviceAddress()!=null) {
             //bunch device with deviceTypes
             deviceTypesForm.setId(bean.getDeviceTypes().getId());
             deviceTypesForm.setDeviceType(bean.getDeviceTypes().getDeviceType());
@@ -31,10 +33,17 @@ public class DeviceAssembler {
             //bunch device with Ip
             ipForm.setId(bean.getIpAdd().getId());
             ipForm.setIpName(bean.getIpAdd().getIpName());
+
+            //bunch address with Ip
+            addressForm.setId(bean.getDeviceAddress().getId());
+            addressForm.setBuilding(bean.getDeviceAddress().getBuilding());
+            addressForm.setFlat(bean.getDeviceAddress().getFlat());
+            addressForm.setStreet(bean.getDeviceAddress().getStreet().getName());
         }
         DeviceForm form = new DeviceForm();
         form.setDevType(deviceTypesForm);
         form.setIpForm(ipForm);
+        form.setDeviceAddressForm(addressForm);
         copyProperties(bean, form);
         return form;
     }

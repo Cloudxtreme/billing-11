@@ -17,7 +17,6 @@
 <body>
   <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
-
   <%--Modal window--%>
   <form:form commandName="deviceTypeModalForm" class="form" action="${pageContext.request.contextPath}/adddevicetype.html" >
       <fieldset>
@@ -43,7 +42,6 @@
                               <form:input path="portsNumber" class="form-control" id="deviceTypePorts" placeholder="Ports"/>
                           </div>
 
-
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
@@ -54,8 +52,6 @@
           </div>
       </fieldset>
   </form:form>
-
-
 
   <%--Main logic--%>
 
@@ -128,10 +124,7 @@
                   </div>
               </div>
 
-
-
               <script type="text/javascript">
-
 
                 document.getElementById('chkNet').onchange = function() {
                     if ( document.getElementById('chkNet').checked ) {
@@ -156,7 +149,6 @@
                         });
                     }
                 };
-
 
               </script>
 
