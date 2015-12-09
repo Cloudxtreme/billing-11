@@ -1652,6 +1652,9 @@ pre code {
     padding-left: 15px;
     padding-right: 15px;
 }
+.col-lg-6{
+    margin-top: 8px;
+}
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
     float: left;
 }
@@ -2139,6 +2142,7 @@ pre code {
     }
     .col-lg-9 {
         width: 75%;
+        margin-bottom: 4px;
     }
     .col-lg-8 {
         width: 66.66666667%;
@@ -2546,6 +2550,10 @@ label {
     margin-bottom: 5px;
     font-weight: bold;
 }
+.control-label{
+    margin-top: 4px;
+}
+
 input[type="search"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;

@@ -15,7 +15,7 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
 
     @Override
     public List<Device> getDevices() {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Device");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Device  where status <> 'DELETED'");
         return (List<Device>)query.list();
     }
 
@@ -28,13 +28,6 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
             return (List<Integer>)query.list();
         }
         return null;
-    }
-
-    @Override
-    public List<Street> getStreets(){
-        String q = "from Street";
-        Query query = getSessionFactory().getCurrentSession().createQuery(q);
-        return  (List<Street>)query.list();
     }
 
 }

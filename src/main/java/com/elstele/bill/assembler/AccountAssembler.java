@@ -17,32 +17,20 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 public class AccountAssembler {
 
     String[] accountPropsToSkip = {"phyAddress", "legalAddress","serviceForms"};
-    String[] addressPropsToSkip = {"street", "streetId"};
 
     public AccountForm fromBeanToForm(Account bean){
         AccountForm form = new AccountForm();
         copyProperties(bean, form, accountPropsToSkip);
+        AddressAssembler addressAssembler = new AddressAssembler();
 
-        form.setPhyAddress( addressAssembleFromBeanToForm(bean.getPhyAddress(), form.getPhyAddress()) );
-        form.setLegalAddress( addressAssembleFromBeanToForm(bean.getLegalAddress(), form.getLegalAddress()) );
+        form.setPhyAddress( addressAssembler.addressAssembleFromBeanToForm(bean.getPhyAddress(), form.getPhyAddress()) );
+        form.setLegalAddress( addressAssembler.addressAssembleFromBeanToForm(bean.getLegalAddress(), form.getLegalAddress()) );
 
         form.setServiceForms( serviceAssembleFromBeanToForm(bean.getAccountServices(), form.getServiceForms()) );
         return form;
     }
 
-    private AddressForm addressAssembleFromBeanToForm(Address bean, AddressForm form) {
-        if (bean != null){
-            if (form == null){
-                form = new AddressForm();
-            }
-            copyProperties(bean, form, addressPropsToSkip);
-            if (bean.getStreet() != null){
-                form.setStreet(bean.getStreet().getName());
-                form.setStreetId(bean.getStreet().getId());
-            }
-        }
-        return form;
-    }
+
 
     private List<ServiceForm> serviceAssembleFromBeanToForm(Set<Service> beans, List<ServiceForm> serviceForms) {
         serviceForms = new ArrayList<ServiceForm>();
@@ -68,38 +56,16 @@ public class AccountAssembler {
     public Account fromFormToBean(AccountForm form){
         Account bean = new Account();
         copyProperties(form, bean, accountPropsToSkip);
-        bean.setPhyAddress( addressAssembleFromFormToBean(form.getPhyAddress(), bean.getPhyAddress()) );
-        bean.setLegalAddress( addressAssembleFromFormToBean(form.getLegalAddress(), bean.getLegalAddress()) );
+        AddressAssembler addressAssembler = new AddressAssembler();
+        bean.setPhyAddress( addressAssembler.addressAssembleFromFormToBean(form.getPhyAddress(), bean.getPhyAddress()) );
+        bean.setLegalAddress( addressAssembler.addressAssembleFromFormToBean(form.getLegalAddress(), bean.getLegalAddress()) );
 
         return bean;
     }
 
-    private Address addressAssembleFromFormToBean(AddressForm form, Address bean) {
-        if (form != null){
-            if (isAddressEmpty(form)){
-                return null;
-            }
-            if (bean == null){
-                bean = new Address();
-                bean.setStatus(Status.ACTIVE);
-                copyProperties(form, bean, addressPropsToSkip);
-                if (form.getStreetId() != null){
-                    Street str = new Street(form.getStreetId(), form.getStreet());
-                    bean.setStreet(str);
-                }
-            }
-        }
-        return bean;
-    }
 
-    private boolean isAddressEmpty(AddressForm form) {
-        if (form != null){
-            if(form.getId() != null || form.getStreetId() != null){
-                return false;
-            }
-        }
-        return true;
-    }
+
+
 
 
 }

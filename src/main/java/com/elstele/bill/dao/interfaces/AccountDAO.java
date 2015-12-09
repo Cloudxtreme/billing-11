@@ -12,5 +12,4 @@ public interface AccountDAO extends CommonDAO<Account>{
     public List<Account> getAccountList(int limit, int offset);
     public List<Account> getAccountList();
     public Integer getActiveAccountsCount();
-    public List<Street> getListOfStreets(String query);
 }

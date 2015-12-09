@@ -2,11 +2,13 @@ package com.elstele.bill.assembler;
 
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
+import com.elstele.bill.domain.Address;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.utils.Enums.Status;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -25,23 +27,16 @@ public class DeviceAssembler {
         IpForm ipForm = new IpForm();
         AddressForm addressForm = new AddressForm();
         if (bean.getDeviceType() != null) {
-            //bunch device with deviceTypes
-            deviceTypesForm.setId(bean.getDeviceType().getId());
-            deviceTypesForm.setDeviceType(bean.getDeviceType().getDeviceType());
-            deviceTypesForm.setPortsNumber(bean.getDeviceType().getPortsNumber());
-            deviceTypesForm.setDescription(bean.getDeviceType().getDescription());
+            DeviceTypesAssembler deviceTypesAssembler = new DeviceTypesAssembler();
+            deviceTypesForm = deviceTypesAssembler.fromBeanToForm(bean.getDeviceType());
         }
         if (bean.getIpAdd() != null) {
-            //bunch device with Ip
-            ipForm.setId(bean.getIpAdd().getId());
-            ipForm.setIpName(bean.getIpAdd().getIpName());
+            IpAssembler ipAssembler = new IpAssembler();
+            ipForm = ipAssembler.fromBeanToForm(bean.getIpAdd());
         }
         if (bean.getDeviceAddress() != null) {
-            //bunch device with addresses
-            addressForm.setId(bean.getDeviceAddress().getId());
-            addressForm.setBuilding(bean.getDeviceAddress().getBuilding());
-            addressForm.setFlat(bean.getDeviceAddress().getFlat());
-            addressForm.setStreet(bean.getDeviceAddress().getStreet().getName());
+            AddressAssembler addressAssembler = new AddressAssembler();
+            addressForm = addressAssembler.addressAssembleFromBeanToForm(bean.getDeviceAddress(), null);
         }
         DeviceForm form = new DeviceForm();
         form.setDevType(deviceTypesForm);
@@ -59,6 +54,11 @@ public class DeviceAssembler {
         }
         if (form.getIpForm() != null && form.getIpForm().getId() != null) {
             bean.setIpAdd(ipDAO.getById(form.getIpForm().getId()));
+        }
+        if(form.getDeviceAddressForm() != null){
+            AddressAssembler addressAssembler = new AddressAssembler();
+            Address address = addressAssembler.addressAssembleFromFormToBean(form.getDeviceAddressForm(), null);
+            bean.setDeviceAddress(address);
         }
         copyProperties(form, bean);
         return bean;

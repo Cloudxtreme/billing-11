@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -101,7 +103,7 @@ public class DeviceController {
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             }
             result = "redirect:/device.html";
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             System.out.println(e);
             result = "redirect:/404.html";
         }
@@ -112,25 +114,8 @@ public class DeviceController {
     @RequestMapping(value = "/device/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax deleteDevice(@RequestBody String json){
-        Integer deveceId = Integer.parseInt(json);
-
-        //TODO move all this logic to dataservice layer during refactoring, after controller will be covered by tests
-        //only one call deviceDataService.deleteDevice(deveceId) need to be here,
-        //so we need to move all unnecessary logic from controller
-        //think about try-catch block
-        
-        DeviceForm deviceForm = deviceDataService.getById(deveceId);
-        try {
-            if (deviceForm.getIpForm().getId() != null) {
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
-            }
-            deviceDataService.deleteDevice(deveceId);
-            return ResponseToAjax.SUCCESS;
-
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseToAjax.ERROR;
-        }
+        Integer deviceId = Integer.parseInt(json);
+        return deviceDataService.deleteDevice(deviceId);
     }
 
     @RequestMapping(value = "/device/{id}/update", method = RequestMethod.GET)
@@ -207,5 +192,17 @@ public class DeviceController {
                 ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
+    }
+
+    @RequestMapping(value="**/getListOfStreets", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
+        List<String> result = new ArrayList<>();
+        result.add("Армейская");
+        result.add("Абрикосовая");
+        result.add("Ананасовая");
+        result.add("Пущкинская");
+        result.add(query);
+        return deviceDataService.getStreets(query);
     }
 }

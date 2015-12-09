@@ -3,6 +3,7 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Street;
@@ -20,6 +21,8 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
     private AccountDAO accountDAO;
+    @Autowired
+    private StreetDAO streetDAO;
 
     @Override
     @Transactional
@@ -118,6 +121,6 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Transactional
     public List<Street> getStreets(String likeThis) {
-        return accountDAO.getListOfStreets(likeThis);
+        return streetDAO.getListOfStreets(likeThis);
     }
 }

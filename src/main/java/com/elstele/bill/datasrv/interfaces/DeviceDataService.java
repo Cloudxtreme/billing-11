@@ -1,7 +1,8 @@
 package com.elstele.bill.datasrv.interfaces;
 
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.DeviceForm;
-import com.elstele.bill.form.StreetForm;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface DeviceDataService {
 
     public Integer addDevice(DeviceForm deviceForm);
 
-    public void deleteDevice(Integer id);
+    public ResponseToAjax deleteDevice(Integer id);
 
     public DeviceForm getById(Integer id);
 
@@ -18,5 +19,5 @@ public interface DeviceDataService {
 
     public void updateDevice(DeviceForm deviceForm);
 
-    public List<StreetForm> getStreets();
+    public List<Street> getStreets(String query);
 }

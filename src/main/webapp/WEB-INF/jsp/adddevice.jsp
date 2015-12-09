@@ -8,10 +8,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
-  <title>Add new device</title>
-  <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <title>Add new device</title>
+    <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
+    <script src="${typeahead}"></script>
 
 </head>
 <body>
@@ -85,13 +87,23 @@
         </div>
 
           <div class="form-group">
-              <div class="rowStreet">
-                  <label for="streets" class="col-lg-5 control-label">Street</label>
-                  <div class="col-md-8">
-                      <form:input path="deviceAddressForm.street" class="form-control" id="streets" placeholder="Street"/>
+              <div class="row show-grid">
+                  <div class="col-md-9">
+                      <form:input path="deviceAddressForm.id" id="id" type="hidden"/>
+                      <div class="col-md-8">
+                          <label for="streets" class="col-lg-5 control-label">Street</label>
+                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Street"/>
+                          <form:input path="deviceAddressForm.streetId" id="streetId" type="hidden"/>
+                      </div>
+                      <div class = "col-md-2">
+                          <label for="building" class="col-lg-5 control-label">Building</label>
+                          <form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="Building"/>
+                      </div>
+                      <div class = "col-md-2">
+                          <label for="flat" class="col-lg-5 control-label">Flat</label>
+                          <form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="Flat"/>
+                      </div>
                   </div>
-                  <div class = "col-md-1"><form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="Building"/></div>
-                  <div class = "col-md-1"><form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="Flat"/></div>
               </div>
           </div>
 
@@ -148,7 +160,27 @@
                     }
                 };
 
+                $(document).ready(function() {
+                    $('#streets').typeahead({
+                        onSelect: function(item) {
+                            console.log(item);
+                            $('#streetId').val(item.value);
+                        },
+                        ajax: {
+                            url: ".././getListOfStreets.html",
+                            timeout: 500,
+                            displayField: "name",
+                            triggerLength: 1,
+                            method: "get",
+                            loadingClass: "loading-circle"
+
+                        }
+                    });
+                })
+
               </script>
+
+
 
 
               <div class="form-group" style="visibility: hidden" id="ipNetDiv">

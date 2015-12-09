@@ -43,12 +43,4 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         Long res = (Long)q.uniqueResult();
         return res.intValue();
     }
-
-    @Override
-    public List<Street> getListOfStreets(String query) {
-        Query q = getSessionFactory().getCurrentSession().
-                createQuery("from Street");//s where s.name like :target");
-        //q.setString("target", query);
-        return q.list();
-    }
 }
