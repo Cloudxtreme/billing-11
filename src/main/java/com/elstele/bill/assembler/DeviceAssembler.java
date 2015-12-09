@@ -12,29 +12,32 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 public class DeviceAssembler {
 
-    public DeviceAssembler(DeviceTypesDAO dao, IpDAO ipDao){
+    public DeviceAssembler(DeviceTypesDAO dao, IpDAO ipDao) {
         setDeviceTypesDAO(dao);
         setIpDAO(ipDao);
     }
+
     private DeviceTypesDAO deviceTypesDAO;
     private IpDAO ipDAO;
 
-    public DeviceForm fromBeanToForm(Device bean){
+    public DeviceForm fromBeanToForm(Device bean) {
         DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
         IpForm ipForm = new IpForm();
         AddressForm addressForm = new AddressForm();
-        if (bean.getDeviceTypes() != null && bean.getIpAdd() != null && bean.getDeviceAddress()!=null) {
+        if (bean.getDeviceType() != null) {
             //bunch device with deviceTypes
-            deviceTypesForm.setId(bean.getDeviceTypes().getId());
-            deviceTypesForm.setDeviceType(bean.getDeviceTypes().getDeviceType());
-            deviceTypesForm.setPortsNumber(bean.getDeviceTypes().getPortsNumber());
-            deviceTypesForm.setDescription(bean.getDeviceTypes().getDescription());
-
+            deviceTypesForm.setId(bean.getDeviceType().getId());
+            deviceTypesForm.setDeviceType(bean.getDeviceType().getDeviceType());
+            deviceTypesForm.setPortsNumber(bean.getDeviceType().getPortsNumber());
+            deviceTypesForm.setDescription(bean.getDeviceType().getDescription());
+        }
+        if (bean.getIpAdd() != null) {
             //bunch device with Ip
             ipForm.setId(bean.getIpAdd().getId());
             ipForm.setIpName(bean.getIpAdd().getIpName());
-
-            //bunch address with Ip
+        }
+        if (bean.getDeviceAddress() != null) {
+            //bunch device with addresses
             addressForm.setId(bean.getDeviceAddress().getId());
             addressForm.setBuilding(bean.getDeviceAddress().getBuilding());
             addressForm.setFlat(bean.getDeviceAddress().getFlat());
@@ -49,10 +52,10 @@ public class DeviceAssembler {
     }
 
 
-    public Device fromFormToBean(DeviceForm form){
+    public Device fromFormToBean(DeviceForm form) {
         Device bean = new Device();
         if (form.getDevType() != null) {
-            bean.setDeviceTypes(deviceTypesDAO.getById(form.getDevType().getId()));
+            bean.setDeviceType(deviceTypesDAO.getById(form.getDevType().getId()));
         }
         if (form.getIpForm() != null && form.getIpForm().getId() != null) {
             bean.setIpAdd(ipDAO.getById(form.getIpForm().getId()));

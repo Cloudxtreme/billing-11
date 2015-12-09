@@ -69,9 +69,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="deviceTypes" class="col-lg-5 control-label">Device typeS</label>
+          <label for="deviceType" class="col-lg-5 control-label">Device typeS</label>
           <div class="col-lg-9">
-                  <form:select path="devType.id" class="form-control" id="deviceTypes">
+                  <form:select path="devType.id" class="form-control" id="deviceType">
                   <form:options items="${deviceTypesMap}" />
                   </form:select>
               <!-- Button trigger modal -->
@@ -88,9 +88,7 @@
               <div class="rowStreet">
                   <label for="streets" class="col-lg-5 control-label">Street</label>
                   <div class="col-md-8">
-                      <form:select path="deviceAddressForm.street" class="form-control" id="streets">
-                          <form:options items="${streetsMap}" />
-                      </form:select>
+                      <form:input path="deviceAddressForm.street" class="form-control" id="streets" placeholder="Street"/>
                   </div>
                   <div class = "col-md-1"><form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="Building"/></div>
                   <div class = "col-md-1"><form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="Flat"/></div>

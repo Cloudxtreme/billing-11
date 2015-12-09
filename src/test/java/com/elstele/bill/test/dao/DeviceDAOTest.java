@@ -9,8 +9,6 @@ import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -20,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -65,11 +62,11 @@ public class DeviceDAOTest {
         ipDAO.save(ip2);
 
         device1.setIpAdd(ip1);
-        device1.setDeviceTypes(types1);
+        device1.setDeviceType(types1);
         deviceDAO.save(device1);
 
         device2.setIpAdd(ip2);
-        device2.setDeviceTypes(types1);
+        device2.setDeviceType(types1);
         deviceDAO.save(device2);
     }
 

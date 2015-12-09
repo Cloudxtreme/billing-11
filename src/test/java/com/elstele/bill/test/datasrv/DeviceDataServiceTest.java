@@ -4,7 +4,6 @@ import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
-import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.domain.Ip;
@@ -61,7 +60,7 @@ public class DeviceDataServiceTest {
         deviceTypes.setId(4);
         Ip ip = new Ip();
         ip.setId(5);
-        device.setDeviceTypes(deviceTypes);
+        device.setDeviceType(deviceTypes);
         device.setIpAdd(ip);
 
         Device device1 = new Device();

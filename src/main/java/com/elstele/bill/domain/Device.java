@@ -18,18 +18,18 @@ public class Device extends CommonDomainBean {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "deviceType_id")
-    private DeviceTypes deviceTypes;
+    private DeviceTypes deviceType;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "deviceAddress_id")
     private Address deviceAddress;
 
-    public DeviceTypes getDeviceTypes() {
-        return deviceTypes;
+    public DeviceTypes getDeviceType() {
+        return deviceType;
     }
 
-    public void setDeviceTypes(DeviceTypes deviceTypes) {
-        this.deviceTypes = deviceTypes;
+    public void setDeviceType(DeviceTypes deviceType) {
+        this.deviceType = deviceType;
     }
 
     public String getName() {
@@ -84,7 +84,7 @@ public class Device extends CommonDomainBean {
         if (description != null ? !description.equals(device.description) : device.description != null) return false;
         if (community != null ? !community.equals(device.community) : device.community != null) return false;
         if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
-        return !(deviceTypes != null ? !deviceTypes.equals(device.deviceTypes) : device.deviceTypes != null);
+        return !(deviceType != null ? !deviceType.equals(device.deviceType) : device.deviceType != null);
 
     }
 
@@ -94,7 +94,7 @@ public class Device extends CommonDomainBean {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (community != null ? community.hashCode() : 0);
         result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
-        result = 31 * result + (deviceTypes != null ? deviceTypes.hashCode() : 0);
+        result = 31 * result + (deviceType != null ? deviceType.hashCode() : 0);
         return result;
     }
 }

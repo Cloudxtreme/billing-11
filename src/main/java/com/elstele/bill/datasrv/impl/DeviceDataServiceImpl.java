@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import com.elstele.bill.domain.Device;
 
@@ -74,7 +73,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         List<Integer> freePorts = new ArrayList();
         Device device = deviceDAO.getById(id);
         List<Integer> usedPorts = deviceDAO.getDeviceUsagePorts(id);
-        for (int i=1; i<=device.getDeviceTypes().getPortsNumber(); i++){
+        for (int i=1; i<=device.getDeviceType().getPortsNumber(); i++){
             if( usedPorts==null || !usedPorts.contains(i) )
                 freePorts.add(i);
         }

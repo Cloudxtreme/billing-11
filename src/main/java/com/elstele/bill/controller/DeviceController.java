@@ -64,19 +64,13 @@ public class DeviceController {
         model.addObject("deviceForm", new DeviceForm());
 
         List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
-        Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> map = new HashMap<>();
         for (DeviceTypesForm deviceTypesForm : devType)
             map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
         model.addObject("deviceTypesMap", map);
 
-        List<StreetForm> streetFormList = deviceDataService.getStreets();
-        Map<Integer, String> streetMap = new LinkedHashMap<Integer, String>();
-        for (StreetForm streetForm : streetFormList)
-            streetMap.put(streetForm.getId(), streetForm.getName());
-        model.addObject("streetsMap", streetMap);
-
         List<IpForm> ipForms = ipDataService.getIpAddressList();
-        Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> ipMap = new HashMap<>();
         for (IpForm ipForm : ipForms) {
             if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
                 ipMap.put(ipForm.getId(), ipForm.getIpName());
@@ -84,7 +78,7 @@ public class DeviceController {
         model.addObject("ipAddressList", ipMap);
 
         List<IpSubnetForm> subnetForms = ipSubnetDataService.getIpSubnets();
-        Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> ipMapNets = new HashMap<>();
         for (IpSubnetForm ipSubnetForm : subnetForms) {
             if (ipSubnetForm.getSubnetPurpose() == SubnetPurpose.MGMT)
                 ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
