@@ -49,6 +49,18 @@ public class AccountsController {
         return result;
     }
 
+
+    @RequestMapping(value="/accountsShortList", method = RequestMethod.GET)
+    @ResponseBody
+    public List<AccountForm> getAccountsShortFormList(HttpServletRequest request,
+                                             @RequestParam(value = "rows") int rows,
+                                             @RequestParam(value = "page") int page){
+        List<AccountForm> result = accountDataService.getAccountsLiteFormList(rows, page);
+        return result;
+    }
+
+
+
     //getAccount
     @RequestMapping(value="/getAccount", method = RequestMethod.GET)
     @ResponseBody

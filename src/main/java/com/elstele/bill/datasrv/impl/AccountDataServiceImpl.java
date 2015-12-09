@@ -57,6 +57,20 @@ public class AccountDataServiceImpl implements AccountDataService {
         return result;
     }
 
+    @Transactional
+    public List<AccountForm> getAccountsLiteFormList(int rows, int page) {
+        List<AccountForm> result = new ArrayList<AccountForm>();
+        AccountAssembler assembler = new AccountAssembler();
+        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
+        int offset = page*rows;
+        List<Account> beans = accountDAO.getAccountList(rows, offset);
+        for (Account curBean : beans){
+            AccountForm curForm = assembler.fromBeanToShortForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
     @Override
     @Transactional
     public void saveAccount(AccountForm form) {
