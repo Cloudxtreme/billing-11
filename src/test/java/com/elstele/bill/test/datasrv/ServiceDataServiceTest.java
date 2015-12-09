@@ -121,7 +121,7 @@ public class ServiceDataServiceTest {
         ServiceTypeBuilder stb = new ServiceTypeBuilder();
         ServiceType serviceType = stb.build().withId(4).withName("name #1").withServiceType(Constants.SERVICE_PHONE).withPrice(44F).getRes();
 
-        ServiceMarkerBuilder smb = new ServiceMarkerBuilder();
+        ServiceBuilder smb = new ServiceBuilder();
         serviceMarker = smb.build().withId(1).withDateStart(currentDate).withPeriod(Constants.Period.WEEK).withServiceType(serviceType).withAccount(account).getRes();
 
         ServicePhoneBuilder spb = new ServicePhoneBuilder();

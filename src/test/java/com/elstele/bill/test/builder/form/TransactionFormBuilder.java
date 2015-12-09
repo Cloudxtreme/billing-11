@@ -20,6 +20,10 @@ public class TransactionFormBuilder {
         return transactionForm;
     }
 
+    public TransactionFormBuilder withId(Integer id){
+        transactionForm.setId(id);
+        return this;
+    }
     public TransactionFormBuilder withDirection(Constants.TransactionDirection direction){
         transactionForm.setDirection(direction);
         return this;

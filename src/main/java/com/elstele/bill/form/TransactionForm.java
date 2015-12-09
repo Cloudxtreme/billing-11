@@ -84,7 +84,7 @@ public class TransactionForm {
 
         if (!account.getId().equals(that.account.getId())) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
-        if (!date.equals(that.date)) return false;
+        if (date!=null ? !date.equals(that.date) : that.date != null) return false;
         if (direction != that.direction) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (!price.equals(that.price)) return false;
@@ -96,7 +96,7 @@ public class TransactionForm {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + account.hashCode();
+        result = 31 * result + account.getId().hashCode();
         result = 31 * result + date.hashCode();
         result = 31 * result + direction.hashCode();
         result = 31 * result + source.hashCode();

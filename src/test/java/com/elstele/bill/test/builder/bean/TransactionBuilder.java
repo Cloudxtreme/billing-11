@@ -40,6 +40,10 @@ public class TransactionBuilder {
         return this;
     }
 
+    public TransactionBuilder withId(Integer id){
+        transaction.setId(id);
+        return this;
+    }
     public TransactionBuilder withDirection(Constants.TransactionDirection direction){
         transaction.setDirection(direction);
         return this;

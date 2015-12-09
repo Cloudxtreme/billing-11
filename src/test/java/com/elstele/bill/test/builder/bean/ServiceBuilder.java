@@ -11,11 +11,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
-public class ServiceMarkerBuilder{
+public class ServiceBuilder {
     private Service service;
     Random random = new Random();
 
-    public ServiceMarkerBuilder build() {
+    public ServiceBuilder build() {
         service = new Service();
         service.setStatus(Status.ACTIVE);
         return this;
@@ -28,7 +28,7 @@ public class ServiceMarkerBuilder{
         return service;
     }
 
-    public ServiceMarkerBuilder randomService(){
+    public ServiceBuilder randomService(){
         Constants.Period periodRandom = Constants.Period.values()[(int) (Math.random() * Constants.Period.values().length)];
         service.setPeriod(periodRandom);
         service.setDateStart(getTimestamp());
@@ -43,27 +43,27 @@ public class ServiceMarkerBuilder{
         return this;
     }
 
-    public ServiceMarkerBuilder withId(Integer id){
+    public ServiceBuilder withId(Integer id){
         service.setId(id);
         return this;
     }
 
-    public ServiceMarkerBuilder withPeriod(Constants.Period period){
+    public ServiceBuilder withPeriod(Constants.Period period){
         service.setPeriod(period);
         return this;
     }
 
-    public ServiceMarkerBuilder withDateStart(Date date){
+    public ServiceBuilder withDateStart(Date date){
         service.setDateStart(date);
         return this;
     }
 
-    public ServiceMarkerBuilder withAccount(Account account){
+    public ServiceBuilder withAccount(Account account){
         service.setAccount(account);
         return this;
     }
 
-    public ServiceMarkerBuilder withServiceType(ServiceType serviceType){
+    public ServiceBuilder withServiceType(ServiceType serviceType){
         service.setServiceType(serviceType);
         return this;
     }

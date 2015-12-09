@@ -1,20 +1,15 @@
-package com.elstele.bill.test.builder;
+package com.elstele.bill.test.builder.bean;
 
-import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Address;
 import com.elstele.bill.domain.OnlineStatistic;
-import com.elstele.bill.test.builder.bean.TestObjectCreator;
-import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Enums.Status;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.math.BigInteger;
 import java.util.Random;
 
-public class OnlineStaticticBuilder implements TestObjectCreator<OnlineStaticticBuilder, OnlineStatistic> {
+public class OnlineStatisticBuilder implements TestObjectCreator<OnlineStatisticBuilder, OnlineStatistic> {
     private OnlineStatistic statistic;
 
-    public OnlineStaticticBuilder build() {
+    public OnlineStatisticBuilder build() {
         statistic = new OnlineStatistic();
         return this;
     }
@@ -26,52 +21,52 @@ public class OnlineStaticticBuilder implements TestObjectCreator<OnlineStatictic
         return statistic;
     }
 
-    public OnlineStaticticBuilder withUsername(String username){
+    public OnlineStatisticBuilder withUsername(String username){
         statistic.setUsername(username);
         return this;
     }
 
-    public OnlineStaticticBuilder withUserfio(String user_fio){
+    public OnlineStatisticBuilder withUserfio(String user_fio){
         statistic.setUser_fio(user_fio);
         return this;
     }
 
-    public OnlineStaticticBuilder withNasipaddress(String nasipaddress){
+    public OnlineStatisticBuilder withNasipaddress(String nasipaddress){
         statistic.setNasipaddress(nasipaddress);
         return this;
     }
 
-    public OnlineStaticticBuilder withNasportid(String nasportid){
+    public OnlineStatisticBuilder withNasportid(String nasportid){
         statistic.setNasportid(nasportid);
         return this;
     }
 
-    public OnlineStaticticBuilder withAcctstarttime(String acctstarttime){
+    public OnlineStatisticBuilder withAcctstarttime(String acctstarttime){
         statistic.setAcctstarttime(acctstarttime);
         return this;
     }
 
-    public OnlineStaticticBuilder withFramedipaddress(String framedipaddress){
+    public OnlineStatisticBuilder withFramedipaddress(String framedipaddress){
         statistic.setFramedipaddress(framedipaddress);
         return this;
     }
 
-    public OnlineStaticticBuilder withAcctsessiontime(BigInteger acctsessiontime){
+    public OnlineStatisticBuilder withAcctsessiontime(BigInteger acctsessiontime){
         statistic.setAcctsessiontime(acctsessiontime);
         return this;
     }
 
-    public OnlineStaticticBuilder withAcctinputoctets(BigInteger acctinputoctets){
+    public OnlineStatisticBuilder withAcctinputoctets(BigInteger acctinputoctets){
         statistic.setAcctinputoctets(acctinputoctets);
         return this;
     }
 
-    public OnlineStaticticBuilder withAcctoutputoctets(BigInteger acctoutputoctets){
+    public OnlineStatisticBuilder withAcctoutputoctets(BigInteger acctoutputoctets){
         statistic.setAcctoutputoctets(acctoutputoctets);
         return this;
     }
 
-    public OnlineStaticticBuilder withAllRandomFields(){
+    public OnlineStatisticBuilder withAllRandomFields(){
         statistic.setUsername(RandomStringUtils.randomAlphanumeric(8));
         statistic.setUser_fio(RandomStringUtils.randomAlphabetic(20));
         statistic.setNasipaddress(RandomStringUtils.randomNumeric(16));
@@ -91,8 +86,4 @@ public class OnlineStaticticBuilder implements TestObjectCreator<OnlineStatictic
         BigInteger result = new BigInteger(6, rand);
         return result;
     }
-
-
-
-
 }
