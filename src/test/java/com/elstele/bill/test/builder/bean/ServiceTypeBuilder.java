@@ -50,6 +50,16 @@ public class ServiceTypeBuilder {
         return this;
     }
 
+    public ServiceTypeBuilder withBussType(Constants.AccountType bussType){
+        serviceType.setBussType(bussType);
+        return this;
+    }
+
+    public ServiceTypeBuilder withAttributes(Set<ServiceInternetAttribute> attributeList){
+        serviceType.setServiceInternetAttributes(attributeList);
+        return this;
+    }
+
     public ServiceTypeBuilder withRandomAttribute(){
         if(this.serviceType.getServiceType().equals(Constants.SERVICE_INTERNET)) {
             ServiceAttributeBuilder sb = new ServiceAttributeBuilder();

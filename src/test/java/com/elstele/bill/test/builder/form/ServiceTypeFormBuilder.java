@@ -50,4 +50,8 @@ public class ServiceTypeFormBuilder {
         return this;
     }
 
+    public ServiceTypeFormBuilder withBussType(Constants.AccountType bussType){
+        serviceTypeForm.setBussType(bussType);
+        return this;
+    }
 }
