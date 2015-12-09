@@ -36,7 +36,7 @@
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
     <task:executor id="executor" pool-size="5"/>
     <task:scheduler id="scheduler" pool-size="10"/>
-    <bean id="schedulerbean" class="com.elstele.bill.scheduler.Scheduler"/>
+    <bean id="scheduller" class="com.elstele.bill.scheduler.Scheduler"/>
 
     <bean id="jspViewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -45,7 +45,7 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
         <property name="contentType" value="text/html;charset=UTF-8" />
-        
+
     </bean>
 
     <bean id="messageSource"
@@ -57,15 +57,15 @@
     <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
         <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
     </bean>
- 
+
     <bean id="propertyConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
         p:location="/WEB-INF/jdbc.properties" />
- 
+
     <bean id="dataSource"
         class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
         p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}" 
+        p:url="${jdbc.databaseurl}"
         p:username="${jdbc.username}"
         p:password="${jdbc.password}" />
 
@@ -74,7 +74,7 @@
         <property name="maxUploadSize" value="50000000"/>
     </bean>
 
- 
+
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -99,5 +99,8 @@
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+
+   <!-- <task:annotation-driven />
+    <bean id="transactionSheduler" class="com.elstele.bill.Scheduler.TransactionScheduler"></bean>-->
 
 </beans>

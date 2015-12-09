@@ -1,4 +1,4 @@
-package com.elstele.bill.Scheduler;
+package com.elstele.bill.scheduler;
 
 import com.elstele.bill.datasrv.interfaces.USDRateDataService;
 import com.elstele.bill.utils.Constants;
@@ -22,7 +22,7 @@ public class Scheduler {
     public void getUSDRateXML(){
         usdRateDataService.getXMLUSDRate();
     }
-
+    //TODO fix "0 56 16 * * MON-FRI" to verbal constant
     @Scheduled(cron="0 56 16 * * MON-FRI")
     public void CalculateMonthTransactionReport(){
         System.out.println("Scheduler month report");
@@ -41,3 +41,4 @@ public class Scheduler {
         }
     }
 }
+

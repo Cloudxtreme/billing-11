@@ -1,16 +1,10 @@
 package com.elstele.bill.test.controller;
 
-import com.elstele.bill.controller.AuthController;
 import com.elstele.bill.controller.MonitoringController;
-import com.elstele.bill.dao.interfaces.LocalUserDAO;
-import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.datasrv.interfaces.ServiceDataService;
-import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.OnlineStatistic;
-import com.elstele.bill.test.builder.OnlineStaticticBuilder;
-import com.elstele.bill.utils.Constants;
+import com.elstele.bill.test.builder.bean.OnlineStatisticBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +31,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -76,7 +68,7 @@ public class MonitoringControllerTest {
         //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
 
-        OnlineStaticticBuilder builder = new OnlineStaticticBuilder();
+        OnlineStatisticBuilder builder = new OnlineStatisticBuilder();
         OnlineStatistic os1 = builder.build().withAllRandomFields().getRes();
         OnlineStatistic os2 = builder.build().withAllRandomFields().getRes();
         OnlineStatistic os4 = builder.build().withAllRandomFields().getRes();
@@ -99,7 +91,7 @@ public class MonitoringControllerTest {
     public void checkPresentOneOfElement(){
         //todo this test can be moved to dataServiceTest
         when(serviceDataService.getUsersOnline()).thenReturn(statList);
-        OnlineStaticticBuilder builder = new OnlineStaticticBuilder();
+        OnlineStatisticBuilder builder = new OnlineStatisticBuilder();
         OnlineStatistic os = builder.build().withUsername("name").withUserfio("Snow").withNasipaddress("1.1.1.1").withNasportid("10")
                 .withFramedipaddress("1.1.1.100").withAcctstarttime("10 O'clock").withAcctsessiontime(new BigInteger("100"))
                 .withAcctinputoctets(new BigInteger("67876")).withAcctoutputoctets(new BigInteger("56876")).getRes();
