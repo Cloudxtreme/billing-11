@@ -158,6 +158,7 @@
                                 <tr>
                                     <th>&nbsp;</th>
                                     <th>Service</th>
+                                    <th>Details</th>
                                     <th>Start Date</th>
                                     <th>Period</th>
                                     <th>Price</th>
@@ -172,6 +173,17 @@
                                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${accountService.serviceType.serviceType == 'INTERNET'}">
+                                                        login: ${accountService.serviceInternet.username}<br>
+                                                        pass: ${accountService.serviceInternet.password}<br>
+                                                    </c:when>
+                                                    <c:when test="${accountService.serviceType.serviceType == 'PHONE'}">
+                                                        ${accountService.servicePhone.phoneNumber}
+                                                    </c:when>
+                                                </c:choose>
+                                            </td>
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                                             <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>

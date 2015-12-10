@@ -57,16 +57,18 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
         UserRoleAssembler assembler = new UserRoleAssembler();
 
         List<UserRole> beans = userRoleDAO.listUserRole();
-        for (UserRole curBean : beans){
-            UserRoleForm curForm = assembler.fromBeanToForm(curBean);
+        if(beans != null) {
+            for (UserRole curBean : beans) {
+                UserRoleForm curForm = assembler.fromBeanToForm(curBean);
 
-            ArrayList<Integer> activityList = new ArrayList<Integer>();
-            for (Activity activity : curBean.getActivities()) {
-                activityList.add(activity.getId());
+                ArrayList<Integer> activityList = new ArrayList<Integer>();
+                for (Activity activity : curBean.getActivities()) {
+                    activityList.add(activity.getId());
+                }
+                curForm.setActivityId(activityList);
+
+                result.add(curForm);
             }
-            curForm.setActivityId(activityList);
-
-            result.add(curForm);
         }
         return result;
     }

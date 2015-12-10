@@ -93,7 +93,7 @@ public class ServiceForm {
 
         if (!accountId.equals(that.accountId)) return false;
         if (!dateStart.equals(that.dateStart)) return false;
-        if (!id.equals(that.id)) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (period != that.period) return false;
         if (serviceInternet != null ? !serviceInternet.equals(that.serviceInternet) : that.serviceInternet != null)
             return false;
@@ -105,7 +105,7 @@ public class ServiceForm {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + accountId.hashCode();
         result = 31 * result + (serviceInternet != null ? serviceInternet.hashCode() : 0);
         result = 31 * result + (servicePhone != null ? servicePhone.hashCode() : 0);

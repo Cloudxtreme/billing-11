@@ -28,9 +28,11 @@ public class AccountDataServiceImpl implements AccountDataService {
         AccountAssembler assembler = new AccountAssembler();
 
         List<Account> beans = accountDAO.getAccountList();
-        for (Account curBean : beans){
-            AccountForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
+        if(beans != null) {
+            for (Account curBean : beans) {
+                AccountForm curForm = assembler.fromBeanToForm(curBean);
+                result.add(curForm);
+            }
         }
         return result;
     }

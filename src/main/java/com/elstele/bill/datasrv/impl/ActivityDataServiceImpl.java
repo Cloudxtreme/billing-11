@@ -49,9 +49,11 @@ public class ActivityDataServiceImpl implements ActivityDataService {
         ActivityAssembler assembler = new ActivityAssembler();
 
         List<Activity> beans = userActivityDAO.listActivity();
-        for (Activity curBean : beans){
-            ActivityForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
+        if(beans!=null) {
+            for (Activity curBean : beans) {
+                ActivityForm curForm = assembler.fromBeanToForm(curBean);
+                result.add(curForm);
+            }
         }
         return result;
     }
