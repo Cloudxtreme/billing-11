@@ -6,10 +6,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import java.math.BigInteger;
 import java.util.Random;
 
-/**
- * Created by ivan on 15/11/30.
- */
-public class OnlineStatisticBuilder implements TestObjectCreator<OnlineStatisticBuilder, OnlineStatistic>{
+public class OnlineStatisticBuilder implements TestObjectCreator<OnlineStatisticBuilder, OnlineStatistic> {
     private OnlineStatistic statistic;
 
     public OnlineStatisticBuilder build() {
@@ -89,8 +86,4 @@ public class OnlineStatisticBuilder implements TestObjectCreator<OnlineStatistic
         BigInteger result = new BigInteger(6, rand);
         return result;
     }
-
-
-
-
 }

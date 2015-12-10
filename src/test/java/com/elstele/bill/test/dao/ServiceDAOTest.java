@@ -4,8 +4,8 @@ import com.elstele.bill.dao.impl.AccountDAOImpl;
 import com.elstele.bill.dao.impl.ServiceDAOImpl;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.test.builder.bean.AccountBuilder;
+import com.elstele.bill.test.builder.bean.ServiceBuilder;
 import com.elstele.bill.test.builder.bean.ServiceInternetBuilder;
-import com.elstele.bill.test.builder.bean.ServiceMarkerBuilder;
 import com.elstele.bill.test.builder.bean.ServicePhoneBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
@@ -20,12 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static com.elstele.bill.utils.Constants.*;
 import static org.junit.Assert.*;
 
 
@@ -66,7 +62,7 @@ public class ServiceDAOTest {
         Account account = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
         accountDAO.create(account);
 
-        ServiceMarkerBuilder smb = new ServiceMarkerBuilder();
+        ServiceBuilder smb = new ServiceBuilder();
         serviceMarker = smb.build().randomService().withAccount(account).getRes();
 
         ServicePhoneBuilder spb = new ServicePhoneBuilder();

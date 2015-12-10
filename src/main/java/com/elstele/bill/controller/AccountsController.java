@@ -49,6 +49,18 @@ public class AccountsController {
         return result;
     }
 
+
+    @RequestMapping(value="/accountsShortList", method = RequestMethod.GET)
+    @ResponseBody
+    public List<AccountForm> getAccountsShortFormList(HttpServletRequest request,
+                                             @RequestParam(value = "rows") int rows,
+                                             @RequestParam(value = "page") int page){
+        List<AccountForm> result = accountDataService.getAccountsLiteFormList(rows, page);
+        return result;
+    }
+
+
+
     //getAccount
     @RequestMapping(value="/getAccount", method = RequestMethod.GET)
     @ResponseBody
@@ -110,7 +122,7 @@ public class AccountsController {
     @RequestMapping(value="/getListOfStreets", method = RequestMethod.GET)
     @ResponseBody
     public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<String>();
         result.add("Армейская");
         result.add("Абрикосовая");
         result.add("Ананасовая");

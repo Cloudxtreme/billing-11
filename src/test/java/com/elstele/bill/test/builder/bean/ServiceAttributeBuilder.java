@@ -26,6 +26,10 @@ public class ServiceAttributeBuilder {
         serviceInternetAttribute.setValue(RandomStringUtils.randomAlphanumeric(4));
         return this;
     }
+    public ServiceAttributeBuilder withId(Integer id){
+        serviceInternetAttribute.setId(id);
+        return this;
+    }
     public ServiceAttributeBuilder withAttribute(String attribute){
         serviceInternetAttribute.setAttribute(attribute);
         return this;

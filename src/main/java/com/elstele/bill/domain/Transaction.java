@@ -82,9 +82,9 @@ public class Transaction extends CommonDomainBean {
 
         Transaction that = (Transaction) o;
 
-        if (!account.equals(that.account)) return false;
+        if (!account.getId().equals(that.account.getId())) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
-        if (!date.equals(that.date)) return false;
+        if (date!=null ? !date.equals(that.date) : that.date != null) return false;
         if (direction != that.direction) return false;
         if (!price.equals(that.price)) return false;
         if (source != that.source) return false;
@@ -94,7 +94,7 @@ public class Transaction extends CommonDomainBean {
 
     @Override
     public int hashCode() {
-        int result = account.hashCode();
+        int result = account.getId().hashCode();
         result = 31 * result + date.hashCode();
         result = 31 * result + direction.hashCode();
         result = 31 * result + source.hashCode();

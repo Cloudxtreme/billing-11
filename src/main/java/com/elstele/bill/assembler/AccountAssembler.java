@@ -68,4 +68,9 @@ public class AccountAssembler {
 
 
 
+    public AccountForm fromBeanToShortForm(Account bean) {
+        AccountForm form = new AccountForm();
+        copyProperties(bean, form, accountPropsToSkip);
+        return form;
+    }
 }
