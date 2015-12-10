@@ -3,6 +3,7 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Street;
@@ -20,6 +21,8 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
     private AccountDAO accountDAO;
+    @Autowired
+    private StreetDAO streetDAO;
 
     @Override
     @Transactional
@@ -54,6 +57,20 @@ public class AccountDataServiceImpl implements AccountDataService {
         List<Account> beans = accountDAO.getAccountList(rows, offset);
         for (Account curBean : beans){
             AccountForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
+    @Transactional
+    public List<AccountForm> getAccountsLiteFormList(int rows, int page) {
+        List<AccountForm> result = new ArrayList<AccountForm>();
+        AccountAssembler assembler = new AccountAssembler();
+        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
+        int offset = page*rows;
+        List<Account> beans = accountDAO.getAccountList(rows, offset);
+        for (Account curBean : beans){
+            AccountForm curForm = assembler.fromBeanToShortForm(curBean);
             result.add(curForm);
         }
         return result;
@@ -120,6 +137,6 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Transactional
     public List<Street> getStreets(String likeThis) {
-        return accountDAO.getListOfStreets(likeThis);
+        return streetDAO.getListOfStreets(likeThis);
     }
 }

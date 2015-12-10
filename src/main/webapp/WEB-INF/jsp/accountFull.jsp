@@ -28,15 +28,11 @@
 
 
 <div class="well">
-    <div id="topButtons">
-        <div id="buttonPanel" class="col-lg-6">
+    <legend>
             <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
             <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
-        </div>
-        <div id="balansPanel" class="col-lg-6">
             <span class="btn btn-sm btn-warning float-right">Баланс ${accountForm.currentBalance}</span>
-        </div>
-    </div>
+    </legend>
 
     <div id="accountMainDetail">
         <form:form class="form-horizontal" id="fullAccountForm" method="POST" commandName="accountForm" action="${pageContext.request.contextPath}/accounts/save.html">
@@ -93,7 +89,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
                                                     data-provide="typeahead" placeholder="5th Avenue"/>
-                                        <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
+                                        <form:input path="phyAddress.id" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -125,7 +121,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
                                                     data-provide="typeahead" placeholder="5th Avenue"/>
-                                        <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
+                                        <form:input path="legalAddress.id" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

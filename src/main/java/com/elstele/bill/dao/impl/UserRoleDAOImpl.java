@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class UserRoleDAOImpl extends CommonDAOImpl<UserRole> implements UserRole
         if (!query.list().isEmpty()){
             return query.list();
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }

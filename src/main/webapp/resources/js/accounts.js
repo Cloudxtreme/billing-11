@@ -1,4 +1,4 @@
-var pageResults = 10;
+var pageResults = 20;
 
 $(function() {
     // set active navigation tab "Accounts"
@@ -171,7 +171,7 @@ function hideModalAddAccount(){
 
 function renderAccountsTable(){
     $.ajax({
-        url: 'accountsList?rows=0&page=0',
+        url: 'accountsShortList?rows=0&page=0',
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
@@ -185,7 +185,7 @@ function renderAccountsTable(){
 function renderAccountsTable(rows, page){
     console.log("page="+page+"row="+rows);
     $.ajax({
-        url: 'accountsList?rows='+rows+'&page='+page,
+        url: 'accountsShortList?rows='+rows+'&page='+page,
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {

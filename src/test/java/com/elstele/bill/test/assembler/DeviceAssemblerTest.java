@@ -4,7 +4,6 @@ import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
-import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.domain.Ip;
@@ -12,7 +11,6 @@ import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.utils.Enums.Status;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +54,7 @@ public class DeviceAssemblerTest {
         deviceTypes = new DeviceTypes();
         deviceTypes.setId(5);
         device.setIpAdd(ip);
-        device.setDeviceTypes(deviceTypes);
+        device.setDeviceType(deviceTypes);
         device.setStatus(Status.ACTIVE);
 
         deviceForm = new DeviceForm();

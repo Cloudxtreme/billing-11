@@ -6,27 +6,32 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="Devices")
+@Table(name = "Devices")
 public class Device extends CommonDomainBean {
     private String name;
     private String description;
     private String community;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="ipAddress_id")
+    @JoinColumn(name = "ipAddress_id")
     private Ip ipAdd;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="deviceType_id")
-    private DeviceTypes deviceTypes;
+    @JoinColumn(name = "deviceType_id")
+    private DeviceTypes deviceType;
 
-    public DeviceTypes getDeviceTypes() {
-        return deviceTypes;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "deviceAddress_id")
+    private Address deviceAddress;
+
+    public DeviceTypes getDeviceType() {
+        return deviceType;
     }
 
-    public void setDeviceTypes(DeviceTypes deviceTypes) {
-        this.deviceTypes = deviceTypes;
+    public void setDeviceType(DeviceTypes deviceType) {
+        this.deviceType = deviceType;
     }
+
     public String getName() {
         return name;
     }
@@ -51,6 +56,14 @@ public class Device extends CommonDomainBean {
         this.community = community;
     }
 
+    public Address getDeviceAddress() {
+        return deviceAddress;
+    }
+
+    public void setDeviceAddress(Address deviceAddress) {
+        this.deviceAddress = deviceAddress;
+    }
+
     public Ip getIpAdd() {
         return ipAdd;
     }
@@ -58,6 +71,7 @@ public class Device extends CommonDomainBean {
     public void setIpAdd(Ip ipAdd) {
         this.ipAdd = ipAdd;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -70,7 +84,7 @@ public class Device extends CommonDomainBean {
         if (description != null ? !description.equals(device.description) : device.description != null) return false;
         if (community != null ? !community.equals(device.community) : device.community != null) return false;
         if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
-        return !(deviceTypes != null ? !deviceTypes.equals(device.deviceTypes) : device.deviceTypes != null);
+        return !(deviceType != null ? !deviceType.equals(device.deviceType) : device.deviceType != null);
 
     }
 
@@ -80,7 +94,7 @@ public class Device extends CommonDomainBean {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (community != null ? community.hashCode() : 0);
         result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
-        result = 31 * result + (deviceTypes != null ? deviceTypes.hashCode() : 0);
+        result = 31 * result + (deviceType != null ? deviceType.hashCode() : 0);
         return result;
     }
 }
