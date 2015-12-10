@@ -30,8 +30,6 @@ public class AccountAssembler {
         return form;
     }
 
-
-
     private List<ServiceForm> serviceAssembleFromBeanToForm(Set<Service> beans, List<ServiceForm> serviceForms) {
         serviceForms = new ArrayList<ServiceForm>();
         if(beans!=null) {
@@ -62,11 +60,6 @@ public class AccountAssembler {
 
         return bean;
     }
-
-
-
-
-
 
     public AccountForm fromBeanToShortForm(Account bean) {
         AccountForm form = new AccountForm();
