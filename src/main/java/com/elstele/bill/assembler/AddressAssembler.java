@@ -26,9 +26,6 @@ public class AddressAssembler {
 
     public Address addressAssembleFromFormToBean(AddressForm form, Address bean) {
         if (form != null){
-            if (isAddressEmpty(form)){
-                return null;
-            }
             if (bean == null){
                 bean = new Address();
                 bean.setStatus(Status.ACTIVE);
@@ -37,17 +34,13 @@ public class AddressAssembler {
                     Street str = new Street(form.getStreetId(), form.getStreet());
                     bean.setStreet(str);
                 }
+                if(form.getStreetId() == null && !form.getStreet().equals("")){
+                    Street str = new Street();
+                    str.setName(form.getStreet());
+                    bean.setStreet(str);
+                }
             }
         }
         return bean;
-    }
-
-    private boolean isAddressEmpty(AddressForm form) {
-        if (form != null){
-            if(form.getId() != null || form.getStreetId() != null){
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -14,6 +14,8 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,11 +56,17 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public Integer addDevice(DeviceForm deviceForm) {
+    public ResponseToAjax addDevice(DeviceForm deviceForm) {
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
-        return deviceDAO.create(device);
+        try{
+            deviceDAO.create(device);
+            return ResponseToAjax.SUCCESS;
+        } catch (ConstraintViolationException e){
+            log.error(e + " Method addDevice");
+            return ResponseToAjax.ERROR;
+        }
     }
 
     @Override
@@ -99,10 +107,16 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public void updateDevice(DeviceForm deviceForm) {
-        DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
-        Device bean = assembler.fromFormToBean(deviceForm);
-        deviceDAO.update(bean);
+    public ResponseToAjax updateDevice(DeviceForm deviceForm) {
+        try {
+            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
+            Device bean = assembler.fromFormToBean(deviceForm);
+            deviceDAO.update(bean);
+            return ResponseToAjax.SUCCESS;
+        }catch(HibernateException e ){
+            log.error(e + " Method updateDevice");
+            return ResponseToAjax.ERROR;
+        }
     }
 
     @Override

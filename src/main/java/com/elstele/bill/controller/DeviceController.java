@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -92,8 +93,8 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
-    public String addOrUpdateDeviceFromForm(DeviceForm deviceForm) {
-        String result;
+    public ModelAndView addOrUpdateDeviceFromForm(DeviceForm deviceForm) {
+        ModelAndView mav = new ModelAndView("device");
         try {
             if (deviceForm.getId() == null) {
                 deviceDataService.addDevice(deviceForm);
@@ -102,12 +103,11 @@ public class DeviceController {
                 deviceDataService.updateDevice(deviceForm);
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             }
-            result = "redirect:/device.html";
+            mav.addObject("successMessage", "Device was successfully added.");
         } catch (Exception e) {
-            System.out.println(e);
-            result = "redirect:/404.html";
+            mav.addObject("errorMessage", "Device adding error. Selected street is not added into the DB. Please select your street from list");
         }
-        return result;
+        return mav;
 
     }
 
@@ -169,7 +169,7 @@ public class DeviceController {
     }
 
 
-    @RequestMapping(value = "/getValidIps", method = RequestMethod.POST)
+    @RequestMapping(value = "**/getValidIps", method = RequestMethod.POST)
     @ResponseBody
     public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json) {
         Integer id = Integer.parseInt(json);
@@ -182,7 +182,7 @@ public class DeviceController {
         return ipMap;
     }
 
-    @RequestMapping(value = "returniplist", method = RequestMethod.GET)
+    @RequestMapping(value = "**/returniplist", method = RequestMethod.GET)
     @ResponseBody
     public Map<Integer, String> ipAddressListReturn() {
         List<IpForm> ipForms = ipDataService.getIpAddressList();
@@ -196,13 +196,7 @@ public class DeviceController {
 
     @RequestMapping(value="**/getListOfStreets", method = RequestMethod.GET)
     @ResponseBody
-    public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
-        List<String> result = new ArrayList<>();
-        result.add("Армейская");
-        result.add("Абрикосовая");
-        result.add("Ананасовая");
-        result.add("Пущкинская");
-        result.add(query);
+    public List<Street> getListOfStreets(@RequestParam(value = "query") String query) {
         return deviceDataService.getStreets(query);
     }
 }

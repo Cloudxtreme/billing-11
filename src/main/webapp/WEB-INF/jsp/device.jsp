@@ -31,6 +31,12 @@
         <div id="succesMessage" class="alert alert-success" style="display: none">
             <strong>Great. Nice job!</strong>
         </div>
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success" role="alert">${successMessage}</div>
+        </c:if>&nbsp;
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger" role="alert">${errorMessage}</div>
+        </c:if>&nbsp;
 
 
         <table class="table table-striped" id='table'>

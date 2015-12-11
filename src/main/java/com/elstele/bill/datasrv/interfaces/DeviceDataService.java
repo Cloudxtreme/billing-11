@@ -9,7 +9,7 @@ import java.util.List;
 public interface DeviceDataService {
     public List<DeviceForm> getDevices();
 
-    public Integer addDevice(DeviceForm deviceForm);
+    public ResponseToAjax addDevice(DeviceForm deviceForm);
 
     public ResponseToAjax deleteDevice(Integer id);
 
@@ -17,7 +17,7 @@ public interface DeviceDataService {
 
     public List<Integer> getDeviceFreePorts(Integer id);
 
-    public void updateDevice(DeviceForm deviceForm);
+    public ResponseToAjax updateDevice(DeviceForm deviceForm);
 
     public List<Street> getStreets(String query);
 }
