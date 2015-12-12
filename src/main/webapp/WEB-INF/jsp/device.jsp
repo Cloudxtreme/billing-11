@@ -101,6 +101,10 @@
                     alert("Thats right decision");
                 }
             });
+
+            $('.alert').on('click', function(){
+                $(this).css('display', 'none');
+            })
         </script>
 
 

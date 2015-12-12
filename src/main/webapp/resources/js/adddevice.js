@@ -26,10 +26,12 @@ $(document).ready(function() {
         }
     };
 
+    var obj = {};
     $('#streets').typeahead({
         onSelect: function(item) {
             console.log(item);
             $('#streetId').val(item.value);
+            obj = item;
         },
         ajax: {
             url: ".././getListOfStreets.html",
@@ -41,23 +43,22 @@ $(document).ready(function() {
         }
     });
 
+    $('#addDeviceForm').submit(function(){
+        var valueId = $('#streetId').val();
+        console.log(valueId);
+        var valueName = $('#streets').val();
+        console.log(valueName);
+        if(obj.value === valueId && valueName !== obj.text){
+            console.log("AAKFKASKFKASF");
+            $('#streetId').val('');
+        }
+    });
+
     $(function() {
         $("li").removeClass('active');
         $("#linkToUtils").addClass('selected');
         $("#linkToDeviceList").addClass('active');
     });
-
-    $('#submitForm').on('click', function(){
-        redirectToDevicePage();
-    });
-    $('#declineForm').on('click', function(){
-        redirectToDevicePage();
-    });
-
-    function redirectToDevicePage(){
-        window.location="device.html";
-    }
-
 
     $('#ipNet').on('change', function() {
         console.log(this);

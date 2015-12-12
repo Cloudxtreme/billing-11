@@ -127,10 +127,12 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
+    var obj = {};
     $('#phyAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
             $('#phyAddressStreetId').val(item.value);
+            obj = item;
         },
         ajax: {
             url: ".././getListOfStreets.html",
@@ -142,14 +144,26 @@ $(document).ready(function() {
 
         }
     });
-})
+
+    $('#fullAccountForm').submit(function(){
+        var valueId = $('#phyAddressStreetId').val();
+        console.log(valueId);
+        var valueName = $('#phyAddressStreet').val();
+        console.log(valueName);
+        if(obj.value == valueId && valueName != obj.text){
+            $('#phyAddressStreetId').val('');
+        }
+    });
+});
 
 
 $(document).ready(function() {
+    var obj1 = {};
     $('#legalAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
             $('#legalAddressStreetId').val(item.value);
+            obj1 = item;
         },
         ajax: {
             url: ".././getListOfStreets.html",
@@ -161,7 +175,18 @@ $(document).ready(function() {
 
         }
     });
+
+    $('#fullAccountForm').submit(function(){
+        var valueId = $('#legalAddressStreetId').val();
+        console.log(valueId);
+        var valueName = $('#legalAddressStreet').val();
+        console.log(valueName);
+        if(obj1.value == valueId && valueName != obj1.text){
+            $('#legalAddressStreetId').val('');
+        }
+    });
 })
+
 
 
 function hideModalAddAccount(){

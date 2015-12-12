@@ -25,7 +25,7 @@ public class Scheduler {
     //TODO fix "0 56 16 * * MON-FRI" to verbal constant
     @Scheduled(cron="0 56 16 * * MON-FRI")
     public void CalculateMonthTransactionReport(){
-        System.out.println("Scheduler month report");
+        System.out.println("scheduler month report");
         try {
 
             File file = new File("d:\\tanya_report_test.txt");
@@ -40,5 +40,7 @@ public class Scheduler {
             e.printStackTrace();
         }
     }
+
+
 }
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,22 +94,21 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
-    public ModelAndView addOrUpdateDeviceFromForm(DeviceForm deviceForm) {
-        ModelAndView mav = new ModelAndView("device");
+    public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
         try {
             if (deviceForm.getId() == null) {
                 deviceDataService.addDevice(deviceForm);
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
             } else {
                 deviceDataService.updateDevice(deviceForm);
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
             }
-            mav.addObject("successMessage", "Device was successfully added.");
         } catch (Exception e) {
-            mav.addObject("errorMessage", "Device adding error. Selected street is not added into the DB. Please select your street from list");
+            redirectAttributes.addFlashAttribute("errorMessage", "Device adding error. Selected street is not added into the DB. Please select your street from list");
         }
-        return mav;
-
+        return "redirect: /device.html";
     }
 
     @RequestMapping(value = "/device/delete", method = RequestMethod.POST)

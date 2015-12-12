@@ -147,7 +147,8 @@
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                  <button type="reset" id = "declineForm" class="btn btn-default">Cancel</button>
+                  <button type="reset" id = "declineForm" class="btn btn-default"
+                          onclick="window.location.href='/device.html'">Cancel</button>
                   <button id="submitForm" type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
