@@ -119,15 +119,9 @@ public class AccountsController {
 
 
     //getListOfStreets
-    @RequestMapping(value="/getListOfStreets", method = RequestMethod.GET)
+    @RequestMapping(value="/getListOfStreets", method = RequestMethod.POST)
     @ResponseBody
     public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
-        List<String> result = new ArrayList<String>();
-        result.add("Армейская");
-        result.add("Абрикосовая");
-        result.add("Ананасовая");
-        result.add("Пущкинская");
-        result.add(query);
         return accountDataService.getStreets(query);
     }
 }

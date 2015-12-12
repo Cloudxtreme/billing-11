@@ -137,7 +137,7 @@ $(document).ready(function() {
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }
@@ -156,7 +156,7 @@ $(document).ready(function() {
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }

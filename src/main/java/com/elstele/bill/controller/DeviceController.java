@@ -194,14 +194,15 @@ public class DeviceController {
         return ipMap;
     }
 
+    //TODO move this method to separate service
     @RequestMapping(value="**/getListOfStreets", method = RequestMethod.GET)
     @ResponseBody
     public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
         List<String> result = new ArrayList<>();
-        result.add("Армейская");
-        result.add("Абрикосовая");
-        result.add("Ананасовая");
-        result.add("Пущкинская");
+        result.add("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+        result.add("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+        result.add("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+        result.add("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
         result.add(query);
         return deviceDataService.getStreets(query);
     }
