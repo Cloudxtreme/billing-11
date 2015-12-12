@@ -127,7 +127,10 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    var obj = {};
+    var obj = {
+        value: $('#phyAddressStreetId').val(),
+        text: $('#phyAddressStreet').val()
+    };
     $('#phyAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
@@ -158,7 +161,10 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    var obj1 = {};
+    var obj1 = {
+        value: $('#legalAddressStreetId').val(),
+        text: $('#legalAddressStreet').val()
+    };
     $('#legalAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);

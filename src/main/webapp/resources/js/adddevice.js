@@ -26,7 +26,10 @@ $(document).ready(function() {
         }
     };
 
-    var obj = {};
+    var obj = {
+        value: $('#streetId').val(),
+        text: $('#streets').val()
+    };
     $('#streets').typeahead({
         onSelect: function(item) {
             console.log(item);
