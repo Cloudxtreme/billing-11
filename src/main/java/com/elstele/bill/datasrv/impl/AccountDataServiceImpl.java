@@ -93,7 +93,7 @@ public class AccountDataServiceImpl implements AccountDataService {
     public void updateAccount(AccountForm form) {
         AccountAssembler assembler = new AccountAssembler();
         Account account = assembler.fromFormToBean(form);
-        accountDAO.updateAndMerge(account);
+        accountDAO.update(account);
     }
 
 
