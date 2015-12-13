@@ -57,8 +57,10 @@ public class AccountAssembler {
         AddressAssembler addressAssembler = new AddressAssembler();
         bean.setPhyAddress( addressAssembler.addressAssembleFromFormToBean(form.getPhyAddress(), bean.getPhyAddress()) );
         bean.setLegalAddress( addressAssembler.addressAssembleFromFormToBean(form.getLegalAddress(), bean.getLegalAddress()) );
-        //TODO refactor here
-        if (form.getPhyAddress().getStreetId().equals(form.getLegalAddress().getStreetId())){
+
+        Integer phyStreetId = form.getPhyAddress().getStreetId();
+        Integer legalStreetId = form.getLegalAddress().getStreetId();
+        if (phyStreetId.equals(legalStreetId)){
             Street sameStreet = bean.getPhyAddress().getStreet();
             bean.getLegalAddress().setStreet(sameStreet);
         }

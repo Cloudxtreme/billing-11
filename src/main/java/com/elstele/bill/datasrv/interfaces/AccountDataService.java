@@ -18,6 +18,4 @@ public interface AccountDataService {
     public Account getAccountBeanById(int id);
     public void softDeleteAccount(int id);
     public int getActiveAccountsCount();
-
-    public List<Street> getStreets(String likeThis);
 }

@@ -19,5 +19,4 @@ public interface DeviceDataService {
 
     public ResponseToAjax updateDevice(DeviceForm deviceForm);
 
-    public List<Street> getStreets(String query);
 }

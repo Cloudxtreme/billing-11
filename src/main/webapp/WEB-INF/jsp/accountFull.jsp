@@ -88,7 +88,7 @@
                                     <label for="phyAddressStreet" class="col-lg-2 control-label">Street</label>
                                     <div class="col-lg-9">
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
-                                                    data-provide="typeahead" placeholder="5th Avenue"/>
+                                                    data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
                                         <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                     <label for="legalAddressStreet" class="col-lg-2 control-label">Street</label>
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
-                                                    data-provide="typeahead" placeholder="5th Avenue"/>
+                                                    data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
                                         <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>

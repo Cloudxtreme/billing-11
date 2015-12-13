@@ -4,19 +4,20 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
+import org.hibernate.AssertionFailure;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -105,7 +106,7 @@ public class DeviceController {
                 ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
                 redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
             }
-        } catch (Exception e) {
+        } catch (AssertionFailure e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Device adding error. Selected street is not added into the DB. Please select your street from list");
         }
         return "redirect: /device.html";
@@ -194,9 +195,4 @@ public class DeviceController {
         return ipMap;
     }
 
-    @RequestMapping(value="**/getListOfStreets", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Street> getListOfStreets(@RequestParam(value = "query") String query) {
-        return deviceDataService.getStreets(query);
-    }
 }

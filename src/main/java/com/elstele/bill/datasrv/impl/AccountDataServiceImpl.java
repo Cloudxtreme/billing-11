@@ -135,8 +135,4 @@ public class AccountDataServiceImpl implements AccountDataService {
         return accountDAO.getActiveAccountsCount();
     }
 
-    @Transactional
-    public List<Street> getStreets(String likeThis) {
-        return streetDAO.getListOfStreets(likeThis);
-    }
 }

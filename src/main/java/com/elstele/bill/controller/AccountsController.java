@@ -2,14 +2,15 @@ package com.elstele.bill.controller;
 
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -97,16 +98,20 @@ public class AccountsController {
     }
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
-        accountDataService.updateAccount(accountForm);
+    public String saveAccountFull(@ModelAttribute AccountForm accountForm, RedirectAttributes redirectAttributes) {
+        try {
+            accountDataService.updateAccount(accountForm);
+            redirectAttributes.addFlashAttribute("successMessage", "Account updated successfully");
+        }catch(HibernateException e ){
+            redirectAttributes.addFlashAttribute("errorMessage", "Account updating error. Selected street is not added into the DB. Please select your street from list");
+        }
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        ModelAndView mav = new ModelAndView("accounts_list");
-        mav.addObject("accountForm", new AccountForm());
-        mav.addObject("accountTypeList", types);
-        mav.addObject("pagesTotal", totalPages);
+        redirectAttributes.addFlashAttribute("accountForm", new AccountForm());
+        redirectAttributes.addFlashAttribute("accountTypeList", types);
+        redirectAttributes.addFlashAttribute("pagesTotal", totalPages);
 
-        return mav;
+        return "redirect: /accountHome.html";
     }
 
     private int determineTotalPagesForOutput() {
@@ -115,19 +120,5 @@ public class AccountsController {
             return accounts/10;
         else
             return (accounts/10)+1;
-    }
-
-
-    //getListOfStreets
-    @RequestMapping(value="/getListOfStreets", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
-        List<String> result = new ArrayList<String>();
-        result.add("Армейская");
-        result.add("Абрикосовая");
-        result.add("Ананасовая");
-        result.add("Пущкинская");
-        result.add(query);
-        return accountDataService.getStreets(query);
     }
 }

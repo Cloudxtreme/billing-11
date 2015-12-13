@@ -119,10 +119,4 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         }
     }
 
-    @Override
-    @Transactional
-    public List<Street> getStreets(String query) {
-        return streetDAO.getListOfStreets(query);
-    }
-
 }

@@ -94,7 +94,7 @@
                       <form:input path="deviceAddressForm.id" id="id" type="hidden"/>
                       <div class="col-md-8">
                           <label for="streets" class="col-lg-5 control-label">Street</label>
-                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Street"/>
+                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
                           <form:input path="deviceAddressForm.streetId" id="streetId" type="hidden"/>
                       </div>
                       <div class = "col-md-2">

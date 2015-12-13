@@ -32,10 +32,14 @@
             <strong>Great. Nice job!</strong>
         </div>
         <c:if test="${not empty successMessage}">
-            <div class="alert alert-success" role="alert">${successMessage}</div>
+            <div class="alert alert-success" role="alert">
+                <strong>${successMessage}</strong>
+            </div>
         </c:if>&nbsp;
         <c:if test="${not empty errorMessage}">
-            <div class="alert alert-danger" role="alert">${errorMessage}</div>
+            <div class="alert alert-danger" role="alert">
+                <strong>${errorMessage}</strong>
+            </div>
         </c:if>&nbsp;
 
 
@@ -101,10 +105,11 @@
                     alert("Thats right decision");
                 }
             });
-
-            $('.alert').on('click', function(){
-                $(this).css('display', 'none');
-            })
+            $(document).ready(function(){
+                setTimeout(function(){
+                    $('.alert').fadeOut(5000);
+                })
+            });
         </script>
 
 

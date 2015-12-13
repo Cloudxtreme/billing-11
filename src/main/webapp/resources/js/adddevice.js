@@ -41,19 +41,22 @@ $(document).ready(function() {
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
         }
     });
 
+    String.prototype.capitalize = function() {
+        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
+
     $('#addDeviceForm').submit(function(){
         var valueId = $('#streetId').val();
-        console.log(valueId);
         var valueName = $('#streets').val();
-        console.log(valueName);
         if(obj.value === valueId && valueName !== obj.text){
-            console.log("AAKFKASKFKASF");
             $('#streetId').val('');
+            var capitalizeVal = $('#streets').val().capitalize();
+            $('#streets').val(capitalizeVal);
         }
     });
 

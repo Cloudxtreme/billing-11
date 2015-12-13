@@ -105,6 +105,11 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function(){
+    setTimeout(function(){
+        $('.alert').fadeOut(5000);
+    })
+});
 
 $(document).ready(function() {
     $('#accauntSaveBut').click(function(e) {
@@ -125,6 +130,9 @@ $(document).ready(function() {
     });
 });
 
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
 
 $(document).ready(function() {
     var obj = {
@@ -142,7 +150,7 @@ $(document).ready(function() {
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }
@@ -155,6 +163,8 @@ $(document).ready(function() {
         console.log(valueName);
         if(obj.value == valueId && valueName != obj.text){
             $('#phyAddressStreetId').val('');
+            var capitalizeVal = $('#phyAddressStreet').val().capitalize();
+            $('#phyAddressStreet').val(capitalizeVal);
         }
     });
 });
@@ -176,7 +186,7 @@ $(document).ready(function() {
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }
@@ -189,6 +199,8 @@ $(document).ready(function() {
         console.log(valueName);
         if(obj1.value == valueId && valueName != obj1.text){
             $('#legalAddressStreetId').val('');
+            var capitalizeVal = $('#legalAddressStreet').val().capitalize();
+            $('#legalAddressStreet').val(capitalizeVal);
         }
     });
 })
