@@ -57,15 +57,19 @@ public class AccountAssembler {
         AddressAssembler addressAssembler = new AddressAssembler();
         bean.setPhyAddress( addressAssembler.addressAssembleFromFormToBean(form.getPhyAddress(), bean.getPhyAddress()) );
         bean.setLegalAddress( addressAssembler.addressAssembleFromFormToBean(form.getLegalAddress(), bean.getLegalAddress()) );
-
-        Integer phyStreetId = form.getPhyAddress().getStreetId();
-        Integer legalStreetId = form.getLegalAddress().getStreetId();
-        if (phyStreetId.equals(legalStreetId)){
-            Street sameStreet = bean.getPhyAddress().getStreet();
-            bean.getLegalAddress().setStreet(sameStreet);
-        }
-
+        correctionIdenticalStreetName(form, bean);
         return bean;
+    }
+
+    public void correctionIdenticalStreetName(AccountForm form, Account bean){
+        if(form.getPhyAddress().getStreetId() != null && form.getLegalAddress().getStreetId()!=null) {
+            Integer phyStreetId = form.getPhyAddress().getStreetId();
+            Integer legalStreetId = form.getLegalAddress().getStreetId();
+            if (phyStreetId.equals(legalStreetId)) {
+                Street sameStreet = bean.getPhyAddress().getStreet();
+                bean.getLegalAddress().setStreet(sameStreet);
+            }
+        }
     }
 
     public AccountForm fromBeanToShortForm(Account bean) {

@@ -27,9 +27,8 @@ public class AccountsController {
     @Autowired
     private AccountDataService accountDataService;
 
-    @RequestMapping(value="/accountHome", method = RequestMethod.GET)
-    public ModelAndView handleAccountHome(HttpSession session)
-    {
+    @RequestMapping(value = "/accountHome", method = RequestMethod.GET)
+    public ModelAndView handleAccountHome(HttpSession session) {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         int totalPages = determineTotalPagesForOutput();
         ModelAndView mav = new ModelAndView("accounts_list");
@@ -41,48 +40,51 @@ public class AccountsController {
     }
 
 
-    @RequestMapping(value="/accountsList", method = RequestMethod.GET)
+    @RequestMapping(value = "/accountsList", method = RequestMethod.GET)
     @ResponseBody
     public List<AccountForm> getAccountsList(HttpServletRequest request,
                                              @RequestParam(value = "rows") int rows,
-                                             @RequestParam(value = "page") int page){
+                                             @RequestParam(value = "page") int page) {
         List<AccountForm> result = accountDataService.getAccountsList(rows, page);
         return result;
     }
 
 
-    @RequestMapping(value="/accountsShortList", method = RequestMethod.GET)
+    @RequestMapping(value = "/accountsShortList", method = RequestMethod.GET)
     @ResponseBody
     public List<AccountForm> getAccountsShortFormList(HttpServletRequest request,
-                                             @RequestParam(value = "rows") int rows,
-                                             @RequestParam(value = "page") int page){
+                                                      @RequestParam(value = "rows") int rows,
+                                                      @RequestParam(value = "page") int page) {
         List<AccountForm> result = accountDataService.getAccountsLiteFormList(rows, page);
         return result;
     }
 
 
-
     //getAccount
-    @RequestMapping(value="/getAccount", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAccount", method = RequestMethod.GET)
     @ResponseBody
-    public AccountForm getAccountById(HttpServletRequest request, @RequestParam(value = "id") int id){
+    public AccountForm getAccountById(HttpServletRequest request, @RequestParam(value = "id") int id) {
         AccountForm result = accountDataService.getAccountById(id);
         return result;
     }
 
-    @RequestMapping(value="/add", method = RequestMethod.POST)
-    public @ResponseBody AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpServletRequest request) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpServletRequest request) {
         accountDataService.saveAccount(accountForm);
         return new AccountForm();
     }
 
-    @RequestMapping(value="/editAccount", method = RequestMethod.POST)
-    public @ResponseBody AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
+    @RequestMapping(value = "/editAccount", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
         accountDataService.updateAccount(accountForm);
         return new AccountForm();
     }
 
-    @RequestMapping(value="/editFull/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/editFull/{id}", method = RequestMethod.GET)
     public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(id);
@@ -90,35 +92,31 @@ public class AccountsController {
         return mav;
     }
 
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deleteAccount(@PathVariable int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("redirect:../accountHome");
         accountDataService.softDeleteAccount(id);
         return mav;
     }
 
-    @RequestMapping(value="/save", method = RequestMethod.POST)
-    public String saveAccountFull(@ModelAttribute AccountForm accountForm, RedirectAttributes redirectAttributes) {
-        try {
-            accountDataService.updateAccount(accountForm);
-            redirectAttributes.addFlashAttribute("successMessage", "Account updated successfully");
-        }catch(HibernateException e ){
-            redirectAttributes.addFlashAttribute("errorMessage", "Account updating error. Selected street is not added into the DB. Please select your street from list");
-        }
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm) {
+        ModelAndView mav = new ModelAndView("accounts_list");
+        accountDataService.updateAccount(accountForm);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        redirectAttributes.addFlashAttribute("accountForm", new AccountForm());
-        redirectAttributes.addFlashAttribute("accountTypeList", types);
-        redirectAttributes.addFlashAttribute("pagesTotal", totalPages);
-
-        return "redirect: /accountHome.html";
+        mav.addObject("successMessage", "Account was updated successfully");
+        mav.addObject("accountForm", new AccountForm());
+        mav.addObject("accountTypeList", types);
+        mav.addObject("pagesTotal", totalPages);
+        return mav;
     }
 
     private int determineTotalPagesForOutput() {
         int accounts = accountDataService.getActiveAccountsCount();
-        if (accounts%10 == 0)
-            return accounts/10;
+        if (accounts % 10 == 0)
+            return accounts / 10;
         else
-            return (accounts/10)+1;
+            return (accounts / 10) + 1;
     }
 }

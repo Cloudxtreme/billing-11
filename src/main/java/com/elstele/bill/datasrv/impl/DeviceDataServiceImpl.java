@@ -7,7 +7,6 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -56,16 +55,39 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public ResponseToAjax addDevice(DeviceForm deviceForm) {
+    public Integer addDevice(DeviceForm deviceForm) {
+        gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
         try{
-            deviceDAO.create(device);
-            return ResponseToAjax.SUCCESS;
+            return deviceDAO.create(device);
         } catch (ConstraintViolationException e){
             log.error(e + " Method addDevice");
-            return ResponseToAjax.ERROR;
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateDevice(DeviceForm deviceForm) {
+        try {
+            gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
+            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
+            Device bean = assembler.fromFormToBean(deviceForm);
+            deviceDAO.update(bean);
+        }catch(HibernateException e ){
+            log.error(e + " Method updateDevice");
+        }
+    }
+
+    public void gettingCorrectIDForCurrentFormAndCurrentStreet(DeviceForm deviceForm){
+        if(deviceForm.getDeviceAddressForm().getStreetId() == null){
+            String streetNameFromForm = deviceForm.getDeviceAddressForm().getStreet();
+            Integer streetIdFromDB = streetDAO.getStreetIDByStreetName(streetNameFromForm);
+            if(streetIdFromDB != null){
+                deviceForm.getDeviceAddressForm().setStreetId(streetIdFromDB);
+            }
         }
     }
 
@@ -105,18 +127,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         return freePorts;
     }
 
-    @Override
-    @Transactional
-    public ResponseToAjax updateDevice(DeviceForm deviceForm) {
-        try {
-            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
-            Device bean = assembler.fromFormToBean(deviceForm);
-            deviceDAO.update(bean);
-            return ResponseToAjax.SUCCESS;
-        }catch(HibernateException e ){
-            log.error(e + " Method updateDevice");
-            return ResponseToAjax.ERROR;
-        }
-    }
+
 
 }

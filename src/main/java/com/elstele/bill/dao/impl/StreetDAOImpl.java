@@ -19,4 +19,12 @@ public class StreetDAOImpl extends CommonDAOImpl<Street> implements StreetDAO {
         q.setParameter("target", lc+"%");
         return q.list();
     }
+
+    @Override
+    public Integer getStreetIDByStreetName(String streetName){
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select s.id from Street s where s.name = :streetName");
+        q.setParameter("streetName", streetName);
+        return (Integer)q.uniqueResult();
+    }
 }

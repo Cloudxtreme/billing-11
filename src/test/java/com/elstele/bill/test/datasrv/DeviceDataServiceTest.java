@@ -132,8 +132,8 @@ public class DeviceDataServiceTest {
         when(ipDAO.getById(form.getIpForm().getId())).thenReturn(ip);
 
         when(deviceDAO.create(device)).thenReturn(0);
-        ResponseToAjax actual = deviceDataService.addDevice(form);
-        assertTrue(actual.equals(ResponseToAjax.SUCCESS));
+        Integer actual = deviceDataService.addDevice(form);
+        assertTrue(actual.equals(0));
     }
 
     @Test

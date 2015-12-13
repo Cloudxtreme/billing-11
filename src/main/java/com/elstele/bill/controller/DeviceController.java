@@ -96,25 +96,21 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
-        try {
-            if (deviceForm.getId() == null) {
-                deviceDataService.addDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
-            } else {
-                deviceDataService.updateDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
-            }
-        } catch (AssertionFailure e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Device adding error. Selected street is not added into the DB. Please select your street from list");
+        if (deviceForm.getId() == null) {
+            deviceDataService.addDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
+        } else {
+            deviceDataService.updateDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
         }
         return "redirect: /device.html";
     }
 
     @RequestMapping(value = "/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax deleteDevice(@RequestBody String json){
+    public ResponseToAjax deleteDevice(@RequestBody String json) {
         Integer deviceId = Integer.parseInt(json);
         return deviceDataService.deleteDevice(deviceId);
     }
