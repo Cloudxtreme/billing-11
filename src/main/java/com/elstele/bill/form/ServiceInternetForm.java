@@ -9,6 +9,7 @@ public class ServiceInternetForm {
     private DeviceForm device;
     private IpForm ip;
     private Integer port;
+    private Boolean softblock;
 
     public ServiceInternetForm(){
     }
@@ -61,6 +62,16 @@ public class ServiceInternetForm {
         this.port = port;
     }
 
+    public Boolean getSoftblock() {
+        return softblock;
+    }
+
+    public void setSoftblock(Boolean softblock) {
+        this.softblock = softblock;
+    }
+
+
+    //TODO correct equals and hashCode (use more fields)
     @Override
     public boolean equals(Object o){
         if(o == this) return true;

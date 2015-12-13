@@ -20,6 +20,11 @@
     float: right;
     margin-left:5px;
 }
+
+.fix-10px-width{
+    width:10px;
+}
+
 .panel > .border-top{
     border-top: 1px solid #dddddd;
 }
