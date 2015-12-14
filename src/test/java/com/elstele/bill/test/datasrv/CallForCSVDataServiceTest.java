@@ -120,7 +120,7 @@ public class CallForCSVDataServiceTest {
 
     @Test
     public void getDescriptionFromDirectionsTest() {
-        String expectedResult = "Гренландия";
+        String expectedResult = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
         when(callForCSVDAO.getDescriptionFromDirections(callForCSV1.getDirPrefix())).thenReturn(expectedResult);
         String actualResult = callForCSVDataService.getDescriptionFromDirections(callForCSV1.getDirPrefix());
         assertEquals(expectedResult, actualResult);

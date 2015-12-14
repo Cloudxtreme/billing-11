@@ -16,7 +16,6 @@ $(function() {
             dataType: "json"
         });
     });
-
 });
 
 $(document).on("click", ".pushEdit", function () {
@@ -53,7 +52,7 @@ function goToPrevPage() {
     if (nextPage != 0){
         renderAccountsTable(pageResults, nextPage);
     }
-};
+}
 
 function goToNextPage() {
     var currentPageNum = $("#pageNumber").text();
@@ -63,7 +62,7 @@ function goToNextPage() {
     if (nextPage <= totalPages){
         renderAccountsTable(pageResults, nextPage);
     }
-};
+}
 
 $(document).ready(function() {
 
@@ -76,7 +75,7 @@ $(document).ready(function() {
         var account = {
             accountName: $("#accountName").val(),
             accountType:$("#accountType").val()
-        }
+        };
 
         var id = $("#id").val();
         var action = frm.attr('action');
