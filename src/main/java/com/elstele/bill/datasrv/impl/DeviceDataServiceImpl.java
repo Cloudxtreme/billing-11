@@ -127,6 +127,4 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         return freePorts;
     }
 
-
-
 }

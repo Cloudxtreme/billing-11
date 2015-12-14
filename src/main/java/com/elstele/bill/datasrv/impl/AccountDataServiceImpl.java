@@ -115,8 +115,6 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-
-
     @Override
     @Transactional
     public AccountForm getAccountById(int id) {

@@ -12,11 +12,9 @@ import java.util.List;
 public class StreetDAOImpl extends CommonDAOImpl<Street> implements StreetDAO {
 
     @Override
-    public List<Street> getListOfStreets(String likeThis){
-        String lc = likeThis.toLowerCase();
+    public List<Street> getListOfStreets(){
         Query q = getSessionFactory().getCurrentSession().
-                createQuery("from Street s where lower(s.name) like :target");
-        q.setParameter("target", lc+"%");
+                createQuery("from Street");
         return q.list();
     }
 
