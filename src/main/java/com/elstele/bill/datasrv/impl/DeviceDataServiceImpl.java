@@ -7,6 +7,8 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
+import com.elstele.bill.datasrv.interfaces.StreetDataService;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -37,6 +39,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     private StreetDAO streetDAO;
     @Autowired
     IpDataService ipDataService;
+    @Autowired
+    StreetDataService streetDataService;
     final static Logger log = LogManager.getLogger(DeviceDataServiceImpl.class);
 
     @Override
@@ -61,7 +65,9 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
         try{
-            return deviceDAO.create(device);
+            int creatingId = deviceDAO.create(device);
+            updateStreetListAfterInsert(deviceForm);
+            return creatingId;
         } catch (ConstraintViolationException e){
             log.error(e + " Method addDevice");
             return null;
@@ -76,6 +82,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
             Device bean = assembler.fromFormToBean(deviceForm);
             deviceDAO.update(bean);
+            updateStreetListAfterInsert(deviceForm);
         }catch(HibernateException e ){
             log.error(e + " Method updateDevice");
         }
@@ -88,6 +95,14 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             if(streetIdFromDB != null){
                 deviceForm.getDeviceAddressForm().setStreetId(streetIdFromDB);
             }
+        }
+    }
+
+    public void updateStreetListAfterInsert(DeviceForm form){
+        Integer id = form.getDeviceAddressForm().getStreetId();
+        String streetName = form.getDeviceAddressForm().getStreet();
+        if(id == null && !streetName.isEmpty()){
+            streetDataService.reWriteList();
         }
     }
 

@@ -5,6 +5,7 @@ import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
+import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Enums.Status;
@@ -22,6 +23,8 @@ public class AccountDataServiceImpl implements AccountDataService {
     private AccountDAO accountDAO;
     @Autowired
     private StreetDAO streetDAO;
+    @Autowired
+    StreetDataService streetDataService;
 
     @Override
     @Transactional
@@ -94,6 +97,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         AccountAssembler assembler = new AccountAssembler();
         Account account = assembler.fromFormToBean(form);
         accountDAO.update(account);
+        updateStreetListAfterInsert(form);
     }
 
     public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form){
@@ -112,6 +116,18 @@ public class AccountDataServiceImpl implements AccountDataService {
                     form.getLegalAddress().setStreetId(streetIdFromDB);
                 }
             }
+        }
+    }
+
+    public void updateStreetListAfterInsert(AccountForm form){
+        Integer phyId = form.getPhyAddress().getStreetId();
+        String phyStreet = form.getPhyAddress().getStreet();
+
+        Integer legalId = form.getLegalAddress().getStreetId();
+        String legalStreet = form.getLegalAddress().getStreet();
+
+        if((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())){
+            streetDataService.reWriteList();
         }
     }
 

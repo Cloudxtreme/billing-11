@@ -15,7 +15,7 @@ public class StreetDataServiceImpl implements StreetDataService {
     @Autowired
     StreetDAO streetDAO;
 
-    private static List<Street> streetsList = new ArrayList<>();
+    public static List<Street> streetsList = new ArrayList<>();
     private static List<Street> listToReturn = new ArrayList<>();
 
     @Override
@@ -29,13 +29,18 @@ public class StreetDataServiceImpl implements StreetDataService {
 
     private void checkIsListEmpty(){
         if(streetsList.isEmpty()){
-            streetsList = streetDAO.getListOfStreets();
+            reWriteList();
         }
+    }
+
+    @Override
+    public void reWriteList(){
+        streetsList = streetDAO.getListOfStreets();
     }
 
     private void putToTheReturnList(String query){
         for(Street street : streetsList){
-            if(street.getName().contains(query)){
+            if(street.getName().toLowerCase().contains(query.toLowerCase())){
                 listToReturn.add(street);
             }
         }
