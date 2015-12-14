@@ -97,10 +97,17 @@ public class ServiceController {
         List<IpForm> ipFormsList = ipDataService.getBySubnetId( idSubNet );
         Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
         for (IpForm ipForm : ipFormsList){
-            if (ipForm.getIpStatus() != IpStatus.USED  ||  (ipForm.getId()==currIpAddressId) )
+            if (ipForm.getIpStatus() != IpStatus.USED  ||  (ipForm.getId().equals(currIpAddressId)) )
                 ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
+    }
+
+    @RequestMapping(value="/changeSoftBlockStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public void changeSoftBlockStatus(HttpServletRequest request,
+                                                      @RequestParam(value = "serviceId") int serviceId){
+        serviceDataService.changeSoftBlockStatus(serviceId);
     }
 
     @RequestMapping(value="/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)

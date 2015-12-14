@@ -109,6 +109,7 @@ public class ServiceAssembler{
         if(bean.getIpAddress().getId() != null) {
             IpForm ip = new IpForm();
             ip.setId(bean.getIpAddress().getId());
+            ip.setIpName(bean.getIpAddress().getIpName());
             form.getServiceInternet().setIp(ip);
             if(bean.getIpAddress().getIpSubnet().getId() != null) {
                 IpSubnet ipSubnet = new IpSubnet();

@@ -12,4 +12,5 @@ public interface ServiceDAO extends CommonDAO <Service> {
     public String saveService(Service service, boolean isNewObject);
     public void deleteService(Integer serviceId);
     public List<OnlineStatistic> getUserOnline();
+    public void changeSoftBlockStatus(Integer serviceId);
 }

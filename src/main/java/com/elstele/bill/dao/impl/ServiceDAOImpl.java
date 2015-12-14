@@ -69,4 +69,13 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
         List <OnlineStatistic> dbResult = query.list();
         return dbResult;
     }
+
+    @Override
+    public void changeSoftBlockStatus(Integer serviceId){
+        Service service = getById(serviceId);
+        ServiceInternet serviceInternet = (ServiceInternet)service;
+        serviceInternet.setSoftblock(!serviceInternet.getSoftblock());
+        update(service);
+    }
+
 }

@@ -6,8 +6,18 @@ $(function() {
     $("li").removeClass('active');
     renderAccountsTable(pageResults, 1);
     hideShowLegalAddress();
-});
+    $("[name='softblock']").bootstrapSwitch();
 
+
+    $('input[name="softblock"]').on('switchChange.bootstrapSwitch', function() {
+        $.ajax({
+            url: '/changeSoftBlockStatus?serviceId='+this.id,
+            type: "get",
+            dataType: "json"
+        });
+    });
+
+});
 
 $(document).on("click", ".pushEdit", function () {
     console.log("pushEdit push");
@@ -125,7 +135,6 @@ $(document).ready(function() {
     });
 });
 
-
 $(document).ready(function() {
     $('#phyAddressStreet').typeahead({
         onSelect: function(item) {
@@ -239,5 +248,3 @@ function hideShowLegalAddress(){
         $("#legAddrBlock").show();
     }
 }
-
-
