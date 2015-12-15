@@ -27,4 +27,17 @@ public class Street extends CommonDomainBean {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Street)) return false;
+
+        Street street = (Street) o;
+        return !(name != null ? !name.equals(street.name) : street.name != null);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }

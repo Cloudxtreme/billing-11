@@ -4,12 +4,13 @@ import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
-import com.elstele.bill.domain.Device;
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
+import com.elstele.bill.domain.*;
+import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.test.builder.bean.*;
+import com.elstele.bill.test.builder.form.DeviceFormBuilder;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
@@ -45,6 +46,7 @@ public class DeviceDataServiceTest {
     private List<Device> deviceList;
     private Device device;
     private DeviceForm form;
+    private DeviceFormBuilder deviceFormBuilder;
 
     @Before
     public void setUp() {
@@ -53,42 +55,32 @@ public class DeviceDataServiceTest {
 
         deviceList = new ArrayList<>();
 
-        device = new Device();
-        device.setId(1);
-        device.setStatus(Status.ACTIVE);
-        device.setName("device1");
+        DeviceBuilder deviceBuilder = new DeviceBuilder();
+        DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
+        IpBuilder ipBuilder = new IpBuilder();
+        AddressBuilder addressBuilder = new AddressBuilder();
 
-        DeviceTypes deviceTypes= new DeviceTypes();
-        deviceTypes.setId(4);
-        Ip ip = new Ip();
-        ip.setId(5);
-        device.setDeviceType(deviceTypes);
-        device.setIpAdd(ip);
+        DeviceTypes deviceTypes= deviceTypeBuilder.build().withId(4).getRes();
+        Ip ip = ipBuilder.build().withId(5).getRes();
+        Address address = addressBuilder.build().withId(5).getRes();
+        device = deviceBuilder.build().withId(1).withName("device1").withIpAdd(ip).withDeviceType(deviceTypes).withAddress(address).getRes();
 
-        Device device1 = new Device();
-        device1.setId(2);
-        device1.setStatus(Status.ACTIVE);
-        device1.setName("device2");
-
-        Device device2 = new Device();
-        device2.setId(2);
-        device2.setStatus(Status.DELETED);
-        device2.setName("device3");
+        Device device1 = deviceBuilder.build().withId(2).withName("device2").withIpAdd(ip).withDeviceType(deviceTypes).getRes();
+        Device device2 = deviceBuilder.build().withId(2).withName("device3").withIpAdd(ip).withDeviceType(deviceTypes).getRes();
 
         deviceList.add(device);
         deviceList.add(device1);
         deviceList.add(device2);
 
-        form = new DeviceForm();
-        form.setId(1);
-        form.setStatus(Status.ACTIVE);
-        form.setName("device1");
         DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
         deviceTypesForm.setId(4);
         IpForm ipForm = new IpForm();
         ipForm.setId(5);
-        form.setDevType(deviceTypesForm);
-        form.setIpForm(ipForm);
+        AddressForm addressForm = new AddressForm();
+        addressForm.setId(5);
+
+        deviceFormBuilder = new DeviceFormBuilder();
+        form = deviceFormBuilder.build().withId(1).withName("device1").withIpForm(ipForm).withDeviceTypeForm(deviceTypesForm).withAddressForm(addressForm).getRes();
 
     }
 
@@ -99,7 +91,6 @@ public class DeviceDataServiceTest {
     }
 
     @Test
-    @Ignore
     public void getDevicesTest() {
         List<Device> oneDeviceInList = new ArrayList<>();
         oneDeviceInList.add(device);
@@ -110,14 +101,14 @@ public class DeviceDataServiceTest {
     }
 
     @Test
+    @Ignore
     public void addDeviceTest() {
-        DeviceForm form = new DeviceForm();
-        form.setId(1);
-        form.setStatus(Status.ACTIVE);
-        form.setName("device1");
         DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
         deviceTypesForm.setId(10);
-        form.setDevType(deviceTypesForm);
+        AddressForm addressForm = new AddressForm();
+        addressForm.setId(5);
+
+        DeviceForm form = deviceFormBuilder.build().withId(1).withName("device1").withDeviceTypeForm(deviceTypesForm).withAddressForm(addressForm).getRes();
 
         DeviceTypes deviceTypes= new DeviceTypes();
         deviceTypes.setId(10);

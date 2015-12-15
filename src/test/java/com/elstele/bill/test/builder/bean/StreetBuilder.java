@@ -12,6 +12,7 @@ public class StreetBuilder implements TestObjectCreator<StreetBuilder, Street>{
 
     private SecureRandom random = new SecureRandom();
     private Street street;
+    private Integer id;
 
     public StreetBuilder build(){
         street = new Street();
@@ -20,6 +21,10 @@ public class StreetBuilder implements TestObjectCreator<StreetBuilder, Street>{
 
     public StreetBuilder withName(String name){
         street.setName(name);
+        return this;
+    }
+    public StreetBuilder withId(Integer id){
+        street.setId(id);
         return this;
     }
 
