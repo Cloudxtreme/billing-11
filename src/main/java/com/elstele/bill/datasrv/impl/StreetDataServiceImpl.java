@@ -3,7 +3,6 @@ package com.elstele.bill.datasrv.impl;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.Street;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,35 +14,34 @@ public class StreetDataServiceImpl implements StreetDataService {
     @Autowired
     StreetDAO streetDAO;
 
-    public static List<Street> streetsList = new ArrayList<>();
-    private static List<Street> listToReturn = new ArrayList<>();
+    private List<Street> streetsList = Collections.emptyList();
 
     @Override
     @Transactional
     public List<Street> getListOfStreets(String query) {
         checkIsListEmpty();
-        listToReturn.clear();
-        putToTheReturnList(query);
-        return listToReturn;
+        return putToTheReturnList(query);
     }
 
     private void checkIsListEmpty(){
         if(streetsList.isEmpty()){
-            reWriteList();
+            streetsList = streetDAO.getListOfStreets();
         }
     }
 
     @Override
-    public void reWriteList(){
-        streetsList = streetDAO.getListOfStreets();
+    public void clearStreetsList(){
+        streetsList.clear();
     }
 
-    private void putToTheReturnList(String query){
+    private List<Street> putToTheReturnList(String query){
+        List<Street> listToReturn = new ArrayList<>();
         for(Street street : streetsList){
             if(street.getName().toLowerCase().contains(query.toLowerCase())){
                 listToReturn.add(street);
             }
         }
+        return listToReturn;
     }
 
 }
