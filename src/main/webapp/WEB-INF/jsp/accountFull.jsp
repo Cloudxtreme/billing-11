@@ -13,17 +13,12 @@
     <title>Account Detail</title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
-    <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
-    <link href="${bootstrapSwitch}" rel="stylesheet"/>
-
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
     <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
     <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
-    <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
-    <script src="${jBootstrapSwitch}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 </head>
 <body>
@@ -49,7 +44,8 @@
 
                 <div id="generalBlock" class="col-lg-6">
                     <div class="col-lg-12">
-                        <div class="panel panel-default">
+                        <label class="">&nbsp;</label>
+                        <div class="panel panel-default  ">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Общие данные</h3>
                             </div>
@@ -77,9 +73,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="addressBlock" class="col-lg-6">
-                    <div id="phyAddrBlock" class="col-lg-6 margin-top-cancel">
+
+                    <%--Physical Address--%>
+                    <div id="phyAddrBlock" class="col-lg-6">
+                        <form:input path="phyAddress.id" id="id" type="hidden"/>
+                        <%--<form:input path="phyAddress.status" id="status" type="hidden"/>--%>
+
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Физический Адрес</h3>
@@ -90,7 +89,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
                                                     data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
-                                        <form:input path="phyAddress.id" id="phyAddressStreetId" type="hidden"/>
+                                        <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -107,10 +106,11 @@
                                 </div>
                             </div>
                         </div>
-                        <form:input path="phyAddress.id" id="id" type="hidden"/>
                     </div>
 
-                    <div id="legAddrBlock" class="col-lg-6 margin-top-cancel">
+                    <div id="legAddrBlock" class="col-lg-6">
+                        <form:input path="legalAddress.id" id="id" type="hidden"/>
+                       <%-- <form:input path="legalAddress.status" id="status" type="hidden"/>--%>
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Юридический Адрес</h3>
@@ -121,7 +121,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
                                                     data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
-                                        <form:input path="legalAddress.id" id="legalAddressStreetId" type="hidden"/>
+                                        <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -138,10 +138,10 @@
                                 </div>
                             </div>
                         </div>
-                        <form:input path="legalAddress.id" id="id" type="hidden"/>
                     </div>
                 </div>
-                <div id="serviceBlock" class="col-lg-12">
+
+                <div id="serviceBlock" class="col-lg-6">
                     <label class="">&nbsp;</label>
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -155,11 +155,9 @@
                                     <th>&nbsp;</th>
                                     <th>Service</th>
                                     <th>Details</th>
-                                    <th>SoftBlock</th>
                                     <th>Start Date</th>
                                     <th>Period</th>
                                     <th>Price</th>
-                                    <th>Status</th>
                                 </tr>
 
                                 <c:forEach items="${accountForm.serviceForms}" var="accountService">
@@ -175,27 +173,16 @@
                                                 <c:choose>
                                                     <c:when test="${accountService.serviceType.serviceType == 'INTERNET'}">
                                                         login: ${accountService.serviceInternet.username}<br>
-                                                        ip: ${accountService.serviceInternet.ip.ipName}<br>
+                                                        pass: ${accountService.serviceInternet.password}<br>
                                                     </c:when>
                                                     <c:when test="${accountService.serviceType.serviceType == 'PHONE'}">
                                                         ${accountService.servicePhone.phoneNumber}
                                                     </c:when>
                                                 </c:choose>
                                             </td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${accountService.serviceInternet.softblock == true}">
-                                                        <input id="${accountService.id}" name="softblock" type="checkbox" checked data-size="mini">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input id="${accountService.id}" name="softblock" type="checkbox" data-size="mini">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                                             <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>
-                                            <td>${accountService.serviceType.status}</td>
                                         </tr>
                                     </label>
                                 </c:forEach>

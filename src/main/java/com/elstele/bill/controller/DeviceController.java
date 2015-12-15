@@ -4,17 +4,20 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
+import org.hibernate.AssertionFailure;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -92,28 +95,22 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
-    public String addOrUpdateDeviceFromForm(DeviceForm deviceForm) {
-        String result;
-        try {
-            if (deviceForm.getId() == null) {
-                deviceDataService.addDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            } else {
-                deviceDataService.updateDevice(deviceForm);
-                ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            }
-            result = "redirect:/device.html";
-        } catch (Exception e) {
-            System.out.println(e);
-            result = "redirect:/404.html";
+    public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
+        if (deviceForm.getId() == null) {
+            deviceDataService.addDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
+        } else {
+            deviceDataService.updateDevice(deviceForm);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
+            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
         }
-        return result;
-
+        return "redirect: /device.html";
     }
 
     @RequestMapping(value = "/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax deleteDevice(@RequestBody String json){
+    public ResponseToAjax deleteDevice(@RequestBody String json) {
         Integer deviceId = Integer.parseInt(json);
         return deviceDataService.deleteDevice(deviceId);
     }
@@ -169,7 +166,7 @@ public class DeviceController {
     }
 
 
-    @RequestMapping(value = "/getValidIps", method = RequestMethod.POST)
+    @RequestMapping(value = "**/getValidIps", method = RequestMethod.POST)
     @ResponseBody
     public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json) {
         Integer id = Integer.parseInt(json);
@@ -182,7 +179,7 @@ public class DeviceController {
         return ipMap;
     }
 
-    @RequestMapping(value = "returniplist", method = RequestMethod.GET)
+    @RequestMapping(value = "**/returniplist", method = RequestMethod.GET)
     @ResponseBody
     public Map<Integer, String> ipAddressListReturn() {
         List<IpForm> ipForms = ipDataService.getIpAddressList();
@@ -194,16 +191,4 @@ public class DeviceController {
         return ipMap;
     }
 
-    //TODO move this method to separate service
-    @RequestMapping(value="**/getListOfStreets", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Street> getListOfStreets(@RequestParam(value = "query") String query, HttpServletRequest request) {
-        List<String> result = new ArrayList<>();
-        result.add("���������");
-        result.add("�����������");
-        result.add("����������");
-        result.add("����������");
-        result.add(query);
-        return deviceDataService.getStreets(query);
-    }
 }

@@ -31,6 +31,19 @@
         <div id="succesMessage" class="alert alert-success" style="display: none">
             <strong>Great. Nice job!</strong>
         </div>
+        <div id="messagesDiv">
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success" role="alert">
+                    <strong>${successMessage}</strong>
+                </div>
+            </c:if>&nbsp;
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger" role="alert">
+                    <strong>${errorMessage}</strong>
+                </div>
+            </c:if>
+        </div>
+        &nbsp;
 
 
         <table class="table table-striped" id='table'>
@@ -94,6 +107,11 @@
                 } else {
                     alert("Thats right decision");
                 }
+            });
+            $(document).ready(function(){
+                setTimeout(function(){
+                    $('.alert').fadeOut(5000);
+                })
             });
         </script>
 

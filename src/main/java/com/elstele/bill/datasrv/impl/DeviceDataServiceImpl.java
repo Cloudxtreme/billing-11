@@ -7,13 +7,15 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
-import com.elstele.bill.domain.Street;
+import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     private StreetDAO streetDAO;
     @Autowired
     IpDataService ipDataService;
+    @Autowired
+    StreetDataService streetDataService;
     final static Logger log = LogManager.getLogger(DeviceDataServiceImpl.class);
 
     @Override
@@ -55,10 +59,50 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Override
     @Transactional
     public Integer addDevice(DeviceForm deviceForm) {
+        gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
-        return deviceDAO.create(device);
+        try{
+            int creatingId = deviceDAO.create(device);
+            updateStreetListAfterInsert(deviceForm);
+            return creatingId;
+        } catch (ConstraintViolationException e){
+            log.error(e + " Method addDevice");
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateDevice(DeviceForm deviceForm) {
+        try {
+            gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
+            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
+            Device bean = assembler.fromFormToBean(deviceForm);
+            deviceDAO.update(bean);
+            updateStreetListAfterInsert(deviceForm);
+        }catch(HibernateException e ){
+            log.error(e + " Method updateDevice");
+        }
+    }
+
+    public void gettingCorrectIDForCurrentFormAndCurrentStreet(DeviceForm deviceForm){
+        if(deviceForm.getDeviceAddressForm().getStreetId() == null){
+            String streetNameFromForm = deviceForm.getDeviceAddressForm().getStreet();
+            Integer streetIdFromDB = streetDAO.getStreetIDByStreetName(streetNameFromForm);
+            if(streetIdFromDB != null){
+                deviceForm.getDeviceAddressForm().setStreetId(streetIdFromDB);
+            }
+        }
+    }
+
+    public void updateStreetListAfterInsert(DeviceForm form){
+        Integer id = form.getDeviceAddressForm().getStreetId();
+        String streetName = form.getDeviceAddressForm().getStreet();
+        if(id == null && !streetName.isEmpty()){
+            streetDataService.clearStreetsList();
+        }
     }
 
     @Override
@@ -95,20 +139,6 @@ public class DeviceDataServiceImpl implements DeviceDataService {
                 freePorts.add(i);
         }
         return freePorts;
-    }
-
-    @Override
-    @Transactional
-    public void updateDevice(DeviceForm deviceForm) {
-        DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
-        Device bean = assembler.fromFormToBean(deviceForm);
-        deviceDAO.update(bean);
-    }
-
-    @Override
-    @Transactional
-    public List<Street> getStreets(String query) {
-        return streetDAO.getListOfStreets(query);
     }
 
 }
