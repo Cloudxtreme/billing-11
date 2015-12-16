@@ -14,6 +14,8 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
     <script src="${typeahead}"></script>
+    <spring:url value="/resources/js/adddevice.js" var="adddevice" />
+    <script src="${adddevice}"></script>
 
 </head>
 <body>
@@ -92,7 +94,7 @@
                       <form:input path="deviceAddressForm.id" id="id" type="hidden"/>
                       <div class="col-md-8">
                           <label for="streets" class="col-lg-5 control-label">Street</label>
-                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Street"/>
+                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
                           <form:input path="deviceAddressForm.streetId" id="streetId" type="hidden"/>
                       </div>
                       <div class = "col-md-2">
@@ -134,55 +136,6 @@
                   </div>
               </div>
 
-              <script type="text/javascript">
-
-                document.getElementById('chkNet').onchange = function() {
-                    if ( document.getElementById('chkNet').checked ) {
-                        document.getElementById('ipNetDiv').style.visibility = 'visible'
-                    } else {
-                        document.getElementById('ipNetDiv').style.visibility = 'hidden'
-
-                        console.log(this);
-                        $.ajax({
-                            type: "get",
-                            url: "${pageContext.request.contextPath}/returniplist",
-                            //data: $('#ipNet').val(),
-                            datatype: "JSON",
-                            contentType: "application/json",
-                            success: function (data) {
-                                $('#ip').html('');
-                                var option_html = '';
-                                $.each(data, function(key, value) {
-                                    $('#ip').append('<option value="'+key+'">'+value+'</option>');
-                                });
-                            }
-                        });
-                    }
-                };
-
-                $(document).ready(function() {
-                    $('#streets').typeahead({
-                        onSelect: function(item) {
-                            console.log(item);
-                            $('#streetId').val(item.value);
-                        },
-                        ajax: {
-                            url: ".././getListOfStreets.html",
-                            timeout: 500,
-                            displayField: "name",
-                            triggerLength: 1,
-                            method: "get",
-                            loadingClass: "loading-circle"
-
-                        }
-                    });
-                })
-
-              </script>
-
-
-
-
               <div class="form-group" style="visibility: hidden" id="ipNetDiv">
                   <label for="ipNet" class="col-lg-5 control-label">IpNet</label>
                   <div class="col-lg-9">
@@ -192,43 +145,11 @@
                   </div>
               </div>
 
-              <script type="text/javascript">
-                  $(function() {
-                      $("li").removeClass('active');
-                      $("#linkToUtils").addClass('selected');
-                      $("#linkToDeviceList").addClass('active');
-                  });
-
-
-                  $('#ipNet').on('change', function() {
-                      console.log(this);
-                      $.ajax({
-                          type: "POST",
-                          url: "${pageContext.request.contextPath}/getValidIps",
-                          data: $('#ipNet').val(),
-                          datatype: "JSON",
-                          contentType: "application/json",
-                          success: function (data) {
-                              $('#ip').html('');
-                              var option_html = '';
-                              $.each(data, function(key, value) {
-                                  $('#ip').append('<option value="'+key+'">'+value+'</option>');
-                              });
-                          }
-                      });
-                  });
-
-              </script>
-
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                  <button type="reset" class="btn btn-default" onclick=redirectToDevicePage();>Cancel</button>
-                  <script type="text/javascript">
-                     function redirectToDevicePage(){
-                          window.location="${pageContext.request.contextPath}/device.html";
-                      }
-                  </script>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" id = "declineForm" class="btn btn-default"
+                          onclick="window.location.href='/device.html'">Cancel</button>
+                  <button id="submitForm" type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
 

@@ -105,6 +105,11 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function(){
+    setTimeout(function(){
+        $('.alert').fadeOut(5000);
+    })
+});
 
 $(document).ready(function() {
     $('#accauntSaveBut').click(function(e) {
@@ -125,43 +130,81 @@ $(document).ready(function() {
     });
 });
 
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
 
 $(document).ready(function() {
+    var obj = {
+        value: $('#phyAddressStreetId').val(),
+        text: $('#phyAddressStreet').val()
+    };
     $('#phyAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
             $('#phyAddressStreetId').val(item.value);
+            obj = item;
         },
         ajax: {
             url: ".././getListOfStreets.html",
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }
     });
-})
+
+    $('#fullAccountForm').submit(function(){
+        var valueId = $('#phyAddressStreetId').val();
+        console.log(valueId);
+        var valueName = $('#phyAddressStreet').val();
+        console.log(valueName);
+        if(obj.value == valueId && valueName != obj.text){
+            $('#phyAddressStreetId').val('');
+            var capitalizeVal = $('#phyAddressStreet').val().capitalize();
+            $('#phyAddressStreet').val(capitalizeVal);
+        }
+    });
+});
 
 
 $(document).ready(function() {
+    var obj1 = {
+        value: $('#legalAddressStreetId').val(),
+        text: $('#legalAddressStreet').val()
+    };
     $('#legalAddressStreet').typeahead({
         onSelect: function(item) {
             console.log(item);
             $('#legalAddressStreetId').val(item.value);
+            obj1 = item;
         },
         ajax: {
             url: ".././getListOfStreets.html",
             timeout: 500,
             displayField: "name",
             triggerLength: 1,
-            method: "get",
+            method: "post",
             loadingClass: "loading-circle"
 
         }
     });
+
+    $('#fullAccountForm').submit(function(){
+        var valueId = $('#legalAddressStreetId').val();
+        console.log(valueId);
+        var valueName = $('#legalAddressStreet').val();
+        console.log(valueName);
+        if(obj1.value == valueId && valueName != obj1.text){
+            $('#legalAddressStreetId').val('');
+            var capitalizeVal = $('#legalAddressStreet').val().capitalize();
+            $('#legalAddressStreet').val(capitalizeVal);
+        }
+    });
 })
+
 
 
 function hideModalAddAccount(){

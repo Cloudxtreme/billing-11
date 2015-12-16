@@ -12,9 +12,17 @@ import java.util.List;
 public class StreetDAOImpl extends CommonDAOImpl<Street> implements StreetDAO {
 
     @Override
-    public List<Street> getListOfStreets(String query){
+    public List<Street> getListOfStreets(){
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("from Street");
         return q.list();
+    }
+
+    @Override
+    public Integer getStreetIDByStreetName(String streetName){
+        Query q = getSessionFactory().getCurrentSession().
+                createQuery("select s.id from Street s where s.name = :streetName");
+        q.setParameter("streetName", streetName);
+        return (Integer)q.uniqueResult();
     }
 }

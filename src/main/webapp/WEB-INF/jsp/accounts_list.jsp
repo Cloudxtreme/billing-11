@@ -23,6 +23,19 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well">
+    <div id="messagesDiv">
+        <c:if test="${not empty successMessage}">
+        <div class="alert alert-success" role="alert">
+            <strong>${successMessage}</strong>
+        </div>
+        </c:if>&nbsp;
+        <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger" role="alert">
+            <strong>${errorMessage}</strong>
+        </div>
+        </c:if>
+    </div>&nbsp;
+
     <a href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal">Create New Account</a>
     <div id="accAccountModal" class="modal fade">
     <div class="modal-dialog modal-lg">
