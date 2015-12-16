@@ -82,7 +82,8 @@ public class CallsContoller {
     private int determineTotalPagesForOutput(CallsRequestParamTO callsRequestParamTO) {
         int callsCount = 0;
         if (callsRequestParamTO.getStartDate() == null && callsRequestParamTO.getEndDate() == null &&
-                callsRequestParamTO.getCallNumberA() == null && callsRequestParamTO.getCallNumberB() == null) {
+                (callsRequestParamTO.getCallNumberA() == null || callsRequestParamTO.getCallNumberA().isEmpty())
+                && (callsRequestParamTO.getCallNumberB() == null || callsRequestParamTO.getCallNumberB().isEmpty())) {
             callsCount = callDataService.getCallsCount();
         } else {
             callsCount = callDataService.getCallsCountWithSearchValues(callsRequestParamTO);

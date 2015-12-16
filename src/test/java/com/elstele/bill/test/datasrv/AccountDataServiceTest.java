@@ -4,6 +4,8 @@ import com.elstele.bill.dao.impl.AccountDAOImpl;
 import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.form.AccountForm;
+import com.elstele.bill.test.builder.bean.AccountBuilder;
+import com.elstele.bill.test.builder.form.AccountFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
@@ -32,31 +34,24 @@ public class AccountDataServiceTest {
     private List<Account> accounts;
     private Account accountSample;
 
+    private AccountBuilder accountBuilder;
+    private AccountFormBuilder accountFormBuilder;
+
     @Before
     public void setUp(){
         accountDataService = new AccountDataServiceImpl();
         MockitoAnnotations.initMocks(this);
+        accountBuilder = new AccountBuilder();
+        accountFormBuilder = new AccountFormBuilder();
 
         accounts = new ArrayList<Account>();
 
-        Account ac1 = new Account();
-        ac1.setAccountName("ACC_001");
-        ac1.setCurrentBalance(20F);
-        ac1.setAccountType(Constants.AccountType.PRIVATE);
-        ac1.setStatus(Status.ACTIVE);
-        ac1.setId(10);
-
-        Account ac2 = new Account();
-        ac2.setAccountName("ACC_002");
-        ac2.setCurrentBalance(50.0F);
-        ac2.setAccountType(Constants.AccountType.LEGAL);
-        ac2.setStatus(Status.ACTIVE);
-        ac2.setId(20);
+        Account ac1 = accountBuilder.build().withAccName("ACC_001").withBalance(20F).withAccType(Constants.AccountType.PRIVATE).withId(10).getRes();
+        Account ac2 = accountBuilder.build().withAccName("ACC_002").withBalance(50.0F).withAccType(Constants.AccountType.LEGAL).withId(20).getRes();
 
         accountSample = ac1;
         accounts.add(ac1);
         accounts.add(ac2);
-
     }
 
     @After
@@ -69,19 +64,8 @@ public class AccountDataServiceTest {
     public void testFetchingListOfAccounts(){
         when(accountDAO.getAccountList()).thenReturn(accounts);
 
-        AccountForm af1 = new AccountForm();
-        af1.setAccountName("ACC_001");
-        af1.setCurrentBalance(20F);
-        af1.setAccountType(Constants.AccountType.PRIVATE);
-        af1.setStatus(Status.ACTIVE);
-        af1.setId(10);
-
-        AccountForm af2 = new AccountForm();
-        af2.setAccountName("ACC_002");
-        af2.setCurrentBalance(50.0F);
-        af2.setAccountType(Constants.AccountType.LEGAL);
-        af2.setStatus(Status.ACTIVE);
-        af2.setId(20);
+        AccountForm af1 = accountFormBuilder.build().withAccName("ACC_001").withBalance(20F).withAccType(Constants.AccountType.PRIVATE).withId(10).getRes();
+        AccountForm af2 = accountFormBuilder.build().withAccName("ACC_002").withBalance(50.0F).withAccType(Constants.AccountType.LEGAL).withId(20).getRes();
 
         List<AccountForm> formList = accountDataService.getAccountsList();
         assertTrue(formList.contains(af1));
@@ -92,12 +76,7 @@ public class AccountDataServiceTest {
     @Test
     public void testFetchingAccountById(){
         when(accountDAO.getById(10)).thenReturn(accountSample);
-        AccountForm af1 = new AccountForm();
-        af1.setAccountName("ACC_001");
-        af1.setCurrentBalance(20F);
-        af1.setAccountType(Constants.AccountType.PRIVATE);
-        af1.setStatus(Status.ACTIVE);
-        af1.setId(10);
+        AccountForm af1 = accountFormBuilder.build().withAccName("ACC_001").withBalance(20F).withAccType(Constants.AccountType.PRIVATE).withId(10).getRes();
 
         AccountForm target = accountDataService.getAccountById(10);
         assertTrue(target.equals(af1));
