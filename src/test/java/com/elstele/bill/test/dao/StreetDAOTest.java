@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Ignore
 public class StreetDAOTest {
 
     @Autowired
@@ -38,10 +37,6 @@ public class StreetDAOTest {
 
     @Before
     public void setUp(){
-        String hql = String.format("delete from Street");
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.executeUpdate();
-
         StreetBuilder builder = new StreetBuilder();
         street = builder.build().withRandomName().getRes();
         street1 = builder.build().withRandomName().getRes();

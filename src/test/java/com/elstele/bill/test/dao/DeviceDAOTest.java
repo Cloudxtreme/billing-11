@@ -28,7 +28,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
@@ -51,19 +50,14 @@ public class DeviceDAOTest {
 
     @Before
     public void setUp(){
-        /*String hql = String.format("delete from Device");
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.executeUpdate();*/
-
         DeviceBuilder deviceBuilder = new DeviceBuilder();
         DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
         IpBuilder ipBuilder = new IpBuilder();
-        IpSubnetBuilder ipSubnetBuilder = new IpSubnetBuilder();
 
         DeviceTypes types1 = deviceTypeBuilder.build().getRes();
         deviceTypesDAO.save(types1);
 
-        IpSubnet subnet = ipSubnetBuilder.build().getRes();
+        IpSubnet subnet = new IpSubnet();
         ipSubnetDAO.save(subnet);
 
         Ip ip1 = ipBuilder.build().withIpSubnet(subnet).getRes();
