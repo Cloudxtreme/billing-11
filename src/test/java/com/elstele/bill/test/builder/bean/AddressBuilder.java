@@ -28,6 +28,10 @@ public class AddressBuilder implements TestObjectCreator<AddressBuilder, Address
         return this.getRes();
     }
 
+    public AddressBuilder withId(Integer id){
+        address.setId(id);
+        return this;
+    }
 
     public AddressBuilder withBuilding(String building){
         address.setBuilding(building);

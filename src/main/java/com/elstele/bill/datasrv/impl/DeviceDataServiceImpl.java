@@ -8,7 +8,6 @@ import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -102,7 +101,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         Integer id = form.getDeviceAddressForm().getStreetId();
         String streetName = form.getDeviceAddressForm().getStreet();
         if(id == null && !streetName.isEmpty()){
-            streetDataService.reWriteList();
+            streetDataService.clearStreetsList();
         }
     }
 

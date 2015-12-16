@@ -1,6 +1,7 @@
 package com.elstele.bill.form;
 
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.Status;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +21,8 @@ public class ServiceTypeForm {
     private String serviceType;
 
     private Constants.AccountType bussType;
+
+    private Status status;
 
     public Integer getId() {
         return id;
@@ -72,6 +75,14 @@ public class ServiceTypeForm {
 
     public void setBussType(Constants.AccountType bussType) {
         this.bussType = bussType;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

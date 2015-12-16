@@ -25,41 +25,41 @@ import java.util.*;
 @Controller
 public class DeviceController {
 
-    @Autowired
-    private DeviceDataService deviceDataService;
+            @Autowired
+            private DeviceDataService deviceDataService;
 
-    @Autowired
-    private DeviceTypesDataService deviceTypesDataService;
+            @Autowired
+            private DeviceTypesDataService deviceTypesDataService;
 
-    @Autowired
-    private IpDataService ipDataService;
+            @Autowired
+            private IpDataService ipDataService;
 
-    @Autowired
-    private IpSubnetDataService ipSubnetDataService;
-
-
-    @ModelAttribute("deviceTypeModalForm")
-    public DeviceTypesForm addDeviceType() {
-        return new DeviceTypesForm();
-    }
+            @Autowired
+            private IpSubnetDataService ipSubnetDataService;
 
 
-    @RequestMapping(value = "/device", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView getDeviceList() {
-        List<DeviceForm> result = deviceDataService.getDevices();
-        ModelAndView mav = new ModelAndView("device");
-        mav.addObject("list", result);
-        return mav;
-    }
+            @ModelAttribute("deviceTypeModalForm")
+            public DeviceTypesForm addDeviceType() {
+                return new DeviceTypesForm();
+            }
 
-    @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView getDeviceTypeList() {
-        List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
-        ModelAndView model = new ModelAndView("devicetypelist");
-        model.addObject("devicetypelist", devType);
-        return model;
+
+            @RequestMapping(value = "/device", method = RequestMethod.GET)
+            @ResponseBody
+            public ModelAndView getDeviceList() {
+                List<DeviceForm> result = deviceDataService.getDevices();
+                ModelAndView mav = new ModelAndView("device");
+                mav.addObject("list", result);
+                return mav;
+            }
+
+            @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
+            @ResponseBody
+            public ModelAndView getDeviceTypeList() {
+                List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
+                ModelAndView model = new ModelAndView("devicetypelist");
+                model.addObject("devicetypelist", devType);
+                return model;
     }
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.GET)

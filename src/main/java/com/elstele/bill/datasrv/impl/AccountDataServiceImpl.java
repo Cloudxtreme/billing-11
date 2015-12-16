@@ -127,7 +127,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         String legalStreet = form.getLegalAddress().getStreet();
 
         if((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())){
-            streetDataService.reWriteList();
+            streetDataService.clearStreetsList();
         }
     }
 

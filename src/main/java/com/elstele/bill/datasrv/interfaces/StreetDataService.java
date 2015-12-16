@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StreetDataService {
     public List<Street> getListOfStreets(String query);
-    public void reWriteList();
+    public void clearStreetsList();
 }

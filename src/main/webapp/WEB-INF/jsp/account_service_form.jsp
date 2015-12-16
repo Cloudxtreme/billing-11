@@ -109,6 +109,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="softblock" class="col-lg-3 control-label">SoftBlock</label>
+                    <div class="col-lg-9">
+                        <form:checkbox path="serviceInternet.softblock" class="form-control fix-10px-width" id="softblock"/>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="macaddress" class="col-lg-3 control-label">MacAddress</label>
                     <div class="col-lg-9">
                         <form:input path="serviceInternet.macaddress" class="form-control" id="macaddress" placeholder="MacAddress"/>

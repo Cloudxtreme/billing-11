@@ -90,6 +90,8 @@ public class DeviceForm {
         if (devType != null ? !devType.equals(that.devType) : that.devType != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (community != null ? !community.equals(that.community) : that.community != null) return false;
+        if (deviceAddressForm != null ? !deviceAddressForm.equals(that.deviceAddressForm) : that.deviceAddressForm != null)
+            return false;
         return !(ipForm != null ? !ipForm.equals(that.ipForm) : that.ipForm != null);
 
     }

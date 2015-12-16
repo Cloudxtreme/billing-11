@@ -74,7 +74,7 @@ public class Service extends CommonDomainBean{
         Service service = (Service) o;
 
         //TODO change this evaluation
-        if (account != null  && service.getId() != null &&
+        if (account != null  &&
                 (account.getId() != null ? !account.getId().equals(service.account.getId()) : service.account.getId() != null)) {
             return false;
         }

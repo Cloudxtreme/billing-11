@@ -19,4 +19,23 @@ public class StreetForm {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StreetForm)) return false;
+
+        StreetForm that = (StreetForm) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        return result;
+    }
 }

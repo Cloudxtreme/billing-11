@@ -6,6 +6,7 @@ import com.elstele.bill.domain.Call;
 import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
+import com.elstele.bill.test.builder.bean.CallBuilder;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -49,56 +50,56 @@ public class CallDAOTest {
 
     @Before
     public void setUp() {
+        CallBuilder builder= new CallBuilder();
+
         startDate = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
         c.add(Calendar.DATE, 1);
         endDate = c.getTime();
 
-        call = new Call();
-        call.setStatus(Status.ACTIVE);
-        call.setAonKat("1");
-        call.setCallDirectionId(11);
-        call.setCostPref(22.11f);
-        call.setCostRegular(99.33f);
-        call.setCostTotal(113.111f);
-        call.setDuration(122l);
-        call.setDvoCodeA("01");
-        call.setDvoCodeB("02");
-        call.setIkNum("123456789");
-        call.setInputTrunk("01");
-        call.setNumberA("1111111");
-        call.setNumberB("8888888");
-        call.setOutputTrunk("05");
-        call.setStartTime(startDate);
+        call = builder.build()
+                .withAonKat("1")
+                .withCallDirectionId(11)
+                .withCostPref(22.11f)
+                .withCostRegular(99.33f)
+                .withCostTotal(113.111f)
+                .withDuration(1221)
+                .withDvoCodeA("01")
+                .withDvoCodeB("02")
+                .withIkNum("123456789")
+                .withInputTrunk("01")
+                .withNumberA("1111111")
+                .withNumberB("8888888")
+                .randomNumberB()
+                .withOutputTrunk("05")
+                .withStartTime(startDate)
+                .getRes();
 
         expectedList.add(call.getNumberA());
         callDAO.save(call);
 
-        call1 = new Call();
-        call1.setStatus(Status.ACTIVE);
-        call1.setAonKat("2");
-        call1.setCallDirectionId(9);
-        call1.setCostPref(22.11f);
-        call1.setCostRegular(99.33f);
-        call1.setCostTotal(113.111f);
-        call1.setDuration(122l);
-        call1.setDvoCodeA("02");
-        call1.setDvoCodeB("03");
-        call1.setIkNum("987654321");
-        call1.setInputTrunk("02");
-        call1.setNumberA("2222222");
-        call1.setNumberB("9999999");
-        call1.setOutputTrunk("014");
-        call1.setStartTime(startDate);
+        call1 = builder.build()
+                .withAonKat("2")
+                .withCallDirectionId(9)
+                .withCostPref(22.11f)
+                .withCostRegular(99.33f)
+                .withCostTotal(113.111f)
+                .withDuration(1221)
+                .withDvoCodeA("02")
+                .withDvoCodeB("03")
+                .withIkNum("987654321")
+                .withInputTrunk("02")
+                .withNumberA("2222222")
+                .withNumberB("9999999")
+                .withOutputTrunk("014")
+                .withStartTime(startDate)
+                .getRes();
 
         expectedList.add(call1.getNumberA());
         callDAO.save(call1);
 
-        call2 = new Call();
-        call2.setNumberA("7895111");
-        call2.setNumberB("0977891234");
-        call2.setStartTime(startDate);
+        call2 = builder.build().withNumberA("7895111").withNumberB("0977891234").withStartTime(startDate).getRes();
 
         localExpectedList.add(call2.getNumberA());
         call2Id = callDAO.create(call2);

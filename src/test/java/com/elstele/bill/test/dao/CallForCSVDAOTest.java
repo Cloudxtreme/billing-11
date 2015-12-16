@@ -4,6 +4,7 @@ package com.elstele.bill.test.dao;
 import com.elstele.bill.dao.impl.CallForCSVDAOImpl;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
+import com.elstele.bill.test.builder.bean.CallForCSVBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -42,35 +43,18 @@ public class CallForCSVDAOTest {
     @Before
     public void setUp() {
 
+        CallForCSVBuilder builder = new CallForCSVBuilder();
+
         startDate = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
         c.add(Calendar.DATE, 1);
         endDate = c.getTime();
 
-        call1 = new CallForCSV();
-        call1.setProvider("1");
-        call1.setCostCallTotal("100");
-        call1.setDirPrefix("00504");
-        call1.setNumberA("7890102");
-        call1.setStartTime(new Date());
-
-        call2 = new CallForCSV();
-        call2.setProvider("1");
-        call2.setCostCallTotal("200");
-        call2.setNumberA("7890012");
-        call2.setStartTime(new Date());
-
-        call3 = new CallForCSV();
-        call3.setProvider("2");
-        call3.setNumberA("7890099");
-        call3.setDirPrefix("0565");
-        call3.setStartTime(new Date());
-
-        call4 = new CallForCSV();
-        call4.setProvider("2");
-        call4.setNumberA("7890222");
-        call4.setStartTime(new Date());
+        call1 = builder.build().withProvider("1").withCostCallTotal("100").withDirPrefix("00504").withNumberA("7890102").withStartTime(startDate).getRes();
+        call2 = builder.build().withProvider("1").withCostCallTotal("200").withNumberA("7890012").withStartTime(startDate).getRes();
+        call3 = builder.build().withProvider("2").withDirPrefix("0565").withNumberA("7890099").withStartTime(startDate).getRes();
+        call4 = builder.build().withProvider("2").withNumberA("7890222").withStartTime(startDate).getRes();
 
         callForCSVDAO.save(call1);
         callForCSVDAO.save(call2);
