@@ -5,10 +5,7 @@ import com.elstele.bill.domain.Street;
 import com.elstele.bill.test.builder.bean.StreetBuilder;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,7 @@ import static org.junit.Assert.*;
 @TransactionConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore
 public class StreetDAOTest {
 
     @Autowired

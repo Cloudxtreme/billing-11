@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
@@ -50,9 +51,9 @@ public class DeviceDAOTest {
 
     @Before
     public void setUp(){
-        String hql = String.format("delete from Device");
+        /*String hql = String.format("delete from Device");
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.executeUpdate();
+        query.executeUpdate();*/
 
         DeviceBuilder deviceBuilder = new DeviceBuilder();
         DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
