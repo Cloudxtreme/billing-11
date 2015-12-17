@@ -4,10 +4,10 @@ import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import static com.elstele.bill.utils.Constants.BILLING_CALL_WORKER;
 
-@Service("billingCallWorker")
+@Service(BILLING_CALL_WORKER)
 @Scope("prototype")
-
 public class BillingCallWorker implements Runnable, Worker {
 
     @Autowired
@@ -15,10 +15,10 @@ public class BillingCallWorker implements Runnable, Worker {
 
     private Integer callId;
 
-    /*public BillingCallWorker(Integer callId){
-        System.out.println("Worker constructed with id:" + callId);
-        this.callId = callId;
-    }*/
+    @Override
+    public void setTargetId(Integer id) {
+        callId = id;
+    }
 
     public void run() {
         System.out.println("Worker runned with id:" + callId);

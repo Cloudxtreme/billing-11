@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import static com.elstele.bill.utils.Constants.BILLING_CALL_WORKER;
+
 @Service
 @Scope("singleton")
 public class BillingCallsProcessor {
@@ -58,7 +60,7 @@ public class BillingCallsProcessor {
 
     private void putCallsToExecutor(ThreadPoolExecutor executor, List<Integer> curCallIds) {
         for (Integer callId : curCallIds){
-            BillingCallWorker worker = (BillingCallWorker)workerFactory.getWorker("billingCallWorker");
+            BillingCallWorker worker = (BillingCallWorker)workerFactory.getWorker(BILLING_CALL_WORKER);
             worker.setCallId(callId);
             executor.execute(worker);
             processedCallsCounter = processedCallsCounter+1;

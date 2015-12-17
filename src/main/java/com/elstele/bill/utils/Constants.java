@@ -15,12 +15,15 @@ public class  Constants {
 
     public enum Period { WEEK, MONTH, YEAR }
 
-    public enum TransactionSource { HANDMADE, BANK }
+    public enum TransactionSource { HANDMADE, BANK, BILLING }
 
     public enum TransactionDirection { DEBIT, CREDIT }
 
     public static final String SERVICE_INTERNET = "INTERNET";
     public static final String SERVICE_PHONE = "PHONE";
     public static final String SERVICE_MARKER = "MARKER";
+
+    public static final String BILLING_SERVICE_WORKER = "billingServiceWorker";
+    public static final String BILLING_CALL_WORKER = "billingCallWorker";
 
 }

@@ -78,7 +78,6 @@ public class ServiceDataServiceImpl implements ServiceDataService {
         return deviceFreePortList;
     }
 
-    @Override
     @Transactional
     public void changeSoftBlockStatus(Integer serviceId){
         serviceDAO.changeSoftBlockStatus(serviceId);
@@ -87,5 +86,10 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Transactional
     public List<OnlineStatistic> getUsersOnline() {
         return serviceDAO.getUserOnline();
+    }
+
+    @Transactional
+    public List<Integer> listActiveServicesIds() {
+        return serviceDAO.listActiveServicesIds();
     }
 }
