@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name="Transaction")
 public class Transaction extends CommonDomainBean {
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Account account;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

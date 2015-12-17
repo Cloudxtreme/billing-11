@@ -183,14 +183,16 @@
                                                 </c:choose>
                                             </td>
                                             <td>
-                                                <c:choose>
-                                                    <c:when test="${accountService.serviceInternet.softblock == true}">
-                                                        <input id="${accountService.id}" name="softblock" type="checkbox" checked data-size="mini">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input id="${accountService.id}" name="softblock" type="checkbox" data-size="mini">
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <c:if test="${accountService.serviceType.serviceType == 'INTERNET'}">
+                                                    <c:choose>
+                                                        <c:when test="${accountService.serviceInternet.softblock == true}">
+                                                            <input id="${accountService.id}" name="softblock" type="checkbox" checked data-size="mini">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <input id="${accountService.id}" name="softblock" type="checkbox" data-size="mini">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
                                             </td>
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                                             <td>${accountService.period}</td>
@@ -204,6 +206,44 @@
                     </div>
                     <c:if test="${not empty successMessage}">
                         <div class="alert alert-info" role="alert">${successMessage}</div>
+                    </c:if>&nbsp;
+                </div>
+
+                <div id="transactionBlock" class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Транзакции
+                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accountFull" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <table id="transactionTable" class="table table-striped table-hover">
+                                <tr>
+                                    <th>Account</th>
+                                    <th>Date</th>
+                                    <th>Direction</th>
+                                    <th>Source</th>
+                                    <th>Price</th>
+                                    <th>Comment</th>
+                                </tr>
+
+                                <c:forEach items="${transactionList}" var="transaction">
+                                    <label for="${transaction.id}">
+                                        <tr id="${transaction.id}">
+                                            <td>${transaction.account.accountName}</td>
+                                            <td>${transaction.date}</td>
+                                            <td>${transaction.direction}</td>
+                                            <td>${transaction.source}</td>
+                                            <td>${transaction.price}</td>
+                                            <td>${transaction.comment}</td>
+                                        </tr>
+                                    </label>
+                                </c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                    <c:if test="${not empty successMessageTrans}">
+                        <div class="alert alert-info" role="alert">${successMessageTrans}</div>
                     </c:if>&nbsp;
                 </div>
 

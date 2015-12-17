@@ -2,6 +2,8 @@ package com.elstele.bill.controller;
 
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
+import com.elstele.bill.datasrv.interfaces.TransactionDataService;
+import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
@@ -27,8 +29,12 @@ public class AccountsController {
     @Autowired
     private AccountDataService accountDataService;
 
-    @RequestMapping(value = "/accountHome", method = RequestMethod.GET)
-    public ModelAndView handleAccountHome(HttpSession session) {
+    @Autowired
+    private TransactionDataService transactionDataService;
+
+    @RequestMapping(value="/accountHome", method = RequestMethod.GET)
+    public ModelAndView handleAccountHome(HttpSession session)
+    {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         int totalPages = determineTotalPagesForOutput();
         ModelAndView mav = new ModelAndView("accounts_list");
@@ -60,6 +66,7 @@ public class AccountsController {
     }
 
 
+
     //getAccount
     @RequestMapping(value = "/getAccount", method = RequestMethod.GET)
     @ResponseBody
@@ -89,6 +96,7 @@ public class AccountsController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(id);
         mav.addObject("accountForm", result);
+        mav.addObject("transactionList", transactionDataService.getTransactionList(id, Constants.TRANSACTION_DISPLAY_LIMIT));
         return mav;
     }
 
@@ -109,6 +117,7 @@ public class AccountsController {
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
+
         return mav;
     }
 

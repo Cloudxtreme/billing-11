@@ -21,15 +21,15 @@ public class TransactionDataServiceImpl implements TransactionDataService {
     @Override
     @Transactional
     public List<TransactionForm> getTransactionList(Integer accountId){
-        List<TransactionForm> result = new ArrayList<TransactionForm>();
-        TransactionAssembler assembler = new TransactionAssembler();
-
         List<Transaction> beans = transactionDAO.getTransactionList(accountId);
-        for (Transaction curBean : beans){
-            TransactionForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
-        return result;
+        return makeTransactionFormList(beans);
+    }
+
+    @Override
+    @Transactional
+    public List<TransactionForm> getTransactionList(Integer accountId, Integer displayLimit){
+        List<Transaction> beans = transactionDAO.getTransactionList(accountId, displayLimit);
+        return makeTransactionFormList(beans);
     }
 
     @Override
@@ -53,4 +53,13 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         return transactionForm;
     }
 
+    private List<TransactionForm> makeTransactionFormList(List<Transaction> beans){
+        List<TransactionForm> result = new ArrayList<TransactionForm>();
+        TransactionAssembler assembler = new TransactionAssembler();
+        for (Transaction curBean : beans){
+            TransactionForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
 }

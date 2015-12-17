@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TransactionDAO extends CommonDAO<Transaction>{
     public List<Transaction> getTransactionList(Integer accountId);
+    public List<Transaction> getTransactionList(Integer accountId, Integer displayLimit);
 }
