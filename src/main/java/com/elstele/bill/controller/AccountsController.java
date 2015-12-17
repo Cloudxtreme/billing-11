@@ -2,6 +2,7 @@ package com.elstele.bill.controller;
 
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
+import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
@@ -25,6 +26,9 @@ public class AccountsController {
 
     @Autowired
     private AccountDataService accountDataService;
+
+    @Autowired
+    private TransactionDataService transactionDataService;
 
     @RequestMapping(value="/accountHome", method = RequestMethod.GET)
     public ModelAndView handleAccountHome(HttpSession session)
@@ -86,6 +90,7 @@ public class AccountsController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(id);
         mav.addObject("accountForm", result);
+        mav.addObject("transactionList", transactionDataService.getTransactionList(id,Constants.TRANSACTION_DISPLAY_LIMIT));
         return mav;
     }
 

@@ -30,7 +30,7 @@
 
 
 <div class="col-lg-6">
-    <form:form class="form-horizontal" method="POST" commandName="transactionForm" action="${pageContext.request.contextPath}/transaction/modifyForm">
+    <form:form class="form-horizontal" method="POST" commandName="transactionForm" action="${pageContext.request.contextPath}/transaction/modifyForm?returnPage=${returnPage}">
         <fieldset>
             <legend>Transaction</legend>
             <div class="form-group">

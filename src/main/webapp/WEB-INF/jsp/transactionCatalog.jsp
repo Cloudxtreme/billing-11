@@ -26,9 +26,9 @@
 
     <fieldset>
         <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessage}</div>
+        <div class="alert alert-info" role="alert">${successMessageTrans}</div>
         </c:if>
-        <a href="${pageContext.request.contextPath}/transaction/${selectedAccount}/form" class="btn btn-sm btn-primary" data-toggle="modal">Create Transaction</a>
+        <a href="${pageContext.request.contextPath}/transaction/${selectedAccount}/form?returnPage=transactionCatalog" class="btn btn-sm btn-primary" data-toggle="modal">Create Transaction</a>
         <table id="transactionTable" class="table table-striped table-hover">
             <tr>
                 <th>Account</th>
