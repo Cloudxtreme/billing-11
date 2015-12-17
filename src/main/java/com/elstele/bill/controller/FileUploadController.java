@@ -79,8 +79,6 @@ public class FileUploadController {
             }
         }
         return ResponseToAjax.SUCCESS;
-
-
     }
 
 }

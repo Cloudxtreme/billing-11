@@ -84,6 +84,8 @@ public class Device extends CommonDomainBean {
         if (description != null ? !description.equals(device.description) : device.description != null) return false;
         if (community != null ? !community.equals(device.community) : device.community != null) return false;
         if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
+        if (deviceAddress != null ? !deviceAddress.equals(device.deviceAddress) : device.deviceAddress != null)
+            return false;
         return !(deviceType != null ? !deviceType.equals(device.deviceType) : device.deviceType != null);
 
     }

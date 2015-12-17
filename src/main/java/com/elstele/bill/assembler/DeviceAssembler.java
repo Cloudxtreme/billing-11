@@ -23,25 +23,22 @@ public class DeviceAssembler {
     private IpDAO ipDAO;
 
     public DeviceForm fromBeanToForm(Device bean) {
-        DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
-        IpForm ipForm = new IpForm();
-        AddressForm addressForm = new AddressForm();
+        DeviceForm form = new DeviceForm();
         if (bean.getDeviceType() != null) {
             DeviceTypesAssembler deviceTypesAssembler = new DeviceTypesAssembler();
-            deviceTypesForm = deviceTypesAssembler.fromBeanToForm(bean.getDeviceType());
+            DeviceTypesForm deviceTypesForm = deviceTypesAssembler.fromBeanToForm(bean.getDeviceType());
+            form.setDevType(deviceTypesForm);
         }
         if (bean.getIpAdd() != null) {
             IpAssembler ipAssembler = new IpAssembler();
-            ipForm = ipAssembler.fromBeanToForm(bean.getIpAdd());
+            IpForm ipForm = ipAssembler.fromBeanToForm(bean.getIpAdd());
+            form.setIpForm(ipForm);
         }
         if (bean.getDeviceAddress() != null) {
             AddressAssembler addressAssembler = new AddressAssembler();
-            addressForm = addressAssembler.addressAssembleFromBeanToForm(bean.getDeviceAddress(), null);
+            AddressForm addressForm = addressAssembler.addressAssembleFromBeanToForm(bean.getDeviceAddress(), null);
+            form.setDeviceAddressForm(addressForm);
         }
-        DeviceForm form = new DeviceForm();
-        form.setDevType(deviceTypesForm);
-        form.setIpForm(ipForm);
-        form.setDeviceAddressForm(addressForm);
         copyProperties(bean, form);
         return form;
     }

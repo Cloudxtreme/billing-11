@@ -9,6 +9,12 @@ import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.DeviceTypes;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
+import com.elstele.bill.test.builder.bean.DeviceBuilder;
+import com.elstele.bill.test.builder.bean.DeviceTypeBuilder;
+import com.elstele.bill.test.builder.bean.IpBuilder;
+import com.elstele.bill.test.builder.bean.IpSubnetBuilder;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -36,37 +42,34 @@ public class DeviceDAOTest {
     IpSubnetDAOImpl ipSubnetDAO;
     @Autowired
     IpDAOImpl ipDAO;
+    @Autowired
+    SessionFactory sessionFactory;
 
     private Device device1;
     private Device device2;
 
     @Before
     public void setUp(){
+        DeviceBuilder deviceBuilder = new DeviceBuilder();
+        DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
+        IpBuilder ipBuilder = new IpBuilder();
 
-        //TODO use builder pattern to create objects
-        device1 = new Device();
-        device2 = new Device();
-
-        DeviceTypes types1 = new DeviceTypes();
+        DeviceTypes types1 = deviceTypeBuilder.build().getRes();
         deviceTypesDAO.save(types1);
 
         IpSubnet subnet = new IpSubnet();
         ipSubnetDAO.save(subnet);
 
-        Ip ip1 = new Ip();
-        ip1.setIpSubnet(subnet);
+        Ip ip1 = ipBuilder.build().withIpSubnet(subnet).getRes();
         ipDAO.save(ip1);
 
-        Ip ip2 = new Ip();
-        ip2.setIpSubnet(subnet);
+        Ip ip2 = ipBuilder.build().withIpSubnet(subnet).getRes();
         ipDAO.save(ip2);
 
-        device1.setIpAdd(ip1);
-        device1.setDeviceType(types1);
+        device1 = deviceBuilder.build().withDeviceType(types1).withIpAdd(ip1).getRes();
         deviceDAO.save(device1);
 
-        device2.setIpAdd(ip2);
-        device2.setDeviceType(types1);
+        device2 = deviceBuilder.build().withDeviceType(types1).withIpAdd(ip2).getRes();
         deviceDAO.save(device2);
     }
 
@@ -77,10 +80,6 @@ public class DeviceDAOTest {
     }
 
     @Test
-    @Ignore
-    //TODO: table in DB has fiels "street" and "building"  with not null constraints, but object Device have not this fields
-    // need to fix this during adding Address field in Device
-    // after this unignore this test
     public void getDevicesTest(){
         List<Device> actual = deviceDAO.getDevices();
         assertTrue(actual.contains(device1));

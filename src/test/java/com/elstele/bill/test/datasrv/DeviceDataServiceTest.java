@@ -3,16 +3,23 @@ package com.elstele.bill.test.datasrv;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
+import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
-import com.elstele.bill.domain.Device;
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
+import com.elstele.bill.domain.*;
+import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
+import com.elstele.bill.test.builder.bean.*;
+import com.elstele.bill.test.builder.form.AddressFormBuilder;
+import com.elstele.bill.test.builder.form.DeviceFormBuilder;
+import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
+import com.elstele.bill.test.builder.form.IpFormBuilder;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,12 +44,23 @@ public class DeviceDataServiceTest {
     @Mock
     IpDAO ipDAO;
 
+    @Mock
+    StreetDAO streetDAO;
+
     @InjectMocks
     DeviceDataServiceImpl deviceDataService;
 
     private List<Device> deviceList;
     private Device device;
     private DeviceForm form;
+    private DeviceFormBuilder deviceFormBuilder;
+    private AddressFormBuilder addressFormBuilder;
+    private DeviceBuilder deviceBuilder;
+    private DeviceTypeBuilder deviceTypeBuilder;
+    private IpBuilder ipBuilder;
+    private AddressBuilder addressBuilder;
+    private IpFormBuilder ipFormBuilder;
+    private DeviceTypeFormBuilder deviceTypeFormBuilder;
 
     @Before
     public void setUp() {
@@ -50,44 +68,32 @@ public class DeviceDataServiceTest {
         MockitoAnnotations.initMocks(this);
 
         deviceList = new ArrayList<>();
+        deviceBuilder = new DeviceBuilder();
+        deviceTypeBuilder = new DeviceTypeBuilder();
+        ipBuilder = new IpBuilder();
+        addressBuilder = new AddressBuilder();
 
-        device = new Device();
-        device.setId(1);
-        device.setStatus(Status.ACTIVE);
-        device.setName("device1");
+        DeviceTypes deviceTypes= deviceTypeBuilder.build().withId(4).getRes();
+        Ip ip = ipBuilder.build().withId(5).getRes();
+        Address address = addressBuilder.build().withId(5).withStreet("Street").withBuilding("5").withFlat("5").getRes();
+        device = deviceBuilder.build().withId(1).withName("device1").withIpAdd(ip).withDeviceType(deviceTypes).withAddress(address).getRes();
 
-        DeviceTypes deviceTypes= new DeviceTypes();
-        deviceTypes.setId(4);
-        Ip ip = new Ip();
-        ip.setId(5);
-        device.setDeviceType(deviceTypes);
-        device.setIpAdd(ip);
-
-        Device device1 = new Device();
-        device1.setId(2);
-        device1.setStatus(Status.ACTIVE);
-        device1.setName("device2");
-
-        Device device2 = new Device();
-        device2.setId(2);
-        device2.setStatus(Status.DELETED);
-        device2.setName("device3");
+        Device device1 = deviceBuilder.build().withId(2).withName("device2").withIpAdd(ip).withDeviceType(deviceTypes).getRes();
+        Device device2 = deviceBuilder.build().withId(2).withName("device3").withIpAdd(ip).withDeviceType(deviceTypes).getRes();
 
         deviceList.add(device);
         deviceList.add(device1);
         deviceList.add(device2);
 
-        form = new DeviceForm();
-        form.setId(1);
-        form.setStatus(Status.ACTIVE);
-        form.setName("device1");
-        DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
-        deviceTypesForm.setId(4);
-        IpForm ipForm = new IpForm();
-        ipForm.setId(5);
-        form.setDevType(deviceTypesForm);
-        form.setIpForm(ipForm);
+        deviceFormBuilder = new DeviceFormBuilder();
+        addressFormBuilder = new AddressFormBuilder();
+        ipFormBuilder = new IpFormBuilder();
+        deviceTypeFormBuilder = new DeviceTypeFormBuilder();
 
+        IpForm ipForm = ipFormBuilder.build().withId(5).getRes();
+        DeviceTypesForm deviceTypesForm = deviceTypeFormBuilder.build().withId(4).getRes();
+        AddressForm addressForm = addressFormBuilder.build().withId(5).withStreet("Street").withBuilding("5").withFlat("5").getRes();
+        form = deviceFormBuilder.build().withId(1).withName("device1").withIpForm(ipForm).withDeviceTypeForm(deviceTypesForm).withAddressForm(addressForm).getRes();
     }
 
     @After
@@ -108,31 +114,19 @@ public class DeviceDataServiceTest {
 
     @Test
     public void addDeviceTest() {
-        int expected;
+        when(streetDAO.getStreetIDByStreetName(form.getDeviceAddressForm().getStreet())).thenReturn(5);
+        when(deviceDAO.create(device)).thenReturn(0);
+        int actualId = deviceDataService.addDevice(form);
+        assertTrue(actualId == 0);
+    }
 
-        DeviceForm form = new DeviceForm();
-        form.setId(1);
-        form.setStatus(Status.ACTIVE);
-        form.setName("device1");
-        DeviceTypesForm deviceTypesForm = new DeviceTypesForm();
-        deviceTypesForm.setId(10);
-        form.setDevType(deviceTypesForm);
-
-        DeviceTypes deviceTypes= new DeviceTypes();
-        deviceTypes.setId(10);
-        when(deviceTypesDAO.getById(form.getDevType().getId())).thenReturn(deviceTypes);
-
-        Ip ip = new Ip();
-        ip.setId(5);
-
-        IpForm ipForm = new IpForm();
-        ipForm.setId(5);
-        form.setIpForm(ipForm);
-        when(ipDAO.getById(form.getIpForm().getId())).thenReturn(ip);
-
-        when(deviceDAO.create(device)).thenReturn(expected = 0);
-        int actual = deviceDataService.addDevice(form);
-        assertEquals(actual, expected);
+    @Test
+    public void gettingCorrectIDForCurrentFormAndCurrentStreetTest(){
+        AddressForm addressForm = addressFormBuilder.build().withStreet("Street").getRes();
+        when(streetDAO.getStreetIDByStreetName(addressForm.getStreet())).thenReturn(11);
+        DeviceForm form = deviceFormBuilder.build().withAddressForm(addressForm).getRes();
+        deviceDataService.gettingCorrectIDForCurrentFormAndCurrentStreet(form);
+        assertTrue(form.getDeviceAddressForm().getStreetId().equals(11));
     }
 
     @Test

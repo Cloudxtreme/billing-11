@@ -57,8 +57,8 @@ public class AccountDAOTest {
         //creating accounts
         AccountBuilder ab = new AccountBuilder();
 
-        ac1 = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
-        ac2 = ab.build().withAccName("ACC_002").withAccType(Constants.AccountType.LEGAL).withBalance(50f).withRandomPhyAddress().getRes();
+        ac1 = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).getRes();
+        ac2 = ab.build().withAccName("ACC_002").withAccType(Constants.AccountType.LEGAL).withBalance(50f).getRes();
         id1 = dao.create(ac1);
         id2 = dao.create(ac2);
     }
@@ -93,4 +93,4 @@ public class AccountDAOTest {
         assertTrue(resList.contains(ac2));
 
         }
-        }
+}
