@@ -96,6 +96,7 @@ public class AccountsController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(id);
         mav.addObject("accountForm", result);
+        mav.addObject("transactionList", transactionDataService.getTransactionList(id, Constants.TRANSACTION_DISPLAY_LIMIT));
         return mav;
     }
 
