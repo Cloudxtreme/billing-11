@@ -35,7 +35,7 @@
                             <a tabindex="-1" href="#">Files uploading</a>
                             <ul class="dropdown-menu">
                                 <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html">KDF file processing</a></li>
-                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadCSVFile.html">CSV file processing</a></li>
+                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadcsvfile.html">CSV file processing</a></li>
                             </ul>
                         </li>
 

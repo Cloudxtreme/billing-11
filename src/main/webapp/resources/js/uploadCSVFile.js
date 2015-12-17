@@ -72,7 +72,7 @@ $(document).ready(function () {
 
         $.ajax({
             dataType: 'json',
-            url: "uploadCSVFile",
+            url: "uploadcsvfile",
             data: data,
             type: "POST",
             enctype: 'multipart/form-data',
@@ -213,7 +213,7 @@ $(document).ready(function () {
     });
     $.ajax({
         type: "Post",
-            url: 'uploadCSVFile/generateFileTree',
+            url: 'uploadcsvfile/generateFileTree',
         success: function (data) {
             console.log(data);
             $('#fileTree').fileTree({

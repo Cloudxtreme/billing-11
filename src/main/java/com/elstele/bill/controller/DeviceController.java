@@ -25,47 +25,47 @@ import java.util.*;
 @Controller
 public class DeviceController {
 
-            @Autowired
-            private DeviceDataService deviceDataService;
+    @Autowired
+    private DeviceDataService deviceDataService;
 
-            @Autowired
-            private DeviceTypesDataService deviceTypesDataService;
+    @Autowired
+    private DeviceTypesDataService deviceTypesDataService;
 
-            @Autowired
-            private IpDataService ipDataService;
+    @Autowired
+    private IpDataService ipDataService;
 
-            @Autowired
-            private IpSubnetDataService ipSubnetDataService;
-
-
-            @ModelAttribute("deviceTypeModalForm")
-            public DeviceTypesForm addDeviceType() {
-                return new DeviceTypesForm();
-            }
+    @Autowired
+    private IpSubnetDataService ipSubnetDataService;
 
 
-            @RequestMapping(value = "/device", method = RequestMethod.GET)
-            @ResponseBody
-            public ModelAndView getDeviceList() {
-                List<DeviceForm> result = deviceDataService.getDevices();
-                ModelAndView mav = new ModelAndView("device");
-                mav.addObject("list", result);
-                return mav;
-            }
+    @ModelAttribute("deviceTypeModalForm")
+    public DeviceTypesForm addDeviceType() {
+        return new DeviceTypesForm();
+    }
 
-            @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
-            @ResponseBody
-            public ModelAndView getDeviceTypeList() {
-                List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
-                ModelAndView model = new ModelAndView("devicetypelist");
-                model.addObject("devicetypelist", devType);
-                return model;
+
+    @RequestMapping(value = "/device", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView getDeviceList() {
+        List<DeviceForm> result = deviceDataService.getDevices();
+        ModelAndView mav = new ModelAndView("deviceModel");
+        mav.addObject("list", result);
+        return mav;
+    }
+
+    @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView getDeviceTypeList() {
+        List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
+        ModelAndView model = new ModelAndView("devicetypelistModel");
+        model.addObject("devicetypelist", devType);
+        return model;
     }
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView addDeviceFromForm() {
-        ModelAndView model = new ModelAndView("adddevice");
+        ModelAndView model = new ModelAndView("adddeviceModel");
         model.addObject("deviceForm", new DeviceForm());
 
         List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
@@ -117,7 +117,7 @@ public class DeviceController {
 
     @RequestMapping(value = "/device/{id}/update", method = RequestMethod.GET)
     public ModelAndView editDevice(@PathVariable("id") int id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("adddevice");
+        ModelAndView mav = new ModelAndView("adddeviceModel");
         DeviceForm form = deviceDataService.getById(id);
         ipDataService.setStatus(form.getIpForm().getId(), IpStatus.FREE);
 

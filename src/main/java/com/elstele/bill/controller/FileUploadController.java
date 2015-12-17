@@ -29,7 +29,7 @@ public class FileUploadController {
     @Autowired
     ServletContext ctx;
 
-    @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.GET)
+    @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();

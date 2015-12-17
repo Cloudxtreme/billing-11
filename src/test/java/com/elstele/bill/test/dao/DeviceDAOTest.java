@@ -57,10 +57,9 @@ public class DeviceDAOTest {
         query = sessionFactory.getCurrentSession().createQuery(hql);
         query.executeUpdate();
         DeviceBuilder deviceBuilder = new DeviceBuilder();
-        DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
         IpBuilder ipBuilder = new IpBuilder();
 
-        DeviceTypes types1 = deviceTypeBuilder.build().getRes();
+        DeviceTypes types1 = new DeviceTypes();
         deviceTypesDAO.save(types1);
 
         IpSubnet subnet = new IpSubnet();
