@@ -5,6 +5,7 @@ import com.elstele.bill.domain.Activity;
 import com.elstele.bill.test.builder.bean.ActivityBuilder;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -38,9 +39,13 @@ public class UserActivityDAOTest {
 
     @Before
     public void setUp() {
+        String sql = String.format("delete from ROLE_ACTIVITY");
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        sqlQuery.executeUpdate();
         String hql = String.format("delete from Activity");
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.executeUpdate();
+
 
         ActivityBuilder ab = new ActivityBuilder();
         activity1 = ab.build().randomActivity().getRes();

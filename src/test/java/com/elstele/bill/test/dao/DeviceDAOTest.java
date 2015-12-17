@@ -49,7 +49,13 @@ public class DeviceDAOTest {
     private Device device2;
 
     @Before
-    public void setUp(){
+    public void setUp() {
+        String hql = String.format("delete from Service");
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.executeUpdate();
+        hql = String.format("delete from Device");
+        query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.executeUpdate();
         DeviceBuilder deviceBuilder = new DeviceBuilder();
         DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
         IpBuilder ipBuilder = new IpBuilder();
@@ -74,13 +80,13 @@ public class DeviceDAOTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         device1 = null;
         device2 = null;
     }
 
     @Test
-    public void getDevicesTest(){
+    public void getDevicesTest() {
         List<Device> actual = deviceDAO.getDevices();
         assertTrue(actual.contains(device1));
         assertTrue(actual.contains(device2));

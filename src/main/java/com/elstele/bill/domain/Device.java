@@ -12,11 +12,11 @@ public class Device extends CommonDomainBean {
     private String description;
     private String community;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ipAddress_id")
     private Ip ipAdd;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "deviceType_id")
     private DeviceTypes deviceType;
 
