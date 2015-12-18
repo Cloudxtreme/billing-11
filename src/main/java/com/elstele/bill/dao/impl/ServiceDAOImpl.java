@@ -11,6 +11,7 @@ import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.utils.Enums.IpStatus;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -80,4 +81,12 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
         }
     }
 
+    @Override
+    public List<Integer> listActiveServicesIds() {
+        List<Integer> result;
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery("Select id from service where status = 'ACTIVE' order by id")
+                .addScalar("id", StandardBasicTypes.INTEGER);
+        result = (List<Integer>)query.list();
+        return result;
+    }
 }

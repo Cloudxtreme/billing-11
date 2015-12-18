@@ -17,5 +17,5 @@ public interface ServiceDataService {
     public List<Integer> addCurrentDevicePortToList(List<Integer> deviceFreePortList, Integer serviceId, Integer deviceId);
     public void changeSoftBlockStatus(Integer serviceId);
     public List<OnlineStatistic> getUsersOnline();
-
+    public List<Integer> listActiveServicesIds();
 }

@@ -2,6 +2,8 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import com.elstele.bill.executors.BillingCallsProcessor;
+import com.elstele.bill.executors.BillingServiceProcessor;
+import com.elstele.bill.executors.BillingServiceWorker;
 import com.elstele.bill.executors.WorkExecutorPOC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class WorkerControllerPOC {
     @Autowired
     private BillingCallsProcessor callBillProcessor;
 
+    @Autowired
+    private BillingServiceProcessor billingServiceProcessor;
 
     @RequestMapping(value="/starttask", method = RequestMethod.GET)
     @ResponseBody
@@ -62,7 +66,18 @@ public class WorkerControllerPOC {
         return "";
     }
 
+    @RequestMapping(value="/billService", method = RequestMethod.GET)
+    @ResponseBody
+    public String billServices(HttpServletRequest request){
 
+        //this call need to be in runnable
+        //billService.updateCallWithItCost(id);
+        Integer processed = billingServiceProcessor.billAllServices();
+
+
+
+        return "";
+    }
 
 
 
