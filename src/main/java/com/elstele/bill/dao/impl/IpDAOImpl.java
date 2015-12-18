@@ -27,8 +27,7 @@ public class IpDAOImpl extends CommonDAOImpl<Ip> implements IpDAO {
 
     @Override
     public void setStatusById(IpStatus ipStatus, Integer id) {
-        Ip ip = new Ip();
-        ip = getById(id);
+        Ip ip = getById(id);
         ip.setIpStatus(ipStatus);
         update(ip);
     }

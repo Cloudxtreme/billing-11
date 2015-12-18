@@ -23,6 +23,7 @@ import java.util.*;
 
 
 @Controller
+@SessionAttributes("deviceForm")
 public class DeviceController {
 
     @Autowired
@@ -95,7 +96,7 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
-    public String addOrUpdateDeviceFromForm(DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
+    public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);

@@ -1,18 +1,22 @@
 package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.DeviceController;
+import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
 import com.elstele.bill.domain.DeviceTypes;
+import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.form.*;
 import com.elstele.bill.test.builder.form.DeviceFormBuilder;
 import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
 import com.elstele.bill.test.builder.form.IpFormBuilder;
 import com.elstele.bill.test.builder.form.IpSubnetFormBuilder;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -39,9 +43,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -73,7 +75,13 @@ public class DeviceControllerTest {
 
     private DeviceForm deviceForm;
     private DeviceForm deviceForm1;
+    private DeviceTypesForm deviceTypesForm;
+    private IpSubnetForm ipSubnetForm;
+    private IpForm ipForm;
     private List<DeviceForm> expectedList;
+    private List<IpForm> ipForms;
+    private List<IpSubnetForm> subnetForms;
+    private List<DeviceTypesForm> deviceTypesForms;
 
     @Before
     public void setUp() {
@@ -89,7 +97,7 @@ public class DeviceControllerTest {
         deviceForm = deviceFormBuilder.build()
                 .withDeviceTypeForm(new DeviceTypesForm())
                 .withAddressForm(new AddressForm())
-                .withIpForm(new IpForm())
+                .withIpForm(ipFormBuilder.build().withId(1).getRes())
                 .withId(1)
                 .withName("form").getRes();
 
@@ -99,6 +107,21 @@ public class DeviceControllerTest {
                 .withIpForm(new IpForm())
                 .withId(2)
                 .withName("form1").getRes();
+
+        deviceTypesForms = new ArrayList<>();
+        deviceTypesForm = deviceTypeFormBuilder.build().withId(1).withDeviceType("Test").getRes();
+        deviceTypesForms.add(deviceTypesForm);
+        deviceTypesForms.add(new DeviceTypesForm());
+
+        subnetForms = new ArrayList<>();
+        ipSubnetForm = ipSubnetFormBuilder.build().withSubnet("test").withId(1).getRes();
+        subnetForms.add(ipSubnetForm);
+
+        ipForms = new ArrayList<>();
+        IpSubnet subnet = new IpSubnet();
+        subnet.setSubnetPurpose(SubnetPurpose.MGMT);
+        ipForm = ipFormBuilder.build().withId(1).withIpName("test").withIpSubnet(subnet).getRes();
+        ipForms.add(ipForm);
 
         expectedList = new ArrayList<>();
         expectedList.add(deviceForm);
@@ -140,21 +163,8 @@ public class DeviceControllerTest {
 
     @Test
     public void addDeviceFromFormTest() throws Exception {
-        List<DeviceTypesForm> deviceTypesForms = new ArrayList<>();
-        DeviceTypesForm deviceTypesForm = deviceTypeFormBuilder.build().withId(1).withDeviceType("Test").getRes();
-        deviceTypesForms.add(deviceTypesForm);
         when(deviceTypesDataService.getDeviceTypes()).thenReturn(deviceTypesForms);
-
-        List<IpSubnetForm> subnetForms = new ArrayList<>();
-        IpSubnetForm ipSubnetForm = ipSubnetFormBuilder.build().withSubnet("test").withId(1).getRes();
-        subnetForms.add(ipSubnetForm);
         when(ipSubnetDataService.getIpSubnets()).thenReturn(subnetForms);
-
-        List<IpForm> ipForms = new ArrayList<>();
-        IpSubnet subnet = new IpSubnet();
-        subnet.setSubnetPurpose(SubnetPurpose.MGMT);
-        IpForm ipForm = ipFormBuilder.build().withId(1).withIpName("test").withIpSubnet(subnet).getRes();
-        ipForms.add(ipForm);
         when(ipDataService.getIpAddressList()).thenReturn(ipForms);
 
         MvcResult result = this.mockMvc.perform(get("/adddevice")
@@ -179,15 +189,57 @@ public class DeviceControllerTest {
     }
 
     @Test
-    @Ignore
     public void addOrUpdateDeviceFromFormTest() throws Exception {
-        when(deviceDataService.addDevice(deviceForm)).thenReturn(1);
+        DeviceForm deviceFormExpected = deviceFormBuilder.build().withIpForm(ipFormBuilder.build().withId(1).getRes()).getRes();
+        when(deviceDataService.addDevice(deviceFormExpected)).thenReturn(1);
+
         this.mockMvc.perform(post("/adddevice")
+                .session(mockSession)
+                .sessionAttr("deviceForm", deviceFormExpected)
+                .accept(MediaType.ALL))
+                .andExpect(status().is(302))
+                .andExpect(flash().attribute("successMessage", "Device was successfully added."));
+    }
+
+    @Test
+    public void deleteDeviceTest() throws Exception {
+        when(deviceDataService.deleteDevice(deviceForm.getId())).thenReturn(ResponseToAjax.SUCCESS);
+        MvcResult result = this.mockMvc.perform(post("/device/delete")
+                .session(mockSession)
+                .content(deviceForm.getId().toString())
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        assertTrue(content.contains("SUCCESS"));
+    }
+
+    @Test
+    public void editDeviceTest() throws Exception {
+        when(deviceDataService.getById(1)).thenReturn(deviceForm);
+        when(deviceTypesDataService.getDeviceTypes()).thenReturn(deviceTypesForms);
+        when(ipSubnetDataService.getIpSubnets()).thenReturn(subnetForms);
+        when(ipDataService.getIpAddressList()).thenReturn(ipForms);
+
+        MvcResult result = this.mockMvc.perform(get("/device/{id}/update", 1)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
-                .andExpect(flash().attribute("successMessage", "Device was successfully added."))
+                .andExpect(view().name("adddeviceModel"))
                 .andReturn();
 
+        ModelAndView model = result.getModelAndView();
+
+        Map<Integer, String> map = (Map<Integer, String>) model.getModel().get("deviceTypesMap");
+        assertTrue(map.containsKey(deviceTypesForm.getId()));
+        assertTrue(map.containsValue(deviceTypesForm.getDeviceType()));
+
+        map = (Map<Integer, String>) model.getModel().get("ipAddressList");
+        assertTrue(map.containsKey(ipForm.getId()));
+        assertTrue(map.containsValue(ipForm.getIpName()));
+
+        map = (Map<Integer, String>) model.getModel().get("ipNetList");
+        assertTrue(map.containsKey(ipSubnetForm.getId()));
+        assertTrue(map.containsValue(ipSubnetForm.getIpSubnet()));
     }
 }
