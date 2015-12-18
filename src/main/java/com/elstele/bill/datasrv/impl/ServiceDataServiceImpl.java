@@ -12,6 +12,7 @@ import com.elstele.bill.domain.ServicePhone;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
+import com.elstele.bill.form.ServiceTypeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Override
     @Transactional
     public String saveService(ServiceForm form) {
+        form = modifyServiceTypeIfNeed(form);
         Service service = serviceAssembler.getServiceBeanByForm(form);
         return serviceDAO.saveService(service, form.isNew());
     }
@@ -78,6 +80,7 @@ public class ServiceDataServiceImpl implements ServiceDataService {
         return deviceFreePortList;
     }
 
+    @Override
     @Transactional
     public void changeSoftBlockStatus(Integer serviceId){
         serviceDAO.changeSoftBlockStatus(serviceId);
@@ -86,6 +89,19 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     @Transactional
     public List<OnlineStatistic> getUsersOnline() {
         return serviceDAO.getUserOnline();
+    }
+
+    @Transactional
+    private ServiceForm modifyServiceTypeIfNeed(ServiceForm form){
+        Integer idService = form.getId();
+        ServiceTypeForm serviceType = form.getServiceType();
+        if(form.getPeriod() == null && idService != null){
+            form = getServiceFormById(idService);
+            form.setId(null);
+            form.setServiceType(serviceType);
+            serviceDAO.deleteService(idService);
+        }
+        return form;
     }
 
     @Transactional

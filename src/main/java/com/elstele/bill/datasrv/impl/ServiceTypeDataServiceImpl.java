@@ -47,6 +47,12 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
         return serviceTypeDAO.listServiceType();
     }
 
+    @Override
+    @Transactional
+    public List<ServiceType> listServiceType(String type){
+        return serviceTypeDAO.listServiceType(type);
+    }
+
     @Transactional
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussType) {
         return serviceTypeDAO.listServiceTypeByBussType(bussType);

@@ -23,6 +23,17 @@ public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType> implements Se
         return null;
     }
 
+    @Override
+    public List listServiceType(String serviceType){
+        String hql = "from ServiceType service where serviceType = :serviceType AND (service.status <> 'DELETED' or service.status is null) ";
+        Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+        query.setParameter("serviceType", serviceType);
+        if (!query.list().isEmpty()){
+            return query.list();
+        }
+        return null;
+    }
+
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussTyp) {
         String hql = "from ServiceType service where bussType = :busstype AND " +
                 "(service.status <> 'DELETED' or service.status is null)";

@@ -1,6 +1,7 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.domain.ServiceInternetAttribute;
+import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
@@ -10,17 +11,12 @@ import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ServiceTypeController {
@@ -107,6 +103,18 @@ public class ServiceTypeController {
         ServiceInternetAttributeForm serviceAttributeForm = serviceTypeDataService.getServiceAttributeForm(serviceAttributeId, serviceId);
         map.put("serviceAttributeForm", serviceAttributeForm);
         return "serviceAttributeForm";
+    }
+
+    @RequestMapping(value = "/serviceTypeList", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<Integer, String> getServiceTypeList(HttpServletRequest request,
+                                                      @RequestParam(value = "type") String type) {
+        List<ServiceType> list = serviceTypeDataService.listServiceType(type);
+        Map<Integer, String> ipMap = new LinkedHashMap();
+        for (ServiceType serviceType : list){
+            ipMap.put(serviceType.getId(), serviceType.getName() + " (" + serviceType.getPrice() + " грн.)");
+        }
+        return ipMap;
     }
 
     @RequestMapping(value="/serviceType/catalog", method = RequestMethod.GET)

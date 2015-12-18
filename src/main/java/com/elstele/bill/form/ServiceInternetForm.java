@@ -88,8 +88,8 @@ public class ServiceInternetForm {
 
     @Override
     public int hashCode(){
-        int result = username.hashCode();
-        result = 31 * result + password.hashCode();
+        int result = (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (ip != null ? ip.hashCode() : 0);
         return result;
     }

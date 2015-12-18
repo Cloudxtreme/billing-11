@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface ServiceTypeDAO extends CommonDAO <ServiceType> {
     public List<ServiceType> listServiceType();
+    public List<ServiceType> listServiceType(String type);
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussTyp);
 }

@@ -36,6 +36,9 @@ public class ServiceController {
     private ServiceDataService serviceDataService;
 
     @Autowired
+    private TransactionDataService transactionDataService;
+
+    @Autowired
     private ServiceValidator serviceValidator;
 
     @Autowired
@@ -85,6 +88,7 @@ public class ServiceController {
             mav.addObject("successMessage", message);
             AccountForm res = accountDataService.getAccountById(form.getAccountId());
             mav.addObject("accountForm", res);
+            mav.addObject("transactionList", transactionDataService.getTransactionList(res.getId(), Constants.TRANSACTION_DISPLAY_LIMIT));
             return mav;
         }
     }
@@ -135,6 +139,13 @@ public class ServiceController {
         map.put("ipNetList", ipSubnetDataService.getIpSubnets());
         map.put("currentIpAddress", serviceDataService.getCurrentIpAddress(form));
         return "account_service_form";
+    }
+
+    @RequestMapping(value="/getCurrentIpAddress", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getCurrentIpAddress(HttpServletRequest request,
+                                      @RequestParam(value = "serviceId") int serviceId){
+        return serviceDataService.getCurrentIpAddressByServiceFormId(serviceId);
     }
 
     @RequestMapping(value="/service/account/", method = RequestMethod.GET)

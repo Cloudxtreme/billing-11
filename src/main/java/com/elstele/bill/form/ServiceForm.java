@@ -15,7 +15,6 @@ public class ServiceForm {
     private ServicePhoneForm servicePhone = new ServicePhoneForm();
     private ServiceTypeForm serviceType = new ServiceTypeForm();
 
-
     @NotNull
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -106,12 +105,12 @@ public class ServiceForm {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + accountId.hashCode();
+        result = 31 * result + (accountId != null ? accountId.hashCode() : 0);
         result = 31 * result + (serviceInternet != null ? serviceInternet.hashCode() : 0);
         result = 31 * result + (servicePhone != null ? servicePhone.hashCode() : 0);
         result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
         result = 31 * result + dateStart.hashCode();
-        result = 31 * result + period.hashCode();
+        result = 31 * result + (period != null ? period.hashCode() : 0);
         return result;
     }
 }

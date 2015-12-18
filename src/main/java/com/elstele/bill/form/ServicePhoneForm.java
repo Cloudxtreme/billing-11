@@ -31,6 +31,6 @@ public class ServicePhoneForm {
 
     @Override
     public int hashCode() {
-        return phoneNumber.hashCode();
+        return (phoneNumber != null ? phoneNumber.hashCode() : 0);
     }
 }
