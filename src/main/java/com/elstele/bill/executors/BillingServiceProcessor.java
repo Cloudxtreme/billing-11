@@ -16,10 +16,8 @@ import static com.elstele.bill.utils.Constants.BILLING_SERVICE_WORKER;
  */
 @Service
 @Scope("singleton")
-public class BillingServiceProcessor {
+public class BillingServiceProcessor extends BillingProcessor {
 
-    @Autowired
-    private WorkerFactory workerFactory;
     @Autowired
     private ServiceDataService sds;
 
@@ -29,12 +27,11 @@ public class BillingServiceProcessor {
     public Integer billAllServices(){
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
 
-        //get List off all active services
         List<Integer> activeServicesIdList = sds.listActiveServicesIds();
-
         for (Integer curServiceId : activeServicesIdList){
             putServiceIdToExcecutor(executor, curServiceId);
         }
+        shutdownExecutor(executor);
         return serviceCount;
     }
 
@@ -44,5 +41,4 @@ public class BillingServiceProcessor {
         executor.execute(worker);
         serviceCount++;
     }
-
 }

@@ -56,6 +56,9 @@ public class Account extends CommonDomainBean {
     }
 
     public Float getCurrentBalance() {
+        if (currentBalance == null){
+            currentBalance = 0F;
+        }
         return currentBalance;
     }
 
