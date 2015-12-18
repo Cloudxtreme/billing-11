@@ -125,7 +125,8 @@ public class ServiceController {
 
 
     @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/modify", method = RequestMethod.GET)
-    public String serviceModify(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId, HttpSession session, Map<String, Object> map) {
+    public String serviceModify(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId,
+                                HttpSession session, Map<String, Object> map) {
         List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
         ServiceForm form = serviceDataService.getServiceFormById(accountServiceId);
         form.setAccountId(accountId);

@@ -127,7 +127,7 @@ function callAjaxGetPortList(){
     }
     $.ajax({
         type: "POST",
-        url: "/getDeviceFreePortList/"+idService,
+        url: "../../../../getDeviceFreePortList/"+idService,
         data: sendData,
         datatype: "json",
         contentType: "application/json",
@@ -149,7 +149,7 @@ function callAjaxGetValidIp(){
     console.log(currentIpAddress);
     $.ajax({
         type: "POST",
-        url: "/getIpAddressList/"+serviceId,
+        url: "../../../../getIpAddressList/"+serviceId,
         data: $('#ipNet').val(),
         datatype: "JSON",
         contentType: "application/json",
@@ -171,7 +171,7 @@ function callAjaxGetValidIp(){
 function callAjaxGetCurrentIpAddress(serviceId){
     var value = 0
     $.ajax({
-        url: '/getCurrentIpAddress?serviceId='+serviceId,
+        url: '../../../../getCurrentIpAddress?serviceId='+serviceId,
         type: "get",
         async: false,
         dataType: "json",

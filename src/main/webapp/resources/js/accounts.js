@@ -11,7 +11,7 @@ $(function() {
 
     $('input[name="softblock"]').on('switchChange.bootstrapSwitch', function() {
         $.ajax({
-            url: '/changeSoftBlockStatus?serviceId='+this.id,
+            url: '../../changeSoftBlockStatus?serviceId='+this.id,
             type: "get",
             dataType: "json"
         });

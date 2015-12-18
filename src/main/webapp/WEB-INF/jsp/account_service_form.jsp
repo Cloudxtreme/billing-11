@@ -19,8 +19,8 @@
     <script src="${service}"></script>
 
 <%-- Includes for DatePicker --%>
-    <spring:url value="/resources/js/moment-with-locales.min.js" var="moment-datepicker" />
-    <script src="${moment-datepicker}"></script>
+    <spring:url value="/resources/js/moment-with-locales.min.js" var="moment_datepicker" />
+    <script src="${moment_datepicker}"></script>
     <spring:url value="/resources/js/bootstrap-datepicker.min.js" var="datepicker" />
     <script src="${datepicker}"></script>
     <spring:url value="/resources/css/bootstrap-datepicker.min.css" var="datepickerCss" />
