@@ -14,6 +14,12 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    $('#serviceTypeId').on('change', function() {
+        showServiceForm($(this).find(':selected').data('type'));
+    });
+});
+
+$(document).ready(function() {
     $('#changeIp').on('change', function() {
         if(document.getElementById('changeIp').checked){
             $('#ipAddress').show();

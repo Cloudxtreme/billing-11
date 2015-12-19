@@ -62,7 +62,7 @@
                     <form:select path="serviceType.id" id="serviceTypeId" multiple="false" class="form-control" disabled="${disable}">
                     <form:option value="0" label="Choose..." onclick="hideServiceForm()"/>
                     <c:forEach items="${serviceTypeList}" var="services">
-                        <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" onclick="showServiceForm('${services.serviceType}')"/>
+                        <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" data-type="${services.serviceType}"/>
                     </c:forEach>
                     </form:select>
                     <form:errors path="serviceType.id" cssClass="alert-danger" />
