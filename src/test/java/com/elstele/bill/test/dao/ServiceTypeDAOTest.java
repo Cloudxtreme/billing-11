@@ -51,9 +51,9 @@ public class ServiceTypeDAOTest {
         query.executeUpdate();
 
         ServiceTypeBuilder stb = new ServiceTypeBuilder();
-        serviceType1 = stb.build().withName("stb1").withServiceType(Constants.SERVICE_INTERNET).withRandomAttribute().withDescription("desrc1").withPrice(44F).getRes();
-        serviceType2 = stb.build().withName("stb2").withServiceType(Constants.SERVICE_PHONE).withPrice(90F).withRandomAttribute().getRes();
-        serviceType3 = stb.build().withName("stb3").withServiceType(Constants.SERVICE_MARKER).withPrice(111F).withDescription("descr3").getRes();
+        serviceType1 = stb.build().withName("stb1").withServiceType(Constants.SERVICE_INTERNET).withRandomAttribute().withDescription("desrc1").withPrice(44F).withBussType(Constants.AccountType.PRIVATE).getRes();
+        serviceType2 = stb.build().withName("stb2").withServiceType(Constants.SERVICE_PHONE).withPrice(90F).withRandomAttribute().withBussType(Constants.AccountType.PRIVATE).getRes();
+        serviceType3 = stb.build().withName("stb3").withServiceType(Constants.SERVICE_MARKER).withPrice(111F).withDescription("descr3").withBussType(Constants.AccountType.LEGAL).getRes();
     }
 
     @Test
@@ -111,4 +111,32 @@ public class ServiceTypeDAOTest {
         List<ServiceType> serviceTypeList2 = serviceTypeDAO.listServiceType();
         assertTrue(serviceTypeList2.size() == 2);
     }
+
+    @Test
+    public void e_serviceTypeListByGivenType() {
+        int serviceId1 = serviceTypeDAO.create(serviceType1);
+        int serviceId2 = serviceTypeDAO.create(serviceType2);
+        int serviceId3 = serviceTypeDAO.create(serviceType3);
+
+        List<ServiceType> serviceTypeList = serviceTypeDAO.listServiceType(Constants.SERVICE_PHONE);
+
+        assertTrue(serviceTypeList.size() == 1);
+        assertTrue(serviceTypeList.contains(serviceType2));
+        assertFalse(serviceTypeList.contains(serviceType1));
+        assertFalse(serviceTypeList.contains(serviceType3));
+    }
+
+    @Test
+    public void f_serviceTypeListByBussType() {
+        int serviceId1 = serviceTypeDAO.create(serviceType1);
+        int serviceId2 = serviceTypeDAO.create(serviceType2);
+        int serviceId3 = serviceTypeDAO.create(serviceType3);
+
+        List<ServiceType> serviceTypeList = serviceTypeDAO.listServiceTypeByBussType(Constants.AccountType.PRIVATE);
+
+        assertTrue(serviceTypeList.size() == 2);
+        assertTrue(serviceTypeList.contains(serviceType1));
+        assertTrue(serviceTypeList.contains(serviceType2));
+        assertFalse(serviceTypeList.contains(serviceType3));
+   }
 }

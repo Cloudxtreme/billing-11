@@ -69,7 +69,17 @@ public class ServiceTypeDataServiceTest {
     }
 
     @Test
-    public void c_listServiceTypeByBussType(){
+    public void c_listServiceTypeByGivenType(){
+        listSample.remove(beanPhone);
+        listSample.remove(beanMarker);
+        when(serviceTypeDAO.listServiceType(Constants.SERVICE_INTERNET)).thenReturn(listSample);
+
+        List<ServiceType> getList = serviceTypeDataService.listServiceType(Constants.SERVICE_INTERNET);
+        assertTrue(getList.contains(beanInternet));
+    }
+
+    @Test
+    public void d_listServiceTypeByBussType(){
         listSample.remove(beanInternet);
         when(serviceTypeDAO.listServiceTypeByBussType(Constants.AccountType.PRIVATE)).thenReturn(listSample);
 
@@ -80,7 +90,7 @@ public class ServiceTypeDataServiceTest {
     }
 
     @Test
-    public void d_listServiceAttribute(){
+    public void e_listServiceAttribute(){
         ServiceAttributeBuilder sb = new ServiceAttributeBuilder();
         ServiceInternetAttribute attribute1 = sb.build().withId(4).withAttribute("Attribute 4").withOperation("=").withValue("Value 4").withServiceType(beanInternet).getRes();
         ServiceInternetAttribute attribute2 = sb.build().withId(7).withAttribute("Attribute 7").withOperation(">=").withValue("Value 7").withServiceType(beanInternet).getRes();
@@ -100,7 +110,7 @@ public class ServiceTypeDataServiceTest {
     }
 
     @Test
-    public void d_getServiceAttributeForm(){
+    public void f_getServiceAttributeForm(){
         ServiceAttributeBuilder sb = new ServiceAttributeBuilder();
         ServiceInternetAttribute attribute = sb.build().withId(4).withAttribute("Attribute 4").withOperation("=").withValue("Value 4").withServiceType(beanInternet).getRes();
 

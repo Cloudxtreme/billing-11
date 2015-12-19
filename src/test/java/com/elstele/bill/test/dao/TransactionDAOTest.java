@@ -1,5 +1,6 @@
 package com.elstele.bill.test.dao;
 
+import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.TransactionDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
@@ -37,6 +38,8 @@ public class TransactionDAOTest {
     private SessionFactory sessionFactory;
     @Autowired
     private TransactionDAO transactionDAO;
+    @Autowired
+    private AccountDAO accountDAO;
 
     private Transaction trans1;
     private Transaction trans2;
@@ -54,7 +57,8 @@ public class TransactionDAOTest {
         query.executeUpdate();
 
         AccountBuilder ab = new AccountBuilder();
-        Account account = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
+        Account account = ab.build().withId(10).withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
+        accountDAO.create(account);
 
         TransactionBuilder tb = new TransactionBuilder();
         trans1 = tb.build().randomTransaction().withAccount(account).getRes();
@@ -95,6 +99,10 @@ public class TransactionDAOTest {
 
         List<Transaction> transactionListFromDB = transactionDAO.getTransactionList(bean1.getAccount().getId());
         assertTrue(transactionList.equals(transactionListFromDB));
+        assertTrue(transactionListFromDB.size() == 2);
+
+        List<Transaction> transactionListFromDB1 = transactionDAO.getTransactionList(bean1.getAccount().getId(),1);
+        assertTrue(transactionListFromDB1.size() == 1);
 
         transactionDAO.setStatusDelete(id1);
         List<Transaction> transactionListFromDB2 = transactionDAO.getTransactionList(bean1.getAccount().getId());

@@ -56,7 +56,6 @@ $(document).ready(function() {
             dataType: "json",
             success: function(data, textStatus, jqXHR) {
                 $('#serviceTypeId').html('');
-                var option_html = '';
                 $.each(data, function(key, value) {
                     $('#serviceTypeId').append('<option value="'+key+'">'+value+'</option>');
                 });
@@ -133,7 +132,6 @@ function callAjaxGetPortList(){
         contentType: "application/json",
         success: function (data) {
             $('#devicePorts').html('');
-            var option_html = '';
             $.each(data, function(key, value) {
                 $('#devicePorts').append('<option value="'+value+'">'+value+'</option>');
             });
@@ -155,7 +153,6 @@ function callAjaxGetValidIp(){
         contentType: "application/json",
         success: function (data) {
             $('#ipAddress').html('');
-            var option_html = '';
             $.each(data, function(key, value) {
                 var selected = "";
 
@@ -169,13 +166,13 @@ function callAjaxGetValidIp(){
     });
 }
 function callAjaxGetCurrentIpAddress(serviceId){
-    var value = 0
+    var value = 0;
     $.ajax({
         url: '../../../../getCurrentIpAddress?serviceId='+serviceId,
         type: "get",
         async: false,
         dataType: "json",
-        success: function(data, textStatus, jqXHR) {
+        success: function(data) {
             value = data;
         }
     });
