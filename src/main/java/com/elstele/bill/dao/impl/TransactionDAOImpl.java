@@ -36,6 +36,7 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
         Query query;
         String orderBy = " ORDER BY transaction.date DESC";
         String hql = "from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) ";
+        //TODO stringbuilder here
         if (accountId > 0) {
             hql += " and transaction.account.id = :accountId " + orderBy;
             query = getSessionFactory().getCurrentSession().createQuery(hql)

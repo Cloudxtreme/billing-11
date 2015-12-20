@@ -44,7 +44,7 @@ public class TransactionDataServiceTest {
 
         TransactionBuilder tb = new TransactionBuilder();
         Transaction trans1 = tb.build().withComment("Comment1").withDate(currentDate).withDirection(Constants.TransactionDirection.CREDIT).withPrice(22F).withSource(Constants.TransactionSource.BANK).withAccount(account).getRes();
-        Transaction trans2 = tb.build().withComment("Comment2").withDate(currentDate).withDirection(Constants.TransactionDirection.DEBIT).withPrice(110F).withSource(Constants.TransactionSource.HANDMADE).withAccount(account).getRes();
+        Transaction trans2 = tb.build().withComment("Comment2").withDate(currentDate).withDirection(Constants.TransactionDirection.DEBET).withPrice(110F).withSource(Constants.TransactionSource.HANDMADE).withAccount(account).getRes();
 
         transactionListSample.add(trans1);
         transactionListSample.add(trans2);
@@ -64,7 +64,7 @@ public class TransactionDataServiceTest {
 
         TransactionFormBuilder tfb = new TransactionFormBuilder();
         TransactionForm transForm1 = tfb.build().withComment("Comment1").withDate(currentDate).withDirection(Constants.TransactionDirection.CREDIT).withPrice(22F).withSource(Constants.TransactionSource.BANK).withAccount(accountForm).getRes();
-        TransactionForm transForm2 = tfb.build().withComment("Comment2").withDate(currentDate).withDirection(Constants.TransactionDirection.DEBIT).withPrice(110F).withSource(Constants.TransactionSource.HANDMADE).withAccount(accountForm).getRes();
+        TransactionForm transForm2 = tfb.build().withComment("Comment2").withDate(currentDate).withDirection(Constants.TransactionDirection.DEBET).withPrice(110F).withSource(Constants.TransactionSource.HANDMADE).withAccount(accountForm).getRes();
 
         List<TransactionForm> transactionFormList = transactionDataService.getTransactionList(1);
         assertTrue(transactionFormList.contains(transForm1));

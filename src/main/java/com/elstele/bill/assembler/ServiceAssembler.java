@@ -153,6 +153,9 @@ public class ServiceAssembler{
     public Service fromFormToServiceBean(ServiceForm form){
         Service bean = new Service();
         copyProperties(form, bean, propsToSkip);
+        if (form.getId() == null){
+            bean.setStatus(Status.ACTIVE);
+        }
         return bean;
     }
 

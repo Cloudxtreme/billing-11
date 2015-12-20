@@ -35,9 +35,10 @@
     <table id="userRoleTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
+            <th>Type</th>
             <th>Service Name</th>
             <th>Description</th>
-            <th>Type</th>
+            <th>LegalType</th>
             <th>Price</th>
         </tr>
 
@@ -50,6 +51,7 @@
                         &nbsp;&nbsp;
                         <a href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
+                    <td>${service.serviceType}</td>
                     <td>${service.name}</td>
                     <td>${service.description}</td>
                     <td>${service.bussType}</td>

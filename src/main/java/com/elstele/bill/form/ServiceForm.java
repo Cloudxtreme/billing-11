@@ -1,6 +1,7 @@
 package com.elstele.bill.form;
 
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
@@ -21,6 +22,7 @@ public class ServiceForm {
     private Date dateStart;
 
     private Constants.Period period;
+    private Status status;
 
     public Integer getId() {
         return id;
@@ -78,6 +80,14 @@ public class ServiceForm {
         this.period = period;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     //Check if this is for New of Update
     public boolean isNew() {
         return (this.id == null);
@@ -91,7 +101,7 @@ public class ServiceForm {
         ServiceForm that = (ServiceForm) o;
 
         if (!accountId.equals(that.accountId)) return false;
-        if (!dateStart.equals(that.dateStart)) return false;
+        if (dateStart != null ? !dateStart.equals(that.dateStart) : that.dateStart != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (period != that.period) return false;
         if (serviceInternet != null ? !serviceInternet.equals(that.serviceInternet) : that.serviceInternet != null)
@@ -109,7 +119,7 @@ public class ServiceForm {
         result = 31 * result + (serviceInternet != null ? serviceInternet.hashCode() : 0);
         result = 31 * result + (servicePhone != null ? servicePhone.hashCode() : 0);
         result = 31 * result + (serviceType != null ? serviceType.hashCode() : 0);
-        result = 31 * result + dateStart.hashCode();
+        result = 31 * result + (dateStart != null ? dateStart.hashCode() : 0);
         result = 31 * result + (period != null ? period.hashCode() : 0);
         return result;
     }

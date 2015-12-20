@@ -197,7 +197,7 @@
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                                             <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>
-                                            <td>${accountService.serviceType.status}</td>
+                                            <td>${accountService.status}</td>
                                         </tr>
                                     </label>
                                 </c:forEach>
