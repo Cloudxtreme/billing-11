@@ -17,7 +17,7 @@ public class  Constants {
 
     public enum TransactionSource { HANDMADE, BANK, BILLING }
 
-    public enum TransactionDirection { DEBIT, CREDIT }
+    public enum TransactionDirection {DEBET, CREDIT }
 
     public static final String SERVICE_INTERNET = "INTERNET";
     public static final String SERVICE_PHONE = "PHONE";

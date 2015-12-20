@@ -9,6 +9,7 @@ import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
         String message = "Service was successfully ";
         ServiceType service = assembler.fromFormToBean(form);
         if(form.isNew()){
+            service.setStatus(Status.ACTIVE);
             serviceTypeDAO.create(service);
             message += "added.";
         }

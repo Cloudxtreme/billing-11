@@ -7,6 +7,7 @@ import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         setFilter(session, "showActive");
         return (List<Account>)session.
                 createCriteria(Account.class).add(Restrictions.ne("status", Status.DELETED))
+                .addOrder(Order.asc("accountName"))
                 .list();
     }
 

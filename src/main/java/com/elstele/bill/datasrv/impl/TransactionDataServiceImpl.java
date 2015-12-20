@@ -1,11 +1,14 @@
 package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.TransactionAssembler;
+import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.TransactionDAO;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
+import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
+import com.elstele.bill.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import java.util.List;
 public class TransactionDataServiceImpl implements TransactionDataService {
     @Autowired
     private TransactionDAO transactionDAO;
+    @Autowired
+    private AccountDAO accountDAO;
 
     @Override
     @Transactional
@@ -32,12 +37,24 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         return makeTransactionFormList(beans);
     }
 
-    @Override
+
     @Transactional
     public String saveTransaction(TransactionForm transactionForm) {
         TransactionAssembler assembler = new TransactionAssembler();
         Transaction transaction = assembler.fromFormToBean(transactionForm);
         transactionDAO.create(transaction);
+        Account account = accountDAO.getById(transaction.getAccount().getId());
+        Float currentBalance = account.getCurrentBalance();
+        Float newBalance = currentBalance; //by default we stay balance as is
+        if (transaction.getDirection().equals(Constants.TransactionDirection.DEBET)){
+            newBalance = currentBalance + transaction.getPrice();
+        }
+        if (transaction.getDirection().equals(Constants.TransactionDirection.CREDIT)){
+            newBalance = currentBalance - transaction.getPrice();
+        }
+        account.setCurrentBalance(newBalance);
+        accountDAO.save(account);
+
         String message = "Transaction was successfully created";
         return message;
     }

@@ -21,7 +21,9 @@ public class ServiceTypeAssembler {
     public ServiceType fromFormToBean(ServiceTypeForm form){
         ServiceType bean = new ServiceType();
         copyProperties(form, bean);
-        bean.setStatus(Status.ACTIVE);
+        if(form.getId() == null){
+            bean.setStatus(Status.ACTIVE);
+        }
         return bean;
     }
 
@@ -35,7 +37,6 @@ public class ServiceTypeAssembler {
     public ServiceInternetAttribute fromServiceInternetAttributeFormToBean(ServiceInternetAttributeForm form){
         ServiceInternetAttribute bean = new ServiceInternetAttribute();
         copyProperties(form, bean, propsToSkipInternetSrvAttribure);
-        bean.setStatus(Status.ACTIVE);
 
         ServiceType serviceType = new ServiceType();
         serviceType.setId(form.getServiceTypeId());
