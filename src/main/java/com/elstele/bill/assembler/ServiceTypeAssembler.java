@@ -5,6 +5,7 @@ import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
+import com.elstele.bill.utils.Enums.Status;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -20,6 +21,7 @@ public class ServiceTypeAssembler {
     public ServiceType fromFormToBean(ServiceTypeForm form){
         ServiceType bean = new ServiceType();
         copyProperties(form, bean);
+        bean.setStatus(Status.ACTIVE);
         return bean;
     }
 
@@ -33,6 +35,7 @@ public class ServiceTypeAssembler {
     public ServiceInternetAttribute fromServiceInternetAttributeFormToBean(ServiceInternetAttributeForm form){
         ServiceInternetAttribute bean = new ServiceInternetAttribute();
         copyProperties(form, bean, propsToSkipInternetSrvAttribure);
+        bean.setStatus(Status.ACTIVE);
 
         ServiceType serviceType = new ServiceType();
         serviceType.setId(form.getServiceTypeId());
