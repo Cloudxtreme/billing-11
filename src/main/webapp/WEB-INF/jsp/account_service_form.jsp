@@ -50,28 +50,45 @@
             <div class="form-group">
                 <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
             </div>
-            <div class="form-group">
-                <label class="col-lg-2 control-label">Services</label>
-                <div class="col-lg-8">
-                    <c:set var="disable" value="false"/>
-                    <c:if test="${not empty serviceForm.serviceType.id}">
-                        <c:set var="disable" value="true"/>
-                        <form:hidden path="serviceType.id" id="getServiceType" data-parameter="${serviceForm.serviceType.serviceType}"/>
-                    </c:if>
-
-                    <form:select path="serviceType.id" id="serviceTypeId" multiple="false" class="form-control" disabled="${disable}">
-                    <form:option value="0" label="Choose..." onclick="hideServiceForm()"/>
-                    <c:forEach items="${serviceTypeList}" var="services">
-                        <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" data-type="${services.serviceType}"/>
-                    </c:forEach>
-                    </form:select>
-                    <form:errors path="serviceType.id" cssClass="alert-danger" />
-                </div>
-                <div class="col-lg-1">
-                    <a href="#" id="changeServiceType" class="btn btn-sm btn-success">Change</a>
-                </div>
-            </div>
+            <c:if test="${empty serviceForm.serviceType.id}">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Service Type</label>
+                    <div class="col-lg-9">
+                        <fieldset id="serviceType">
+                            <label class="radio-inline"><strong>
+                                <form:radiobutton path="serviceType.serviceType" value="INTERNET"/> Internet
+                            </strong></label>
+                            <label class="radio-inline"><strong>
+                                <form:radiobutton path="serviceType.serviceType" value="PHONE"/> Phone
+                            </strong></label>
+                            <label class="radio-inline"><strong>
+                                <form:radiobutton path="serviceType.serviceType" value="MARKER"/> Marker
+                            </strong></label>
+                            <form:errors path="serviceType" cssClass="alert-danger" />
+                        </fieldset>
+                    </div>
+                   </div>
+            </c:if>
             <div id="sharedServiceForm">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Service Name</label>
+                    <div class="col-lg-8">
+                        <c:set var="disable" value="false"/>
+                        <c:if test="${not empty serviceForm.serviceType.id}">
+                            <c:set var="disable" value="true"/>
+                            <form:hidden path="serviceType.id" id="getServiceType" data-parameter="${serviceForm.serviceType.serviceType}"/>
+                        </c:if>
+
+                        <form:select path="serviceType.id" id="serviceTypeId" multiple="false" class="form-control" disabled="${disable}">
+                        <c:forEach items="${serviceTypeList}" var="services">
+                            <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" data-type="${services.serviceType}"/>
+                        </c:forEach>
+                        </form:select>
+                    </div>
+                    <div class="col-lg-1">
+                        <a href="#" id="changeServiceType" class="btn btn-sm btn-success">Change</a>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="dateStart" class="col-lg-2 control-label">Date Start</label>
                     <div class="col-lg-8">

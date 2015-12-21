@@ -1,5 +1,6 @@
 $(document).ready(function() {
     hideServiceForm();
+    console.log($('#getServiceType').data("parameter"));
     if((typeof $('#getServiceType').data("parameter") !='undefined') ) {
         showServiceForm($('#getServiceType').data("parameter"));
         $('#changeServiceType').show();
@@ -13,10 +14,20 @@ $(document).ready(function() {
     $('#ipAddressCurrent').show();
 });
 
+/*
 $(document).ready(function() {
     $('#serviceTypeId').on('change', function() {
         showServiceForm($(this).find(':selected').data('type'));
     });
+});
+*/
+
+$(document).ready(function() {
+    $('#serviceType input[type=radio]').change(function(){
+        var type = $('#serviceType input[type=radio]:checked').val();
+        ajaxBuildServiceTypeSelectList(type);
+        showServiceForm(type);
+    })
 });
 
 $(document).ready(function() {
@@ -56,19 +67,23 @@ $(document).ready(function() {
             $(this).text("Change");
             $(this).removeClass('btn-primary').addClass('btn-success');
         }
-        $.ajax({
-            url: '/serviceTypeList?type='+$('#getServiceType').data("parameter"),
-            type: "get",
-            dataType: "json",
-            success: function(data, textStatus, jqXHR) {
-                $('#serviceTypeId').html('');
-                $.each(data, function(key, value) {
-                    $('#serviceTypeId').append('<option value="'+key+'">'+value+'</option>');
-                });
-            }
-        });
+        ajaxBuildServiceTypeSelectList($('#getServiceType').data("parameter"));
     });
 });
+
+function ajaxBuildServiceTypeSelectList(type){
+    $.ajax({
+        url: '/serviceTypeList?type='+type,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            $('#serviceTypeId').html('');
+            $.each(data, function(key, value) {
+                $('#serviceTypeId').append('<option value="'+key+'">'+value+'</option>');
+            });
+        }
+    });
+}
 
 function disabledAllFields(){
     $('#serviceForm input').attr('disabled', 'disabled');
@@ -100,26 +115,31 @@ function hideServiceForm(){
     $('#sharedServiceForm').hide();
 }
 
-function showServiceForm(type){
-    $('#sharedForm').show();
-    $('#submitBtn').show();
-    $('#sharedServiceForm').show();
-    type = type.toLowerCase();
-    switch(type){
-        case 'internet':{
-            $('#internetService').show();
-            $('#phoneService').hide();
-            break;
-        }
-        case 'phone':{
-            $('#internetService').hide();
-            $('#phoneService').show();
-            break;
-        }
-        case 'marker':{
-            $('#internetService').hide();
-            $('#phoneService').hide();
-            break;
+function showServiceForm(type) {
+    if (typeof type != undefined) {
+        $('#sharedForm').show();
+        $('#submitBtn').show();
+        $('#sharedServiceForm').show();
+        type = type.toLowerCase();
+        switch (type) {
+            case 'internet':
+            {
+                $('#internetService').show();
+                $('#phoneService').hide();
+                break;
+            }
+            case 'phone':
+            {
+                $('#internetService').hide();
+                $('#phoneService').show();
+                break;
+            }
+            case 'marker':
+            {
+                $('#internetService').hide();
+                $('#phoneService').hide();
+                break;
+            }
         }
     }
 }
