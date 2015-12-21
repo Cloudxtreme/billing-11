@@ -43,7 +43,7 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         TransactionAssembler assembler = new TransactionAssembler();
         Transaction transaction = assembler.fromFormToBean(transactionForm);
         transactionDAO.create(transaction);
-        Account account = accountDAO.getById(transaction.getAccount().getId());
+        Account account = accountDAO.getAccountForUpgradeById(transaction.getAccount().getId());
         Float currentBalance = account.getCurrentBalance();
         Float newBalance = currentBalance; //by default we stay balance as is
         if (transaction.getDirection().equals(Constants.TransactionDirection.DEBET)){

@@ -5,6 +5,7 @@ import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Order;
@@ -35,6 +36,14 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
                 createCriteria(Account.class).add(Restrictions.ne("status", Status.DELETED))
                 .addOrder(Order.asc("accountName"))
                 .list();
+    }
+
+    /**
+     * Mehod need to be used in cases when we are worry about concurrent changes of Account, especially during balance changes
+     * */
+    public Account getAccountForUpgradeById(Integer id) {
+        Session session = getSessionFactory().getCurrentSession();
+        return (Account)session.get(Account.class, id, LockOptions.UPGRADE);
     }
 
     public Integer getActiveAccountsCount() {
