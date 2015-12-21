@@ -10,4 +10,5 @@ public interface TransactionDataService {
     public List<TransactionForm> getTransactionList(Integer accountId);
     public List<TransactionForm> getTransactionList(Integer accountId, Integer displayLimit);
     public TransactionForm getTransactionForm(Integer accountId);
+    public TransactionForm getTransactionById(Integer transactionId);
 }

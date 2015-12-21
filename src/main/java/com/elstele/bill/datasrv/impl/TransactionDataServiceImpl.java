@@ -37,6 +37,12 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         return makeTransactionFormList(beans);
     }
 
+    @Transactional
+    public TransactionForm getTransactionById(Integer transactionId) {
+        Transaction tr = transactionDAO.getById(transactionId);
+        TransactionAssembler assembler = new TransactionAssembler();
+        return assembler.fromBeanToForm(tr);
+    }
 
     @Transactional
     public String saveTransaction(TransactionForm transactionForm) {

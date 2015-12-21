@@ -61,6 +61,7 @@ public class ServiceTypeBuilder {
     }
 
     public ServiceTypeBuilder withRandomAttribute(){
+        //TODO null pointer here
         if(this.serviceType.getServiceType().equals(Constants.SERVICE_INTERNET)) {
             ServiceAttributeBuilder sb = new ServiceAttributeBuilder();
             ServiceInternetAttribute attribute = sb.build().randomServiceAttribute().getRes();
