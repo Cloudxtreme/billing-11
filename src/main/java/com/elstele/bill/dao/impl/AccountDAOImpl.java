@@ -6,6 +6,7 @@ import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -45,4 +46,10 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         Long res = (Long)q.uniqueResult();
         return res.intValue();
     }
+
+    public List<Account> searchAccounts(String value){
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Account a where a.fio='" + value + "' or a.accountName='" + value + "'");
+        return (List<Account>)query.list();
+    }
+
 }

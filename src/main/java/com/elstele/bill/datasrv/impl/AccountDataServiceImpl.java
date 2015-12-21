@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -167,6 +168,21 @@ public class AccountDataServiceImpl implements AccountDataService {
     @Transactional
     public int getActiveAccountsCount() {
         return accountDAO.getActiveAccountsCount();
+    }
+
+    @Override
+    @Transactional
+    public List<AccountForm> searchAccounts(String value){
+        List<Account> accountList = accountDAO.searchAccounts(value);
+        List<AccountForm> resultList = new ArrayList<>();
+        if(!accountList.isEmpty()){
+            AccountAssembler accountAssembler = new AccountAssembler();
+            for(Account account : accountList){
+                AccountForm accountForm = accountAssembler.fromBeanToForm(account);
+                resultList.add(accountForm);
+            }
+        }
+        return resultList;
     }
 
 }

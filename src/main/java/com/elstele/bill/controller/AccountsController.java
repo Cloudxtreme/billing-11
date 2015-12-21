@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -118,6 +119,14 @@ public class AccountsController {
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
 
+        return mav;
+    }
+
+    @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
+    public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+        List<AccountForm> accountFormList = accountDataService.searchAccounts(value);
+        ModelAndView mav = new ModelAndView("accountsearchModel");
+        mav.addObject("accountList", accountFormList);
         return mav;
     }
 
