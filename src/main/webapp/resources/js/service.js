@@ -13,10 +13,20 @@ $(document).ready(function() {
     $('#ipAddressCurrent').show();
 });
 
+/*
 $(document).ready(function() {
-    $('#serviceTypeId').on('change', function() {
+    $('#serviceTypeList').on('change', function() {
         showServiceForm($(this).find(':selected').data('type'));
     });
+});
+*/
+
+$(document).ready(function() {
+    $('#serviceType input[type=radio]').change(function(){
+        var type = $('#serviceType input[type=radio]:checked').val();
+        ajaxBuildServiceTypeSelectList(type);
+        showServiceForm(type);
+    })
 });
 
 $(document).ready(function() {
@@ -56,19 +66,26 @@ $(document).ready(function() {
             $(this).text("Change");
             $(this).removeClass('btn-primary').addClass('btn-success');
         }
-        $.ajax({
-            url: '/serviceTypeList?type='+$('#getServiceType').data("parameter"),
-            type: "get",
-            dataType: "json",
-            success: function(data, textStatus, jqXHR) {
-                $('#serviceTypeId').html('');
-                $.each(data, function(key, value) {
-                    $('#serviceTypeId').append('<option value="'+key+'">'+value+'</option>');
-                });
-            }
-        });
+        ajaxBuildServiceTypeSelectList($('#getServiceType').data("parameter"));
     });
 });
+
+function ajaxBuildServiceTypeSelectList(type){
+        var selectedService = $('#getServiceType').val();
+
+        $.ajax({
+        url: '/serviceTypeList?type='+type,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            $('#serviceTypeList').html('');
+            $.each(data, function(key, value) {
+                selected = (selectedService === key) ? 'selected' : '';
+                $('#serviceTypeList').append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+            });
+        }
+    });
+}
 
 function disabledAllFields(){
     $('#serviceForm input').attr('disabled', 'disabled');
@@ -81,14 +98,14 @@ function allowAllFields(){
 }
 
 function allowChangeServiceType(){
-    $('#serviceForm #serviceTypeId').removeAttr('disabled');
+    $('#serviceForm #serviceTypeList').removeAttr('disabled');
     $('#serviceForm #dateStart').removeAttr('disabled');
     $('#serviceForm #id').removeAttr('disabled');
     $('#serviceForm #accountId').removeAttr('disabled');
 }
 
 function disableChangeServiceType(){
-    $('#serviceForm #serviceTypeId').attr('disabled', 'disabled');
+    $('#serviceForm #serviceTypeList').attr('disabled', 'disabled');
 }
 
 function hideServiceForm(){
@@ -100,26 +117,31 @@ function hideServiceForm(){
     $('#sharedServiceForm').hide();
 }
 
-function showServiceForm(type){
-    $('#sharedForm').show();
-    $('#submitBtn').show();
-    $('#sharedServiceForm').show();
-    type = type.toLowerCase();
-    switch(type){
-        case 'internet':{
-            $('#internetService').show();
-            $('#phoneService').hide();
-            break;
-        }
-        case 'phone':{
-            $('#internetService').hide();
-            $('#phoneService').show();
-            break;
-        }
-        case 'marker':{
-            $('#internetService').hide();
-            $('#phoneService').hide();
-            break;
+function showServiceForm(type) {
+    if (typeof type != undefined) {
+        $('#sharedForm').show();
+        $('#submitBtn').show();
+        $('#sharedServiceForm').show();
+        type = type.toLowerCase();
+        switch (type) {
+            case 'internet':
+            {
+                $('#internetService').show();
+                $('#phoneService').hide();
+                break;
+            }
+            case 'phone':
+            {
+                $('#internetService').hide();
+                $('#phoneService').show();
+                break;
+            }
+            case 'marker':
+            {
+                $('#internetService').hide();
+                $('#phoneService').hide();
+                break;
+            }
         }
     }
 }
@@ -150,7 +172,6 @@ function callAjaxGetValidIp(){
         serviceId = $('#id').val();
     }
     var currentIpAddress = callAjaxGetCurrentIpAddress(serviceId);
-    console.log(currentIpAddress);
     $.ajax({
         type: "POST",
         url: "../../../../getIpAddressList/"+serviceId,

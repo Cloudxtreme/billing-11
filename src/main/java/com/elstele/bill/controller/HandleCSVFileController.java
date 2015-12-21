@@ -39,13 +39,13 @@ public class HandleCSVFileController {
     }
 
 
-    @RequestMapping(value = "/uploadCSVFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax fileCSVUploadSubmit(MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
      return csvParserDataService.parse(multiPartHTTPServletRequestFiles);
     }
 
-    @RequestMapping(value = "/uploadCSVFile/generateFileTree", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadcsvfile/generateFileTree", method = RequestMethod.POST)
     @ResponseBody
     public FileDirTreeGeneraterForm[] generateFileTree() {
         path = ctx.getRealPath("resources\\files\\csvFiles");
