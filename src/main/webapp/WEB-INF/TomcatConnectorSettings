@@ -1,0 +1,9 @@
+
+Go to the Tomcat
+Bin
+Server conf file
+Change connector Define a non-SSL HTTP/1.1 Connector on port 8080 to the
+
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" URIEncoding="UTF-8"/>
