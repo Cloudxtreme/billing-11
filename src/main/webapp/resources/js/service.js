@@ -1,6 +1,5 @@
 $(document).ready(function() {
     hideServiceForm();
-    console.log($('#getServiceType').data("parameter"));
     if((typeof $('#getServiceType').data("parameter") !='undefined') ) {
         showServiceForm($('#getServiceType').data("parameter"));
         $('#changeServiceType').show();
@@ -16,7 +15,7 @@ $(document).ready(function() {
 
 /*
 $(document).ready(function() {
-    $('#serviceTypeId').on('change', function() {
+    $('#serviceTypeList').on('change', function() {
         showServiceForm($(this).find(':selected').data('type'));
     });
 });
@@ -72,14 +71,17 @@ $(document).ready(function() {
 });
 
 function ajaxBuildServiceTypeSelectList(type){
-    $.ajax({
+        var selectedService = $('#getServiceType').val();
+
+        $.ajax({
         url: '/serviceTypeList?type='+type,
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
-            $('#serviceTypeId').html('');
+            $('#serviceTypeList').html('');
             $.each(data, function(key, value) {
-                $('#serviceTypeId').append('<option value="'+key+'">'+value+'</option>');
+                selected = (selectedService === key) ? 'selected' : '';
+                $('#serviceTypeList').append('<option value="'+key+'" '+selected+'>'+value+'</option>');
             });
         }
     });
@@ -96,14 +98,14 @@ function allowAllFields(){
 }
 
 function allowChangeServiceType(){
-    $('#serviceForm #serviceTypeId').removeAttr('disabled');
+    $('#serviceForm #serviceTypeList').removeAttr('disabled');
     $('#serviceForm #dateStart').removeAttr('disabled');
     $('#serviceForm #id').removeAttr('disabled');
     $('#serviceForm #accountId').removeAttr('disabled');
 }
 
 function disableChangeServiceType(){
-    $('#serviceForm #serviceTypeId').attr('disabled', 'disabled');
+    $('#serviceForm #serviceTypeList').attr('disabled', 'disabled');
 }
 
 function hideServiceForm(){
@@ -170,7 +172,6 @@ function callAjaxGetValidIp(){
         serviceId = $('#id').val();
     }
     var currentIpAddress = callAjaxGetCurrentIpAddress(serviceId);
-    console.log(currentIpAddress);
     $.ajax({
         type: "POST",
         url: "../../../../getIpAddressList/"+serviceId,

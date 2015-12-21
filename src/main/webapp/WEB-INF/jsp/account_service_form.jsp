@@ -79,7 +79,7 @@
                             <form:hidden path="serviceType.id" id="getServiceType" data-parameter="${serviceForm.serviceType.serviceType}"/>
                         </c:if>
 
-                        <form:select path="serviceType.id" id="serviceTypeId" multiple="false" class="form-control" disabled="${disable}">
+                        <form:select path="serviceType.id" id="serviceTypeList" multiple="false" class="form-control" disabled="${disable}">
                         <c:forEach items="${serviceTypeList}" var="services">
                             <form:option value="${services.id}" label="${services.name}  (${services.price} грн.)" data-type="${services.serviceType}"/>
                         </c:forEach>
