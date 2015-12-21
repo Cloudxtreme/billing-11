@@ -3,7 +3,7 @@ $(document).ready(function(){
         var data = $('#searchInput').val();
         $.ajax({
             url:'../accounts/accountsearch?searchValues='+data,
-            type: "POST"
+            type: "GET"
         })
     })
 });

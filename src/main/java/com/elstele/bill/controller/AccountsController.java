@@ -122,7 +122,7 @@ public class AccountsController {
         return mav;
     }
 
-    @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
+    @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
     public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
         List<AccountForm> accountFormList = accountDataService.searchAccounts(value);
         ModelAndView mav = new ModelAndView("accountsearchModel");

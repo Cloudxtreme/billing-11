@@ -5,9 +5,11 @@ import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
@@ -26,13 +28,13 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
                         "order by a.accountName");
         q.setFirstResult(offset).setMaxResults(limit);
 
-        return (List<Account>)q.list();
+        return (List<Account>) q.list();
     }
 
     public List<Account> getAccountList() {
         Session session = getSessionFactory().getCurrentSession();
         setFilter(session, "showActive");
-        return (List<Account>)session.
+        return (List<Account>) session.
                 createCriteria(Account.class).add(Restrictions.ne("status", Status.DELETED))
                 .addOrder(Order.asc("accountName"))
                 .list();
@@ -43,13 +45,14 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         setFilter(session, "showActive");
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select count(* ) from Account a where status <> 'DELETED'");
-        Long res = (Long)q.uniqueResult();
+        Long res = (Long) q.uniqueResult();
         return res.intValue();
     }
 
-    public List<Account> searchAccounts(String value){
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Account a where a.fio='" + value + "' or a.accountName='" + value + "'");
-        return (List<Account>)query.list();
+    public List<Account> searchAccounts(String value) {
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("from Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or a.accountName like '%" + value + "%'");
+        return (List<Account>) query.list();
     }
 
 }
