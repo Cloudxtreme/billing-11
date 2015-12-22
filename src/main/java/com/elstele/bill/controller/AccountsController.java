@@ -119,7 +119,8 @@ public class AccountsController {
         return mav;
     }
 
-    @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
+    @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
+    @ResponseBody
     public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, HttpServletRequest request, HttpServletResponse response) {
         List<AccountForm> accountFormList = accountDataService.searchAccounts(value);
         ModelAndView mav = new ModelAndView("accountsearchModel");

@@ -3,22 +3,23 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
-import org.hibernate.Criteria;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
 
+    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
 
     public List<Account> getAccountList(int limit, int offset) {
         Session session = getSessionFactory().getCurrentSession();
@@ -50,9 +51,16 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
     }
 
     public List<Account> searchAccounts(String value) {
-        Query query = getSessionFactory().getCurrentSession().
-                createQuery("from Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or a.accountName like '%" + value + "%'");
-        return (List<Account>) query.list();
+        try {
+            Query query = getSessionFactory().getCurrentSession().
+                    createQuery("select distinct s.account From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' " +
+                            "or lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
+            log.info("Values selected successfully. Method searchAccounts ");
+            return (List<Account>) query.list();
+        } catch (HibernateException e) {
+            log.error(e.toString() + "Method searchAccounts");
+            return Collections.emptyList();
+        }
     }
 
 }
