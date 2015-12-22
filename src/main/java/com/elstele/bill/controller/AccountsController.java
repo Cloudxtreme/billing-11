@@ -3,28 +3,25 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 @Controller
-@RequestMapping("/accounts")
+@RequestMapping("**/accounts")
 public class AccountsController {
 
     @Autowired
@@ -123,7 +120,7 @@ public class AccountsController {
     }
 
     @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
-    public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+    public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, HttpServletRequest request, HttpServletResponse response) {
         List<AccountForm> accountFormList = accountDataService.searchAccounts(value);
         ModelAndView mav = new ModelAndView("accountsearchModel");
         mav.addObject("accountList", accountFormList);

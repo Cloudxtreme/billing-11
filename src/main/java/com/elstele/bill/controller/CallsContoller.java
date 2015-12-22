@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,11 +32,11 @@ public class CallsContoller {
                                                 @RequestParam(value = "numberB") String numberB,
                                                 @RequestParam(value = "timeRange") String timeRange
     ) throws ParseException {
-        List<CallForm> result = new LinkedList<CallForm>();
+        List<CallForm> result = new ArrayList<>();
         Date startDate = null;
         Date endDate = null;
         if (numberA.isEmpty() && numberB.isEmpty() && timeRange.isEmpty()) {
-            result = callDataService.getCallsList(rows, page);
+             result = callDataService.getCallsList(rows, page);
         } else {
             if (timeRange.length() >= 16 && timeRange.length() < 36) {
                 String startDateTemp = timeRange.substring(0, 16);
@@ -68,7 +69,6 @@ public class CallsContoller {
                                           @RequestParam(value = "numberA") String numberA,
                                           @RequestParam(value = "numberB") String numberB,
                                           @RequestParam(value = "timeRange") String timeRange) throws ParseException {
-
         CallsRequestParamTO callsRequestParamTO = new CallsRequestParamTO();
         callsRequestParamTO.setCallNumberA(numberA);
         callsRequestParamTO.setCallNumberB(numberB);
