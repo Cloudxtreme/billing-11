@@ -30,7 +30,6 @@ public class BillingDataServiceImpl implements BillingDataService {
     private ServiceDAO serviceDAO;
 
 
-    @Override
     @Transactional
     public Integer createTransactionAndDecreaseBalance(Integer serviceId) {
         //get service cost

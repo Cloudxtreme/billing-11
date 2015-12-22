@@ -46,3 +46,15 @@
 .navbar-nav > li {
     border: 1px solid #ffffff;
 }
+
+#userOnlineTable {
+    color: #000;
+}
+
+#userOnlineTable  tbody > tr > td {
+    background-color: #E9FBE7;
+}
+
+#userOnlineTable  tbody > tr > th {
+    background-color: #D1FAC9;
+}
