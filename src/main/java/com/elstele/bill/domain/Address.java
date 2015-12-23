@@ -14,7 +14,10 @@ public class Address extends CommonDomainBean{
     @JoinColumn(name="street_id")
     private Street street;
 
+    @Column(length = 8)
     private String building;
+
+    @Column(length = 8)
     private String flat;
 
     public Street getStreet() {

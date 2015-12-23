@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">ELS Telecom</a>
+            <a class="navbar-brand" onclick="window.location.reload(true)">ELS Telecom</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

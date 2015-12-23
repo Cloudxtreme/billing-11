@@ -9,11 +9,15 @@ import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.utils.Enums.IpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -21,6 +25,8 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
 
     @Autowired
     private IpDataService ipDataService;
+
+    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
 
     @Override
     public List listServices(){
@@ -88,5 +94,29 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
                 .addScalar("id", StandardBasicTypes.INTEGER);
         result = (List<Integer>)query.list();
         return result;
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByFIOAndName(String value) {
+        try {
+            Query query = getSessionFactory().getCurrentSession().
+                    createQuery("From Service s where lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
+            log.info("Values selected successfully. Method searchAccounts ");
+            return  (List<com.elstele.bill.domain.Service>)query.list();
+        } catch (HibernateException e) {
+            log.error(e.toString() + "Method getServiceByFIOAndName");
+            return Collections.emptyList();
+        }
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByLogin(String value){
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' ");
+        return (List<com.elstele.bill.domain.Service>)query.list();
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByPhone(String value){
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where s.phoneNumber like '%" + value + "%' ");
+        return (List<com.elstele.bill.domain.Service>)query.list();
     }
 }

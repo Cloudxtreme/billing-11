@@ -3,6 +3,7 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
@@ -20,6 +21,8 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
     private AccountDAO accountDAO;
+    @Autowired
+    private ServiceDAO serviceDAO;
     @Autowired
     private StreetDAO streetDAO;
     @Autowired
@@ -168,36 +171,23 @@ public class AccountDataServiceImpl implements AccountDataService {
         return accountDAO.getActiveAccountsCount();
     }
 
-    /*@Override
-    @Transactional
-    public List<AccountForm> searchAccounts(String value){
-        List<Account> accountList = accountDAO.searchAccounts(value);
-        List<AccountForm> resultList = new ArrayList<>();
-        if(!accountList.isEmpty()){
-            AccountAssembler accountAssembler = new AccountAssembler();
-            for(Account account : accountList){
-                AccountForm accountForm = accountAssembler.fromBeanToForm(account);
-                resultList.add(accountForm);
-            }
-        }
-        return resultList;
-    }*/
-
     @Override
     @Transactional
     public List<AccountForm> searchAccounts(String value) {
-        List<Service> serviceListByLogin = accountDAO.getServiceByLogin(value);
-        List<Service> serviceListByPhoNumber = accountDAO.getServiceByPhone(value);
-        List<Service> serviceListByFIOAndName = accountDAO.getServiceByFIOAndName(value);
+        List<Service> serviceListByLogin = serviceDAO.getServiceByLogin(value);
+        List<Service> serviceListByPhoNumber = serviceDAO.getServiceByPhone(value);
+        List<Service> serviceListByFIOAndName = serviceDAO.getServiceByFIOAndName(value);
 
         List<AccountForm> result = new ArrayList<>();
+
         addFormWithLoginToList(result, serviceListByLogin);
         addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
         addFormToListWithFIO(result, serviceListByFIOAndName);
+
         return result;
     }
 
-    private void addFormWithLoginToList(List<AccountForm> result, List<Service> serviceListByLogin) {
+    public void addFormWithLoginToList(List<AccountForm> result, List<Service> serviceListByLogin) {
         AccountAssembler accountAssembler = new AccountAssembler();
         for (Service service : serviceListByLogin) {
             AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
@@ -209,7 +199,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    private void addFormWithPhoneNumberToList(List<AccountForm> result, List<Service> serviceListByPhoNumber) {
+    public void addFormWithPhoneNumberToList(List<AccountForm> result, List<Service> serviceListByPhoNumber) {
         AccountAssembler accountAssembler = new AccountAssembler();
         for (Service service : serviceListByPhoNumber) {
             AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
@@ -221,7 +211,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    private void addFormToListWithFIO(List<AccountForm> result, List<Service> serviceListByFIOAndName) {
+    public void addFormToListWithFIO(List<AccountForm> result, List<Service> serviceListByFIOAndName) {
         AccountAssembler accountAssembler = new AccountAssembler();
         for (Service service : serviceListByFIOAndName) {
             AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());

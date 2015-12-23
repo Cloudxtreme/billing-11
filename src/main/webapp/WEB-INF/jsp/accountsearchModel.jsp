@@ -30,7 +30,7 @@
     </div>
     &nbsp;&nbsp;&nbsp;
     <c:if test="${not empty message}">
-        <div class="alert alert-info fade in text-center" style="width: 40% !important; margin-left: 25% !important;"
+        <div class="alert alert-info fade in text-center" style="width: 40% !important; margin-left: 30% !important;"
              role="alert">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>${message}</strong>

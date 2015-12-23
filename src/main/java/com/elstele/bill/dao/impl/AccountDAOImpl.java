@@ -51,28 +51,4 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         return res.intValue();
     }
 
-    public List<com.elstele.bill.domain.Service> getServiceByFIOAndName(String value) {
-        try {
-            Query query = getSessionFactory().getCurrentSession().
-                    createQuery("From Service s where lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
-            log.info("Values selected successfully. Method searchAccounts ");
-            return  (List<com.elstele.bill.domain.Service>)query.list();
-        } catch (HibernateException e) {
-            log.error(e.toString() + "Method getServiceByFIOAndName");
-            return Collections.emptyList();
-        }
-    }
-
-    public List<com.elstele.bill.domain.Service> getServiceByLogin(String value){
-        Query query = getSessionFactory().getCurrentSession().
-                createQuery("From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' ");
-        return (List<com.elstele.bill.domain.Service>)query.list();
-    }
-
-    public List<com.elstele.bill.domain.Service> getServiceByPhone(String value){
-        Query query = getSessionFactory().getCurrentSession().
-                createQuery("From Service s where s.phoneNumber like '%" + value + "%' ");
-        return (List<com.elstele.bill.domain.Service>)query.list();
-    }
-
 }
