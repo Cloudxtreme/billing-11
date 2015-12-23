@@ -10,10 +10,14 @@ import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Enums.Status;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -27,6 +31,8 @@ public class AccountDataServiceImpl implements AccountDataService {
     private StreetDAO streetDAO;
     @Autowired
     StreetDataService streetDataService;
+
+    final static Logger log = LogManager.getLogger(AccountDataServiceImpl.class);
 
     @Override
     @Transactional
@@ -174,17 +180,23 @@ public class AccountDataServiceImpl implements AccountDataService {
     @Override
     @Transactional
     public List<AccountForm> searchAccounts(String value) {
-        List<Service> serviceListByLogin = serviceDAO.getServiceByLogin(value);
-        List<Service> serviceListByPhoNumber = serviceDAO.getServiceByPhone(value);
-        List<Service> serviceListByFIOAndName = serviceDAO.getServiceByFIOAndName(value);
+        try {
+            List<Service> serviceListByLogin = serviceDAO.getServiceByLogin(value);
+            List<Service> serviceListByPhoNumber = serviceDAO.getServiceByPhone(value);
+            List<Service> serviceListByFIOAndName = serviceDAO.getServiceByFIOAndName(value);
+            List<AccountForm> result = new ArrayList<>();
 
-        List<AccountForm> result = new ArrayList<>();
+            addFormWithLoginToList(result, serviceListByLogin);
+            addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
+            addFormToListWithFIO(result, serviceListByFIOAndName);
 
-        addFormWithLoginToList(result, serviceListByLogin);
-        addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
-        addFormToListWithFIO(result, serviceListByFIOAndName);
+            log.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
 
-        return result;
+            return result;
+        }catch(HibernateException e){
+            log.error(e.toString() + " Method searchAccounts");
+            return Collections.emptyList();
+        }
     }
 
     public void addFormWithLoginToList(List<AccountForm> result, List<Service> serviceListByLogin) {

@@ -40,6 +40,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -241,5 +242,53 @@ public class DeviceControllerTest {
         map = (Map<Integer, String>) model.getModel().get("ipNetList");
         assertTrue(map.containsKey(ipSubnetForm.getId()));
         assertTrue(map.containsValue(ipSubnetForm.getIpSubnet()));
+    }
+
+    @Test
+    public void adddevicetypeTest() throws Exception {
+        this.mockMvc.perform(post("/adddevicetype")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().is(302));
+    }
+
+    @Test
+    public void editdevicetypeTest() throws Exception {
+        this.mockMvc.perform(post("/editdevicetype")
+                .session(mockSession)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(deviceTypesForm))
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string("\"SUCCESS\""));
+    }
+
+    @Test
+    public void getValidIpstest() throws Exception {
+        List<IpForm> ipFormList = new ArrayList<>();
+        ipFormList.add(ipForm);
+        when(ipDataService.getBySubnetId(1)).thenReturn(ipFormList);
+        String mapInStringVariant = "{\"1\":\"test\"}";
+        this.mockMvc.perform(post("/getValidIps")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapInStringVariant));
+    }
+
+    @Test
+    public void ipAddressListReturnTest() throws Exception {
+        List<IpForm> ipFormList = new ArrayList<>();
+        ipFormList.add(ipForm);
+        when(ipDataService.getIpAddressList()).thenReturn(ipFormList);
+        String mapInStringVariant = "{\"1\":\"test\"}";
+        this.mockMvc.perform(get("/returniplist")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapInStringVariant));
     }
 }
