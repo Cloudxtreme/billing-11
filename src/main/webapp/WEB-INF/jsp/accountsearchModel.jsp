@@ -23,7 +23,7 @@
 <div class="well">
     <div class="col-md-4">
         <a href="${pageContext.request.contextPath}/accounts/accountHome.html">
-            <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px;">
+            <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px; color: #3a87ad !important;">
                 Перейти к списку аккаунтов
             </span>
         </a>
@@ -41,8 +41,8 @@
         <caption class="text-center"><h3>Результаты поиска Аккаунтов</h3></caption>
 
         <TH>Действия</th>
-        <TH>ID(Лиц.счёт)</th>
-        <th>ФИО(Организация)</th>
+        <TH>ID (Лиц.счёт)</th>
+        <th>ФИО (Организация)</th>
         <th>Совпадение в поиске</th>
         <th>Тип</th>
         <th>Баланс</th>
