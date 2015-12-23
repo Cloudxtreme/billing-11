@@ -12,4 +12,5 @@ public interface TransactionDataService {
     public List<TransactionForm> getTransactionList(Integer accountId, Integer displayLimit);
     public List<TransactionForm> searchTransactionList(String account, Date dateStart, Date dateEnd);
     public TransactionForm getTransactionForm(Integer accountId);
+    public TransactionForm getTransactionById(Integer transactionId);
 }

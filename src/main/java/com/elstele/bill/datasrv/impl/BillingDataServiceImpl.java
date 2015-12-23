@@ -30,14 +30,14 @@ public class BillingDataServiceImpl implements BillingDataService {
     private ServiceDAO serviceDAO;
 
 
-    @Override
     @Transactional
     public Integer createTransactionAndDecreaseBalance(Integer serviceId) {
         //get service cost
         com.elstele.bill.domain.Service curService = serviceDAO.getById(serviceId);
 
         Float cost = curService.getServiceType().getPrice();
-        Account account = curService.getAccount();
+        Integer cutAccountId = curService.getAccount().getId();
+        Account account = accountDAO.getAccountForUpgradeById(cutAccountId);
         //create transaction for bill
         Transaction transaction = createTransactionForService(curService);
         transactionDAO.create(transaction);

@@ -4,6 +4,8 @@ import com.elstele.bill.datasrv.interfaces.BillingDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import static com.elstele.bill.utils.Constants.BILLING_SERVICE_WORKER;
 
 /**
