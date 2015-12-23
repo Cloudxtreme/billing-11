@@ -294,4 +294,56 @@ function hideShowLegalAddress(){
     }
 }
 
+function ajaxBuildTransactionTable() {
+    var accountId = ($("#accountId").text() === "") ? 0 : $("#accountId").text();
+
+    $.ajax({
+        url: '/transaction/buildTransactionTable?accountId='+accountId+'&limit='+limit,
+        type: "get",
+        dataType: "json",
+        success: function(data) {
+            drawTable(data);
+        }
+    });
+}
+
+$(document).ready(function () {
+    $('#transactionListLimit').on('change', function () {
+        ajaxBuildTransactionTable();
+    });
+});
+
+function ajaxBuildTransactionTable() {
+    var accountId = ($("#accountId").text() === "") ? 0 : $("#accountId").text();
+    var limit = $('#transactionListLimit').find(':selected').val();
+
+    $.ajax({
+        url: '../../../transaction/buildTransactionTable?accountId='+accountId+'&limit='+limit,
+        type: "get",
+        dataType: "json",
+        success: function(data) {
+            drawTransTable(data);
+        }
+    });
+}
+
+function drawTransTable(data){
+    $("#transactionTable").find("tr:gt(0)").remove();
+    for (var i = 0; i < data.length; i++) {
+        drawTransRow(data[i]);
+    }
+}
+
+function drawTransRow(data){
+    var date = new Date(data.date);
+    var tableRow = "<tr id=" + data.id + ">" +
+        "<td>"+ data.account.accountName +"</td>" +
+        "<td>"+ data.date +"</td>" +
+        "<td>"+ data.direction +"</td>" +
+        "<td>"+ data.source +"</td>" +
+        "<td>"+ data.price +"</td>" +
+        "<td>"+ data.comment +"</td>" +
+        "</tr>";
+    $("#transactionTable").append(tableRow);
+}
 

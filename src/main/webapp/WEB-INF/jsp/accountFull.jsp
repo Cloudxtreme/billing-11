@@ -22,8 +22,6 @@
     <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
-    <spring:url value="/resources/js/transaction.js" var="trans" />
-    <script src="${trans}"></script>
     <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
     <script src="${jBootstrapSwitch}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />

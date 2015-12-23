@@ -77,22 +77,30 @@ public class TransactionController {
     @ResponseBody
     public List<TransactionForm> searchTransactionList(HttpServletRequest request,
                                                      @RequestParam(value = "account") String account,
+                                                     @RequestParam(value = "accountId") Integer accountId,
+                                                     @RequestParam(value = "limit") Integer limit,
                                                      @RequestParam(value = "searchDate") String searchDate) throws ParseException  {
-        Date dateStart = null;
-        Date dateEnd = null;
-        String[] dateParts = null;
-        if (searchDate.contains(" - ")) {
-            dateParts = searchDate.split(" - ");
-            if(dateParts.length == 2){
-                DateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-                dateStart = format.parse(dateParts[0]);
-                dateEnd = format.parse(dateParts[1]);
-            }
-        }
-
-        return transactionDataService.searchTransactionList(account, dateStart, dateEnd);
+        Map<String, Date>  formatDate = getDateFromString(searchDate);
+        if(account.equals("") && formatDate.get("startDate")==null && formatDate.get("endDate") == null)
+            return transactionDataService.getTransactionList(accountId,limit);
+        else
+            return transactionDataService.searchTransactionList(account, formatDate.get("startDate"), formatDate.get("endDate"));
     }
 
+    private Map<String, Date> getDateFromString(String searchDate) throws ParseException {
+        Map<String, Date> formatDate = new HashMap<String, Date>();
+        formatDate.put("startDate",null);
+        formatDate.put("endDate",null);
+        if (searchDate.contains(" - ")) {
+            String[] dateParts = searchDate.split(" - ");
+            if(dateParts.length == 2){
+                DateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+                formatDate.put("startDate",format.parse(dateParts[0]));
+                formatDate.put("endDate",format.parse(dateParts[1]));
+            }
+        }
+        return formatDate;
+    }
     @RequestMapping(value="/transaction/{accountId}/catalog/", method = RequestMethod.GET)
     public String transactionCatalog(@PathVariable("accountId") Integer accountId, HttpSession session, Map<String, Object> map)
     {

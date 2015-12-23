@@ -1,27 +1,26 @@
 $(document).ready(function () {
     //Listener to changing entries values
+
     $('#transactionListLimit').on('change', function() {
-        var limit = $(this).find(':selected').val();
-        if((typeof limit !='undefined') )
-            ajaxBuildTransactionTable(limit);
+        ajaxBuildSearchResultTable();
     });
 
     $(".form-control").on('keydown', function (event) {
         if (event.keyCode == 13) {
             console.log("press enter");
-            buildSearchResultTable();
+            ajaxBuildSearchResultTable();
         }
     });
 
     $('#searchBtn').on('click', function () {
-        buildSearchResultTable();
+        ajaxBuildSearchResultTable();
     });
 
     $('#eraseSearch').on('click', function () {
         $('#searchAccountName').val('');
         $('#searchDate').val('');
         console.log("erase btn click");
-        buildSearchResultTable();
+        ajaxBuildSearchResultTable();
     })
 
     //Date range picker settings
@@ -42,30 +41,28 @@ $(document).ready(function () {
     });
 });
 
-function buildSearchResultTable(){
+function ajaxBuildSearchResultTable(){
+    var accountId = ($("#accountId").text() === "") ? 0 : $("#accountId").text();
+    var limit = $('#transactionListLimit').find(':selected').val();
+
     $.ajax({
-        url: '../../searchTransaction?account='+$('#searchAccountName').val()+'&searchDate='+$('#searchDate').val(),
+        url: '../../searchTransaction?account='+$('#searchAccountName').val()+'&searchDate='+$('#searchDate').val()+'&accountId='+accountId+'&limit='+limit,
         type: "get",
         dataType: "json",
         success: function(data) {
             drawTable(data);
+            limitDisplayResult();
         }
     });
 }
 
-
-function ajaxBuildTransactionTable(limit){
-    var accountId = ($("#accountId").text() === "") ? 0 : $("#accountId").text();
-
-    console.log(accountId);
-    $.ajax({
-        url: '/transaction/buildTransactionTable?accountId='+accountId+'&limit='+limit,
-        type: "get",
-        dataType: "json",
-        success: function(data) {
-            drawTable(data);
-        }
-    });
+function limitDisplayResult(){
+    var limit = $('#transactionListLimit').find(':selected').val();
+    limit++;
+    if ((typeof limit != 'undefined')){
+        $("#transactionTable").find("tr:gt(0)").hide();
+        $("#transactionTable").find('tr:lt(' + limit + ')').show();
+    }
 }
 
 function drawTable(data){

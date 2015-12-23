@@ -37,7 +37,7 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
     public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd){
         List<Transaction> transactionList = new ArrayList<Transaction>();
         String orderBy = " ORDER BY transaction.date DESC";
-        String addAccount = (account != "") ? " and transaction.account.accountName like :account " : "";
+        String addAccount = (!account.equals("")) ? " and transaction.account.accountName like :account " : "";
         String addDateStart = (dateStart != null) ? " and transaction.date > :dateStart " : "";
         String addDateEnd = (dateEnd != null) ? " and transaction.date < :dateEnd " : "";
 
@@ -48,11 +48,11 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
                 orderBy;
 
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-        if (addAccount != "")
+        if (!addAccount.equals(""))
             query.setParameter("account","%"+account+"%");
-        if (addDateStart != "")
+        if (!addDateStart.equals(""))
             query.setParameter("dateStart",dateStart);
-        if (addDateEnd != "")
+        if (!addDateEnd.equals(""))
             query.setParameter("dateEnd",dateEnd);
 
         if (!query.list().isEmpty()) {
