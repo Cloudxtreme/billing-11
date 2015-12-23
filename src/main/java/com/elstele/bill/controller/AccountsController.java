@@ -120,11 +120,14 @@ public class AccountsController {
     }
 
     @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView searchAccount(@RequestParam(value = "searchValues") String value, HttpServletRequest request, HttpServletResponse response) {
-        List<AccountForm> accountFormList = accountDataService.searchAccounts(value);
+    public ModelAndView searchAccount(@RequestParam String searchInput) {
+        List<AccountForm> accountFormList = accountDataService.searchAccounts(searchInput);
         ModelAndView mav = new ModelAndView("accountsearchModel");
-        mav.addObject("accountList", accountFormList);
+        if(!accountFormList.isEmpty()) {
+            mav.addObject("accountList", accountFormList);
+        }else{
+            mav.addObject("message", "Ничего не найдено. Попробуйте ещё раз");
+        }
         return mav;
     }
 

@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <nav class="navbar navbar-default">
@@ -47,11 +48,11 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form action="${pageContext.request.contextPath}/accounts/accountsearch" method="Post" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input id="searchInput" type="text" class="form-control" placeholder="Search account">
+                    <input id="searchInput" name="searchInput" type="text" class="form-control" placeholder="Search account">
                 </div>
-                <a id="searchButton" class="btn btn-default">Search</a>
+                <button type="submit" id="searchButton" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>

@@ -17,6 +17,7 @@ public class AccountForm {
     private AddressForm legalAddress = new AddressForm();
     private List<ServiceForm> serviceForms;
     private String fio;
+    private String searchCompares;
 
 
     public Integer getId() {
@@ -89,6 +90,14 @@ public class AccountForm {
 
     public void setFio(String fio) {
         this.fio = fio;
+    }
+
+    public String getSearchCompares() {
+        return searchCompares;
+    }
+
+    public void setSearchCompares(String searchCompares) {
+        this.searchCompares = searchCompares;
     }
 
     @Override

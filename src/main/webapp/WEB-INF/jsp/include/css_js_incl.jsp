@@ -8,12 +8,14 @@
 <%--javascript--%>
 <spring:url value="/resources/js/jquery-1.11.3.js" var="jquery" />
 <spring:url value="/resources/js/bootstrap.js" var="bootstrapJs" />
-<spring:url value="/resources/js/accountsearch.js" var="accountSearch" />
+<%--<spring:url value="/resources/js/accountsearch.js" var="accountSearch" />--%>
 
 
 <script src="${jquery}"></script>
 <script src="${bootstrapJs}"></script>
+<%--
 <script src="${accountSearch}"></script>
+--%>
 <link href="${bootstrap}" rel="stylesheet"/>
 <%--<link href="${bootstrap_minimalist}" rel="stylesheet"/>--%>
 <link href="${mainCss}" rel="stylesheet"/>

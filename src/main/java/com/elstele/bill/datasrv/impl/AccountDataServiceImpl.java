@@ -6,18 +6,16 @@ import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-@Service
+@org.springframework.stereotype.Service
 public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
@@ -101,7 +99,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         updateStreetListAfterInsert(form);
     }
 
-    public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form){
+    public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form) {
         if (form.getLegalAddress().getStreetId() == null || form.getPhyAddress().getStreetId() == null) {
             String streetNamePhyAddress = form.getPhyAddress().getStreet();
             String streetNameLegalAddress = form.getLegalAddress().getStreet();
@@ -120,14 +118,14 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    public void updateStreetListAfterInsert(AccountForm form){
+    public void updateStreetListAfterInsert(AccountForm form) {
         Integer phyId = form.getPhyAddress().getStreetId();
         String phyStreet = form.getPhyAddress().getStreet();
 
         Integer legalId = form.getLegalAddress().getStreetId();
         String legalStreet = form.getLegalAddress().getStreet();
 
-        if((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())){
+        if ((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())) {
             streetDataService.clearStreetsList();
         }
     }
@@ -170,7 +168,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         return accountDAO.getActiveAccountsCount();
     }
 
-    @Override
+    /*@Override
     @Transactional
     public List<AccountForm> searchAccounts(String value){
         List<Account> accountList = accountDAO.searchAccounts(value);
@@ -183,6 +181,52 @@ public class AccountDataServiceImpl implements AccountDataService {
             }
         }
         return resultList;
+    }*/
+
+    @Override
+    @Transactional
+    public List<AccountForm> searchAccounts(String value) {
+        List<Service> serviceListByLogin = accountDAO.getServiceByLogin(value);
+        List<Service> serviceListByPhoNumber = accountDAO.getServiceByPhone(value);
+        List<Service> serviceListByFIOAndName = accountDAO.getServiceByFIOAndName(value);
+
+        List<AccountForm> result = new ArrayList<>();
+        addFormWithLoginToList(result, serviceListByLogin);
+        addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
+        addFormToListWithFIO(result, serviceListByFIOAndName);
+        return result;
+    }
+
+    private void addFormWithLoginToList(List<AccountForm> result, List<Service> serviceListByLogin) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Service service : serviceListByLogin) {
+            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
+            if (service instanceof ServiceInternet) {
+                String login = ((ServiceInternet) service).getUsername();
+                form.setSearchCompares("Login: " + login);
+            }
+            result.add(form);
+        }
+    }
+
+    private void addFormWithPhoneNumberToList(List<AccountForm> result, List<Service> serviceListByPhoNumber) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Service service : serviceListByPhoNumber) {
+            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
+            if (service instanceof ServicePhone) {
+                String phoneNumber = ((ServicePhone) service).getPhoneNumber();
+                form.setSearchCompares("Phone Number: " + phoneNumber);
+            }
+            result.add(form);
+        }
+    }
+
+    private void addFormToListWithFIO(List<AccountForm> result, List<Service> serviceListByFIOAndName) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Service service : serviceListByFIOAndName) {
+            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
+            result.add(form);
+        }
     }
 
 }

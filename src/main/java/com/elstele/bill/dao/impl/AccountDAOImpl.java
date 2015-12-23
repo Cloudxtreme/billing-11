@@ -3,6 +3,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,17 +51,28 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         return res.intValue();
     }
 
-    public List<Account> searchAccounts(String value) {
+    public List<com.elstele.bill.domain.Service> getServiceByFIOAndName(String value) {
         try {
             Query query = getSessionFactory().getCurrentSession().
-                    createQuery("select distinct s.account From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' " +
-                            "or lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
+                    createQuery("From Service s where lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
             log.info("Values selected successfully. Method searchAccounts ");
-            return (List<Account>) query.list();
+            return  (List<com.elstele.bill.domain.Service>)query.list();
         } catch (HibernateException e) {
-            log.error(e.toString() + "Method searchAccounts");
+            log.error(e.toString() + "Method getServiceByFIOAndName");
             return Collections.emptyList();
         }
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByLogin(String value){
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' ");
+        return (List<com.elstele.bill.domain.Service>)query.list();
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByPhone(String value){
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where s.phoneNumber like '%" + value + "%' ");
+        return (List<com.elstele.bill.domain.Service>)query.list();
     }
 
 }
