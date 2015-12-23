@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,6 +27,34 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
         List<Transaction> transactionList = new ArrayList<Transaction>();
         Query query = getQuery(accountId);
         query = query.setMaxResults(displayLimit);
+        if (!query.list().isEmpty()) {
+            transactionList = query.list();
+        }
+        return transactionList;
+    }
+
+    @Override
+    public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd){
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        String orderBy = " ORDER BY transaction.date DESC";
+        String addAccount = (account != "") ? " and transaction.account.accountName like :account " : "";
+        String addDateStart = (dateStart != null) ? " and transaction.date > :dateStart " : "";
+        String addDateEnd = (dateEnd != null) ? " and transaction.date < :dateEnd " : "";
+
+        String hql = "from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) "+
+                addAccount +
+                addDateStart +
+                addDateEnd +
+                orderBy;
+
+        Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+        if (addAccount != "")
+            query.setParameter("account","%"+account+"%");
+        if (addDateStart != "")
+            query.setParameter("dateStart",dateStart);
+        if (addDateEnd != "")
+            query.setParameter("dateEnd",dateEnd);
+
         if (!query.list().isEmpty()) {
             transactionList = query.list();
         }

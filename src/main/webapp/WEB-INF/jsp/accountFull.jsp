@@ -22,6 +22,8 @@
     <script src="${typeahead}"></script>
     <spring:url value="/resources/js/accounts.js" var="accounts" />
     <script src="${accounts}"></script>
+    <spring:url value="/resources/js/transaction.js" var="trans" />
+    <script src="${trans}"></script>
     <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
     <script src="${jBootstrapSwitch}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
@@ -212,9 +214,16 @@
                 <div id="transactionBlock" class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Транзакции
-                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accountFull" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
-                            </h3>
+                            <div class="panel-title">
+                                Транзакции
+                                <select class="selectpicker" data-style="btn-info" id="transactionListLimit" style="font-size: 12px !important; ">
+                                    <option value="10">10</option>
+                                    <option value="20" selected="selected">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accounts/editFull/${accountForm.id}" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <table id="transactionTable" class="table table-striped table-hover">
@@ -239,6 +248,7 @@
                                         </tr>
                                     </label>
                                 </c:forEach>
+                                <div id="accountId" style="display: none;">${accountForm.id}</div>
                             </table>
                         </div>
                     </div>
