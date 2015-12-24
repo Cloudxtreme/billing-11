@@ -338,7 +338,7 @@ function drawTransRow(data){
     var date = new Date(data.date);
     var tableRow = "<tr id=" + data.id + ">" +
         "<td>"+ data.account.accountName +"</td>" +
-        "<td>"+ data.date +"</td>" +
+        "<td>"+ date.format('yyyy-mm-dd HH:MM') +"</td>" +
         "<td>"+ data.direction +"</td>" +
         "<td>"+ data.source +"</td>" +
         "<td>"+ data.price +"</td>" +

@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -83,7 +84,7 @@
                 <label for="${transaction.id}">
                     <tr id="${transaction.id}">
                         <td>${transaction.account.accountName}</td>
-                        <td>${transaction.date}</td>
+                        <td><fmt:formatDate value="${transaction.date}" pattern="yyyy-MM-dd HH:mm"/></td>
                         <td>${transaction.direction}</td>
                         <td>${transaction.source}</td>
                         <td>${transaction.price}</td>

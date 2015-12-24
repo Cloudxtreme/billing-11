@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -16,6 +16,8 @@
     <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
     <link href="${bootstrapSwitch}" rel="stylesheet"/>
 
+    <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
+    <script src="${dateParsing}"></script>
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
     <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
@@ -238,7 +240,7 @@
                                     <label for="${transaction.id}">
                                         <tr id="${transaction.id}">
                                             <td>${transaction.account.accountName}</td>
-                                            <td>${transaction.date}</td>
+                                            <td><fmt:formatDate value="${transaction.date}" pattern="yyyy-MM-dd HH:mm"/></td>
                                             <td>${transaction.direction}</td>
                                             <td>${transaction.source}</td>
                                             <td>${transaction.price}</td>
