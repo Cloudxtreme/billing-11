@@ -86,7 +86,7 @@
                         </form:select>
                     </div>
                     <div class="col-lg-1">
-                        <a href="#" id="changeServiceType" class="btn btn-sm btn-success">Change</a>
+                        <a id="changeServiceType" class="btn btn-sm btn-success">Change</a>
                     </div>
                 </div>
                 <div class="form-group">

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,6 +43,12 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         Transaction tr = transactionDAO.getById(transactionId);
         TransactionAssembler assembler = new TransactionAssembler();
         return assembler.fromBeanToForm(tr);
+    }
+    @Override
+    @Transactional
+    public List<TransactionForm> searchTransactionList(String account, Date dateStart, Date dateEnd){
+        List<Transaction> beans = transactionDAO.searchTransactionList(account, dateStart, dateEnd);
+        return makeTransactionFormList(beans);
     }
 
     @Transactional

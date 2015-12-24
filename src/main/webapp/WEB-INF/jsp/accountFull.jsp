@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -16,6 +16,8 @@
     <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
     <link href="${bootstrapSwitch}" rel="stylesheet"/>
 
+    <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
+    <script src="${dateParsing}"></script>
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
     <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
@@ -212,9 +214,16 @@
                 <div id="transactionBlock" class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Транзакции
-                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accountFull" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
-                            </h3>
+                            <div class="panel-title">
+                                Транзакции
+                                <select class="selectpicker" data-style="btn-info" id="transactionListLimit" style="font-size: 12px !important; ">
+                                    <option value="10">10</option>
+                                    <option value="20" selected="selected">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accounts/editFull/${accountForm.id}" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <table id="transactionTable" class="table table-striped table-hover">
@@ -231,7 +240,7 @@
                                     <label for="${transaction.id}">
                                         <tr id="${transaction.id}">
                                             <td>${transaction.account.accountName}</td>
-                                            <td>${transaction.date}</td>
+                                            <td><fmt:formatDate value="${transaction.date}" pattern="yyyy-MM-dd HH:mm"/></td>
                                             <td>${transaction.direction}</td>
                                             <td>${transaction.source}</td>
                                             <td>${transaction.price}</td>
@@ -239,6 +248,7 @@
                                         </tr>
                                     </label>
                                 </c:forEach>
+                                <div id="accountId" style="display: none;">${accountForm.id}</div>
                             </table>
                         </div>
                     </div>
