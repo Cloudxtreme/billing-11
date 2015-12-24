@@ -22,7 +22,7 @@
 
 
 <div class="col-lg-6">
-    <form:form class="form-horizontal" method="POST" commandName="activityForm" action="${pageContext.request.contextPath}/activity_form.html">
+    <form:form class="form-horizontal" method="POST" commandName="activityForm" action="${pageContext.request.contextPath}/addactivity.html">
         <fieldset>
             <legend>Add/Edit User Activity</legend>
             <div class="form-group">

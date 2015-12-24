@@ -58,17 +58,16 @@ public class HandleKDFController {
         String path = ctx.getRealPath("resources\\files");
         File file = new File(path + File.separator + uploadedFileInfoForm.getPath());
         Path filePath = file.toPath();
-        String result = "";
         uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
         try {
             Files.delete(filePath);
-            result = "success";
+            return "success";
         } catch (IOException e) {
             System.out.println(e);
             return e.toString();
         }
-        return result;
     }
+
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
     public void handleFiles(@RequestBody String[] json) {

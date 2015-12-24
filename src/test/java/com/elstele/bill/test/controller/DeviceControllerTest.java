@@ -1,13 +1,10 @@
 package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.DeviceController;
-import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.form.*;
 import com.elstele.bill.test.builder.form.DeviceFormBuilder;
@@ -18,7 +15,6 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,7 +36,6 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
