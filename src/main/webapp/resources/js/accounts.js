@@ -294,19 +294,6 @@ function hideShowLegalAddress(){
     }
 }
 
-function ajaxBuildTransactionTable() {
-    var accountId = ($("#accountId").text() === "") ? 0 : $("#accountId").text();
-
-    $.ajax({
-        url: '/transaction/buildTransactionTable?accountId='+accountId+'&limit='+limit,
-        type: "get",
-        dataType: "json",
-        success: function(data) {
-            drawTable(data);
-        }
-    });
-}
-
 $(document).ready(function () {
     $('#transactionListLimit').on('change', function () {
         ajaxBuildTransactionTable();

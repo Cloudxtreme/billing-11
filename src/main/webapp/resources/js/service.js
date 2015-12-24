@@ -66,7 +66,7 @@ function ajaxBuildServiceTypeSelectList(type){
         var selectedService = $('#getServiceType').val();
 
         $.ajax({
-        url: '/serviceTypeList?type='+type,
+        url: '../../../../serviceTypeList?type='+type,
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
