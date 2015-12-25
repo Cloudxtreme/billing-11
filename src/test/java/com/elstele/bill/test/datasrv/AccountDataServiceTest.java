@@ -24,7 +24,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
@@ -109,14 +111,14 @@ public class AccountDataServiceTest {
 
     @Test
     public void searchAccountsTest() {
-        List<AccountForm> accountFormList = new ArrayList<>();
+        Set<AccountForm> accountFormList = new HashSet<>();
         List<Service> serviceList = new ArrayList<>();
 
         serviceList.add(serviceMarker);
         serviceList.add(servicePhone);
         serviceList.add(serviceInternet);
 
-        accountDataService.addFormToListWithFIO(accountFormList, serviceList);
+        accountDataService.addFormToListWithFIO(accountFormList, accounts);
         accountDataService.addFormWithPhoneNumberToList(accountFormList, serviceList);
         accountDataService.addFormWithLoginToList(accountFormList, serviceList);
 

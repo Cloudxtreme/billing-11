@@ -26,10 +26,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -60,6 +57,7 @@ public class AccountsControllerTest {
     private AccountFormBuilder builder;
     private List<AccountForm> list;
     private AccountForm form;
+    private Set<AccountForm> set;
 
     @Before
     public void setUp() {
@@ -72,6 +70,8 @@ public class AccountsControllerTest {
         list = new ArrayList<>();
         form = builder.build().withId(1).withAccName("test").withFIO("testFio").withAccType(Constants.AccountType.LEGAL).withBalance(99f).getRes();
         list.add(form);
+        set= new HashSet<>();
+        set.add(form);
     }
 
     @Test
@@ -201,7 +201,7 @@ public class AccountsControllerTest {
 
     @Test
     public void searchAccountTest() throws Exception {
-        when(accountDataService.searchAccounts("test")).thenReturn(list);
+        when(accountDataService.searchAccounts("test")).thenReturn(set);
 
         MvcResult result = this.mockMvc.perform(post("/accounts/accountsearch")
                 .param("searchInput", "test")
@@ -210,7 +210,7 @@ public class AccountsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("accountsearchModel"))
                 .andReturn();
-        List<AccountForm> actualList = (List<AccountForm>)result.getModelAndView().getModel().get("accountList");
-        assertEquals(actualList, list);
+        Set<AccountForm> actualList = (Set<AccountForm>)result.getModelAndView().getModel().get("accountList");
+        assertEquals(actualList, set);
     }
 }

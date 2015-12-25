@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+
 @Controller
 public class LocalUserController {
 
@@ -89,7 +90,7 @@ public class LocalUserController {
 
     }
 
-    @RequestMapping(value = "/activity_list", method = RequestMethod.GET)
+    @RequestMapping(value = "/activitylist", method = RequestMethod.GET)
     public String activityList(HttpSession session, Map<String, Object> map) {
         map.put("activity", new Activity());
         map.put("activityList", activityDataService.listActivity());
@@ -116,7 +117,7 @@ public class LocalUserController {
         UserRoleForm form = userRoleDataService.getUserRoleFormById(id);
         map.put("userRoleForm", form);
         map.put("activityList", activityDataService.listActivity());
-        return "user_role_form";
+        return "userRoleFormModel";
 
     }
 
@@ -125,14 +126,14 @@ public class LocalUserController {
         map.put("userRoleForm", new UserRoleForm());
         map.put("activity", new Activity());
         map.put("activityList", activityDataService.listActivity());
-        return "user_role_form";
+        return "userRoleFormModel";
     }
 
     @RequestMapping(value = "/user_role_form", method = RequestMethod.POST)
     public ModelAndView userRoleAdd(@ModelAttribute("userRoleForm") UserRoleForm form, BindingResult result) {
         userRoleValidator.validate(form, result);
         if (result.hasErrors()) {
-            ModelAndView mav = new ModelAndView("user_role_form");
+            ModelAndView mav = new ModelAndView("userRoleFormModel");
             mav.addObject("activityList", activityDataService.listActivity());
             mav.addObject("errorClass", "text-danger");
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
@@ -150,7 +151,7 @@ public class LocalUserController {
 
     }
 
-    @RequestMapping(value = "/user_role_list", method = RequestMethod.GET)
+    @RequestMapping(value = "/userrolelist", method = RequestMethod.GET)
     public String userRoleList(HttpSession session, Map<String, Object> map) {
         map.put("userRole", new UserRole());
         map.put("userRoleList", userRoleDataService.listUserRole());
@@ -184,7 +185,7 @@ public class LocalUserController {
 
     }
 
-    @RequestMapping(value = "/user_form", method = RequestMethod.GET)
+    @RequestMapping(value = "/userform", method = RequestMethod.GET)
     public String userAdd(HttpSession session, Map<String, Object> map) {
         map.put("localUserForm", new LocalUserForm());
         map.put("role", new UserRole());
@@ -192,7 +193,7 @@ public class LocalUserController {
         return "user_form";
     }
 
-    @RequestMapping(value = "/user_form", method = RequestMethod.POST)
+    @RequestMapping(value = "/userform", method = RequestMethod.POST)
     public ModelAndView userAdd(@ModelAttribute("localUserForm") LocalUserForm form, BindingResult result) {
         localUserValidator.validate(form, result);
         if (result.hasErrors()) {
@@ -214,7 +215,7 @@ public class LocalUserController {
 
     }
 
-    @RequestMapping(value = "/user_panel", method = RequestMethod.GET)
+    @RequestMapping(value = "/userpanel", method = RequestMethod.GET)
     public String userList(HttpSession session, Map<String, Object> map) {
         map.put("user", new LocalUser());
         map.put("userList", localUserDataService.listLocalUser());

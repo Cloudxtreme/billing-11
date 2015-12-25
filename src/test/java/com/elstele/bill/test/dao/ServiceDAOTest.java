@@ -138,13 +138,6 @@ public class ServiceDAOTest {
     }
 
     @Test
-    public void getServiceByFIOAndNameTest(){
-        serviceDAO.create(servicePhone);
-        List<Service> actualList = serviceDAO.getServiceByFIOAndName("test");
-        assertTrue(actualList.contains(servicePhone));
-    }
-
-    @Test
     public void getServiceByLoginTest(){
         serviceDAO.create(serviceInternet);
         String value = serviceInternet.getUsername();

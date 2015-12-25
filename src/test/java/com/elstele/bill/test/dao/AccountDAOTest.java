@@ -93,4 +93,11 @@ public class AccountDAOTest {
 
     }
 
+    @Test
+    public void getAccountByFIOAndNameTest(){
+        dao.create(ac1);
+        List<Account> actualList = dao.getAccountByFIOAndName("ACC_001");
+        assertTrue(actualList.contains(ac1));
+    }
+
 }

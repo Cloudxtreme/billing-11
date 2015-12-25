@@ -16,9 +16,7 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @org.springframework.stereotype.Service
 public class AccountDataServiceImpl implements AccountDataService {
@@ -179,27 +177,27 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
-    public List<AccountForm> searchAccounts(String value) {
+    public Set<AccountForm> searchAccounts(String value) {
         try {
             List<Service> serviceListByLogin = serviceDAO.getServiceByLogin(value);
             List<Service> serviceListByPhoNumber = serviceDAO.getServiceByPhone(value);
-            List<Service> serviceListByFIOAndName = serviceDAO.getServiceByFIOAndName(value);
-            List<AccountForm> result = new ArrayList<>();
+            List<Account> accountListByFIOAndName = accountDAO.getAccountByFIOAndName(value);
+            Set<AccountForm> result = new HashSet<>();
 
             addFormWithLoginToList(result, serviceListByLogin);
             addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
-            addFormToListWithFIO(result, serviceListByFIOAndName);
+            addFormToListWithFIO(result, accountListByFIOAndName);
 
             log.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
 
             return result;
         }catch(HibernateException e){
             log.error(e.toString() + " Method searchAccounts");
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 
-    public void addFormWithLoginToList(List<AccountForm> result, List<Service> serviceListByLogin) {
+    public void addFormWithLoginToList(Set<AccountForm> result, List<Service> serviceListByLogin) {
         AccountAssembler accountAssembler = new AccountAssembler();
         for (Service service : serviceListByLogin) {
             AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
@@ -211,7 +209,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    public void addFormWithPhoneNumberToList(List<AccountForm> result, List<Service> serviceListByPhoNumber) {
+    public void addFormWithPhoneNumberToList(Set<AccountForm> result, List<Service> serviceListByPhoNumber) {
         AccountAssembler accountAssembler = new AccountAssembler();
         for (Service service : serviceListByPhoNumber) {
             AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
@@ -223,11 +221,10 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    public void addFormToListWithFIO(List<AccountForm> result, List<Service> serviceListByFIOAndName) {
+    public void addFormToListWithFIO(Set<AccountForm> result, List<Account> accountListByFIOAndName) {
         AccountAssembler accountAssembler = new AccountAssembler();
-        for (Service service : serviceListByFIOAndName) {
-            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
-            result.add(form);
+        for (Account account : accountListByFIOAndName) {
+            result.add(accountAssembler.fromBeanToForm(account));
         }
     }
 

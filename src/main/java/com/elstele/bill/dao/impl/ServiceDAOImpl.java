@@ -96,13 +96,6 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
         return result;
     }
 
-    public List<com.elstele.bill.domain.Service> getServiceByFIOAndName(String value) {
-        Query query = getSessionFactory().getCurrentSession().
-                createQuery("From Service s where lower(s.account.fio) like '%" + value.toLowerCase() + "%' or s.account.accountName like '%" + value + "%'  ");
-        log.info("Values selected successfully. Method searchAccounts ");
-        return (List<com.elstele.bill.domain.Service>) query.list();
-
-    }
 
     public List<com.elstele.bill.domain.Service> getServiceByLogin(String value) {
         Query query = getSessionFactory().getCurrentSession().

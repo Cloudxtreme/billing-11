@@ -51,14 +51,14 @@
             <label for="${current.id}">
                 <tr id="${current.id}">
                     <td>
-                        <a href="${pageContext.request.contextPath}accounts/editFull/${current.id}"><span
+                        <a href="${pageContext.request.contextPath}/accounts/editFull/${current.id}"><span
                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}accounts/delete/${current.id}"><span
+                        <a href="${pageContext.request.contextPath}/accounts/delete/${current.id}"><span
                                 class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}accounts/editFull/${current.id}">${current.accountName}</a>
+                        <a href="${pageContext.request.contextPath}/accounts/editFull/${current.id}">${current.accountName}</a>
                     </td>
                     <td>${current.fio}</td>
                     <td style="color: #4cae4c !important;">

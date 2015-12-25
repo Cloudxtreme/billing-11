@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -121,7 +122,7 @@ public class AccountsController {
 
     @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
     public ModelAndView searchAccount(@RequestParam String searchInput) {
-        List<AccountForm> accountFormList = accountDataService.searchAccounts(searchInput);
+        Set<AccountForm> accountFormList = accountDataService.searchAccounts(searchInput);
         ModelAndView mav = new ModelAndView("accountsearchModel");
         if(!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);

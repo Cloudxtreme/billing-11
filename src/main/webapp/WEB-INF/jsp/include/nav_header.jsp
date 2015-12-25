@@ -59,9 +59,9 @@
                 <li class="dropdown" id="linkToUserPanel">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li id="linkToUserList"><a href="${pageContext.request.contextPath}/user_panel.html">Show User Panel</a></li>
-                        <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/user_role_list.html">User Role</a></li>
-                        <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activity_list.html">Activity</a></li>
+                        <li id="linkToUserList"><a href="${pageContext.request.contextPath}/userpanel.html">Show User Panel</a></li>
+                        <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/userrolelist.html">User Role</a></li>
+                        <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activitylist.html">Activity</a></li>
                     </ul>
                 </li>
             </ul>
