@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PageNotFoundContoller {
 
-    @RequestMapping(value="/404", method = RequestMethod.GET)
+    @RequestMapping(value="/404page", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView redirectToThe404(){
         ModelAndView mav = new ModelAndView("404");

@@ -39,9 +39,6 @@ public class ServiceController {
     private TransactionDataService transactionDataService;
 
     @Autowired
-    private ServiceValidator serviceValidator;
-
-    @Autowired
     private IpDataService ipDataService;
 
     @Autowired
@@ -50,7 +47,7 @@ public class ServiceController {
     @Autowired
     private DeviceDataService deviceDataService;
 
-    @RequestMapping(value="/service/account/{accountId}/{accountServiceId}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/delete", method = RequestMethod.GET)
     public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId) {
         serviceDataService.deleteService(accountServiceId);
         ModelAndView mav = new ModelAndView("accountFull");
@@ -68,7 +65,7 @@ public class ServiceController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 
-    @RequestMapping(value="/service/account/form", method = RequestMethod.POST)
+    @RequestMapping(value = "/service/account/form", method = RequestMethod.POST)
     public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") @Valid ServiceForm form, BindingResult result) {
         if (result.hasErrors()) {
             List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
@@ -93,33 +90,33 @@ public class ServiceController {
         }
     }
 
-    @RequestMapping(value="/getIpAddressList/{idObj}", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIpAddressList/{idObj}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json, @PathVariable("idObj") Integer idObj){
+    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json, @PathVariable("idObj") Integer idObj) {
         Integer idSubNet = Integer.parseInt(json);
         Integer currIpAddressId = serviceDataService.getCurrentIpAddressByServiceFormId(idObj);
-        List<IpForm> ipFormsList = ipDataService.getBySubnetId( idSubNet );
+        List<IpForm> ipFormsList = ipDataService.getBySubnetId(idSubNet);
         Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipFormsList){
-            if (ipForm.getIpStatus() != IpStatus.USED  ||  (ipForm.getId().equals(currIpAddressId)) )
+        for (IpForm ipForm : ipFormsList) {
+            if (ipForm.getIpStatus() != IpStatus.USED || (ipForm.getId().equals(currIpAddressId)))
                 ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
     }
 
-    @RequestMapping(value="/changeSoftBlockStatus", method = RequestMethod.GET)
+    @RequestMapping(value = "/changeSoftBlockStatus", method = RequestMethod.GET)
     @ResponseBody
     public void changeSoftBlockStatus(HttpServletRequest request,
-                                                      @RequestParam(value = "serviceId") int serviceId){
+                                      @RequestParam(value = "serviceId") int serviceId) {
         serviceDataService.changeSoftBlockStatus(serviceId);
     }
 
-    @RequestMapping(value="/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)
+    @RequestMapping(value = "/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)
     @ResponseBody
-    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("idObj") Integer serviceId){
+    public List<Integer> deviceFreePortList(@RequestBody String json, @PathVariable("idObj") Integer serviceId) {
         Integer deviceId = Integer.parseInt(json);
         List<Integer> deviceFreePortList = deviceDataService.getDeviceFreePorts(deviceId);
-        deviceFreePortList = serviceDataService.addCurrentDevicePortToList(deviceFreePortList,serviceId,deviceId);
+        deviceFreePortList = serviceDataService.addCurrentDevicePortToList(deviceFreePortList, serviceId, deviceId);
         return deviceFreePortList;
     }
 
@@ -142,16 +139,15 @@ public class ServiceController {
         return "account_service_form";
     }
 
-    @RequestMapping(value="/getCurrentIpAddress", method = RequestMethod.GET)
+    @RequestMapping(value = "/getCurrentIpAddress", method = RequestMethod.GET)
     @ResponseBody
     public Integer getCurrentIpAddress(HttpServletRequest request,
-                                      @RequestParam(value = "serviceId") int serviceId){
+                                       @RequestParam(value = "serviceId") int serviceId) {
         return serviceDataService.getCurrentIpAddressByServiceFormId(serviceId);
     }
 
-    @RequestMapping(value="/service/account/", method = RequestMethod.GET)
-    public String serviceList(HttpSession session, Map<String, Object> map)
-    {
+    @RequestMapping(value = "/service/account/", method = RequestMethod.GET)
+    public String serviceList(HttpSession session, Map<String, Object> map) {
         map.put("accountList", accountDataService.getAccountsList());
         return "account_service";
     }
