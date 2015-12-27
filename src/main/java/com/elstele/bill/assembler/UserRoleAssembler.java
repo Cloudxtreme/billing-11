@@ -18,7 +18,7 @@ public class UserRoleAssembler {
     public UserRoleForm fromBeanToForm(UserRole bean){
         UserRoleForm form = new UserRoleForm();
         copyProperties(bean, form, propsToSkip);
-        form = fromBeanToActivityForm(bean.getActivities(),form);
+        form = fillActivityFields(bean.getActivities(),form);
         return form;
     }
 
@@ -35,7 +35,7 @@ public class UserRoleAssembler {
         return bean;
     }
 
-    private UserRoleForm fromBeanToActivityForm(List<Activity> beans, UserRoleForm form) {
+    private UserRoleForm fillActivityFields(List<Activity> beans, UserRoleForm form) {
         if(beans!=null) {
             List<Integer> activityIdList = new ArrayList<>();
             List<String> activityNameList = new ArrayList<>();

@@ -105,7 +105,7 @@ public class TransactionDAOTest {
         assertTrue(transactionListFromDB1.size() == 1);
 
         transactionDAO.setStatusDelete(id1);
-        List<Transaction> transactionListFromDB2 = transactionDAO.getTransactionList(bean1.getAccount().getId());
+         List<Transaction> transactionListFromDB2 = transactionDAO.getTransactionList(bean1.getAccount().getId());
         assertTrue(transactionListFromDB2.size() == 1);
     }
 

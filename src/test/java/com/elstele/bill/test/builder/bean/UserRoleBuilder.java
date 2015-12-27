@@ -26,14 +26,6 @@ public class UserRoleBuilder {
     public UserRoleBuilder randomUserRole(){
         userRole.setName(RandomStringUtils.randomAlphanumeric(4));
         userRole.setDescription(RandomStringUtils.randomAlphanumeric(4));
-
-        ActivityBuilder ab = new ActivityBuilder();
-        Activity ac1 = ab.build().randomActivity().getRes();
-        Activity ac2 = ab.build().randomActivity().getRes();
-        List<Activity> acList = new ArrayList<Activity>();
-        acList.add(ac1);
-        acList.add(ac2);
-        userRole.setActivities(acList);
         return this;
     }
 
