@@ -47,7 +47,7 @@
                 <label class="col-lg-3 control-label">Activity</label>
                 <div class="col-lg-9">
                     <c:forEach items="${activityList}" var="activity">
-                        <label for="${activity.id}" class="control-label"><form:checkbox path="activityId" value="${activity.id}" id="${activity.id}" /> ${activity.name}</label><br>
+                        <label for="${activity.id}" class="control-label"><form:checkbox path="activityId" value="${activity.id}" id="${activity.id}"/> ${activity.name}</label><br>
                     </c:forEach>
                     <form:errors path="activityId" cssClass="alert-danger" />
                 </div>

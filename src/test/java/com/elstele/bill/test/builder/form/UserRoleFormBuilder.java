@@ -30,8 +30,12 @@ public class UserRoleFormBuilder {
         userRoleForm.setDescription(description);
         return this;
     }
-    public UserRoleFormBuilder withActivities(List<Integer> acList){
+    public UserRoleFormBuilder withActivityId(List<Integer> acList){
         userRoleForm.setActivityId(acList);
+        return this;
+    }
+    public UserRoleFormBuilder withActivityName(List<String> acList){
+        userRoleForm.setActivityName(acList);
         return this;
     }
 }

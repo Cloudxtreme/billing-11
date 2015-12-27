@@ -49,9 +49,8 @@ public class LocalUserController {
 @RequestMapping(value = "/activity/{id}/delete", method = RequestMethod.GET)
 public String activityDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
     activityDataService.deleteActivity(id);
-    map.put("activity", new Activity() );
     map.put("activityList", activityDataService.listActivity());
-    map.put("successMessage","User Role was successfully deleted.");
+    map.put("successMessage","Activity was successfully deleted.");
     return "activity_list";
 }
 
@@ -68,7 +67,6 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     public String activityAdd(HttpSession session, Map<String, Object> map)
     {
         map.put("activityForm", new ActivityForm());
-        map.put("activity", new Activity() );
         return "activity_form";
     }
 
@@ -84,7 +82,6 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
             String message = activityDataService.saveActivity(form);
             ModelAndView mav = new ModelAndView("activity_list");
             mav.addObject("successMessage", message);
-            mav.addObject("activity", new Activity() );
             mav.addObject("activityList", activityDataService.listActivity());
             return mav;
         }
@@ -94,7 +91,6 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     @RequestMapping(value="/activity_list", method = RequestMethod.GET)
     public String activityList(HttpSession session, Map<String, Object> map)
     {
-        map.put("activity", new Activity() );
         map.put("activityList", activityDataService.listActivity());
         return "activity_list";
     }
@@ -105,10 +101,7 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     @RequestMapping(value = "/user_role/{id}/delete", method = RequestMethod.GET)
     public String userRoleDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
         userRoleDataService.deleteRole(id);
-        map.put("userRole", new UserRole());
         map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put("activity", new Activity());
-        map.put("activityList", activityDataService.listActivity());
         map.put("successMessage", "User Role was successfully deleted.");
         return "user_role_list";
     }
@@ -127,8 +120,7 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     public String userRoleAdd(HttpSession session, Map<String, Object> map)
     {
         map.put("userRoleForm", new UserRoleForm());
-        map.put("activity", new Activity() );
-        map.put("activityList", activityDataService.listActivity());
+       map.put("activityList", activityDataService.listActivity());
         return "user_role_form";
     }
 
@@ -146,22 +138,15 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
             String message = userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
             mav.addObject("successMessage",message);
-            mav.addObject("userRole", new UserRole() );
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
-            mav.addObject("activity", new Activity() );
-            mav.addObject("activityList", activityDataService.listActivity());
             return mav;
         }
-
     }
 
     @RequestMapping(value="/user_role_list", method = RequestMethod.GET)
     public String userRoleList(HttpSession session, Map<String, Object> map)
     {
-        map.put("userRole", new UserRole() );
         map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put("activity", new Activity() );
-        map.put("activityList", activityDataService.listActivity());
         return "user_role_list";
     }
 

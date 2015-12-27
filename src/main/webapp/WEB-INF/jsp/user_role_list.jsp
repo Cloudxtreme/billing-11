@@ -50,8 +50,8 @@
                         <td>${userRole.name}</td>
                         <td>${userRole.description}</td>
                         <td>
-                            <c:forEach items="${userRole.activities}" var="userRoleActivities">
-                                ${userRoleActivities.name}<br>
+                            <c:forEach items="${userRole.activityName}" var="userRoleActivityName">
+                                ${userRoleActivityName}<br>
                             </c:forEach>
                         </td>
                     </tr>

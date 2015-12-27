@@ -21,7 +21,7 @@ public class UserRole extends CommonDomainBean{
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ROLE_ACTIVITY",
             joinColumns = @JoinColumn(name = "USERROLE_ID", unique=false),
             inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID", unique=false))

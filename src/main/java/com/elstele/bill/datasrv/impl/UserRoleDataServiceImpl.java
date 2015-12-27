@@ -30,9 +30,6 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
         UserRoleAssembler assembler = new UserRoleAssembler();
         UserRole role = assembler.fromFormToBean(form);
         String message = "User Role was successfully ";
-        for (int roleId : form.getActivityId()) {
-            role.addActivity(userActivityDAO.getById(roleId));
-        }
         if(form.isNew()){
             userRoleDAO.create(role);
             message += "added.";
@@ -59,15 +56,16 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
         List<UserRole> beans = userRoleDAO.listUserRole();
         if(beans != null) {
             for (UserRole curBean : beans) {
+/*
                 UserRoleForm curForm = assembler.fromBeanToForm(curBean);
-
                 ArrayList<Integer> activityList = new ArrayList<Integer>();
                 for (Activity activity : curBean.getActivities()) {
                     activityList.add(activity.getId());
                 }
                 curForm.setActivityId(activityList);
+*/
 
-                result.add(curForm);
+                result.add(assembler.fromBeanToForm(curBean));
             }
         }
         return result;
@@ -87,11 +85,6 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
         UserRole bean = userRoleDAO.getById(id);
         if (bean != null){
             UserRoleForm form = assembler.fromBeanToForm(bean);
-            ArrayList<Integer> activityList = new ArrayList<Integer>();
-            for (Activity activity : bean.getActivities()) {
-                activityList.add(activity.getId());
-            }
-            form.setActivityId(activityList);
             result = form;
         }
         return result;
