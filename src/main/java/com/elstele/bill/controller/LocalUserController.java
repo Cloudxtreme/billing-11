@@ -86,7 +86,7 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
 
     }
 
-    @RequestMapping(value="/activity_list", method = RequestMethod.GET)
+    @RequestMapping(value="/activitylist", method = RequestMethod.GET)
     public String activityList(HttpSession session, Map<String, Object> map)
     {
         map.put("activityList", activityDataService.listActivity());
@@ -139,7 +139,7 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
         }
     }
 
-    @RequestMapping(value="/user_role_list", method = RequestMethod.GET)
+    @RequestMapping(value="/userrolelist", method = RequestMethod.GET)
     public String userRoleList(HttpSession session, Map<String, Object> map)
     {
         map.put("userRoleList", userRoleDataService.listUserRole());

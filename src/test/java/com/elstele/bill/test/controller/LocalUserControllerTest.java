@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -161,10 +162,8 @@ public class LocalUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_role_list"))
                 .andReturn();
-        List<ActivityForm> actual = (List<ActivityForm>) result.getModelAndView().getModel().get("activityList");
-        assertEquals(actual, activityFormList);
-        List<UserRoleForm> actualUser = (List<UserRoleForm>) result.getModelAndView().getModel().get("userRoleList");
-        assertEquals(actualUser, userRoleFormList);
+        String message = result.getModelAndView().getModel().get("successMessage").toString();
+        assertTrue(message.contains("User Role was successfully deleted."));
     }
 
     @Test
@@ -198,7 +197,7 @@ public class LocalUserControllerTest {
 
     @Test
     public void userRoleListTest() throws Exception {
-        when(activityDataService.listActivity()).thenReturn(activityFormList);
+        when(userRoleDataService.listUserRole()).thenReturn(userRoleFormList);
         MvcResult result = this.mockMvc.perform(get("/userrolelist")
                 .session(mockSession)
                 .requestAttr("userRoleForm", userRoleForm)
@@ -206,8 +205,8 @@ public class LocalUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_role_list"))
                 .andReturn();
-        List<ActivityForm> actual = (List<ActivityForm>) result.getModelAndView().getModel().get("activityList");
-        assertEquals(actual, activityFormList);
+        List<UserRoleForm> actual = (List<UserRoleForm>) result.getModelAndView().getModel().get("userRoleList");
+        assertEquals(actual, userRoleFormList);
     }
 
     @Test
