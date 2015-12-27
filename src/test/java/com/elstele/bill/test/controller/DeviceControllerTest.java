@@ -1,13 +1,10 @@
 package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.DeviceController;
-import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
-import com.elstele.bill.domain.DeviceTypes;
-import com.elstele.bill.domain.Ip;
 import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.form.*;
 import com.elstele.bill.test.builder.form.DeviceFormBuilder;
@@ -18,7 +15,6 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -241,5 +237,53 @@ public class DeviceControllerTest {
         map = (Map<Integer, String>) model.getModel().get("ipNetList");
         assertTrue(map.containsKey(ipSubnetForm.getId()));
         assertTrue(map.containsValue(ipSubnetForm.getIpSubnet()));
+    }
+
+    @Test
+    public void adddevicetypeTest() throws Exception {
+        this.mockMvc.perform(post("/adddevicetype")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().is(302));
+    }
+
+    @Test
+    public void editdevicetypeTest() throws Exception {
+        this.mockMvc.perform(post("/editdevicetype")
+                .session(mockSession)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(deviceTypesForm))
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string("\"SUCCESS\""));
+    }
+
+    @Test
+    public void getValidIpstest() throws Exception {
+        List<IpForm> ipFormList = new ArrayList<>();
+        ipFormList.add(ipForm);
+        when(ipDataService.getBySubnetId(1)).thenReturn(ipFormList);
+        String mapInStringVariant = "{\"1\":\"test\"}";
+        this.mockMvc.perform(post("/getValidIps")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapInStringVariant));
+    }
+
+    @Test
+    public void ipAddressListReturnTest() throws Exception {
+        List<IpForm> ipFormList = new ArrayList<>();
+        ipFormList.add(ipForm);
+        when(ipDataService.getIpAddressList()).thenReturn(ipFormList);
+        String mapInStringVariant = "{\"1\":\"test\"}";
+        this.mockMvc.perform(get("/returniplist")
+                .session(mockSession)
+                .content("1")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapInStringVariant));
     }
 }

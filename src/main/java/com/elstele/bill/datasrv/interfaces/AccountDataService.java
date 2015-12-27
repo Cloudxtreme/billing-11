@@ -6,6 +6,7 @@ import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AccountDataService {
     public List<AccountForm> getAccountsList();
@@ -18,4 +19,5 @@ public interface AccountDataService {
     public Account getAccountBeanById(int id);
     public void softDeleteAccount(int id);
     public int getActiveAccountsCount();
+    public Set<AccountForm> searchAccounts(String value);
 }

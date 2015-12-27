@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <nav class="navbar navbar-default">
@@ -10,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">ELS Telecom</a>
+            <a class="navbar-brand" onclick="window.location.reload(true)">ELS Telecom</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -47,20 +48,20 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form action="${pageContext.request.contextPath}/accounts/accountsearch" method="Post" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search account">
+                    <input id="searchInput" name="searchInput" type="text" class="form-control" placeholder="Search account">
                 </div>
-                <button type="submit" class="btn btn-default">Search</button>
+                <button type="submit" id="searchButton" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
                 <li class="dropdown" id="linkToUserPanel">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li id="linkToUserList"><a href="${pageContext.request.contextPath}/user_panel.html">Show User Panel</a></li>
-                        <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/user_role_list.html">User Role</a></li>
-                        <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activity_list.html">Activity</a></li>
+                        <li id="linkToUserList"><a href="${pageContext.request.contextPath}/userpanel.html">Show User Panel</a></li>
+                        <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/userrolelist.html">User Role</a></li>
+                        <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activitylist.html">Activity</a></li>
                     </ul>
                 </li>
             </ul>

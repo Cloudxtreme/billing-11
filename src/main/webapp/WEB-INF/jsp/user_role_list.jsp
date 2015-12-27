@@ -29,7 +29,7 @@
                 <div class="alert alert-info" role="alert">${successMessage}</div>
             </c:if>
             <a href="${pageContext.request.contextPath}/user_role_form.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New User Role</a>
-            <a href="${pageContext.request.contextPath}/user_panel.html" class="margin-nav float-right">
+            <a href="${pageContext.request.contextPath}/userpanel.html" class="margin-nav float-right">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
             </a>
         <table id="userRoleTable" class="table table-striped table-hover">
@@ -37,7 +37,7 @@
                 <th>&nbsp;</th>
                 <th>Role Name</th>
                 <th>Role Description</th>
-                <th><a href="${pageContext.request.contextPath}/activity_list.html">Activity <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></th>
+                <th><a href="${pageContext.request.contextPath}/activitylist.html">Activity <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></th>
             </tr>
             <c:forEach items="${userRoleList}" var="userRole">
                 <label for="${userRole.id}">

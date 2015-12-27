@@ -30,9 +30,9 @@
         <div class="alert alert-info" role="alert">${successMessage}</div>
     </c:if>
 
-    <a href="${pageContext.request.contextPath}/user_form.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New User</a>
-    <a href="${pageContext.request.contextPath}/user_role_list.html" class="btn btn-sm btn-success float-right" data-toggle="modal">User Role</a>
-    <a href="${pageContext.request.contextPath}/activity_list.html" class="btn btn-sm btn-info float-right" data-toggle="modal">Activity</a>
+    <a href="${pageContext.request.contextPath}/userform.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New User</a>
+    <a href="${pageContext.request.contextPath}/userrolelist.html" class="btn btn-sm btn-success float-right" data-toggle="modal">User Role</a>
+    <a href="${pageContext.request.contextPath}/activitylist.html" class="btn btn-sm btn-info float-right" data-toggle="modal">Activity</a>
 
     <table id="userRoleTable" class="table table-striped table-hover">
         <tr>

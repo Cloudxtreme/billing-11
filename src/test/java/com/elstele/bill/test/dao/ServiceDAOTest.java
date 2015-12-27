@@ -59,7 +59,7 @@ public class ServiceDAOTest {
         query.executeUpdate();
 
         AccountBuilder ab = new AccountBuilder();
-        Account account = ab.build().withAccName("ACC_001").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
+        Account account = ab.build().withAccName("ACC_001").withFIO("test").withAccType(Constants.AccountType.PRIVATE).withBalance(20f).withRandomPhyAddress().getRes();
         accountDAO.create(account);
 
         ServiceBuilder smb = new ServiceBuilder();
@@ -135,5 +135,21 @@ public class ServiceDAOTest {
         serviceDAO.setStatusDelete(serviceId1);
         List<Service> serviceList2 = serviceDAO.listServices();
         assertTrue(serviceList2.size() == 2);
+    }
+
+    @Test
+    public void getServiceByLoginTest(){
+        serviceDAO.create(serviceInternet);
+        String value = serviceInternet.getUsername();
+        List<Service> actualList = serviceDAO.getServiceByLogin(value);
+        assertTrue(actualList.contains(serviceInternet));
+    }
+
+    @Test
+    public void getServiceByPhoneTest(){
+        serviceDAO.create(servicePhone);
+        String value = servicePhone.getPhoneNumber();
+        List<Service> actualList = serviceDAO.getServiceByPhone(value);
+        assertTrue(actualList.contains(servicePhone));
     }
 }

@@ -24,7 +24,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")
 @TransactionConfiguration
@@ -43,7 +42,7 @@ public class AccountDAOTest {
     private Integer id2;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         /*String clearAccounts = String.format("delete from Account");
         Query query = sessionFactory.getCurrentSession().createQuery(clearAccounts);
         query.executeUpdate();
@@ -65,7 +64,7 @@ public class AccountDAOTest {
 
     @Rollback(false) //just for experiment
     @Test
-    public void a_storeFetchAndDeleteAccounts(){
+    public void a_storeFetchAndDeleteAccounts() {
         Account bean1 = dao.getById(id1);
         Account bean2 = dao.getById(id2);
         Account bean3 = dao.getById(0);
@@ -85,12 +84,20 @@ public class AccountDAOTest {
 
     @Rollback(false) //just for experiment
     @Test
-    public void b_fetchListOfAccounts(){
+    public void b_fetchListOfAccounts() {
         List<Account> resList = dao.getAccountList();
 
         /*assert    True(resList.size() == 2);*/
         assertTrue(resList.contains(ac1));
         assertTrue(resList.contains(ac2));
 
-        }
+    }
+
+    @Test
+    public void getAccountByFIOAndNameTest(){
+        dao.create(ac1);
+        List<Account> actualList = dao.getAccountByFIOAndName("ACC_001");
+        assertTrue(actualList.contains(ac1));
+    }
+
 }

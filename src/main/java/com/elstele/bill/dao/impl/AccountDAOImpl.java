@@ -3,8 +3,9 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.utils.Enums.Status;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
 
+    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
 
     public List<Account> getAccountList(int limit, int offset) {
         Session session = getSessionFactory().getCurrentSession();
@@ -26,13 +28,13 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
                         "order by a.accountName");
         q.setFirstResult(offset).setMaxResults(limit);
 
-        return (List<Account>)q.list();
+        return (List<Account>) q.list();
     }
 
     public List<Account> getAccountList() {
         Session session = getSessionFactory().getCurrentSession();
         setFilter(session, "showActive");
-        return (List<Account>)session.
+        return (List<Account>) session.
                 createCriteria(Account.class).add(Restrictions.ne("status", Status.DELETED))
                 .addOrder(Order.asc("accountName"))
                 .list();
@@ -51,7 +53,16 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         setFilter(session, "showActive");
         Query q = getSessionFactory().getCurrentSession().
                 createQuery("select count(* ) from Account a where status <> 'DELETED'");
-        Long res = (Long)q.uniqueResult();
+        Long res = (Long) q.uniqueResult();
         return res.intValue();
     }
+
+    public List<Account> getAccountByFIOAndName(String value) {
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or a.accountName like '%" + value + "%'  ");
+        log.info("Values selected successfully. Method searchAccounts ");
+        return (List<Account>) query.list();
+
+    }
+
 }

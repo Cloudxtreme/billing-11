@@ -3,27 +3,26 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
-import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
-@RequestMapping("/accounts")
+@RequestMapping("**/accounts")
 public class AccountsController {
 
     @Autowired
@@ -118,6 +117,18 @@ public class AccountsController {
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
 
+        return mav;
+    }
+
+    @RequestMapping(value = "/accountsearch", method = RequestMethod.POST)
+    public ModelAndView searchAccount(@RequestParam String searchInput) {
+        Set<AccountForm> accountFormList = accountDataService.searchAccounts(searchInput);
+        ModelAndView mav = new ModelAndView("accountsearchModel");
+        if(!accountFormList.isEmpty()) {
+            mav.addObject("accountList", accountFormList);
+        }else{
+            mav.addObject("message", "Ничего не найдено. Попробуйте ещё раз");
+        }
         return mav;
     }
 

@@ -22,7 +22,7 @@
 
 
 <div class="col-lg-6">
-    <form:form class="form-horizontal" method="POST" commandName="localUserForm" action="${pageContext.request.contextPath}/user_form.html">
+    <form:form class="form-horizontal" method="POST" commandName="localUserForm" action="${pageContext.request.contextPath}/userform.html">
         <fieldset>
             <legend>Local User</legend>
             <div class="form-group">

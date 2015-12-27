@@ -9,11 +9,15 @@ import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceInternet;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.utils.Enums.IpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -22,11 +26,13 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     @Autowired
     private IpDataService ipDataService;
 
+    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
+
     @Override
-    public List listServices(){
+    public List listServices() {
         String hql = "from Service service where service.status <> 'DELETED' or service.status is null ";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-        if (!query.list().isEmpty()){
+        if (!query.list().isEmpty()) {
             return query.list();
         }
         return null;
@@ -48,7 +54,7 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     }
 
     @Override
-    public void deleteService(Integer serviceId){
+    public void deleteService(Integer serviceId) {
         setStatusDelete(serviceId);
         Service service = getById(serviceId);
         if (service instanceof ServiceInternet)
@@ -67,14 +73,14 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
                         "s.account_id = a.id " +
                         "order by o.username")
                 .setResultTransformer(Transformers.aliasToBean(OnlineStatistic.class));
-        List <OnlineStatistic> dbResult = query.list();
+        List<OnlineStatistic> dbResult = query.list();
         return dbResult;
     }
 
     @Override
-    public void changeSoftBlockStatus(Integer serviceId){
+    public void changeSoftBlockStatus(Integer serviceId) {
         Service service = getById(serviceId);
-        if(service instanceof ServiceInternet) {
+        if (service instanceof ServiceInternet) {
             ServiceInternet serviceInternet = (ServiceInternet) service;
             serviceInternet.setSoftblock(!serviceInternet.getSoftblock());
             update(service);
@@ -86,7 +92,20 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
         List<Integer> result;
         Query query = getSessionFactory().getCurrentSession().createSQLQuery("Select id from service where status = 'ACTIVE' order by id")
                 .addScalar("id", StandardBasicTypes.INTEGER);
-        result = (List<Integer>)query.list();
+        result = (List<Integer>) query.list();
         return result;
+    }
+
+
+    public List<com.elstele.bill.domain.Service> getServiceByLogin(String value) {
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where lower(s.username) like '%" + value.toLowerCase() + "%' ");
+        return (List<com.elstele.bill.domain.Service>) query.list();
+    }
+
+    public List<com.elstele.bill.domain.Service> getServiceByPhone(String value) {
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("From Service s where s.phoneNumber like '%" + value + "%' ");
+        return (List<com.elstele.bill.domain.Service>) query.list();
     }
 }

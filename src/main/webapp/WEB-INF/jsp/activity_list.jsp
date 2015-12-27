@@ -29,8 +29,8 @@
             <div class="alert alert-info" role="alert">${successMessage}</div>
         </c:if>
 
-        <a href="${pageContext.request.contextPath}/activity_form.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New Activity</a>
-        <a href="${pageContext.request.contextPath}/user_panel.html" class="margin-nav float-right">
+        <a href="${pageContext.request.contextPath}/addactivity.html" class="btn btn-sm btn-primary" data-toggle="modal">Create New Activity</a>
+        <a href="${pageContext.request.contextPath}/userpanel.html" class="margin-nav float-right">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Panel
         </a>
 

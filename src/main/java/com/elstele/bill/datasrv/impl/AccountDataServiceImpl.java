@@ -3,28 +3,34 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.utils.Enums.Status;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-@Service
+@org.springframework.stereotype.Service
 public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
     private AccountDAO accountDAO;
     @Autowired
+    private ServiceDAO serviceDAO;
+    @Autowired
     private StreetDAO streetDAO;
     @Autowired
     StreetDataService streetDataService;
+
+    final static Logger log = LogManager.getLogger(AccountDataServiceImpl.class);
 
     @Override
     @Transactional
@@ -100,7 +106,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         updateStreetListAfterInsert(form);
     }
 
-    public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form){
+    public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form) {
         if (form.getLegalAddress().getStreetId() == null || form.getPhyAddress().getStreetId() == null) {
             String streetNamePhyAddress = form.getPhyAddress().getStreet();
             String streetNameLegalAddress = form.getLegalAddress().getStreet();
@@ -119,14 +125,14 @@ public class AccountDataServiceImpl implements AccountDataService {
         }
     }
 
-    public void updateStreetListAfterInsert(AccountForm form){
+    public void updateStreetListAfterInsert(AccountForm form) {
         Integer phyId = form.getPhyAddress().getStreetId();
         String phyStreet = form.getPhyAddress().getStreet();
 
         Integer legalId = form.getLegalAddress().getStreetId();
         String legalStreet = form.getLegalAddress().getStreet();
 
-        if((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())){
+        if ((phyId == null && !phyStreet.isEmpty()) || (legalId == null && !legalStreet.isEmpty())) {
             streetDataService.clearStreetsList();
         }
     }
@@ -167,6 +173,59 @@ public class AccountDataServiceImpl implements AccountDataService {
     @Transactional
     public int getActiveAccountsCount() {
         return accountDAO.getActiveAccountsCount();
+    }
+
+    @Override
+    @Transactional
+    public Set<AccountForm> searchAccounts(String value) {
+        try {
+            List<Service> serviceListByLogin = serviceDAO.getServiceByLogin(value);
+            List<Service> serviceListByPhoNumber = serviceDAO.getServiceByPhone(value);
+            List<Account> accountListByFIOAndName = accountDAO.getAccountByFIOAndName(value);
+            Set<AccountForm> result = new HashSet<>();
+
+            addFormWithLoginToList(result, serviceListByLogin);
+            addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
+            addFormToListWithFIO(result, accountListByFIOAndName);
+
+            log.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
+
+            return result;
+        }catch(HibernateException e){
+            log.error(e.toString() + " Method searchAccounts");
+            return Collections.emptySet();
+        }
+    }
+
+    public void addFormWithLoginToList(Set<AccountForm> result, List<Service> serviceListByLogin) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Service service : serviceListByLogin) {
+            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
+            if (service instanceof ServiceInternet) {
+                String login = ((ServiceInternet) service).getUsername();
+                form.setSearchCompares("Login: " + login);
+            }
+            result.add(form);
+        }
+    }
+
+    public void addFormWithPhoneNumberToList(Set<AccountForm> result, List<Service> serviceListByPhoNumber) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Service service : serviceListByPhoNumber) {
+            AccountForm form = accountAssembler.fromBeanToForm(service.getAccount());
+            if (service instanceof ServicePhone) {
+                String phoneNumber = ((ServicePhone) service).getPhoneNumber();
+                form.setSearchCompares("Phone Number: " + phoneNumber);
+            }
+            result.add(form);
+        }
+    }
+
+    public void addFormToListWithFIO(Set<AccountForm> result, List<Account> accountListByFIOAndName) {
+        AccountAssembler accountAssembler = new AccountAssembler();
+        for (Account account : accountListByFIOAndName) {
+            result.add(accountAssembler.fromBeanToForm(account));
+        }
     }
 
 }

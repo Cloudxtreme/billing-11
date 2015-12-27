@@ -1,7 +1,10 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.domain.Activity;
+
 import javax.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRoleForm {
@@ -14,6 +17,7 @@ public class UserRoleForm {
     @NotNull
     private String description;
     private List<Integer> activityId;
+    private List<Activity> activities = new ArrayList<Activity>();
 
 
     public void setId(Integer id){
@@ -46,6 +50,14 @@ public class UserRoleForm {
 
     public List<Integer> getActivityId(){
         return activityId;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     //Check if this is for New of Update
