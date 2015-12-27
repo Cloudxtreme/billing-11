@@ -13,14 +13,6 @@ $(document).ready(function() {
     $('#ipAddressCurrent').show();
 });
 
-/*
-$(document).ready(function() {
-    $('#serviceTypeList').on('change', function() {
-        showServiceForm($(this).find(':selected').data('type'));
-    });
-});
-*/
-
 $(document).ready(function() {
     $('#serviceType input[type=radio]').change(function(){
         var type = $('#serviceType input[type=radio]:checked').val();
@@ -74,7 +66,7 @@ function ajaxBuildServiceTypeSelectList(type){
         var selectedService = $('#getServiceType').val();
 
         $.ajax({
-        url: '/serviceTypeList?type='+type,
+        url: '../../../../serviceTypeList?type='+type,
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {

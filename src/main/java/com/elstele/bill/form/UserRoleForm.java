@@ -17,7 +17,7 @@ public class UserRoleForm {
     @NotNull
     private String description;
     private List<Integer> activityId;
-    private List<Activity> activities = new ArrayList<Activity>();
+    private List<String> activityName;
 
 
     public void setId(Integer id){
@@ -44,23 +44,22 @@ public class UserRoleForm {
         return description;
     }
 
-    public void setActivityId(List<Integer> activity){
-        this.activityId = activity;
-    }
-
-    public List<Integer> getActivityId(){
+    public List<Integer> getActivityId() {
         return activityId;
     }
 
-    public List<Activity> getActivities() {
-        return activities;
+    public void setActivityId(List<Integer> activityId) {
+        this.activityId = activityId;
     }
 
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
+    public List<String> getActivityName() {
+        return activityName;
     }
 
-    //Check if this is for New of Update
+    public void setActivityName(List<String> activityName) {
+        this.activityName = activityName;
+    }
+
     public boolean isNew() {
         return (this.id == null);
     }
@@ -72,7 +71,9 @@ public class UserRoleForm {
 
         UserRoleForm that = (UserRoleForm) o;
 
-        if (activityId != null ? !activityId.equals(that.activityId) : that.activityId != null) return false;
+        if ((activityId != null) && (activityId.size() > 0) ?
+                !activityId.equals(that.activityId) :
+                (that.activityId != null && (that.activityId.size() >0 ))  ) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (!name.equals(that.name)) return false;
 

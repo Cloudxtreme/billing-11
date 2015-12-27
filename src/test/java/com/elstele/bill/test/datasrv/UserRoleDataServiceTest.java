@@ -75,13 +75,16 @@ public class UserRoleDataServiceTest {
     }
 
     private void getFormSetUp(){
-        List<Integer> acList = new ArrayList<>();
-        acList.add(2);
+        List<Integer> acListId = new ArrayList<>();
+        acListId.add(2);
 
+        List<String> acListName = new ArrayList<>();
+        acListName.add("Activity1");
 
         UserRoleFormBuilder urfb = new UserRoleFormBuilder();
-        formSample1 = urfb.build().withId(10).withName("Name 1").withDescription("Description 1").withActivities(acList).getRes();
-        acList.add(3);
-        formSample2 = urfb.build().withId(11).withName("Name 2").withDescription("Description 2").withActivities(acList).getRes();
+        formSample1 = urfb.build().withId(10).withName("Name 1").withDescription("Description 1").withActivityId(acListId).withActivityName(acListName).getRes();
+        acListId.add(3);
+        acListName.add("Activity2");
+        formSample2 = urfb.build().withId(11).withName("Name 2").withDescription("Description 2").withActivityId(acListId).withActivityName(acListName).getRes();
     }
 }

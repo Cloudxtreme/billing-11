@@ -22,7 +22,7 @@ public class  Constants {
     public static final String SERVICE_INTERNET = "INTERNET";
     public static final String SERVICE_PHONE = "PHONE";
     public static final String SERVICE_MARKER = "MARKER";
-    public static final int TRANSACTION_DISPLAY_LIMIT = 2;
+    public static final int TRANSACTION_DISPLAY_LIMIT = 20;
 
     public static final String BILLING_SERVICE_WORKER = "billingServiceWorker";
     public static final String BILLING_CALL_WORKER = "billingCallWorker";
