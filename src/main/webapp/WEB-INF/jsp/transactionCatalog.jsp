@@ -11,6 +11,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Transaction Catalog</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
+
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 

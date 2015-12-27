@@ -45,14 +45,14 @@ public class LocalUserController {
     @Autowired
     private LocalUserValidator localUserValidator;
 
-// ACTIVITY PART START
-@RequestMapping(value = "/activity/{id}/delete", method = RequestMethod.GET)
-public String activityDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
-    activityDataService.deleteActivity(id);
-    map.put("activityList", activityDataService.listActivity());
-    map.put("successMessage","Activity was successfully deleted.");
-    return "activity_list";
-}
+    // ACTIVITY PART START
+    @RequestMapping(value = "/activity/{id}/delete", method = RequestMethod.GET)
+    public String activityDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
+        activityDataService.deleteActivity(id);
+        map.put("activityList", activityDataService.listActivity());
+        map.put("successMessage", "Activity was successfully deleted.");
+        return "activity_list";
+    }
 
     // show Activity update form
     @RequestMapping(value = "/activity/{id}/update", method = RequestMethod.GET)
@@ -86,9 +86,8 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
 
     }
 
-    @RequestMapping(value="/activitylist", method = RequestMethod.GET)
-    public String activityList(HttpSession session, Map<String, Object> map)
-    {
+    @RequestMapping(value = "/activitylist", method = RequestMethod.GET)
+    public String activityList(HttpSession session, Map<String, Object> map) {
         map.put("activityList", activityDataService.listActivity());
         return "activity_list";
     }
@@ -117,8 +116,8 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
     @RequestMapping(value = "/user_role_form", method = RequestMethod.GET)
     public String userRoleAdd(HttpSession session, Map<String, Object> map) {
         map.put("userRoleForm", new UserRoleForm());
-       map.put("activityList", activityDataService.listActivity());
-        return "user_role_form";
+        map.put("activityList", activityDataService.listActivity());
+        return "userRoleFormModel";
     }
 
     @RequestMapping(value = "/user_role_form", method = RequestMethod.POST)
@@ -133,15 +132,14 @@ public String activityDelete(@PathVariable("id") int id, HttpSession session, Ma
         } else {
             String message = userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
-            mav.addObject("successMessage",message);
+            mav.addObject("successMessage", message);
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             return mav;
         }
     }
 
-    @RequestMapping(value="/userrolelist", method = RequestMethod.GET)
-    public String userRoleList(HttpSession session, Map<String, Object> map)
-    {
+    @RequestMapping(value = "/userrolelist", method = RequestMethod.GET)
+    public String userRoleList(HttpSession session, Map<String, Object> map) {
         map.put("userRoleList", userRoleDataService.listUserRole());
         return "user_role_list";
     }
