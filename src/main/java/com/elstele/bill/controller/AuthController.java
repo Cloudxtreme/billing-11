@@ -45,8 +45,10 @@ public class AuthController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public ModelAndView mainPage(){
+    public ModelAndView mainPage(HttpSession session){
         ModelAndView mav = new ModelAndView("main");
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        mav.addObject("username", user.getUsername());
         return mav;
     }
 
