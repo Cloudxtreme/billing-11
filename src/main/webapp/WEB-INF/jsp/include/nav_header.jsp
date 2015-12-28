@@ -54,7 +54,7 @@
                 </div>
                 <button type="submit" id="searchButton" class="btn btn-default">Search</button>
             </form>
-            <div class="col-xs-6 col-sm-3" style="padding-top: 10px !important;">
+            <div class="col-md-1" style="padding-top: 10px !important;">
                 <a href="?lang=en"><img class="flag flag-gb"/></a>
                 <a href="?lang=ru"><img class="flag flag-ru"/></a>
             </div>
