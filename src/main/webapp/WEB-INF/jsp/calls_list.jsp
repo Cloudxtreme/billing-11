@@ -34,7 +34,7 @@
 
 <div class="well">
     <label>
-        Show
+        <spring:message code="label.show"/>
         <select class="selectpicker" data-style="btn-info" id="selectEntries">
             <option value="10">10</option>
             <option value="15">15</option>
@@ -43,28 +43,28 @@
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
-        entries
+        <spring:message code="label.entries"/>
     </label>
     <form class="navbar-form" role="search">
         <div class="form-group">
             <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span
-                    class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                    class="glyphicon glyphicon-erase" aria-hidden="true" title="<spring:message code="label.erasesearch"/>"></span></a>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Number A" id="searchNumberA">
+            <input type="text" class="form-control" placeholder="<spring:message code="label.numberA"/>" id="searchNumberA">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Number B" id="searchNumberB">
+            <input type="text" class="form-control" placeholder="<spring:message code="label.numberB"/>" id="searchNumberB">
         </div>
         <div class="form-group ">
-            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="Calls' start time date"
+            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="<spring:message code="label.callsStartDate"/>"
                    id="searchDate"/>
         </div>
-        <a class="btn btn-default" id="searchBtn">Search</a>
+        <a class="btn btn-default" id="searchBtn"><spring:message code="label.search"/></a>
         &nbsp;&nbsp;
         <div class="form-group">
             <div  id="errorMessage" class="error alert-warning" style="display: none">
-                <strong>You can use only digits for searching</strong>
+                <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
     </form>
@@ -72,18 +72,18 @@
     <div id="callsTableDiv">
         <table id="callsTable" class="table table-striped">
             <tr>
-                <th>Number A</th>
-                <th>Number B</th>
-                <th>Start time</th>
-                <th>Call's duration</th>
-                <th>AON Category</th>
-                <th>DVO Code A</th>
-                <th>DVO Code B</th>
-                <th>Cost call total</th>
+                <th><spring:message code="label.numberA"/></th>
+                <th><spring:message code="label.numberB"/></th>
+                <th><spring:message code="label.startTime"/></th>
+                <th><spring:message code="label.duration"/></th>
+                <th><spring:message code="label.aon"/></th>
+                <th><spring:message code="label.dvoA"/></th>
+                <th><spring:message code="label.dvoB"/></th>
+                <th><spring:message code="label.costTotal"/></th>
             </tr>
         </table>
         <div id="tableNavigation">
-            Page: <label id="pageNumber">${pageNum}</label> from <label id="totalPages">${pagesTotal}</label>
+            <spring:message code="label.page"/>: <label id="pageNumber">${pageNum}</label> <spring:message code="label.from"/> <label id="totalPages">${pagesTotal}</label>
             <a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick="goToPrevPage();"><span
                     class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
             &nbsp;&nbsp;

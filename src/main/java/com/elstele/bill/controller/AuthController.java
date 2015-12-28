@@ -5,6 +5,7 @@ import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 
 @Controller
 public class AuthController {
@@ -26,6 +26,8 @@ public class AuthController {
         String userName = localUserForm.getUsername();
         String userPass = localUserForm.getPassword();
         ModelAndView mav = new ModelAndView("main");
+        String  language = LocaleContextHolder.getLocale().getLanguage();
+
         if (localUserDataService.isCredentialValid(userName, userPass)){
             LocalUser curUser = localUserDataService.getUserByNameAndPass(userName, userPass);
             session.setMaxInactiveInterval(1200);
@@ -34,8 +36,18 @@ public class AuthController {
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");
-        login.addObject("errorMessage", "Your input is incorrect, please try again!");
+        if(language.equals("en")) {
+            login.addObject("errorMessage", "Your input is incorrect, please try again!");
+        }else{
+            login.addObject("errorMessage", "Данные неверны. Пожалуйста попробуйте ещё раз!");
+        }
         return login;
+    }
+
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public ModelAndView mainPage(){
+        ModelAndView mav = new ModelAndView("main");
+        return mav;
     }
 
 

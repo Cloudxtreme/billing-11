@@ -19,37 +19,41 @@
 
 </head>
 <body>
-
+<div class="well-lg">
+        <a href="?lang=en"><img class="flag flag-gb"/></a>
+        <a href="?lang=ru"><img class="flag flag-ru"/></a>
 <div class="col-lg-6 Absolute-Center Center-Container">
+
     <%--<c:set var="msg" value="${errorMessage}" scope="request"/>--%>
     <form:form class="form-horizontal" method="POST" commandName="userForm" action="${pageContext.request.contextPath}/login.html">
         <fieldset>
-            <legend>Authentication, Please input Your login and pass</legend>
+            <legend><spring:message code="label.authentication"/></legend>
             <c:if test="${not empty errorMessage}">
                 <div class="form-group">
                     <label class="col-lg-8 text-warning">${errorMessage}</label>
                 </div>
             </c:if>
             <div class="form-group">
-                <label for="inputLogin" class="col-lg-2 control-label">Login</label>
+                <label for="inputLogin" class="col-lg-2 control-label"><spring:message code="label.login"/></label>
                 <div class="col-lg-10">
                     <form:input path="username" class="form-control" id="inputLogin" placeholder="user"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="col-lg-2 control-label">Your Password</label>
+                <label for="inputPassword" class="col-lg-2 control-label"><spring:message code="label.password"/></label>
                 <div class="col-lg-10">
                     <form:password path="password" class="form-control" id="inputPassword" placeholder="Enter your password"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default"><spring:message code="label.cancel"/></button>
+                    <button type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
                 </div>
             </div>
         </fieldset>
     </form:form>
+</div>
 </div>
 
 

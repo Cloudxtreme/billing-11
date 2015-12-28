@@ -9,6 +9,7 @@ import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,14 +94,23 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
+        String language = LocaleContextHolder.getLocale().getLanguage();
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
+            if (language.equals("en")) {
+                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
+            } else {
+                redirectAttributes.addFlashAttribute("successMessage", "Устройство было успешно добавлено!");
+            }
         } else {
             deviceDataService.updateDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
+            if (language.equals("en")) {
+                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
+            } else {
+                redirectAttributes.addFlashAttribute("successMessage", "Устройство было успешно обновлено!");
+            }
         }
         return "redirect: /device.html";
     }
@@ -174,6 +184,7 @@ public class DeviceController {
                 ipMap.put(ipForm.getId(), ipForm.getIpName());
         }
         return ipMap;
+
     }
 
     @RequestMapping(value = "**/returniplist", method = RequestMethod.GET)

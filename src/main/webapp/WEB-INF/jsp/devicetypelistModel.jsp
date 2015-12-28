@@ -28,7 +28,7 @@
   <div>
 
     <div  id="succesMessage" class="alert alert-success col-md-8" style="display: none">
-      <strong>Updating successful</strong>
+      <strong><spring:message code="label.success"/></strong>
     </div>
 
 
@@ -36,9 +36,9 @@
 
     <table class="table table-striped" id ='table'>
       <th></th>
-      <TH>Name</th>
-      <th>Descpition</th>
-      <th>Number of the ports</th>
+      <TH><spring:message code="label.name"/></th>
+      <th><spring:message code="label.description"/></th>
+      <th><spring:message code="label.ports"/></th>
       <c:forEach items="${devicetypelist}" var="current">
         <label for="${current.id}">
           <tr id="${current.id}">
@@ -111,7 +111,7 @@
                 $("#succesMessage").fadeOut(3000);
               });
             } else{
-              alert("Incorrect data type");
+              alert("<spring:message javaScriptEscape="true" code="label.incorrectDataType" />");
             }
         }
       });

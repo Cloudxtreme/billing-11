@@ -23,8 +23,7 @@
 <div class="well">
 
 
-    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/adddevice">Add New
-        Device</a>
+    <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/adddevice"><spring:message code="label.addNewDevice"/></a>
 
     <div>
 
@@ -48,14 +47,14 @@
 
         <table class="table table-striped" id='table'>
             <th></th>
-            <TH>Name</th>
-            <TH>Type</th>
-            <th>Descpition</th>
-            <th>Street</th>
-            <th>Building</th>
-            <th>Flat</th>
-            <th>Community</th>
-            <th>Ip-address</th>
+            <TH><spring:message code="label.name"/></th>
+            <TH><spring:message code="label.type"/></th>
+            <th><spring:message code="label.description"/></th>
+            <th><spring:message code="label.street"/></th>
+            <th><spring:message code="label.building"/></th>
+            <th><spring:message code="label.flat"/></th>
+            <th><spring:message code="label.community"/></th>
+            <th><spring:message code="label.ip"/></th>
             <c:forEach items="${list}" var="current">
                 <label for="${current.id}">
                     <tr id="${current.id}">
@@ -82,7 +81,7 @@
             $('#table tr #deleting').click(function () {
                 console.log(this);
                 var $tr = $(this).closest('tr');
-                var conf = confirm("Are you sure?");
+                var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
                 if (conf == true) {
                     $.ajax({
                         type: "POST",
@@ -100,12 +99,12 @@
                                     $("#succesMessage").fadeOut(2000);
                                 });
                             } else {
-                                alert("Delete is not finished");
+                                alert('<spring:message javaScriptEscape="true" code="label.fail" />');
                             }
                         }
                     });
                 } else {
-                    alert("Thats right decision");
+                    alert('<spring:message javaScriptEscape="true" code="label.alertDecline" />');
                 }
             });
             $(document).ready(function(){

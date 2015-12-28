@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" onclick="window.location.reload(true)">ELS Telecom</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/login.html">ELS Telecom</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,6 +54,10 @@
                 </div>
                 <button type="submit" id="searchButton" class="btn btn-default">Search</button>
             </form>
+            <div class="col-xs-6 col-sm-3" style="padding-top: 10px !important;">
+                <a href="?lang=en"><img class="flag flag-gb"/></a>
+                <a href="?lang=ru"><img class="flag flag-ru"/></a>
+            </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
                 <li class="dropdown" id="linkToUserPanel">

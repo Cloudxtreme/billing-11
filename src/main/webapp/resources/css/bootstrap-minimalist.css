@@ -417,6 +417,14 @@ th {
 .glyphicon-flag:before {
     content: "\e034";
 }
+.flag {
+    width: 32px;
+    height: 23px;
+    background:url('../images/flags.png') no-repeat
+}
+.flag.flag-gb {background-position: -32px 0}
+.flag.flag-ru {background-position: 0 -32px}
+
 .glyphicon-headphones:before {
     content: "\e035";
 }

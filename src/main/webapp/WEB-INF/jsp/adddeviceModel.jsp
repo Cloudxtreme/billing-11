@@ -29,27 +29,30 @@
                   <div class="modal-content">
                       <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                          <h4 class="modal-title" id="myModalLabel">Add new device type</h4>
+                          <h4 class="modal-title" id="myModalLabel"><spring:message code="label.deviceType"/></h4>
                       </div>
                       <div class="modal-body">
 
                           <form:input path="id"  type="hidden"/>
                           <div class="col-xs-6 col-md-4">
-                              <form:input path="deviceType" class="form-control" id="deviceTypeForm" placeholder="Type the new device type name"/>
+                              <spring:message code="label.deviceType" var="deviceType"/>
+                              <form:input path="deviceType" class="form-control" id="deviceTypeForm" placeholder='${deviceType}'/>
                           </div>
 
                           <div class="col-xs-6 col-md-4">
-                              <form:input path="description" class="form-control" id="deviceTypeDescription" placeholder="Description"/>
+                              <spring:message code="label.description" var="descr"/>
+                              <form:input path="description" class="form-control" id="deviceTypeDescription" placeholder="${descr}"/>
                           </div>
 
                           <div class="col-xs-6 col-md-4">
-                              <form:input path="portsNumber" class="form-control" id="deviceTypePorts" placeholder="Ports"/>
+                              <spring:message code="label.ports" var="ports"/>
+                              <form:input path="portsNumber" class="form-control" id="deviceTypePorts" placeholder="${ports}"/>
                           </div>
 
                       </div>
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
-                          <input type="submit" class="btn btn-primary" value="Add new device Type"/>
+                          <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                          <input type="submit" class="btn btn-primary" value="<spring:message code="label.submit"/>"/>
                       </div>
                   </div>
               </div>
@@ -67,23 +70,24 @@
         <form:input path="status" id="status" type="hidden"/>
 
         <div class="form-group">
-          <label for="name" class="col-lg-5 control-label">Device name</label>
+            <spring:message code="label.ports" var="name"/>
+          <label for="name" class="col-lg-5 control-label"><spring:message code="label.name"/></label>
           <div class="col-lg-9">
-            <form:input path="name" class="form-control" id="deviceName" placeholder="Device name"/>
+            <form:input path="name" class="form-control" id="deviceName" placeholder='${name}'/>
           </div>
         </div>
         <div class="form-group">
-          <label for="deviceType" class="col-lg-5 control-label">Device typeS</label>
+          <label for="deviceType" class="col-lg-5 control-label"><spring:message code="label.type"/></label>
           <div class="col-lg-9">
                   <form:select path="devType.id" class="form-control" id="deviceType">
                   <form:options items="${deviceTypesMap}" />
                   </form:select>
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="modal" data-target="#myModal">
-                  Add new Device Type
+                  <spring:message code="label.deviceType"/>
               </button>
               <a href="${pageContext.request.contextPath}/devicetypeslist"><button type="button" id="editDeviceType" class="btn btn-info btn-xs dropdown-toggle float-right">
-                  More information about device types
+                  <spring:message code="label.informationDeviceType"/>
               </button></a>
           </div>
         </div>
@@ -93,51 +97,55 @@
                   <div class="col-md-9">
                       <form:input path="deviceAddressForm.id" id="id" type="hidden"/>
                       <div class="col-md-8">
-                          <label for="streets" class="col-lg-5 control-label">Street</label>
-                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
+                          <label for="streets" class="col-lg-5 control-label"><spring:message code="label.street"/></label>
+                          <spring:message code="label.street" var="street"/>
+                          <form:input path="deviceAddressForm.street" class="form-control" id="streets" data-provide="typeahead" placeholder="${street}" autocomplete="off"/>
                           <form:input path="deviceAddressForm.streetId" id="streetId" type="hidden"/>
                       </div>
                       <div class = "col-md-2">
-                          <label for="building" class="col-lg-5 control-label">Building</label>
-                          <form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="Building"/>
+                          <spring:message code="label.building" var="buildingVar"/>
+                          <label for="building" class="col-lg-5 control-label"><spring:message code="label.building"/></label>
+                          <form:input path="deviceAddressForm.building" class="form-control" id="building" placeholder="${buildingVar}"/>
                       </div>
                       <div class = "col-md-2">
-                          <label for="flat" class="col-lg-5 control-label">Flat</label>
-                          <form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="Flat"/>
+                          <spring:message code="label.flat" var="flatVar"/>
+                          <label for="flat" class="col-lg-5 control-label"><spring:message code="label.flat"/></label>
+                          <form:input path="deviceAddressForm.flat" class="form-control" id="flat" placeholder="${flatVar}"/>
                       </div>
                   </div>
               </div>
           </div>
 
             <div class="form-group">
-              <label for="description" class="col-lg-5 control-label">Device description</label>
+              <label for="description" class="col-lg-5 control-label"><spring:message code="label.description"/></label>
               <div class="col-lg-9">
-                <form:input path="description" class="form-control" id="deviceDescription" placeholder="Device description"/>
+                <form:input path="description" class="form-control" id="deviceDescription" placeholder="${descr}"/>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="community" class="col-lg-5 control-label">Device community</label>
+              <label for="community" class="col-lg-5 control-label"><spring:message code="label.community"/></label>
               <div class="col-lg-9">
-                <form:input path="community" class="form-control" id="deviceCommunity" placeholder="Device community"/>
+                  <spring:message code="label.community" var="community"/>
+                <form:input path="community" class="form-control" id="deviceCommunity" placeholder="${community}"/>
               </div>
             </div>
 
               <div class="form-group">
-                      <label for="ip" class="col-lg-5 control-label">Ip address</label>
+                      <label for="ip" class="col-lg-5 control-label"><spring:message code="label.ip"/></label>
                   <div class="col-lg-9">
                       <form:select path="ipForm.id" class="form-control" id="ip">
                           <form:options items="${ipAddressList}" />
                       </form:select>
 
                           <input type="checkbox" class="checkbox" id="chkNet" href="#subnet"/>
-                          <label for="chkNet">Show Network</label>
+                          <label for="chkNet"><spring:message code="label.showNetwork"/></label>
 
                   </div>
               </div>
 
               <div class="form-group" style="visibility: hidden" id="ipNetDiv">
-                  <label for="ipNet" class="col-lg-5 control-label">IpNet</label>
+                  <label for="ipNet" class="col-lg-5 control-label"><spring:message code="label.subnet"/></label>
                   <div class="col-lg-9">
                       <form:select path="id" class="form-control" id="ipNet">
                           <form:options items="${ipNetList}" />
@@ -148,8 +156,8 @@
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
                   <button type="reset" id = "declineForm" class="btn btn-default"
-                          onclick="window.location.href='/device.html'">Cancel</button>
-                  <button id="submitForm" type="submit" class="btn btn-primary">Submit</button>
+                          onclick="window.location.href='/device.html'"><spring:message code="label.cancel"/></button>
+                  <button id="submitForm" type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
               </div>
             </div>
 
