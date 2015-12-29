@@ -8,8 +8,8 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -94,23 +94,14 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
-        String language = LocaleContextHolder.getLocale().getLanguage();
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            if (language.equals("en")) {
-                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully added.");
-            } else {
-                redirectAttributes.addFlashAttribute("successMessage", "Устройство было успешно добавлено!");
-            }
+            redirectAttributes.addFlashAttribute("successMessage", MessageLanguageDeterminant.determine("addDeviceFromForm"));
         } else {
             deviceDataService.updateDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            if (language.equals("en")) {
-                redirectAttributes.addFlashAttribute("successMessage", "Device was successfully updated.");
-            } else {
-                redirectAttributes.addFlashAttribute("successMessage", "Устройство было успешно обновлено!");
-            }
+            redirectAttributes.addFlashAttribute("successMessage", MessageLanguageDeterminant.determine("UpdateDeviceFromForm"));
         }
         return "redirect: /device.html";
     }

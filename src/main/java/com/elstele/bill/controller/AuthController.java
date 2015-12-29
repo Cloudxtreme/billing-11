@@ -4,8 +4,8 @@ import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +26,6 @@ public class AuthController {
         String userName = localUserForm.getUsername();
         String userPass = localUserForm.getPassword();
         ModelAndView mav = new ModelAndView("main");
-        String  language = LocaleContextHolder.getLocale().getLanguage();
-
         if (localUserDataService.isCredentialValid(userName, userPass)){
             LocalUser curUser = localUserDataService.getUserByNameAndPass(userName, userPass);
             session.setMaxInactiveInterval(1200);
@@ -36,11 +34,7 @@ public class AuthController {
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");
-        if(language.equals("en")) {
-            login.addObject("errorMessage", "Your input is incorrect, please try again!");
-        }else{
-            login.addObject("errorMessage", "Данные неверны. Пожалуйста попробуйте ещё раз!");
-        }
+        login.addObject("errorMessage", MessageLanguageDeterminant.determine("loginCall"));
         return login;
     }
 

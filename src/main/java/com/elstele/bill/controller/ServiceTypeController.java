@@ -1,15 +1,14 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.MessageLanguageDeterminant;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -29,17 +28,11 @@ public class ServiceTypeController {
     @Autowired
     private ServiceAttributeValidator serviceAttributeValidator;
 
-    private String language = LocaleContextHolder.getLocale().getLanguage();
-
     @RequestMapping(value = "/serviceType/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         serviceTypeDataService.deleteServiceType(id);
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
-        if(language.equals("en")) {
-            map.put("successMessage", "Service was successfully deleted.");
-        }else{
-            map.put("successMessage", "Сервис был успешно удалён.");
-        }
+        map.put("successMessage", MessageLanguageDeterminant.determine("serviceDelete"));
         return "serviceType";
     }
     @RequestMapping(value = "/serviceType/{id}/update", method = RequestMethod.GET)
@@ -83,11 +76,7 @@ public class ServiceTypeController {
         serviceTypeDataService.deleteServiceAttribute(serviceAttributeId);
         map.put("serviceForm", serviceTypeDataService.getServiceTypeFormById(serviceId));
         map.put("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(serviceId));
-        if(language.equals("en")) {
-            map.put("successMessage", "Service Attribute was successfully deleted.");
-        }else{
-            map.put("successMessage", "Атрибут сервисов был упешно удалён.");
-        }
+        map.put("successMessage", MessageLanguageDeterminant.determine("serviceAttributeDelete"));
         return "serviceType_form";
     }
     @RequestMapping(value="/serviceAttribute/modify", method = RequestMethod.POST)

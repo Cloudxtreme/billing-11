@@ -1,16 +1,14 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.*;
-import com.elstele.bill.domain.OnlineStatistic;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
-import com.elstele.bill.validator.ServiceValidator;
+import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -54,12 +51,7 @@ public class ServiceController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(accountId);
         mav.addObject("accountForm", result);
-        String language = LocaleContextHolder.getLocale().getLanguage();
-        if(language.equals("en")) {
-            mav.addObject("successMessage", "Service was successfully deleted.");
-        }else{
-            mav.addObject("successMessage", "Сервис был упешно удалён.");
-        }
+        mav.addObject("successMessage", MessageLanguageDeterminant.determine("serviceDelete"));
         return mav;
     }
 

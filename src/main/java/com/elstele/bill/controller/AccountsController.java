@@ -6,14 +6,13 @@ import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class AccountsController {
 
     @Autowired
     private TransactionDataService transactionDataService;
-
-    private String language = LocaleContextHolder.getLocale().getLanguage();
 
     @RequestMapping(value="/accountHome", method = RequestMethod.GET)
     public ModelAndView handleAccountHome(HttpSession session)
@@ -115,11 +112,7 @@ public class AccountsController {
         accountDataService.updateAccount(accountForm);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        if(language.equals("en")) {
-            mav.addObject("successMessage", "Account was updated successfully");
-        }else{
-            mav.addObject("successMessage", "Аккаунт был успешно обновлён");
-        }
+        mav.addObject("successMessage", MessageLanguageDeterminant.determine("saveAccountFull"));
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
@@ -134,11 +127,7 @@ public class AccountsController {
         if(!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);
         }else{
-            if(language.equals("en")){
-                mav.addObject("message", "Nothing found. Please try again");
-            }else {
-                mav.addObject("message", "Ничего не найдено. Попробуйте ещё раз");
-            }
+            mav.addObject("message", MessageLanguageDeterminant.determine("searchAccount"));
         }
         return mav;
     }
