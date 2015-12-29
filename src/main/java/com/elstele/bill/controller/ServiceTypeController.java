@@ -79,6 +79,7 @@ public class ServiceTypeController {
         map.put("successMessage", MessageLanguageDeterminant.determine("serviceAttributeDelete"));
         return "serviceType_form";
     }
+
     @RequestMapping(value="/serviceAttribute/modify", method = RequestMethod.POST)
     public ModelAndView serviceAttributeModify(@ModelAttribute("serviceAttributeForm") ServiceInternetAttributeForm form, BindingResult result)
     {
