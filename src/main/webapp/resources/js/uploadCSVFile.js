@@ -2,7 +2,6 @@ var uniqFiles = [];
 
 $(document).ready(function () {
 
-
     function centerModal() {
         $(this).css('display', 'block');
         var $dialog = $(this).find(".modal-dialog");
@@ -56,7 +55,7 @@ $(document).ready(function () {
         if (uniqFiles.length == 0) {
             $('#spinner').hide();
             document.getElementById('errorMessage').style.display = "block";
-            $('#errorMessage').append('<strong>Please select files to upload</strong>');
+            $('#errorMessage').append('<strong>Выберите файл формата CSV для загрузки</strong>');
             setTimeout(function () {
                 $("#errorMessage").fadeOut(3000, function () {
                     $("#errorMessage strong").remove();
@@ -83,7 +82,7 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
+                    $('#successMessage').append('<strong>Операция выполнена успешно</strong>');
                     uniqFiles = [];
                     setTimeout(function () {
                         $("#successMessage").fadeOut(2500, function () {
@@ -97,7 +96,7 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>You tried to add file with incorrect type. Please delete it and try again</strong>');
+                    $('#errorMessage').append('<strong>Вы пытаетесь загрузить файл неверного формата. Выберите файл CSV формата для загрузки</strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(4000, function () {
                             $("#errorMessage strong").remove();
@@ -109,7 +108,7 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Failed to file upload</strong>');
+                    $('#errorMessage').append('<strong>Ошибка. Операция не выполнена</strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(2500, function () {
                             $("#errorMessage strong").remove();
@@ -120,7 +119,7 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>It is not available now please try again later</strong>');
+                    $('#errorMessage').append('<strong>Операция недоступна сейчас. Попробуйте позже</strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(2500, function () {
                             $("#errorMessage strong").remove();
@@ -173,14 +172,14 @@ $(document).ready(function () {
             success: function (data) {
                 if (data == "SUCCESS") {
                     document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').append('<strong>Report created successfully</strong>');
+                    $('#successMessage').append('<strong>Операция выполнена успешно</strong>');
                     $("#successMessage").fadeOut(2500, function () {
                         $("#successMessage strong").remove();
                         location.reload();
                     });
                 } else {
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Failed to generate report. Please try again later</strong>');
+                    $('#errorMessage').append('<strong> Операция недоступна сейчас. Попробуйте позже</strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(2500, function () {
                             $("#errorMessage strong").remove();
@@ -253,5 +252,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: 'json'
         });
-    })
+    });
+
+
 });

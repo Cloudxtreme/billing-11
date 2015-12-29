@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Users Online</title>
+<title><spring:message code="label.online"/> </title>
 
 <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 <spring:url value="/resources/js/util.js" var="util" />
@@ -24,19 +24,19 @@
 
 <div class="well">
     <%--<a href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal">Create New Account</a>--%>
-    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount">Users online: </span>
+    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"><spring:message code="label.online"/>: </span>
     <div id="userOnlineTableDiv">
         <table id="userOnlineTable" class="table table-striped">
             <tr>
-                <th>username</th>
-                <th>user_fio</th>
-                <th>nasipaddress</th>
-                <th>nasportid</th>
-                <th>acctstarttime</th>
-                <th>acctsessiontime</th>
-                <th>framedipaddress</th>
-                <th>acctinputoctets</th>
-                <th>acctoutputoctets</th>
+                <th><spring:message code="label.name"/> </th>
+                <th><spring:message code="label.fio"/> </th>
+                <th><spring:message code="label.nasIp"/> </th>
+                <th><spring:message code="label.pasport"/> </th>
+                <th><spring:message code="label.startTime"/> </th>
+                <th><spring:message code="label.sessionTime"/> </th>
+                <th><spring:message code="label.localIp"/> </th>
+                <th><spring:message code="label.inputOctets"/> </th>
+                <th><spring:message code="label.outputOctets"/> </th>
             </tr>
         </table>
     </div>

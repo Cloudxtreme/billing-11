@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Services</title>
+    <title><spring:message code="label.service"/></title>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
@@ -22,7 +22,7 @@
 
 <div class="col-lg-6">
 
-    <legend>Account Services</legend>
+    <legend><spring:message code="label.accountService"/></legend>
     <c:if test="${not empty successMessage}">
         <div class="alert alert-info" role="alert">${successMessage}</div>
     </c:if>
@@ -30,11 +30,11 @@
     <table id="accountServiceTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
-            <th>Account</th>
-            <th>Service</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Price</th>
+            <th><spring:message code="label.account"/></th>
+            <th><spring:message code="label.service"/></th>
+            <th><spring:message code="label.startTime"/></th>
+            <th><spring:message code="label.endTime"/></th>
+            <th><spring:message code="label.price"/></th>
         </tr>
 
         <c:forEach items="${accountList}" var="account">
@@ -58,7 +58,7 @@
                                 </a>
                                 &nbsp;&nbsp;
                                 <a href="${pageContext.request.contextPath}/service/account/${accountService.id}/delete"
-                                   onclick="return confirm('Do you really want to delete account service?')">
+                                   onclick="return confirm('<spring:message javaScriptEscape="true" code="label.deleteAccountService"/>')">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </a>
                             </td>

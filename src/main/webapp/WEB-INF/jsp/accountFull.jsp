@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Account Detail</title>
+    <title><spring:message code="label.accountDetail"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
@@ -36,9 +36,9 @@
 
 <div class="well">
     <legend>
-        <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary">Update account</a>
-        <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success">View Transactions</a>
-        <span class="btn btn-sm btn-warning float-right">Баланс ${accountForm.currentBalance}</span>
+        <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary"><spring:message code="label.accountUpdate"/></a>
+        <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success"><spring:message code="label.viewTransaction"/></a>
+        <span class="btn btn-sm btn-warning float-right"><spring:message code="label.balance"/> ${accountForm.currentBalance}</span>
     </legend>
 
     <div id="accountMainDetail">
@@ -53,23 +53,23 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Общие данные</h3>
+                                <h3 class="panel-title"><spring:message code="label.totalInfo"/></h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="accountName" class="col-lg-2 control-label">Account #</label>
+                                    <label for="accountName" class="col-lg-2 control-label"><spring:message code="label.account"/></label>
                                     <div class="col-lg-9">
                                         <form:input path="accountName" class="form-control" id="accountName" placeholder="Account"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="accountFIO" class="col-lg-2 control-label">Фио</label>
+                                    <label for="accountFIO" class="col-lg-2 control-label"><spring:message code="label.fio"/></label>
                                     <div class="col-lg-9">
                                         <form:input path="fio" class="form-control" id="accountFIO" placeholder="Фио"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="accountType" class="col-lg-2 control-label">Account Type</label>
+                                    <label for="accountType" class="col-lg-2 control-label"><spring:message code="label.accountType"/></label>
                                     <div class="col-lg-9">
                                         <form:select path="accountType" class="form-control" id="accountType">
                                             <form:options items="${accountTypeList}" />
@@ -84,27 +84,29 @@
                     <div id="phyAddrBlock" class="col-lg-6 margin-top-cancel">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Физический Адрес</h3>
+                                <h3 class="panel-title"><spring:message code="label.physAddress"/></h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="phyAddressStreet" class="col-lg-2 control-label">Street</label>
+                                    <label for="phyAddressStreet" class="col-lg-2 control-label"><spring:message code="label.street"/></label>
                                     <div class="col-lg-9">
+                                        <spring:message code="label.street" var="street"/>
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
-                                                    data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
+                                                    data-provide="typeahead" placeholder="${street}" autocomplete="off"/>
                                         <form:input path="phyAddress.id" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phyAddressBuilding" class="col-lg-2 control-label">Building</label>
+                                    <label for="phyAddressBuilding" class="col-lg-2 control-label"><spring:message code="label.building"/></label>
                                     <div class="col-lg-9">
-                                        <form:input path="phyAddress.building" class="form-control" id="phyAddressBuilding" placeholder="number"/>
+                                        <spring:message code="label.number" var="number"/>
+                                        <form:input path="phyAddress.building" class="form-control" id="phyAddressBuilding" placeholder="${number}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phyAddressFlat" class="col-lg-2 control-label">Flat</label>
+                                    <label for="phyAddressFlat" class="col-lg-2 control-label"><spring:message code="label.flat"/></label>
                                     <div class="col-lg-9">
-                                        <form:input path="phyAddress.flat" class="form-control" id="phyAddressFlat" placeholder="number"/>
+                                        <form:input path="phyAddress.flat" class="form-control" id="phyAddressFlat" placeholder="${number}"/>
                                     </div>
                                 </div>
                             </div>
@@ -115,27 +117,27 @@
                     <div id="legAddrBlock" class="col-lg-6 margin-top-cancel">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Юридический Адрес</h3>
+                                <h3 class="panel-title"><spring:message code="label.legalAddress"/></h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="legalAddressStreet" class="col-lg-2 control-label">Street</label>
+                                    <label for="legalAddressStreet" class="col-lg-2 control-label"><spring:message code="label.street"/></label>
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
-                                                    data-provide="typeahead" placeholder="Улица" autocomplete="off"/>
+                                                    data-provide="typeahead" placeholder="${street}" autocomplete="off"/>
                                         <form:input path="legalAddress.id" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="legalAddressBuilding" class="col-lg-2 control-label">Building</label>
+                                    <label for="legalAddressBuilding" class="col-lg-2 control-label"><spring:message code="label.building"/></label>
                                     <div class="col-lg-9">
-                                        <form:input path="legalAddress.building" class="form-control" id="legalAddressBuilding" placeholder="number"/>
+                                        <form:input path="legalAddress.building" class="form-control" id="legalAddressBuilding" placeholder="${number}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="legAddressFlat" class="col-lg-2 control-label">Flat</label>
+                                    <label for="legAddressFlat" class="col-lg-2 control-label"><spring:message code="label.flat"/></label>
                                     <div class="col-lg-9">
-                                        <form:input path="legalAddress.flat" class="form-control" id="legAddressFlat" placeholder="number"/>
+                                        <form:input path="legalAddress.flat" class="form-control" id="legAddressFlat" placeholder="${number}"/>
                                     </div>
                                 </div>
                             </div>
@@ -147,21 +149,23 @@
                     <label class="">&nbsp;</label>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Сервисы
-                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                            <h3 class="panel-title"><spring:message code="label.services"/>
+                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">
+                                    <spring:message code="label.new"/>
+                                </a>
                             </h3>
                         </div>
                         <div class="panel-body">
                             <table id="accountServiceTable" class="table table-striped table-hover">
                                 <tr>
                                     <th>&nbsp;</th>
-                                    <th>Service</th>
-                                    <th>Details</th>
-                                    <th>SoftBlock</th>
-                                    <th>Start Date</th>
-                                    <th>Period</th>
-                                    <th>Price</th>
-                                    <th>Status</th>
+                                    <th><spring:message code="label.service"/></th>
+                                    <th><spring:message code="label.detail"/></th>
+                                    <th><spring:message code="label.softbock"/></th>
+                                    <th><spring:message code="label.startTime"/></th>
+                                    <th><spring:message code="label.period"/></th>
+                                    <th><spring:message code="label.price"/></th>
+                                    <th><spring:message code="label.status"/></th>
                                 </tr>
 
                                 <c:forEach items="${accountForm.serviceForms}" var="accountService">
@@ -170,7 +174,9 @@
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                                 &nbsp;&nbsp;
-                                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')">
+                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                </a>
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
                                             <td>
@@ -215,25 +221,27 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                Транзакции
+                                <spring:message code="label.transaction"/>
                                 <select class="selectpicker" data-style="btn-info" id="transactionListLimit" style="font-size: 12px !important; ">
                                     <option value="10">10</option>
                                     <option value="20" selected="selected">20</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accounts/editFull/${accountForm.id}" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">New</a>
+                                <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/form?returnPage=accounts/editFull/${accountForm.id}" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">
+                                    <spring:message code="label.new"/>
+                                </a>
                             </div>
                         </div>
                         <div class="panel-body">
                             <table id="transactionTable" class="table table-striped table-hover">
                                 <tr>
-                                    <th>Account</th>
-                                    <th>Date</th>
-                                    <th>Direction</th>
-                                    <th>Source</th>
-                                    <th>Price</th>
-                                    <th>Comment</th>
+                                    <th><spring:message code="label.account"/></th>
+                                    <th><spring:message code="label.startTime"/></th>
+                                    <th><spring:message code="label.direction"/></th>
+                                    <th><spring:message code="label.source"/></th>
+                                    <th><spring:message code="label.price"/></th>
+                                    <th><spring:message code="label.comment"/></th>
                                 </tr>
 
                                 <c:forEach items="${transactionList}" var="transaction">

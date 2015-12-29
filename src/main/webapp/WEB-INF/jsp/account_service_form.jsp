@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Add/Edit Account to Service</title>
+    <title><spring:message code="label.addeditAccount"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
@@ -46,23 +46,23 @@
 <div class="col-lg-7">
     <form:form class="form-horizontal" method="POST" commandName="serviceForm" action="${pageContext.request.contextPath}/service/account/form">
         <fieldset>
-            <legend>Add/Edit Service for Account "<strong>${account.accountName}</strong>"</legend>
+            <legend><spring:message code="label.addeditAccount"/> "<strong>${account.accountName}</strong>"</legend>
             <div class="form-group">
-                <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
+                <label class="col-lg-8 ${errorClass}"><spring:message code="label.fillField"/></label>
             </div>
             <c:if test="${empty serviceForm.serviceType.id}">
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Service Type</label>
+                    <label class="col-lg-2 control-label"><spring:message code="label.type"/></label>
                     <div class="col-lg-9">
                         <fieldset id="serviceType">
                             <label class="radio-inline"><strong>
-                                <form:radiobutton path="serviceType.serviceType" value="INTERNET"/> Internet
+                                <form:radiobutton path="serviceType.serviceType" value="INTERNET"/> <spring:message code="label.internet"/>
                             </strong></label>
                             <label class="radio-inline"><strong>
-                                <form:radiobutton path="serviceType.serviceType" value="PHONE"/> Phone
+                                <form:radiobutton path="serviceType.serviceType" value="PHONE"/> <spring:message code="label.phone"/>
                             </strong></label>
                             <label class="radio-inline"><strong>
-                                <form:radiobutton path="serviceType.serviceType" value="MARKER"/> Marker
+                                <form:radiobutton path="serviceType.serviceType" value="MARKER"/> <spring:message code="label.marker"/>
                             </strong></label>
                             <form:errors path="serviceType" cssClass="alert-danger" />
                         </fieldset>
@@ -71,7 +71,7 @@
             </c:if>
             <div id="sharedServiceForm">
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Service Name</label>
+                    <label class="col-lg-2 control-label"><spring:message code="label.name"/></label>
                     <div class="col-lg-8">
                         <c:set var="disable" value="false"/>
                         <c:if test="${not empty serviceForm.serviceType.id}">
@@ -86,11 +86,11 @@
                         </form:select>
                     </div>
                     <div class="col-lg-1">
-                        <a id="changeServiceType" class="btn btn-sm btn-success">Change</a>
+                        <a id="changeServiceType" class="btn btn-sm btn-success"><spring:message code="label.change"/></a>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="dateStart" class="col-lg-2 control-label">Date Start</label>
+                    <label for="dateStart" class="col-lg-2 control-label"><spring:message code="label.startTime"/></label>
                     <div class="col-lg-8">
                         <fmt:formatDate value="${dateStart.date}" var="dateString" pattern="yyyy-MM-dd" />
                         <div class='input-group date' id='datepicker1'>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="period" class="col-lg-2 control-label">Period</label>
+                    <label for="period" class="col-lg-2 control-label"><spring:message code="label.period"/></label>
                     <div class="col-lg-8">
                         <form:select path="period" class="form-control" id="period">
                             <form:options items="${servicePeriodList}" />
@@ -115,35 +115,38 @@
 
             <div id="internetService">
                 <div class="form-group">
-                    <label for="username" class="col-lg-2 control-label">User Name</label>
+                    <label for="username" class="col-lg-2 control-label"><spring:message code="label.userName"/></label>
                     <div class="col-lg-8">
                         <form:errors path="serviceInternet.username" cssClass="alert-danger" />
-                        <form:input path="serviceInternet.username" class="form-control" id="username" placeholder="User Name"/>
+                        <spring:message code="label.userName" var="name"/>
+                        <form:input path="serviceInternet.username" class="form-control" id="username" placeholder="${name}"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-lg-2 control-label">Password</label>
+                    <label for="password" class="col-lg-2 control-label"><spring:message code="label.password"/></label>
                     <div class="col-lg-8">
-                        <form:input path="serviceInternet.password" class="form-control" id="password" placeholder="Password"/>
+                        <spring:message code="label.password" var="pass"/>
+                        <form:input path="serviceInternet.password" class="form-control" id="password" placeholder="${pass}"/>
                         <form:errors path="serviceInternet.password" cssClass="alert-danger" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="softblock" class="col-lg-2 control-label">SoftBlock</label>
+                    <label for="softblock" class="col-lg-2 control-label"><spring:message code="label.softbock"/></label>
                     <div class="col-lg-8">
                         <form:checkbox path="serviceInternet.softblock" class="form-control fix-10px-width" id="softblock"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="macaddress" class="col-lg-2 control-label">MacAddress</label>
+                    <label for="macaddress" class="col-lg-2 control-label"><spring:message code="label.macAddress"/></label>
                     <div class="col-lg-8">
-                        <form:input path="serviceInternet.macaddress" class="form-control" id="macaddress" placeholder="MacAddress"/>
+                        <spring:message code="label.macAddress" var="mac"/>
+                        <form:input path="serviceInternet.macaddress" class="form-control" id="macaddress" placeholder="${mac}"/>
                         <form:errors path="serviceInternet.macaddress" cssClass="alert-danger" />
                     </div>
                 </div>
 
                 <div class="form-group" id="ipNetDiv">
-                    <label for="ipNet" class="col-lg-2 control-label">IpNet</label>
+                    <label for="ipNet" class="col-lg-2 control-label"><spring:message code="label.subnet"/></label>
                     <div class="col-lg-8">
                         <form:select path="serviceInternet.ip.ipSubnet.id" class="form-control" id="ipNet">
                             <c:forEach items="${ipNetList}" var="ipNets">
@@ -153,20 +156,20 @@
                     </div>
                 </div>
                 <div class="form-group" id="ipAddressDiv">
-                    <label for="ipAddress" class="col-lg-2 control-label">Ip Address</label>
+                    <label for="ipAddress" class="col-lg-2 control-label"><spring:message code="label.ip"/></label>
                     <label class="col-lg-5 control-label" id="ipAddressSelect">
-                        <span id="ipAddressCurrent" class="form-control">none</span>
+                        <span id="ipAddressCurrent" class="form-control"><spring:message code="label.none"/></span>
                         <form:select path="serviceInternet.ip.id" class="form-control" id="ipAddress">
                             <form:options items="${ipAddressList}" />
                         </form:select>
                     </label>
                     <label for="changeIp" class="col-lg-2">
-                        <input type="checkbox" class="checkbox" id="changeIp" href="#subnet"/> Change IP Address
+                        <input type="checkbox" class="checkbox" id="changeIp" href="#subnet"/> <spring:message code="label.changeIpAddress"/>
                     </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="device" class="col-lg-2 control-label">Device</label>
+                    <label for="device" class="col-lg-2 control-label"><spring:message code="label.device"/></label>
                     <div class="col-lg-8">
                         <form:select path="serviceInternet.device.id" class="form-control" id="device">
                             <c:forEach items="${devicesList}" var="devices">
@@ -176,7 +179,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="devicePorts" class="col-lg-2 control-label">Port</label>
+                    <label for="devicePorts" class="col-lg-2 control-label"><spring:message code="label.port"/></label>
                     <div class="col-lg-8">
                         <form:select path="serviceInternet.port" class="form-control" id="devicePorts">
                             <form:options items="${devicePortList}" />
@@ -189,9 +192,10 @@
 
 
             <div class="form-group" id="phoneService">
-                <label for="phoneNumber" class="col-lg-2 control-label">Phone Number</label>
+                <label for="phoneNumber" class="col-lg-2 control-label"><spring:message code="label.phoneNumber"/></label>
                 <div class="col-lg-8">
-                    <form:input path="servicePhone.phoneNumber" class="form-control" id="phoneNumber" placeholder="Phone Number"/>
+                    <spring:message code="label.phoneNumber" var="phonenumber"/>
+                    <form:input path="servicePhone.phoneNumber" class="form-control" id="phoneNumber" placeholder="${phonenumber}"/>
                     <form:errors path="servicePhone.phoneNumber" cssClass="alert-danger" />
                 </div>
             </div>
@@ -200,7 +204,7 @@
                 <div class="col-lg-8 col-lg-offset-3">
                     <form:hidden path="id" />
                     <form:hidden path="accountId"/>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
                 </div>
             </div>
         </fieldset>

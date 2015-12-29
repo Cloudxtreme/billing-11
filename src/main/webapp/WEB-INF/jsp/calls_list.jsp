@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Calls List</title>
+    <title><spring:message code="label.callsList"/> </title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>

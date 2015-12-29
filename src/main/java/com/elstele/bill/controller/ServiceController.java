@@ -10,6 +10,7 @@ import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.validator.ServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -53,7 +54,12 @@ public class ServiceController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(accountId);
         mav.addObject("accountForm", result);
-        mav.addObject("successMessage", "Service was successfully deleted.");
+        String language = LocaleContextHolder.getLocale().getLanguage();
+        if(language.equals("en")) {
+            mav.addObject("successMessage", "Service was successfully deleted.");
+        }else{
+            mav.addObject("successMessage", "Сервис был упешно удалён.");
+        }
         return mav;
     }
 

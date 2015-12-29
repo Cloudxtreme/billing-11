@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title>File uploading</title>
+    <title><spring:message code="label.kdf"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
@@ -36,23 +36,23 @@
 
     <%--Icons with action (Spans)--%>
     <legend>
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select KDF file to upload
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> <spring:message code="label.selectKdf"/>
         &nbsp;&nbsp;
         <a href="${pageContext.request.contextPath}/uploadedfiles"
            style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
-                class="glyphicon glyphicon-folder-open"></span> Uploaded files</a>
+                class="glyphicon glyphicon-folder-open"></span>&nbsp;<spring:message code="label.uploadedKDF"/></a>
     </legend>
 
     <%--Form for uploading files--%>
     <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
         <div class="form-group" id="idForm">
       <span class="file-input btn btn-info btn-file">
-        Browse file to upload <input type="file" id="exampleInputFile" multiple>
+        <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" multiple>
       </span>
             <ul id="list" class="list-group"></ul>
 
         </div>
-        <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar">Upload File</button>
+        <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar"><spring:message code="label.upload"/></button>
     </form:form>
 </div>
 
@@ -103,7 +103,7 @@
                 uniqFiles.splice(i, 1);
             }
         }
-        var conf = confirm("Are you sure?");
+        var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
         if (!conf) {
             console.log('decline');
         } else {
@@ -129,7 +129,7 @@
         if (uniqFiles.length == 0) {
             $('#spinner').hide();
             document.getElementById('errorMessage').style.display = "block";
-            $('#errorMessage').append('<strong>Please select files to upload</strong>');
+            $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.selectFile"/></strong>');
             setTimeout(function () {
                 $("#errorMessage").fadeOut(3000, function () {
                     $("#errorMessage strong").remove();
@@ -156,7 +156,7 @@
                 if (result == "SUCCESS") {
                     $('#spinner').hide();
                     document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').append('<strong>Your file is succesfully uploaded to the server</strong>');
+                    $('#successMessage').append('<strong><spring:message javaScriptEscape="true" code="label.successFile" /></strong>');
                     uniqFiles = [];
                     setTimeout(function () {
                         $("#successMessage").fadeOut(2500, function () {
@@ -169,7 +169,7 @@
                 } else if (result == "INCORRECTTYPE") {
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>You tried to add file with incorrect type. Please delete it and try again</strong>');
+                    $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.incorrectFile" /></strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(4000, function () {
                             $("#errorMessage strong").remove();
@@ -180,7 +180,7 @@
                 } else if (result == "ERROR") {
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Failed to file upload</strong>');
+                    $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.failUpload" /></strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(2500, function () {
                             $("#errorMessage strong").remove();
@@ -190,7 +190,7 @@
                 } else {
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>It is not available now please try again later</strong>');
+                    $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.notAvail" /></strong>');
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(2500, function () {
                             $("#errorMessage strong").remove();

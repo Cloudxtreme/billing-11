@@ -7,6 +7,7 @@ import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +31,8 @@ public class AccountsController {
 
     @Autowired
     private TransactionDataService transactionDataService;
+
+    private String language = LocaleContextHolder.getLocale().getLanguage();
 
     @RequestMapping(value="/accountHome", method = RequestMethod.GET)
     public ModelAndView handleAccountHome(HttpSession session)
@@ -112,7 +115,11 @@ public class AccountsController {
         accountDataService.updateAccount(accountForm);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        mav.addObject("successMessage", "Account was updated successfully");
+        if(language.equals("en")) {
+            mav.addObject("successMessage", "Account was updated successfully");
+        }else{
+            mav.addObject("successMessage", "Аккаунт был успешно обновлён");
+        }
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
@@ -127,7 +134,11 @@ public class AccountsController {
         if(!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);
         }else{
-            mav.addObject("message", "Ничего не найдено. Попробуйте ещё раз");
+            if(language.equals("en")){
+                mav.addObject("message", "Nothing found. Please try again");
+            }else {
+                mav.addObject("message", "Ничего не найдено. Попробуйте ещё раз");
+            }
         }
         return mav;
     }

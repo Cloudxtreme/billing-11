@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Transaction Catalog</title>
+    <title><spring:message code="label.transactionCatalog"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 
 
@@ -36,19 +36,24 @@
 
 
 <div class="col-lg-6">
-    <legend>Transaction Catalog
-        <a href="${pageContext.request.contextPath}/transaction/${selectedAccount}/form?returnPage=transaction/${selectedAccount}/catalog/" class="btn btn-sm btn-primary float-right" data-toggle="modal">Create Transaction</a>
+    <legend><spring:message code="label.transactionCatalog"/>
+        <a href="${pageContext.request.contextPath}/transaction/${selectedAccount}/form?returnPage=transaction/${selectedAccount}/catalog/" class="btn btn-sm btn-primary float-right" data-toggle="modal">
+            <spring:message code="label.transactionCreate"/>
+        </a>
     </legend>
 
     <fieldset>
         <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessageTrans}</div>
+            <div class="alert alert-info fade in" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                ${successMessageTrans}
+            </div>
         </c:if>
 
         <div class="well">
             <form class="navbar-form" role="search">
                 <div class="form-group pull-left margin-left-7">
-                    Show
+                    <spring:message code="label.show"/>
                     <select class="selectpicker" data-style="btn-info" id="transactionListLimit">
                         <option value="10">10</option>
                         <option value="20" selected="selected">20</option>
@@ -58,15 +63,17 @@
                 </div>
                 <div class="pull-right">
                     <div class="form-group">
-                        <a class="btn btn-primary link-btn" id="eraseSearch"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                        <a class="btn btn-primary link-btn" id="eraseSearch" title="<spring:message code="label.erasesearch"/>"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Account" id="searchAccountName">
+                        <spring:message code="label.account" var="acc"/>
+                        <input type="text" class="form-control" placeholder="${acc}" id="searchAccountName">
                     </div>
                     <div class="form-group ">
-                        <input type="text" name="daterange" class="form-control col-xs-6" placeholder="Calls' start time date" id="searchDate"/>
+                        <spring:message code="label.startTime" var="csd"/>
+                        <input type="text" name="daterange" class="form-control col-xs-6" placeholder="${csd}" id="searchDate"/>
                     </div>
-                    <a class="btn btn-default" id="searchBtn">Search</a>
+                    <a class="btn btn-default" id="searchBtn"><spring:message code="label.search"/></a>
                     <br>
                 </div>
             </form>
@@ -75,12 +82,12 @@
 
             <table id="transactionTable" class="table table-striped table-hover">
             <tr>
-                <th>Account</th>
-                <th>Date</th>
-                <th>Direction</th>
-                <th>Source</th>
-                <th>Price</th>
-                <th>Comment</th>
+                <th><spring:message code="label.account"/></th>
+                <th><spring:message code="label.startTime"/></th>
+                <th><spring:message code="label.direction"/></th>
+                <th><spring:message code="label.source"/></th>
+                <th><spring:message code="label.price"/></th>
+                <th><spring:message code="label.comment"/></th>
             </tr>
             <c:forEach items="${transactionList}" var="transaction">
                 <label for="${transaction.id}">

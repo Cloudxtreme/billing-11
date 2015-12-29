@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Services</title>
+    <title><spring:message code="label.services"/> </title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
@@ -23,23 +23,26 @@
 
 <div class="col-lg-6">
 
-    <legend>Services</legend>
+    <legend><spring:message code="label.services"/> </legend>
 
     <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessage}</div>
+        <div class="alert alert-info fade in" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            ${successMessage}
+        </div>
     </c:if>
 
-    <a href="${pageContext.request.contextPath}/serviceType/form" class="btn btn-sm btn-primary" data-toggle="modal">Create New Service</a>
+    <a href="${pageContext.request.contextPath}/serviceType/form" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.serviceCreate"/></a>
 
 
     <table id="userRoleTable" class="table table-striped table-hover">
         <tr>
             <th>&nbsp;</th>
-            <th>Type</th>
-            <th>Service Name</th>
-            <th>Description</th>
-            <th>LegalType</th>
-            <th>Price</th>
+            <th><spring:message code="label.type"/></th>
+            <th><spring:message code="label.name"/></th>
+            <th><spring:message code="label.description"/></th>
+            <th><spring:message code="label.type"/></th>
+            <th><spring:message code="label.price"/></th>
         </tr>
 
         </tr>
@@ -49,7 +52,9 @@
                     <td>
                         <a href="${pageContext.request.contextPath}/serviceType/${service.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" onclick="return confirm('Do you really want to delete service?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" onclick="return confirm('<spring:message javaScriptEscape="true" code="label.deleteService"/>')">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
                     </td>
                     <td>${service.serviceType}</td>
                     <td>${service.name}</td>

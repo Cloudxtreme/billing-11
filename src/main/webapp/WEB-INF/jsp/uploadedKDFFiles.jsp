@@ -10,7 +10,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <title>Files in folder</title>
+  <title><spring:message code="label.uploadedKDF"/> </title>
   <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
@@ -23,20 +23,20 @@
 <div class="well">
 
   <div  id="succesMessage" class="alert alert-success" style="display: none">
-    <strong>Great. Nice job!</strong>
+    <strong><spring:message code="label.success"/></strong>
   </div>
   <div  id="succesMessageReload" class="alert alert-success" style="display: none">
-    <strong>Hadling is successed. Page will reloads in few seconds!</strong>
+    <strong><spring:message code="label.handling"/></strong>
   </div>
 
-  <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href="">Handle selected files</a>
-  <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href="">Calculate call's total cost</a>
+  <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href=""><spring:message code="label.handle"/></a>
+  <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href=""><spring:message code="label.calculateCost"/></a>
 
   <table class="table table-striped" id ='table'>
     <th></th>
-    <th>File name</th>
-    <th>File status</th>
-    <th>File size</th>
+    <th><spring:message code="label.name"/></th>
+    <th><spring:message code="label.status"/></th>
+    <th><spring:message code="label.size"/></th>
     <th></th>
     <c:forEach items="${uploadedList}" var="current">
       <tr id="${current.id}" class="">
@@ -102,7 +102,7 @@
   $('#table tr #deleting').click(function () {
     console.log(this);
     var $tr = $(this).closest('tr');
-    var conf = confirm("Are you sure?");
+    var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
     if (conf == true){
       $.ajax({
         type: "POST",
@@ -120,12 +120,12 @@
               $("#succesMessage").fadeOut(2000);
             });
           } else{
-            alert("Delete is not finished");
+            alert("<spring:message javaScriptEscape="true" code="label.fail" />");
           }
         }
       });
     } else {
-      alert("Thats right decision");
+      alert("<spring:message javaScriptEscape="true" code="label.alertDecline" />");
     }
   });
 
@@ -182,7 +182,7 @@
             $("#succesMessage").fadeOut(2000);
           });
         } else{
-          alert("Cost does not calculated");
+          alert("<spring:message javaScriptEscape="true" code="label.fail" />");
         }
       }
     })

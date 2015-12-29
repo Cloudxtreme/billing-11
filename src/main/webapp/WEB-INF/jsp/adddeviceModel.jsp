@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
-    <title>Add new device</title>
+    <title><spring:message code="label.addDevice"/> </title>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
     <script src="${typeahead}"></script>

@@ -10,8 +10,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title>File uploading</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
+    <title><spring:message code="label.csv"/></title>
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/css/file-tree.min.css" var="fileTreeCss"/>
     <link href="${fileTreeCss}" rel="stylesheet"/>
@@ -24,7 +24,6 @@
     <script src="${jqueryMinUi}"></script>
     <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
     <script src="${nestedFileTree}"></script>
-
 
 </head>
 <body>
@@ -42,11 +41,12 @@
 
 
     <legend>
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Select CSV file to upload
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span><spring:message
+            code="label.selectCSV"/>
         &nbsp;&nbsp;
         <a id="reportsList" href="#reportModal" data-toggle="modal"
            style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
-                class="glyphicon glyphicon-th-large"></span> Generate report</a>
+                class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
     </legend>
 
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal"
@@ -58,14 +58,14 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;">Select reports to
-                                generate</h4>
+                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;"><spring:message
+                                    code="label.selectReport"/></h4>
                             &nbsp;&nbsp;
 
                             <form class="navbar-form">
                                 <div class="form-group">
 
-                                    <label>Year
+                                    <label><spring:message code="label.year"/>
                                         <select class="selectpicker" id="yearSelect">
                                             <c:forEach items="${yearLsit}" var="current">
                                                 <option>${current}</option>
@@ -77,7 +77,7 @@
                                 </div>
                                 &nbsp;&nbsp;
                                 <div class="form-group">
-                                    <label>Month
+                                    <label><spring:message code="label.month"/>
                                         <select class="selectpicker" id="monthSelect">
                                             <option>01</option>
                                             <option>02</option>
@@ -100,7 +100,7 @@
                         <table class="table table-striped" id='table'>
 
                             <th></th>
-                            <TH>Name</th>
+                            <TH><spring:message code="label.name"/></th>
 
                             <tr id="longReport">
                                 <td>
@@ -208,12 +208,14 @@
                             </tr>
 
                         </table>
-                        <button id="selectAllBtn" type="button" class="btn btn-info float-lt">Select all</button>
+                        <button id="selectAllBtn" type="button" class="btn btn-info float-lt"><spring:message
+                                code="label.selectAll"/></button>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message
+                                    code="label.cancel"/></button>
                             <button type="button" class="btn btn-success" data-dismiss="modal" id="generateReport">
-                                Generate
+                                <spring:message code="label.submit"/>
                             </button>
                         </div>
                     </div>
@@ -227,12 +229,12 @@
     <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
         <div class="form-group" id="idForm">
       <span class="file-input btn btn-info btn-file">
-        Browse file to upload <input type="file" id="exampleInputFile" name="file"/>
+        <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" name="file"/>
       </span>
             <ul id="list" class="list-group"></ul>
         </div>
         <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar" href="#myModal"
-                data-toggle="modal">Upload CSV file
+                data-toggle="modal"><spring:message code="label.upload"/>
         </button>
 
         <%--Modal--%>
@@ -254,7 +256,6 @@
     <div class="row">
         <div id="fileTree" class="col-md-4"></div>
     </div>
-
 
 </div>
 </body>
