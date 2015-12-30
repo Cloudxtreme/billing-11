@@ -23,7 +23,7 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well">
-    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"></span>
+    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"><spring:message code="label.usersOnlineNow"/> : <strong id="usersCount"></strong></span>
     <div id="userOnlineTableDiv">
         <table id="userOnlineTable" class="table table-striped">
             <tr>

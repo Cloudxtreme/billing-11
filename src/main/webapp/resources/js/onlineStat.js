@@ -11,7 +11,7 @@ function renderOnlineTable(){
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
-            $("#onlineUserCount").text("Users online: " + data.length);
+            $("#usersCount").text(data.length);
             drawTable(data);
         }
     });
