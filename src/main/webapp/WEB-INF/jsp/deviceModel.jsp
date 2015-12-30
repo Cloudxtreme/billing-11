@@ -33,16 +33,7 @@
         <div id="messagesDiv">
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-success" role="alert">
-                    <strong>
-                        <c:choose>
-                            <c:when test="${successMessage == 'add'}">
-                                <spring:message code="deviceAdd"/>
-                            </c:when>
-                            <c:otherwise>
-                                <spring:message code="deviceUpdate"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </strong>
+                    <strong>${successMessage}</strong>
                 </div>
             </c:if>&nbsp;
             <c:if test="${not empty errorMessage}">
@@ -56,8 +47,8 @@
 
         <table class="table table-striped" id='table'>
             <th></th>
-            <TH><spring:message code="label.name"/></th>
-            <TH><spring:message code="label.type"/></th>
+            <th><spring:message code="label.name"/></th>
+            <th><spring:message code="label.type"/></th>
             <th><spring:message code="label.description"/></th>
             <th><spring:message code="label.street"/></th>
             <th><spring:message code="label.building"/></th>
@@ -85,6 +76,7 @@
             </c:forEach>
         </table>
 
+        <%--TODO  move js to separate file--%>
         <script type="text/javascript">
 
             $('#table tr #deleting').click(function () {

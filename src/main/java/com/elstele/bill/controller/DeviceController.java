@@ -8,7 +8,9 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+import static com.elstele.bill.utils.Constants.SUCCESS_MESSAGE;
 
 @Controller
 @SessionAttributes("deviceForm")
@@ -34,6 +37,8 @@ public class DeviceController {
     @Autowired
     private IpSubnetDataService ipSubnetDataService;
 
+    @Autowired
+    private Messagei18nHelper messageHelper;
 
     @ModelAttribute("deviceTypeModalForm")
     public DeviceTypesForm addDeviceType() {
@@ -93,15 +98,18 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
+        String msg = null;
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
+            //todo set IP address status can be moved to deviceDataService
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", "add");
+            msg = messageHelper.getMessage("device.add.new");
         } else {
             deviceDataService.updateDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", "update");
+            msg = messageHelper.getMessage("device.update");
         }
+        redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, msg);
         return "redirect: /device.html";
     }
 

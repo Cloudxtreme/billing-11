@@ -27,4 +27,5 @@ public class  Constants {
     public static final String BILLING_SERVICE_WORKER = "billingServiceWorker";
     public static final String BILLING_CALL_WORKER = "billingCallWorker";
 
+    public static final String SUCCESS_MESSAGE = "successMessage";
 }
