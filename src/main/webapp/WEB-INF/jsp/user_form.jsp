@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Local User Add/Update</title>
+    <title><spring:message code="label.localUserAddUpdate"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
@@ -24,34 +24,37 @@
 <div class="col-lg-6">
     <form:form class="form-horizontal" method="POST" commandName="localUserForm" action="${pageContext.request.contextPath}/userform.html">
         <fieldset>
-            <legend>Local User</legend>
+            <legend><spring:message code="label.localUser"/></legend>
             <div class="form-group">
-                <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
+                <label class="col-lg-8 ${errorClass}"><spring:message code="label.fillField"/></label>
             </div>
             <form:hidden path="id" />
             <div class="form-group">
-                <label for="username" class="col-lg-3 control-label">Name</label>
+                <label for="username" class="col-lg-3 control-label"><spring:message code="label.name"/></label>
                 <div class="col-lg-9">
-                    <form:input path="username" class="form-control" id="username" placeholder="User Name" />
+                    <spring:message code="label.name" var="name"/>
+                    <form:input path="username" class="form-control" id="username" placeholder="${name}" />
                     <form:errors path="username" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-lg-3 control-label">Password</label>
+                <label for="password" class="col-lg-3 control-label"><spring:message code="label.password"/></label>
                 <div class="col-lg-9">
-                    <form:password path="password" class="form-control" id="password" placeholder="Enter your password" />
+                    <spring:message code="label.password" var="pass"/>
+                    <form:password path="password" class="form-control" id="password" placeholder="${pass}" />
                     <form:errors path="password" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-lg-3 control-label">Confirm Password</label>
+                <label for="password" class="col-lg-3 control-label"><spring:message code="label.passwordConfirm"/></label>
                 <div class="col-lg-9">
-                    <form:password path="passwordConfirm" class="form-control" id="password" placeholder="Confirm your password" />
+                    <spring:message code="label.passwordConfirm" var="confirm"/>
+                    <form:password path="passwordConfirm" class="form-control" id="password" placeholder="${confirm}" />
                     <form:errors path="passwordConfirm" cssClass="alert-danger" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-3 control-label">Role</label>
+                <label class="col-lg-3 control-label"><spring:message code="label.userRole"/></label>
                 <div class="col-lg-9">
                     <c:forEach items="${roleList}" var="role">
                         <label for="${role.id}" class="control-label"><form:checkbox path="roleId" value="${role.id}" id="${role.id}" /> ${role.name}</label><br>
@@ -61,7 +64,7 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-9 col-lg-offset-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
                 </div>
             </div>
         </fieldset>

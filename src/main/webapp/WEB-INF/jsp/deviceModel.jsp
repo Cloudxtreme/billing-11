@@ -28,12 +28,21 @@
     <div>
 
         <div id="succesMessage" class="alert alert-success" style="display: none">
-            <strong>Great. Nice job!</strong>
+            <strong><spring:message code="label.success"/></strong>
         </div>
         <div id="messagesDiv">
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-success" role="alert">
-                    <strong>${successMessage}</strong>
+                    <strong>
+                        <c:choose>
+                            <c:when test="${successMessage == 'add'}">
+                                <spring:message code="deviceAdd"/>
+                            </c:when>
+                            <c:otherwise>
+                                <spring:message code="deviceUpdate"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </strong>
                 </div>
             </c:if>&nbsp;
             <c:if test="${not empty errorMessage}">

@@ -8,7 +8,6 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
-import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -97,11 +96,11 @@ public class DeviceController {
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", MessageLanguageDeterminant.determine("addDeviceFromForm"));
+            redirectAttributes.addFlashAttribute("successMessage", "add");
         } else {
             deviceDataService.updateDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            redirectAttributes.addFlashAttribute("successMessage", MessageLanguageDeterminant.determine("UpdateDeviceFromForm"));
+            redirectAttributes.addFlashAttribute("successMessage", "update");
         }
         return "redirect: /device.html";
     }

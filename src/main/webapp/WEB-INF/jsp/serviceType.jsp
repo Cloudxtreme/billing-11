@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -26,9 +27,17 @@
     <legend><spring:message code="label.services"/> </legend>
 
     <c:if test="${not empty successMessage}">
-        <div class="alert alert-info fade in" role="alert">
+        <div class="alert alert-success fade in" role="alert">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            ${successMessage}
+            <c:if test="${fn:contains(successMessage, 'serviceDelete')}">
+                <spring:message code="serviceDelete"/>
+            </c:if>
+            <c:if test="${fn:contains(successMessage, 'added.')}">
+                <spring:message code="serviceAdd"/>
+            </c:if>
+            <c:if test="${fn:contains(successMessage, 'updated.')}">
+                <spring:message code="serviceUpdate"/>
+            </c:if>
         </div>
     </c:if>
 

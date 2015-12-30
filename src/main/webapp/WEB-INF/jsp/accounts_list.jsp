@@ -27,7 +27,7 @@
             <c:if test="${not empty successMessage}">
             <div class="alert alert-success fade in" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${successMessage}</strong>
+                <strong><spring:message code="accountSuccess"/> </strong>
             </div>
             </c:if>&nbsp;
             <c:if test="${not empty errorMessage}">

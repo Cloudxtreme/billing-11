@@ -213,7 +213,7 @@
                         </div>
                     </div>
                     <c:if test="${not empty successMessage}">
-                        <div class="alert alert-info" role="alert">${successMessage}</div>
+                        <div class="alert alert-info" role="alert"><spring:message code="serviceDelete"/></div>
                     </c:if>&nbsp;
                 </div>
 
@@ -221,7 +221,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <spring:message code="label.transaction"/>
+                                <spring:message code="label.transactions"/>
                                 <select class="selectpicker" data-style="btn-info" id="transactionListLimit" style="font-size: 12px !important; ">
                                     <option value="10">10</option>
                                     <option value="20" selected="selected">20</option>

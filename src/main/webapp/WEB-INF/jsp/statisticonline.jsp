@@ -23,8 +23,7 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well">
-    <%--<a href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal">Create New Account</a>--%>
-    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"><spring:message code="label.online"/>: </span>
+    <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"></span>
     <div id="userOnlineTableDiv">
         <table id="userOnlineTable" class="table table-striped">
             <tr>

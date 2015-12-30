@@ -6,7 +6,6 @@ import com.elstele.bill.utils.Constants;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
-import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -51,7 +50,7 @@ public class ServiceController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(accountId);
         mav.addObject("accountForm", result);
-        mav.addObject("successMessage", MessageLanguageDeterminant.determine("serviceDelete"));
+        mav.addObject("successMessage", "success");
         return mav;
     }
 

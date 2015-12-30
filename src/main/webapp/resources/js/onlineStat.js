@@ -26,7 +26,7 @@ function drawTable(data) {
 }
 
 function drawRow(rowData) {
-    var row = $("<tr />")
+    var row = $("<tr />");
     $("#userOnlineTable").append(row);
     row.append($("<td>" + rowData.username + "</td>"));
     row.append($("<td>" + rowData.user_fio + "</td>"));

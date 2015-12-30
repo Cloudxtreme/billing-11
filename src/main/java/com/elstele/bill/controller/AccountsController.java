@@ -6,7 +6,6 @@ import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.MessageLanguageDeterminant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -112,7 +111,7 @@ public class AccountsController {
         accountDataService.updateAccount(accountForm);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        mav.addObject("successMessage", MessageLanguageDeterminant.determine("saveAccountFull"));
+        mav.addObject("successMessage", true);
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
@@ -127,8 +126,15 @@ public class AccountsController {
         if(!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);
         }else{
-            mav.addObject("message", MessageLanguageDeterminant.determine("searchAccount"));
+            mav.addObject("message", "withSearch");
         }
+        return mav;
+    }
+
+    @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
+    public ModelAndView searchAccountGet(){
+        ModelAndView mav = new ModelAndView("accountsearchModel");
+        mav.addObject("message", "withoutSearch");
         return mav;
     }
 

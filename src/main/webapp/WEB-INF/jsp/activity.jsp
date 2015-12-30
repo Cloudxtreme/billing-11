@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Add/Edit Activity</title>
+    <title><spring:message code="label.activityAddEdit"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
@@ -24,7 +24,7 @@
 <div class="col-lg-6">
             <form:form class="form-horizontal" method="POST" commandName="activityForm" action="">
                 <fieldset>
-                    <legend>Add/Edit User Activity</legend>
+                    <legend><spring:message code="label.activityAddEdit"/></legend>
                     <c:choose>
                         <c:when test="${not empty successMessage}">
                             <div class="alert alert-info" role="alert">${successMessage}</div>
@@ -34,18 +34,18 @@
                         </c:when>
                         <c:otherwise>
                             <div class="form-group">
-                                <label class="col-lg-8">Please fill in all fields below.</label>
+                                <label class="col-lg-8"><spring:message code="label.fillField"/></label>
                             </div>
                         </c:otherwise>
                     </c:choose>
                     <div class="form-group">
-                        <label for="activityName" class="col-lg-3 control-label">Activity Name</label>
+                        <label for="activityName" class="col-lg-3 control-label"><spring:message code="label.name"/></label>
                         <div class="col-lg-9">
                             <form:input path="name" class="form-control" id="activityName" placeholder="Activity Name" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="activityDescription" class="col-lg-3 control-label">Activity Description</label>
+                        <label for="activityDescription" class="col-lg-3 control-label"><spring:message code="label.description"/></label>
                         <div class="col-lg-9">
                             <form:input path="description" class="form-control" id="activityDescription" placeholder="Description"/>
                         </div>
@@ -53,8 +53,8 @@
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <form:hidden path="activityId" />
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-default"><spring:message code="label.cancel"/></button>
+                            <button type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
                         </div>
                     </div>
                 </fieldset>

@@ -5,7 +5,6 @@ import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.MessageLanguageDeterminant;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,10 @@ public class ServiceTypeController {
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         serviceTypeDataService.deleteServiceType(id);
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
-        map.put("successMessage", MessageLanguageDeterminant.determine("serviceDelete"));
+        map.put("successMessage", "serviceDelete");
         return "serviceType";
     }
+
     @RequestMapping(value = "/serviceType/{id}/update", method = RequestMethod.GET)
     public String serviceUpdate(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         ServiceTypeForm form = serviceTypeDataService.getServiceTypeFormById(id);
@@ -43,8 +43,8 @@ public class ServiceTypeController {
         map.put("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(form.getId()));
         map.put("bussTypes", bussTypes);
         return "serviceType_form";
-
     }
+
     @RequestMapping(value="/serviceType/form", method = RequestMethod.GET)
     public String serviceTypeAdd(HttpSession session, Map<String, Object> map)
     {
@@ -76,7 +76,7 @@ public class ServiceTypeController {
         serviceTypeDataService.deleteServiceAttribute(serviceAttributeId);
         map.put("serviceForm", serviceTypeDataService.getServiceTypeFormById(serviceId));
         map.put("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(serviceId));
-        map.put("successMessage", MessageLanguageDeterminant.determine("serviceAttributeDelete"));
+        map.put("successMessage", "serviceAttrDelete");
         return "serviceType_form";
     }
 
