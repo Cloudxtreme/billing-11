@@ -30,7 +30,7 @@
             <legend><spring:message code="label.authentication"/></legend>
             <c:if test="${not empty errorMessage}">
                 <div class="form-group">
-                    <label class="col-lg-8 text-warning"><spring:message code="authError"/></label>
+                    <label class="col-lg-8 text-warning">${errorMessage}</label>
                 </div>
             </c:if>
             <div class="form-group">

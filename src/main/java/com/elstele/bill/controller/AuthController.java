@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpSession;
 public class AuthController {
     @Autowired
     private LocalUserDataService localUserDataService;
+    @Autowired
+    private Messagei18nHelper messageHelper;
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ModelAndView loginCall(@ModelAttribute("userForm") LocalUserForm localUserForm, HttpSession session,
@@ -33,7 +36,7 @@ public class AuthController {
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");
-        login.addObject("errorMessage", "error");
+        login.addObject("errorMessage", messageHelper.getMessage("auth.error"));
         return login;
     }
 

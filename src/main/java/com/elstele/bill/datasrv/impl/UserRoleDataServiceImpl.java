@@ -29,16 +29,14 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     public String saveRole(UserRoleForm form){
         UserRoleAssembler assembler = new UserRoleAssembler();
         UserRole role = assembler.fromFormToBean(form);
-        String message = "User Role was successfully ";
         if(form.isNew()){
             userRoleDAO.create(role);
-            message += "added.";
+            return "userrole.success.add";
         }
         else{
             userRoleDAO.update(role);
-            message += "updated.";
+             return "userrole.success.update";
         }
-        return message;
     }
 
     @Override

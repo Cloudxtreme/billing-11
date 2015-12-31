@@ -13,6 +13,9 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
+    <spring:url value="/resources/js/device.js" var="device"/>
+    <script src="${device}"></script>
+
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>
 
@@ -30,6 +33,11 @@
         <div id="succesMessage" class="alert alert-success" style="display: none">
             <strong><spring:message code="label.success"/></strong>
         </div>
+
+        <div id="errorMessage" class="alert alert-success" style="display: none">
+            <strong><spring:message code="label.fail"/></strong>
+        </div>
+
         <div id="messagesDiv">
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-success" role="alert">
@@ -61,7 +69,7 @@
                         <td>
                             <a href="${pageContext.request.contextPath}/device/${current.id}/update.html"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             &nbsp;&nbsp;
-                            <a id="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a id="deleting" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                         <td>${current.name}</td>
                         <td>${current.devType.deviceType}</td>
@@ -75,48 +83,25 @@
                 </label>
             </c:forEach>
         </table>
-
-        <%--TODO  move js to separate file--%>
-        <script type="text/javascript">
-
-            $('#table tr #deleting').click(function () {
-                console.log(this);
-                var $tr = $(this).closest('tr');
-                var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
-                if (conf == true) {
-                    $.ajax({
-                        type: "POST",
-                        url: '${pageContext.request.contextPath}/device/delete.html',
-                        data: $tr.attr('id'),
-                        datatype: "JSON",
-                        contentType: "application/json",
-                        success: function (data) {
-                            if (data == "SUCCESS") {
-                                $tr.fadeOut('slow', function () {
-                                    $tr.remove()
-                                })
-                                document.getElementById('succesMessage').style.display = "block";
-                                setTimeout(function () {
-                                    $("#succesMessage").fadeOut(2000);
-                                });
-                            } else {
-                                alert('<spring:message javaScriptEscape="true" code="label.fail" />');
-                            }
-                        }
-                    });
-                } else {
-                    alert('<spring:message javaScriptEscape="true" code="label.alertDecline" />');
-                }
-            });
-            $(document).ready(function(){
-                setTimeout(function(){
-                    $('.alert').fadeOut(5000);
-                })
-            });
-        </script>
-
-
     </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="label.deviceDeleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="label.deviceDelete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

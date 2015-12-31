@@ -6,10 +6,12 @@ import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,9 @@ public class AccountsController {
 
     @Autowired
     private TransactionDataService transactionDataService;
+
+    @Autowired
+    private Messagei18nHelper messagei18nHelper;
 
     @RequestMapping(value="/accountHome", method = RequestMethod.GET)
     public ModelAndView handleAccountHome(HttpSession session)
@@ -99,10 +104,10 @@ public class AccountsController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView deleteAccount(@PathVariable int id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("redirect:../accountHome");
+    public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes) {
         accountDataService.softDeleteAccount(id);
-        return mav;
+        redirectAttributes.addFlashAttribute(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.delete"));
+        return "redirect:../accountHome";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -111,7 +116,7 @@ public class AccountsController {
         accountDataService.updateAccount(accountForm);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
-        mav.addObject("successMessage", true);
+        mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.update"));
         mav.addObject("accountForm", new AccountForm());
         mav.addObject("accountTypeList", types);
         mav.addObject("pagesTotal", totalPages);
@@ -126,7 +131,7 @@ public class AccountsController {
         if(!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);
         }else{
-            mav.addObject("message", "withSearch");
+            mav.addObject(Constants.MESSAGE, messagei18nHelper.getMessage("search.message"));
         }
         return mav;
     }
@@ -134,7 +139,7 @@ public class AccountsController {
     @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
     public ModelAndView searchAccountGet(){
         ModelAndView mav = new ModelAndView("accountsearchModel");
-        mav.addObject("message", "withoutSearch");
+        mav.addObject(Constants.MESSAGE, messagei18nHelper.getMessage("search.message"));
         return mav;
     }
 

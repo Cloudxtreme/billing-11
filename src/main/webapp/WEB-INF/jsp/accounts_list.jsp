@@ -27,7 +27,7 @@
             <c:if test="${not empty successMessage}">
             <div class="alert alert-success fade in" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><spring:message code="accountSuccess"/> </strong>
+                <strong>${successMessage}</strong>
             </div>
             </c:if>&nbsp;
             <c:if test="${not empty errorMessage}">
@@ -99,6 +99,24 @@
             <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
         </div>
     </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="label.accountDeleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="label.accountDelete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

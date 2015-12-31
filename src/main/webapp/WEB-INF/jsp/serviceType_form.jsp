@@ -141,15 +141,7 @@
             <c:if test="${not empty successMessage}">
                 <div class="alert alert-info fade in" role="alert">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <c:if test="${fn:contains(successMessage, 'serviceAttrDelete')}">
-                            <spring:message code="serviceAttrDelete"/>
-                        </c:if>
-                        <c:if test="${fn:contains(successMessage, 'added.')}">
-                            <spring:message code="serviceAttrAdd"/>
-                        </c:if>
-                        <c:if test="${fn:contains(successMessage, 'updated.')}">
-                            <spring:message code="serviceAttrUpdate"/>
-                        </c:if>
+                        ${successMessage}
                 </div>
             </c:if>&nbsp;
         </div>

@@ -1,5 +1,13 @@
 var pageResults = 20;
 
+$(document).ready(function () {
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    });
+
+    $(".alert-success").fadeOut(2500);
+});
+
 $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
@@ -214,13 +222,15 @@ $(document).ready(function() {
             $('#legalAddressStreet').val(capitalizeVal);
         }
     });
+
+
 })
 
 
 
 function hideModalAddAccount(){
     $("#accAccountModal").modal('hide');
-};
+}
 
 
 function renderAccountsTable(){
@@ -264,7 +274,7 @@ function drawRow(rowData) {
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
     row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
             "&nbsp&nbsp " +
-            "<a href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" onclick=\"return confirm('Do you really want to delete account?')\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
+            "<a data-href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" data-toggle='modal' data-target='#confirm-delete' \"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
     ));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.fio + " </a></td>"));
@@ -285,7 +295,7 @@ function clearForm(){
 };
 
 function hideShowLegalAddress(){
-    var valueSelected = $("#accountType").val();;
+    var valueSelected = $("#accountType").val();
     if (valueSelected == "PRIVATE"){
         $("#legAddrBlock").hide();
     }
@@ -298,6 +308,7 @@ $(document).ready(function () {
     $('#transactionListLimit').on('change', function () {
         ajaxBuildTransactionTable();
     });
+
 });
 
 function ajaxBuildTransactionTable() {

@@ -5,6 +5,7 @@ import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,14 @@ public class ServiceTypeController {
     private ServiceTypeValidator serviceTypeValidator;
     @Autowired
     private ServiceAttributeValidator serviceAttributeValidator;
+    @Autowired
+    private Messagei18nHelper messagei18nHelper;
 
     @RequestMapping(value = "/serviceType/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         serviceTypeDataService.deleteServiceType(id);
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
-        map.put("successMessage", "serviceDelete");
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("serviceType.success.deleted"));
         return "serviceType";
     }
 
@@ -64,7 +67,7 @@ public class ServiceTypeController {
         else{
             String message = serviceTypeDataService.saveServiceType(form);
             ModelAndView mav = new ModelAndView("serviceType");
-            mav.addObject("successMessage", message);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             return mav;
         }
@@ -76,7 +79,7 @@ public class ServiceTypeController {
         serviceTypeDataService.deleteServiceAttribute(serviceAttributeId);
         map.put("serviceForm", serviceTypeDataService.getServiceTypeFormById(serviceId));
         map.put("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(serviceId));
-        map.put("successMessage", "serviceAttrDelete");
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("serviceAttr.success.delete") );
         return "serviceType_form";
     }
 
@@ -94,7 +97,7 @@ public class ServiceTypeController {
             ModelAndView mav = new ModelAndView("serviceType_form");
             mav.addObject("serviceForm", serviceTypeDataService.getServiceTypeFormById(form.getServiceTypeId()));
             mav.addObject("serviceInternetAttributeList", serviceTypeDataService.listServiceAttribute(form.getServiceTypeId()));
-            mav.addObject("successMessage", message);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             return mav;
         }
     }

@@ -213,7 +213,7 @@
                         </div>
                     </div>
                     <c:if test="${not empty successMessage}">
-                        <div class="alert alert-info" role="alert"><spring:message code="serviceDelete"/></div>
+                        <div class="alert alert-info" role="alert">${successMessage}</div>
                     </c:if>&nbsp;
                 </div>
 

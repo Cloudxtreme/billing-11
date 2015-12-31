@@ -29,18 +29,16 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     @Transactional
     public String saveServiceType(ServiceTypeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
-        String message = "Service was successfully ";
         ServiceType service = assembler.fromFormToBean(form);
         if(form.isNew()){
             service.setStatus(Status.ACTIVE);
             serviceTypeDAO.create(service);
-            message += "added.";
+            return "serviceType.success.add";
         }
         else{
             serviceTypeDAO.update(service);
-            message += "updated.";
+            return "serviceType.success.update";
         }
-        return message;
     }
 
     @Override
@@ -99,17 +97,15 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     @Transactional
     public String saveServiceAttribute(ServiceInternetAttributeForm form){
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
-        String message = "Service Attribute was successfully ";
         ServiceInternetAttribute serviceAttribute = assembler.fromServiceInternetAttributeFormToBean(form);
         if(form.isNew()){
             serviceAttributeDAO.create(serviceAttribute);
-            message += "added.";
+            return "serviceAttr.success.add";
         }
         else{
             serviceAttributeDAO.update(serviceAttribute);
-            message += "updated.";
+            return "serviceAttr.success.update";
         }
-        return message;
     }
 
     @Override

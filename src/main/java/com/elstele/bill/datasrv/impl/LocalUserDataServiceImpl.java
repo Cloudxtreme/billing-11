@@ -61,20 +61,18 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
     public String saveUser(LocalUserForm form){
         LocalUserAssembler assembler = new LocalUserAssembler();
         LocalUser user = assembler.fromFormToBean(form);
-        String message = "Local User was successfully ";
         for (int roleId : form.getRoleId()) {
             user.addUserRole(userRoleDAO.getById(roleId));
         }
 
         if(form.isNew()){
             localUserDAO.create(user);
-            message += "added.";
+            return "user.success.add";
         }
         else{
             localUserDAO.update(user);
-            message += "updated.";
+            return "user.success.update";
         }
-        return message;
     }
 
     @Override

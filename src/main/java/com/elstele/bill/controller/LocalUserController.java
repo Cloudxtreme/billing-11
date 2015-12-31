@@ -9,9 +9,12 @@ import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.domain.Activity;
 import com.elstele.bill.datasrv.interfaces.ActivityDataService;
+import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.ActivityValidator;
 import com.elstele.bill.validator.LocalUserValidator;
 import com.elstele.bill.validator.UserRoleValidator;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,12 +48,15 @@ public class LocalUserController {
     @Autowired
     private LocalUserValidator localUserValidator;
 
+    @Autowired
+    private Messagei18nHelper messagei18nHelper;
+
     // ACTIVITY PART START
     @RequestMapping(value = "/activity/{id}/delete", method = RequestMethod.GET)
     public String activityDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
         activityDataService.deleteActivity(id);
         map.put("activityList", activityDataService.listActivity());
-        map.put("successMessage", "Activity was successfully deleted.");
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("activity.success.deleted"));
         return "activity_list";
     }
 
@@ -79,7 +85,7 @@ public class LocalUserController {
         } else {
             String message = activityDataService.saveActivity(form);
             ModelAndView mav = new ModelAndView("activity_list");
-            mav.addObject("successMessage", message);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("activityList", activityDataService.listActivity());
             return mav;
         }
@@ -99,7 +105,7 @@ public class LocalUserController {
     public String userRoleDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
         userRoleDataService.deleteRole(id);
         map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put("successMessage", "User Role was successfully deleted.");
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("userrole.success.delete"));
         return "user_role_list";
     }
 
@@ -132,7 +138,7 @@ public class LocalUserController {
         } else {
             String message = userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
-            mav.addObject("successMessage", message);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             return mav;
         }
@@ -155,7 +161,7 @@ public class LocalUserController {
         map.put("userList", localUserDataService.listLocalUser());
         map.put("userRole", new UserRole());
         map.put("roleList", userRoleDataService.listUserRole());
-        map.put("successMessage", "User was successfully deleted.");
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("user.success.deleted"));
         return "user_panel";
     }
 
@@ -189,7 +195,7 @@ public class LocalUserController {
         } else {
             String message = localUserDataService.saveUser(form);
             ModelAndView mav = new ModelAndView("user_panel");
-            mav.addObject("successMessage", message);
+            mav.addObject(Constants.SUCCESS_MESSAGE, message);
             mav.addObject("user", new LocalUser());
             mav.addObject("userList", localUserDataService.listLocalUser());
             mav.addObject("userRole", new UserRole());

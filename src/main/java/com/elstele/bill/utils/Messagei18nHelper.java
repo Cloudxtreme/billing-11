@@ -8,9 +8,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;
 
-/**
- * Created by ivan on 15/12/30.
- */
 @Service
 public class Messagei18nHelper {
     @Autowired

@@ -32,14 +32,7 @@
     <c:if test="${not empty message}">
         <div class="alert alert-info fade in text-center" style="width: 40% !important; margin-left: 30% !important;" role="alert">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <c:choose>
-                <c:when test="${message == 'withSearch'}">
-                    <strong><spring:message code="searchMessage"/> </strong>
-                </c:when>
-                <c:otherwise>
-                    <strong><spring:message code="searchMessageGet"/> </strong>
-                </c:otherwise>
-            </c:choose>
+            <strong>${message}</strong>
         </div>
     </c:if>
 

@@ -24,16 +24,14 @@ public class ActivityDataServiceImpl implements ActivityDataService {
     public String saveActivity(ActivityForm form) {
         ActivityAssembler assembler = new ActivityAssembler();
         Activity activity = assembler.fromFormToBean(form);
-        String message = "Activity was successfully ";
         if(form.isNew()){
             userActivityDAO.create(activity);
-            message += "added.";
+            return "activity.success.add";
         }
         else{
             userActivityDAO.update(activity);
-            message += "updated.";
+            return "activity.success.update";
         }
-        return message;
     }
 
     @Override

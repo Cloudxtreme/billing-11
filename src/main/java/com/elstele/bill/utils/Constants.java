@@ -28,4 +28,6 @@ public class  Constants {
     public static final String BILLING_CALL_WORKER = "billingCallWorker";
 
     public static final String SUCCESS_MESSAGE = "successMessage";
+    public static final String MESSAGE = "message";
+    public static final String ERROR_MESSAGE = "errorMessage";
 }

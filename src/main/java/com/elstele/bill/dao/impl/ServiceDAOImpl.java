@@ -42,15 +42,13 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     public String saveService(Service service, boolean isNewObject) {
         //TODO message return here is not a good idea
         //need to be refactored
-        String message = "Service was successfully ";
         if (isNewObject) {
             create(service);
-            message += "added.";
+           return "service.success.add";
         } else {
             update(service);
-            message += "updated.";
+            return "service.success.update";
         }
-        return message;
     }
 
     @Override

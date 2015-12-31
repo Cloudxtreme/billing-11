@@ -9,6 +9,8 @@ import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
 import com.elstele.bill.utils.Messagei18nHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,8 @@ public class DeviceController {
 
     @Autowired
     private Messagei18nHelper messageHelper;
+
+    final static Logger log = LogManager.getLogger(DeviceController.class);
 
     @ModelAttribute("deviceTypeModalForm")
     public DeviceTypesForm addDeviceType() {
@@ -169,7 +173,6 @@ public class DeviceController {
             return ResponseToAjax.ERROR;
         }
     }
-
 
     @RequestMapping(value = "**/getValidIps", method = RequestMethod.POST)
     @ResponseBody
