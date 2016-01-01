@@ -34,7 +34,7 @@ public class ServiceTypeController {
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
         serviceTypeDataService.deleteServiceType(id);
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
-        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("serviceType.success.deleted"));
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("service.success.delete"));
         return "serviceType";
     }
 

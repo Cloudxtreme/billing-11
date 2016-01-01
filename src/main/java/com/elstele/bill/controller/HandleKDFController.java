@@ -8,6 +8,8 @@ import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,8 @@ public class HandleKDFController {
     @Autowired
     private BillingCallsProcessor callBillProcessor;
 
+    final static Logger log = LogManager.getLogger(HandleKDFController.class);
+
     float progress;
 
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
@@ -53,18 +57,14 @@ public class HandleKDFController {
     @RequestMapping(value = "/uploadedfiles/delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteDevice(@RequestBody String json) {
-        Integer id = Integer.parseInt(json);
-        UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
-        String path = ctx.getRealPath("resources\\files");
-        File file = new File(path + File.separator + uploadedFileInfoForm.getPath());
-        Path filePath = file.toPath();
-        uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
         try {
-            Files.delete(filePath);
+            Integer id = Integer.parseInt(json);
+            UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
+            uploadedFileInfoDataService.setUploadedFileInfoStatus(id);
             return "success";
-        } catch (IOException e) {
-            System.out.println(e);
-            return e.toString();
+        } catch (Exception e) {
+            log.error(e.toString() + " Method deleteDevice");
+            return "error";
         }
     }
 
@@ -73,7 +73,7 @@ public class HandleKDFController {
     public void handleFiles(@RequestBody String[] json) {
         String path = ctx.getRealPath("resources\\files");
         File fileDir = new File(path);
-        if(!fileDir.exists()) {
+        if (!fileDir.exists()) {
             boolean fileMark = false;
             try {
                 fileDir.mkdir();
@@ -87,7 +87,7 @@ public class HandleKDFController {
         }
         char[] hexArray = "0123456789ABCDEF".toCharArray();
         long fullFilesSize = 0;
-        for ( int i = 0; i< json.length; i++){
+        for (int i = 0; i < json.length; i++) {
             UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(json[i]));
             fullFilesSize += uploadedFileInfoForm.getFileSize();
         }
@@ -111,7 +111,7 @@ public class HandleKDFController {
                     }
                     String tempStrHEX = new String(hexChars);
                     String numberA = tempStrHEX.substring(5, 12);
-                    String numberB ;
+                    String numberB;
                     String startTime;
                     Long duration;
                     String dvoCodeA;
@@ -131,16 +131,16 @@ public class HandleKDFController {
                         dvoCodeA = flagString.substring(42, 44);
                         dvoCodeB = flagString.substring(44, 46);
                         duration = Long.parseLong((tempStrHEX.substring(52, 54) + tempStrHEX.substring(16, 20)), 16);
-                        String vkNum = tempStrHEX.substring(46,49);
-                        String ikNum = tempStrHEX.substring(49,52);
-                        String inputTrunk = tempStrHEX.substring(42,44);
-                        String outputTrunk = tempStrHEX.substring(44,46);
+                        String vkNum = tempStrHEX.substring(46, 49);
+                        String ikNum = tempStrHEX.substring(49, 52);
+                        String inputTrunk = tempStrHEX.substring(42, 44);
+                        String outputTrunk = tempStrHEX.substring(44, 46);
 
                         String startTimeHour = flagString.substring(12, 14);
                         String startTimeMinutes = flagString.substring(14, 16);
                         String startMonth = flagString.substring(48, 50);
                         String startDate = flagString.substring(46, 48);
-                        String prefix = flagString.substring(0,4);
+                        String prefix = flagString.substring(0, 4);
 
                         if ((startMonth.equalsIgnoreCase("12")) && (monthFromFileName.equalsIgnoreCase("01"))) {
                             int yearInt = Integer.parseInt(yearFromFileName);
@@ -188,13 +188,17 @@ public class HandleKDFController {
     }
 
     @RequestMapping(value = "/worker/billCall")
-    public @ResponseBody ResponseToAjax costTotalCalculate() {
+    public
+    @ResponseBody
+    ResponseToAjax costTotalCalculate() {
         callBillProcessor.processCalls();
-        return  ResponseToAjax.SUCCESS;
+        return ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")
-    public @ResponseBody Float getProgress() {
+    public
+    @ResponseBody
+    Float getProgress() {
         return progress;
     }
 }

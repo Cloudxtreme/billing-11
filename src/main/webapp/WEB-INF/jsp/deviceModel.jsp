@@ -15,6 +15,8 @@
     <script src="${util}"></script>
     <spring:url value="/resources/js/device.js" var="device"/>
     <script src="${device}"></script>
+    <spring:url value="/resources/js/popup.js" var="popup"/>
+    <script src="${popup}"></script>
 
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>
@@ -101,9 +103,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 
 </body>
 </html>

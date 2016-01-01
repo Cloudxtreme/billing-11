@@ -158,7 +158,7 @@
                 <div class="form-group" id="ipAddressDiv">
                     <label for="ipAddress" class="col-lg-2 control-label"><spring:message code="label.ip"/></label>
                     <label class="col-lg-5 control-label" id="ipAddressSelect">
-                        <span id="ipAddressCurrent" class="form-control"><spring:message code="label.none"/></span>
+                        <span id="ipAddressCurrent" class="form-control" style="text-align: center !important;"><spring:message code="label.none"/></span>
                         <form:select path="serviceInternet.ip.id" class="form-control" id="ipAddress">
                             <form:options items="${ipAddressList}" />
                         </form:select>

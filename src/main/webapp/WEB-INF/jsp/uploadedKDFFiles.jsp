@@ -13,6 +13,8 @@
   <title><spring:message code="label.uploadedKDF"/> </title>
   <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/uploaded_files.js" var="uploaded_files"/>
+    <script src="${uploaded_files}"></script>
 
 </head>
 <body>
@@ -22,10 +24,13 @@
 
 <div class="well">
 
-  <div  id="succesMessage" class="alert alert-success" style="display: none">
+  <div  id="successMessage" class="alert alert-success" style="display: none; text-align: center !important;">
     <strong><spring:message code="label.success"/></strong>
   </div>
-  <div  id="succesMessageReload" class="alert alert-success" style="display: none">
+    <div  id="errorMessage" class="alert alert-danger" style="display: none; text-align: center !important;">
+        <strong><spring:message code="label.fail"/></strong>
+    </div>
+  <div  id="successMessageReload" class="alert alert-success" style="display: none; text-align: center !important;">
     <strong><spring:message code="label.handling"/></strong>
   </div>
 
@@ -47,147 +52,38 @@
         </td>
         <td>${current.path}</td>
         <td>${current.fileStatus}</td>
-        <td>${current.fileSize}</td>
-        <td><a id="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+        <td>${current.fileSize}  <spring:message code="label.byte"/></td>
+        <td><a id="deleting" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
       </tr>
     </c:forEach>
-
   </table>
+
   <div class="progress" style="display: none;" id="progress">
     <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
       <span class="sr-only">60% Complete</span>
     </div>
   </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="file.deleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="file.delete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">
-
-  $(function() {
-    $("li").removeClass('active');
-    $("#linkToUtils").addClass('selected');
-    $("#linkToFileUploading").addClass('active');
-    $("#linkToFile").addClass('active');
-
-  });
-
-  $('.check-box-table-cell').click(function() {
-    var checked = $(this).attr('checked');
-    if(checked){
-      $(this).attr('checked', false);
-      $(this).closest("tr").removeClass("info");
-
-    }
-    else{
-      $(this).attr('checked', true);
-      $(this).closest("tr").addClass("info")
-    }
-  });
-
-  $('#handleBtn').click(function(){
-    var values = new Array();
-    $.each($(".check-box-table-cell:checked").closest("tr"),
-            function(){
-              values.push($(this).attr('id'));
-            });
-    $.ajax({
-      type:"post",
-      url: '${pageContext.request.contextPath}/uploadedfiles/handle',
-      data: JSON.stringify(values),
-      datatype: "JSON",
-      contentType: "application/json",
-      success: function (data) {}
-    });
-  });
-
-  $('#table tr #deleting').click(function () {
-    console.log(this);
-    var $tr = $(this).closest('tr');
-    var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
-    if (conf == true){
-      $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath}/uploadedfiles/delete.html',
-        data: $tr.attr('id'),
-        datatype: "JSON",
-        contentType: "application/json",
-        success: function (data) {
-          if(data == "success") {
-            $tr.fadeOut('slow',function(){
-              $tr.remove()
-            });
-            document.getElementById('succesMessage').style.display="block";
-            setTimeout(function() {
-              $("#succesMessage").fadeOut(2000);
-            });
-          } else{
-            alert("<spring:message javaScriptEscape="true" code="label.fail" />");
-          }
-        }
-      });
-    } else {
-      alert("<spring:message javaScriptEscape="true" code="label.alertDecline" />");
-    }
-  });
-
-  $(document).ready(function(){
-    var $tr = $('#table');
-    $($tr).find('td:nth-child(3)').each(function(){
-      $($tr).find('td:nth-child(3):contains("NEW")').css({
-        'color': '#4da309',
-        'font-weight': 'bold'});
-      $($tr).find('td:nth-child(3):contains("PROCESSED")').css({
-        'color': '#e72510',
-        'font-weight': 'bold'});
-    });
-
-
-
-    function getProgress(){
-      $.ajax({
-        url: "${pageContext.request.contextPath}/uploadedfiles/handle/getprogress",
-        success : function(data){
-          var width = (data);
-          if(data >0 && data < 100){
-            document.getElementById('progress').style.display = "block";
-            $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-            setTimeout(getProgress,2000);
-          }if (data == 100){
-            $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-            clearInterval(interval);
-            document.getElementById('succesMessageReload').style.display="block";
-            setTimeout(function() {
-              $("#succesMessageReload").fadeOut(3000);
-              $("#progress-bar").fadeOut(1500);
-              location.reload();
-            },3000);
-
-          }
-        }
-      })
-    }
-    var interval = setTimeout(getProgress,2000);
-  });
-
-  $('#handleCostTotal').on('click', function(){
-    $.ajax({
-      url: "${pageContext.request.contextPath}/worker/billCall",
-      type: "Post",
-      success: function(data){
-        if(data == "success") {
-          $tr.fadeOut('slow',function(){
-            $tr.remove()
-          });
-          document.getElementById('succesMessage').style.display="block";
-          setTimeout(function() {
-            $("#succesMessage").fadeOut(2000);
-          });
-        } else{
-          alert("<spring:message javaScriptEscape="true" code="label.fail" />");
-        }
-      }
-    })
-  });
-
 
 </script>
 

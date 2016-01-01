@@ -16,13 +16,15 @@
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/popup.js" var="popup" />
+    <script src="${popup}"></script>
 </head>
 <body>
 
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 
-<div class="col-lg-6">
+<div class="well-lg">
 
     <legend><spring:message code="label.services"/> </legend>
 
@@ -53,7 +55,7 @@
                     <td>
                         <a href="${pageContext.request.contextPath}/serviceType/${service.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" onclick="return confirm('<spring:message javaScriptEscape="true" code="label.deleteService"/>')">
+                        <a data-href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" data-toggle="modal" data-target="#confirm-delete">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </a>
                     </td>
@@ -67,6 +69,23 @@
         </c:forEach>
 
     </table>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="service.deleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="service.delete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

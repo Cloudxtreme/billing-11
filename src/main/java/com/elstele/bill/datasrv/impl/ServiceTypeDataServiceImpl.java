@@ -33,11 +33,11 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
         if(form.isNew()){
             service.setStatus(Status.ACTIVE);
             serviceTypeDAO.create(service);
-            return "serviceType.success.add";
+            return "service.success.add";
         }
         else{
             serviceTypeDAO.update(service);
-            return "serviceType.success.update";
+            return "service.success.update";
         }
     }
 

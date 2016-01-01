@@ -61,8 +61,7 @@
   </form:form>
 
   <%--Main logic--%>
-
-  <div class="col-lg-6">
+  <div class="col-lg-8" id="addingForm">
     <form:form class="form" id="addDeviceForm" method="POST" commandName="deviceForm" action="${pageContext.request.contextPath}/adddevice.html">
       <fieldset>
 

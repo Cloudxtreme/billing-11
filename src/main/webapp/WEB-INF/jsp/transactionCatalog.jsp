@@ -35,7 +35,7 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 
-<div class="col-lg-6">
+<div class="well-lg">
     <legend><spring:message code="label.transactionCatalog"/>
         <a href="${pageContext.request.contextPath}/transaction/${selectedAccount}/form?returnPage=transaction/${selectedAccount}/catalog/" class="btn btn-sm btn-primary float-right" data-toggle="modal">
             <spring:message code="label.transactionCreate"/>
@@ -44,7 +44,7 @@
 
     <fieldset>
         <c:if test="${not empty successMessage}">
-            <div class="alert alert-info fade in" role="alert">
+            <div class="alert alert-success fade in" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 ${successMessageTrans}
             </div>

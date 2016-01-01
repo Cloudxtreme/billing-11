@@ -15,19 +15,25 @@
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/popup.js" var="popup"/>
+    <script src="${popup}"></script>
 </head>
 <body>
 
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 
-<div class="col-lg-6">
+<div class="well-lg">
 
-    <legend><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <spring:message code="label.userPanel"/>
-        </legend>
+    <legend>
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <spring:message code="label.userPanel"/>
+    </legend>
 
     <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessage}</div>
+        <div class="alert alert-success fade in" role="alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           <strong>${successMessage}</strong>
+        </div>
     </c:if>
 
     <a href="${pageContext.request.contextPath}/userform.html" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.userCreate"/></a>
@@ -46,7 +52,7 @@
                     <td>
                         <a href="${pageContext.request.contextPath}/user/${user.id}/update"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/user/${user.id}/delete" onclick="return confirm('<spring:message javaScriptEscape="true" code="label.deleteUser" />')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a data-href="${pageContext.request.contextPath}/user/${user.id}/delete" id="deleting" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
                     <td>${user.username}</td>
                     <td>
@@ -58,6 +64,23 @@
             </label>
         </c:forEach>
     </table>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="label.userDeleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="label.deleteUser"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

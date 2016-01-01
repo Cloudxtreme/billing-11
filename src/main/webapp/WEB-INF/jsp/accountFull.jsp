@@ -174,7 +174,7 @@
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                                 &nbsp;&nbsp;
-                                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" onclick="return confirm('Do you really want to delete account service?')">
+                                                <a data-href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" id="deleting" data-toggle="modal" data-target="#confirm-delete">
                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                 </a>
                                             </td>
@@ -213,7 +213,10 @@
                         </div>
                     </div>
                     <c:if test="${not empty successMessage}">
-                        <div class="alert alert-info" role="alert">${successMessage}</div>
+                        <div class="alert alert-success fade in" role="alert" style="text-align: center !important;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>${successMessage}</strong>
+                        </div>
                     </c:if>&nbsp;
                 </div>
 
@@ -269,6 +272,23 @@
         </form:form>
 
 
+    </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="service.deleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="service.delete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

@@ -1,10 +1,13 @@
-$(function() {
-    $("li").removeClass('active');
-    $("#linkToUtils").addClass('selected');
-    $("#linkToFileUploading").addClass('active');
-});
 
 $(document).ready(function(){
+
+    $(function() {
+        $("li").removeClass('active');
+        $("#linkToUtils").addClass('selected');
+        $("#linkToFileUploading").addClass('active');
+        $("#linkToFile").addClass('active');
+
+    });
 
     $('.check-box-table-cell').click(function() {
         var checked = $(this).attr('checked');
@@ -27,7 +30,7 @@ $(document).ready(function(){
             });
         $.ajax({
             type:"post",
-            url: '${pageContext.request.contextPath}/uploadedfiles/handle',
+            url: '/uploadedfiles/handle',
             data: JSON.stringify(values),
             datatype: "JSON",
             contentType: "application/json",
@@ -35,6 +38,35 @@ $(document).ready(function(){
         });
     });
 
+    $('#table tr #deleting').click(function () {
+        var $tr = $(this).closest('tr');
+        $('#deleteBtn').on('click', function () {
+            $('#confirm-delete').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: '/uploadedfiles/delete.html',
+                data: $tr.attr('id'),
+                datatype: "JSON",
+                contentType: "application/json",
+                success: function (data) {
+                    if(data == "success") {
+                        $tr.fadeOut('slow',function(){
+                            $tr.remove()
+                        });
+                        document.getElementById('successMessage').style.display="block";
+                        setTimeout(function() {
+                            $("#successMessage").fadeOut(2500);
+                        });
+                    } else{
+                        document.getElementById('errorMessage').style.display="block";
+                        setTimeout(function() {
+                            $("#errorMessage").fadeOut(2500);
+                        });
+                    }
+                }
+            });
+        })
+    });
 
     var $tr = $('#table');
     $($tr).find('td:nth-child(3)').each(function(){
@@ -46,11 +78,9 @@ $(document).ready(function(){
             'font-weight': 'bold'});
     });
 
-
-
     function getProgress(){
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadedfiles/handle/getprogress",
+            url: "/uploadedfiles/handle/getprogress",
             success : function(data){
                 var width = (data);
                 if(data >0 && data < 100){
@@ -60,9 +90,9 @@ $(document).ready(function(){
                 }if (data == 100){
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
                     clearInterval(interval);
-                    document.getElementById('succesMessageReload').style.display="block";
+                    document.getElementById('successMessageReload').style.display="block";
                     setTimeout(function() {
-                        $("#succesMessageReload").fadeOut(3000);
+                        $("#successMessageReload").fadeOut(3000);
                         $("#progress-bar").fadeOut(1500);
                         location.reload();
                     },3000);
@@ -71,38 +101,32 @@ $(document).ready(function(){
             }
         })
     }
+
     var interval = setTimeout(getProgress,2000);
 
-    $('#table tr #deleting').click(function () {
-        console.log(this);
-        var $tr = $(this).closest('tr');
-        var conf = confirm("Are you sure?");
-        if (conf == true){
-            $.ajax({
-                type: "POST",
-                url: '${pageContext.request.contextPath}/uploadedfiles/delete.html',
-                data: $tr.attr('id'),
-                datatype: "JSON",
-                contentType: "application/json",
-                success: function (data) {
-                    if(data == "success") {
-                        $tr.fadeOut('slow',function(){
-                            $tr.remove()
-                        });
-                        document.getElementById('succesMessage').style.display="block";
-                        setTimeout(function() {
-                            $("#succesMessage").fadeOut(2000);
-                        });
-                    } else{
-                        alert("Delete is not finished");
-                    }
+    $('#handleCostTotal').on('click', function(){
+        $.ajax({
+            url: "/worker/billCall",
+            type: "Post",
+            success: function(data){
+                if(data == "success") {
+                    $tr.fadeOut('slow',function(){
+                        $tr.remove()
+                    });
+                    document.getElementById('successMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#successMessage").fadeOut(2000);
+                    });
+                } else{
+                    document.getElementById('errorMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#errorMessage").fadeOut(2000);
+                    });
                 }
-            });
-        } else {
-            alert("Thats right decision");
-        }
+            }
+        })
     });
+});
 
 
-})
 
