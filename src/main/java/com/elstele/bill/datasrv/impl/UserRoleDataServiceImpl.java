@@ -7,6 +7,7 @@ import com.elstele.bill.datasrv.interfaces.UserRoleDataService;
 import com.elstele.bill.domain.Activity;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.UserRoleForm;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +31,34 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
         UserRoleAssembler assembler = new UserRoleAssembler();
         UserRole role = assembler.fromFormToBean(form);
         if(form.isNew()){
-            userRoleDAO.create(role);
-            return "userrole.success.add";
+            return checkBeforeCreate(form, role);
         }
         else{
             userRoleDAO.update(role);
              return "userrole.success.update";
+        }
+    }
+
+    private String checkBeforeCreate(UserRoleForm form, UserRole role) {
+        UserRole roleByName = userRoleDAO.getByName(form.getName());
+        if (roleByName == null) {
+            return creatingNew(role);
+        }
+        return restoreOrCreate(roleByName);
+    }
+
+    private String creatingNew(UserRole role){
+        role.setStatus(Status.ACTIVE);
+        userRoleDAO.create(role);
+        return "userrole.success.add";
+    }
+
+    private String restoreOrCreate(UserRole roleByName){
+        if (roleByName.getStatus() == Status.DELETED) {
+            userRoleDAO.setStatus(roleByName.getId(), Status.ACTIVE);
+            return "userrole.success.restored";
+        } else {
+            return "userrole.error.create";
         }
     }
 

@@ -36,4 +36,11 @@ public class LocalUserDAOImpl extends CommonDAOImpl<LocalUser> implements LocalU
         return null;
     }
 
+    @Override
+    public LocalUser getByName(String name) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from LocalUser user where user.username =:name ");
+        query.setParameter("name", name);
+        return (LocalUser)query.uniqueResult();
+    }
+
 }

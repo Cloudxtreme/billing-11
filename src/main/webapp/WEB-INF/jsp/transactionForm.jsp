@@ -66,7 +66,7 @@
             <div class="form-group">
                 <label for="price" class="col-lg-3 control-label"><spring:message code="label.price"/></label>
                 <div class="col-lg-9">
-                    <form:input path="price" id="price" class="form-control" placeholder="00.00"/>
+                    <form:input type="number" step="any" min="0" path="price" id="price" class="form-control" placeholder="00.00"/>
                     <form:errors path="price" cssClass="alert-danger" />
                 </div>
             </div>

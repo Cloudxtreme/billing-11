@@ -36,6 +36,13 @@
         </div>
     </c:if>
 
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger fade in" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                ${errorMessage}
+        </div>
+    </c:if>
+
     <a href="${pageContext.request.contextPath}/userform.html" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.userCreate"/></a>
     <a href="${pageContext.request.contextPath}/userrolelist.html" class="btn btn-sm btn-success float-right" data-toggle="modal"><spring:message code="label.userRole"/></a>
     <a href="${pageContext.request.contextPath}/activitylist.html" class="btn btn-sm btn-info float-right" data-toggle="modal"><spring:message code="label.activity"/></a>

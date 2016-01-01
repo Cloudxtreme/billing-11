@@ -10,5 +10,5 @@ public interface LocalUserDAO extends CommonDAO<LocalUser> {
 
     public LocalUser getLocalUserByNameAndPass(String name, String pass);
     public List<LocalUser> listLocalUser();
-
+    public LocalUser getByName(String userName);
 }

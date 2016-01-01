@@ -8,6 +8,7 @@ import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.LocalUserForm;
+import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,12 +67,34 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
         }
 
         if(form.isNew()){
-            localUserDAO.create(user);
-            return "user.success.add";
+            return checkBeforeCreate(form, user);
         }
         else{
             localUserDAO.update(user);
             return "user.success.update";
+        }
+    }
+
+    private String checkBeforeCreate(LocalUserForm form, LocalUser user) {
+        LocalUser userByName = localUserDAO.getByName(form.getUsername());
+        if (userByName == null) {
+            return creatingNew(user);
+        }
+        return restoreOrCreate(userByName);
+    }
+
+    private String creatingNew(LocalUser user){
+        user.setStatus(Status.ACTIVE);
+        localUserDAO.create(user);
+        return "user.success.add";
+    }
+
+    private String restoreOrCreate(LocalUser userByName){
+        if (userByName.getStatus() == Status.DELETED) {
+            localUserDAO.setStatus(userByName.getId(), Status.ACTIVE);
+            return "user.success.restored";
+        } else {
+            return "user.error.create";
         }
     }
 

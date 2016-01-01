@@ -25,8 +25,14 @@
 
 
 <div class="col-lg-6">
+
+    <div class="alert alert-danger fade in" role="alert" id="errorMessage" style="display: none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong><spring:message code="label.diggits"/></strong>
+    </div>
+
     <label class="">&nbsp;</label>
-    <form:form class="form-horizontal" method="POST" commandName="serviceForm" action="${pageContext.request.contextPath}/serviceType/form">
+    <form:form class="form-horizontal" method="POST" commandName="serviceForm" id="serviceForm" action="${pageContext.request.contextPath}/serviceType/form">
         <fieldset>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -49,8 +55,8 @@
                                     <label class="radio-inline"><strong>
                                         <form:radiobutton path="serviceType" value="MARKER"/> <spring:message code="label.marker"/>
                                     </strong></label>
-                                    <form:errors path="serviceType" cssClass="alert-danger" />
                                 </fieldset>
+                                <form:errors path="serviceType" cssClass="alert-danger" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,7 +89,7 @@
                         <label for="price" class="col-lg-3 control-label"><spring:message code="label.price"/></label>
                         <div class="col-lg-9">
                             <spring:message code="label.price" var="price"/>
-                            <form:input path="price" class="form-control" id="price" placeholder="${price}"/>
+                            <form:input type="number" min="0" step="any" path="price" class="form-control" id="price" placeholder="${price}"/>
                             <form:errors path="price" cssClass="alert-danger" />
                         </div>
                     </div>

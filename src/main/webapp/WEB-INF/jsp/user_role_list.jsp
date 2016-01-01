@@ -29,10 +29,16 @@
 
         <fieldset>
             <c:if test="${not empty successMessage}">
-            <div class="alert alert-success fade in" role="alert">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${successMessage}</strong>
-            </div>
+                <div class="alert alert-success fade in" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>${successMessage}</strong>
+                </div>
+            </c:if>
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger fade in" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        ${errorMessage}
+                </div>
             </c:if>
 
             <a href="${pageContext.request.contextPath}/user_role_form.html" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.roleCreate"/></a>

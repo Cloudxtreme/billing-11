@@ -138,7 +138,7 @@ public class LocalUserController {
         } else {
             String message = userRoleDataService.saveRole(form);
             ModelAndView mav = new ModelAndView("user_role_list");
-            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
+            mav.addObject(messagei18nHelper.getTypeMessage(message), messagei18nHelper.getMessage(message));
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             return mav;
         }
@@ -195,7 +195,7 @@ public class LocalUserController {
         } else {
             String message = localUserDataService.saveUser(form);
             ModelAndView mav = new ModelAndView("user_panel");
-            mav.addObject(Constants.SUCCESS_MESSAGE, message);
+            mav.addObject(messagei18nHelper.getTypeMessage(message), messagei18nHelper.getMessage(message));
             mav.addObject("user", new LocalUser());
             mav.addObject("userList", localUserDataService.listLocalUser());
             mav.addObject("userRole", new UserRole());
