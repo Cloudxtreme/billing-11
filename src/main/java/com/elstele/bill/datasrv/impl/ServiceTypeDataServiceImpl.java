@@ -30,16 +30,15 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     public String saveServiceType(ServiceTypeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceType service = assembler.fromFormToBean(form);
+        ServiceType typeByName = serviceTypeDAO.getByName(form.getName());
         if (form.isNew()) {
-            return checkBeforeCreate(form, service);
+            return checkBeforeCreate(typeByName, service);
         } else {
-            serviceTypeDAO.update(service);
-            return "service.success.update";
+            return checkBeforeUpdating(typeByName, service);
         }
     }
 
-    private String checkBeforeCreate(ServiceTypeForm form, ServiceType service) {
-        ServiceType typeByName = serviceTypeDAO.getByName(form.getName());
+    private String checkBeforeCreate(ServiceType typeByName, ServiceType service) {
         if (typeByName == null) {
             return creatingNew(service);
         }
@@ -54,10 +53,27 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     private String restoreOrCreate(ServiceType typeByName){
         if (typeByName.getStatus() == Status.DELETED) {
-            serviceTypeDAO.setStatus(typeByName.getId(), Status.ACTIVE);
-            return "service.success.restored";
+            return "service.error.restored";
         } else {
             return "service.error.create";
+        }
+    }
+
+    private String checkBeforeUpdating(ServiceType typeByName, ServiceType service){
+        if(typeByName != null) {
+            return checkInRoleByName(typeByName, service);
+        }else{
+            serviceTypeDAO.update(service);
+            return "service.success.update";
+        }
+    }
+
+    private String checkInRoleByName(ServiceType typeByName, ServiceType service){
+        if (typeByName.getId().equals(service.getId()) && typeByName.getName().equals(service.getName())) {
+            serviceTypeDAO.update(typeByName);
+            return "service.success.update";
+        } else {
+            return "service.error.update";
         }
     }
 

@@ -54,8 +54,7 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
 
     private String restoreOrCreate(UserRole roleByName){
         if (roleByName.getStatus() == Status.DELETED) {
-            userRoleDAO.setStatus(roleByName.getId(), Status.ACTIVE);
-            return "userrole.success.restored";
+            return "userrole.error.restored";
         } else {
             return "userrole.error.create";
         }
@@ -63,15 +62,19 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
 
     private String checkBeforeUpdating(UserRole roleByName, UserRole role){
         if(roleByName != null) {
-            if (roleByName.getId().equals(role.getId()) && roleByName.getName().equals(role.getName())) {
-                userRoleDAO.update(roleByName);
-                return "userrole.success.update";
-            } else {
-                return "userrole.error.update";
-            }
+            return checkInRoleByName(roleByName, role);
         }else{
             userRoleDAO.update(role);
             return "userrole.success.update";
+        }
+    }
+
+    private String checkInRoleByName(UserRole roleByName, UserRole role){
+        if (roleByName.getId().equals(role.getId()) && roleByName.getName().equals(role.getName())) {
+            userRoleDAO.update(roleByName);
+            return "userrole.success.update";
+        } else {
+            return "userrole.error.update";
         }
     }
 

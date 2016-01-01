@@ -65,18 +65,16 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
         for (int roleId : form.getRoleId()) {
             user.addUserRole(userRoleDAO.getById(roleId));
         }
-
+        LocalUser userByName = localUserDAO.getByName(form.getUsername());
         if(form.isNew()){
-            return checkBeforeCreate(form, user);
+            return checkBeforeCreate(userByName, user);
         }
         else{
-            localUserDAO.update(user);
-            return "user.success.update";
+            return checkBeforeUpdating(userByName, user);
         }
     }
 
-    private String checkBeforeCreate(LocalUserForm form, LocalUser user) {
-        LocalUser userByName = localUserDAO.getByName(form.getUsername());
+    private String checkBeforeCreate(LocalUser userByName, LocalUser user) {
         if (userByName == null) {
             return creatingNew(user);
         }
@@ -91,10 +89,27 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
 
     private String restoreOrCreate(LocalUser userByName){
         if (userByName.getStatus() == Status.DELETED) {
-            localUserDAO.setStatus(userByName.getId(), Status.ACTIVE);
-            return "user.success.restored";
+            return "user.error.restored";
         } else {
             return "user.error.create";
+        }
+    }
+
+    private String checkBeforeUpdating(LocalUser userByName, LocalUser user){
+        if(userByName != null) {
+            return checkInRoleByName(userByName, user);
+        }else{
+            localUserDAO.update(user);
+            return "user.success.update";
+        }
+    }
+
+    private String checkInRoleByName(LocalUser userByName, LocalUser user){
+        if (userByName.getId().equals(user.getId()) && userByName.getUsername().equals(user.getUsername())) {
+            localUserDAO.update(userByName);
+            return "user.success.update";
+        } else {
+            return "user.error.update";
         }
     }
 
