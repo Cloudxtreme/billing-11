@@ -30,17 +30,16 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     public String saveRole(UserRoleForm form){
         UserRoleAssembler assembler = new UserRoleAssembler();
         UserRole role = assembler.fromFormToBean(form);
+        UserRole roleByName = userRoleDAO.getByName(form.getName());
         if(form.isNew()){
-            return checkBeforeCreate(form, role);
+            return checkBeforeCreate(roleByName, role);
         }
         else{
-            userRoleDAO.update(role);
-             return "userrole.success.update";
+            return checkBeforeUpdating(roleByName, role);
         }
     }
 
-    private String checkBeforeCreate(UserRoleForm form, UserRole role) {
-        UserRole roleByName = userRoleDAO.getByName(form.getName());
+    private String checkBeforeCreate(UserRole roleByName, UserRole role) {
         if (roleByName == null) {
             return creatingNew(role);
         }
@@ -59,6 +58,20 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
             return "userrole.success.restored";
         } else {
             return "userrole.error.create";
+        }
+    }
+
+    private String checkBeforeUpdating(UserRole roleByName, UserRole role){
+        if(roleByName != null) {
+            if (roleByName.getId().equals(role.getId()) && roleByName.getName().equals(role.getName())) {
+                userRoleDAO.update(roleByName);
+                return "userrole.success.update";
+            } else {
+                return "userrole.error.update";
+            }
+        }else{
+            userRoleDAO.update(role);
+            return "userrole.success.update";
         }
     }
 
