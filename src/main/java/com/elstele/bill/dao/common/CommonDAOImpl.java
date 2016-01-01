@@ -2,10 +2,7 @@ package com.elstele.bill.dao.common;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.Status;
-import org.hibernate.Filter;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
@@ -37,7 +34,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
 
     public Integer create(T o) {
-        return (Integer) this.sessionFactory.getCurrentSession().save(o);
+        return (Integer)this.sessionFactory.getCurrentSession().save(o);
     }
 
 

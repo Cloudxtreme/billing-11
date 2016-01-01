@@ -30,26 +30,39 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     public String saveServiceType(ServiceTypeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceType service = assembler.fromFormToBean(form);
-        if(form.isNew()){
-            service.setStatus(Status.ACTIVE);
-            serviceTypeDAO.create(service);
-            return "service.success.add";
-        }
-        else{
+        if (form.isNew()) {
+            return checkBeforeCreate(form, service);
+        } else {
             serviceTypeDAO.update(service);
             return "service.success.update";
         }
     }
 
+    private String checkBeforeCreate(ServiceTypeForm form, ServiceType service) {
+        ServiceType typeByName = serviceTypeDAO.getByName(form.getName());
+        if (typeByName == null) {
+            service.setStatus(Status.ACTIVE);
+            serviceTypeDAO.create(service);
+            return "service.success.add";
+        }
+        if (typeByName.getStatus() == Status.DELETED) {
+            serviceTypeDAO.setStatus(typeByName.getId(), Status.ACTIVE);
+            return "service.success.restored";
+        } else {
+            return "service.error.create";
+        }
+    }
+
+
     @Override
     @Transactional
-    public List<ServiceType> listServiceType(){
+    public List<ServiceType> listServiceType() {
         return serviceTypeDAO.listServiceType();
     }
 
     @Override
     @Transactional
-    public List<ServiceType> listServiceType(String type){
+    public List<ServiceType> listServiceType(String type) {
         return serviceTypeDAO.listServiceType(type);
     }
 
@@ -66,11 +79,11 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public ServiceTypeForm getServiceTypeFormById(Integer id){
+    public ServiceTypeForm getServiceTypeFormById(Integer id) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceTypeForm result = null;
         ServiceType bean = serviceTypeDAO.getById(id);
-        if (bean != null){
+        if (bean != null) {
             ServiceTypeForm form = assembler.fromBeanToForm(bean);
             result = form;
         }
@@ -84,7 +97,7 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
 
         List<ServiceInternetAttribute> attributeBeans = serviceAttributeDAO.getServiceInternetAttributesById(serviceId);
-        if (attributeBeans != null){
+        if (attributeBeans != null) {
             for (ServiceInternetAttribute curAttributeBean : attributeBeans) {
                 ServiceInternetAttributeForm curForm = assembler.fromServiceInternetAttributeBeanToForm(curAttributeBean);
                 result.add(curForm);
@@ -95,14 +108,13 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public String saveServiceAttribute(ServiceInternetAttributeForm form){
+    public String saveServiceAttribute(ServiceInternetAttributeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceInternetAttribute serviceAttribute = assembler.fromServiceInternetAttributeFormToBean(form);
-        if(form.isNew()){
+        if (form.isNew()) {
             serviceAttributeDAO.create(serviceAttribute);
             return "serviceAttr.success.add";
-        }
-        else{
+        } else {
             serviceAttributeDAO.update(serviceAttribute);
             return "serviceAttr.success.update";
         }
@@ -110,7 +122,7 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public void deleteServiceAttribute(Integer serviceAttributeId){
+    public void deleteServiceAttribute(Integer serviceAttributeId) {
         serviceAttributeDAO.setStatusDelete(serviceAttributeId);
     }
 
@@ -119,14 +131,13 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     public ServiceInternetAttributeForm getServiceAttributeForm(Integer serviceAttributeId, Integer serviceId) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceInternetAttributeForm result = null;
-        if (serviceAttributeId > 0){
+        if (serviceAttributeId > 0) {
             ServiceInternetAttribute bean = serviceAttributeDAO.getById(serviceAttributeId);
             if (bean != null) {
                 ServiceInternetAttributeForm form = assembler.fromServiceInternetAttributeBeanToForm(bean);
                 result = form;
             }
-        }
-        else{
+        } else {
             result = new ServiceInternetAttributeForm();
             result.setServiceTypeId(serviceId);
         }

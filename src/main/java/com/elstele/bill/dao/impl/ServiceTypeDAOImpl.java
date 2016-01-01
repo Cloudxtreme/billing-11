@@ -44,4 +44,11 @@ public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType> implements Se
         }
         return null;
     }
+
+    @Override
+    public ServiceType getByName(String name) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from ServiceType service where service.name =:name ");
+        query.setParameter("name", name);
+        return (ServiceType)query.uniqueResult();
+    }
 }

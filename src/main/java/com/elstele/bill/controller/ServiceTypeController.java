@@ -67,7 +67,7 @@ public class ServiceTypeController {
         else{
             String message = serviceTypeDataService.saveServiceType(form);
             ModelAndView mav = new ModelAndView("serviceType");
-            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
+            mav.addObject(messagei18nHelper.getTypeMessage(message), messagei18nHelper.getMessage(message));
             mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             return mav;
         }

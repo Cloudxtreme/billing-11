@@ -17,4 +17,12 @@ public class Messagei18nHelper {
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(code, null, locale);
     }
+
+    public String getTypeMessage(String message){
+        if(message.contains("success")){
+            return Constants.SUCCESS_MESSAGE;
+        }else{
+            return Constants.ERROR_MESSAGE;
+        }
+    }
 }
