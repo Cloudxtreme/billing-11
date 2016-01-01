@@ -41,10 +41,18 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     private String checkBeforeCreate(ServiceTypeForm form, ServiceType service) {
         ServiceType typeByName = serviceTypeDAO.getByName(form.getName());
         if (typeByName == null) {
-            service.setStatus(Status.ACTIVE);
-            serviceTypeDAO.create(service);
-            return "service.success.add";
+            return creatingNew(service);
         }
+        return restoreOrCreate(typeByName);
+    }
+
+    private String creatingNew(ServiceType service){
+        service.setStatus(Status.ACTIVE);
+        serviceTypeDAO.create(service);
+        return "service.success.add";
+    }
+
+    private String restoreOrCreate(ServiceType typeByName){
         if (typeByName.getStatus() == Status.DELETED) {
             serviceTypeDAO.setStatus(typeByName.getId(), Status.ACTIVE);
             return "service.success.restored";
