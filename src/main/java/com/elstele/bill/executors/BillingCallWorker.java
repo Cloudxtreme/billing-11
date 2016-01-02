@@ -1,6 +1,9 @@
 package com.elstele.bill.executors;
 
 import com.elstele.bill.datasrv.interfaces.CallBillingService;
+import com.elstele.bill.exceptions.DirectionCallException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -14,15 +17,21 @@ public class BillingCallWorker implements Runnable, Worker {
     private CallBillingService billService;
 
     private Integer callId;
+    final static Logger log = LogManager.getLogger(BillingCallWorker.class);
+
 
     @Override
     public void setTargetId(Integer id) {
         callId = id;
     }
 
-    public void run() {
-        System.out.println("Worker runned with id:" + callId);
-        billService.updateCallWithItCost(callId);
+    public void run(){
+        log.info("Worker runned with id:" + callId);
+        try {
+            billService.updateCallWithItCost(callId);
+        } catch (DirectionCallException e) {
+            log.error(e.toString());
+        }
     }
 
     public Integer getCallId() {

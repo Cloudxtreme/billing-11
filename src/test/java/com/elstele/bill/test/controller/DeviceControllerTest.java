@@ -11,8 +11,10 @@ import com.elstele.bill.test.builder.form.DeviceFormBuilder;
 import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
 import com.elstele.bill.test.builder.form.IpFormBuilder;
 import com.elstele.bill.test.builder.form.IpSubnetFormBuilder;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +62,8 @@ public class DeviceControllerTest {
     IpDataService ipDataService;
     @Mock
     IpSubnetDataService ipSubnetDataService;
+    @Mock
+    Messagei18nHelper messagei18nHelper;
 
     @InjectMocks
     DeviceController deviceController;
@@ -188,13 +192,14 @@ public class DeviceControllerTest {
     public void addOrUpdateDeviceFromFormTest() throws Exception {
         DeviceForm deviceFormExpected = deviceFormBuilder.build().withIpForm(ipFormBuilder.build().withId(1).getRes()).getRes();
         when(deviceDataService.addDevice(deviceFormExpected)).thenReturn(1);
+        when(messagei18nHelper.getMessage(Constants.DEVICE_ADD_SUCCESS)).thenReturn("Device was successfully added.");
 
         this.mockMvc.perform(post("/adddevice")
                 .session(mockSession)
                 .sessionAttr("deviceForm", deviceFormExpected)
                 .accept(MediaType.ALL))
                 .andExpect(status().is(302))
-                .andExpect(flash().attribute("successMessage", "Device was successfully added."));
+                .andExpect(flash().attribute(Constants.SUCCESS_MESSAGE, "Device was successfully added."));
     }
 
     @Test

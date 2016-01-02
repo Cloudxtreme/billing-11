@@ -6,6 +6,9 @@ import com.elstele.bill.domain.Call;
 import com.elstele.bill.form.CallForm;
 import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
+import com.elstele.bill.test.builder.bean.CallBuilder;
+import com.elstele.bill.test.builder.bean.CallTOBuilder;
+import com.elstele.bill.test.builder.form.CallFormBuilder;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
@@ -57,64 +60,30 @@ public class CallDataServiceTest {
         c.add(Calendar.DATE, 1);
         endDate = c.getTime();
 
-        //TODO make with builders
-        callForm = new CallForm();
-        callForm.setStatus(Status.ACTIVE);
-        callForm.setCallDirectionId(11);
-        callForm.setCostTotal(113.111f);
-        callForm.setDuration(122l);
-        callForm.setId(1);
-        callForm.setNumberA("1111111");
-        callForm.setNumberB("8888888");
-        callForm.setOutputTrunk("05");
-        callForm.setStartTime(startDate);
+        CallFormBuilder builder = new CallFormBuilder();
+        CallBuilder callBuilder = new CallBuilder();
+        CallTOBuilder callTOBuilder = new CallTOBuilder();
 
+        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+                .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
+        call = callBuilder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+                .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
+        call1 = callBuilder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122l).withId(2).withNumberA("2222222")
+                .withNumberB("9999999").withOutputTrunk("014").withStartTime(startDate).getRes();
+        call2 = callBuilder.build().withStartTime(startDate).withNumberA("0937895111").withId(3).getRes();
 
         callList = new ArrayList<>();
-        call = new Call();
-        call.setStatus(Status.ACTIVE);
-        call.setCallDirectionId(11);
-        call.setCostTotal(113.111f);
-        call.setDuration(122l);
-        call.setId(1);
-        call.setNumberA("1111111");
-        call.setNumberB("8888888");
-        call.setOutputTrunk("05");
-        call.setStartTime(startDate);
-
-        call1 = new Call();
-        call1.setStatus(Status.ACTIVE);
-        call1.setCallDirectionId(9);
-        call1.setCostTotal(113.111f);
-        call1.setDuration(122l);
-        call1.setId(2);
-        call1.setNumberA("2222222");
-        call1.setNumberB("9999999");
-        call1.setOutputTrunk("014");
-        call1.setStartTime(startDate);
-
         numbersList = new ArrayList<>();
         numbersList.add(call1.getNumberA());
         numbersList.add(call.getNumberA());
         callList.add(call);
         callList.add(call1);
 
-        call2 = new Call();
-        call2.setStartTime(startDate);
-        call2.setNumberA("0937895111");
-        call2.setId(3);
         localCallsString = new ArrayList<>();
         localCallsString.add(call2.getNumberA());
 
-        callTO1 = new CallTO();
-        callTO1.setCosttotal(113.111f);
-        callTO1.setDuration(BigInteger.valueOf(112l));
-        callTO1.setNumberb("8888888");
-
-        callTO = new CallTO();
-        callTO1.setCosttotal(113.111f);
-        callTO1.setDuration(BigInteger.valueOf(112l));
-        callTO1.setNumberb("9999999");
+        callTO1 =callTOBuilder.build().withCostTotal(113.111f).withDuration(BigInteger.valueOf(112l)).withNumberB("8888888").getRes();
+        callTO = callTOBuilder.build().withCostTotal(113.111f).withDuration(BigInteger.valueOf(112l)).withNumberB("9999999").getRes();
 
         callTOList = new ArrayList<>();
         callTOList.add(callTO);

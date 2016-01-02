@@ -68,8 +68,7 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         account.setCurrentBalance(newBalance);
         accountDAO.save(account);
 
-        String message = "Transaction was successfully created";
-        return message;
+        return "Transaction was successfully created";
     }
 
     @Override

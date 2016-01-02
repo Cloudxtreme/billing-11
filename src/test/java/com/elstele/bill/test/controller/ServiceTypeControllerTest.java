@@ -11,6 +11,7 @@ import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
 import com.elstele.bill.test.builder.form.ServiceInternetFormBuilder;
 import com.elstele.bill.test.builder.form.ServiceTypeFormBuilder;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.ServiceAttributeValidator;
 import com.elstele.bill.validator.ServiceTypeValidator;
 import org.junit.Before;
@@ -58,6 +59,8 @@ public class ServiceTypeControllerTest {
     ServiceTypeValidator serviceTypeValidator;
     @Mock
     ServiceAttributeValidator serviceAttributeValidator;
+    @Mock
+    Messagei18nHelper messagei18nHelper;
 
     private List<ServiceType> serviceTypeList;
     private List<ServiceTypeForm> serviceTypeFormList;
@@ -127,6 +130,8 @@ public class ServiceTypeControllerTest {
 
     @Test
     public void serviceAddTest() throws Exception {
+        when(serviceTypeDataService.saveServiceType(serviceTypeForm)).thenReturn(Constants.SUCCESS_MESSAGE);
+        when(messagei18nHelper.getTypeMessage(Constants.SUCCESS_MESSAGE)).thenReturn(Constants.SUCCESS_MESSAGE);
         this.mockMvc.perform(post("/serviceType/form")
                 .session(mockSession)
                 .param("id", "1")

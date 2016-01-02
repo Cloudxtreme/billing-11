@@ -2,12 +2,13 @@ package com.elstele.bill.test.builder.bean;
 
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Address;
+import com.elstele.bill.domain.Service;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 
-/**
- * Created by ivan on 15/11/30.
- */
+import java.util.Set;
+
+
 public class AccountBuilder implements TestObjectCreator<AccountBuilder, Account> {
     private Account account;
 
@@ -63,6 +64,9 @@ public class AccountBuilder implements TestObjectCreator<AccountBuilder, Account
         return this;
     }
 
-    //TODO: continue with services
+    public AccountBuilder withAccountService(Set<Service> serviceSet){
+        account.setAccountServices(serviceSet);
+        return this;
+    }
 
 }

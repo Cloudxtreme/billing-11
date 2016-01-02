@@ -10,6 +10,8 @@ import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.test.builder.form.ActivityFormBuilder;
 import com.elstele.bill.test.builder.form.LocalUserFormBuilder;
 import com.elstele.bill.test.builder.form.UserRoleFormBuilder;
+import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.LocalUserValidator;
 import com.elstele.bill.validator.UserRoleValidator;
 import org.junit.Before;
@@ -37,6 +39,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.junit.Assert.assertEquals;
@@ -68,6 +71,8 @@ public class LocalUserControllerTest {
     ;
     @Mock
     LocalUserValidator localUserValidator;
+    @Mock
+    Messagei18nHelper messagei18nHelper;
 
     private List<ActivityForm> activityFormList;
     private ActivityForm form;
@@ -155,15 +160,14 @@ public class LocalUserControllerTest {
     public void userRoleDeleteTest() throws Exception {
         when(activityDataService.listActivity()).thenReturn(activityFormList);
         when(userRoleDataService.listUserRole()).thenReturn(userRoleFormList);
+        when(messagei18nHelper.getMessage(Constants.USER_ROLE_SUCCESS_DELETE)).thenReturn(Constants.USER_ROLE_SUCCESS_DELETE);
 
-        MvcResult result = this.mockMvc.perform(get("/user_role/{id}/delete", 1)
+        this.mockMvc.perform(get("/user_role/{id}/delete", 1)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_role_list"))
-                .andReturn();
-        String message = result.getModelAndView().getModel().get("successMessage").toString();
-        assertTrue(message.contains("User Role was successfully deleted."));
+                .andExpect(model().attribute(Constants.SUCCESS_MESSAGE, Constants.USER_ROLE_SUCCESS_DELETE));
     }
 
     @Test
@@ -186,10 +190,13 @@ public class LocalUserControllerTest {
     public void userRoleAddTest() throws Exception {
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(false);
+        when(userRoleDataService.saveRole(userRoleForm)).thenReturn(Constants.USER_ROLE_SUCCESS_ADD);
+        when(messagei18nHelper.getTypeMessage(Constants.USER_ROLE_SUCCESS_ADD)).thenReturn(Constants.SUCCESS_MESSAGE);
 
         this.mockMvc.perform(post("/user_role_form")
                 .session(mockSession)
-                .requestAttr("userRoleForm", userRoleForm)
+                .param("id", "1")
+                .param("name", "test")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_role_list"));
@@ -212,15 +219,14 @@ public class LocalUserControllerTest {
     @Test
     public void userDeleteTest() throws Exception {
         when(userRoleDataService.listUserRole()).thenReturn(userRoleFormList);
+        when(messagei18nHelper.getMessage(Constants.USER_SUCCESS_DELETE)).thenReturn(Constants.USER_SUCCESS_DELETE);
 
-        MvcResult result = this.mockMvc.perform(get("/user/{id}/delete", 1)
+        this.mockMvc.perform(get("/user/{id}/delete", 1)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_panel"))
-                .andReturn();
-        String message = result.getModelAndView().getModel().get("successMessage").toString();
-        assertTrue(message.equals("User was successfully deleted."));
+                .andExpect(model().attribute(Constants.SUCCESS_MESSAGE, Constants.USER_SUCCESS_DELETE));
     }
 
     @Test
@@ -249,9 +255,15 @@ public class LocalUserControllerTest {
 
     @Test
     public void userAddPostTest() throws Exception {
+        when(localUserDataService.saveUser(localUserForm)).thenReturn(Constants.SUCCESS_MESSAGE);
+        when(messagei18nHelper.getTypeMessage(Constants.SUCCESS_MESSAGE)).thenReturn(Constants.SUCCESS_MESSAGE);
+
         this.mockMvc.perform(post("/userform")
                 .session(mockSession)
-                .sessionAttr("localUserForm", localUserForm)
+                .param("id", "1")
+                .param("username", "test")
+                .param("password", "pass")
+                .param("passwordConfirm", "pass")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_panel"));

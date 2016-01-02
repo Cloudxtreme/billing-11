@@ -105,7 +105,7 @@ public class LocalUserController {
     public String userRoleDelete(@PathVariable("id") int id, HttpSession session, Map<String, Object> map) {
         userRoleDataService.deleteRole(id);
         map.put("userRoleList", userRoleDataService.listUserRole());
-        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("userrole.success.delete"));
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(Constants.USER_ROLE_SUCCESS_DELETE));
         return "user_role_list";
     }
 
@@ -161,7 +161,7 @@ public class LocalUserController {
         map.put("userList", localUserDataService.listLocalUser());
         map.put("userRole", new UserRole());
         map.put("roleList", userRoleDataService.listUserRole());
-        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("user.success.deleted"));
+        map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(Constants.USER_SUCCESS_DELETE));
         return "user_panel";
     }
 

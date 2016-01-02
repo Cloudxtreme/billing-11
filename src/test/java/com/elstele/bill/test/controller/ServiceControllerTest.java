@@ -8,6 +8,7 @@ import com.elstele.bill.test.builder.bean.DeviceBuilder;
 import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
 import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +66,8 @@ public class ServiceControllerTest {
     DeviceDataService deviceDataService;
     @Mock
     IpDataService ipDataService;
+    @Mock
+    Messagei18nHelper messagei18nHelper;
 
     private AccountForm accountForm;
     private ServiceForm serviceForm;

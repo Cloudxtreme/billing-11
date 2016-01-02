@@ -36,7 +36,7 @@ public class AuthController {
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");
-        login.addObject("errorMessage", messageHelper.getMessage("auth.error"));
+        login.addObject(Constants.ERROR_MESSAGE, messageHelper.getMessage("auth.error"));
         return login;
     }
 

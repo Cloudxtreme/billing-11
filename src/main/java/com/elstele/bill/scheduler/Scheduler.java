@@ -22,8 +22,7 @@ public class Scheduler {
     public void getUSDRateXML(){
         usdRateDataService.getXMLUSDRate();
     }
-    //TODO fix "0 56 16 * * MON-FRI" to verbal constant
-    @Scheduled(cron="0 56 16 * * MON-FRI")
+    @Scheduled(cron=Constants.EVERY_WORK_DAY_IN_16_36)
     public void CalculateMonthTransactionReport(){
         System.out.println("scheduler month report");
         try {

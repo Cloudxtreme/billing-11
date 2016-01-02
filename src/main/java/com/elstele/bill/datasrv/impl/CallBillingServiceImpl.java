@@ -7,6 +7,9 @@ import com.elstele.bill.dao.interfaces.CallBillingDAO;
 import com.elstele.bill.dao.interfaces.CallDAO;
 import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import com.elstele.bill.domain.Call;
+import com.elstele.bill.exceptions.DirectionCallException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +26,10 @@ public class CallBillingServiceImpl implements CallBillingService {
     @Autowired
     private CallBillingDAO billingDAO;
 
+    final static Logger log = LogManager.getLogger(CallBillingServiceImpl.class);
+
     @Transactional
-    public void updateCallWithItCost(Integer callId) {
+    public void updateCallWithItCost(Integer callId) throws DirectionCallException {
 
         Call currentCall = callDAO.getById(callId);
 
@@ -36,10 +41,8 @@ public class CallBillingServiceImpl implements CallBillingService {
             correctCostByVatAndUsdRate(currentCall, direction);
             callDAO.update(currentCall);
         } else {
-            //TODO throw here custom exception
-            System.out.println("there is no direction for call with ID:" + currentCall.getId() + " with numB:" + currentCall.getNumberB());
+            throw new DirectionCallException("there is no direction for call with ID:" + currentCall.getId() + " with numB:" + currentCall.getNumberB());
         }
-
     }
 
     private void correctCostByVatAndUsdRate(Call currentCall, CallDirection direction) {

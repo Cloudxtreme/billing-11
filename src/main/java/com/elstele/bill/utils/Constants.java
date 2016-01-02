@@ -12,6 +12,7 @@ public class  Constants {
     public static final int DAY = 86400000;
     public static final int HOUR = 3600000;
     public static final String EVERY_DAY_IN_10_30 = "0 30 10 * * *";
+    public static final String EVERY_WORK_DAY_IN_16_36 = "0 56 16 * * MON-FRI";
 
     public enum Period { WEEK, MONTH, YEAR }
 
@@ -30,4 +31,11 @@ public class  Constants {
     public static final String SUCCESS_MESSAGE = "successMessage";
     public static final String MESSAGE = "message";
     public static final String ERROR_MESSAGE = "errorMessage";
+
+    public static final String DEVICE_ADD_SUCCESS = "device.add.new";
+    public static final String DEVICE_UPDATE_SUCCESS = "device.success.update";
+    public static final String USER_SUCCESS_DELETE = "user.success.deleted";
+    public static final String USER_SUCCESS_ADD = "user.success.add";
+    public static final String USER_ROLE_SUCCESS_DELETE = "userrole.success.delete";
+    public static final String USER_ROLE_SUCCESS_ADD = "userrole.success.add";
 }

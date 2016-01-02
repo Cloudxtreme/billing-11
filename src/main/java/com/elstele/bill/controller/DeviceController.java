@@ -5,6 +5,7 @@ import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
 import com.elstele.bill.form.*;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
@@ -12,7 +13,6 @@ import com.elstele.bill.utils.Messagei18nHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -107,11 +107,11 @@ public class DeviceController {
             deviceDataService.addDevice(deviceForm);
             //todo set IP address status can be moved to deviceDataService
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            msg = messageHelper.getMessage("device.add.new");
+            msg = messageHelper.getMessage(Constants.DEVICE_ADD_SUCCESS);
         } else {
             deviceDataService.updateDevice(deviceForm);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
-            msg = messageHelper.getMessage("device.update");
+            msg = messageHelper.getMessage(Constants.DEVICE_UPDATE_SUCCESS);
         }
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, msg);
         return "redirect: /device.html";

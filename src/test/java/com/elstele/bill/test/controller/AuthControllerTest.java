@@ -5,6 +5,7 @@ import com.elstele.bill.dao.interfaces.LocalUserDAO;
 import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +48,8 @@ public class AuthControllerTest {
     LocalUserDataService localUserDataService;
     @InjectMocks
     AuthController controllerUnderTest;
+    @Mock
+    Messagei18nHelper messageHelper;
 
     @Before
     public void setup() {
@@ -81,13 +84,13 @@ public class AuthControllerTest {
                 .andExpect(view().name("main"))
                 .andExpect(forwardedUrl("main"))
                 .andExpect(request().sessionAttribute(Constants.LOCAL_USER, notNullValue()));
-        //.andExpect(model().attribute("localUser", hasProperty("id", notNullValue())));
     }
 
     @Test
     public void loginPageResponseInvalidUser() throws Exception {
 
         when(localUserDataService.isCredentialValid("testUser", "qwerty")).thenReturn(true);
+        when(messageHelper.getMessage("auth.error")).thenReturn("notnull");
 
         this.mockMvc.perform(post("/login")
                 .param("userName", "foo")
@@ -96,7 +99,7 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login_page"))
                 .andExpect(forwardedUrl("login_page"))
-                .andExpect(model().attribute("errorMessage", notNullValue()));
+                .andExpect(model().attribute(Constants.ERROR_MESSAGE, notNullValue()));
     }
 
     @Test

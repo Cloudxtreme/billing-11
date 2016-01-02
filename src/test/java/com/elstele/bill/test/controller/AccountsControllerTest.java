@@ -8,6 +8,7 @@ import com.elstele.bill.form.TransactionForm;
 import com.elstele.bill.test.builder.form.AccountFormBuilder;
 import com.elstele.bill.test.builder.form.TransactionFormBuilder;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Messagei18nHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -53,6 +55,8 @@ public class AccountsControllerTest {
     AccountDataService accountDataService;
     @Mock
     TransactionDataService trService;
+    @Mock
+    Messagei18nHelper messagei18nHelper;
 
     private AccountFormBuilder builder;
     private List<AccountForm> list;
@@ -187,16 +191,15 @@ public class AccountsControllerTest {
 
     @Test
     public void saveAccountFullTest() throws Exception {
-        MvcResult result = this.mockMvc.perform(post("/accounts/save")
+        List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
+        this.mockMvc.perform(post("/accounts/save")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new org.codehaus.jackson.map.ObjectMapper().writeValueAsString(form))
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("accounts_list"))
-                .andReturn();
-        String messageActual = result.getModelAndView().getModel().get("successMessage").toString();
-        assertEquals(messageActual, "Account was updated successfully");
+                .andExpect(model().attribute("accountTypeList", types));
     }
 
     @Test

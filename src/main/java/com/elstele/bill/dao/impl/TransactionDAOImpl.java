@@ -34,14 +34,14 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
     }
 
     @Override
-    public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd){
+    public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd) {
         List<Transaction> transactionList = new ArrayList<Transaction>();
         String orderBy = " ORDER BY transaction.date DESC";
         String addAccount = (!account.equals("")) ? " and transaction.account.accountName like :account " : "";
         String addDateStart = (dateStart != null) ? " and transaction.date > :dateStart " : "";
         String addDateEnd = (dateEnd != null) ? " and transaction.date < :dateEnd " : "";
 
-        String hql = "from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) "+
+        String hql = "from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) " +
                 addAccount +
                 addDateStart +
                 addDateEnd +
@@ -49,11 +49,11 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
 
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
         if (!addAccount.equals(""))
-            query.setParameter("account","%"+account+"%");
+            query.setParameter("account", "%" + account + "%");
         if (!addDateStart.equals(""))
-            query.setParameter("dateStart",dateStart);
+            query.setParameter("dateStart", dateStart);
         if (!addDateEnd.equals(""))
-            query.setParameter("dateEnd",dateEnd);
+            query.setParameter("dateEnd", dateEnd);
 
         if (!query.list().isEmpty()) {
             transactionList = query.list();
@@ -61,17 +61,18 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
         return transactionList;
     }
 
-    private Query getQuery(Integer accountId){
+    private Query getQuery(Integer accountId) {
         Query query;
+        StringBuilder stringBuilder = new StringBuilder("from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) ");
         String orderBy = " ORDER BY transaction.date DESC";
-        String hql = "from Transaction transaction where (transaction.status <> 'DELETED' or transaction.status is null) ";
-        //TODO stringbuilder here
         if (accountId > 0) {
-            hql += " and transaction.account.id = :accountId " + orderBy;
-            query = getSessionFactory().getCurrentSession().createQuery(hql)
+            stringBuilder.append(" and transaction.account.id = :accountId ");
+            stringBuilder.append(orderBy);
+            query = getSessionFactory().getCurrentSession().createQuery(stringBuilder.toString())
                     .setParameter("accountId", accountId);
         } else {
-            query = getSessionFactory().getCurrentSession().createQuery( hql+orderBy );
+            stringBuilder.append(orderBy);
+            query = getSessionFactory().getCurrentSession().createQuery(stringBuilder.toString());
         }
         return query;
     }
