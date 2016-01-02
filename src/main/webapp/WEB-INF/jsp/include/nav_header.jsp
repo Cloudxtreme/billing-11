@@ -23,6 +23,7 @@
                     <ul class="dropdown-menu">
                         <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/serviceType/catalog/">Service Catalog</a></li>
                         <li id="linkToTransactionCatalog"><a href="${pageContext.request.contextPath}/transaction/0/catalog/">Transaction Catalog</a></li>
+                        <li id="linkToExternalPayments"><a href="${pageContext.request.contextPath}/extpayments/listlast/">External Payments</a></li>
                     </ul>
                 </li>
                 <li id="linkToCallsList"><a href="${pageContext.request.contextPath}/callshome">Calls List</a></li>

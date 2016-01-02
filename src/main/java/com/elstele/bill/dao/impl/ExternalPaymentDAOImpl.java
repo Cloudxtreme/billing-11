@@ -5,20 +5,33 @@ import com.elstele.bill.dao.interfaces.ExternalPaymentDAO;
 import com.elstele.bill.domain.ExternalPaymentTransaction;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by ivan on 15/12/27.
  */
+@Service
 public class ExternalPaymentDAOImpl extends CommonDAOImpl<ExternalPaymentTransaction> implements ExternalPaymentDAO {
 
     public List<ExternalPaymentTransaction> getExtPaymentList() {
         Session session = getSessionFactory().getCurrentSession();
         setFilter(session, "showActive");
         Query q = session.
-                createQuery("select tr from ExternalPaymentTransaction a where status <> 'DELETED'" +
-                        "order by tr.timestamp ASC");
+                createQuery("select tr from ExternalPaymentTransaction tr " +
+                        "order by tr.timestamp DESC");
+
+        return (List<ExternalPaymentTransaction>)q.list();
+    }
+
+    public List<ExternalPaymentTransaction> getLastNOfExtPaymentList(Integer num) {
+        Session session = getSessionFactory().getCurrentSession();
+        setFilter(session, "showActive");
+        Query q = session.
+                createQuery("select tr from ExternalPaymentTransaction tr " +
+                        "order by tr.timestamp DESC")
+                .setMaxResults(num);
 
         return (List<ExternalPaymentTransaction>)q.list();
     }

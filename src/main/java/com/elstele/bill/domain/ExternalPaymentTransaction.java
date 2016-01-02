@@ -4,12 +4,14 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by ivan on 15/12/26.
  */
+@Entity
 @Table(name = "payments")
 public class ExternalPaymentTransaction extends CommonDomainBean {
     @Column(name = "service_id")

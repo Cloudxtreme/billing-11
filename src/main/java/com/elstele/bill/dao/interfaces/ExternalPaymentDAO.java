@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface ExternalPaymentDAO extends CommonDAO<ExternalPaymentTransaction>{
     public List<ExternalPaymentTransaction> getExtPaymentList();
+    public List<ExternalPaymentTransaction> getLastNOfExtPaymentList(Integer num);
 }
