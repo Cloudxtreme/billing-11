@@ -1,6 +1,7 @@
-package com.elstele.bill.utils;
+package com.elstele.bill.interceptors;
 
 import com.elstele.bill.domain.LocalUser;
+import com.elstele.bill.utils.Constants;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,12 +19,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         if(localUser == null){
-            httpServletResponse.sendRedirect("/");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath());
             return false;
         }
-        else{
-            return true;
-        }
+        return true;
+
     }
 
 }

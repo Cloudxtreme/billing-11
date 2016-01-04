@@ -51,10 +51,11 @@ public class AuthController {
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutCall(HttpSession session) {
-        session.setAttribute(Constants.LOCAL_USER, null);
+    public ModelAndView logoutCall(HttpSession session) {
         session.invalidate();
-        return "redirect: /";
+        ModelAndView mav = new ModelAndView("login_page");
+        mav.addObject("userForm", new LocalUserForm());
+        return mav;
     }
 
 }

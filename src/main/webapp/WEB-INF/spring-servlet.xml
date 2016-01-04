@@ -73,7 +73,7 @@
         </bean>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.elstele.bill.utils.AuthenticationInterceptor"/>
+            <bean class="com.elstele.bill.interceptors.AuthenticationInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
