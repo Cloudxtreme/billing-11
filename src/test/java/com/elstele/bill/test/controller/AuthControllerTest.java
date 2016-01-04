@@ -51,6 +51,8 @@ public class AuthControllerTest {
     @Mock
     Messagei18nHelper messageHelper;
 
+    private LocalUser lu;
+
     @Before
     public void setup() {
 
@@ -63,15 +65,14 @@ public class AuthControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
         //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
+        lu = new LocalUser();
+        lu.setUsername("testUser");
+        lu.setPassword("qwerty");
+        lu.setId(1);
     }
 
     @Test
     public void loginPageResponseValidUser() throws Exception {
-        LocalUser lu = new LocalUser();
-        lu.setUsername("testUser");
-        lu.setPassword("qwerty");
-        lu.setId(1);
-
         when(localUserDataService.isCredentialValid("testUser", "qwerty")).thenReturn(true);
         when(localUserDataService.getUserByNameAndPass("testUser", "qwerty")).thenReturn(lu);
 
@@ -103,15 +104,25 @@ public class AuthControllerTest {
     }
 
     @Test
+    public void loginGet() throws Exception {
+
+        mockSession.setAttribute(Constants.LOCAL_USER, lu);
+        this.mockMvc.perform(get("/login")
+                .session(mockSession)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(view().name("main"))
+                .andExpect(model().attribute("username", lu.getUsername()));
+    }
+
+    @Test
     public void logoutCall() throws Exception {
 
         mockSession.setAttribute(Constants.LOCAL_USER, new LocalUser());
         this.mockMvc.perform(get("/logout")
                 .session(mockSession)
                 .accept(MediaType.ALL))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login_page"))
-                .andExpect(forwardedUrl("login_page"))
+                .andExpect(status().is(302))
                 .andExpect(request().sessionAttribute(Constants.LOCAL_USER, nullValue()))
                 .andExpect(model().attribute("errorMessage", nullValue()));
     }

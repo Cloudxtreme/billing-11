@@ -52,7 +52,7 @@ public class DeviceController {
 
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView getDeviceList() {
+    public ModelAndView getDeviceList(HttpSession session) {
         List<DeviceForm> result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("deviceModel");
         mav.addObject("list", result);
