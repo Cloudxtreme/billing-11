@@ -61,6 +61,7 @@
         <property name="paramName" value="lang" />
     </bean>
 
+
     <bean id="localeResolver"
           class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="ru"/>
@@ -70,7 +71,12 @@
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="lang" />
         </bean>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.elstele.bill.utils.AuthenticationInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
+
 
     <!--Locale settings END-->
 

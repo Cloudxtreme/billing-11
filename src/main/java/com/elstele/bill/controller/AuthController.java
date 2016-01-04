@@ -43,11 +43,13 @@ public class AuthController {
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public ModelAndView mainPage(HttpSession session){
         ModelAndView mav = new ModelAndView("main");
-        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
-        mav.addObject("username", user.getUsername());
+        if(session.getAttribute(Constants.LOCAL_USER) != null) {
+            LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+            mav.addObject("username", user.getUsername());
+            return mav;
+        }
         return mav;
     }
-
 
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -55,7 +57,7 @@ public class AuthController {
     {
         session.setAttribute(Constants.LOCAL_USER, null);
         session.invalidate();
-        return "login_page";
+        return "redirect: /";
     }
 
 }
