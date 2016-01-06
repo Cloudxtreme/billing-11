@@ -26,6 +26,7 @@ public class ExternalPaymentTransaction extends CommonDomainBean {
     private String payId;
     private String tradepoint;
     private Date timestamp;
+    @Column(name = "`check`")
     private Boolean check;
 
 

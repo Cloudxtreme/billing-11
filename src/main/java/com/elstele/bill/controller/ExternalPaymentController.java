@@ -37,5 +37,12 @@ public class ExternalPaymentController {
         return mav;
     }
 
+    @RequestMapping(value = "extpayments/setPaymentHandled", method = RequestMethod.GET)
+    @ResponseBody
+    public String setPaymentChecked(HttpServletRequest request, @RequestParam(value = "id") int paymentId){
+        Boolean res = externalPaymentDataService.setPaymentChecked(paymentId);
+        return res.toString();
+    }
+
 
 }

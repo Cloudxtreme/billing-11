@@ -45,4 +45,15 @@ public class ExternalPaymentDataServiceImpl implements ExternalPaymentDataServic
         return forms;
     }
 
+    @Transactional
+    public Boolean setPaymentChecked(Integer paymentId) {
+       ExternalPaymentTransaction payment = dao.getById(paymentId);
+        if (payment != null){
+            payment.setCheck(true);
+            dao.update(payment);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

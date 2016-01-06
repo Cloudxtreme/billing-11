@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by ivan on 15/12/27.
  */
 public class ExternalPaymentForm {
+    private Integer id;
     private String serviceId;
     private String payAccount;
     private Float payAmount;
@@ -77,5 +78,13 @@ public class ExternalPaymentForm {
 
     public void setCheck(Boolean check) {
         this.check = check;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

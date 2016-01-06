@@ -10,5 +10,6 @@ import java.util.List;
 public interface ExternalPaymentDataService {
     List<ExternalPaymentForm> getExtPaymentList();
     List<ExternalPaymentForm> getLastNOfExtPaymentList(Integer num);
+    Boolean setPaymentChecked (Integer paymentId);
 
 }

@@ -41,14 +41,14 @@
 
             <table id="extPaymentTable" class="table table-striped table-hover">
             <tr>
-                <th>Service Id</th>
-                <th>Pay Account</th>
-                <th>Pay Amount</th>
-                <th>Receipt Num</th>
-                <th>Pay Id</th>
-                <th>Trade Point</th>
-                <th>Date</th>
-                <th>Check</th>
+                <th align="center">Service Id</th>
+                <th align="center">Pay Account</th>
+                <th align="center">Pay Amount</th>
+                <th align="center">Receipt Num</th>
+                <th align="center">Pay Id</th>
+                <th align="center">Trade Point</th>
+                <th align="center">Date</th>
+                <th align="center">Check</th>
             </tr>
             <c:forEach items="${payments}" var="payment">
 
@@ -60,7 +60,15 @@
                     <td>${payment.payId}</td>
                     <td>${payment.tradepoint}</td>
                     <td><fmt:formatDate value="${payment.timestamp}" pattern="yyyy-MM-dd HH:mm"/></td>
-                    <td>${payment.check}</td>
+
+                    <c:if test="${payment.check eq 'true'}">
+                        <td><span class="glyphicon glyphicon-ok"></span></td>
+                    </c:if>
+                    <c:if test="${payment.check eq 'false'}">
+                        <td>
+                            <a class="pushHandle btn btn-sm btn-primary" data-id="${payment.id}"><span class="glyphicon glyphicon-plus"></span></a>
+                        </td>
+                    </c:if>
                 </tr>
 
             </c:forEach>
