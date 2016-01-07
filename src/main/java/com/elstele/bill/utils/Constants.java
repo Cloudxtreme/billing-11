@@ -12,6 +12,7 @@ public class  Constants {
     public static final int DAY = 86400000;
     public static final int HOUR = 3600000;
     public static final String EVERY_DAY_IN_10_30 = "0 30 10 * * *";
+    public static final int STATISTIC_MONTHS_DISPLAY_DEFAULT = 3;
 
     public enum Period { WEEK, MONTH, YEAR }
 

@@ -63,3 +63,6 @@
 #userOnlineTable  tbody > tr > th {
     background-color: #D1FAC9;
 }
+.ui-datepicker-calendar {
+    display: none;
+}

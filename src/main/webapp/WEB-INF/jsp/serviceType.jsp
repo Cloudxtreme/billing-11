@@ -42,7 +42,6 @@
             <th>Price</th>
         </tr>
 
-        </tr>
         <c:forEach items="${serviceTypeList}" var="service">
             <label for="${service.id}">
                 <tr id="${service.id}">
