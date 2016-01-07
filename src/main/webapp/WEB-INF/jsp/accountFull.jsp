@@ -185,6 +185,9 @@
                                                         ${accountService.servicePhone.phoneNumber}
                                                     </c:when>
                                                 </c:choose>
+
+
+
                                             </td>
                                             <td>
                                                 <c:if test="${accountService.serviceType.serviceType == 'INTERNET'}">
