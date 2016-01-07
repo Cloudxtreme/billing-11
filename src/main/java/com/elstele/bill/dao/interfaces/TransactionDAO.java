@@ -10,4 +10,5 @@ public interface TransactionDAO extends CommonDAO<Transaction>{
     public List<Transaction> getTransactionList(Integer accountId);
     public List<Transaction> getTransactionList(Integer accountId, Integer displayLimit);
     public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd);
+    public void copyBalsnceToHistBalanceForAccount(Integer accountId, Float balance);
 }
