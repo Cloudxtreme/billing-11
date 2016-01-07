@@ -20,6 +20,8 @@
     <spring:url value="/resources/js/userStatistic.js" var="stat" />
     <script src="${stat}"></script>
 
+    <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
+    <script src="${dateParsing}"></script>
     <spring:url value="/resources/css/jquery-ui.css" var="jqueryUi" />
     <link href="${jqueryUi}" rel="stylesheet"/>
 

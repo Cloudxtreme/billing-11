@@ -72,14 +72,16 @@ function drawTableHead(){
     "</tr>";
 }
 function drawTableRow(data) {
+    var acctstarttime = new Date(data.acctstarttime);
+    var acctstoptime = new Date(data.acctstoptime);
     return "<label for=\""+data.radacctid+"\">" +
         "<tr id=\""+data.radacctid+"\">" +
         "<td>"+data.username+"</td>" +
         "<td>"+data.nasipaddress+"</td>" +
         "<td>"+data.nasportid+"</td>" +
-        "<td>"+data.acctstarttime+"</td>" +
+        "<td>"+acctstarttime.format('yyyy-mm-dd HH:MM')+"</td>" +
         "<td>"+data.acctsessiontime+"</td>" +
-        "<td>"+data.acctstoptime+"</td>" +
+        "<td>"+acctstoptime.format('yyyy-mm-dd HH:MM')+"</td>" +
         "<td>"+data.framedipaddress+"</td>" +
         "<td>"+data.acctinputoctets+"</td>" +
         "<td>"+data.acctoutputoctets+"</td>" +
