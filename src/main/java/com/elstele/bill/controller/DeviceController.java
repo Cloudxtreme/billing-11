@@ -81,7 +81,7 @@ public class DeviceController {
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
-        String msg = null;
+        String msg;
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
             msg = messageHelper.getMessage(Constants.DEVICE_ADD_SUCCESS);
