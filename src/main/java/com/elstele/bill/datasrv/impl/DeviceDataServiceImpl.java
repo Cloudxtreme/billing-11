@@ -65,6 +65,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
         device.setStatus(Status.ACTIVE);
         try{
             int creatingId = deviceDAO.create(device);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
             return creatingId;
         } catch (ConstraintViolationException e){
@@ -81,6 +82,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
             Device bean = assembler.fromFormToBean(deviceForm);
             deviceDAO.update(bean);
+            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
         }catch(HibernateException e ){
             log.error(e + " Method updateDevice");

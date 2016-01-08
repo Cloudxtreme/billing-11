@@ -5,6 +5,8 @@ import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
+import com.elstele.bill.datasrv.impl.IpDataServiceImpl;
+import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
@@ -46,6 +48,9 @@ public class DeviceDataServiceTest {
 
     @Mock
     StreetDAO streetDAO;
+
+    @Mock
+    IpDataService ipDataService;
 
     @InjectMocks
     DeviceDataServiceImpl deviceDataService;

@@ -29,48 +29,48 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     @Transactional
     public String saveServiceType(ServiceTypeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
-        ServiceType service = assembler.fromFormToBean(form);
-        ServiceType typeByName = serviceTypeDAO.getByName(form.getName());
+        ServiceType persistentService = assembler.fromFormToBean(form);
+        ServiceType transientService = serviceTypeDAO.getByName(form.getName());
         if (form.isNew()) {
-            return checkBeforeCreate(typeByName, service);
+            return create(transientService, persistentService);
         } else {
-            return checkBeforeUpdating(typeByName, service);
+            return update(transientService, persistentService);
         }
     }
 
-    private String checkBeforeCreate(ServiceType typeByName, ServiceType service) {
-        if (typeByName == null) {
-            return creatingNew(service);
+    private String create(ServiceType transientService, ServiceType persistentService) {
+        if (transientService == null) {
+            return createNew(persistentService);
         }
-        return restoreOrCreate(typeByName);
+        return checkTryRestoreDeleted(transientService);
     }
 
-    private String creatingNew(ServiceType service){
-        service.setStatus(Status.ACTIVE);
-        serviceTypeDAO.create(service);
+    private String createNew(ServiceType persistentService){
+        persistentService.setStatus(Status.ACTIVE);
+        serviceTypeDAO.create(persistentService);
         return "service.success.add";
     }
 
-    private String restoreOrCreate(ServiceType typeByName){
-        if (typeByName.getStatus() == Status.DELETED) {
+    private String checkTryRestoreDeleted(ServiceType transientService){
+        if (transientService.getStatus() == Status.DELETED) {
             return "service.error.restored";
         } else {
             return "service.error.create";
         }
     }
 
-    private String checkBeforeUpdating(ServiceType typeByName, ServiceType service){
-        if(typeByName != null) {
-            return checkInRoleByName(typeByName, service);
+    private String update(ServiceType transientService, ServiceType persistentService){
+        if(transientService != null) {
+            return updateTransient(transientService, persistentService);
         }else{
-            serviceTypeDAO.update(service);
+            serviceTypeDAO.update(persistentService);
             return "service.success.update";
         }
     }
 
-    private String checkInRoleByName(ServiceType typeByName, ServiceType service){
-        if (typeByName.getId().equals(service.getId()) && typeByName.getName().equals(service.getName())) {
-            serviceTypeDAO.update(typeByName);
+    private String updateTransient(ServiceType transientService, ServiceType persistentService){
+        if (transientService.getId().equals(persistentService.getId()) && transientService.getName().equals(persistentService.getName())) {
+            serviceTypeDAO.update(transientService);
             return "service.success.update";
         } else {
             return "service.error.update";

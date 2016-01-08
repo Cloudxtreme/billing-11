@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -30,6 +32,16 @@ public class DeviceTypesDataServiceImpl implements DeviceTypesDataService {
             result.add(curForm);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public HashMap<Integer, String> getDeviceTypesAsMap() {
+        List<DeviceTypesForm> devType = getDeviceTypes();
+        HashMap<Integer, String> map = new HashMap<>();
+        for (DeviceTypesForm deviceTypesForm : devType)
+            map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
+        return map;
     }
 
     @Override

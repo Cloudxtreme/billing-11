@@ -122,9 +122,9 @@ public class AuthControllerTest {
         this.mockMvc.perform(get("/logout")
                 .session(mockSession)
                 .accept(MediaType.ALL))
-                .andExpect(status().is(302))
+                .andExpect(status().isOk())
                 .andExpect(request().sessionAttribute(Constants.LOCAL_USER, nullValue()))
-                .andExpect(model().attribute("errorMessage", nullValue()));
+                .andExpect(view().name("login_page"));
     }
 
 

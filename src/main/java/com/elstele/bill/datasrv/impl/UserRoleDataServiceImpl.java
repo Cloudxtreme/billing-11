@@ -4,7 +4,6 @@ import com.elstele.bill.assembler.UserRoleAssembler;
 import com.elstele.bill.dao.interfaces.UserActivityDAO;
 import com.elstele.bill.dao.interfaces.UserRoleDAO;
 import com.elstele.bill.datasrv.interfaces.UserRoleDataService;
-import com.elstele.bill.domain.Activity;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.utils.Enums.Status;
@@ -29,49 +28,49 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     @Transactional
     public String saveRole(UserRoleForm form){
         UserRoleAssembler assembler = new UserRoleAssembler();
-        UserRole role = assembler.fromFormToBean(form);
-        UserRole roleByName = userRoleDAO.getByName(form.getName());
+        UserRole persistentRole = assembler.fromFormToBean(form);
+        UserRole transientRole = userRoleDAO.getByName(form.getName());
         if(form.isNew()){
-            return checkBeforeCreate(roleByName, role);
+            return create(transientRole, persistentRole);
         }
         else{
-            return checkBeforeUpdating(roleByName, role);
+            return update(transientRole, persistentRole);
         }
     }
 
-    private String checkBeforeCreate(UserRole roleByName, UserRole role) {
-        if (roleByName == null) {
-            return creatingNew(role);
+    private String create(UserRole transientRole, UserRole persistentRole) {
+        if (transientRole == null) {
+            return createNew(persistentRole);
         }
-        return restoreOrCreate(roleByName);
+        return checkTryRestoreDeleted(transientRole);
     }
 
-    private String creatingNew(UserRole role){
-        role.setStatus(Status.ACTIVE);
-        userRoleDAO.create(role);
+    private String createNew(UserRole persistentRole){
+        persistentRole.setStatus(Status.ACTIVE);
+        userRoleDAO.create(persistentRole);
         return "userrole.success.add";
     }
 
-    private String restoreOrCreate(UserRole roleByName){
-        if (roleByName.getStatus() == Status.DELETED) {
+    private String checkTryRestoreDeleted(UserRole transientRole){
+        if (transientRole.getStatus() == Status.DELETED) {
             return "userrole.error.restored";
         } else {
             return "userrole.error.create";
         }
     }
 
-    private String checkBeforeUpdating(UserRole roleByName, UserRole role){
-        if(roleByName != null) {
-            return checkInRoleByName(roleByName, role);
+    private String update(UserRole transientRole, UserRole persistentRole){
+        if(transientRole != null) {
+            return updateTransient(transientRole, persistentRole);
         }else{
-            userRoleDAO.update(role);
+            userRoleDAO.update(persistentRole);
             return "userrole.success.update";
         }
     }
 
-    private String checkInRoleByName(UserRole roleByName, UserRole role){
-        if (roleByName.getId().equals(role.getId()) && roleByName.getName().equals(role.getName())) {
-            userRoleDAO.update(roleByName);
+    private String updateTransient(UserRole transientRole, UserRole persistentRole){
+        if (transientRole.getId().equals(persistentRole.getId()) && transientRole.getName().equals(persistentRole.getName())) {
+            userRoleDAO.update(transientRole);
             return "userrole.success.update";
         } else {
             return "userrole.error.update";

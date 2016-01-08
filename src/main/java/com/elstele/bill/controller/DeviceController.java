@@ -62,9 +62,8 @@ public class DeviceController {
     @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceTypeList() {
-        List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
         ModelAndView model = new ModelAndView("devicetypelistModel");
-        model.addObject("devicetypelist", devType);
+        model.addObject("devicetypelist", deviceTypesDataService.getDeviceTypes());
         return model;
     }
 
@@ -73,29 +72,9 @@ public class DeviceController {
     public ModelAndView addDeviceFromForm() {
         ModelAndView model = new ModelAndView("adddeviceModel");
         model.addObject("deviceForm", new DeviceForm());
-
-        List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
-        Map<Integer, String> map = new HashMap<>();
-        for (DeviceTypesForm deviceTypesForm : devType)
-            map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
-        model.addObject("deviceTypesMap", map);
-
-        List<IpForm> ipForms = ipDataService.getIpAddressList();
-        Map<Integer, String> ipMap = new HashMap<>();
-        for (IpForm ipForm : ipForms) {
-            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
-                ipMap.put(ipForm.getId(), ipForm.getIpName());
-        }
-        model.addObject("ipAddressList", ipMap);
-
-        List<IpSubnetForm> subnetForms = ipSubnetDataService.getIpSubnets();
-        Map<Integer, String> ipMapNets = new HashMap<>();
-        for (IpSubnetForm ipSubnetForm : subnetForms) {
-            if (ipSubnetForm.getSubnetPurpose() == SubnetPurpose.MGMT)
-                ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
-        }
-        model.addObject("ipNetList", ipMapNets);
-
+        model.addObject("deviceTypesMap", deviceTypesDataService.getDeviceTypesAsMap());
+        model.addObject("ipAddressList", ipDataService.getIpAddressAsMap());
+        model.addObject("ipNetList", ipSubnetDataService.getIpSubnetsAsMap());
         return model;
     }
 
@@ -105,12 +84,9 @@ public class DeviceController {
         String msg = null;
         if (deviceForm.getId() == null) {
             deviceDataService.addDevice(deviceForm);
-            //todo set IP address status can be moved to deviceDataService
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             msg = messageHelper.getMessage(Constants.DEVICE_ADD_SUCCESS);
         } else {
             deviceDataService.updateDevice(deviceForm);
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             msg = messageHelper.getMessage(Constants.DEVICE_UPDATE_SUCCESS);
         }
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, msg);
@@ -130,27 +106,9 @@ public class DeviceController {
         DeviceForm form = deviceDataService.getById(id);
         ipDataService.setStatus(form.getIpForm().getId(), IpStatus.FREE);
 
-        List<DeviceTypesForm> devType = deviceTypesDataService.getDeviceTypes();
-        Map<Integer, String> map = new LinkedHashMap<>();
-        for (DeviceTypesForm deviceTypesForm : devType)
-            map.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
-
-        List<IpForm> ipForms = ipDataService.getIpAddressList();
-        Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) {
-            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
-                ipMap.put(ipForm.getId(), ipForm.getIpName());
-        }
-
-        List<IpSubnetForm> subnetForms = ipSubnetDataService.getIpSubnets();
-        Map<Integer, String> ipMapNets = new LinkedHashMap<Integer, String>();
-        for (IpSubnetForm ipSubnetForm : subnetForms) {
-            if (ipSubnetForm.getSubnetPurpose() == SubnetPurpose.MGMT)
-                ipMapNets.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
-        }
-        mav.addObject("ipNetList", ipMapNets);
-        mav.addObject("ipAddressList", ipMap);
-        mav.addObject("deviceTypesMap", map);
+        mav.addObject("ipNetList", ipSubnetDataService.getIpSubnetsAsMap());
+        mav.addObject("ipAddressList", ipDataService.getIpAddressAsMap());
+        mav.addObject("deviceTypesMap", deviceTypesDataService.getDeviceTypesAsMap());
         mav.addObject("deviceForm", form);
         return mav;
     }

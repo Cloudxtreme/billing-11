@@ -61,52 +61,52 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
     @Transactional
     public String saveUser(LocalUserForm form){
         LocalUserAssembler assembler = new LocalUserAssembler();
-        LocalUser user = assembler.fromFormToBean(form);
+        LocalUser persistentUser = assembler.fromFormToBean(form);
         for (int roleId : form.getRoleId()) {
-            user.addUserRole(userRoleDAO.getById(roleId));
+            persistentUser.addUserRole(userRoleDAO.getById(roleId));
         }
-        LocalUser userByName = localUserDAO.getByName(form.getUsername());
+        LocalUser transientUser = localUserDAO.getByName(form.getUsername());
         if(form.isNew()){
-            return checkBeforeCreate(userByName, user);
+            return create(transientUser, persistentUser);
         }
         else{
-            return checkBeforeUpdating(userByName, user);
+            return update(transientUser, persistentUser);
         }
     }
 
-    private String checkBeforeCreate(LocalUser userByName, LocalUser user) {
-        if (userByName == null) {
-            return creatingNew(user);
+    private String create(LocalUser transientUser, LocalUser persistentUser) {
+        if (transientUser == null) {
+            return createNew(persistentUser);
         }
-        return restoreOrCreate(userByName);
+        return checkTryRestoreDeleted(transientUser);
     }
 
-    private String creatingNew(LocalUser user){
-        user.setStatus(Status.ACTIVE);
-        localUserDAO.create(user);
+    private String createNew(LocalUser persistentUser){
+        persistentUser.setStatus(Status.ACTIVE);
+        localUserDAO.create(persistentUser);
         return "user.success.add";
     }
 
-    private String restoreOrCreate(LocalUser userByName){
-        if (userByName.getStatus() == Status.DELETED) {
+    private String checkTryRestoreDeleted(LocalUser transientUser){
+        if (transientUser.getStatus() == Status.DELETED) {
             return "user.error.restored";
         } else {
             return "user.error.create";
         }
     }
 
-    private String checkBeforeUpdating(LocalUser userByName, LocalUser user){
-        if(userByName != null) {
-            return checkInRoleByName(userByName, user);
+    private String update(LocalUser transientUser, LocalUser persistentUser){
+        if(transientUser != null) {
+            return updateTransient(transientUser, persistentUser);
         }else{
-            localUserDAO.update(user);
+            localUserDAO.update(persistentUser);
             return "user.success.update";
         }
     }
 
-    private String checkInRoleByName(LocalUser userByName, LocalUser user){
-        if (userByName.getId().equals(user.getId()) && userByName.getUsername().equals(user.getUsername())) {
-            localUserDAO.update(userByName);
+    private String updateTransient(LocalUser transientUser, LocalUser persistentUser){
+        if (transientUser.getId().equals(persistentUser.getId()) && transientUser.getUsername().equals(persistentUser.getUsername())) {
+            localUserDAO.update(transientUser);
             return "user.success.update";
         } else {
             return "user.error.update";

@@ -6,12 +6,15 @@ import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.utils.Enums.IpStatus;
+import com.elstele.bill.utils.Enums.SubnetPurpose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class IpDataServiceImpl implements IpDataService {
@@ -31,6 +34,18 @@ public class IpDataServiceImpl implements IpDataService {
             result.add(curForm);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public HashMap<Integer, String> getIpAddressAsMap() {
+        List<IpForm> ipForms = getIpAddressList();
+        HashMap<Integer, String> ipMap = new HashMap<>();
+        for (IpForm ipForm : ipForms) {
+            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
+                ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
+        return ipMap;
     }
 
     public void update(IpForm ipForm) {

@@ -82,6 +82,10 @@ public class DeviceControllerTest {
     private List<IpForm> ipForms;
     private List<IpSubnetForm> subnetForms;
     private List<DeviceTypesForm> deviceTypesForms;
+    private HashMap<Integer, String> mapDevType;
+    private HashMap<Integer, String> mapIp;
+    private HashMap<Integer, String> mapIpSubnet;
+
 
     @Before
     public void setUp() {
@@ -126,6 +130,14 @@ public class DeviceControllerTest {
         expectedList = new ArrayList<>();
         expectedList.add(deviceForm);
         expectedList.add(deviceForm1);
+
+
+        mapDevType = new HashMap();
+        mapDevType.put(deviceTypesForm.getId(), deviceTypesForm.getDeviceType());
+        mapIp = new HashMap();
+        mapIp.put(ipForm.getId(), ipForm.getIpName());
+        mapIpSubnet = new HashMap();
+        mapIpSubnet.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
     }
 
     @Test
@@ -163,9 +175,9 @@ public class DeviceControllerTest {
 
     @Test
     public void addDeviceFromFormTest() throws Exception {
-        when(deviceTypesDataService.getDeviceTypes()).thenReturn(deviceTypesForms);
-        when(ipSubnetDataService.getIpSubnets()).thenReturn(subnetForms);
-        when(ipDataService.getIpAddressList()).thenReturn(ipForms);
+        when(deviceTypesDataService.getDeviceTypesAsMap()).thenReturn(mapDevType);
+        when(ipSubnetDataService.getIpSubnetsAsMap()).thenReturn(mapIpSubnet);
+        when(ipDataService.getIpAddressAsMap()).thenReturn(mapIp);
 
         MvcResult result = this.mockMvc.perform(get("/adddevice")
                 .session(mockSession)
@@ -175,17 +187,14 @@ public class DeviceControllerTest {
                 .andReturn();
         ModelAndView model = result.getModelAndView();
 
-        Map<Integer, String> map = (Map<Integer, String>) model.getModel().get("deviceTypesMap");
-        assertTrue(map.containsKey(deviceTypesForm.getId()));
-        assertTrue(map.containsValue(deviceTypesForm.getDeviceType()));
+        HashMap<Integer, String> map = (HashMap<Integer, String>) model.getModel().get("deviceTypesMap");
+        assertEquals(map, mapDevType);
 
-        map = (Map<Integer, String>) model.getModel().get("ipAddressList");
-        assertTrue(map.containsKey(ipForm.getId()));
-        assertTrue(map.containsValue(ipForm.getIpName()));
+        map = (HashMap<Integer, String>) model.getModel().get("ipAddressList");
+        assertEquals(map, mapIp);
 
-        map = (Map<Integer, String>) model.getModel().get("ipNetList");
-        assertTrue(map.containsKey(ipSubnetForm.getId()));
-        assertTrue(map.containsValue(ipSubnetForm.getIpSubnet()));
+        map = (HashMap<Integer, String>) model.getModel().get("ipNetList");
+        assertEquals(map, mapIpSubnet);
     }
 
     @Test
@@ -218,9 +227,9 @@ public class DeviceControllerTest {
     @Test
     public void editDeviceTest() throws Exception {
         when(deviceDataService.getById(1)).thenReturn(deviceForm);
-        when(deviceTypesDataService.getDeviceTypes()).thenReturn(deviceTypesForms);
-        when(ipSubnetDataService.getIpSubnets()).thenReturn(subnetForms);
-        when(ipDataService.getIpAddressList()).thenReturn(ipForms);
+        when(deviceTypesDataService.getDeviceTypesAsMap()).thenReturn(mapDevType);
+        when(ipSubnetDataService.getIpSubnetsAsMap()).thenReturn(mapIpSubnet);
+        when(ipDataService.getIpAddressAsMap()).thenReturn(mapIp);
 
         MvcResult result = this.mockMvc.perform(get("/device/{id}/update", 1)
                 .session(mockSession)
@@ -231,17 +240,14 @@ public class DeviceControllerTest {
 
         ModelAndView model = result.getModelAndView();
 
-        Map<Integer, String> map = (Map<Integer, String>) model.getModel().get("deviceTypesMap");
-        assertTrue(map.containsKey(deviceTypesForm.getId()));
-        assertTrue(map.containsValue(deviceTypesForm.getDeviceType()));
+        HashMap<Integer, String> map = (HashMap<Integer, String>) model.getModel().get("deviceTypesMap");
+        assertEquals(map, mapDevType);
 
-        map = (Map<Integer, String>) model.getModel().get("ipAddressList");
-        assertTrue(map.containsKey(ipForm.getId()));
-        assertTrue(map.containsValue(ipForm.getIpName()));
+        map = (HashMap<Integer, String>) model.getModel().get("ipAddressList");
+        assertEquals(map, mapIp);
 
-        map = (Map<Integer, String>) model.getModel().get("ipNetList");
-        assertTrue(map.containsKey(ipSubnetForm.getId()));
-        assertTrue(map.containsValue(ipSubnetForm.getIpSubnet()));
+        map = (HashMap<Integer, String>) model.getModel().get("ipNetList");
+        assertEquals(map, mapIpSubnet);
     }
 
     @Test
