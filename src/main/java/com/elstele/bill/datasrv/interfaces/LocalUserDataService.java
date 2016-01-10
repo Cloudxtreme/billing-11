@@ -15,5 +15,6 @@ public interface LocalUserDataService {
     public List<LocalUser> listLocalUser();
     public void deleteUser(Integer id);
     public LocalUserForm getLocalUserFormById(Integer id);
+    public boolean checkUniqueUserName(LocalUserForm form);
 
 }

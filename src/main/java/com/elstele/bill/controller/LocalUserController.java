@@ -193,16 +193,17 @@ public class LocalUserController {
             mav.addObject("userList", localUserDataService.listLocalUser());
             return mav;
         } else {
-            String message = localUserDataService.saveUser(form);
             ModelAndView mav = new ModelAndView("user_panel");
-            mav.addObject(messagei18nHelper.getTypeMessage(message), messagei18nHelper.getMessage(message));
-            mav.addObject("user", new LocalUser());
+            if(localUserDataService.checkUniqueUserName(form)) {
+                String message = localUserDataService.saveUser(form);
+                mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
+            }else {
+                mav.addObject(Constants.ERROR_MESSAGE, messagei18nHelper.getMessage(Constants.USER_ERROR_UNIQUE_NAME));
+            }
             mav.addObject("userList", localUserDataService.listLocalUser());
-            mav.addObject("userRole", new UserRole());
             mav.addObject("roleList", userRoleDataService.listUserRole());
             return mav;
         }
-
     }
 
     @RequestMapping(value = "/userpanel", method = RequestMethod.GET)

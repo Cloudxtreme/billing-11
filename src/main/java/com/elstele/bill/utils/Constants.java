@@ -36,6 +36,7 @@ public class  Constants {
     public static final String DEVICE_UPDATE_SUCCESS = "device.success.update";
     public static final String USER_SUCCESS_DELETE = "user.success.deleted";
     public static final String USER_SUCCESS_ADD = "user.success.add";
+    public static final String USER_ERROR_UNIQUE_NAME = "user.error.unique.name";
     public static final String USER_ROLE_SUCCESS_DELETE = "userrole.success.delete";
     public static final String USER_ROLE_SUCCESS_ADD = "userrole.success.add";
 }

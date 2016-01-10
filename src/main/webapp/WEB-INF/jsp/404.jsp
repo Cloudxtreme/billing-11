@@ -16,7 +16,6 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="wrap">
     <div class="content">

@@ -29,7 +29,7 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
     @Transactional
     public boolean isCredentialValid(String name, String pass) {
         LocalUser localUser = localUserDAO.getLocalUserByNameAndPass(name, pass);
-        if (localUser != null){
+        if (localUser != null) {
             return true;
         }
         return false;
@@ -37,7 +37,7 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
 
     @Override
     @Transactional
-    public LocalUser findById(Integer id){
+    public LocalUser findById(Integer id) {
         return localUserDAO.getById(id);
     }
 
@@ -45,7 +45,7 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
     @Transactional
     public LocalUser getUserByNameAndPass(String name, String pass) {
         LocalUser localUser = localUserDAO.getLocalUserByNameAndPass(name, pass);
-        if (localUser != null){
+        if (localUser != null) {
             return localUser;
         }
         return null;
@@ -53,69 +53,38 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
 
     @Override
     @Transactional
-    public List<LocalUser> listLocalUser(){
+    public List<LocalUser> listLocalUser() {
         return localUserDAO.listLocalUser();
     }
 
     @Override
     @Transactional
-    public String saveUser(LocalUserForm form){
+    public String saveUser(LocalUserForm form) {
         LocalUserAssembler assembler = new LocalUserAssembler();
-        LocalUser persistentUser = assembler.fromFormToBean(form);
+        LocalUser transientUser = assembler.fromFormToBean(form);
         for (int roleId : form.getRoleId()) {
-            persistentUser.addUserRole(userRoleDAO.getById(roleId));
+            transientUser.addUserRole(userRoleDAO.getById(roleId));
         }
-        LocalUser transientUser = localUserDAO.getByName(form.getUsername());
-        if(form.isNew()){
-            return create(transientUser, persistentUser);
-        }
-        else{
-            return update(transientUser, persistentUser);
-        }
-    }
-
-    private String create(LocalUser transientUser, LocalUser persistentUser) {
-        if (transientUser == null) {
-            return createNew(persistentUser);
-        }
-        return checkTryRestoreDeleted(transientUser);
-    }
-
-    private String createNew(LocalUser persistentUser){
-        persistentUser.setStatus(Status.ACTIVE);
-        localUserDAO.create(persistentUser);
-        return "user.success.add";
-    }
-
-    private String checkTryRestoreDeleted(LocalUser transientUser){
-        if (transientUser.getStatus() == Status.DELETED) {
-            return "user.error.restored";
+        if (form.isNew()) {
+            transientUser.setStatus(Status.ACTIVE);
+            localUserDAO.create(transientUser);
+            return "user.success.add";
         } else {
-            return "user.error.create";
-        }
-    }
-
-    private String update(LocalUser transientUser, LocalUser persistentUser){
-        if(transientUser != null) {
-            return updateTransient(transientUser, persistentUser);
-        }else{
-            localUserDAO.update(persistentUser);
-            return "user.success.update";
-        }
-    }
-
-    private String updateTransient(LocalUser transientUser, LocalUser persistentUser){
-        if (transientUser.getId().equals(persistentUser.getId()) && transientUser.getUsername().equals(persistentUser.getUsername())) {
             localUserDAO.update(transientUser);
             return "user.success.update";
-        } else {
-            return "user.error.update";
         }
     }
 
     @Override
     @Transactional
-    public void deleteUser(Integer id){
+    public boolean checkUniqueUserName(LocalUserForm form) {
+        LocalUser user = localUserDAO.getByName(form.getUsername());
+        return user == null || user.getId().equals(form.getId()) && user.getUsername().equals(form.getUsername());
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Integer id) {
         localUserDAO.setStatusDelete(id);
     }
 
@@ -125,7 +94,7 @@ public class LocalUserDataServiceImpl implements LocalUserDataService {
         LocalUserAssembler assembler = new LocalUserAssembler();
         LocalUserForm result = null;
         LocalUser bean = localUserDAO.getById(id);
-        if (bean != null){
+        if (bean != null) {
             LocalUserForm form = assembler.fromBeanToForm(bean);
             ArrayList<Integer> roleList = new ArrayList<Integer>();
             for (UserRole userRole : bean.getUserRoles()) {
