@@ -28,53 +28,23 @@ public class UserRoleDataServiceImpl implements UserRoleDataService {
     @Transactional
     public String saveRole(UserRoleForm form){
         UserRoleAssembler assembler = new UserRoleAssembler();
-        UserRole persistentRole = assembler.fromFormToBean(form);
-        UserRole transientRole = userRoleDAO.getByName(form.getName());
+        UserRole transientRole = assembler.fromFormToBean(form);
         if(form.isNew()){
-            return create(transientRole, persistentRole);
+            transientRole.setStatus(Status.ACTIVE);
+            userRoleDAO.create(transientRole);
+            return "userrole.success.add";
         }
         else{
-            return update(transientRole, persistentRole);
-        }
-    }
-
-    private String create(UserRole transientRole, UserRole persistentRole) {
-        if (transientRole == null) {
-            return createNew(persistentRole);
-        }
-        return checkTryRestoreDeleted(transientRole);
-    }
-
-    private String createNew(UserRole persistentRole){
-        persistentRole.setStatus(Status.ACTIVE);
-        userRoleDAO.create(persistentRole);
-        return "userrole.success.add";
-    }
-
-    private String checkTryRestoreDeleted(UserRole transientRole){
-        if (transientRole.getStatus() == Status.DELETED) {
-            return "userrole.error.restored";
-        } else {
-            return "userrole.error.create";
-        }
-    }
-
-    private String update(UserRole transientRole, UserRole persistentRole){
-        if(transientRole != null) {
-            return updateTransient(transientRole, persistentRole);
-        }else{
-            userRoleDAO.update(persistentRole);
-            return "userrole.success.update";
-        }
-    }
-
-    private String updateTransient(UserRole transientRole, UserRole persistentRole){
-        if (transientRole.getId().equals(persistentRole.getId()) && transientRole.getName().equals(persistentRole.getName())) {
             userRoleDAO.update(transientRole);
             return "userrole.success.update";
-        } else {
-            return "userrole.error.update";
         }
+    }
+
+    @Override
+    @Transactional
+    public boolean checkUniqueRoleName(UserRoleForm form) {
+        UserRole role = userRoleDAO.getByName(form.getName());
+        return role == null || role.getId().equals(form.getId()) && role.getName().equals(form.getName());
     }
 
     @Override

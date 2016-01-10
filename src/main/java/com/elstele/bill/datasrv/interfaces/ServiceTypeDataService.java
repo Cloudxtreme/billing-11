@@ -19,5 +19,5 @@ public interface ServiceTypeDataService {
     public String saveServiceAttribute(ServiceInternetAttributeForm form);
     public void deleteServiceAttribute(Integer serviceAttributeId);
     public ServiceInternetAttributeForm getServiceAttributeForm(Integer serviceAttributeId, Integer serviceId);
-
+    public boolean checkUniqueTypeName(ServiceTypeForm form);
 }

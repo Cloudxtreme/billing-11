@@ -29,54 +29,23 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     @Transactional
     public String saveServiceType(ServiceTypeForm form) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
-        ServiceType persistentService = assembler.fromFormToBean(form);
-        ServiceType transientService = serviceTypeDAO.getByName(form.getName());
+        ServiceType transientService = assembler.fromFormToBean(form);
         if (form.isNew()) {
-            return create(transientService, persistentService);
+            transientService.setStatus(Status.ACTIVE);
+            serviceTypeDAO.create(transientService);
+            return "service.success.add";
         } else {
-            return update(transientService, persistentService);
-        }
-    }
-
-    private String create(ServiceType transientService, ServiceType persistentService) {
-        if (transientService == null) {
-            return createNew(persistentService);
-        }
-        return checkTryRestoreDeleted(transientService);
-    }
-
-    private String createNew(ServiceType persistentService){
-        persistentService.setStatus(Status.ACTIVE);
-        serviceTypeDAO.create(persistentService);
-        return "service.success.add";
-    }
-
-    private String checkTryRestoreDeleted(ServiceType transientService){
-        if (transientService.getStatus() == Status.DELETED) {
-            return "service.error.restored";
-        } else {
-            return "service.error.create";
-        }
-    }
-
-    private String update(ServiceType transientService, ServiceType persistentService){
-        if(transientService != null) {
-            return updateTransient(transientService, persistentService);
-        }else{
-            serviceTypeDAO.update(persistentService);
-            return "service.success.update";
-        }
-    }
-
-    private String updateTransient(ServiceType transientService, ServiceType persistentService){
-        if (transientService.getId().equals(persistentService.getId()) && transientService.getName().equals(persistentService.getName())) {
             serviceTypeDAO.update(transientService);
             return "service.success.update";
-        } else {
-            return "service.error.update";
         }
     }
 
+    @Override
+    @Transactional
+    public boolean checkUniqueTypeName(ServiceTypeForm form) {
+        ServiceType type = serviceTypeDAO.getByName(form.getName());
+        return type == null || type.getId().equals(form.getId()) && type.getName().equals(form.getName());
+    }
 
     @Override
     @Transactional

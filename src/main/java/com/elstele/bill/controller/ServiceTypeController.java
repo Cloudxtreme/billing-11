@@ -65,9 +65,13 @@ public class ServiceTypeController {
             return mav;
         }
         else{
-            String message = serviceTypeDataService.saveServiceType(form);
             ModelAndView mav = new ModelAndView("serviceType");
-            mav.addObject(messagei18nHelper.getTypeMessage(message), messagei18nHelper.getMessage(message));
+            if(serviceTypeDataService.checkUniqueTypeName(form)) {
+                String message = serviceTypeDataService.saveServiceType(form);
+                mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
+            }else{
+                mav.addObject(Constants.ERROR_MESSAGE, messagei18nHelper.getMessage(Constants.SERVICE_ERROR_UNIQUE_NAME));
+            }
             mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             return mav;
         }

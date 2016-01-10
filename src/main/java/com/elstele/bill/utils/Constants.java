@@ -37,6 +37,8 @@ public class  Constants {
     public static final String USER_SUCCESS_DELETE = "user.success.deleted";
     public static final String USER_SUCCESS_ADD = "user.success.add";
     public static final String USER_ERROR_UNIQUE_NAME = "user.error.unique.name";
+    public static final String SERVICE_ERROR_UNIQUE_NAME = "service.error.unique.name";
     public static final String USER_ROLE_SUCCESS_DELETE = "userrole.success.delete";
     public static final String USER_ROLE_SUCCESS_ADD = "userrole.success.add";
+    public static final String USERROLE_ERROR_UNIQUE_NAME = "userrole.error.unique.name";
 }

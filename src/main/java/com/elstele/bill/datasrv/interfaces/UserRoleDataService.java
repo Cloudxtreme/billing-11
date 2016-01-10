@@ -12,4 +12,5 @@ public interface UserRoleDataService {
     public void deleteRole(Integer id);
     public List<UserRoleForm> listUserRole();
     public UserRoleForm getUserRoleFormById(Integer id);
+    public boolean checkUniqueRoleName(UserRoleForm form);
 }
