@@ -11,7 +11,6 @@ public class CalendarUtils {
         Calendar calendar =  Calendar.getInstance();
         return calendar.get(Calendar.MONTH) - decriment;
     }
-
     public String getYearMonthAfterDecriment(int decriment){
         Calendar calendar =  Calendar.getInstance();
         calendar.add(Calendar.MONTH, -decriment);
@@ -25,13 +24,6 @@ public class CalendarUtils {
     public Integer getCurrentYear(){
         Calendar calendar =  Calendar.getInstance();
         return calendar.get(Calendar.YEAR);
-    }
-    public String getMonthNameByNumber(int monthNumber){
-        Calendar calendar =  Calendar.getInstance();
-        calendar.set(Calendar.MONTH, monthNumber);
-        String monthName  = new SimpleDateFormat("MMM").format(calendar.getTime());
-//           String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ); // full eng month name
-        return monthName;
     }
     public Integer getLastDayOfMonth(int year, int month) {
         Calendar calendar = Calendar.getInstance();
@@ -48,5 +40,11 @@ public class CalendarUtils {
             c.add(Calendar.MONTH, 1);
         }
         return dateList;
+    }
+    public String getMonthNameByNumber(int monthNumber){
+        Calendar calendar =  Calendar.getInstance();
+        calendar.set(Calendar.MONTH, monthNumber);
+        String monthName  = new SimpleDateFormat("MMM").format(calendar.getTime());
+        return monthName;
     }
 }

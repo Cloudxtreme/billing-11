@@ -18,7 +18,9 @@ $(document).ready(function () {
     });
 
     $('body').on('click','.btn-toolbar',function(){
-        ajaxBuildDayStatistic(this.id);//alert(this.id);
+        $( "button" ).removeClass( 'buttonSelected' );
+        $(this).addClass('buttonSelected');
+        ajaxBuildDayStatistic(this.id);
     });
 
     $('#searchBtn').on('click', function () {

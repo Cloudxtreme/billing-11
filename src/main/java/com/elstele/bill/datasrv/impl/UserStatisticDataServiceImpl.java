@@ -23,14 +23,15 @@ public class UserStatisticDataServiceImpl implements UserStatisticDataService {
 
     @Override
     @Transactional
-    public List<CustomizeCalendar> getCustomizeCalendar(Integer login, String startDate, String endDate)  throws ParseException {
+    public List<CustomizeCalendar> getCustomizeCalendar(String login, String startDate, String endDate)  throws ParseException {
         CalendarUtils calendarUtils = new CalendarUtils();
-
         List<CustomizeCalendar> calendarList = new ArrayList<>();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         Date dateStart = sdf.parse(startDate);
         Date dateEnd = sdf.parse(endDate);
         List<Date> listMonthYearBetweenDates = calendarUtils.getMonthYearListBetweenTwoDates(dateStart, dateEnd);
+
         for (Date curMonthYear : listMonthYearBetweenDates) {
             CustomizeCalendar calendar = new CustomizeCalendar();
             Calendar cal = Calendar.getInstance();
@@ -38,11 +39,11 @@ public class UserStatisticDataServiceImpl implements UserStatisticDataService {
             int month = cal.get(Calendar.MONTH);
             int year = cal.get(Calendar.YEAR);
 
-            calendar.setMonthName(calendarUtils.getMonthNameByNumber(month));
+            calendar.setMonthName(month);
             calendar.setMonthNumber(month + 1);
             calendar.setYear(year);
             List<CustomizeCalendar.CustomizeDay> statisticDayslist = new ArrayList<>();
-            int lastDayOfMonth = calendarUtils.getLastDayOfMonth(year, month);
+            int lastDayOfMonth = calendar.getLastDayOfMonth(year, month);
             List visitDays = userStatisticDAO.getUserActivityStatisticPerDay(login, year + "-" + (month + 1) + "-01", year + "-" + (month + 1) + "-" + lastDayOfMonth);
             for (int i=1; i<=lastDayOfMonth; i++){
                 CustomizeCalendar.CustomizeDay statisticDays = calendar.new CustomizeDay();
@@ -60,7 +61,7 @@ public class UserStatisticDataServiceImpl implements UserStatisticDataService {
 
     @Override
     @Transactional
-    public List<Radacct> getDailyStatistic(Integer login, String date) {
+    public List<Radacct> getDailyStatistic(String login, String date) {
         List<Radacct> visitDays = userStatisticDAO.getDailyStatistic(login, date);
         return visitDays;
     }

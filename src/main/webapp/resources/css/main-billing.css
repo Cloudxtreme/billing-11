@@ -66,3 +66,11 @@
 .ui-datepicker-calendar {
     display: none;
 }
+.buttonSelected{
+    background-color:#028FC0;
+    color:#fff;
+    border:1px solid;
+    border-color: #002a80 #002a80 #002a80 #002a80;
+    padding-left: 7px;
+    padding-right: 8px;
+}

@@ -2,31 +2,20 @@ package com.elstele.bill.dao.impl;
 
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
-import com.elstele.bill.dao.interfaces.UserRoleDAO;
 import com.elstele.bill.dao.interfaces.UserStatisticDAO;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Radacct;
-import com.elstele.bill.domain.UserRole;
-import com.elstele.bill.utils.CustomizeCalendar;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
-import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class UserStatisticDAOImpl extends CommonDAOImpl<Account> implements UserStatisticDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
-
     @Override
-    public List getUserActivityStatisticPerDay(Integer login, String startDate, String endDate){
+    public List getUserActivityStatisticPerDay(String login, String startDate, String endDate){
         SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery(
                 "select distinct( to_char(acctstoptime, 'dd') ) from radacct where " +
                         "username='"+login+"' and " +
@@ -35,11 +24,24 @@ public class UserStatisticDAOImpl extends CommonDAOImpl<Account> implements User
         return query.list();
     }
 
+/*
     @Override
-    public List<Radacct> getDailyStatistic(Integer login, String date) {
+    public List<Radacct> getDailyStatistic(String login, String date) {
         Query query = getSessionFactory().getCurrentSession().createQuery(
                 "from Radacct where username='"+login+"' and " +
                         "(acctstoptime >= '"+date+" 00:00:00' and acctstoptime <= '"+date+" 23:59:59')");
+        return (List<Radacct>) query.list();
+    }
+*/
+
+    public List<Radacct> getDailyStatistic(String login, String date) {
+        String q = "select radacctid,username,text(nasipaddress) as nasipaddress,nasportid,acctstarttime,acctsessiontime,acctstoptime," +
+                "text(framedipaddress) as framedipaddress,acctinputoctets,acctoutputoctets,acctterminatecause" +
+                " from radacct where " +
+                "username='"+login+"' and " +
+                "CAST(acctstoptime AS DATE) =  CAST('"+date+"' AS DATE);";
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(q)
+                .setResultTransformer(Transformers.aliasToBean(Radacct.class));
         return (List<Radacct>) query.list();
     }
 }

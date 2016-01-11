@@ -2,7 +2,7 @@ package com.elstele.bill.utils;
 
 import java.util.List;
 
-public class CustomizeCalendar {
+public class CustomizeCalendar extends CalendarUtils{
     private String monthName;
     private Integer monthNumber;
     private Integer year;
@@ -14,6 +14,10 @@ public class CustomizeCalendar {
 
     public void setMonthName(String monthName) {
         this.monthName = monthName;
+    }
+
+    public void setMonthName(Integer monthNumber) {
+        this.monthName = getMonthNameByNumber(monthNumber);
     }
 
     public Integer getMonthNumber() {

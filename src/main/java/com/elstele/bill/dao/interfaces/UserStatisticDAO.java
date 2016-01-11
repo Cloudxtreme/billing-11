@@ -8,6 +8,6 @@ import com.elstele.bill.utils.CustomizeCalendar;
 import java.util.List;
 
 public interface UserStatisticDAO extends CommonDAO<Account> {
-    public List getUserActivityStatisticPerDay(Integer login, String startDate, String endDate);
-    public List<Radacct> getDailyStatistic(Integer login, String date);
+    public List getUserActivityStatisticPerDay(String login, String startDate, String endDate);
+    public List<Radacct> getDailyStatistic(String login, String date);
 }

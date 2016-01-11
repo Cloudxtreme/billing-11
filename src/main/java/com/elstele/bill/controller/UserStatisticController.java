@@ -23,8 +23,7 @@ public class UserStatisticController {
     private UserStatisticDataService userStatisticDataService;
 
     @RequestMapping(value="/statistic", method = RequestMethod.GET)
-    public ModelAndView serviceTypeList(@RequestParam(value = "login") int login)  throws ParseException
-    {
+    public ModelAndView serviceTypeList(@RequestParam(value = "login") String login)  throws ParseException{
         ModelAndView mav = new ModelAndView("userStatistic");
         CalendarUtils calendarUtils = new CalendarUtils();
 
@@ -37,7 +36,7 @@ public class UserStatisticController {
     @RequestMapping(value = "getUserStatisticForPeriod", method = RequestMethod.GET)
     @ResponseBody
     public List<CustomizeCalendar> getUserStatisticForPeriod(HttpServletRequest request,
-                                             @RequestParam(value = "login") int login,
+                                             @RequestParam(value = "login") String login,
                                              @RequestParam(value = "startDate") String startDate,
                                              @RequestParam(value = "endDate") String endDate) throws ParseException{
         List<CustomizeCalendar> result = userStatisticDataService.getCustomizeCalendar(login, startDate, endDate);
@@ -47,7 +46,7 @@ public class UserStatisticController {
     @RequestMapping(value = "getUserDailyStatistic", method = RequestMethod.GET)
     @ResponseBody
     public List<Radacct> getUserDailyStatistic(HttpServletRequest request,
-                                                             @RequestParam(value = "login") int login,
+                                                             @RequestParam(value = "login") String login,
                                                              @RequestParam(value = "date") String date){
         List<Radacct> result = userStatisticDataService.getDailyStatistic(login, date);
         return result;
