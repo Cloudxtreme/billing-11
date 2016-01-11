@@ -1,7 +1,10 @@
 package com.elstele.bill.validator;
 
+import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceTypeForm;
+import com.elstele.bill.utils.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -10,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceTypeValidator implements Validator{
+    @Autowired
+    ServiceTypeDataService serviceTypeDataService;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return ServiceType.class.isAssignableFrom(clazz);
@@ -22,5 +28,8 @@ public class ServiceTypeValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "description.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "price.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "serviceType", "serviceType.required");
+        if(!serviceTypeDataService.checkUniqueTypeName(service)){
+            errors.rejectValue("name", Constants.SERVICE_ERROR_UNIQUE_NAME);
+        }
     }
 }

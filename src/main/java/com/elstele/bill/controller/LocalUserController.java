@@ -137,12 +137,8 @@ public class LocalUserController {
             return mav;
         } else {
             ModelAndView mav = new ModelAndView("user_role_list");
-            if(userRoleDataService.checkUniqueRoleName(form)){
-                String message = userRoleDataService.saveRole(form);
-                mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
-            }else{
-                mav.addObject(Constants.ERROR_MESSAGE, messagei18nHelper.getMessage(Constants.USERROLE_ERROR_UNIQUE_NAME));
-            }
+            String message = userRoleDataService.saveRole(form);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("userRoleList", userRoleDataService.listUserRole());
             return mav;
         }
@@ -198,12 +194,8 @@ public class LocalUserController {
             return mav;
         } else {
             ModelAndView mav = new ModelAndView("user_panel");
-            if(localUserDataService.checkUniqueUserName(form)) {
-                String message = localUserDataService.saveUser(form);
-                mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
-            }else {
-                mav.addObject(Constants.ERROR_MESSAGE, messagei18nHelper.getMessage(Constants.USER_ERROR_UNIQUE_NAME));
-            }
+            String message = localUserDataService.saveUser(form);
+            mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("userList", localUserDataService.listLocalUser());
             mav.addObject("roleList", userRoleDataService.listUserRole());
             return mav;
