@@ -4,6 +4,8 @@ import com.elstele.bill.datasrv.interfaces.UserRoleDataService;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.UserRoleForm;
 import com.elstele.bill.utils.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserRoleValidator implements Validator{
     @Autowired
     UserRoleDataService userRoleDataService;
+    final static Logger log = LogManager.getLogger(UserRoleValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -31,6 +34,7 @@ public class UserRoleValidator implements Validator{
         }
         if(!userRoleDataService.checkUniqueRoleName(role)){
             errors.rejectValue("name", Constants.USERROLE_ERROR_UNIQUE_NAME);
+            log.info(role.getName() + " was trying add non-unique name in UserRole");
         }
 
     }

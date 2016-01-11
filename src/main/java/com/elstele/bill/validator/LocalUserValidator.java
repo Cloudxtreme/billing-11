@@ -4,6 +4,8 @@ import com.elstele.bill.datasrv.interfaces.LocalUserDataService;
 import com.elstele.bill.domain.UserRole;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.utils.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -12,9 +14,10 @@ import org.springframework.validation.Validator;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LocalUserValidator implements Validator{
+public class LocalUserValidator implements Validator {
     @Autowired
     LocalUserDataService localUserDataService;
+    final static Logger log = LogManager.getLogger(LocalUserValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -36,8 +39,9 @@ public class LocalUserValidator implements Validator{
         if (user.getRoleId() == null || user.getRoleId().size() < 1) {
             errors.rejectValue("roleId", "role.required");
         }
-        if(!localUserDataService.checkUniqueUserName(user)){
+        if (!localUserDataService.checkUniqueUserName(user)) {
             errors.rejectValue("username", Constants.USER_ERROR_UNIQUE_NAME);
+            log.info(user.getUsername() + " was trying add non-unique name in Localuser");
         }
     }
 }

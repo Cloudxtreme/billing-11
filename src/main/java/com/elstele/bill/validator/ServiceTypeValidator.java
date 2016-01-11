@@ -4,6 +4,8 @@ import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceTypeForm;
 import com.elstele.bill.utils.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class ServiceTypeValidator implements Validator{
     @Autowired
     ServiceTypeDataService serviceTypeDataService;
+    final static Logger log = LogManager.getLogger(ServiceTypeValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -30,6 +33,7 @@ public class ServiceTypeValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "serviceType", "serviceType.required");
         if(!serviceTypeDataService.checkUniqueTypeName(service)){
             errors.rejectValue("name", Constants.SERVICE_ERROR_UNIQUE_NAME);
+            log.info(service.getName() + " was trying add non-unique name in ServiceType");
         }
     }
 }
