@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class BillingDataServiceImpl implements BillingDataService {
@@ -60,4 +61,11 @@ public class BillingDataServiceImpl implements BillingDataService {
         return transaction;
     }
 
+    @Transactional
+    public void copyCurAccountBalToHistBalance() {
+        List<Account> accounts = accountDAO.getAccountList();
+        for (Account acc : accounts){
+            transactionDAO.copyBalsnceToHistBalanceForAccount(acc.getId(), acc.getCurrentBalance());
+        }
+    }
 }

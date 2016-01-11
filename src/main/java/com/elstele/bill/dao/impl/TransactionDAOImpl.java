@@ -76,4 +76,14 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
         }
         return query;
     }
+
+
+    public void copyBalsnceToHistBalanceForAccount(Integer accountId, Float balance) {
+        Query query;
+        String sql = "INSERT INTO hist_balance (account, balance) VALUES (:accountId, :balance)";
+        query = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                .setParameter("accountId", accountId)
+                .setParameter("balance", balance);
+        query.executeUpdate();
+    }
 }

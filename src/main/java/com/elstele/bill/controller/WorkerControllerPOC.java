@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.interfaces.BillingDataService;
 import com.elstele.bill.datasrv.interfaces.CallBillingService;
 import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.executors.BillingServiceProcessor;
@@ -29,6 +30,9 @@ public class WorkerControllerPOC {
 
     @Autowired
     private BillingServiceProcessor billingServiceProcessor;
+
+    @Autowired
+    private BillingDataService billingDataService;
 
     @RequestMapping(value="/starttask", method = RequestMethod.GET)
     @ResponseBody
@@ -69,16 +73,18 @@ public class WorkerControllerPOC {
     @RequestMapping(value="/billService", method = RequestMethod.GET)
     @ResponseBody
     public String billServices(HttpServletRequest request){
-
         //this call need to be in runnable
         //billService.updateCallWithItCost(id);
         Integer processed = billingServiceProcessor.billAllServices();
-
-
-
         return "";
     }
 
+    @RequestMapping(value="/copyBalance", method = RequestMethod.GET)
+    @ResponseBody
+    public String copyBalance(HttpServletRequest request){
+        billingDataService.copyCurAccountBalToHistBalance();
+        return "done";
+    }
 
 
 

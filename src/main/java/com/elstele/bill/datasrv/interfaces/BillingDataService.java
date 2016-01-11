@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BillingDataService {
     public Integer createTransactionAndDecreaseBalance(Integer serviceId);
+    public void copyCurAccountBalToHistBalance();
 }
