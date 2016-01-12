@@ -1,19 +1,10 @@
-package com.elstele.bill.domain;
+package com.elstele.bill.billparts;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
-import javax.persistence.*;
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.util.Date;
 
 public class Radacct {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name="radacctid", columnDefinition = "serial")
-    @Generated(GenerationTime.INSERT)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger radacctid;
     private String username;
     private String nasipaddress;
@@ -42,7 +33,7 @@ public class Radacct {
         this.username = username;
     }
 
-    public String getNasipaddress() {
+    public String getNasipaddress() {   
         return nasipaddress;
     }
 

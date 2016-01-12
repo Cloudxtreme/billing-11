@@ -28,10 +28,5 @@
         <mapping class="com.elstele.bill.domain.CallForCSV"/>
         <mapping class="com.elstele.bill.domain.Transaction"/>
         <mapping class="com.elstele.bill.domain.Street"/>
-        <mapping class="com.elstele.bill.domain.Radacct"/>
-
-
-
     </session-factory>
-         
 </hibernate-configuration>

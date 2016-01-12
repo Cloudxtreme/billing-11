@@ -2,7 +2,7 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.dao.interfaces.UserStatisticDAO;
 import com.elstele.bill.datasrv.interfaces.UserStatisticDataService;
-import com.elstele.bill.domain.Radacct;
+import com.elstele.bill.billparts.Radacct;
 import com.elstele.bill.utils.CalendarUtils;
 import com.elstele.bill.utils.CustomizeCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +38,10 @@ public class UserStatisticDataServiceImpl implements UserStatisticDataService {
             cal.setTime(curMonthYear);
             int month = cal.get(Calendar.MONTH);
             int year = cal.get(Calendar.YEAR);
-
             calendar.setMonthName(month);
             calendar.setMonthNumber(month + 1);
             calendar.setYear(year);
-            List<CustomizeCalendar.CustomizeDay> statisticDayslist = new ArrayList<>();
-            int lastDayOfMonth = calendar.getLastDayOfMonth(year, month);
-            List visitDays = userStatisticDAO.getUserActivityStatisticPerDay(login, year + "-" + (month + 1) + "-01", year + "-" + (month + 1) + "-" + lastDayOfMonth);
-            for (int i=1; i<=lastDayOfMonth; i++){
-                CustomizeCalendar.CustomizeDay statisticDays = calendar.new CustomizeDay();
-                statisticDays.setDayNumber(i);
-                String addNull = (i<10) ? "0" : "";
-                if(!visitDays.contains(""+addNull+i+""))
-                    statisticDays.setDisabled("disabled");
-                statisticDayslist.add(statisticDays);
-            }
-            calendar.setDayList(statisticDayslist);
+            calendar.setDayList(getDaysList(calendar,login));
             calendarList.add(calendar);
         }
         return calendarList;
@@ -65,4 +53,21 @@ public class UserStatisticDataServiceImpl implements UserStatisticDataService {
         List<Radacct> visitDays = userStatisticDAO.getDailyStatistic(login, date);
         return visitDays;
     }
+
+    private List<CustomizeCalendar.CustomizeDay> getDaysList(CustomizeCalendar calendar, String login){
+        List<CustomizeCalendar.CustomizeDay> statisticDayslist = new ArrayList<>();
+        int lastDayOfMonth = calendar.getLastDayOfMonth(calendar.getYear(), (calendar.getMonthNumber()-1));
+        List visitDays = userStatisticDAO.getUserActivityStatisticPerDay(login, calendar.getYear() + "-" + calendar.getMonthNumber() + "-01", calendar.getYear() + "-" + calendar.getMonthNumber() + "-" + lastDayOfMonth);
+
+        for (int i=1; i<=lastDayOfMonth; i++){
+            CustomizeCalendar.CustomizeDay statisticDays = calendar.new CustomizeDay();
+            statisticDays.setDayNumber(i);
+            String addNull = (i<10) ? "0" : "";
+            if(!visitDays.contains(""+addNull+i+""))
+                statisticDays.setDisabled("disabled");
+            statisticDayslist.add(statisticDays);
+        }
+        return statisticDayslist;
+    }
+
 }

@@ -4,7 +4,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.UserStatisticDAO;
 import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Radacct;
+import com.elstele.bill.billparts.Radacct;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
