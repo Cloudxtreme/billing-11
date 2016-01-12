@@ -55,7 +55,6 @@
             <th><spring:message code="label.price"/></th>
         </tr>
 
-        </tr>
         <c:forEach items="${serviceTypeList}" var="service">
             <label for="${service.id}">
                 <tr id="${service.id}">

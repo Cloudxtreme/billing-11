@@ -184,6 +184,7 @@
                                                     <c:when test="${accountService.serviceType.serviceType == 'INTERNET'}">
                                                         login: ${accountService.serviceInternet.username}<br>
                                                         ip: ${accountService.serviceInternet.ip.ipName}<br>
+                                                        <a href="${pageContext.request.contextPath}/statistic?login=${accountService.serviceInternet.username}" id="visitsStatistic" class="btn btn-sm btn-info">Statistic</a>
                                                     </c:when>
                                                     <c:when test="${accountService.serviceType.serviceType == 'PHONE'}">
                                                         ${accountService.servicePhone.phoneNumber}
