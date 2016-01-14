@@ -60,7 +60,7 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public void setUploadedFileInfoStatus(Integer id) {
+    public void setUploadedFileInfoStatusDelete(Integer id) {
         uploadedFileInfoDAO.setStatusDelete(id);
     }
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletContext;
 
 import org.apache.logging.log4j.Logger;
+import static com.elstele.bill.utils.Constants.PATH_TO_CSV_FOLDER;
 
 @Service
 public class ReportDataServiceImpl implements ReportDataService {
@@ -29,7 +30,7 @@ public class ReportDataServiceImpl implements ReportDataService {
         ReportDetails reportDetails = new ReportDetails();
         reportDetails.setYear(reportParametersArray[0]);
         reportDetails.setMonth(reportParametersArray[1]);
-        reportDetails.setPath(ctx.getRealPath("resources\\files\\csvFiles"));
+        reportDetails.setPath(ctx.getRealPath(PATH_TO_CSV_FOLDER));
 
         for (int i = 2; i < reportParametersArray.length; i++) {
             reportDetails.setReportName(reportParametersArray[i]);

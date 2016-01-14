@@ -5,6 +5,7 @@ import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import com.elstele.bill.utils.PropertiesHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
+import static com.elstele.bill.utils.Constants.PATH_TO_UPLOAD_FOLDER;
 
 @Controller
 public class FileUploadController {
@@ -28,6 +30,8 @@ public class FileUploadController {
     CallDataService callDataService;
     @Autowired
     ServletContext ctx;
+    @Autowired
+    PropertiesHelper propertiesHelper;
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
@@ -47,9 +51,14 @@ public class FileUploadController {
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax putFileToFolder(MultipartHttpServletRequest request,HttpServletRequest requestHttp) throws IOException {
-        String fileName = null;
+        //TODO refactor this method, move logic from controller
+
         ctx = requestHttp.getSession().getServletContext();
-        String path = ctx.getRealPath("resources\\files");
+        String path = null;
+        path = propertiesHelper.getKDFFilesDirectory();
+        if (path == null){
+            path = ctx.getRealPath(PATH_TO_UPLOAD_FOLDER);
+        }
 
         Iterator<String> iter = request.getFileNames();
         MultipartFile multipartFile = null;
@@ -57,8 +66,7 @@ public class FileUploadController {
             try {
                 multipartFile = request.getFile(iter.next());
                 UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
-
-                fileName = multipartFile.getContentType();
+                String fileName = multipartFile.getContentType();
                 if (fileName.equalsIgnoreCase("application/octet-stream")) {
                     uploadedFileInfoForm.setPath(multipartFile.getOriginalFilename());
                     uploadedFileInfoForm.setFileName(multipartFile.getName());
@@ -75,6 +83,7 @@ public class FileUploadController {
                     return ResponseToAjax.INCORRECTTYPE;
                 }
             } catch (IOException e) {
+                //todo log error must be here
                 return ResponseToAjax.ERROR;
             }
         }

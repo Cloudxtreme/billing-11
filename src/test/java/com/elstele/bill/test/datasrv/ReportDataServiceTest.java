@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
+import static com.elstele.bill.utils.Constants.PATH_TO_CSV_FOLDER;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportDataServiceTest {
@@ -36,7 +37,7 @@ public class ReportDataServiceTest {
         factory  = new ReportCreatorFactory();
         reportDetails = new ReportDetails();
         reportDetails.setMonth("01");
-        reportDetails.setPath("resources\\files\\csvFiles");
+        reportDetails.setPath(PATH_TO_CSV_FOLDER);
         reportDetails.setReportName("longReport");
         reportDetails.setYear("2000");
     }

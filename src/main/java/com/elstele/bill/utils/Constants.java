@@ -42,4 +42,7 @@ public class  Constants {
     public static final String USER_ROLE_SUCCESS_DELETE = "userrole.success.delete";
     public static final String USER_ROLE_SUCCESS_ADD = "userrole.success.add";
     public static final String USERROLE_ERROR_UNIQUE_NAME = "userrole.error.unique.name";
+
+    public static final String PATH_TO_UPLOAD_FOLDER = "resources\\files";
+    public static final String PATH_TO_CSV_FOLDER = "resources\\files\\csvFiles";
 }

@@ -53,6 +53,7 @@ public class DeviceController {
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList(HttpSession session) {
+        log.info("getDeviceList fired");
         List<DeviceForm> result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("deviceModel");
         mav.addObject("list", result);
@@ -62,6 +63,7 @@ public class DeviceController {
     @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceTypeList() {
+        log.info("getDeviceTypeList started");
         ModelAndView model = new ModelAndView("devicetypelistModel");
         model.addObject("devicetypelist", deviceTypesDataService.getDeviceTypes());
         return model;
