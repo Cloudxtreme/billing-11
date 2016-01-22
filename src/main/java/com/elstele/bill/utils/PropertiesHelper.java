@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by ivan on 16/01/13.
- */
 @Service
 public class PropertiesHelper {
 

@@ -5,6 +5,7 @@ import com.elstele.bill.controller.FileUploadController;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import com.elstele.bill.utils.PropertiesHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -51,6 +52,9 @@ public class FileUploadControllerTest {
 
     @Mock
     UploadedFileInfoDataService uploadedFileInfoDataService;
+
+    @Mock
+    PropertiesHelper propertiesHelper;
 
     @InjectMocks
     FileUploadController controller;

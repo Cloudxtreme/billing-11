@@ -54,17 +54,15 @@ public class FileUploadController {
         //TODO refactor this method, move logic from controller
 
         ctx = requestHttp.getSession().getServletContext();
-        String path = null;
-        path = propertiesHelper.getKDFFilesDirectory();
+        String path = propertiesHelper.getKDFFilesDirectory();
         if (path == null){
             path = ctx.getRealPath(PATH_TO_UPLOAD_FOLDER);
         }
 
         Iterator<String> iter = request.getFileNames();
-        MultipartFile multipartFile = null;
         while (iter.hasNext()) {
             try {
-                multipartFile = request.getFile(iter.next());
+                MultipartFile multipartFile = request.getFile(iter.next());
                 UploadedFileInfoForm uploadedFileInfoForm = new UploadedFileInfoForm();
                 String fileName = multipartFile.getContentType();
                 if (fileName.equalsIgnoreCase("application/octet-stream")) {
