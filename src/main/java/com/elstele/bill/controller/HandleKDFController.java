@@ -8,6 +8,7 @@ import com.elstele.bill.form.CallForm;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import com.elstele.bill.utils.LocalDirPathProvider;
 import com.elstele.bill.utils.PropertiesHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,13 +22,10 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.elstele.bill.utils.Constants.PATH_TO_UPLOAD_FOLDER;
 
 
 @Controller
 public class HandleKDFController {
-    @Autowired
-    ServletContext ctx;
 
     @Autowired
     UploadedFileInfoDataService uploadedFileInfoDataService;
@@ -41,7 +39,8 @@ public class HandleKDFController {
     @Autowired
     private BillingCallsProcessor callBillProcessor;
 
-    @Autowired private PropertiesHelper propertiesHelper;
+    @Autowired
+    private LocalDirPathProvider pathProvider;
 
     final static Logger log = LogManager.getLogger(HandleKDFController.class);
 
@@ -75,11 +74,9 @@ public class HandleKDFController {
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
     public void handleFiles(@RequestBody String[] json) {
-        String path = propertiesHelper.getKDFFilesDirectory();
-        if (path == null){
-            path = ctx.getRealPath(PATH_TO_UPLOAD_FOLDER);
-        }
+        String path = pathProvider.getKDFDirectoryPath();
         File fileDir = new File(path);
+
         if (!fileDir.exists()) {
             boolean fileMark = false;
             try {

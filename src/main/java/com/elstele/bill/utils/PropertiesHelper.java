@@ -14,6 +14,7 @@ public class PropertiesHelper {
     final static Logger logger = LogManager.getLogger(PropertiesHelper.class);
     private Properties properties = null;
     private final static String KDF_UPLOAD_DIR = "kdfUploadFileDir";
+    private final static String CSV_UPLOAD_DIR = "csvUploadFileDir";
 
     private void init(){
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -32,4 +33,10 @@ public class PropertiesHelper {
         return properties.getProperty(KDF_UPLOAD_DIR);
     }
 
+    public String getCSVFilesDirectory(){
+        if (properties == null){
+            this.init();
+        }
+        return properties.getProperty(CSV_UPLOAD_DIR);
+    }
 }

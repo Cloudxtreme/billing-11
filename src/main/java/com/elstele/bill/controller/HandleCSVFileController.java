@@ -8,6 +8,7 @@ import com.elstele.bill.form.FileDirTreeGeneraterForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.exceptions.IncorrectReportNameException;
 import com.elstele.bill.exceptions.ResourceNotFoundException;
+import com.elstele.bill.utils.LocalDirPathProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import static com.elstele.bill.utils.Constants.PATH_TO_CSV_FOLDER;
 
 @Controller
 public class HandleCSVFileController {
@@ -31,6 +31,8 @@ public class HandleCSVFileController {
     ReportDataService reportDataService;
     @Autowired
     CSVParserDataService csvParserDataService;
+    @Autowired
+    LocalDirPathProvider pathProvider;
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -49,7 +51,7 @@ public class HandleCSVFileController {
     @RequestMapping(value = "/uploadcsvfile/generateFileTree", method = RequestMethod.POST)
     @ResponseBody
     public FileDirTreeGeneraterForm[] generateFileTree() {
-        path = ctx.getRealPath(PATH_TO_CSV_FOLDER);
+        path = pathProvider.getCSVDirectoryPath();
         FileTreeGenerater fileTreeGenerater = new FileTreeGenerater();
         return fileTreeGenerater.getFileTreeArray(path);
     }
@@ -64,14 +66,14 @@ public class HandleCSVFileController {
     @RequestMapping(value = "downloadFile", method = RequestMethod.GET)
     public void doDownload(HttpServletResponse response,
                            @RequestParam(value = "fileId") String id) throws IOException {
-        path = ctx.getRealPath(PATH_TO_CSV_FOLDER);
+        path = pathProvider.getCSVDirectoryPath();
         fileDownloadWorker.doFileDownload(path, id, response);
     }
 
     @RequestMapping(value = "downloadZIP", method = RequestMethod.GET)
     public void doDownloadZIP(HttpServletResponse response,
                               @RequestParam(value = "directoryName") String directoryName) throws IOException {
-        path = ctx.getRealPath(PATH_TO_CSV_FOLDER);
+        path = pathProvider.getCSVDirectoryPath();
         fileDownloadWorker.doArchiveDownload(path, directoryName, response);
     }
 

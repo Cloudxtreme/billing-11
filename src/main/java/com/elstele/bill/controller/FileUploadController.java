@@ -5,6 +5,7 @@ import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import com.elstele.bill.utils.LocalDirPathProvider;
 import com.elstele.bill.utils.PropertiesHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
-import static com.elstele.bill.utils.Constants.PATH_TO_UPLOAD_FOLDER;
 
 @Controller
 public class FileUploadController {
@@ -29,9 +29,7 @@ public class FileUploadController {
     @Autowired
     CallDataService callDataService;
     @Autowired
-    ServletContext ctx;
-    @Autowired
-    PropertiesHelper propertiesHelper;
+    LocalDirPathProvider pathProvider;
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
@@ -52,13 +50,7 @@ public class FileUploadController {
     @ResponseBody
     public ResponseToAjax putFileToFolder(MultipartHttpServletRequest request,HttpServletRequest requestHttp) throws IOException {
         //TODO refactor this method, move logic from controller
-
-        ctx = requestHttp.getSession().getServletContext();
-        String path = propertiesHelper.getKDFFilesDirectory();
-        if (path == null){
-            path = ctx.getRealPath(PATH_TO_UPLOAD_FOLDER);
-        }
-
+        String path = pathProvider.getKDFDirectoryPath();
         Iterator<String> iter = request.getFileNames();
         while (iter.hasNext()) {
             try {
