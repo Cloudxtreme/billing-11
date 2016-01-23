@@ -17,7 +17,7 @@ public class BillingCallWorker implements Runnable, Worker {
     private CallBillingService billService;
 
     private Integer callId;
-    final static Logger log = LogManager.getLogger(BillingCallWorker.class);
+    final static Logger LOGGER = LogManager.getLogger(BillingCallWorker.class);
 
 
     @Override
@@ -26,11 +26,11 @@ public class BillingCallWorker implements Runnable, Worker {
     }
 
     public void run(){
-        log.info("Worker runned with id:" + callId);
+        LOGGER.info("Worker runned with id:" + callId);
         try {
             billService.updateCallWithItCost(callId);
         } catch (DirectionCallException e) {
-            log.error(e.toString());
+            LOGGER.error(e.getMessage());
         }
     }
 

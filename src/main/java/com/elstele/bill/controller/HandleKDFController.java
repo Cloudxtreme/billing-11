@@ -84,9 +84,11 @@ public class HandleKDFController {
                 fileMark = true;
             } catch (SecurityException e) {
                 System.out.println(e.toString());
+                log.info(e.getMessage());
             }
             if (fileMark) {
                 System.out.println("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
+                log.info("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
             }
         }
         char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -184,6 +186,7 @@ public class HandleKDFController {
                 fs.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
+                log.info(e.getMessage());
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
             uploadedFileInfoDataService.updateFile(uploadedFileInfoForm);

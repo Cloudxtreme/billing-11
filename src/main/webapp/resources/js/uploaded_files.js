@@ -30,7 +30,7 @@ $(document).ready(function(){
             });
         $.ajax({
             type:"post",
-            url: '/uploadedfiles/handle',
+            url: './uploadedfiles/handle',
             data: JSON.stringify(values),
             datatype: "JSON",
             contentType: "application/json",
@@ -44,7 +44,7 @@ $(document).ready(function(){
             $('#confirm-delete').modal('hide');
             $.ajax({
                 type: "POST",
-                url: '/uploadedfiles/delete.html',
+                url: './uploadedfiles/delete.html',
                 data: $tr.attr('id'),
                 datatype: "JSON",
                 contentType: "application/json",
@@ -80,7 +80,7 @@ $(document).ready(function(){
 
     function getProgress(){
         $.ajax({
-            url: "/uploadedfiles/handle/getprogress",
+            url: "./uploadedfiles/handle/getprogress",
             success : function(data){
                 var width = (data);
                 if(data >0 && data < 100){
@@ -106,7 +106,7 @@ $(document).ready(function(){
 
     $('#handleCostTotal').on('click', function(){
         $.ajax({
-            url: "/worker/billCall",
+            url: "./worker/billCall",
             type: "Post",
             success: function(data){
                 if(data == "success") {
