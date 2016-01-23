@@ -92,10 +92,10 @@ $(document).ready(function(){
                     clearInterval(interval);
                     document.getElementById('successMessageReload').style.display="block";
                     setTimeout(function() {
-                        $("#successMessageReload").fadeOut(3000);
-                        $("#progress-bar").fadeOut(1500);
+                        $("#successMessageReload").fadeOut(7000);
+                        $("#progress-bar").fadeOut(5000);
                         location.reload();
-                    },3000);
+                    },15000);
 
                 }
             }

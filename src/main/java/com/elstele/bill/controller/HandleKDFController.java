@@ -9,7 +9,6 @@ import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
-import com.elstele.bill.utils.PropertiesHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletContext;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,8 +40,8 @@ public class HandleKDFController {
     @Autowired
     private LocalDirPathProvider pathProvider;
 
-    final static Logger log = LogManager.getLogger(HandleKDFController.class);
-
+    final static Logger LOGGER = LogManager.getLogger(HandleKDFController.class);
+    final static Integer BUFFER_SIZE = 32;
     float progress;
 
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
@@ -66,7 +64,7 @@ public class HandleKDFController {
             uploadedFileInfoDataService.setUploadedFileInfoStatusDelete(id);
             return "success";
         } catch (Exception e) {
-            log.error(e.toString() + " Method deleteDevice");
+            LOGGER.error(e.toString() + " Method deleteDevice");
             return "error";
         }
     }
@@ -84,11 +82,11 @@ public class HandleKDFController {
                 fileMark = true;
             } catch (SecurityException e) {
                 System.out.println(e.toString());
-                log.info(e.getMessage());
+                LOGGER.info(e.getMessage());
             }
             if (fileMark) {
                 System.out.println("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
-                log.info("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
+                LOGGER.info("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
             }
         }
         char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -97,10 +95,10 @@ public class HandleKDFController {
             UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(json[i]));
             fullFilesSize += uploadedFileInfoForm.getFileSize();
         }
+        int count = 0;
         for (String str : json) {
             UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(str));
-            byte[] buffer = new byte[32];
-            int count = 0;
+            byte[] buffer = new byte[BUFFER_SIZE];
             int len;
             try {
                 InputStream fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
@@ -181,12 +179,12 @@ public class HandleKDFController {
                         callDataService.addCalls(callForm);
                     }
                     count++;
-                    progress = (((count * 32) / (float) (uploadedFileInfoForm.getFileSize() * 1.0)) * 100);
+                    progress = (((count * BUFFER_SIZE) / (float) (fullFilesSize * 1.0)) * 100);
                 } while (len != -1);
                 fs.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
-                log.info(e.getMessage());
+                LOGGER.info(e.getMessage());
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
             uploadedFileInfoDataService.updateFile(uploadedFileInfoForm);

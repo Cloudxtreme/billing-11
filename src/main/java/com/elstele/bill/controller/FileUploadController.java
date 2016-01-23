@@ -73,7 +73,7 @@ public class FileUploadController {
                     return ResponseToAjax.INCORRECTTYPE;
                 }
             } catch (IOException e) {
-                //todo log error must be here
+                //todo LOGGER error must be here
                 return ResponseToAjax.ERROR;
             }
         }
