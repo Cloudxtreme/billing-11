@@ -3,6 +3,7 @@ package com.elstele.bill.reportCreators;
 
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
+import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,10 @@ import java.util.regex.Pattern;
 @Service
 public class CallFromCSVFileToDBParser {
 
-    final static Logger log = LogManager.getLogger(CallFromCSVFileToDBParser.class);
+    final static Logger LOGGER = LogManager.getLogger(CallFromCSVFileToDBParser.class);
 
+    @Autowired
+    private LocalDirPathProvider pathProvider;
     @Autowired
     CallForCSVDataService callForCSVDataService;
     private Map<String, String> directionMap = new HashMap<>();
@@ -120,7 +123,7 @@ public class CallFromCSVFileToDBParser {
         try {
             startTime = sdf.parse(year + "-" + month + "-" + day + " " + time);
         } catch (ParseException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage());
         }
         return startTime;
     }
@@ -138,7 +141,7 @@ public class CallFromCSVFileToDBParser {
         try {
             startTime = sdf.parse(startTimeStr);
         } catch (ParseException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage());
         }
         return startTime;
     }
@@ -152,14 +155,15 @@ public class CallFromCSVFileToDBParser {
     }
 
     public File convert(MultipartFile file) {
-        File convFile = new File(file.getOriginalFilename());
+        String path = pathProvider.getCSVDirectoryPath();
+        File convFile = new File(path + File.separator + file.getOriginalFilename());
         try {
             convFile.createNewFile();
             FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();
         } catch (IOException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
         return convFile;
     }

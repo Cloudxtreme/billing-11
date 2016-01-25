@@ -26,7 +26,7 @@ public class CSVParserDataServiceImpl implements CSVParserDataService {
     CallFromCSVFileToDBParser callFromCSVFileToDBParser;
     @Autowired
     CallForCSVDataService callForCSVDataService;
-    final static Logger log = LogManager.getLogger(CSVParserDataServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(CSVParserDataServiceImpl.class);
 
     @Override
     public ResponseToAjax parse(MultipartHttpServletRequest fileFromServlet) {
@@ -43,9 +43,9 @@ public class CSVParserDataServiceImpl implements CSVParserDataService {
                     if (!fileName.contains("ukr")) {
                         try {
                             callForCSVDataService.clearReportTable();
-                            log.info("Table cleared");
+                            LOGGER.info("Table cleared");
                         } catch (QueryException e) {
-                            log.warn(e);
+                            LOGGER.warn(e);
                         }
                     }
                     String line;
@@ -67,14 +67,15 @@ public class CSVParserDataServiceImpl implements CSVParserDataService {
                     }
 
                 } catch (Exception e) {
-                    log.error(e);
+                    LOGGER.error(e);
                     return ResponseToAjax.ERROR;
                 } finally {
+                    //TODO next try-catch WTF?  what about try-with-resources
                     try {
                         assert fileReader != null;
                         fileReader.close();
                     } catch (IOException e) {
-                        log.error(e);
+                        LOGGER.error(e);
                     }
                 }
                 return ResponseToAjax.SUCCESS;

@@ -72,6 +72,7 @@ public class HandleKDFController {
     @RequestMapping(value = "/uploadedfiles/handle", method = RequestMethod.POST)
     @ResponseBody
     public void handleFiles(@RequestBody String[] json) {
+        //TODO next method too complicated and long
         String path = pathProvider.getKDFDirectoryPath();
         File fileDir = new File(path);
 
