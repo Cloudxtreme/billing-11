@@ -4,10 +4,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.FileUploadController;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
-import com.elstele.bill.utils.Enums.ResponseToAjax;
-import com.elstele.bill.utils.LocalDirPathProvider;
-import com.elstele.bill.utils.PropertiesHelper;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.elstele.bill.filesWorkers.FileUploader;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,14 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockMultipartHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class FileUploadControllerTest {
     UploadedFileInfoDataService uploadedFileInfoDataService;
 
     @Mock
-    LocalDirPathProvider pathProvider;
+    FileUploader fileUploader;
 
     @InjectMocks
     FileUploadController controller;
@@ -98,16 +98,14 @@ public class FileUploadControllerTest {
     public void putFileToFolderTest() throws Exception {
         MockMultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
         MockMultipartFile secondFile = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
-        MockMultipartFile jsonFile = new MockMultipartFile("json", "", "application/json", "{\"json\": \"someValue\"}".getBytes());
 
         MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.fileUpload("/uploadfile")
                 .file(firstFile)
-                .file(secondFile).file(jsonFile)
-                .param("some-random", "4"))
+                .file(secondFile))
                 .andExpect(status().is(200))
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        assertTrue(content.contains("INCORRECTTYPE"));
+        assertTrue(content.contains(""));
 
     }
 }

@@ -8,7 +8,7 @@ public interface UploadedFileInfoDataService {
     public List<UploadedFileInfoForm> getUploadedFileInfoList();
     public Integer addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm);
     public UploadedFileInfoForm getById(Integer id);
-    public void deleteUploadedFileInfo(Integer id);
     public void setUploadedFileInfoStatusDelete(Integer id);
     public void updateFile(UploadedFileInfoForm uploadedFileInfoForm);
+    public void createOrUpdateFileInfo(UploadedFileInfoForm uploadedFileInfoForm);
 }

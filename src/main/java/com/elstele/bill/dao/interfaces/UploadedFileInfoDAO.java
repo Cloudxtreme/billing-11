@@ -9,4 +9,6 @@ import java.util.List;
 public interface UploadedFileInfoDAO extends CommonDAO<UploadedFileInfo> {
 
     public List<UploadedFileInfo> getUploadedFileInfoList();
+
+    public List<UploadedFileInfo> getFileInfoByFormValues(UploadedFileInfo uploadedFileInfo);
 }

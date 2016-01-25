@@ -420,7 +420,7 @@ th {
 .flag {
     width: 32px;
     height: 23px;
-    background:url('../images/flags.png') no-repeat
+    background-image: url(../images/flags.png);
 }
 .flag.flag-gb {background-position: -32px 0}
 .flag.flag-ru {background-position: 0 -32px}

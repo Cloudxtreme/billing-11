@@ -14,6 +14,16 @@ public class UploadedFileInfoDAOImpl extends CommonDAOImpl<UploadedFileInfo> imp
     @Override
     public List<UploadedFileInfo> getUploadedFileInfoList() {
         Query query = getSessionFactory().getCurrentSession().createQuery("from UploadedFileInfo");
-        return (List<UploadedFileInfo>)query.list();
+        return (List<UploadedFileInfo>) query.list();
+    }
+
+    @Override
+    public List<UploadedFileInfo> getFileInfoByFormValues(UploadedFileInfo uploadedFileInfo) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from UploadedFileInfo u where " +
+                "u.fileName = :fileName and u.fileSize = :fileSize and u.path = :path")
+                .setParameter("fileName", uploadedFileInfo.getFileName())
+                .setParameter("fileSize", uploadedFileInfo.getFileSize())
+                .setParameter("path", uploadedFileInfo.getPath());
+        return (List<UploadedFileInfo>) query.list();
     }
 }

@@ -37,7 +37,7 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public Integer addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm){
+    public Integer addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm) {
         UploadedFileInfoAssembler uploadedFileInfoAssembler = new UploadedFileInfoAssembler();
         UploadedFileInfo uploadedFileInfo = uploadedFileInfoAssembler.fromFormToBean(uploadedFileInfoForm);
         return uploadedFileInfoDAO.create(uploadedFileInfo);
@@ -54,12 +54,6 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public void deleteUploadedFileInfo(Integer id) {
-        uploadedFileInfoDAO.delete(id);
-    }
-
-    @Override
-    @Transactional
     public void setUploadedFileInfoStatusDelete(Integer id) {
         uploadedFileInfoDAO.setStatusDelete(id);
     }
@@ -72,6 +66,19 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
         uploadedFileInfoDAO.update(uploadedFileInfo);
     }
 
-
-
+    @Override
+    @Transactional
+    public void createOrUpdateFileInfo(UploadedFileInfoForm uploadedFileInfoForm) {
+        UploadedFileInfoAssembler uploadedFileInfoAssembler = new UploadedFileInfoAssembler();
+        UploadedFileInfo uploadedFileInfo = uploadedFileInfoAssembler.fromFormToBean(uploadedFileInfoForm);
+        List<UploadedFileInfo> uploadedFileInfoList = uploadedFileInfoDAO.getFileInfoByFormValues(uploadedFileInfo);
+        if (!uploadedFileInfoList.isEmpty()) {
+            for (UploadedFileInfo uploadedFileInfo1 : uploadedFileInfoList) {
+                uploadedFileInfo1.setStatus(Status.ACTIVE);
+                uploadedFileInfoDAO.update(uploadedFileInfo1);
+            }
+        } else {
+            uploadedFileInfoDAO.create(uploadedFileInfo);
+        }
+    }
 }

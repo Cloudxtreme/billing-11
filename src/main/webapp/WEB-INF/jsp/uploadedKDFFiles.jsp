@@ -36,7 +36,7 @@
     <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href=""><spring:message code="label.handle"/></a>
     <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href=""><spring:message code="label.calculateCost"/></a>
 
-    <div class="progress" style="display: none;" id="progress">
+    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
         <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
             <span class="sr-only">60% Complete</span>
         </div>
