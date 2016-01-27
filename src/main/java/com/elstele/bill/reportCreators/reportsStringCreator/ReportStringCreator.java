@@ -91,8 +91,8 @@ public class ReportStringCreator {
                 DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callTO.getNumberb().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
-                stringList.add(result);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                stringList.add(result + lineSeparator);
                 costTotalForThisNumber += costTotal;
             }
         } catch (Exception e) {
@@ -125,8 +125,8 @@ public class ReportStringCreator {
                 DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callForCSVByNumberA.getNumberB().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
-                stringList.add(result);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                stringList.add(result + lineSeparator);
                 costTotalForThisNumber += costTotal;
             }
         } catch (Exception e) {
@@ -165,8 +165,8 @@ public class ReportStringCreator {
                 if (numberB.startsWith("92") || numberB.startsWith("93") || numberB.startsWith("94") || numberB.startsWith("95") || numberB.startsWith("96") && numberB.length() == 7) {
                     shortNumberB = numberB.substring(1, 7);
                 }
-                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
-                stringList.add(result);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                stringList.add(result + lineSeparator);
                 costTotalForThisNumber += duration;
             }
         } catch (Exception e) {
