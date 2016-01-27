@@ -14,7 +14,6 @@ $(document).ready(function(){
         if(checked){
             $(this).attr('checked', false);
             $(this).closest("tr").removeClass("info");
-
         }
         else{
             $(this).attr('checked', true);
@@ -23,7 +22,7 @@ $(document).ready(function(){
     });
 
     $('#handleBtn').click(function(){
-        var values = new Array();
+        var values = [];
         $.each($(".check-box-table-cell:checked").closest("tr"),
             function(){
                 values.push($(this).attr('id'));
@@ -40,12 +39,13 @@ $(document).ready(function(){
 
     $('#table tr #deleting').click(function () {
         var $tr = $(this).closest('tr');
+        var idsArray = [$($tr).attr('id')];
         $('#deleteBtn').on('click', function () {
             $('#confirm-delete').modal('hide');
             $.ajax({
                 type: "POST",
                 url: './uploadedfiles/delete.html',
-                data: $tr.attr('id'),
+                data: JSON.stringify(idsArray),
                 datatype: "JSON",
                 contentType: "application/json",
                 success: function (data) {
@@ -53,6 +53,40 @@ $(document).ready(function(){
                         $tr.fadeOut('slow',function(){
                             $tr.remove()
                         });
+                        document.getElementById('successMessage').style.display="block";
+                        setTimeout(function() {
+                            $("#successMessage").fadeOut(2500);
+                        });
+                    } else{
+                        document.getElementById('errorMessage').style.display="block";
+                        setTimeout(function() {
+                            $("#errorMessage").fadeOut(2500);
+                        });
+                    }
+                }
+            });
+        })
+    });
+
+    $('#deleteSelected').on('click', function(){
+        var idsArray = [];
+        $($tr).find('tr:has(.check-box-table-cell:checked)').each(function(){
+            idsArray.push($(this).attr('id'));
+        });
+        $('#deleteBtn').on('click', function () {
+            $('#confirm-delete').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: './uploadedfiles/delete.html',
+                data: JSON.stringify(idsArray),
+                datatype: "JSON",
+                contentType: "application/json",
+                success: function (data) {
+                    if(data == "success") {
+                        $($tr).find('tr:has(.check-box-table-cell:checked)').each(function(){
+                            $(this).remove();
+                        });
+                        document.getElementById('deleteSelected').style.display="none";
                         document.getElementById('successMessage').style.display="block";
                         setTimeout(function() {
                             $("#successMessage").fadeOut(2500);
@@ -76,6 +110,44 @@ $(document).ready(function(){
         $($tr).find('td:nth-child(3):contains("PROCESSED")').css({
             'color': '#e72510',
             'font-weight': 'bold'});
+    });
+
+    $('#selectNew').on('click', function(){
+        var checkedTRs = $($tr).find('tr:has(td:nth-child(3):contains("NEW")):has(.check-box-table-cell:checked)');
+        if(checkedTRs.length>0){
+            $($tr).find('tr').has('td:nth-child(3):contains("NEW")').each(function(){
+                $(this).find('.check-box-table-cell').prop("checked", false);
+                $(this).removeClass("info");
+            });
+            document.getElementById('deleteSelected').style.display="none";
+        }else{
+            $($tr).find('tr').has('td:nth-child(3):contains("NEW")').each(function(){
+                $(this).find('.check-box-table-cell').prop("checked", true);
+                $(this).addClass("info");
+            });
+            if($($tr).find('tr').has('td:nth-child(3):contains("NEW")').length>0){
+                document.getElementById('deleteSelected').style.display="block";
+            }
+        }
+    });
+
+    $('#selectProcessed').on('click', function(){
+        var checkedTRs = $($tr).find('tr:has(td:nth-child(3):contains("PROCESSED")):has(.check-box-table-cell:checked)');
+        if(checkedTRs.length>0){
+            $($tr).find('tr').has('td:nth-child(3):contains("PROCESSED")').each(function(){
+                $(this).find('.check-box-table-cell').prop("checked", false);
+                $(this).removeClass("danger");
+            });
+            document.getElementById('deleteSelected').style.display="none";
+        }else{
+            $($tr).find('tr').has('td:nth-child(3):contains("PROCESSED")').each(function(){
+                $(this).find('.check-box-table-cell').prop("checked", true);
+                $(this).addClass("danger");
+            });
+            if($($tr).find('tr').has('td:nth-child(3):contains("PROCESSED")').length>0){
+                document.getElementById('deleteSelected').style.display="block";
+            }
+        }
     });
 
     function getProgress(){
