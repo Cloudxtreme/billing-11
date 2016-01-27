@@ -56,12 +56,12 @@ public class HandleKDFController {
 
     @RequestMapping(value = "/uploadedfiles/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteDevice(@RequestBody String json) {
+    public String deleteDevice(@RequestBody String[] json) {
         try {
-            Integer id = Integer.parseInt(json);
-            //TODO next string looks redundant
-            UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(id);
-            uploadedFileInfoDataService.setUploadedFileInfoStatusDelete(id);
+            for(String ids : json) {
+                Integer id = Integer.parseInt(ids);
+                uploadedFileInfoDataService.setUploadedFileInfoStatusDelete(id);
+            }
             return "success";
         } catch (Exception e) {
             LOGGER.error(e.toString() + " Method deleteDevice");
