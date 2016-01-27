@@ -31,12 +31,20 @@
 
 <div class="well well-lg">
 
-    <%--Error Message body--%>
-    <div id="errorMessage" class="alert alert-warning" style="display: none">
+   <div id="errorMessage" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.error"/></strong>
     </div>
-
-    <%--Success message body--%>
+    <div id="errorSelectFile" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.selectFile"/></strong>
+    </div>
+    <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.incorrecttype"/></strong>
+    </div>
+    <div id="errorUnavailable" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.unavailable"/></strong>
+    </div>
     <div id="successMessage" class="alert alert-success" style="display: none">
+        <strong><spring:message code="csv.success"/></strong>
     </div>
 
 
@@ -228,10 +236,18 @@
     <%--Form for uploading files--%>
     <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
         <div class="form-group" id="idForm">
-      <span class="file-input btn btn-info btn-file">
-        <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" name="file"/>
-      </span>
+            <span class="file-input btn btn-info btn-file">
+                <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" name="file"/>
+            </span>
             <ul id="list" class="list-group"></ul>
+        </div>
+        <div class="form-group">
+            <label for="csvFiles"><spring:message code="label.csvfiles" />
+                <select id="csvFiles">
+                    <option value="usual"><spring:message code="csv.usual"/></option>
+                    <option value="ukrnet"><spring:message code="csv.ukrnet"/></option>
+                </select>
+            </label>
         </div>
         <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar" href="#myModal"
                 data-toggle="modal"><spring:message code="label.upload"/>

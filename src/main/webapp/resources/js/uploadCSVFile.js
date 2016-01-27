@@ -25,6 +25,7 @@ $(document).ready(function () {
 
     $('input:file').on('change', function (evt) {
         var files = evt.target.files;
+
         uniqFiles = files;
         $('#list').html('');
         for (var h = 0, q; q = uniqFiles[h]; h++) {
@@ -54,24 +55,24 @@ $(document).ready(function () {
 
         if (uniqFiles.length == 0) {
             $('#spinner').hide();
-            document.getElementById('errorMessage').style.display = "block";
-            $('#errorMessage').append('<strong>Выберите файл формата CSV для загрузки</strong>');
+            document.getElementById('errorSelectFile').style.display = "block";
             setTimeout(function () {
-                $("#errorMessage").fadeOut(3000, function () {
-                    $("#errorMessage strong").remove();
-                });
+                    $("#errorSelectFile").fadeOut(10000);
             });
             return false;
         }
+
+        var selectedVal = $('#csvFiles').find(":selected").val();
         for (var i = 0; i < uniqFiles.length; i++) {
             data.append(i, uniqFiles[i]);
         }
+
 
         $('#spinner').show();
 
         $.ajax({
             dataType: 'json',
-            url: "uploadcsvfile",
+            url: "uploadcsvfile?flag="+selectedVal,
             data: data,
             type: "POST",
             enctype: 'multipart/form-data',
@@ -82,25 +83,19 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').append('<strong>Операция выполнена успешно</strong>');
                     uniqFiles = [];
                     setTimeout(function () {
-                        $("#successMessage").fadeOut(2500, function () {
-                            $("#successMessage strong").remove();
-                            $("#list li").remove();
-                        });
+                        $("#successMessage").fadeOut(10000);
+                        $("#list li").fadeOut(10000);
                     });
                     $('body').scrollTop(0);
 
                 } else if (result == "INCORRECTTYPE") {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
-                    document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Вы пытаетесь загрузить файл неверного формата. Выберите файл CSV формата для загрузки</strong>');
+                    document.getElementById('errorIncorrectType').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(4000, function () {
-                            $("#errorMessage strong").remove();
-                        });
+                        $("#errorIncorrectType").fadeOut(10000);
                     });
 
 
@@ -108,22 +103,16 @@ $(document).ready(function () {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Ошибка. Операция не выполнена</strong>');
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(2500, function () {
-                            $("#errorMessage strong").remove();
-                        });
+                        $("#errorMessage").fadeOut(10000);
                     });
 
                 } else {
                     $('#myModal').modal('hide');
                     $('#spinner').hide();
-                    document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong>Операция недоступна сейчас. Попробуйте позже</strong>');
+                    document.getElementById('errorUnavailable').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(2500, function () {
-                            $("#errorMessage strong").remove();
-                        });
+                        $("#errorUnavailable").fadeOut(10000);
                     });
 
                 }
@@ -172,18 +161,14 @@ $(document).ready(function () {
             success: function (data) {
                 if (data == "SUCCESS") {
                     document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').append('<strong>Операция выполнена успешно</strong>');
-                    $("#successMessage").fadeOut(2500, function () {
-                        $("#successMessage strong").remove();
+                    $("#successMessage").fadeOut(5000, function () {
+                        $("#successMessage").fadeOut(3000);
                         location.reload();
                     });
                 } else {
-                    document.getElementById('errorMessage').style.display = "block";
-                    $('#errorMessage').append('<strong> Операция недоступна сейчас. Попробуйте позже</strong>');
+                    document.getElementById('errorUnavailable').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(2500, function () {
-                            $("#errorMessage strong").remove();
-                        });
+                        $("#errorUnavailable").fadeOut(3000);
                     });
                 }
             }
@@ -253,6 +238,5 @@ $(document).ready(function () {
             dataType: 'json'
         });
     });
-
 
 });
