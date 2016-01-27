@@ -12,7 +12,7 @@ public class Call extends CommonDomainBean{
     private String numberA;
     private String numberB;
     private Date startTime;
-    private Long duration;
+    private Integer duration;
     private String aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
@@ -52,11 +52,11 @@ public class Call extends CommonDomainBean{
         this.startTime = startTime;
     }
 
-    public Long getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

@@ -46,7 +46,7 @@ public class CallBuilder implements TestObjectCreator<CallBuilder, Call>  {
         return this;
     }
 
-    public CallBuilder withDuration(long duration){
+    public CallBuilder withDuration(int duration){
         call.setDuration(duration);
         return this;
     }

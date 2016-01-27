@@ -36,7 +36,7 @@ public class CallFromCSVFileToDBParser {
 
         String numberA = data[0].substring(5, 12);
         String numberB = data[1];
-        String duration = data[2];
+        Integer duration = Integer.parseInt(data[2]);
         String call_start = data[3];
         String dir_prefix = data[4];
         String dir_descr_orig = data[5];
@@ -46,6 +46,14 @@ public class CallFromCSVFileToDBParser {
 
         Date startTime = startTimeHandling(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
+
+        /*//TODO move this conversion to separate method (also try to use juniversalchardet )
+        String rightEncodedStr = dir_descr;
+        try {
+            rightEncodedStr = new String(dir_descr.getBytes(), "Windows-1251");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }*/
 
         CallForCSVForm callForCSVForm = new CallForCSVForm();
         callForCSVForm.setNumberA(numberA);
@@ -70,7 +78,7 @@ public class CallFromCSVFileToDBParser {
 
         String numberA = data[0].substring(2, 9);
         String numberB = data[3];
-        String duration = data[7];
+        Integer duration = Integer.parseInt(data[7]);
         String call_start = data[1];
         String dir_prefix = data[4];
         String dir_descr = "";

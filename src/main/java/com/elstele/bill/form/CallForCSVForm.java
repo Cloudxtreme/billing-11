@@ -5,7 +5,7 @@ import java.util.Date;
 public class CallForCSVForm {
     private String numberA;
     private String numberB;
-    private String duration;
+    private Integer duration;
     private Date startTime;
     private String dirPrefix;
     private String dirDescrpOrg;
@@ -28,11 +28,11 @@ public class CallForCSVForm {
         this.numberB = numberB;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

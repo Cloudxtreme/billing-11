@@ -64,14 +64,14 @@ public class CallBillingServiceImpl implements CallBillingService {
     }
 
     private void recalculateCallDurationForSomePrefixes(Call currentCall) {
-        Long newDuration = currentCall.getDuration();
+        Integer newDuration = currentCall.getDuration();
         if (currentCall.getNumberB().startsWith("0900")){
-            Long curDuration = currentCall.getDuration();
-            newDuration = (Long)(curDuration/12);
+            Integer curDuration = currentCall.getDuration();
+            newDuration = (Integer)(curDuration/12);
         }
         if (currentCall.getNumberB().startsWith("0703")){
-            Long curDuration = currentCall.getDuration();
-            newDuration = (Long)(curDuration/12);
+            Integer curDuration = currentCall.getDuration();
+            newDuration = (Integer)(curDuration/12);
         }
         currentCall.setDuration(newDuration);
     }

@@ -18,6 +18,7 @@ public class ReportStringCreator {
     private List<String> stringList = new ArrayList<>();
     final static Logger log = LogManager.getLogger(ReportStringCreator.class);
 
+    public final static String lineSeparator = System.getProperty("line.separator");
 
     public List<String> createCallTOStrings(String numberA, List<CallTO> callListByNumberA) {
         header(numberA);
@@ -63,34 +64,34 @@ public class ReportStringCreator {
 
     public void header(String numberA) {
         String numberAShort = numberA.substring(1, numberA.length());
-        String firstString;
-        firstString = "Номер телефона, с которого звонили: " + numberAShort;
-        stringList.add(firstString);
-        firstString = "--------------------------------------------------------------------------------";
-        stringList.add(firstString);
-        firstString = "          |             |             Кому звонили                 |       |    ";
-        stringList.add(firstString);
-        firstString = "   Дата   |  Время |Длит|------------------------------------------| Сумма |Зак.";
-        stringList.add(firstString);
-        firstString = "          |             |  Код  | Телефон   | Город или страна     |       |    ";
-        stringList.add(firstString);
-        firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
-        stringList.add(firstString);
+        String str;
+        str = "Номер телефона, с которого звонили: " + numberAShort + lineSeparator;
+        stringList.add(str);
+        str = "--------------------------------------------------------------------------------" + lineSeparator;
+        stringList.add(str);
+        str = "          |             |             Кому звонили                 |       |    " + lineSeparator;
+        stringList.add(str);
+        str = "   Дата   |  Время |Длит|------------------------------------------| Сумма |Зак." + lineSeparator;
+        stringList.add(str);
+        str = "          |             |  Код  | Телефон   | Город или страна     |       |    " + lineSeparator;
+        stringList.add(str);
+        str = "----------|--------|----|-------|-----------|----------------------|-------|----" + lineSeparator;
+        stringList.add(str);
     }
 
     public void callTOData(List<CallTO> callListByNumberA) {
         try {
             for (CallTO callTO : callListByNumberA) {
                 String numberB = callTO.getNumberb();
-                String duration = callTO.getDuration().toString();
+                Integer duration = callTO.getDuration().intValue();
                 String dirPrefix = callTO.getPrefix();
                 String descrOrg = callTO.getDescription();
                 Float costTotal = callTO.getCosttotal();
                 Date startTimeVal = callTO.getStarttime();
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callTO.getNumberb().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += costTotal;
             }
@@ -105,7 +106,7 @@ public class ReportStringCreator {
                 Double costTotal = (double) callTO.getCosttotal();
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
+            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");
@@ -116,15 +117,15 @@ public class ReportStringCreator {
         try {
             for (CallForCSV callForCSVByNumberA : callForCSVListByNumberA) {
                 String numberB = callForCSVByNumberA.getNumberB();
-                String duration = callForCSVByNumberA.getDuration();
+                Integer duration = callForCSVByNumberA.getDuration();
                 String dirPrefix = callForCSVByNumberA.getDirPrefix();
                 String descrOrg = callForCSVByNumberA.getDirDescrpOrg();
                 Double costTotal = Double.parseDouble(callForCSVByNumberA.getCostCallTotal());
                 Date startTimeVal = callForCSVByNumberA.getStartTime();
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callForCSVByNumberA.getNumberB().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += costTotal;
             }
@@ -139,7 +140,7 @@ public class ReportStringCreator {
                 Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
+            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");
@@ -150,12 +151,12 @@ public class ReportStringCreator {
         try {
             for (Call call : callListByNumberA) {
                 String numberB = call.getNumberB();
-                Long duration = call.getDuration();
+                Integer duration = call.getDuration();
                 String dirPrefix = "";
                 String descrOrg = "";
                 Double costTotal = 0.0;
                 Date startTimeVal = call.getStartTime();
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = numberB;
                 if (numberB.startsWith("97") && numberB.length() == 8) {
@@ -164,12 +165,12 @@ public class ReportStringCreator {
                 if (numberB.startsWith("92") || numberB.startsWith("93") || numberB.startsWith("94") || numberB.startsWith("95") || numberB.startsWith("96") && numberB.length() == 7) {
                     shortNumberB = numberB.substring(1, 7);
                 }
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4d|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += duration;
             }
         } catch (Exception e) {
-            log.error(e + " Method  = callData ");
+            log.error(e + " Method = callData ");
         }
     }
 
@@ -178,10 +179,10 @@ public class ReportStringCreator {
             for (Call call : callListByNumberA) {
                 callDurationForThisNumber += call.getDuration();
             }
-            String result = strIndex + " " + numberA.substring(1, numberA.length()) + " " + round(callDurationForThisNumber, 2) + " секунд";
+            String result = strIndex + " " + numberA.substring(1, numberA.length()) + " " + round(callDurationForThisNumber, 2) + " секунд" + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
-            log.error(e + " Method  = callDataShort ");
+            log.error(e + " Method = callDataShort ");
         }
     }
 
@@ -202,34 +203,34 @@ public class ReportStringCreator {
     }
 
     private void footerCreate() {
-        String firstString;
-        firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
-        stringList.add(firstString);
+        String str;
+        str = "----------|--------|----|-------|-----------|----------------------|-------|----" + lineSeparator;
+        stringList.add(str);
 
-        firstString = " Всего " + round(costTotalForThisNumber, 2);
-        stringList.add(firstString);
+        str = " Всего " + round(costTotalForThisNumber, 2) + lineSeparator;
+        stringList.add(str);
 
-        firstString = " В том числе НДС " + round(costTotalForThisNumber * 0.2, 2);
-        stringList.add(firstString);
+        str = " В том числе НДС " + round(costTotalForThisNumber * 0.2, 2) + lineSeparator;
+        stringList.add(str);
 
-        firstString = "--------------------------------------------------------------------------------";
-        stringList.add(firstString);
-        stringList.add("\r\n");
-        stringList.add("\r\n");
+        str = "--------------------------------------------------------------------------------" + lineSeparator;
+        stringList.add(str);
+        stringList.add(lineSeparator);
+        stringList.add(lineSeparator);
     }
 
     private void callFooterCreate() {
-        String firstString;
-        firstString = "----------|--------|----|-------|-----------|----------------------|-------|----";
-        stringList.add(firstString);
+        String str;
+        str = "----------|--------|----|-------|-----------|----------------------|-------|----" + lineSeparator;
+        stringList.add(str);
 
-        firstString = " Всего " + round(costTotalForThisNumber, 2);
-        stringList.add(firstString);
+        str = " Всего " + round(costTotalForThisNumber, 2) + lineSeparator;
+        stringList.add(str);
 
-        firstString = "--------------------------------------------------------------------------------";
-        stringList.add(firstString);
-        stringList.add("\r\n");
-        stringList.add("\r\n");
+        str = "--------------------------------------------------------------------------------" + lineSeparator;
+        stringList.add(str);
+        stringList.add(lineSeparator);
+        stringList.add(lineSeparator);
     }
 
     public static double round(double value, int places) {

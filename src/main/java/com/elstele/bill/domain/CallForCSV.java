@@ -14,7 +14,7 @@ import java.util.Date;
 public class CallForCSV extends CommonDomainBean {
     private String numberA;
     private String numberB;
-    private String duration;
+    private Integer duration;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -41,11 +41,11 @@ public class CallForCSV extends CommonDomainBean {
         this.numberB = numberB;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

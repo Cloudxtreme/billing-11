@@ -28,7 +28,7 @@ public class CallForCSVBuilder implements TestObjectCreator<CallForCSVBuilder, C
         return this;
     }
 
-    public CallForCSVBuilder withDuration(String duration){
+    public CallForCSVBuilder withDuration(Integer duration){
         callForCSV.setDuration(duration);
         return this;
     }

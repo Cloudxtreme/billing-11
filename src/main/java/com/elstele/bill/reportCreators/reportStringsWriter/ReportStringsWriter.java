@@ -7,7 +7,7 @@ public class ReportStringsWriter {
 
     public static void write(List<String> stringList, PrintStream ps){
         for (String string : stringList){
-            ps.println(string);
+            ps.print(string);
         }
     }
 }

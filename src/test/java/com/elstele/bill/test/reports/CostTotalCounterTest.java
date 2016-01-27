@@ -41,9 +41,9 @@ public class CostTotalCounterTest {
         callForCSVList.add(callForCSV1);
 
         Call call = new Call();
-        call.setDuration(20000l);
+        call.setDuration(20000);
         Call call1 = new Call();
-        call1.setDuration(40000l);
+        call1.setDuration(40000);
         callList = new ArrayList<>();
         callList.add(call);
         callList.add(call1);
