@@ -82,9 +82,7 @@ public class FileTreeGenerater {
             }
             fileDirTreeGeneraterForm.getDataAsArray();
         }
-
-        FileDirTreeGeneraterForm[] fileDirTreeGeneraterForms = dirList.toArray(new FileDirTreeGeneraterForm[dirList.size()]);
-        return fileDirTreeGeneraterForms;
+        return dirList.toArray(new FileDirTreeGeneraterForm[dirList.size()]);
     }
 
 }
