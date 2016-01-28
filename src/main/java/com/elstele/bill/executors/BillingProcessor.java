@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * Created by ivan on 15/12/18.
- */
+
 public class BillingProcessor {
     @Autowired
     protected WorkerFactory workerFactory;

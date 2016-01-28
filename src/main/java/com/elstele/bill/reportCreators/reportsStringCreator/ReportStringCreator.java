@@ -89,7 +89,7 @@ public class ReportStringCreator {
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callTO.getNumberb().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += costTotal;
             }
@@ -104,7 +104,7 @@ public class ReportStringCreator {
                 Double costTotal = (double) callTO.getCosttotal();
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2);
+            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");
@@ -123,7 +123,7 @@ public class ReportStringCreator {
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 String reportDate = df.format(startTimeVal);
                 String shortNumberB = callForCSVByNumberA.getNumberB().substring(dirPrefix.length(), numberB.length());
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += costTotal;
             }
@@ -138,7 +138,7 @@ public class ReportStringCreator {
                 Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2);
+            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + "\r\n";
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");
@@ -163,7 +163,7 @@ public class ReportStringCreator {
                 if (numberB.startsWith("92") || numberB.startsWith("93") || numberB.startsWith("94") || numberB.startsWith("95") || numberB.startsWith("96") && numberB.length() == 7) {
                     shortNumberB = numberB.substring(1, 7);
                 }
-                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
+                String result = String.format("%-18s|%-4s|%-7s|%-11s|%-22s|%7.2f|\r\n", reportDate, duration, dirPrefix, shortNumberB, descrOrg, costTotal);
                 stringList.add(result);
                 costTotalForThisNumber += duration;
             }
@@ -214,6 +214,7 @@ public class ReportStringCreator {
         firstString = "--------------------------------------------------------------------------------";
         stringList.add(firstString);
         stringList.add("\r\n");
+        stringList.add("\r\n");
     }
 
     private void callFooterCreate() {
@@ -226,6 +227,7 @@ public class ReportStringCreator {
 
         firstString = "--------------------------------------------------------------------------------";
         stringList.add(firstString);
+        stringList.add("\r\n");
         stringList.add("\r\n");
     }
 

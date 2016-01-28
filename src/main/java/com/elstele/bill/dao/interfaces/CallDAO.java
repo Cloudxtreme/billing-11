@@ -13,7 +13,7 @@ public interface CallDAO extends CommonDAO<Call> {
     public Integer getCallsCount();
     public Integer getCallsCountWithSearchValues(CallsRequestParamTO callsRequestParamTO);
     public List<Call> getCallsList(int limit, int offset);
-    public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate);
+    public List<Call> callsListSelectionBySearch(CallsRequestParamTO paramTO);
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime);
     public List<CallTO> getCallByNumberA(String numberA, Date startTime, Date endTime);
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk);

@@ -17,24 +17,24 @@ public class FileTreeGenerater {
         File fileDir = new File(path);
         File[] filesArr = fileDir.listFiles();
         List<File> filesList = new ArrayList<File>();
-        for (int i = 0; i < filesArr.length; i++) {
-            if (filesArr[i].isFile()) {
+        for (File aFilesArr : filesArr) {
+            if (aFilesArr.isFile()) {
                 try {
-                    filesList.add(filesArr[i]);
-                    log.info("File " + filesArr[i].getName() + " is added to Array");
+                    filesList.add(aFilesArr);
+                    log.info("File " + aFilesArr.getName() + " is added to Array");
                 } catch (SecurityException e) {
                     log.error(e);
                 }
-            } else if (filesArr[i].isDirectory()) {
-                filesList.add(filesArr[i]);
-                File[] fileArrWithChildDirectory = filesArr[i].listFiles();
-                log.info(filesArr[i].getName() + " is Directory");
+            } else if (aFilesArr.isDirectory()) {
+                filesList.add(aFilesArr);
+                File[] fileArrWithChildDirectory = aFilesArr.listFiles();
+                log.info(aFilesArr.getName() + " is Directory");
                 assert fileArrWithChildDirectory != null;
-                for (int j = 0; j < fileArrWithChildDirectory.length; j++) {
-                    if (fileArrWithChildDirectory[j].isFile()) {
+                for (File aFileArrWithChildDirectory : fileArrWithChildDirectory) {
+                    if (aFileArrWithChildDirectory.isFile()) {
                         try {
-                            filesList.add(fileArrWithChildDirectory[j]);
-                            log.info(fileArrWithChildDirectory[j].getName() + " is added to Array");
+                            filesList.add(aFileArrWithChildDirectory);
+                            log.info(aFileArrWithChildDirectory.getName() + " is added to Array");
                         } catch (SecurityException e) {
                             log.error(e);
                         }

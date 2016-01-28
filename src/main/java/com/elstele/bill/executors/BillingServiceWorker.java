@@ -8,9 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.elstele.bill.utils.Constants.BILLING_SERVICE_WORKER;
 
-/**
- * Created by ivan on 15/12/16.
- */
 
 @Service(BILLING_SERVICE_WORKER)
 @Scope("prototype")

@@ -7,6 +7,7 @@ import com.elstele.bill.form.CallForm;
 import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
 import com.elstele.bill.test.builder.bean.CallBuilder;
+import com.elstele.bill.test.builder.bean.CallRequestParamTOBuilder;
 import com.elstele.bill.test.builder.bean.CallTOBuilder;
 import com.elstele.bill.test.builder.form.CallFormBuilder;
 import com.elstele.bill.utils.Enums.Status;
@@ -47,7 +48,9 @@ public class CallDataServiceTest {
     private Call call;
     private Call call1;
     private Call call2;
-    private CallForm callForm;
+    private CallsRequestParamTO fullParam;
+    private CallsRequestParamTO emptyParam;
+    private CallRequestParamTOBuilder callRequestParamTOBuilder;
 
     @Before
     public void setUp() {
@@ -63,9 +66,8 @@ public class CallDataServiceTest {
         CallFormBuilder builder = new CallFormBuilder();
         CallBuilder callBuilder = new CallBuilder();
         CallTOBuilder callTOBuilder = new CallTOBuilder();
+        callRequestParamTOBuilder = new CallRequestParamTOBuilder();
 
-        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
-                .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
         call = callBuilder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
                 .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
         call1 = callBuilder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122l).withId(2).withNumberA("2222222")
@@ -88,6 +90,16 @@ public class CallDataServiceTest {
         callTOList = new ArrayList<>();
         callTOList.add(callTO);
         callTOList.add(callTO1);
+
+        fullParam = callRequestParamTOBuilder.build()
+                .withNumberA(call.getNumberA())
+                .withNumberB(call.getNumberB())
+                .withStartDate("notnull")
+                .withEndDate("notnull")
+                .withPageResult(1)
+                .getRes();
+
+        emptyParam = callRequestParamTOBuilder.build().withPageResult(1).getRes();
     }
 
     @After
@@ -109,60 +121,6 @@ public class CallDataServiceTest {
         callForm.setId(1);
         callDataService.addCalls(callForm);
         assertTrue(callForm.equals(callFormExpected));
-    }
-
-    @Test
-    public void getCallsCountTest() {
-        when(callDAO.getCallsCount()).thenReturn(3);
-        int count = callDataService.getCallsCount();
-        assertTrue(count == 3);
-    }
-
-    @Test
-    public void getCallsCountWithSearchValuesTest() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        String timeRange = dateFormat.format(startDate) + " - " + dateFormat.format(endDate);
-
-        CallsRequestParamTO searchByNumberA = new CallsRequestParamTO();
-        searchByNumberA.setCallNumberA(call.getNumberA());
-        int expectedCount;
-        when(callDAO.getCallsCountWithSearchValues(searchByNumberA)).thenReturn(expectedCount = 1);
-        int countByA = callDataService.getCallsCountWithSearchValues(searchByNumberA);
-        assertEquals(countByA, expectedCount);
-
-        CallsRequestParamTO searchByNumberB = new CallsRequestParamTO();
-        searchByNumberB.setCallNumberB(call1.getNumberB());
-        when(callDAO.getCallsCountWithSearchValues(searchByNumberB)).thenReturn(expectedCount = 1);
-        int countByB = callDataService.getCallsCountWithSearchValues(searchByNumberB);
-        assertEquals(countByB, expectedCount);
-
-        CallsRequestParamTO searchByStartDate = new CallsRequestParamTO();
-        searchByStartDate.setStartDate(timeRange);
-        when(callDAO.getCallsCountWithSearchValues(searchByStartDate)).thenReturn(expectedCount = 1);
-        int countByStartDate = callDataService.getCallsCountWithSearchValues(searchByStartDate);
-        assertEquals(countByStartDate, expectedCount);
-
-        CallsRequestParamTO searchByEndDate = new CallsRequestParamTO();
-        searchByEndDate.setEndDate(timeRange);
-        when(callDAO.getCallsCountWithSearchValues(searchByEndDate)).thenReturn(expectedCount = 1);
-        int countByEndDate = callDataService.getCallsCountWithSearchValues(searchByEndDate);
-        assertEquals(countByEndDate, expectedCount);
-    }
-
-    @Test
-    public void getCallsListTest() {
-        when(callDAO.getCallsList(10, 10)).thenReturn(callList);
-        List<CallForm> actualList = callDataService.getCallsList(10, 2);
-        assertTrue(actualList.contains(callForm));
-    }
-
-    @Test
-    public void callsListSelectionBySearchTest() {
-        List<Call> listExpected = new ArrayList<>();
-        listExpected.add(call);
-        when(callDAO.callsListSelectionBySearch(10, 10, call.getNumberA(), call.getNumberB(), startDate, endDate)).thenReturn(listExpected);
-        List<CallForm> actualList = callDataService.callsListSelectionBySearch(10, 2, call.getNumberA(), call.getNumberB(), startDate, endDate);
-        assertTrue(actualList.contains(callForm));
     }
 
     @Test
@@ -248,7 +206,24 @@ public class CallDataServiceTest {
         List<Integer> expectedIdList = new ArrayList<>();
         expectedIdList.add(call2.getId());
         when(callDAO.getUnbilledCallIds(1, 0)).thenReturn(expectedIdList);
-        List<Integer> actualIdList = callDataService.getUnbilledCallsIdList(1,0);
+        List<Integer> actualIdList = callDataService.getUnbilledCallsIdList(1, 0);
         assertEquals(actualIdList,expectedIdList);
+    }
+
+    @Test
+    public void determineTotalPagesForOutputTest(){
+        when(callDAO.getCallsCount()).thenReturn(100);
+        when(callDAO.getCallsCountWithSearchValues(fullParam)).thenReturn(5);
+
+        int result = callDataService.determineTotalPagesForOutput(fullParam);
+        assertTrue(result == 5);
+
+        int resultWithEmptyObject = callDataService.determineTotalPagesForOutput(emptyParam);
+        assertTrue(resultWithEmptyObject == 100);
+    }
+
+    @Test
+    public void getCallsList(){
+
     }
 }

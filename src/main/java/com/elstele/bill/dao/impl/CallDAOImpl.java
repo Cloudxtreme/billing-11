@@ -66,28 +66,28 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<Call>) q.list();
     }
 
-    public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate) {
+    public List<Call> callsListSelectionBySearch(CallsRequestParamTO paramTO) {
         StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
         StringBuffer queryEnd = new StringBuffer(" order by a.startTime");
-        if (numberA != null && !numberA.isEmpty()) {
-            numberA = "and numberA like '" + numberA + "%'";
+        if (paramTO.getCallNumberA() != null && !paramTO.getCallNumberA().isEmpty()) {
+            String numberA = "and numberA like '" + paramTO.getCallNumberA() + "%'";
             queryStart.append(numberA);
         }
-        if (numberB != null && !numberB.isEmpty()) {
-            numberB = " and numberB like '" + numberB + "%'";
+        if (paramTO.getCallNumberB() != null && !paramTO.getCallNumberB().isEmpty()) {
+            String numberB = " and numberB like '" + paramTO.getCallNumberB() + "%'";
             queryStart.append(numberB);
         }
-        if (startDate != null) {
-            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + startDate + "'");
+        if (paramTO.getStartDate() != null) {
+            String startDateString = " and a.startTime >= '" + paramTO.getStartDate() + "'";
             queryStart.append(startDateString);
         }
-        if (endDate != null) {
-            StringBuffer endDateString = new StringBuffer(" and a.startTime <= '" + endDate + "'");
+        if (paramTO.getEndDate() != null) {
+            String endDateString = " and a.startTime <= '" + paramTO.getEndDate() + "'";
             queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
                 createQuery(queryStart.append(queryEnd).toString());
-        q.setFirstResult(offset).setMaxResults(limit);
+        q.setFirstResult(paramTO.getOffset()).setMaxResults(paramTO.getRows());
         return (List<Call>) q.list();
     }
 

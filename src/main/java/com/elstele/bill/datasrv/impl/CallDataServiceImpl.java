@@ -29,46 +29,6 @@ public class CallDataServiceImpl implements CallDataService {
         callDAO.create(call);
     }
 
-    @Transactional
-    public int getCallsCount() {
-        return callDAO.getCallsCount();
-    }
-
-    @Transactional
-    public int getCallsCountWithSearchValues(CallsRequestParamTO callsRequestParamTO) {
-        return callDAO.getCallsCountWithSearchValues(callsRequestParamTO);
-    }
-
-    @Override
-    @Transactional
-    public List<CallForm> getCallsList(int rows, int page) {
-        List<CallForm> result = new ArrayList<CallForm>();
-        CallAssembler assembler = new CallAssembler();
-        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
-        int offset = page*rows;
-        List<Call> beans = callDAO.getCallsList(rows, offset);
-        for (Call curBean : beans){
-            CallForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
-        return result;
-    }
-
-    @Override
-    @Transactional
-    public List<CallForm> callsListSelectionBySearch(int rows, int page, String numberA, String numberB, Date startDate, Date endDate) {
-        List<CallForm> result = new ArrayList<CallForm>();
-        CallAssembler assembler = new CallAssembler();
-        page = page -1; //this is correction for User Interfase (for user page starts from 1, but we use 0 as first number)
-        int offset = page*rows;
-        List<Call> beans = callDAO.callsListSelectionBySearch(rows, offset, numberA, numberB, startDate, endDate);
-        for (Call curBean : beans){
-            CallForm curForm = assembler.fromBeanToForm(curBean);
-            result.add(curForm);
-        }
-        return result;
-    }
-
     @Override
     @Transactional
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime) {
@@ -99,7 +59,7 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Override
     @Transactional
-    public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime){
+    public List<String> getUniqueLocalNumberAFromCalls(Date startTime, Date finishTime) {
         List<String> result = callDAO.getUniqueLocalNumberAFromCalls(startTime, finishTime);
         return result;
     }
@@ -126,6 +86,53 @@ public class CallDataServiceImpl implements CallDataService {
     @Transactional
     public List<Integer> getUnbilledCallsIdList(int limit, int offset) {
         return callDAO.getUnbilledCallIds(limit, offset);
+    }
+
+    @Override
+    @Transactional
+    public List<CallForm> getCallsList(CallsRequestParamTO paramTO) {
+        List<CallForm> result = new ArrayList<>();
+        CallAssembler assembler = new CallAssembler();
+        int page = paramTO.getPage() - 1;
+        paramTO.setOffset(page * paramTO.getRows());
+        List<Call> beans;
+
+        if (paramTO.getCallNumberA().isEmpty() && paramTO.getCallNumberB().isEmpty() && paramTO.getSelectedTime().isEmpty()) {
+            beans = callDAO.callsListSelectionBySearch(paramTO);
+        } else {
+            paramTO.setStartDate(paramTO.getSelectedTime());
+            paramTO.setEndDate(paramTO.getSelectedTime());
+            beans = callDAO.callsListSelectionBySearch(paramTO);
+        }
+        for (Call curBean : beans) {
+            CallForm curForm = assembler.fromBeanToForm(curBean);
+            result.add(curForm);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int determineTotalPagesForOutput(CallsRequestParamTO callsRequestParamTO) {
+        int callsCount;
+        if (callsRequestParamTO.getStartDate() == null && callsRequestParamTO.getEndDate() == null &&
+                (callsRequestParamTO.getCallNumberA() == null || callsRequestParamTO.getCallNumberA().isEmpty())
+                && (callsRequestParamTO.getCallNumberB() == null || callsRequestParamTO.getCallNumberB().isEmpty())) {
+            callsCount = callDAO.getCallsCount();
+        } else {
+            callsCount = callDAO.getCallsCountWithSearchValues(callsRequestParamTO);
+            ;
+        }
+        int containedCount = callsRequestParamTO.getPageResults();
+
+        return calculatePagesCount(callsCount, containedCount);
+    }
+
+    private int calculatePagesCount(int callsCount, int containedCount) {
+        if (callsCount % containedCount == 0)
+            return callsCount / containedCount;
+        else
+            return (callsCount / containedCount) + 1;
     }
 
 }

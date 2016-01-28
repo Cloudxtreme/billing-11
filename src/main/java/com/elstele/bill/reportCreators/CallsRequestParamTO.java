@@ -13,6 +13,10 @@ public class CallsRequestParamTO {
     private int pageResults;
     private Date startDate;
     private Date endDate;
+    private int rows;
+    private int page;
+    private String selectedTime;
+    private int offset;
     final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallsRequestParamTO.class);
 
     DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -43,6 +47,38 @@ public class CallsRequestParamTO {
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public String getSelectedTime() {
+        return selectedTime;
+    }
+
+    public void setSelectedTime(String selectedTime) {
+        this.selectedTime = selectedTime;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     public void setStartDate(String timeRange) {
