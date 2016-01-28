@@ -125,6 +125,9 @@ public class CallDataServiceImpl implements CallDataService {
 
     @Transactional
     public List<Integer> getUnbilledCallsIdList(int limit, int offset) {
+        if (limit == 0){
+            return callDAO.getUnbilledCallIds();
+        }
         return callDAO.getUnbilledCallIds(limit, offset);
     }
 

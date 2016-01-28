@@ -45,7 +45,7 @@ public class CallFormBuilder {
         return this;
     }
 
-    public CallFormBuilder withDuration(long duration){
+    public CallFormBuilder withDuration(int duration){
         callForm.setDuration(duration);
         return this;
     }

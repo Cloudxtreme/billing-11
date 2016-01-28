@@ -64,7 +64,7 @@ public class CallDataServiceTest {
         CallBuilder callBuilder = new CallBuilder();
         CallTOBuilder callTOBuilder = new CallTOBuilder();
 
-        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122).withId(1).withNumberA("1111111")
                 .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
         call = callBuilder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122).withId(1).withNumberA("1111111")
                 .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();

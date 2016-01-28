@@ -26,7 +26,7 @@ public class CallBillingServiceImpl implements CallBillingService {
     @Autowired
     private CallBillingDAO billingDAO;
 
-    final static Logger log = LogManager.getLogger(CallBillingServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(CallBillingServiceImpl.class);
 
     @Transactional
     public void updateCallWithItCost(Integer callId) throws DirectionCallException {
@@ -119,7 +119,11 @@ public class CallBillingServiceImpl implements CallBillingService {
 
                 if ((unixCallStartTime >= dayStartTimestamp) && (unixCallFinishTime <= dayFinishTimestamp)){
                     long preferenceSeconds = unixCallFinishTime - unixCallStartTime;
-                    callCostAbs = preferenceSeconds * curRule.getTarif();
+                    if(curRule.getTarif() != null){
+                        callCostAbs = preferenceSeconds * curRule.getTarif();
+                    } else {
+                        LOGGER.error("COST is 0. Tariff is NULL for call with id:" + currentCall.getId());
+                    }
                     break;
                 }
 
@@ -137,7 +141,11 @@ public class CallBillingServiceImpl implements CallBillingService {
                     if ((unixCallStartTime >= dayStartTimestamp) && (unixCallStartTime <= dayFinishTimestamp)){
 
                         long preferenceSeconds = unixCallFinishTime - unixCallStartTime;
-                        callCostAbs = preferenceSeconds * curRule.getTarif();
+                        if(curRule.getTarif() != null){
+                            callCostAbs = preferenceSeconds * curRule.getTarif();
+                        } else {
+                            LOGGER.error("COST is 0. Tariff is NULL for call with id:" + currentCall.getId());
+                        }
                         break; // we find all period
                     }
                 }
@@ -155,7 +163,11 @@ public class CallBillingServiceImpl implements CallBillingService {
                     if ((unixCallStartTime >= dayStartTimestamp) && (unixCallStartTime <= dayFinishTimestamp)){
 
                         long preferenceSeconds = unixCallFinishTime - unixCallStartTime;
-                        callCostAbs = preferenceSeconds * curRule.getTarif();
+                        if(curRule.getTarif() != null){
+                            callCostAbs = preferenceSeconds * curRule.getTarif();
+                        } else {
+                            LOGGER.error("COST is 0. Tariff is NULL for call with id:" + currentCall.getId());
+                        }
                         break; // we find all period
                     }
                 }

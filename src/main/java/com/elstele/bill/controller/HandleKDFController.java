@@ -104,6 +104,7 @@ public class HandleKDFController {
             try {
                 InputStream fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
                 String flagString = "";
+                LOGGER.info("KDF file: " + uploadedFileInfoForm.getPath());
                 String yearFromFileName = "20" + uploadedFileInfoForm.getPath().substring(0, 2);
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
                 do {
@@ -118,7 +119,7 @@ public class HandleKDFController {
                     String numberA = tempStrHEX.substring(5, 12);
                     String numberB;
                     String startTime;
-                    Long duration;
+                    Integer duration;
                     String dvoCodeA;
                     String dvoCodeB;
 
@@ -135,7 +136,7 @@ public class HandleKDFController {
                         numberB = tempStrHEX.substring(20, 38).replaceAll("[^0-9]", "");
                         dvoCodeA = flagString.substring(42, 44);
                         dvoCodeB = flagString.substring(44, 46);
-                        duration = Long.parseLong((tempStrHEX.substring(52, 54) + tempStrHEX.substring(16, 20)), 16);
+                        duration = Integer.parseInt((tempStrHEX.substring(52, 54) + tempStrHEX.substring(16, 20)), 16);
                         String vkNum = tempStrHEX.substring(46, 49);
                         String ikNum = tempStrHEX.substring(49, 52);
                         String inputTrunk = tempStrHEX.substring(42, 44);
@@ -152,8 +153,8 @@ public class HandleKDFController {
                             yearInt = yearInt - 1;
                             yearFromFileName = Integer.toString(yearInt);
                         }
-                        startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes;
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                        startTime = yearFromFileName + "/" + startMonth + "/" + startDate + " " + startTimeHour + ":" + startTimeMinutes + ":01";
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
                         String calling = "";
                         String called = "";

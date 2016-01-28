@@ -26,7 +26,7 @@ public class BillingCallWorker implements Runnable, Worker {
     }
 
     public void run(){
-        LOGGER.info("Worker runned with id:" + callId);
+        //LOGGER.info("Worker runned with id:" + callId);
         try {
             billService.updateCallWithItCost(callId);
         } catch (DirectionCallException e) {
