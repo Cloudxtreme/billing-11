@@ -85,8 +85,8 @@ $(document).ready(function () {
                     document.getElementById('successMessage').style.display = "block";
                     uniqFiles = [];
                     setTimeout(function () {
-                        $("#successMessage").fadeOut(10000);
-                        $("#list li").fadeOut(10000);
+                        $("#successMessage").fadeOut(3000);
+                        $("#list li").fadeOut(3000);
                     });
                     $('body').scrollTop(0);
 
@@ -137,7 +137,7 @@ $(document).ready(function () {
             });
         if(values.length < 3){
             document.getElementById('errorMessageReportChoose').style.display = "block";
-            $("#errorMessageReportChoose").fadeOut(5000);
+            $("#errorMessageReportChoose").fadeOut(10000);
         }else reportCreatingRequest(values);
     });
 
@@ -171,7 +171,7 @@ $(document).ready(function () {
                 } else {
                     document.getElementById('errorMessageReport').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessageReport").fadeOut(5000);
+                        $("#errorMessageReport").fadeOut(10000);
                     });
                 }
             }

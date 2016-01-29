@@ -55,12 +55,12 @@ $(document).ready(function(){
                         });
                         document.getElementById('successMessage').style.display="block";
                         setTimeout(function() {
-                            $("#successMessage").fadeOut(2500);
+                            $("#successMessage").fadeOut(3000);
                         });
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(2500);
+                            $("#errorMessage").fadeOut(10000);
                         });
                     }
                 }
@@ -89,12 +89,12 @@ $(document).ready(function(){
                         document.getElementById('deleteSelected').style.display="none";
                         document.getElementById('successMessage').style.display="block";
                         setTimeout(function() {
-                            $("#successMessage").fadeOut(2500);
+                            $("#successMessage").fadeOut(3000);
                         });
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(2500);
+                            $("#errorMessage").fadeOut(10000);
                         });
                     }
                 }
@@ -187,12 +187,12 @@ $(document).ready(function(){
                     });
                     document.getElementById('successMessage').style.display="block";
                     setTimeout(function() {
-                        $("#successMessage").fadeOut(2000);
+                        $("#successMessage").fadeOut(3000);
                     });
                 } else{
                     document.getElementById('errorMessage').style.display="block";
                     setTimeout(function() {
-                        $("#errorMessage").fadeOut(2000);
+                        $("#errorMessage").fadeOut(10000);
                     });
                 }
             }

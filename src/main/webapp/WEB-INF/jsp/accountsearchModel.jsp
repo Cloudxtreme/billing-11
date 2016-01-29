@@ -14,6 +14,8 @@
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>
+    <spring:url value="/resources/js/popup.js" var="popup"/>
+    <script src="${popup}"></script>
     <script src="${util}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>
@@ -53,8 +55,10 @@
                         <a href="${pageContext.request.contextPath}/accounts/editFull/${current.id}"><span
                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         &nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/accounts/delete/${current.id}"><span
-                                class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a data-href="${pageContext.request.contextPath}/accounts/delete/${current.id}"
+                           id="deleting" data-toggle="modal" data-target="#confirm-delete">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/accounts/editFull/${current.id}">${current.accountName}</a>
@@ -86,6 +90,23 @@
             </label>
         </c:forEach>
     </table>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="label.accountDeleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="label.accountDelete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a type="button" id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
