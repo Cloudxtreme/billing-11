@@ -77,4 +77,10 @@ public class HandleCSVFileController {
         fileDownloadWorker.doArchiveDownload(path, directoryName, response);
     }
 
+    @RequestMapping(value = "/uploadcsvfile/reportCreatingProgress", method = RequestMethod.GET)
+    @ResponseBody
+    public float getProgress(){
+        return 0;
+    }
+
 }

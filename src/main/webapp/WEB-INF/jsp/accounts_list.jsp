@@ -38,7 +38,7 @@
             </c:if>
         </div>&nbsp;
 
-        <a href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.accountCreate"/></a>
+        <a type="button" href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.accountCreate"/></a>
         <div id="accAccountModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -94,9 +94,9 @@
         </table>
         <div id="tableNavigation">
             <spring:message code="label.page"/>:<label id="pageNumber">${pageNum}</label> <spring:message code="label.from"/> <label id="totalPages">${pagesTotal}</label>
-            <a href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick = "goToPrevPage();"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
+            <a type="button" href="#" class="btn btn-primary btn-sm link-btn" id="goPrev" onClick = "goToPrevPage();"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
             &nbsp;&nbsp;
-            <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+            <a type="button" href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick = "goToNextPage();"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
-                    <a id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                    <a type="button" id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
                 </div>
             </div>
         </div>

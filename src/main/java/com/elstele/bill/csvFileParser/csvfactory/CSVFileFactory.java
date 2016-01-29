@@ -4,6 +4,7 @@ import com.elstele.bill.csvFileParser.csvFileParsers.csvimpl.CSVFileCurrentParse
 import com.elstele.bill.csvFileParser.csvFileParsers.csvinterface.CSVFileParser;
 import com.elstele.bill.csvFileParser.csvFileParsers.csvimpl.CSVFileUKRNETParser;
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
+import com.elstele.bill.exceptions.IncorrectCSVFileTyleException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class CSVFileFactory {
     CallForCSVDataService callForCSVDataService;
     final static Logger log = LogManager.getLogger(CSVFileFactory.class);
 
-    public CSVFileParser getParser(String fileName) {
+    public CSVFileParser getParser(String fileName) throws IncorrectCSVFileTyleException {
         CSVFileParser csvFileParser;
         switch (fileName) {
             case "current_ukr": {
@@ -29,8 +30,8 @@ public class CSVFileFactory {
                 break;
             }
             default: {
-                csvFileParser = null;
                 log.warn("File name does not match any cases");
+                throw new IncorrectCSVFileTyleException("File name does not match any cases");
             }
         }
         return csvFileParser;

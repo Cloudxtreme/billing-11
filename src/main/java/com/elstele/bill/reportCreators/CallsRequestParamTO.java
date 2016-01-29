@@ -107,4 +107,39 @@ public class CallsRequestParamTO {
             }
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CallsRequestParamTO)) return false;
+
+        CallsRequestParamTO that = (CallsRequestParamTO) o;
+
+        if (pageResults != that.pageResults) return false;
+        if (rows != that.rows) return false;
+        if (page != that.page) return false;
+        if (offset != that.offset) return false;
+        if (callNumberA != null ? !callNumberA.equals(that.callNumberA) : that.callNumberA != null) return false;
+        if (callNumberB != null ? !callNumberB.equals(that.callNumberB) : that.callNumberB != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+        if (selectedTime != null ? !selectedTime.equals(that.selectedTime) : that.selectedTime != null) return false;
+        return !(df != null ? !df.equals(that.df) : that.df != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = callNumberA != null ? callNumberA.hashCode() : 0;
+        result = 31 * result + (callNumberB != null ? callNumberB.hashCode() : 0);
+        result = 31 * result + pageResults;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + rows;
+        result = 31 * result + page;
+        result = 31 * result + (selectedTime != null ? selectedTime.hashCode() : 0);
+        result = 31 * result + offset;
+        result = 31 * result + (df != null ? df.hashCode() : 0);
+        return result;
+    }
 }

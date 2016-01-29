@@ -11,8 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletContext;
-
 import org.apache.logging.log4j.Logger;
 
 @Service
@@ -21,25 +19,36 @@ public class ReportDataServiceImpl implements ReportDataService {
     ReportCreatorFactory factory;
     @Autowired
     LocalDirPathProvider pathProvider;
+    private double progress = 0;
 
-    final static Logger log = LogManager.getLogger(ReportDataServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(ReportDataServiceImpl.class);
 
 
     @Override
     public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
-        ReportDetails reportDetails = new ReportDetails();
-        reportDetails.setYear(reportParametersArray[0]);
-        reportDetails.setMonth(reportParametersArray[1]);
-        reportDetails.setPath(pathProvider.getCSVDirectoryPath());
+        try {
+            ReportDetails reportDetails = new ReportDetails();
+            reportDetails.setYear(reportParametersArray[0]);
+            reportDetails.setMonth(reportParametersArray[1]);
+            reportDetails.setPath(pathProvider.getCSVDirectoryPath());
 
-        for (int i = 2; i < reportParametersArray.length; i++) {
-            reportDetails.setReportName(reportParametersArray[i]);
-            ReportCreator reportCreator = factory.getCreator(reportParametersArray[i]);
-            reportCreator.create(reportDetails);
+            double reportsCount = reportParametersArray.length - 2;
+            double timeForOne = 100/reportsCount;
+
+            for (int i = 2; i < reportParametersArray.length; i++) {
+                reportDetails.setReportName(reportParametersArray[i]);
+                ReportCreator reportCreator = factory.getCreator(reportParametersArray[i]);
+                reportCreator.create(reportDetails);
+                //TODO think how to get this value from this method
+                progress +=  timeForOne;
+            }
+
+            LOGGER.info("All files is generated successful");
+            return ResponseToAjax.SUCCESS;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return ResponseToAjax.ERROR;
         }
-        log.info("All files is generated successful");
-        return ResponseToAjax.SUCCESS;
-
     }
 
 }

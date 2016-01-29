@@ -31,7 +31,8 @@
 
 <div class="well well-lg">
 
-   <div id="errorMessage" class="alert alert-warning" style="display: none">
+    <%--divs for messages--%>
+   <div id="errorMessage" class="alert alert-danger" style="display: none">
         <strong><spring:message code="csv.error"/></strong>
     </div>
     <div id="errorSelectFile" class="alert alert-warning" style="display: none">
@@ -40,11 +41,20 @@
     <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
         <strong><spring:message code="csv.incorrecttype"/></strong>
     </div>
-    <div id="errorUnavailable" class="alert alert-warning" style="display: none">
+    <div id="errorUnavailable" class="alert alert-danger" style="display: none">
         <strong><spring:message code="csv.unavailable"/></strong>
     </div>
     <div id="successMessage" class="alert alert-success" style="display: none">
         <strong><spring:message code="csv.success"/></strong>
+    </div>
+    <div id="successMessageReport" class="alert alert-success" style="display: none">
+        <strong><spring:message code="csv.successReport"/></strong>
+    </div>
+    <div id="errorMessageReport" class="alert alert-danger" style="display: none">
+        <strong><spring:message code="csv.errorReport"/></strong>
+    </div>
+    <div id="errorMessageReportChoose" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
 
 
@@ -56,6 +66,12 @@
            style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
                 class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
     </legend>
+
+    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+            <span class="sr-only">60% Complete</span>
+        </div>
+    </div>
 
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal"
          aria-hidden="true">

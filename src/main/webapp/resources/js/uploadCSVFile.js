@@ -135,7 +135,10 @@ $(document).ready(function () {
                 tr.addClass("success");
                 $(this).attr('checked', false);
             });
-        reportCreatingRequest(values);
+        if(values.length < 3){
+            document.getElementById('errorMessageReportChoose').style.display = "block";
+            $("#errorMessageReportChoose").fadeOut(5000);
+        }else reportCreatingRequest(values);
     });
 
     $('.unDefaultTDStyle').on('click', function () {
@@ -160,15 +163,15 @@ $(document).ready(function () {
             url: 'reportCreating',
             success: function (data) {
                 if (data == "SUCCESS") {
-                    document.getElementById('successMessage').style.display = "block";
-                    $("#successMessage").fadeOut(5000, function () {
-                        $("#successMessage").fadeOut(3000);
+                    document.getElementById('successMessageReport').style.display = "block";
+                    $("#successMessageReport").fadeOut(5000, function () {
+                        $("#successMessageReport").fadeOut(3000);
                         location.reload();
                     });
                 } else {
-                    document.getElementById('errorUnavailable').style.display = "block";
+                    document.getElementById('errorMessageReport').style.display = "block";
                     setTimeout(function () {
-                        $("#errorUnavailable").fadeOut(3000);
+                        $("#errorMessageReport").fadeOut(5000);
                     });
                 }
             }
@@ -238,5 +241,31 @@ $(document).ready(function () {
             dataType: 'json'
         });
     });
+
+    function getProgress(){
+        $.ajax({
+            url: "./uploadcsvfile/reportCreatingProgress",
+            type: "GET",
+            success : function(data){
+                var width = (data);
+                if(data >0 && data < 100){
+                    document.getElementById('progress').style.display = "block";
+                    $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
+                    setTimeout(getProgress,2000);
+                }if (data == 100){
+                    $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
+                    clearInterval(interval);
+                    document.getElementById('successMessageReport').style.display="block";
+                    setTimeout(function() {
+                        $("#successMessageReport").fadeOut(7000);
+                        $("#progress-bar").fadeOut(5000);
+                        location.reload();
+                    },15000);
+                }
+            }
+        })
+    }
+
+    var interval =  setInterval(getProgress, 2000);
 
 });

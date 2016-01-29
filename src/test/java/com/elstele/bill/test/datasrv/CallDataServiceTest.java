@@ -48,6 +48,9 @@ public class CallDataServiceTest {
     private Call call;
     private Call call1;
     private Call call2;
+    private CallForm callForm;
+    private CallForm callForm1;
+    private CallForm callForm2;
     private CallsRequestParamTO fullParam;
     private CallsRequestParamTO emptyParam;
     private CallRequestParamTOBuilder callRequestParamTOBuilder;
@@ -74,6 +77,12 @@ public class CallDataServiceTest {
                 .withNumberB("9999999").withOutputTrunk("014").withStartTime(startDate).getRes();
         call2 = callBuilder.build().withStartTime(startDate).withNumberA("0937895111").withId(3).getRes();
 
+        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+                .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
+        callForm1 = builder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122l).withId(2).withNumberA("2222222")
+                .withNumberB("9999999").withOutputTrunk("014").withStartTime(startDate).getRes();
+        callForm2 = builder.build().withStartTime(startDate).withNumberA("0937895111").withId(3).getRes();
+
         callList = new ArrayList<>();
         numbersList = new ArrayList<>();
         numbersList.add(call1.getNumberA());
@@ -94,12 +103,18 @@ public class CallDataServiceTest {
         fullParam = callRequestParamTOBuilder.build()
                 .withNumberA(call.getNumberA())
                 .withNumberB(call.getNumberB())
-                .withStartDate("notnull")
-                .withEndDate("notnull")
+                .withStartDate("2016/01/05 00:00 - 2016/01/13 00:00")
+                .withEndDate("2016/01/05 00:00 - 2016/01/13 00:00")
+                .withSelectedTime("2016/01/05 00:00 - 2016/01/13 00:00")
                 .withPageResult(1)
                 .getRes();
 
-        emptyParam = callRequestParamTOBuilder.build().withPageResult(1).getRes();
+        emptyParam = callRequestParamTOBuilder.build()
+                .withPageResult(1)
+                .withNumberA("")
+                .withNumberB("")
+                .withSelectedTime("")
+                .getRes();
     }
 
     @After
@@ -224,6 +239,16 @@ public class CallDataServiceTest {
 
     @Test
     public void getCallsList(){
+        List<Call> emptyListCall = new ArrayList<>();
+        emptyListCall.add(call2);
+        when(callDAO.callsListSelectionBySearch(emptyParam)).thenReturn(emptyListCall);
+        when(callDAO.callsListSelectionBySearch(fullParam)).thenReturn(callList);
 
+        List<CallForm> actualListFull = callDataService.getCallsList(fullParam);
+        assertTrue(actualListFull.contains(callForm));
+        assertTrue(actualListFull.contains(callForm1));
+
+        List<CallForm> actualEmptyList = callDataService.getCallsList(emptyParam);
+        assertTrue(actualEmptyList.contains(callForm2));
     }
 }

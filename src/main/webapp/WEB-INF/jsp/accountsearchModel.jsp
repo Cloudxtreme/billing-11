@@ -74,7 +74,14 @@
                     </td>
                     <td>${current.accountType}</td>
                     <td>${current.currentBalance}</td>
-                    <td>${current.status}</td>
+                    <c:choose>
+                        <c:when test="${current.status eq 'DELETED'}">
+                            <td><strong style="font-style: italic !important; color: rgba(253, 28, 0, 0.81)">${current.status}</strong></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>${current.status}</td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </label>
         </c:forEach>

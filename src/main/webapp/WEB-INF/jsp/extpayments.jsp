@@ -27,13 +27,15 @@
     <script type="text/javascript" src="${daterangepicker}"></script>
     <spring:url value="/resources/css/daterangepickerCSS/daterangepicker.css" var="daterangepickerCSS"/>
     <link href="${daterangepickerCSS}" rel="stylesheet"/>
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
+
 </head>
 <body>
 
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 
-<div class="col-lg-9">
+<div class="well">
     <legend>External Payments</legend>
 
     <fieldset>

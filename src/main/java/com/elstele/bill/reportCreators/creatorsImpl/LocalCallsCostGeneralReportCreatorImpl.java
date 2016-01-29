@@ -18,7 +18,7 @@ import java.util.List;
 
 public class LocalCallsCostGeneralReportCreatorImpl implements ReportCreator {
 
-    final public static Logger log = LogManager.getLogger(LocalCallsCostGeneralReportCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LocalCallsCostGeneralReportCreatorImpl.class);
     private CallDataService callDataService;
 
     public LocalCallsCostGeneralReportCreatorImpl(CallDataService callDataService) {
@@ -33,6 +33,7 @@ public class LocalCallsCostGeneralReportCreatorImpl implements ReportCreator {
 
         List<String> listWithNumberA = callDataService.getUniqueLocalNumberAFromCalls(startTime, endTime);
         PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+
         for (String numberA : listWithNumberA) {
             strIndex++;
             List<Call> callsListByNumberA = callDataService.getLocalCalls(numberA, startTime, endTime);
@@ -41,12 +42,13 @@ public class LocalCallsCostGeneralReportCreatorImpl implements ReportCreator {
             ReportStringsWriter.write(stringList, ps);
             totalLocalCallsCost += CostTotalCounter.countLocalForCall(callsListByNumberA);
         }
+
         String footerString = " Общая стоимость переговоров- " + ReportStringCreator.round(totalLocalCallsCost, 2) + " UAH";
         if (ps != null) {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
     }
 
 }

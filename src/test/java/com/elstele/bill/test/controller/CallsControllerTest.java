@@ -3,6 +3,8 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.CallsContoller;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.form.CallForm;
+import com.elstele.bill.reportCreators.CallsRequestParamTO;
+import com.elstele.bill.test.builder.bean.CallRequestParamTOBuilder;
 import com.elstele.bill.test.builder.form.CallFormBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -49,6 +51,9 @@ public class CallsControllerTest {
     private List<CallForm> expectedListWithOneValue;
     private Date startDate;
     private Date endDate;
+    private CallsRequestParamTO paramTO;
+    private CallsRequestParamTO paramTOForOneValue;
+    CallRequestParamTOBuilder paramTOBuilder;
 
     @Before
     public void setUp(){
@@ -70,14 +75,28 @@ public class CallsControllerTest {
         expectedList.add(callForm);
         expectedList.add(callForm1);
 
+        paramTOBuilder = new CallRequestParamTOBuilder();
+        paramTO = paramTOBuilder.build()
+                .withRows(10)
+                .withPage(0)
+                .withNumberA("")
+                .withNumberB("")
+                .withSelectedTime("")
+                .getRes();
+        paramTOForOneValue = paramTOBuilder.build()
+                .withRows(10)
+                .withPage(0)
+                .withNumberA("123")
+                .withNumberB("221")
+                .withSelectedTime("")
+                .getRes();
         expectedListWithOneValue = new ArrayList<>();
         expectedListWithOneValue.add(callForm);
     }
 
-   /* @Test
+    @Test
     public void getAccountsListSearchTest() throws Exception {
-        when(callDataService.getCallsList(10, 0)).thenReturn(expectedList);
-        when(callDataService.callsListSelectionBySearch(10, 0, "123", "221", null, null)).thenReturn(expectedListWithOneValue);
+        when(callDataService.getCallsList(paramTO)).thenReturn(expectedList);
 
         MvcResult resultWithoutSearchValues = this.mockMvc.perform(get("/callsList")
                 .session(mockSession)
@@ -97,6 +116,8 @@ public class CallsControllerTest {
 
         assertTrue(expectedList.equals(list));
 
+        when(callDataService.getCallsList(paramTOForOneValue)).thenReturn(expectedListWithOneValue);
+
         MvcResult resultAnySearchValues = this.mockMvc.perform(get("/callsList")
                 .session(mockSession)
                 .param("rows", "10")
@@ -114,7 +135,6 @@ public class CallsControllerTest {
 
         assertTrue(expectedListWithOneValue.equals(list1));
     }
-*/
     @Test
     public void handleCallsHomeTest() throws Exception {
         this.mockMvc.perform(get("/callshome")
@@ -125,9 +145,23 @@ public class CallsControllerTest {
                 .andExpect(forwardedUrl("calls_list"));
     }
 
-    /*@Test
+    @Test
     public void handleCallsHomeOnChangeTest() throws Exception {
-        when(callDataService.getCallsCount()).thenReturn(10);
+        CallsRequestParamTO paramEmtpy = paramTOBuilder.build()
+                .withNumberA("")
+                .withNumberB("")
+                .withStartDate("")
+                .withPageResult(10)
+                .getRes();
+        CallsRequestParamTO paramFull= paramTOBuilder.build()
+                .withNumberA("2222222")
+                .withNumberB("")
+                .withStartDate("")
+                .withPageResult(2)
+                .getRes();
+
+        when(callDataService.determineTotalPagesForOutput(paramEmtpy)).thenReturn(10);
+        when(callDataService.determineTotalPagesForOutput(paramFull)).thenReturn(1);
 
         MvcResult pageCountsWithoutValues = this.mockMvc.perform(post("/callsPages")
                 .session(mockSession)
@@ -139,7 +173,7 @@ public class CallsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String contentElse = pageCountsWithoutValues.getResponse().getContentAsString();
-        assertTrue(contentElse.equals("1"));
+        assertTrue(contentElse.equals("10"));
 
         MvcResult pageCountsAnyValues = this.mockMvc.perform(post("/callsPages")
                 .session(mockSession)
@@ -151,6 +185,6 @@ public class CallsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String contentElseWithSearch = pageCountsAnyValues.getResponse().getContentAsString();
-        assertTrue(contentElseWithSearch.equals("0"));
-    }*/
+        assertTrue(contentElseWithSearch.equals("1"));
+    }
 }
