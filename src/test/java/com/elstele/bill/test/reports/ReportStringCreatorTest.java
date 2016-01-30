@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.*;
 
+import static com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator.lineSeparator;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class ReportStringCreatorTest {
 
     private String numberA;
     private List<CallTO> callTOList;
+
+
 
     @Before
     public void setUp(){
@@ -57,9 +60,9 @@ public class ReportStringCreatorTest {
         ReportStringCreator reportStringCreator = new ReportStringCreator();
         List<String>  expectedList = reportStringCreator.createCallTOStrings(numberA, callTOList);
         String numberAShort = numberA.substring(1, numberA.length());
-        String expectedFirstString = "Номер телефона, с которого звонили: " + numberAShort;
+        String expectedFirstString = "Номер телефона, с которого звонили: " + numberAShort + lineSeparator;
         assertTrue(expectedList.contains(expectedFirstString));
-        String expectedLastString = "--------------------------------------------------------------------------------";
+        String expectedLastString = "--------------------------------------------------------------------------------" + lineSeparator;
         assertTrue(expectedList.contains(expectedLastString));
     }
 }

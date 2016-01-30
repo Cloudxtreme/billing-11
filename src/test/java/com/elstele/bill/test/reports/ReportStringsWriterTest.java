@@ -15,7 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
-
+import static com.elstele.bill.reportCreators.reportsStringCreator.ReportStringCreator.lineSeparator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportStringsWriterTest {
@@ -37,16 +37,16 @@ public class ReportStringsWriterTest {
         writer.close();
 
         stringList= new ArrayList<>();
-        stringList.add("The first line");
-        stringList.add("The second line");
+        stringList.add("The first line" + lineSeparator);
+        stringList.add("The second line" + lineSeparator);
 
         ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(fileActual, false)), true, "cp1251");
     }
 
     @After
     public void tearDown(){
-        fileActual.delete();
-        fileExpected.delete();
+        //fileActual.delete();
+        //fileExpected.delete();
     }
 
     @Test
