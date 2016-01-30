@@ -33,12 +33,14 @@ public class ShortGeneralReportVegaCreatorImpl implements ReportCreator {
 
         List<String> listWithNumberA = callDataService.getUniqueNumberAFromCallsWithTrunk(startTime, endTime, ReportConstants.OUTPUT_TRUNK);
         PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        int i = 1;
         for (String numberA : listWithNumberA) {
             List<CallTO> callsListByNumberA =  callDataService.getCallByNumberAWithTrunk(numberA, startTime, endTime, ReportConstants.OUTPUT_TRUNK);
             ReportStringCreator stringCreator = new ReportStringCreator();
-            List<String> stringList = stringCreator.createTOStringsShort(numberA, callsListByNumberA);
+            List<String> stringList = stringCreator.createTOStringsShort(numberA, callsListByNumberA, i);
             ReportStringsWriter.write(stringList, ps);
             costTotalForPeriod += CostTotalCounter.countForTO(callsListByNumberA);
+            i++;
         }
         String footerString = "Общая стоимость переговоров -  " + ReportStringCreator.round(costTotalForPeriod, 2) + " грн";
         if (ps != null) {

@@ -19,6 +19,8 @@ public class BillingCallsProcessor extends BillingProcessor {
     private CallDataService callDataService;
     private final Integer pageSize = 100;
     private Integer processedCallsCounter;
+    private float progress;
+    private int callsCount;
 
     public void processCalls(){
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
@@ -26,7 +28,7 @@ public class BillingCallsProcessor extends BillingProcessor {
         //TODO convert sysout to LOGGER and add more verbal output
         processedCallsCounter = 0;
         List<Integer> callsToBeBilledIds = callDataService.getUnbilledCallsIdList(0,0);
-        Integer callsCount =  callsToBeBilledIds.size();
+        callsCount =  callsToBeBilledIds.size();
         Integer pagesCount = (callsCount/pageSize)+1;
         System.out.println("-------------Initial call countForTO:" + callsCount + " Pages count:" + pagesCount);
 
@@ -46,13 +48,17 @@ public class BillingCallsProcessor extends BillingProcessor {
             List<Integer> curCallIds = callsToBeBilledIds.subList(from, to);
             System.out.println("-------------Call taked from :" + from + " to " + to);
             System.out.println("-------------Call countForTO at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
+            System.out.println("-------------Calls processed " + processedCallsCounter + " from " + callsCount + " progress:" + getCallsBillingProgress() + "%");
 
             putCallsToExecutor(executor, curCallIds);
 
         }
-
-        System.out.println("Processed calls:" + processedCallsCounter);
+        System.out.println("Processed calls:" + processedCallsCounter + " progress:" + getCallsBillingProgress() + "%");
         shutdownExecutor(executor);
+    }
+
+    public float getCallsBillingProgress(){
+        return (float)processedCallsCounter/callsCount *100;
     }
 
     private void putCallsToExecutor(ThreadPoolExecutor executor, List<Integer> curCallIds) {

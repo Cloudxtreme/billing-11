@@ -4,6 +4,7 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Entity
@@ -13,6 +14,8 @@ public class Call extends CommonDomainBean{
     private String numberB;
     private Date startTime;
     private Integer duration;
+    @Transient
+    private Integer originalDuration;
     private String aonKat;
     private String dvoCodeA;
     private String dvoCodeB;
@@ -162,6 +165,14 @@ public class Call extends CommonDomainBean{
 
     public void setCostTotal(Float costTotal) {
         this.costTotal = costTotal;
+    }
+
+    public Integer getOriginalDuration() {
+        return originalDuration;
+    }
+
+    public void setOriginalDuration(Integer originalDuration) {
+        this.originalDuration = originalDuration;
     }
 
     @Override

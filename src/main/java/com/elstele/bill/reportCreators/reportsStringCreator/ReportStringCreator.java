@@ -35,13 +35,13 @@ public class ReportStringCreator {
         return stringList;
     }
 
-    public List<String> createTOStringsShort(String numberA, List<CallTO> callForCSVListByNumberA) {
-        callTODataShort(numberA, callForCSVListByNumberA);
+    public List<String> createTOStringsShort(String numberA, List<CallTO> callForCSVListByNumberA, int i) {
+        callTODataShort(numberA, callForCSVListByNumberA, i);
         return stringList;
     }
 
-    public List<String> createCSVStringsShort(String numberA, List<CallForCSV> callForCSVListByNumberA) {
-        callCSVDataShort(numberA, callForCSVListByNumberA);
+    public List<String> createCSVStringsShort(String numberA, List<CallForCSV> callForCSVListByNumberA, int i) {
+        callCSVDataShort(numberA, callForCSVListByNumberA, i);
         return stringList;
     }
 
@@ -100,13 +100,13 @@ public class ReportStringCreator {
         }
     }
 
-    public void callTODataShort(String numberA, List<CallTO> callListByNumberA) {
+    public void callTODataShort(String numberA, List<CallTO> callListByNumberA, int i) {
         try {
             for (CallTO callTO : callListByNumberA) {
                 Double costTotal = (double) callTO.getCosttotal();
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
+            String result = i + " " + numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");
@@ -134,13 +134,13 @@ public class ReportStringCreator {
         }
     }
 
-    public void callCSVDataShort(String numberA, List<CallForCSV> callListByNumberA) {
+    public void callCSVDataShort(String numberA, List<CallForCSV> callListByNumberA, int i) {
         try {
             for (CallForCSV callForCSV : callListByNumberA) {
                 Double costTotal = Double.parseDouble(callForCSV.getCostCallTotal());
                 costTotalForThisNumber += costTotal;
             }
-            String result = numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
+            String result = i + " " + numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
             log.error(e + " Method  = callTODataShort ");

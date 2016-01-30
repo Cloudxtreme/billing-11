@@ -32,13 +32,15 @@ public class ShortGeneralReportRECreatorImpl implements ReportCreator {
 
         List<String> listWithNumberA = callForCSVDataService.getUniqueNumberA(startTime, endTime);
         PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        int i = 0;
         for (String numberA : listWithNumberA) {
             List<CallForCSV> callsListByNumberA = callForCSVDataService.getCallForCSVByNumberA(numberA, startTime, endTime);
             ReportStringCreator stringCreator = new ReportStringCreator();
-            List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA);
+            List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA, i);
 
             ReportStringsWriter.write(stringList, ps);
             costTotalForPeriod += CostTotalCounter.countForCSV(callsListByNumberA);
+            i++;
         }
         String footerString = "Общая стоимость переговоров -  " + ReportStringCreator.round(costTotalForPeriod, 2) + " грн";
         if (ps != null) {

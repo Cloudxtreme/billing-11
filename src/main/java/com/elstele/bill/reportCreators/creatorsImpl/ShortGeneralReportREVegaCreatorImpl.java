@@ -32,13 +32,15 @@ public class ShortGeneralReportREVegaCreatorImpl implements ReportCreator {
 
         List<String> listWithNumberA = callForCSVDataService.getUniqueNumberAWithProvider(startTime, endTime, ReportConstants.VEGA_PROVIDER);
         PrintStream ps = FileCreator.createFileForWriting(reportDetails);
+        int i = 1;
         for (String numberA : listWithNumberA) {
             List<CallForCSV> callsListByNumberA = callForCSVDataService.getCallForCSVByNumberAWithProvider(numberA, startTime, endTime, ReportConstants.VEGA_PROVIDER);
             ReportStringCreator stringCreator = new ReportStringCreator();
-            List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA);
+            List<String> stringList = stringCreator.createCSVStringsShort(numberA, callsListByNumberA, i);
 
             ReportStringsWriter.write(stringList, ps);
             costTotalForPeriod += CostTotalCounter.countForCSV(callsListByNumberA);
+            i++;
         }
         String footerString = "Общая стоимость переговоров -  " + ReportStringCreator.round(costTotalForPeriod, 2) + " грн";
         if (ps != null) {
