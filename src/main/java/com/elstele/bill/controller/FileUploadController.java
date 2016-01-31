@@ -37,6 +37,8 @@ public class FileUploadController {
     CallDataService callDataService;
     @Autowired
     FileUploader fileUploader;
+    @Autowired
+    ReportDataService reportDataService;
 
 
 
@@ -45,6 +47,7 @@ public class FileUploadController {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();
         model.addObject("yearLsit", listDate);
+        reportDataService.setProgress(0);
         return model;
     }
 

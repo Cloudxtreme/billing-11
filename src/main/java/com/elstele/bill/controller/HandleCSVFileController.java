@@ -79,8 +79,8 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/uploadcsvfile/reportCreatingProgress", method = RequestMethod.GET)
     @ResponseBody
-    public float getProgress(){
-        return 0;
+    public double getProgress(){
+        return reportDataService.gettingProgressValue();
     }
 
 }

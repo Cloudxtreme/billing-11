@@ -9,6 +9,7 @@ import com.elstele.bill.exceptions.IncorrectReportNameException;
 import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import org.apache.logging.log4j.Logger;
@@ -19,12 +20,13 @@ public class ReportDataServiceImpl implements ReportDataService {
     ReportCreatorFactory factory;
     @Autowired
     LocalDirPathProvider pathProvider;
-    private double progress = 0;
 
     final static Logger LOGGER = LogManager.getLogger(ReportDataServiceImpl.class);
+    private double progress;
 
 
     @Override
+    @Async
     public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
         try {
             ReportDetails reportDetails = new ReportDetails();
@@ -34,6 +36,7 @@ public class ReportDataServiceImpl implements ReportDataService {
 
             double reportsCount = reportParametersArray.length - 2;
             double timeForOne = 100/reportsCount;
+            progress = 0;
 
             for (int i = 2; i < reportParametersArray.length; i++) {
                 reportDetails.setReportName(reportParametersArray[i]);
@@ -51,4 +54,13 @@ public class ReportDataServiceImpl implements ReportDataService {
         }
     }
 
+    @Override
+    public double gettingProgressValue(){
+        return Math.round(progress);
+    }
+
+    @Override
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
 }
