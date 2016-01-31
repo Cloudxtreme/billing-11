@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @Controller
-public class CallsContoller {
+public class CallsController {
     @Autowired
     CallDataService callDataService;
 
@@ -63,5 +63,12 @@ public class CallsContoller {
         int totalPages = callDataService.determineTotalPagesForOutput(callsRequestParamTO);
         return Integer.toString(totalPages);
     }
+
+    @RequestMapping(value = "/callslist/getprogress", method = RequestMethod.GET)
+    @ResponseBody
+    public float getCallProgress(){
+        return 0;
+    }
+
 
 }

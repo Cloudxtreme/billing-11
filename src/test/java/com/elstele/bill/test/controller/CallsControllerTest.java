@@ -1,6 +1,6 @@
 package com.elstele.bill.test.controller;
 
-import com.elstele.bill.controller.CallsContoller;
+import com.elstele.bill.controller.CallsController;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.form.CallForm;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
@@ -45,7 +45,7 @@ public class CallsControllerTest {
     CallDataService callDataService;
 
     @InjectMocks
-    CallsContoller callsController;
+    CallsController callsController;
 
     private List<CallForm> expectedList;
     private List<CallForm> expectedListWithOneValue;

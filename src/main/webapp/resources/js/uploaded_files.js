@@ -175,29 +175,6 @@ $(document).ready(function(){
     }
 
     var interval = setTimeout(getProgress,2000);
-
-    $('#handleCostTotal').on('click', function(){
-        $.ajax({
-            url: "./worker/billCall",
-            type: "Post",
-            success: function(data){
-                if(data == "success") {
-                    $tr.fadeOut('slow',function(){
-                        $tr.remove()
-                    });
-                    document.getElementById('successMessage').style.display="block";
-                    setTimeout(function() {
-                        $("#successMessage").fadeOut(3000);
-                    });
-                } else{
-                    document.getElementById('errorMessage').style.display="block";
-                    setTimeout(function() {
-                        $("#errorMessage").fadeOut(10000);
-                    });
-                }
-            }
-        })
-    });
 });
 
 

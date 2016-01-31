@@ -33,6 +33,9 @@
 
 
 <div class="well">
+    <div id="successMessageHandle" class="alert alert-success" style="display: none">
+        <strong><spring:message code="hadleCallsCost.success"/></strong>
+    </div>
     <label>
         <spring:message code="label.show"/>
         <select class="selectpicker" data-style="btn-info" id="selectEntries">
@@ -67,7 +70,17 @@
                 <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
+        <div class="form-group float-right">
+            <a type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></a>
+        </div>
     </form>
+
+    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+            <span class="sr-only">60% Complete</span>
+        </div>
+    </div>
+
 
     <div id="callsTableDiv">
         <table id="callsTable" class="table table-striped">

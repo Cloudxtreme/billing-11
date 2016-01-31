@@ -248,6 +248,9 @@ $(document).ready(function () {
             type: "GET",
             success : function(data){
                 var width = (data);
+                if(data == 0){
+                    setTimeout(getProgress,2000);
+                }
                 if(data >0 && data < 100){
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
@@ -260,12 +263,12 @@ $(document).ready(function () {
                         $("#successMessageReport").fadeOut(7000);
                         $("#progress-bar").fadeOut(5000);
                         location.reload();
-                    },15000);
+                    },8000);
                 }
             }
         })
     }
 
-    var interval =  setInterval(getProgress, 2000);
+    var interval =  setTimeout(getProgress, 2000);
 
 });
