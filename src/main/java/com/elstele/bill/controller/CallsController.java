@@ -20,12 +20,12 @@ public class CallsController {
 
     @RequestMapping(value = "/callsList", method = RequestMethod.GET)
     @ResponseBody
-    public List<CallForm> getAccountsListSearch(HttpServletRequest request,
-                                                @RequestParam(value = "rows") int rows,
-                                                @RequestParam(value = "page") int page,
-                                                @RequestParam(value = "numberA") String numberA,
-                                                @RequestParam(value = "numberB") String numberB,
-                                                @RequestParam(value = "timeRange") String timeRange
+    public List<CallForm> getCallsListSearch(HttpServletRequest request,
+                                             @RequestParam(value = "rows") int rows,
+                                             @RequestParam(value = "page") int page,
+                                             @RequestParam(value = "numberA") String numberA,
+                                             @RequestParam(value = "numberB") String numberB,
+                                             @RequestParam(value = "timeRange") String timeRange
     ) throws ParseException {
         CallsRequestParamTO paramTO = new CallsRequestParamTO();
         paramTO.setCallNumberA(numberA);
@@ -37,7 +37,7 @@ public class CallsController {
     }
 
     @RequestMapping(value = "/callshome", method = RequestMethod.GET)
-    public ModelAndView handleCallsHome(HttpSession session) {
+    public ModelAndView callsHome() {
         CallsRequestParamTO callsRequestParamTO = new CallsRequestParamTO();
         callsRequestParamTO.setPageResults(10);
         int totalPages = callDataService.determineTotalPagesForOutput(callsRequestParamTO);
@@ -49,11 +49,10 @@ public class CallsController {
 
     @RequestMapping(value = "/callsPages", method = RequestMethod.POST)
     @ResponseBody
-    public String handleCallsHomeOnChange(HttpServletRequest request,
-                                          @RequestParam(value = "pageResults") int pageResults,
-                                          @RequestParam(value = "numberA") String numberA,
-                                          @RequestParam(value = "numberB") String numberB,
-                                          @RequestParam(value = "timeRange") String timeRange) throws ParseException {
+    public String determineCallsPagesCount(@RequestParam(value = "pageResults") int pageResults,
+                                           @RequestParam(value = "numberA") String numberA,
+                                           @RequestParam(value = "numberB") String numberB,
+                                           @RequestParam(value = "timeRange") String timeRange) throws ParseException {
         CallsRequestParamTO callsRequestParamTO = new CallsRequestParamTO();
         callsRequestParamTO.setCallNumberA(numberA);
         callsRequestParamTO.setCallNumberB(numberB);

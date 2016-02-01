@@ -101,13 +101,20 @@ function drawCustomCalendar(data){
 }
 
 function drawCustomCalendarRow(data){
-    var rows = "<div class=\"btn-group\" role=\"group\" aria-label=\""+data.monthName+"\">" +
+    var rows = "<div class=\"btn-group col-lg-8\" role=\"group\" aria-label=\""+data.monthName+"\">" +
         "<button class=\"btn-toolbar\" style=\"width:45px;\" disabled>"+data.monthName+"</button>";
     for (var i = 0; i < data.dayList.length; i++) {
-        rows += "<button class=\"btn-toolbar\" "+data.dayList[i].disabled+" " +
-            "id=\""+data.year+"-"+data.monthNumber+"-"+data.dayList[i].dayNumber+"\">"+
-                data.dayList[i].dayNumber+
-            "</button>";
+        if(data.dayList[i].disabled == null) {
+            rows += "<button class=\"btn-toolbar btn-green\" " + data.dayList[i].disabled + " " +
+                "id=\"" + data.year + "-" + data.monthNumber + "-" + data.dayList[i].dayNumber + "\">" +
+                data.dayList[i].dayNumber +
+                "</button>";
+        }else{
+            rows += "<button class=\"btn-toolbar\" " + data.dayList[i].disabled + " " +
+                "id=\"" + data.year + "-" + data.monthNumber + "-" + data.dayList[i].dayNumber + "\">" +
+                data.dayList[i].dayNumber +
+                "</button>";
+        }
     }
     rows += "</div>";
     $("#calendarGroup").append(rows);

@@ -73,23 +73,6 @@ public class HandleKDFController {
     @ResponseBody
     public void handleFiles(@RequestBody String[] json) {
         //TODO next method too complicated and long
-        String path = pathProvider.getKDFDirectoryPath();
-        File fileDir = new File(path);
-
-        if (!fileDir.exists()) {
-            boolean fileMark = false;
-            try {
-                fileDir.mkdir();
-                fileMark = true;
-            } catch (SecurityException e) {
-                System.out.println(e.toString());
-                LOGGER.info(e.getMessage());
-            }
-            if (fileMark) {
-                System.out.println("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
-                LOGGER.info("File's directory: " + fileDir.getAbsolutePath() + " is created successful");
-            }
-        }
         char[] hexArray = "0123456789ABCDEF".toCharArray();
         long fullFilesSize = 0;
         for (int i = 0; i < json.length; i++) {
@@ -97,12 +80,12 @@ public class HandleKDFController {
             fullFilesSize += uploadedFileInfoForm.getFileSize();
         }
         int count = 0;
-        for (String str : json) {
-            UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(str));
+        for (String fileId : json) {
+            UploadedFileInfoForm uploadedFileInfoForm = uploadedFileInfoDataService.getById(Integer.parseInt(fileId));
             byte[] buffer = new byte[BUFFER_SIZE];
             int len;
             try {
-                InputStream fs = new FileInputStream(path + File.separator + uploadedFileInfoForm.getPath());
+                InputStream fs = new FileInputStream(pathProvider.getKDFDirectoryPath() + File.separator + uploadedFileInfoForm.getPath());
                 String flagString = "";
                 String yearFromFileName = "20" + uploadedFileInfoForm.getPath().substring(0, 2);
                 String monthFromFileName = uploadedFileInfoForm.getPath().substring(3, 5);
@@ -184,7 +167,6 @@ public class HandleKDFController {
                 } while (len != -1);
                 fs.close();
             } catch (Exception e) {
-                System.out.println(e.toString());
                 LOGGER.info(e.getMessage());
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);

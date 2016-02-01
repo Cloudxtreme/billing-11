@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Transaction Catalog</title>
+    <title><spring:message code="label.externalPayments"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
 
@@ -36,21 +36,21 @@
 
 
 <div class="well">
-    <legend>External Payments</legend>
+    <legend><spring:message code="label.externalPayments"/></legend>
 
     <fieldset>
         <div class="well">
 
             <table id="extPaymentTable" class="table table-striped table-hover">
             <tr>
-                <th align="center">Service Id</th>
-                <th align="center">Pay Account</th>
-                <th align="center">Pay Amount</th>
-                <th align="center">Receipt Num</th>
-                <th align="center">Pay Id</th>
-                <th align="center">Trade Point</th>
-                <th align="center">Date</th>
-                <th align="center">Check</th>
+                <th align="center"><spring:message code="label.serviceId"/></th>
+                <th align="center"><spring:message code="label.payAccount"/></th>
+                <th align="center"><spring:message code="label.payAmount"/></th>
+                <th align="center"><spring:message code="label.receiptNum"/></th>
+                <th align="center"><spring:message code="label.payId"/></th>
+                <th align="center"><spring:message code="label.tradePoint"/></th>
+                <th align="center"><spring:message code="label.date"/></th>
+                <th align="center"><spring:message code="label.check"/></th>
             </tr>
             <c:forEach items="${payments}" var="payment">
 

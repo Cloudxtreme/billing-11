@@ -3063,6 +3063,12 @@ select[multiple].form-group-lg .form-control {
     -ms-user-select: none;
     user-select: none;
 }
+.btn-green{
+    background-color: #00da09;
+}
+.btn-red{
+    background-color: #df0c16;
+}
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
