@@ -45,7 +45,7 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
             case "ukrnet" : return "current_ukr";
             default: {
                 LOGGER.info("incorrect csv file type from client");
-                throw new IncorrectCSVFileTypeException("incorrect data from client. Thoose csv file type is not exists");
+                throw new IncorrectCSVFileTypeException("incorrect data from client. Those csv file type is not exists");
             }
         }
     }

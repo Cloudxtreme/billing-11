@@ -46,7 +46,7 @@ public class FileUploadController {
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();
-        model.addObject("yearLsit", listDate);
+        model.addObject("yearList", listDate);
         reportDataService.setProgress(0);
         return model;
     }

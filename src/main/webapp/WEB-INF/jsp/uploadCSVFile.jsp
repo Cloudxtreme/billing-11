@@ -91,7 +91,7 @@
 
                                     <label><spring:message code="label.year"/>
                                         <select class="selectpicker" id="yearSelect">
-                                            <c:forEach items="${yearLsit}" var="current">
+                                            <c:forEach items="${yearList}" var="current">
                                                 <option>${current}</option>
                                             </c:forEach>
                                         </select>

@@ -36,7 +36,7 @@ public class AccountsController {
     private Messagei18nHelper messagei18nHelper;
 
     @RequestMapping(value="/accountHome", method = RequestMethod.GET)
-    public ModelAndView handleAccountHome(HttpSession session)
+    public ModelAndView handleAccountHome()
     {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         int totalPages = determineTotalPagesForOutput();
@@ -51,8 +51,7 @@ public class AccountsController {
 
     @RequestMapping(value = "/accountsList", method = RequestMethod.GET)
     @ResponseBody
-    public List<AccountForm> getAccountsList(HttpServletRequest request,
-                                             @RequestParam(value = "rows") int rows,
+    public List<AccountForm> getAccountsList(@RequestParam(value = "rows") int rows,
                                              @RequestParam(value = "page") int page) {
         List<AccountForm> result = accountDataService.getAccountsList(rows, page);
         return result;
@@ -61,8 +60,7 @@ public class AccountsController {
 
     @RequestMapping(value = "/accountsShortList", method = RequestMethod.GET)
     @ResponseBody
-    public List<AccountForm> getAccountsShortFormList(HttpServletRequest request,
-                                                      @RequestParam(value = "rows") int rows,
+    public List<AccountForm> getAccountsShortFormList(@RequestParam(value = "rows") int rows,
                                                       @RequestParam(value = "page") int page) {
         List<AccountForm> result = accountDataService.getAccountsLiteFormList(rows, page);
         return result;
@@ -73,7 +71,7 @@ public class AccountsController {
     //getAccount
     @RequestMapping(value = "/getAccount", method = RequestMethod.GET)
     @ResponseBody
-    public AccountForm getAccountById(HttpServletRequest request, @RequestParam(value = "id") int id) {
+    public AccountForm getAccountById(@RequestParam(value = "id") int id) {
         AccountForm result = accountDataService.getAccountById(id);
         return result;
     }
@@ -89,13 +87,13 @@ public class AccountsController {
     @RequestMapping(value = "/editAccount", method = RequestMethod.POST)
     public
     @ResponseBody
-    AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpServletRequest request) {
+    AccountForm editAccount(@ModelAttribute AccountForm accountForm) {
         accountDataService.updateAccount(accountForm);
         return new AccountForm();
     }
 
     @RequestMapping(value = "/editFull/{id}", method = RequestMethod.GET)
-    public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
+    public ModelAndView editAccountFull(@PathVariable int id) {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(id);
         mav.addObject("accountForm", result);

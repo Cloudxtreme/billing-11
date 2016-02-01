@@ -3,6 +3,7 @@ package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.FileUploadController;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.filesWorkers.FileUploader;
 import org.junit.Before;
@@ -55,6 +56,9 @@ public class FileUploadControllerTest {
     UploadedFileInfoDataService uploadedFileInfoDataService;
 
     @Mock
+    ReportDataService reportDataService;
+
+    @Mock
     FileUploader fileUploader;
 
     @InjectMocks
@@ -81,7 +85,7 @@ public class FileUploadControllerTest {
                 .andExpect(view().name("uploadCSVFile"))
                 .andReturn();
         ModelAndView content = result.getModelAndView();
-        List<String> stringList = (List<String>)content.getModel().get("yearLsit");
+        List<String> stringList = (List<String>)content.getModel().get("yearList");
         assertTrue(stringList.equals(list));
     }
 
