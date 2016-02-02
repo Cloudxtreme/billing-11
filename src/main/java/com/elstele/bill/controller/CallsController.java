@@ -20,9 +20,6 @@ public class CallsController {
     @Autowired
     CallDataService callDataService;
 
-    @Autowired
-    private BillingCallsProcessor callBillProcessor;
-
     @RequestMapping(value = "/callsList", method = RequestMethod.GET)
     @ResponseBody
     public List<CallForm> getCallsListSearch(HttpServletRequest request,
@@ -66,14 +63,6 @@ public class CallsController {
         callsRequestParamTO.setPageResults(pageResults);
         int totalPages = callDataService.determineTotalPagesForOutput(callsRequestParamTO);
         return Integer.toString(totalPages);
-    }
-
-    @RequestMapping(value = "/worker/billCall")
-    public
-    @ResponseBody
-    ResponseToAjax costTotalCalculate() {
-        callBillProcessor.processCalls();
-        return ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "/callslist/getprogress", method = RequestMethod.GET)

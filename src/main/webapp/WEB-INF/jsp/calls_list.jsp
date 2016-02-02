@@ -70,16 +70,8 @@
                 <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
-        <div class="form-group float-right">
-            <a type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></a>
-        </div>
-    </form>
 
-    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
-        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-            <span class="sr-only">60% Complete</span>
-        </div>
-    </div>
+    </form>
 
 
     <div id="callsTableDiv">

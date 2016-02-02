@@ -8,7 +8,7 @@ import java.util.Date;
 public class CSVFileCurrentLineParser extends CSVFileLineParser {
     final static Logger LOGGER = LogManager.getLogger(CSVFileCurrentLineParser.class);
 
-    public CallForCSVForm fillFormByLine(String line) {
+    public CallForCSVForm fillFormFromLine(String line) {
         try {
             final String DELIMITER = ";";
             String[] data = line.split(DELIMITER);

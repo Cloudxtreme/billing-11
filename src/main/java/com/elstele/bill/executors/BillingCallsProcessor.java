@@ -28,7 +28,6 @@ public class BillingCallsProcessor extends BillingProcessor {
         Integer pagesCount = callsCount/pageSize;
         System.out.println("-------------Initial call countForTO:" + callsCount);
 
-
         for (int i=0; i<pagesCount+1; i++){
             System.out.println("-------------Active Count in Executor:" + executor.getActiveCount());
             waitForExecutorHasNoActiveTasks(executor);
@@ -38,7 +37,6 @@ public class BillingCallsProcessor extends BillingProcessor {
             System.out.println("-------------Call countForTO at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
 
             putCallsToExecutor(executor, curCallIds);
-
         }
 
         System.out.println("Processed calls:" + processedCallsCounter);

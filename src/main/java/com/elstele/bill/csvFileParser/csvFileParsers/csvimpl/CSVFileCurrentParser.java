@@ -34,7 +34,7 @@ public class CSVFileCurrentParser implements CSVFileParser {
                 if (firstLine) {
                     firstLine = false;
                 } else {
-                    CallForCSVForm callForCSVForm = csvFileCurrentLineParser.fillFormByLine(line);
+                    CallForCSVForm callForCSVForm = csvFileCurrentLineParser.fillFormFromLine(line);
                     callForCSVDataService.addReportData(callForCSVForm);
                 }
             }

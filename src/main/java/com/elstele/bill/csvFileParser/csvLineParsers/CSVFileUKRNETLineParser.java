@@ -16,7 +16,7 @@ public class CSVFileUKRNETLineParser extends CSVFileLineParser {
         this.callForCSVDataService = callForCSVDataService;
     }
 
-    public CallForCSVForm arrayHandlingMethodCSVUkrNet(String line) {
+    public CallForCSVForm fillFormFromLine(String line) {
         Map<String, String> directionMap = new HashMap<>();
         final String DELIMITER = " ";
         Pattern pattern = Pattern.compile("\\s{2,}");

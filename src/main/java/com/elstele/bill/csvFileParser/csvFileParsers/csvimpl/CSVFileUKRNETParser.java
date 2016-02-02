@@ -29,7 +29,7 @@ public class CSVFileUKRNETParser implements CSVFileParser {
             File file = MultipartFileConverter.convert(multipartFile, pathProvider);
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
             while ((line = fileReader.readLine()) != null) {
-                CallForCSVForm callForCSVForm = csvFileUKRNETLineParser.arrayHandlingMethodCSVUkrNet(line);
+                CallForCSVForm callForCSVForm = csvFileUKRNETLineParser.fillFormFromLine(line);
                 callForCSVDataService.addReportData(callForCSVForm);
             }
             fileReader.close();
