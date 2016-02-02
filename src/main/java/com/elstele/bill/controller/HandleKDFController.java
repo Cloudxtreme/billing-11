@@ -35,9 +35,6 @@ public class HandleKDFController {
     CallBillingService callBillingService;
 
     @Autowired
-    private BillingCallsProcessor callBillProcessor;
-
-    @Autowired
     private LocalDirPathProvider pathProvider;
 
     final static Logger LOGGER = LogManager.getLogger(HandleKDFController.class);
@@ -175,13 +172,7 @@ public class HandleKDFController {
         }
     }
 
-    @RequestMapping(value = "/worker/billCall")
-    public
-    @ResponseBody
-    ResponseToAjax costTotalCalculate() {
-        callBillProcessor.processCalls();
-        return ResponseToAjax.SUCCESS;
-    }
+
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")
     public

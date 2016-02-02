@@ -1,8 +1,10 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.form.CallForm;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ import java.util.List;
 public class CallsController {
     @Autowired
     CallDataService callDataService;
+
+    @Autowired
+    private BillingCallsProcessor callBillProcessor;
 
     @RequestMapping(value = "/callsList", method = RequestMethod.GET)
     @ResponseBody
@@ -61,6 +66,14 @@ public class CallsController {
         callsRequestParamTO.setPageResults(pageResults);
         int totalPages = callDataService.determineTotalPagesForOutput(callsRequestParamTO);
         return Integer.toString(totalPages);
+    }
+
+    @RequestMapping(value = "/worker/billCall")
+    public
+    @ResponseBody
+    ResponseToAjax costTotalCalculate() {
+        callBillProcessor.processCalls();
+        return ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "/callslist/getprogress", method = RequestMethod.GET)
