@@ -30,7 +30,7 @@ public class ReportDataServiceImpl implements ReportDataService {
 
     @Override
     @Async
-    public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
+    public synchronized ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
         try {
             csvFileDataService.setCsvFileHandlingFree(false);
             ReportDetails reportDetails = new ReportDetails();

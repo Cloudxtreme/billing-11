@@ -23,7 +23,7 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
     @Autowired
     LocalDirPathProvider pathProvider;
 
-    private volatile boolean csvFileHandlingFree = true;
+    private boolean csvFileHandlingFree = true;
 
     final static Logger LOGGER = LogManager.getLogger(CSVFileDataService.class);
 
