@@ -85,9 +85,16 @@ public class IpDataServiceImpl implements IpDataService {
 
     @Override
     @Transactional
-    public Integer getSubnetIdByIpId(Integer id){
-        Ip bean = ipDAO.getById(id);
-        return bean.getIpSubnet().getId();
+    public HashMap<Integer, String> getIpMapBySubnets(String subnetId) {
+        Integer id = Integer.parseInt(subnetId);
+        List<IpForm> list = getBySubnetId(id);
+        HashMap<Integer, String> ipMap = new HashMap<>();
+        for (IpForm ipForm : list) {
+            if (ipForm.getIpStatus() != IpStatus.USED)
+                ipMap.put(ipForm.getId(), ipForm.getIpName());
+        }
+        return ipMap;
     }
+
 
 }

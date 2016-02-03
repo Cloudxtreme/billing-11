@@ -3,7 +3,7 @@ $(document).ready(function(){
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
 
-    $('.alert-success').fadeOut(2500);
-    $('.alert-danger').fadeOut(4000);
+    $('.alert-success').fadeOut(3000);
+    $('.alert-danger').fadeOut(10000);
 
 });

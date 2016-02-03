@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class ServiceTypeValidator implements Validator{
     @Autowired
     ServiceTypeDataService serviceTypeDataService;
-    final static Logger log = LogManager.getLogger(ServiceTypeValidator.class);
+    final static Logger LOGGER = LogManager.getLogger(ServiceTypeValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -33,7 +33,7 @@ public class ServiceTypeValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "serviceType", "serviceType.required");
         if(!serviceTypeDataService.checkUniqueTypeName(service)){
             errors.rejectValue("name", Constants.SERVICE_ERROR_UNIQUE_NAME);
-            log.info(service.getName() + " was trying add non-unique name in ServiceType");
+            LOGGER.info(service.getName() + " was trying add non-unique name in ServiceType");
         }
     }
 }

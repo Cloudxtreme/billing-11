@@ -11,32 +11,32 @@ import java.util.List;
 
 
 public class FileTreeGenerater {
-    final static Logger log = LogManager.getLogger(FileTreeGenerater.class);
+    final static Logger LOGGER = LogManager.getLogger(FileTreeGenerater.class);
 
     public FileDirTreeGeneraterForm[] getFileTreeArray(String path) {
         File fileDir = new File(path);
         File[] filesArr = fileDir.listFiles();
         List<File> filesList = new ArrayList<File>();
-        for (int i = 0; i < filesArr.length; i++) {
-            if (filesArr[i].isFile()) {
+        for (File aFilesArr : filesArr) {
+            if (aFilesArr.isFile()) {
                 try {
-                    filesList.add(filesArr[i]);
-                    log.info("File " + filesArr[i].getName() + " is added to Array");
+                    filesList.add(aFilesArr);
+                    LOGGER.info("File " + aFilesArr.getName() + " is added to Array");
                 } catch (SecurityException e) {
-                    log.error(e);
+                    LOGGER.error(e.getMessage(), e);
                 }
-            } else if (filesArr[i].isDirectory()) {
-                filesList.add(filesArr[i]);
-                File[] fileArrWithChildDirectory = filesArr[i].listFiles();
-                log.info(filesArr[i].getName() + " is Directory");
+            } else if (aFilesArr.isDirectory()) {
+                filesList.add(aFilesArr);
+                File[] fileArrWithChildDirectory = aFilesArr.listFiles();
+                LOGGER.info(aFilesArr.getName() + " is Directory");
                 assert fileArrWithChildDirectory != null;
-                for (int j = 0; j < fileArrWithChildDirectory.length; j++) {
-                    if (fileArrWithChildDirectory[j].isFile()) {
+                for (File aFileArrWithChildDirectory : fileArrWithChildDirectory) {
+                    if (aFileArrWithChildDirectory.isFile()) {
                         try {
-                            filesList.add(fileArrWithChildDirectory[j]);
-                            log.info(fileArrWithChildDirectory[j].getName() + " is added to Array");
+                            filesList.add(aFileArrWithChildDirectory);
+                            LOGGER.info(aFileArrWithChildDirectory.getName() + " is added to Array");
                         } catch (SecurityException e) {
-                            log.error(e);
+                            LOGGER.error(e.getMessage(), e);
                         }
                     }
 
@@ -82,9 +82,7 @@ public class FileTreeGenerater {
             }
             fileDirTreeGeneraterForm.getDataAsArray();
         }
-
-        FileDirTreeGeneraterForm[] fileDirTreeGeneraterForms = dirList.toArray(new FileDirTreeGeneraterForm[dirList.size()]);
-        return fileDirTreeGeneraterForms;
+        return dirList.toArray(new FileDirTreeGeneraterForm[dirList.size()]);
     }
 
 }

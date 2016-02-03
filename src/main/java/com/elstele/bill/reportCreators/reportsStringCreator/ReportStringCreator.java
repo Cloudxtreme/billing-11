@@ -16,7 +16,7 @@ public class ReportStringCreator {
     private Double costTotalForThisNumber = 0.0;
     private Double callDurationForThisNumber = 0.0;
     private List<String> stringList = new ArrayList<>();
-    final static Logger log = LogManager.getLogger(ReportStringCreator.class);
+    final static Logger LOGGER = LogManager.getLogger(ReportStringCreator.class);
 
     public final static String lineSeparator = System.getProperty("line.separator");
 
@@ -25,7 +25,6 @@ public class ReportStringCreator {
         callTOData(callListByNumberA);
         footerCreate();
         return stringList;
-
     }
 
     public List<String> createCSVStrings(String numberA, List<CallForCSV> callForCSVListByNumberA) {
@@ -96,7 +95,7 @@ public class ReportStringCreator {
                 costTotalForThisNumber += costTotal;
             }
         } catch (Exception e) {
-            log.error(e + " Method  = callTOData ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -109,7 +108,7 @@ public class ReportStringCreator {
             String result = i + " " + numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
-            log.error(e + " Method  = callTODataShort ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -130,7 +129,7 @@ public class ReportStringCreator {
                 costTotalForThisNumber += costTotal;
             }
         } catch (Exception e) {
-            log.error(e + " Method  = callCSVData ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -143,7 +142,7 @@ public class ReportStringCreator {
             String result = i + " " + numberA.substring(1, numberA.length()) + " " + round(costTotalForThisNumber, 2) + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
-            log.error(e + " Method  = callTODataShort ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -170,7 +169,7 @@ public class ReportStringCreator {
                 costTotalForThisNumber += duration;
             }
         } catch (Exception e) {
-            log.error(e + " Method = callData ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -182,7 +181,7 @@ public class ReportStringCreator {
             String result = strIndex + " " + numberA.substring(1, numberA.length()) + " " + round(callDurationForThisNumber, 2) + " секунд" + lineSeparator;
             stringList.add(result);
         } catch (Exception e) {
-            log.error(e + " Method = callDataShort ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -198,7 +197,7 @@ public class ReportStringCreator {
             String result = strIndex + " " + numberA.substring(1, numberA.length()) + " " + round(currentNumberTotalCost, 2) + " UAH";
             stringList.add(result);
         } catch (Exception e) {
-            log.error(e + " Method  = callDataShort ");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -241,7 +240,7 @@ public class ReportStringCreator {
             long tmp = Math.round(value);
             return (double) tmp / factor;
         } catch (IllegalArgumentException e) {
-            log.error(e + "Method = round ");
+            LOGGER.error(e.getMessage(), e);
             return 0.0;
         }
     }

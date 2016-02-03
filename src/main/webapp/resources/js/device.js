@@ -20,7 +20,7 @@ $(document).ready(function() {
                             $("#succesMessage").fadeOut(2000);
                         });
                     } else {
-                        $("#errorMessage").fadeOut(2000);
+                        $("#errorMessage").fadeOut(10000);
                     }
                 }
             });

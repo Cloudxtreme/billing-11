@@ -24,7 +24,7 @@ public class USDRateDataServiceImpl implements USDRateDataService {
 
     @Autowired
     USDRateDAO usdRateDAO;
-    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(USDRateDataServiceImpl.class);
+    final static Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(USDRateDataServiceImpl.class);
     private static final String BANKURL = "http://bank-ua.com/export/currrate.xml";
 
     @Transactional
@@ -45,11 +45,11 @@ public class USDRateDataServiceImpl implements USDRateDataService {
                     line = (Element) title.item(0);
                     Double value = Double.parseDouble(USDRateHelper.getCharacterDataFromElement(line))/100;
                     usdRateDAO.setUSDRateValue(DateReportParser.getNowDate(), value);
-                    log.info("success, Method = sendLiveRequest");
+                    LOGGER.info("success, Method = sendLiveRequest");
                 }
             }
         } catch (ParserConfigurationException e) {
-            log.error(e + " Method sendLiveRequest");
+            LOGGER.error(e.getMessage(), e);
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {

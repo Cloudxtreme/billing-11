@@ -25,7 +25,7 @@
                     <ul class="dropdown-menu">
                         <li id="linkToServiceCatalog"><a href="${pageContext.request.contextPath}/serviceType/catalog/"><spring:message code="label.serviceCatalog"/></a></li>
                         <li id="linkToTransactionCatalog"><a href="${pageContext.request.contextPath}/transaction/0/catalog/"><spring:message code="label.transactionCatalog"/></a></li>
-                        <li id="linkToExternalPayments"><a href="${pageContext.request.contextPath}/extpayments/listlast/">External Payments</a></li>
+                        <li id="linkToExternalPayments"><a href="${pageContext.request.contextPath}/extpayments/listlast/"><spring:message code="label.externalPayments"/></a></li>
                     </ul>
                 </li>
                 <li id="linkToCallsList"><a href="${pageContext.request.contextPath}/callshome"><spring:message code="label.callsList"/></a></li>

@@ -40,7 +40,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     IpDataService ipDataService;
     @Autowired
     StreetDataService streetDataService;
-    final static Logger log = LogManager.getLogger(DeviceDataServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(DeviceDataServiceImpl.class);
 
     @Override
     @Transactional
@@ -69,7 +69,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             updateStreetListAfterInsert(deviceForm);
             return creatingId;
         } catch (ConstraintViolationException e){
-            log.error(e + " Method addDevice");
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
     }
@@ -85,7 +85,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
         }catch(HibernateException e ){
-            log.error(e + " Method updateDevice");
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -116,7 +116,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             deviceDAO.setStatusDelete(id);
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {
-            log.error(e + " Method deleteDevice");
+            LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
         }
     }

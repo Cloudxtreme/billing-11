@@ -10,10 +10,10 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 
 public class USDRateHelper {
-    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(USDRateHelper.class);
+    final static Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(USDRateHelper.class);
 
     public static String crunchifyGetURLContents(String myURL) {
-        log.info("crunchifyGetURLContents() is trying to connect to : " + myURL);
+        LOGGER.info("crunchifyGetURLContents() is trying to connect to : " + myURL);
         StringBuilder sb = new StringBuilder();
         URLConnection urlConn;
         InputStreamReader in = null;
@@ -34,9 +34,9 @@ public class USDRateHelper {
             if (in != null) {
                 in.close();
             }
-            log.info("Connection successful. Method = crunchifyGetURLContents");
+            LOGGER.info("Connection successful. Method = crunchifyGetURLContents");
         } catch (Exception e) {
-            log.error("Exception while calling URL:" + myURL, e);
+            LOGGER.error(e.getMessage(), e);
         }
         return sb.toString();
     }

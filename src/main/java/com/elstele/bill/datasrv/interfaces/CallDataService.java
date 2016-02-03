@@ -11,10 +11,6 @@ import java.util.List;
 
 public interface CallDataService {
     public void addCalls(CallForm callForm);
-    public int getCallsCount();
-    public int getCallsCountWithSearchValues(CallsRequestParamTO callsRequestParamTO);
-    public List<CallForm> getCallsList(int rows, int page);
-    public List<CallForm> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate);
     public List<String> getUniqueNumberAFromCalls(Date startTime, Date finishTime);
     public List<CallTO> getCallByNumberA(String numberA, Date startTime, Date endTime);
     public List<String> getUniqueNumberAFromCallsWithTrunk(Date startTime, Date finishTime, String outputTrunk);
@@ -25,5 +21,7 @@ public interface CallDataService {
 
     public Integer getUnbilledCallsCount();
     public List<Integer> getUnbilledCallsIdList(int limit, int offset);
+    public int determineTotalPagesForOutput(CallsRequestParamTO callsRequestParamTO);
+    public List<CallForm> getCallsList(CallsRequestParamTO paramTO);
 
 }

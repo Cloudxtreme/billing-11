@@ -5,4 +5,6 @@ import com.elstele.bill.exceptions.IncorrectReportNameException;
 
 public interface ReportDataService {
     public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException;
+    public double gettingProgressValue();
+    public void setProgress(double progress);
 }

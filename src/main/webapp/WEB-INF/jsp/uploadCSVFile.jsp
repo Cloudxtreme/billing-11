@@ -31,12 +31,30 @@
 
 <div class="well well-lg">
 
-    <%--Error Message body--%>
-    <div id="errorMessage" class="alert alert-warning" style="display: none">
+    <%--divs for messages--%>
+   <div id="errorMessage" class="alert alert-danger" style="display: none">
+        <strong><spring:message code="csv.error"/></strong>
     </div>
-
-    <%--Success message body--%>
+    <div id="errorSelectFile" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.selectFile"/></strong>
+    </div>
+    <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.incorrecttype"/></strong>
+    </div>
+    <div id="errorUnavailable" class="alert alert-danger" style="display: none">
+        <strong><spring:message code="csv.unavailable"/></strong>
+    </div>
     <div id="successMessage" class="alert alert-success" style="display: none">
+        <strong><spring:message code="csv.success"/></strong>
+    </div>
+    <div id="successMessageReport" class="alert alert-success" style="display: none">
+        <strong><spring:message code="csv.successReport"/></strong>
+    </div>
+    <div id="errorMessageReport" class="alert alert-danger" style="display: none">
+        <strong><spring:message code="csv.errorReport"/></strong>
+    </div>
+    <div id="errorMessageReportChoose" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
 
 
@@ -48,6 +66,12 @@
            style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
                 class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
     </legend>
+
+    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+            <span class="sr-only">60% Complete</span>
+        </div>
+    </div>
 
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal"
          aria-hidden="true">
@@ -67,7 +91,7 @@
 
                                     <label><spring:message code="label.year"/>
                                         <select class="selectpicker" id="yearSelect">
-                                            <c:forEach items="${yearLsit}" var="current">
+                                            <c:forEach items="${yearList}" var="current">
                                                 <option>${current}</option>
                                             </c:forEach>
                                         </select>
@@ -228,10 +252,18 @@
     <%--Form for uploading files--%>
     <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
         <div class="form-group" id="idForm">
-      <span class="file-input btn btn-info btn-file">
-        <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" name="file"/>
-      </span>
+            <span class="file-input btn btn-info btn-file">
+                <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" name="file"/>
+            </span>
             <ul id="list" class="list-group"></ul>
+        </div>
+        <div class="form-group">
+            <label for="csvFiles"><spring:message code="label.csvfiles" />
+                <select id="csvFiles">
+                    <option value="vega"><spring:message code="csv.vega"/></option>
+                    <option value="ukrnet"><spring:message code="csv.ukrnet"/></option>
+                </select>
+            </label>
         </div>
         <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar" href="#myModal"
                 data-toggle="modal"><spring:message code="label.upload"/>

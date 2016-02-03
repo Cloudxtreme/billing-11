@@ -13,5 +13,5 @@ public interface IpDataService {
     public IpForm getById(Integer id);
     public void setStatus(Integer id, IpStatus ipStatus);
     public List<IpForm> getBySubnetId(Integer id);
-    public Integer getSubnetIdByIpId(Integer id);
+    public HashMap<Integer, String> getIpMapBySubnets(String subnetId);
     }

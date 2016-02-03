@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.datasrv.interfaces.CSVParserDataService;
+import com.elstele.bill.datasrv.interfaces.CSVFileDataService;
 import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
 import com.elstele.bill.filesWorkers.FileTreeGenerater;
@@ -30,7 +30,7 @@ public class HandleCSVFileController {
     @Autowired
     ReportDataService reportDataService;
     @Autowired
-    CSVParserDataService csvParserDataService;
+    CSVFileDataService csvFileDataService;
     @Autowired
     LocalDirPathProvider pathProvider;
 
@@ -44,8 +44,8 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax fileCSVUploadSubmit(MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
-     return csvParserDataService.parse(multiPartHTTPServletRequestFiles);
+    public ResponseToAjax fileCSVUploadSubmit(@RequestParam(value = "flag") String selectedFileType, MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
+        return csvFileDataService.handle(multiPartHTTPServletRequestFiles, selectedFileType);
     }
 
     @RequestMapping(value = "/uploadcsvfile/generateFileTree", method = RequestMethod.POST)
@@ -75,6 +75,12 @@ public class HandleCSVFileController {
                               @RequestParam(value = "directoryName") String directoryName) throws IOException {
         path = pathProvider.getCSVDirectoryPath();
         fileDownloadWorker.doArchiveDownload(path, directoryName, response);
+    }
+
+    @RequestMapping(value = "/uploadcsvfile/reportCreatingProgress", method = RequestMethod.GET)
+    @ResponseBody
+    public double getProgress(){
+        return reportDataService.gettingProgressValue();
     }
 
 }

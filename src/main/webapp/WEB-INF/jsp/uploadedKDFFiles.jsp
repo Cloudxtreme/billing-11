@@ -33,8 +33,9 @@
         <strong><spring:message code="label.handling"/></strong>
     </div>
 
-    <a type="button" id="handleBtn" class="btn btn-lg btn-primary" href=""><spring:message code="label.handle"/></a>
-    <a type="button" id="handleCostTotal" class="btn btn-lg btn-default" href=""><spring:message code="label.calculateCost"/></a>
+    <a type="button" id="handleBtn" class="btn btn-primary" href=""><spring:message code="label.handle"/></a>
+    <a type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></a>
+
     <button id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></button>
     <button id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></button>
 

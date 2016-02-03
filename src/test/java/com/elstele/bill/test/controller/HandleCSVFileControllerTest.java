@@ -2,14 +2,13 @@ package com.elstele.bill.test.controller;
 
 
 import com.elstele.bill.controller.HandleCSVFileController;
-import com.elstele.bill.datasrv.interfaces.CSVParserDataService;
+import com.elstele.bill.datasrv.interfaces.CSVFileDataService;
 import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.filesWorkers.FileDownloadWorker;
-import com.elstele.bill.exceptions.IncorrectReportNameException;
 import com.elstele.bill.filesWorkers.FileTreeGenerater;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,20 +21,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.Mockito.when;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -58,7 +58,7 @@ public class HandleCSVFileControllerTest {
     @Mock
     ReportDataService reportDataService;
     @Mock
-    CSVParserDataService csvParserDataService;
+    CSVFileDataService csvFileDataService;
     @Mock
     FileTreeGenerater fileTreeGenerater;
 
@@ -74,7 +74,8 @@ public class HandleCSVFileControllerTest {
         MockMultipartFile firstFile = new MockMultipartFile("data", "filename.csv", "text/csv", "some xml".getBytes());
 
         this.mockMvc.perform(MockMvcRequestBuilders.fileUpload("/uploadcsvfile")
-                .file(firstFile))
+                .file(firstFile)
+                .param("flag", "usual"))
                 .andExpect(status().is(200));
     }
 

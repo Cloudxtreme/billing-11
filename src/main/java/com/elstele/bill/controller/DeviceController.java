@@ -8,7 +8,6 @@ import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
-import com.elstele.bill.utils.Enums.SubnetPurpose;
 import com.elstele.bill.utils.Messagei18nHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +41,7 @@ public class DeviceController {
     @Autowired
     private Messagei18nHelper messageHelper;
 
-    final static Logger log = LogManager.getLogger(DeviceController.class);
+    final static Logger LOGGER = LogManager.getLogger(DeviceController.class);
 
     @ModelAttribute("deviceTypeModalForm")
     public DeviceTypesForm addDeviceType() {
@@ -52,8 +51,8 @@ public class DeviceController {
 
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView getDeviceList(HttpSession session) {
-        log.info("getDeviceList fired");
+    public ModelAndView getDeviceList() {
+        LOGGER.info("getDeviceList fired");
         List<DeviceForm> result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("deviceModel");
         mav.addObject("list", result);
@@ -63,7 +62,7 @@ public class DeviceController {
     @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceTypeList() {
-        log.info("getDeviceTypeList started");
+        LOGGER.info("getDeviceTypeList started");
         ModelAndView model = new ModelAndView("devicetypelistModel");
         model.addObject("devicetypelist", deviceTypesDataService.getDeviceTypes());
         return model;
@@ -136,28 +135,14 @@ public class DeviceController {
 
     @RequestMapping(value = "**/getValidIps", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String json) {
-        Integer id = Integer.parseInt(json);
-        List<IpForm> list = ipDataService.getBySubnetId(id);
-        Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : list) {
-            if (ipForm.getIpStatus() != IpStatus.USED)
-                ipMap.put(ipForm.getId(), ipForm.getIpName());
-        }
-        return ipMap;
-
+    public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String subnetId) {
+       return ipDataService.getIpMapBySubnets(subnetId);
     }
 
     @RequestMapping(value = "**/returniplist", method = RequestMethod.GET)
     @ResponseBody
     public Map<Integer, String> ipAddressListReturn() {
-        List<IpForm> ipForms = ipDataService.getIpAddressList();
-        Map<Integer, String> ipMap = new LinkedHashMap<Integer, String>();
-        for (IpForm ipForm : ipForms) {
-            if (ipForm.getIpStatus() != IpStatus.USED && ipForm.getIpSubnet().getSubnetPurpose() == SubnetPurpose.MGMT)
-                ipMap.put(ipForm.getId(), ipForm.getIpName());
-        }
-        return ipMap;
+        return ipDataService.getIpAddressAsMap();
     }
 
 }

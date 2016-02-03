@@ -33,6 +33,9 @@
 
 
 <div class="well">
+    <div id="successMessageHandle" class="alert alert-success" style="display: none">
+        <strong><spring:message code="hadleCallsCost.success"/></strong>
+    </div>
     <label>
         <spring:message code="label.show"/>
         <select class="selectpicker" data-style="btn-info" id="selectEntries">
@@ -67,7 +70,9 @@
                 <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
+
     </form>
+
 
     <div id="callsTableDiv">
         <table id="callsTable" class="table table-striped">

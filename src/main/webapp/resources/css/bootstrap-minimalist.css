@@ -3063,6 +3063,12 @@ select[multiple].form-group-lg .form-control {
     -ms-user-select: none;
     user-select: none;
 }
+.btn-green{
+    background-color: #00da09;
+}
+.btn-red{
+    background-color: #df0c16;
+}
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
@@ -3078,6 +3084,7 @@ select[multiple].form-group-lg .form-control {
 .btn.focus {
     color: #ffffff;
     text-decoration: none;
+    box-shadow: 1px 1px 15px -2px rgba(0,0,0,0.75);
 }
 .btn:active,
 .btn.active {

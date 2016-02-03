@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
 
-    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(AccountDAOImpl.class);
 
     public List<Account> getAccountList(int limit, int offset) {
         Session session = getSessionFactory().getCurrentSession();
@@ -60,7 +60,7 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
     public List<Account> getAccountByFIOAndName(String value) {
         Query query = getSessionFactory().getCurrentSession().
                 createQuery("From Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or a.accountName like '%" + value + "%'  ");
-        log.info("Values selected successfully. Method searchAccounts ");
+        LOGGER.info("Values selected successfully. Method searchAccounts ");
         return (List<Account>) query.list();
 
     }

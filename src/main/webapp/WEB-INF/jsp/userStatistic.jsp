@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>User Statistic</title>
+    <title><spring:message code="label.userStatistic"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/jquery-ui.min.js" var="jqueryMin" />
@@ -29,25 +29,26 @@
 </head>
 <body>
 
+
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 
 <div class="col-lg-12">
 
-    <legend><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Statistic
+    <legend><span class="glyphicon glyphicon-user" aria-hidden="true"></span><spring:message code="label.userStatistic"/>
     </legend>
 
     <form class="navbar-form" role="search">
         <div class="pull-right">
             <div class="form-group ">
-                <label for="startDate">Date Start:</label>
+                <label for="startDate"><spring:message code="label.startDate"/>: </label>
                 <input name="startDate" id="startDate" class="date-picker" value="${startDate}"/>
             </div>
             <div class="form-group ">
-                <label for="endDate">Date End:</label>
+                <label for="endDate"><spring:message code="label.endDate"/>: </label>
                 <input name="endDate" id="endDate" class="date-picker" value="${endDate}"/>
             </div>
-            <a class="btn btn-default" id="searchBtn">Search</a>
+            <a class="btn btn-default" id="searchBtn"><spring:message code="label.search"/></a>
             <br>
         </div>
     </form>

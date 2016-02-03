@@ -1,6 +1,7 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
+import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.filesWorkers.FileUploader;
 import com.elstele.bill.form.UploadedFileInfoForm;
@@ -36,13 +37,17 @@ public class FileUploadController {
     CallDataService callDataService;
     @Autowired
     FileUploader fileUploader;
+    @Autowired
+    ReportDataService reportDataService;
+
 
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView() {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();
-        model.addObject("yearLsit", listDate);
+        model.addObject("yearList", listDate);
+        reportDataService.setProgress(0);
         return model;
     }
 

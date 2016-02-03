@@ -55,12 +55,12 @@ $(document).ready(function(){
                         });
                         document.getElementById('successMessage').style.display="block";
                         setTimeout(function() {
-                            $("#successMessage").fadeOut(2500);
+                            $("#successMessage").fadeOut(3000);
                         });
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(2500);
+                            $("#errorMessage").fadeOut(10000);
                         });
                     }
                 }
@@ -89,12 +89,12 @@ $(document).ready(function(){
                         document.getElementById('deleteSelected').style.display="none";
                         document.getElementById('successMessage').style.display="block";
                         setTimeout(function() {
-                            $("#successMessage").fadeOut(2500);
+                            $("#successMessage").fadeOut(3000);
                         });
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(2500);
+                            $("#errorMessage").fadeOut(10000);
                         });
                     }
                 }
@@ -150,6 +150,29 @@ $(document).ready(function(){
         }
     });
 
+    $('#handleCostTotal').on('click', function(){
+        $.ajax({
+            url: "./worker/billCall",
+            type: "Post",
+            success: function(data){
+                if(data == "success") {
+                    $tr.fadeOut('slow',function(){
+                        $tr.remove()
+                    });
+                    document.getElementById('successMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#successMessage").fadeOut(3000);
+                    });
+                } else{
+                    document.getElementById('errorMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#errorMessage").fadeOut(10000);
+                    });
+                }
+            }
+        })
+    });
+
     function getProgress(){
         $.ajax({
             url: "./uploadedfiles/handle/getprogress",
@@ -175,29 +198,6 @@ $(document).ready(function(){
     }
 
     var interval = setTimeout(getProgress,2000);
-
-    $('#handleCostTotal').on('click', function(){
-        $.ajax({
-            url: "./worker/billCall",
-            type: "Post",
-            success: function(data){
-                if(data == "success") {
-                    $tr.fadeOut('slow',function(){
-                        $tr.remove()
-                    });
-                    document.getElementById('successMessage').style.display="block";
-                    setTimeout(function() {
-                        $("#successMessage").fadeOut(2000);
-                    });
-                } else{
-                    document.getElementById('errorMessage').style.display="block";
-                    setTimeout(function() {
-                        $("#errorMessage").fadeOut(2000);
-                    });
-                }
-            }
-        })
-    });
 });
 
 

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 
 public class FileCreator {
-    final public static Logger log = LogManager.getLogger(FileCreator.class);
+    final public static Logger LOGGER = LogManager.getLogger(FileCreator.class);
 
     public static PrintStream createFileForWriting(ReportDetails reportDetails) {
         createMainFolder(reportDetails.getPath());
@@ -18,10 +18,10 @@ public class FileCreator {
                 file.createNewFile();
             }
             PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(file, false)), true, "cp1251");
-            log.info("File " + file.getName() + " is successful created for writing");
+            LOGGER.info("File " + file.getName() + " is successful created for writing");
             return ps;
         } catch (IOException e) {
-            log.error(e  + " Method = createFileForWriting");
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
     }
@@ -34,10 +34,10 @@ public class FileCreator {
                 fileDir.mkdir();
                 fileMet = true;
             } catch (SecurityException e) {
-                log.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
             if (fileMet) {
-                log.info("File dir " + fileDir.getAbsolutePath() + " is created");
+                LOGGER.info("File dir " + fileDir.getAbsolutePath() + " is created");
             }
         }
     }
@@ -50,10 +50,10 @@ public class FileCreator {
                 directory.mkdir();
                 fileMet = true;
             } catch (SecurityException e) {
-                log.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
             if (fileMet) {
-                log.info("File directory " + directory.getAbsolutePath() + " is created");
+                LOGGER.info("File directory " + directory.getAbsolutePath() + " is created");
             }
         }
         return directory.getPath();

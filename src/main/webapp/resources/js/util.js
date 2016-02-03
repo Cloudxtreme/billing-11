@@ -71,6 +71,13 @@ $(function() {
         $("#linkToUserOnline").addClass('active');
         $("#linkToUserOnline").addClass('selected');
     }
+    else if(s.indexOf("extpayments") > -1){
+        $("#linkToCatalogs").addClass('selected');
+        $("#linkToExternalPayments").addClass('active');
+    }
+    else if(s.indexOf("statistic") > -1){
+        $("#linkToAccounts").addClass('selected');
+    }
 
 
 });

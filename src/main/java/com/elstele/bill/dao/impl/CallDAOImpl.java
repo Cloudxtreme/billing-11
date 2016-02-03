@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
-    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
+    final static Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
 
     public List<Call> getCalls() {
         return null;
@@ -66,28 +66,28 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         return (List<Call>) q.list();
     }
 
-    public List<Call> callsListSelectionBySearch(int limit, int offset, String numberA, String numberB, Date startDate, Date endDate) {
+    public List<Call> callsListSelectionBySearch(CallsRequestParamTO paramTO) {
         StringBuffer queryStart = new StringBuffer("select a from Call a where 1=1 ");
         StringBuffer queryEnd = new StringBuffer(" order by a.startTime");
-        if (numberA != null && !numberA.isEmpty()) {
-            numberA = "and numberA like '" + numberA + "%'";
+        if (paramTO.getCallNumberA() != null && !paramTO.getCallNumberA().isEmpty()) {
+            String numberA = "and numberA like '" + paramTO.getCallNumberA() + "%'";
             queryStart.append(numberA);
         }
-        if (numberB != null && !numberB.isEmpty()) {
-            numberB = " and numberB like '" + numberB + "%'";
+        if (paramTO.getCallNumberB() != null && !paramTO.getCallNumberB().isEmpty()) {
+            String numberB = " and numberB like '" + paramTO.getCallNumberB() + "%'";
             queryStart.append(numberB);
         }
-        if (startDate != null) {
-            StringBuffer startDateString = new StringBuffer(" and a.startTime >= '" + startDate + "'");
+        if (paramTO.getStartDate() != null) {
+            String startDateString = " and a.startTime >= '" + paramTO.getStartDate() + "'";
             queryStart.append(startDateString);
         }
-        if (endDate != null) {
-            StringBuffer endDateString = new StringBuffer(" and a.startTime <= '" + endDate + "'");
+        if (paramTO.getEndDate() != null) {
+            String endDateString = " and a.startTime <= '" + paramTO.getEndDate() + "'";
             queryStart.append(endDateString);
         }
         Query q = getSessionFactory().getCurrentSession().
                 createQuery(queryStart.append(queryEnd).toString());
-        q.setFirstResult(offset).setMaxResults(limit);
+        q.setFirstResult(paramTO.getOffset()).setMaxResults(paramTO.getRows());
         return (List<Call>) q.list();
     }
 
@@ -97,7 +97,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                     "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
             return (List<String>) createSQLQuery.list();
         } catch (SQLGrammarException e) {
-            log.error(e + " method = getUniqueNumberAFromCalls");
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }
@@ -112,7 +112,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                     .setResultTransformer(Transformers.aliasToBean(CallTO.class));
             return (List<CallTO>) query.list();
         } catch (SQLGrammarException e) {
-            log.error(e + " method = getCallByNumberA");
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }
@@ -174,10 +174,10 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         try {
             SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) as YEAR from calls ORDER BY DATE_PART('year', starttime)")
                     .addScalar("YEAR", new StringType());
-            log.info("Date selecting from DB is successed");
+            LOGGER.info("Date selecting from DB is successed");
             return query.list();
         } catch (SQLGrammarException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }

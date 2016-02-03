@@ -272,9 +272,9 @@ public class DeviceControllerTest {
 
     @Test
     public void getValidIpstest() throws Exception {
-        List<IpForm> ipFormList = new ArrayList<>();
-        ipFormList.add(ipForm);
-        when(ipDataService.getBySubnetId(1)).thenReturn(ipFormList);
+        HashMap<Integer, String> expectedMap = new HashMap<>();
+        expectedMap.put(1, "test");
+        when(ipDataService.getIpMapBySubnets("1")).thenReturn(expectedMap);
         String mapInStringVariant = "{\"1\":\"test\"}";
         this.mockMvc.perform(post("/getValidIps")
                 .session(mockSession)
@@ -286,9 +286,9 @@ public class DeviceControllerTest {
 
     @Test
     public void ipAddressListReturnTest() throws Exception {
-        List<IpForm> ipFormList = new ArrayList<>();
-        ipFormList.add(ipForm);
-        when(ipDataService.getIpAddressList()).thenReturn(ipFormList);
+        HashMap<Integer, String> expectedMap = new HashMap<>();
+        expectedMap.put(1, "test");
+        when(ipDataService.getIpAddressAsMap()).thenReturn(expectedMap);
         String mapInStringVariant = "{\"1\":\"test\"}";
         this.mockMvc.perform(get("/returniplist")
                 .session(mockSession)

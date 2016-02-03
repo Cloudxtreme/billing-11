@@ -48,7 +48,7 @@ public class ReportDataServiceTest {
         assertTrue(reportCreator instanceof LongGeneralReportCreatorImpl);
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test
     public void testEmptyArrayEntrance() throws IncorrectReportNameException {
         String[] testArray = new String[0];
         reportDataService.createReport(testArray);

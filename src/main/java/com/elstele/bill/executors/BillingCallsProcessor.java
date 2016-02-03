@@ -51,7 +51,6 @@ public class BillingCallsProcessor extends BillingProcessor {
             System.out.println("-------------Calls processed " + processedCallsCounter + " from " + callsCount + " progress:" + getCallsBillingProgress() + "%");
 
             putCallsToExecutor(executor, curCallIds);
-
         }
         System.out.println("Processed calls:" + processedCallsCounter + " progress:" + getCallsBillingProgress() + "%");
         shutdownExecutor(executor);
