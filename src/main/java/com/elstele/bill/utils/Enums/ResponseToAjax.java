@@ -5,5 +5,6 @@ public enum ResponseToAjax {
     ERROR,
     INCORRECTTYPE,
     FULLOPERATION,
-    DELETEISNOTFINISHED
+    DELETEISNOTFINISHED,
+    BUSY
 }

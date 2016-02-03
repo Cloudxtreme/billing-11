@@ -1,5 +1,6 @@
 package com.elstele.bill.datasrv.impl;
 
+import com.elstele.bill.datasrv.interfaces.CSVFileDataService;
 import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.reportCreators.factory.ReportCreatorFactory;
 import com.elstele.bill.reportCreators.factory.ReportDetails;
@@ -20,6 +21,8 @@ public class ReportDataServiceImpl implements ReportDataService {
     ReportCreatorFactory factory;
     @Autowired
     LocalDirPathProvider pathProvider;
+    @Autowired
+    CSVFileDataService csvFileDataService;
 
     final static Logger LOGGER = LogManager.getLogger(ReportDataServiceImpl.class);
     private double progress;
@@ -29,6 +32,7 @@ public class ReportDataServiceImpl implements ReportDataService {
     @Async
     public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
         try {
+            csvFileDataService.setCsvFileHandlingFree(false);
             ReportDetails reportDetails = new ReportDetails();
             reportDetails.setYear(reportParametersArray[0]);
             reportDetails.setMonth(reportParametersArray[1]);
@@ -46,6 +50,7 @@ public class ReportDataServiceImpl implements ReportDataService {
                 progress +=  timeForOne;
             }
 
+            csvFileDataService.setCsvFileHandlingFree(true);
             LOGGER.info("All files is generated successful");
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {

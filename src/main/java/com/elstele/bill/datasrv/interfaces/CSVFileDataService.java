@@ -7,4 +7,6 @@ import java.io.File;
 
 public interface CSVFileDataService {
     public ResponseToAjax handle(MultipartHttpServletRequest fileFromServlet, String selectedFileType);
+    public void setCsvFileHandlingFree(boolean csvFileFree);
+    public boolean isCsvFileHandlingFree();
 }

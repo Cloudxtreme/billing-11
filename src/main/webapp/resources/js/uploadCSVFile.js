@@ -79,9 +79,10 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (result) {
+                $('#myModal').modal('hide');
+                $('#spinner').hide();
+
                 if (result == "SUCCESS") {
-                    $('#myModal').modal('hide');
-                    $('#spinner').hide();
                     document.getElementById('successMessage').style.display = "block";
                     uniqFiles = [];
                     setTimeout(function () {
@@ -91,25 +92,23 @@ $(document).ready(function () {
                     $('body').scrollTop(0);
 
                 } else if (result == "INCORRECTTYPE") {
-                    $('#myModal').modal('hide');
-                    $('#spinner').hide();
                     document.getElementById('errorIncorrectType').style.display = "block";
                     setTimeout(function () {
                         $("#errorIncorrectType").fadeOut(10000);
                     });
 
-
                 } else if (result == "ERROR") {
-                    $('#myModal').modal('hide');
-                    $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
                     setTimeout(function () {
                         $("#errorMessage").fadeOut(10000);
                     });
 
+                }else if(result == "BUSY"){
+                    document.getElementById('errorMessageCSVBUSY').style.display = "block";
+                    setTimeout(function () {
+                        $("#errorMessageCSVBUSY").fadeOut(10000);
+                    });
                 } else {
-                    $('#myModal').modal('hide');
-                    $('#spinner').hide();
                     document.getElementById('errorUnavailable').style.display = "block";
                     setTimeout(function () {
                         $("#errorUnavailable").fadeOut(10000);

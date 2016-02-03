@@ -45,7 +45,10 @@ public class HandleCSVFileController {
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax fileCSVUploadSubmit(@RequestParam(value = "flag") String selectedFileType, MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
-        return csvFileDataService.handle(multiPartHTTPServletRequestFiles, selectedFileType);
+        if(csvFileDataService.isCsvFileHandlingFree()){
+            return  csvFileDataService.handle(multiPartHTTPServletRequestFiles, selectedFileType);
+        }else
+        return ResponseToAjax.BUSY;
     }
 
     @RequestMapping(value = "/uploadcsvfile/generateFileTree", method = RequestMethod.POST)

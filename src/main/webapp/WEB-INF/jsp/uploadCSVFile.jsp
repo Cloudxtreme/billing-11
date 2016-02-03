@@ -56,6 +56,9 @@
     <div id="errorMessageReportChoose" class="alert alert-warning" style="display: none">
         <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
+    <div id="errorMessageCSVBUSY" class="alert alert-warning" style="display: none">
+        <strong><spring:message code="csv.updatingBUSY"/></strong>
+    </div>
 
 
     <legend>

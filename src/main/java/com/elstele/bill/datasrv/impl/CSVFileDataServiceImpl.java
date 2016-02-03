@@ -22,6 +22,9 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
     CSVFileFactory factory;
     @Autowired
     LocalDirPathProvider pathProvider;
+
+    private volatile boolean csvFileHandlingFree = true;
+
     final static Logger LOGGER = LogManager.getLogger(CSVFileDataService.class);
 
     @Override
@@ -51,4 +54,11 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
         }
     }
 
+    public boolean isCsvFileHandlingFree() {
+        return csvFileHandlingFree;
+    }
+
+    public void setCsvFileHandlingFree(boolean csvFileHandlingFree) {
+        this.csvFileHandlingFree = csvFileHandlingFree;
+    }
 }
