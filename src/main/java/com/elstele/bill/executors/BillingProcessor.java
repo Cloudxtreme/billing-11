@@ -1,5 +1,7 @@
 package com.elstele.bill.executors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -11,20 +13,21 @@ public class BillingProcessor {
     protected WorkerFactory workerFactory;
 
     protected final Integer poolCapacity = 20;
+    final static Logger LOGGER = LogManager.getLogger(BillingProcessor.class);
 
     protected void shutdownExecutor(ThreadPoolExecutor executor) {
         waitForExecutorHasNoActiveTasks(executor);
         executor.shutdown();
-        System.out.println("Executor switched off");
+        LOGGER.info("Executor switched off");
     }
 
     protected void waitForExecutorHasNoActiveTasks(ThreadPoolExecutor executor) {
         while(executor.getActiveCount() > 0){
             try {
-                System.out.println("-----wait-----");
+                LOGGER.info("-----wait-----");
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }

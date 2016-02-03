@@ -20,7 +20,7 @@ import java.util.List;
 public class LongGeneralReportRAVegaCreatorImpl implements ReportCreator {
 
     private CallForCSVDataService callForCSVDataService;
-    final public static Logger log = LogManager.getLogger(LongGeneralReportRAVegaCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LongGeneralReportRAVegaCreatorImpl.class);
 
     public LongGeneralReportRAVegaCreatorImpl(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
@@ -45,7 +45,7 @@ public class LongGeneralReportRAVegaCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
     }
 
 }

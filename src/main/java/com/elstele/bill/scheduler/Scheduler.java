@@ -2,6 +2,8 @@ package com.elstele.bill.scheduler;
 
 import com.elstele.bill.datasrv.interfaces.USDRateDataService;
 import com.elstele.bill.utils.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -18,25 +20,27 @@ public class Scheduler {
     @Autowired
     USDRateDataService usdRateDataService;
 
+    final public static Logger LOGGER = LogManager.getLogger(Scheduler.class);
+
     @Scheduled(cron = Constants.EVERY_DAY_IN_10_30)
     public void getUSDRateXML(){
         usdRateDataService.getXMLUSDRate();
     }
     @Scheduled(cron=Constants.EVERY_WORK_DAY_IN_16_36)
     public void CalculateMonthTransactionReport(){
-        System.out.println("scheduler month report");
+        LOGGER.info("scheduler month report");
         try {
 
             File file = new File("d:\\tanya_report_test.txt");
 
             if (file.createNewFile()){
-                System.out.println("File is created!");
+                LOGGER.info("File is created!");
             }else{
-                System.out.println("File already exists.");
+                LOGGER.info("File already exists.");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+           LOGGER.error(e.getMessage(), e);
         }
     }
 

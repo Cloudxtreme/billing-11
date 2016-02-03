@@ -19,7 +19,7 @@ import java.util.List;
 public class ShortGeneralReportRECreatorImpl implements ReportCreator {
 
     private CallForCSVDataService callForCSVDataService;
-    final public static Logger log = LogManager.getLogger(ShortGeneralReportRECreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(ShortGeneralReportRECreatorImpl.class);
 
     public ShortGeneralReportRECreatorImpl(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
@@ -47,7 +47,7 @@ public class ShortGeneralReportRECreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
 
     }
 }

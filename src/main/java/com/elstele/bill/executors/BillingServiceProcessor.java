@@ -1,6 +1,5 @@
 package com.elstele.bill.executors;
 
-import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.datasrv.interfaces.ServiceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -11,9 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.elstele.bill.utils.Constants.BILLING_SERVICE_WORKER;
-/**
- * Created by ivan on 15/12/16.
- */
+
 @Service
 @Scope("singleton")
 public class BillingServiceProcessor extends BillingProcessor {

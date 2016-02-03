@@ -20,7 +20,7 @@ import java.util.List;
 public class LongGeneralReportVegaCreatorImpl implements ReportCreator {
 
     private CallDataService callDataService;
-    final public static Logger log = LogManager.getLogger(LongGeneralReportVegaCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LongGeneralReportVegaCreatorImpl.class);
 
     public LongGeneralReportVegaCreatorImpl(CallDataService callDataService) {
         this.callDataService = callDataService;
@@ -45,6 +45,6 @@ public class LongGeneralReportVegaCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
     }
 }

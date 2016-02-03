@@ -28,7 +28,7 @@ public class CSVFileCurrentLineParser extends CSVFileLineParser {
             callForCSVForm.setNumberB(numberB);
             callForCSVForm.setCostCallTotal(costWithNDS);
             callForCSVForm.setStartTime(startTime);
-            callForCSVForm.setDuration(duration);
+            callForCSVForm.setDuration(Integer.parseInt(duration));
             callForCSVForm.setDirPrefix(dir_prefix);
             callForCSVForm.setDirDescrpOrg(dir_descr);
             callForCSVForm.setProvider("2");

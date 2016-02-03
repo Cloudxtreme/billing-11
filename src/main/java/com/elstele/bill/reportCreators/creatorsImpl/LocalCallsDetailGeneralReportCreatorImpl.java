@@ -20,7 +20,7 @@ public class LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
 
 
     private CallDataService callDataService;
-    final public static Logger log = LogManager.getLogger(LocalCallsDetailGeneralReportCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LocalCallsDetailGeneralReportCreatorImpl.class);
 
     public LocalCallsDetailGeneralReportCreatorImpl(CallDataService callDataService) {
         this.callDataService = callDataService;
@@ -45,7 +45,7 @@ public class LocalCallsDetailGeneralReportCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
 
     }
 

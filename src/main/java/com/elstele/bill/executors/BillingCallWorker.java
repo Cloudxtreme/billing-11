@@ -30,7 +30,7 @@ public class BillingCallWorker implements Runnable, Worker {
         try {
             billService.updateCallWithItCost(callId);
         } catch (DirectionCallException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

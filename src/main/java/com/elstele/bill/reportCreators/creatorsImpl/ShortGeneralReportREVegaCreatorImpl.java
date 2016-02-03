@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ShortGeneralReportREVegaCreatorImpl implements ReportCreator {
     private CallForCSVDataService callForCSVDataService;
-    final public static Logger log = LogManager.getLogger(ShortGeneralReportREVegaCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(ShortGeneralReportREVegaCreatorImpl.class);
 
     public ShortGeneralReportREVegaCreatorImpl(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
@@ -47,7 +47,7 @@ public class ShortGeneralReportREVegaCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
 
     }
 }

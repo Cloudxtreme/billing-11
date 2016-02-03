@@ -20,7 +20,7 @@ import java.util.List;
 public class ShortGeneralReportREUkrTelCreatorImpl implements ReportCreator {
 
     private CallForCSVDataService callForCSVDataService;
-    final public static Logger log = LogManager.getLogger(ShortGeneralReportREUkrTelCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(ShortGeneralReportREUkrTelCreatorImpl.class);
 
     public ShortGeneralReportREUkrTelCreatorImpl(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
@@ -48,7 +48,7 @@ public class ShortGeneralReportREUkrTelCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
 
     }
 }

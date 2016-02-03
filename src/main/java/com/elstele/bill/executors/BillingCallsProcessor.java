@@ -1,6 +1,8 @@
 package com.elstele.bill.executors;
 
 import com.elstele.bill.datasrv.interfaces.CallDataService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class BillingCallsProcessor extends BillingProcessor {
     private Integer processedCallsCounter;
     private float progress;
     private int callsCount;
+    final static Logger LOGGER = LogManager.getLogger(BillingCallsProcessor.class);
 
     public void processCalls(){
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
@@ -30,11 +33,11 @@ public class BillingCallsProcessor extends BillingProcessor {
         List<Integer> callsToBeBilledIds = callDataService.getUnbilledCallsIdList(0,0);
         callsCount =  callsToBeBilledIds.size();
         Integer pagesCount = (callsCount/pageSize)+1;
-        System.out.println("-------------Initial call countForTO:" + callsCount + " Pages count:" + pagesCount);
+        LOGGER.info("-------------Initial call countForTO:" + callsCount + " Pages count:" + pagesCount);
 
 
         for (int i=0; i<pagesCount; i++){
-            System.out.println("-------------Active Count in Executor:" + executor.getActiveCount());
+            LOGGER.info("-------------Active Count in Executor:" + executor.getActiveCount());
             waitForExecutorHasNoActiveTasks(executor);
 
             Integer tempCallsCount =  callDataService.getUnbilledCallsCount();
@@ -46,13 +49,13 @@ public class BillingCallsProcessor extends BillingProcessor {
                 to = callsToBeBilledIds.size();
             }
             List<Integer> curCallIds = callsToBeBilledIds.subList(from, to);
-            System.out.println("-------------Call taked from :" + from + " to " + to);
-            System.out.println("-------------Call countForTO at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
-            System.out.println("-------------Calls processed " + processedCallsCounter + " from " + callsCount + " progress:" + getCallsBillingProgress() + "%");
+            LOGGER.info("-------------Call taked from :" + from + " to " + to);
+            LOGGER.info("-------------Call countForTO at :" + i + " -- " + tempCallsCount + "(" + curCallIds.size() + ")");
+            LOGGER.info("-------------Calls processed " + processedCallsCounter + " from " + callsCount + " progress:" + getCallsBillingProgress() + "%");
 
             putCallsToExecutor(executor, curCallIds);
         }
-        System.out.println("Processed calls:" + processedCallsCounter + " progress:" + getCallsBillingProgress() + "%");
+        LOGGER.info("Processed calls:" + processedCallsCounter + " progress:" + getCallsBillingProgress() + "%");
         shutdownExecutor(executor);
     }
 

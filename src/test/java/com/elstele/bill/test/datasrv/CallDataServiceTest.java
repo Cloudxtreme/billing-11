@@ -71,15 +71,15 @@ public class CallDataServiceTest {
         CallTOBuilder callTOBuilder = new CallTOBuilder();
         callRequestParamTOBuilder = new CallRequestParamTOBuilder();
 
-        call = callBuilder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+        call = callBuilder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122).withId(1).withNumberA("1111111")
                 .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
-        call1 = callBuilder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122l).withId(2).withNumberA("2222222")
+        call1 = callBuilder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122).withId(2).withNumberA("2222222")
                 .withNumberB("9999999").withOutputTrunk("014").withStartTime(startDate).getRes();
         call2 = callBuilder.build().withStartTime(startDate).withNumberA("0937895111").withId(3).getRes();
 
-        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122l).withId(1).withNumberA("1111111")
+        callForm = builder.build().withCallDirectionId(11).withCostTotal(113.111f).withDuration(122).withId(1).withNumberA("1111111")
                 .withNumberB("8888888").withOutputTrunk("05").withStartTime(startDate).getRes();
-        callForm1 = builder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122l).withId(2).withNumberA("2222222")
+        callForm1 = builder.build().withCallDirectionId(9).withCostTotal(113.111f).withDuration(122).withId(2).withNumberA("2222222")
                 .withNumberB("9999999").withOutputTrunk("014").withStartTime(startDate).getRes();
         callForm2 = builder.build().withStartTime(startDate).withNumberA("0937895111").withId(3).getRes();
 

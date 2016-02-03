@@ -67,6 +67,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             int creatingId = deviceDAO.create(device);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
+            LOGGER.info("Device " + deviceForm.getName() + " added successfully");
             return creatingId;
         } catch (ConstraintViolationException e){
             LOGGER.error(e.getMessage(), e);
@@ -84,6 +85,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             deviceDAO.update(bean);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
+            LOGGER.info("Device "+ deviceForm.getName() +" updated successfully");
         }catch(HibernateException e ){
             LOGGER.error(e.getMessage(), e);
         }
@@ -114,6 +116,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             DeviceForm deviceForm = getById(id);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
             deviceDAO.setStatusDelete(id);
+            LOGGER.info("Device "+ deviceForm.getName() +" deleted successfully");
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

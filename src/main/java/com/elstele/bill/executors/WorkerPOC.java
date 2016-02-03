@@ -1,12 +1,13 @@
 package com.elstele.bill.executors;
 
-/**
- * Created by X240 on 24/09/2015.
- */
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class WorkerPOC implements Runnable{
 
     private int taskId;
     private int progress;
+    final static Logger LOGGER = LogManager.getLogger(WorkerPOC.class);
 
     public WorkerPOC(int taskId) {
         this.taskId = taskId;
@@ -17,10 +18,10 @@ public class WorkerPOC implements Runnable{
             while(progress != 100) {
                 Thread.sleep(1000);
                 progressIncrease();
-                System.out.println("Task id:" + taskId + " progress:" + progress);
+                LOGGER.info("Task id:" + taskId + " progress:" + progress);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

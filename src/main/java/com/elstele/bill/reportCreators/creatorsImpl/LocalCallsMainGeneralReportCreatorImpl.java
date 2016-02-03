@@ -18,7 +18,7 @@ import java.util.List;
 
 public class LocalCallsMainGeneralReportCreatorImpl implements ReportCreator {
 
-    final public static Logger log = LogManager.getLogger(LocalCallsDetailGeneralReportCreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LocalCallsDetailGeneralReportCreatorImpl.class);
     private CallDataService callDataService;
 
     public LocalCallsMainGeneralReportCreatorImpl(CallDataService callDataService) {
@@ -46,7 +46,7 @@ public class LocalCallsMainGeneralReportCreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
     }
 
 }

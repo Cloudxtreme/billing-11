@@ -18,7 +18,7 @@ import java.util.List;
 
 public class LongGeneralReportRACreatorImpl implements ReportCreator {
 
-    final public static Logger log = LogManager.getLogger(LongGeneralReportRACreatorImpl.class);
+    final public static Logger LOGGER = LogManager.getLogger(LongGeneralReportRACreatorImpl.class);
     private CallForCSVDataService callForCSVDataService;
 
     public LongGeneralReportRACreatorImpl(CallForCSVDataService callForCSVDataService) {
@@ -44,7 +44,7 @@ public class LongGeneralReportRACreatorImpl implements ReportCreator {
             ps.println(footerString);
             ps.close();
         }
-        log.info("Report generating is Done");
+        LOGGER.info("Report generating is Done");
     }
 
 
