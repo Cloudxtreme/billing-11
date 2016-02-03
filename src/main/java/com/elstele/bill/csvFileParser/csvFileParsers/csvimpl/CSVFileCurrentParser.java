@@ -9,9 +9,11 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.logging.Level;
 
 public class CSVFileCurrentParser implements CSVFileParser {
     private CallForCSVDataService callForCSVDataService;
@@ -41,7 +43,7 @@ public class CSVFileCurrentParser implements CSVFileParser {
             fileReader.close();
             return ResponseToAjax.SUCCESS;
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
         }
     }

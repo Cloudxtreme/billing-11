@@ -26,7 +26,7 @@ public class CallBillingServiceImpl implements CallBillingService {
     @Autowired
     private CallBillingDAO billingDAO;
 
-    final static Logger log = LogManager.getLogger(CallBillingServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(CallBillingServiceImpl.class);
 
     @Transactional
     public void updateCallWithItCost(Integer callId) throws DirectionCallException {

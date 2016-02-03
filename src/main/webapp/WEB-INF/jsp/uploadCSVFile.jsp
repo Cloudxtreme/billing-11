@@ -260,7 +260,7 @@
         <div class="form-group">
             <label for="csvFiles"><spring:message code="label.csvfiles" />
                 <select id="csvFiles">
-                    <option value="usual"><spring:message code="csv.usual"/></option>
+                    <option value="vega"><spring:message code="csv.vega"/></option>
                     <option value="ukrnet"><spring:message code="csv.ukrnet"/></option>
                 </select>
             </label>

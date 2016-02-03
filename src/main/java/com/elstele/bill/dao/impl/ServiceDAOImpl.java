@@ -26,7 +26,7 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     @Autowired
     private IpDataService ipDataService;
 
-    final static Logger log = LogManager.getLogger(AccountDAOImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(AccountDAOImpl.class);
 
     @Override
     public List listServices() {

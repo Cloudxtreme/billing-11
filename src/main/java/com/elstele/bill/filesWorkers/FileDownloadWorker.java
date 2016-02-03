@@ -12,7 +12,7 @@ import java.io.*;
 @Service
 public class FileDownloadWorker {
     private static final int BUFFER_SIZE = 4096;
-    final static Logger log = LogManager.getLogger(FileDownloadWorker.class);
+    final static Logger LOGGER = LogManager.getLogger(FileDownloadWorker.class);
 
     @Autowired
     ServletContext ctx;
@@ -21,7 +21,7 @@ public class FileDownloadWorker {
         String childPath = path + File.separator + id.substring(0, 7);
         String fullPath = childPath + File.separator + id;
         File downloadFile = new File(fullPath);
-        log.info(fullPath);
+        LOGGER.info(fullPath);
         try {
             FileInputStream inputStream = new FileInputStream(downloadFile);
             mimeTypeDetermine(fullPath, response);
@@ -34,9 +34,9 @@ public class FileDownloadWorker {
             writeFileWithBuffer(inputStream, outStream);
             inputStream.close();
             outStream.close();
-            log.info("File: " + downloadFile.getName() + "downloading is done");
+            LOGGER.info("File: " + downloadFile.getName() + "downloading is done");
         } catch (IOException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -45,7 +45,7 @@ public class FileDownloadWorker {
         fileArchiveCreater.createArchive(path, directoryName);
         String zipFilePath = path + File.separator + directoryName + ".zip";
         File downloadFile = new File(zipFilePath);
-        log.info(zipFilePath);
+        LOGGER.info(zipFilePath);
         try {
             FileInputStream inputStream = new FileInputStream(zipFilePath);
             mimeTypeDetermine(zipFilePath, response);
@@ -58,9 +58,9 @@ public class FileDownloadWorker {
             writeFileWithBuffer(inputStream, outStream);
             inputStream.close();
             outStream.close();
-            log.info("Archive: " + downloadFile.getName() + "downloading is done");
+            LOGGER.info("Archive: " + downloadFile.getName() + "downloading is done");
         } catch (IOException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -73,7 +73,7 @@ public class FileDownloadWorker {
                 outStream.write(buffer, 0, bytesRead);
             }
         } catch (IOException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
 
     }
@@ -83,7 +83,7 @@ public class FileDownloadWorker {
         if (mimeType == null) {
             mimeType = "application/octet-stream";
         }
-        log.info("MIME type of the downloading file is: " + mimeType);
+        LOGGER.info("MIME type of the downloading file is: " + mimeType);
 
         response.setContentType(mimeType);
     }

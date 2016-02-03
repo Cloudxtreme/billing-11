@@ -6,10 +6,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.Date;
 
 public class CSVFileCurrentLineParser extends CSVFileLineParser {
-    final static Logger LOGGER = LogManager.getLogger(CSVFileCurrentLineParser.class);
 
     public CallForCSVForm fillFormFromLine(String line) {
-        try {
             final String DELIMITER = ";";
             String[] data = line.split(DELIMITER);
             String numberA = data[0].substring(5, 12);
@@ -36,10 +34,6 @@ public class CSVFileCurrentLineParser extends CSVFileLineParser {
             callForCSVForm.setProvider("2");
 
             return callForCSVForm;
-        }catch(ArrayIndexOutOfBoundsException e){
-            LOGGER.error(e.getMessage());
-            return null;
-        }
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class FileTreeGenerater {
-    final static Logger log = LogManager.getLogger(FileTreeGenerater.class);
+    final static Logger LOGGER = LogManager.getLogger(FileTreeGenerater.class);
 
     public FileDirTreeGeneraterForm[] getFileTreeArray(String path) {
         File fileDir = new File(path);
@@ -21,22 +21,22 @@ public class FileTreeGenerater {
             if (aFilesArr.isFile()) {
                 try {
                     filesList.add(aFilesArr);
-                    log.info("File " + aFilesArr.getName() + " is added to Array");
+                    LOGGER.info("File " + aFilesArr.getName() + " is added to Array");
                 } catch (SecurityException e) {
-                    log.error(e);
+                    LOGGER.error(e.getMessage(), e);
                 }
             } else if (aFilesArr.isDirectory()) {
                 filesList.add(aFilesArr);
                 File[] fileArrWithChildDirectory = aFilesArr.listFiles();
-                log.info(aFilesArr.getName() + " is Directory");
+                LOGGER.info(aFilesArr.getName() + " is Directory");
                 assert fileArrWithChildDirectory != null;
                 for (File aFileArrWithChildDirectory : fileArrWithChildDirectory) {
                     if (aFileArrWithChildDirectory.isFile()) {
                         try {
                             filesList.add(aFileArrWithChildDirectory);
-                            log.info(aFileArrWithChildDirectory.getName() + " is added to Array");
+                            LOGGER.info(aFileArrWithChildDirectory.getName() + " is added to Array");
                         } catch (SecurityException e) {
-                            log.error(e);
+                            LOGGER.error(e.getMessage(), e);
                         }
                     }
 

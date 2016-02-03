@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserRoleValidator implements Validator{
     @Autowired
     UserRoleDataService userRoleDataService;
-    final static Logger log = LogManager.getLogger(UserRoleValidator.class);
+    final static Logger LOGGER = LogManager.getLogger(UserRoleValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -34,7 +34,7 @@ public class UserRoleValidator implements Validator{
         }
         if(!userRoleDataService.checkUniqueRoleName(role)){
             errors.rejectValue("name", Constants.USERROLE_ERROR_UNIQUE_NAME);
-            log.info(role.getName() + " was trying add non-unique name in UserRole");
+            LOGGER.info(role.getName() + " was trying add non-unique name in UserRole");
         }
 
     }

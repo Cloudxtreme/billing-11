@@ -11,7 +11,7 @@ import java.util.Properties;
 @Service
 public class PropertiesHelper {
 
-    final static Logger logger = LogManager.getLogger(PropertiesHelper.class);
+    final static Logger LOGGER = LogManager.getLogger(PropertiesHelper.class);
     private Properties properties = null;
     private final static String KDF_UPLOAD_DIR = "kdfUploadFileDir";
     private final static String CSV_UPLOAD_DIR = "csvUploadFileDir";
@@ -22,7 +22,7 @@ public class PropertiesHelper {
         try {
             properties.load(classLoader.getResourceAsStream("bill_app.properties"));
         } catch (IOException e) {
-            logger.log(Level.ERROR,"Exceptionduring loading properties file bill_app.properties" + e.getMessage(), e);
+            LOGGER.log(Level.ERROR, "Exceptionduring loading properties file bill_app.properties" + e.getMessage(), e);
         }
     }
 

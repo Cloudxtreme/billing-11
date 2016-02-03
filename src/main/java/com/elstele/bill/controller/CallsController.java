@@ -22,8 +22,7 @@ public class CallsController {
 
     @RequestMapping(value = "/callsList", method = RequestMethod.GET)
     @ResponseBody
-    public List<CallForm> getCallsListSearch(HttpServletRequest request,
-                                             @RequestParam(value = "rows") int rows,
+    public List<CallForm> getCallsListSearch(@RequestParam(value = "rows") int rows,
                                              @RequestParam(value = "page") int page,
                                              @RequestParam(value = "numberA") String numberA,
                                              @RequestParam(value = "numberB") String numberB,

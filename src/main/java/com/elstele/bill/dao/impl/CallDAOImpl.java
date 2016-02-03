@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
-    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
+    final static Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(CallDAOImpl.class);
 
     public List<Call> getCalls() {
         return null;
@@ -97,7 +97,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                     "where startTime >='" + startTime + "' and startTime <= '" + finishTime + "' and costTotal Is not null order by numberA");
             return (List<String>) createSQLQuery.list();
         } catch (SQLGrammarException e) {
-            log.error(e + " method = getUniqueNumberAFromCalls");
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }
@@ -112,7 +112,7 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
                     .setResultTransformer(Transformers.aliasToBean(CallTO.class));
             return (List<CallTO>) query.list();
         } catch (SQLGrammarException e) {
-            log.error(e + " method = getCallByNumberA");
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }
@@ -174,10 +174,10 @@ public class CallDAOImpl extends CommonDAOImpl<Call> implements CallDAO {
         try {
             SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery("Select DISTINCT DATE_PART('year', starttime) as YEAR from calls ORDER BY DATE_PART('year', starttime)")
                     .addScalar("YEAR", new StringType());
-            log.info("Date selecting from DB is successed");
+            LOGGER.info("Date selecting from DB is successed");
             return query.list();
         } catch (SQLGrammarException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
             return new ArrayList<>();
         }
     }

@@ -41,7 +41,7 @@ public class DeviceController {
     @Autowired
     private Messagei18nHelper messageHelper;
 
-    final static Logger log = LogManager.getLogger(DeviceController.class);
+    final static Logger LOGGER = LogManager.getLogger(DeviceController.class);
 
     @ModelAttribute("deviceTypeModalForm")
     public DeviceTypesForm addDeviceType() {
@@ -52,7 +52,7 @@ public class DeviceController {
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceList() {
-        log.info("getDeviceList fired");
+        LOGGER.info("getDeviceList fired");
         List<DeviceForm> result = deviceDataService.getDevices();
         ModelAndView mav = new ModelAndView("deviceModel");
         mav.addObject("list", result);
@@ -62,7 +62,7 @@ public class DeviceController {
     @RequestMapping(value = "/devicetypeslist", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getDeviceTypeList() {
-        log.info("getDeviceTypeList started");
+        LOGGER.info("getDeviceTypeList started");
         ModelAndView model = new ModelAndView("devicetypelistModel");
         model.addObject("devicetypelist", deviceTypesDataService.getDeviceTypes());
         return model;

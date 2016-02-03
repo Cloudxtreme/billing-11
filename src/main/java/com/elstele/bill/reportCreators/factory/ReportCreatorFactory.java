@@ -16,7 +16,7 @@ public class ReportCreatorFactory {
     CallDataService callDataService;
     @Autowired
     CallForCSVDataService callForCSVDataService;
-    final static Logger log = LogManager.getLogger(ReportCreatorFactory.class);
+    final static Logger LOGGER = LogManager.getLogger(ReportCreatorFactory.class);
 
     public ReportCreator getCreator(String reportName) throws IncorrectReportNameException {
         ReportCreator reportCreator;
@@ -74,7 +74,7 @@ public class ReportCreatorFactory {
                 break;
             }
             default: {
-                log.debug(" report name does not match with any cases ");
+                LOGGER.debug(" report name does not match with any cases ");
                 throw new IncorrectReportNameException("Report name does not match with any cases");
             }
         }

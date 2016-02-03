@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class LocalUserValidator implements Validator {
     @Autowired
     LocalUserDataService localUserDataService;
-    final static Logger log = LogManager.getLogger(LocalUserValidator.class);
+    final static Logger LOGGER = LogManager.getLogger(LocalUserValidator.class);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -41,7 +41,7 @@ public class LocalUserValidator implements Validator {
         }
         if (!localUserDataService.checkUniqueUserName(user)) {
             errors.rejectValue("username", Constants.USER_ERROR_UNIQUE_NAME);
-            log.info(user.getUsername() + " was trying add non-unique name in Localuser");
+            LOGGER.info(user.getUsername() + " was trying add non-unique name in Localuser");
         }
     }
 }

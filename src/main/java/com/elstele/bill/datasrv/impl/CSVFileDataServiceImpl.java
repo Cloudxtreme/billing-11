@@ -4,6 +4,7 @@ import com.elstele.bill.csvFileParser.csvfactory.CSVFileFactory;
 import com.elstele.bill.csvFileParser.csvFileParsers.csvinterface.CSVFileParser;
 import com.elstele.bill.datasrv.interfaces.CSVFileDataService;
 import com.elstele.bill.exceptions.IncorrectCSVFileTypeException;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
@@ -34,15 +35,15 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
             LOGGER.info("File parsed successfully");
             return response;
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
         }
     }
 
     private String determineFileNameByFlag(String selectedFileType) throws IncorrectCSVFileTypeException {
         switch(selectedFileType.toLowerCase()){
-            case "usual": return "current_csv";
-            case "ukrnet" : return "current_ukr";
+            case "vega": return Constants.VEGA_CSV;
+            case "ukrnet" : return Constants.UKR_NET_CSV;
             default: {
                 LOGGER.info("incorrect csv file type from client");
                 throw new IncorrectCSVFileTypeException("incorrect data from client. Those csv file type is not exists");

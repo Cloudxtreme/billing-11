@@ -64,7 +64,7 @@ public class HandleKDFController {
             }
             return "success";
         } catch (Exception e) {
-            LOGGER.error(e.toString() + " Method deleteDevice");
+            LOGGER.error(e.getMessage(), e);
             return "error";
         }
     }
@@ -167,7 +167,7 @@ public class HandleKDFController {
                 } while (len != -1);
                 fs.close();
             } catch (Exception e) {
-                LOGGER.info(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
             }
             uploadedFileInfoForm.setFileStatus(FileStatus.PROCESSED);
             uploadedFileInfoDataService.updateFile(uploadedFileInfoForm);
@@ -184,9 +184,7 @@ public class HandleKDFController {
     }
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")
-    public
-    @ResponseBody
-    Float getProgress() {
+    public @ResponseBody Float getProgress() {
         return progress;
     }
 }

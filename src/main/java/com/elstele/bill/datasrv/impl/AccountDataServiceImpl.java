@@ -30,7 +30,7 @@ public class AccountDataServiceImpl implements AccountDataService {
     @Autowired
     StreetDataService streetDataService;
 
-    final static Logger log = LogManager.getLogger(AccountDataServiceImpl.class);
+    final static Logger LOGGER = LogManager.getLogger(AccountDataServiceImpl.class);
 
     @Override
     @Transactional
@@ -166,6 +166,10 @@ public class AccountDataServiceImpl implements AccountDataService {
     public void softDeleteAccount(int id) {
         Account account = accountDAO.getById(id);
         account.setStatus(Status.DELETED);
+        Set<Service> serviceSet = account.getAccountServices();
+        for(Service service : serviceSet){
+            service.setStatus(Status.DELETED);
+        }
         accountDAO.update(account);
     }
 
@@ -188,11 +192,11 @@ public class AccountDataServiceImpl implements AccountDataService {
             addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
             addFormToListWithFIO(result, accountListByFIOAndName);
 
-            log.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
+            LOGGER.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
 
             return result;
         }catch(HibernateException e){
-            log.error(e.toString() + " Method searchAccounts");
+            LOGGER.error(e.getMessage(), e);
             return Collections.emptySet();
         }
     }

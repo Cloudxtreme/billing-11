@@ -17,7 +17,7 @@ public class CallsRequestParamTO {
     private int page;
     private String selectedTime;
     private int offset;
-    final static Logger log = org.apache.logging.log4j.LogManager.getLogger(CallsRequestParamTO.class);
+    final static Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(CallsRequestParamTO.class);
 
     DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
@@ -87,7 +87,7 @@ public class CallsRequestParamTO {
             try {
                 startDate = df.parse(startDateTemp);
             } catch (ParseException e) {
-                log.error(e + "Method setStartDate");
+                LOGGER.error(e.getMessage(), e);
             }
         }
 
@@ -103,7 +103,7 @@ public class CallsRequestParamTO {
             try {
                 endDate = df.parse(endDateTemp);
             } catch (ParseException e) {
-                log.error(e + "Method setEndDate");
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }

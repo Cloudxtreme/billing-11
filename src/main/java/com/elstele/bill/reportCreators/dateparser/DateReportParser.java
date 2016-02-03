@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DateReportParser {
-    final public static Logger log = LogManager.getLogger(DateReportParser.class);
+    final public static Logger LOGGER = LogManager.getLogger(DateReportParser.class);
 
     public static Date parseEndTime(ReportDetails reportDetails) {
         Integer yearInt = Integer.parseInt(reportDetails.getYear());
@@ -26,10 +26,10 @@ public class DateReportParser {
         String endTime = reportDetails.getYear() + "/" + reportDetails.getMonth() + "/" + endDay + " 23:59";
         try {
             Date startTimeInDateFormat = simpleDateFormat.parse(endTime);
-            log.info("End time is " + startTimeInDateFormat);
+            LOGGER.info("End time is " + startTimeInDateFormat);
             return startTimeInDateFormat;
         } catch (ParseException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
     }
@@ -39,10 +39,10 @@ public class DateReportParser {
         String startTime = reportDetails.getYear() + "/" + reportDetails.getMonth() + "/" + ReportConstants.START_DAY + " 00:00";
         try {
             Date startTimeInDateFormat = simpleDateFormat.parse(startTime);
-            log.info("Start time is " + startTimeInDateFormat);
+            LOGGER.info("Start time is " + startTimeInDateFormat);
             return startTimeInDateFormat;
         } catch (ParseException e) {
-            log.error(e);
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
     }
@@ -53,7 +53,7 @@ public class DateReportParser {
         try {
             return dateFormat.parse(formattedDate);
         } catch (ParseException e) {
-            log.error("Exception while calling getNowDate:" + e);
+            LOGGER.error(e.getMessage(), e);
             return new Date();
         }
     }
