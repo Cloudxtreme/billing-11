@@ -25,11 +25,10 @@
 
 <div class="well">
     <div id="totopscroller"> </div>
-    <div class="col-md-4">
-        <a href="${pageContext.request.contextPath}/uploadfile.html">
-            <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px; color: #3a87ad !important;">
-                <spring:message code="label.goToKDF"/>
-            </span>
+    <div class="row" style="margin-bottom: 15px; margin-left: 0; font-size: 15px;">
+        <a href="${pageContext.request.contextPath}/uploadfile.html" style="color: #444444;">
+            <span class="glyphicon glyphicon-arrow-left" style="color: #3a87ad !important;"></span>
+            <spring:message code="label.goToKDF"/>
         </a>
     </div>
 

@@ -27,11 +27,10 @@
 <div class="well">
     <div id="totopscroller"> </div>
 
-    <div class="col-md-4">
-        <a href="${pageContext.request.contextPath}/accounts/accountHome.html">
-            <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px; color: #3a87ad !important;">
-                <spring:message code="as.goToAccList"/>
-            </span>
+    <div class="row" style="font-size: 15px; margin-left: 0 !important;">
+        <a href="${pageContext.request.contextPath}/accounts/accountHome.html"  style="color: #444444;">
+            <span class="glyphicon glyphicon-arrow-left"  style="color: #3a87ad !important;" ></span>
+            <spring:message code="as.goToAccList"/>
         </a>
     </div>
     &nbsp;&nbsp;&nbsp;
@@ -43,7 +42,7 @@
     </c:if>
 
     <table class="table table-striped" id='table'>
-        <caption class="text-center"><h3><spring:message code="as.searchResultAcc"/></h3></caption>
+        <caption class="text-center" style="padding-top: 0px !important;"><h3><spring:message code="as.searchResultAcc"/></h3></caption>
 
         <TH><spring:message code="as.actions"/></th>
         <TH><spring:message code="as.id"/></th>
