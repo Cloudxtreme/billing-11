@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Search by results</title>
+    <title><spring:message code="as.searchByResuls"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util"/>
@@ -26,7 +26,7 @@
     <div class="col-md-4">
         <a href="${pageContext.request.contextPath}/accounts/accountHome.html">
             <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px; color: #3a87ad !important;">
-                Перейти к списку аккаунтов
+                <spring:message code="as.goToAccList"/>
             </span>
         </a>
     </div>
@@ -39,15 +39,15 @@
     </c:if>
 
     <table class="table table-striped" id='table'>
-        <caption class="text-center"><h3>Результаты поиска Аккаунтов</h3></caption>
+        <caption class="text-center"><h3><spring:message code="as.searchResultAcc"/></h3></caption>
 
-        <TH>Действия</th>
-        <TH>ID (Лиц.счёт)</th>
-        <th>ФИО (Организация)</th>
-        <th>Совпадение в поиске</th>
-        <th>Тип</th>
-        <th>Баланс</th>
-        <th>Статус</th>
+        <TH><spring:message code="as.actions"/></th>
+        <TH><spring:message code="as.id"/></th>
+        <th><spring:message code="as.fio"/></th>
+        <th><spring:message code="as.searchCompares"/></th>
+        <th><spring:message code="as.type"/></th>
+        <th><spring:message code="as.balance"/></th>
+        <th><spring:message code="label.status"/></th>
         <c:forEach items="${accountList}" var="current">
             <label for="${current.id}">
                 <tr id="${current.id}">

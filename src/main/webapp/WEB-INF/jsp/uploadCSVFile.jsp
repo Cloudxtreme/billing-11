@@ -70,7 +70,7 @@
                 class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
     </legend>
 
-    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
+    <div class="progress" style="display: none;" id="progress">
         <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
             <span class="sr-only">60% Complete</span>
         </div>

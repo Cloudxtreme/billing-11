@@ -39,7 +39,7 @@
     <button id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></button>
     <button id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></button>
 
-    <div class="progress" style="display: none; padding-top: 10px;" id="progress">
+    <div class="progress" style="display: none;" id="progress">
         <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
             <span class="sr-only">60% Complete</span>
         </div>

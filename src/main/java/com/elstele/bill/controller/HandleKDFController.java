@@ -50,6 +50,7 @@ public class HandleKDFController {
         uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
         ModelAndView model = new ModelAndView("uploadedKDFFiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
+        callBillProcessor.setProcessedCallsCounter(0);
         progress = 0;
         return model;
     }
@@ -177,15 +178,19 @@ public class HandleKDFController {
     }
 
     @RequestMapping(value = "/worker/billCall")
-    public
     @ResponseBody
-    ResponseToAjax costTotalCalculate() {
+    public ResponseToAjax costTotalCalculate() {
         callBillProcessor.processCalls();
         return ResponseToAjax.SUCCESS;
     }
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")
-    public @ResponseBody Float getProgress() {
+    public @ResponseBody Float getKDFProgress() {
         return progress;
+    }
+
+    @RequestMapping(value = "/uploadedfiles/billCall/getprogress")
+    public @ResponseBody Float getBillCallProgress() {
+        return callBillProcessor.getCallsBillingProgress();
     }
 }
