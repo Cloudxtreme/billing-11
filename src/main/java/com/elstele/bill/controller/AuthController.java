@@ -30,7 +30,7 @@ public class AuthController {
         ModelAndView mav = new ModelAndView("main");
         if (localUserDataService.isCredentialValid(userName, userPass)) {
             LocalUser curUser = localUserDataService.getUserByNameAndPass(userName, userPass);
-            session.setMaxInactiveInterval(1200);
+            session.setMaxInactiveInterval(Constants.HALF_HOUR_IN_SEC);
             session.setAttribute(Constants.LOCAL_USER, curUser);
             mav.addObject("username", userName);
             return mav;

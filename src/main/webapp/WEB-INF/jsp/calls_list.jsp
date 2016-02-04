@@ -12,19 +12,22 @@
     <title><spring:message code="label.callsList"/> </title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
     <spring:url value="/resources/js/callslist.js" var="callslist"/>
     <script src="${callslist}"></script>
     <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
     <script src="${dateParsing}"></script>
+
+
     <spring:url value="/resources/js/daterangepicker/moment.min.js" var="momentMin"/>
     <script type="text/javascript" src="${momentMin}"></script>
     <spring:url value="/resources/js/daterangepicker/daterangepicker.js" var="daterangepicker"/>
     <script type="text/javascript" src="${daterangepicker}"></script>
     <spring:url value="/resources/css/daterangepickerCSS/daterangepicker.css" var="daterangepickerCSS"/>
     <link href="${daterangepickerCSS}" rel="stylesheet"/>
-
 
 </head>
 <body>
@@ -96,7 +99,7 @@
                     class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
         </div>
 
-
+        <div id="totopscroller"> </div>
     </div>
 </div>
 </body>

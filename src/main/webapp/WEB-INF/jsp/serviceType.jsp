@@ -13,6 +13,8 @@
     <title><spring:message code="label.services"/> </title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
@@ -93,6 +95,7 @@
         </div>
     </div>
 
+    <div id="totopscroller"> </div>
 </div>
 
 </body>

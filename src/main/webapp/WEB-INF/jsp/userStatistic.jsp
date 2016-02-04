@@ -12,6 +12,7 @@
     <title><spring:message code="label.userStatistic"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/js/jquery-ui.min.js" var="jqueryMin" />
     <script src="${jqueryMin}"></script>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
@@ -19,6 +20,7 @@
     <script src="${util}"></script>
     <spring:url value="/resources/js/userStatistic.js" var="stat" />
     <script src="${stat}"></script>
+
 
     <spring:url value="/resources/js/date_parsing.js" var="dateParsing"/>
     <script src="${dateParsing}"></script>
@@ -84,6 +86,7 @@
 --%>
 
     <div id="login" style="display: none;">${login}</div>
+    <div id="totopscroller"> </div>
 
 </div>
 

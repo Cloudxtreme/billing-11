@@ -13,6 +13,7 @@
     <title><spring:message code="label.csv"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/css/file-tree.min.css" var="fileTreeCss"/>
     <link href="${fileTreeCss}" rel="stylesheet"/>
 
@@ -30,6 +31,7 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well well-lg">
+    <div id="totopscroller"> </div>
 
     <%--divs for messages--%>
    <div id="errorMessage" class="alert alert-danger" style="display: none">

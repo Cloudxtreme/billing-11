@@ -16,7 +16,8 @@
 <script src="${util}"></script>
 <spring:url value="/resources/js/onlineStat.js" var="online" />
 <script src="${online}"></script>
-    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
+<jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+<link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 </head>
 <body>
 
@@ -39,6 +40,7 @@
             </tr>
         </table>
     </div>
+    <div id="totopscroller"> </div>
 
 </div>
 </body>

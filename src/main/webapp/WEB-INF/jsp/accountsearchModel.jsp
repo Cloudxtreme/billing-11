@@ -13,6 +13,8 @@
     <title><spring:message code="as.searchByResuls"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
     <spring:url value="/resources/js/util.js" var="util"/>
     <spring:url value="/resources/js/popup.js" var="popup"/>
     <script src="${popup}"></script>
@@ -23,6 +25,8 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well">
+    <div id="totopscroller"> </div>
+
     <div class="col-md-4">
         <a href="${pageContext.request.contextPath}/accounts/accountHome.html">
             <span class="glyphicon glyphicon-arrow-left" style="font-size: 15px; color: #3a87ad !important;">

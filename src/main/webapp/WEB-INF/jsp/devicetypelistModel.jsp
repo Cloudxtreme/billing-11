@@ -14,6 +14,8 @@
 
   <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+  <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
   <spring:url value="/resources/js/deviceType.js" var="deviceType"/>
   <script src="${deviceType}"></script>
 
@@ -24,6 +26,7 @@
 
 
 <div class="well">
+  <div id="totopscroller"> </div>
 
   <div>
       <div  id="succesMessage" class="alert alert-success col-md-8" style="display: none">

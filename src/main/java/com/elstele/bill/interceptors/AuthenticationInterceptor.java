@@ -23,7 +23,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         return true;
-
     }
 
 }

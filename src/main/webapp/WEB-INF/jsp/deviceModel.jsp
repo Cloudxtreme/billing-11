@@ -11,6 +11,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title><spring:message code="label.deviceList"/> </title>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
     <spring:url value="/resources/js/device.js" var="device"/>
@@ -27,6 +29,7 @@
 
 <div class="well">
 
+    <div id="totopscroller"> </div>
 
     <a type="button" class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/adddevice"><spring:message code="label.addNewDevice"/></a>
 

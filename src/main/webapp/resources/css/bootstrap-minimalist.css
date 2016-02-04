@@ -420,7 +420,8 @@ th {
 .flag {
     width: 32px;
     height: 23px;
-    background-image: url(../images/flags.png);
+    background: url('../images/flags.png');
+    display: inline-block;
 }
 .flag.flag-gb {background-position: -32px 0}
 .flag.flag-ru {background-position: 0 -32px}
@@ -6842,3 +6843,4 @@ label {
 .pager .disabled > a {
     border-color: #dddddd;
 }
+
