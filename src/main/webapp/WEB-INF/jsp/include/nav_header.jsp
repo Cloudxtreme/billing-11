@@ -58,8 +58,8 @@
                 <button type="submit" id="searchButton" class="btn btn-default"><spring:message code="label.search"/></button>
             </form>
             <div class="col-md-1" style="padding-top: 10px !important;">
-                <a href="?lang=en"><div class="flag flag-gb"></div></a>
-                <a href="?lang=ru"><div class="flag flag-ru"></div></a>
+                <a id="eng" href="?lang=en"><div class="flag flag-gb"></div></a>
+                <a id="ru" href="?lang=ru"><div class="flag flag-ru"></div></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>

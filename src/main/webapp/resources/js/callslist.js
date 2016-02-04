@@ -5,7 +5,6 @@ $(function () {
     // set active navigation tab "Calls"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    $("#linkToCallsList").addClass('active');
     renderCallsTable(pageResults, 1);
 });
 

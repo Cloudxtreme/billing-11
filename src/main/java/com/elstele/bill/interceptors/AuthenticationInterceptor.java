@@ -19,7 +19,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         if(localUser == null){
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath());
+            if(httpServletRequest.getContextPath().isEmpty()){
+                httpServletResponse.sendRedirect("/");
+            }else {
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath());
+            }
             return false;
         }
         return true;

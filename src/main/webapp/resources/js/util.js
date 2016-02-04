@@ -68,7 +68,6 @@ $(function() {
     }
     //linkToUserOnline
     else if(s.indexOf("statonline") > -1) {
-        $("#linkToUserOnline").addClass('active');
         $("#linkToUserOnline").addClass('selected');
     }
     else if(s.indexOf("extpayments") > -1){
@@ -77,10 +76,29 @@ $(function() {
     }
     else if(s.indexOf("statistic") > -1){
         $("#linkToAccounts").addClass('selected');
+        $('#eng').attr('href',"?lang=en" + "&login=" +getUrlParameter('login'));
+        $('#ru').attr('href', "?lang=ru" +"&login="+ getUrlParameter('login'));
+    }else if(s.indexOf("extpayments/listlast/") > -1){
+        $("#linkToCatalogs").addClass('selected');
+        $("#linkToTransactionCatalog").addClass('active');
     }
 
-
 });
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
 
 function confirmOperation(){
     if (confirm('Are you sure you want to save this thing into the database?')) {

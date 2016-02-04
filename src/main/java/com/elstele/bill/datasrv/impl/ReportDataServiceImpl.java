@@ -27,7 +27,6 @@ public class ReportDataServiceImpl implements ReportDataService {
     final static Logger LOGGER = LogManager.getLogger(ReportDataServiceImpl.class);
     private double progress;
 
-
     @Override
     @Async
     public ResponseToAjax createReport(String[] reportParametersArray) throws IncorrectReportNameException {
