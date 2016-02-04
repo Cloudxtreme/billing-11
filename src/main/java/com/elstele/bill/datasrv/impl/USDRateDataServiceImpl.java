@@ -50,10 +50,10 @@ public class USDRateDataServiceImpl implements USDRateDataService {
             }
         } catch (ParserConfigurationException e) {
             LOGGER.error(e.getMessage(), e);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SAXException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        } catch (IOException ey) {
+            LOGGER.error(ey.getMessage(), ey);
         }
     }
 }

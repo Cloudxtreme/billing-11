@@ -20,7 +20,7 @@ public class BillingCallsProcessor extends BillingProcessor {
     @Autowired
     private CallDataService callDataService;
     private final Integer pageSize = 100;
-    private Integer processedCallsCounter = 0;
+    private Integer processedCallsCounter;
     private float progress;
     private int callsCount;
     final static Logger LOGGER = LogManager.getLogger(BillingCallsProcessor.class);
@@ -29,6 +29,7 @@ public class BillingCallsProcessor extends BillingProcessor {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolCapacity);
 
         //TODO convert sysout to LOGGER and add more verbal output
+        processedCallsCounter = 0;
         List<Integer> callsToBeBilledIds = callDataService.getUnbilledCallsIdList(0,0);
         callsCount =  callsToBeBilledIds.size();
         Integer pagesCount = (callsCount/pageSize)+1;
@@ -62,6 +63,10 @@ public class BillingCallsProcessor extends BillingProcessor {
         return (float) processedCallsCounter / callsCount * 100;
     }
 
+    public void setProcessedCallsCounter(Integer processedCallsCounter) {
+        this.processedCallsCounter = processedCallsCounter;
+    }
+
     private void putCallsToExecutor(ThreadPoolExecutor executor, List<Integer> curCallIds) {
         for (Integer callId : curCallIds){
             BillingCallWorker worker = (BillingCallWorker)workerFactory.getWorker(BILLING_CALL_WORKER);
@@ -71,7 +76,4 @@ public class BillingCallsProcessor extends BillingProcessor {
         }
     }
 
-    public void setProcessedCallsCounter(Integer processedCallsCounter) {
-        this.processedCallsCounter = processedCallsCounter;
-    }
 }

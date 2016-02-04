@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Add/Edit Service Attribute</title>
+    <title><spring:message code="label.addEditAttr"/> </title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
@@ -27,28 +27,28 @@
         <fieldset>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Add/Edit Service Attribute</h3>
+                    <h3 class="panel-title"><spring:message code="label.addEditAttr"/></h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-lg-8 ${errorClass}">Please fill in all fields below.</label>
+                        <label class="col-lg-8 ${errorClass}"><spring:message code="label.fillField"/></label>
                     </div>
                     <div class="form-group">
-                        <label for="attribute" class="col-lg-3 control-label">Attribute</label>
+                        <label for="attribute" class="col-lg-3 control-label"><spring:message code="label.attr"/></label>
                         <div class="col-lg-9">
                             <form:input path="attribute" class="form-control" id="attribute" placeholder="PPPD-Upstream-Speed-Limit" />
                             <form:errors path="attribute" cssClass="alert-danger" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="operation" class="col-lg-3 control-label">Operation</label>
+                        <label for="operation" class="col-lg-3 control-label"><spring:message code="label.operation"/></label>
                         <div class="col-lg-9">
                             <form:input path="operation" class="form-control" id="operation" placeholder="=   <=   >="/>
                             <form:errors path="operation" cssClass="alert-danger" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="value" class="col-lg-3 control-label">Value</label>
+                        <label for="value" class="col-lg-3 control-label"><spring:message code="label.value"/></label>
                         <div class="col-lg-9">
                             <form:input path="value" class="form-control" id="value" placeholder="from client world 1024"/>
                             <form:errors path="value" cssClass="alert-danger" />
@@ -58,7 +58,7 @@
                         <div class="col-lg-9 col-lg-offset-3">
                             <form:hidden path="id" />
                             <form:hidden path="serviceTypeId" />
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary"><spring:message code="label.submit"/></button>
                         </div>
                     </div>
                 </div>
