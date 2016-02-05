@@ -19,6 +19,11 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <description>sessionListener</description>
+        <listener-class>com.elstele.bill.interceptors.ApplicationSessionListener</listener-class>
+    </listener>
+
     <welcome-file-list>
         <welcome-file>index.html login.jsp</welcome-file>
     </welcome-file-list>

@@ -4,6 +4,6 @@ $(document).ready(function(){
     });
 
     $('.alert-success').fadeOut(3000);
-    $('.alert-danger').fadeOut(10000);
+    $('.alert-danger').fadeOut(15000);
 
 });

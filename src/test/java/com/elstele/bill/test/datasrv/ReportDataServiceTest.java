@@ -10,13 +10,18 @@ import com.elstele.bill.reportCreators.factory.ReportDetails;
 import com.elstele.bill.reportCreators.reportInterface.ReportCreator;
 
 import com.elstele.bill.exceptions.IncorrectReportNameException;
+import com.elstele.bill.utils.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 import static com.elstele.bill.utils.Constants.PATH_TO_CSV_FOLDER;
@@ -29,6 +34,8 @@ public class ReportDataServiceTest {
 
     @InjectMocks
     private ReportDataServiceImpl reportDataService;
+    @Mock
+    HttpSession session;
     @Autowired
     CallDataService callDataService;
 
@@ -51,7 +58,7 @@ public class ReportDataServiceTest {
     @Test
     public void testEmptyArrayEntrance() throws IncorrectReportNameException {
         String[] testArray = new String[0];
-        reportDataService.createReport(testArray);
+        reportDataService.createReport(testArray, session);
     }
 
     @After

@@ -9,6 +9,7 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.exceptions.IncorrectReportNameException;
 import com.elstele.bill.exceptions.ResourceNotFoundException;
 import com.elstele.bill.utils.LocalDirPathProvider;
+import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 
 @Controller
@@ -44,11 +46,8 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax fileCSVUploadSubmit(@RequestParam(value = "flag") String selectedFileType, MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
-        if(csvFileDataService.isCsvFileHandlingFree()){
-            return  csvFileDataService.handle(multiPartHTTPServletRequestFiles, selectedFileType);
-        }else
-        return ResponseToAjax.BUSY;
+    public ResponseToAjax fileCSVUploadSubmit(@RequestParam(value = "flag") String selectedFileType, MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
+        return  csvFileDataService.handle(multiPartHTTPServletRequestFiles, selectedFileType, session);
     }
 
     @RequestMapping(value = "/uploadcsvfile/generateFileTree", method = RequestMethod.POST)
@@ -61,9 +60,9 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/reportCreating", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax generateReport(@RequestBody String[] json) throws IOException, IncorrectReportNameException {
+    public ResponseToAjax generateReport(@RequestBody String[] json, HttpSession session) throws IOException, IncorrectReportNameException {
         if(json == null)throw  new ResourceNotFoundException();
-        return  reportDataService.createReport(json);
+        return  reportDataService.createReport(json, session);
     }
 
     @RequestMapping(value = "downloadFile", method = RequestMethod.GET)
@@ -82,8 +81,8 @@ public class HandleCSVFileController {
 
     @RequestMapping(value = "/uploadcsvfile/reportCreatingProgress", method = RequestMethod.GET)
     @ResponseBody
-    public double getProgress(){
-        return reportDataService.gettingProgressValue();
+    public double getProgress(HttpSession session){
+        return UserStateStorage.getProgressBySession(session);
     }
 
 }

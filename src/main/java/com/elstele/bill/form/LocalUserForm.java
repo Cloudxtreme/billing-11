@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 
-public class LocalUserForm {
+public class LocalUserForm  {
     private Integer id;
     @NotNull
     private String username;
@@ -13,7 +13,6 @@ public class LocalUserForm {
     @NotNull
     private String passwordConfirm;
     private ArrayList<Integer> roleId;
-
 
     public Integer getId() {
         return id;
@@ -85,4 +84,5 @@ public class LocalUserForm {
         result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
     }
+
 }

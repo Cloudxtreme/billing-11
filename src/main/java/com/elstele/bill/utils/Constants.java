@@ -12,6 +12,8 @@ public class  Constants {
     public static final String EVERY_WORK_DAY_IN_16_36 = "0 56 16 * * MON-FRI";
     public static final int STATISTIC_MONTHS_DISPLAY_DEFAULT = 3;
 
+    public static final float PROGRESS_DONE = 100;
+
     public enum Period { WEEK, MONTH, YEAR }
 
     public enum TransactionSource { HANDMADE, BANK, BILLING }

@@ -9,17 +9,15 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.logging.Level;
 
-public class CSVFileCurrentParser implements CSVFileParser {
+public class CSVFileVEGAParser implements CSVFileParser {
     private CallForCSVDataService callForCSVDataService;
-    final static Logger LOGGER = LogManager.getLogger(CSVFileCurrentParser.class);
+    final static Logger LOGGER = LogManager.getLogger(CSVFileVEGAParser.class);
 
-    public CSVFileCurrentParser(CallForCSVDataService callForCSVDataService) {
+    public CSVFileVEGAParser(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
     }
 

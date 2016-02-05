@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/worker")
@@ -59,11 +60,12 @@ public class WorkerControllerPOC {
     @RequestMapping(value="/billCall", method = RequestMethod.GET)
     @ResponseBody
     public String billCall(HttpServletRequest request,
-                                  @RequestParam(value = "callId") Integer id){
+                           HttpSession session,
+                           @RequestParam(value = "callId") Integer id){
 
         //this call need to be in runnable
         //billService.updateCallWithItCost(id);
-        callBillProcessor.processCalls();
+        callBillProcessor.processCalls(session);
 
 
 

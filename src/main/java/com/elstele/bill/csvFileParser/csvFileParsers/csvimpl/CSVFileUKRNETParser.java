@@ -35,8 +35,8 @@ public class CSVFileUKRNETParser implements CSVFileParser {
             fileReader.close();
             return ResponseToAjax.SUCCESS;
         } catch (IOException e){
-            LOGGER.error(e);
-            return ResponseToAjax.ERROR;
+            LOGGER.error(e.getMessage() , e);
+            return ResponseToAjax.INCORRECTTYPE;
         }
     }
 

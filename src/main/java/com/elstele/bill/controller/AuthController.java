@@ -5,6 +5,7 @@ import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.LocalUserForm;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
+import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,8 @@ public class AuthController {
             session.setMaxInactiveInterval(Constants.HALF_HOUR_IN_SEC);
             session.setAttribute(Constants.LOCAL_USER, curUser);
             mav.addObject("username", userName);
+
+            /*UserStateStorage.setElementToMap(session);*/
             return mav;
         }
         ModelAndView login = new ModelAndView("login_page");

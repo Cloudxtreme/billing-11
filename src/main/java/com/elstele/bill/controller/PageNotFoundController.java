@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class PageNotFoundContoller {
+public class PageNotFoundController {
 
     @RequestMapping(value="/404page", method = RequestMethod.GET)
     @ResponseBody

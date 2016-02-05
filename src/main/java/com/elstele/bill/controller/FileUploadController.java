@@ -4,29 +4,17 @@ import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.datasrv.interfaces.ReportDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.filesWorkers.FileUploader;
-import com.elstele.bill.form.UploadedFileInfoForm;
-import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
-import com.elstele.bill.utils.LocalDirPathProvider;
-import com.elstele.bill.utils.PropertiesHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import sun.rmi.runtime.Log;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.util.Iterator;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -43,11 +31,13 @@ public class FileUploadController {
 
 
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
-    public ModelAndView fileCSVFirstView() {
+    public ModelAndView fileCSVFirstView(HttpSession session) {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();
         model.addObject("yearList", listDate);
-        reportDataService.setProgress(0);
+
+        UserStateStorage.setProgressToObjectInMap(session, 0);
+
         return model;
     }
 

@@ -9,6 +9,7 @@ import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
+import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -45,12 +47,12 @@ public class HandleKDFController {
     float progress;
 
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
-    public ModelAndView addLoadedFiles() {
+    public ModelAndView addLoadedFiles(HttpSession session) {
         List<UploadedFileInfoForm> uploadedFileInfoForms;
         uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
         ModelAndView model = new ModelAndView("uploadedKDFFiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
-        callBillProcessor.setProcessedCallsCounter(0);
+        UserStateStorage.setProgressToObjectInMap(session, 0);
         progress = 0;
         return model;
     }
@@ -175,13 +177,13 @@ public class HandleKDFController {
             uploadedFileInfoDataService.updateFile(uploadedFileInfoForm);
             progress = 100;
         }
+
     }
 
     @RequestMapping(value = "/worker/billCall")
     @ResponseBody
-    public ResponseToAjax costTotalCalculate() {
-        callBillProcessor.processCalls();
-        return ResponseToAjax.SUCCESS;
+    public ResponseToAjax costTotalCalculate(HttpSession session) {
+        return callBillProcessor.processCalls(session);
     }
 
     @RequestMapping(value = "/uploadedfiles/handle/getprogress")
@@ -190,7 +192,7 @@ public class HandleKDFController {
     }
 
     @RequestMapping(value = "/uploadedfiles/billCall/getprogress")
-    public @ResponseBody Float getBillCallProgress() {
-        return callBillProcessor.getCallsBillingProgress();
+    public @ResponseBody Float getBillCallProgress(HttpSession session) {
+        return UserStateStorage.getProgressBySession(session);
     }
 }

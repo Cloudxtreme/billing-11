@@ -7,6 +7,7 @@ import com.elstele.bill.exceptions.IncorrectCSVFileTypeException;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
+import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 
 @Service
@@ -23,23 +25,25 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
     @Autowired
     LocalDirPathProvider pathProvider;
 
-    private boolean csvFileHandlingFree = true;
-
     final static Logger LOGGER = LogManager.getLogger(CSVFileDataService.class);
 
     @Override
-    public ResponseToAjax handle(MultipartHttpServletRequest fileFromServlet, String selectedFileType) {
+    public ResponseToAjax handle(MultipartHttpServletRequest fileFromServlet, String selectedFileType, HttpSession session) {
         try {
-            LOGGER.info("File parsing started");
-            Iterator<String> fileIterator = fileFromServlet.getFileNames();
-            MultipartFile multipartFile = fileFromServlet.getFile(fileIterator.next());
-            CSVFileParser csvFileParser = factory.getParser(determineFileNameByFlag(selectedFileType));
-            ResponseToAjax response = csvFileParser.parse(multipartFile, pathProvider);
-            LOGGER.info("File parsed successfully");
-            return response;
+            if(UserStateStorage.checkForBusy()){
+                return ResponseToAjax.BUSY;
+            }else {
+                LOGGER.info("File parsing started");
+                Iterator<String> fileIterator = fileFromServlet.getFileNames();
+                MultipartFile multipartFile = fileFromServlet.getFile(fileIterator.next());
+                CSVFileParser csvFileParser = factory.getParser(determineFileNameByFlag(selectedFileType));
+                ResponseToAjax response = csvFileParser.parse(multipartFile, pathProvider);
+                LOGGER.info("File parsed successfully");
+                return response;
+            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return ResponseToAjax.ERROR;
+            return ResponseToAjax.INCORRECTTYPE;
         }
     }
 
@@ -54,11 +58,4 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
         }
     }
 
-    public boolean isCsvFileHandlingFree() {
-        return csvFileHandlingFree;
-    }
-
-    public void setCsvFileHandlingFree(boolean csvFileHandlingFree) {
-        this.csvFileHandlingFree = csvFileHandlingFree;
-    }
 }

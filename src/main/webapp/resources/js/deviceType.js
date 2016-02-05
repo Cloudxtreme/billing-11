@@ -54,7 +54,7 @@ $('html').on('click', '.glyphicon-ok-circle', function () {
             } else{
                 document.getElementById('errorMessage').style.display="block";
                 setTimeout(function() {
-                    $("#errorMessage").fadeOut(10000);
+                    $("#errorMessage").fadeOut(15000);
                 });
             }
         }

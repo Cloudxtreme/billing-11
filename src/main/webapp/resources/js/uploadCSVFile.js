@@ -57,7 +57,7 @@ $(document).ready(function () {
             $('#spinner').hide();
             document.getElementById('errorSelectFile').style.display = "block";
             setTimeout(function () {
-                    $("#errorSelectFile").fadeOut(10000);
+                    $("#errorSelectFile").fadeOut(15000);
             });
             return false;
         }
@@ -94,24 +94,24 @@ $(document).ready(function () {
                 } else if (result == "INCORRECTTYPE") {
                     document.getElementById('errorIncorrectType').style.display = "block";
                     setTimeout(function () {
-                        $("#errorIncorrectType").fadeOut(10000);
+                        $("#errorIncorrectType").fadeOut(15000);
                     });
 
                 } else if (result == "ERROR") {
                     document.getElementById('errorMessage').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(10000);
+                        $("#errorMessage").fadeOut(15000);
                     });
 
                 }else if(result == "BUSY"){
                     document.getElementById('errorMessageCSVBUSY').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessageCSVBUSY").fadeOut(10000);
+                        $("#errorMessageCSVBUSY").fadeOut(15000);
                     });
                 } else {
                     document.getElementById('errorUnavailable').style.display = "block";
                     setTimeout(function () {
-                        $("#errorUnavailable").fadeOut(10000);
+                        $("#errorUnavailable").fadeOut(15000);
                     });
 
                 }
@@ -136,7 +136,7 @@ $(document).ready(function () {
             });
         if(values.length < 3){
             document.getElementById('errorMessageReportChoose').style.display = "block";
-            $("#errorMessageReportChoose").fadeOut(10000);
+            $("#errorMessageReportChoose").fadeOut(15000);
         }else reportCreatingRequest(values);
     });
 
@@ -170,7 +170,7 @@ $(document).ready(function () {
                 } else {
                     document.getElementById('errorMessageReport').style.display = "block";
                     setTimeout(function () {
-                        $("#errorMessageReport").fadeOut(10000);
+                        $("#errorMessageReport").fadeOut(15000);
                     });
                 }
             }
@@ -259,10 +259,10 @@ $(document).ready(function () {
                     clearInterval(interval);
                     document.getElementById('successMessageReport').style.display="block";
                     setTimeout(function() {
-                        $("#successMessageReport").fadeOut(7000);
+                        $("#successMessageReport").fadeOut(5000);
                         $("#progress-bar").fadeOut(5000);
                         location.reload();
-                    },8000);
+                    },6000);
                 }
             }
         })

@@ -1,6 +1,6 @@
 package com.elstele.bill.csvFileParser.csvfactory;
 
-import com.elstele.bill.csvFileParser.csvFileParsers.csvimpl.CSVFileCurrentParser;
+import com.elstele.bill.csvFileParser.csvFileParsers.csvimpl.CSVFileVEGAParser;
 import com.elstele.bill.csvFileParser.csvFileParsers.csvinterface.CSVFileParser;
 import com.elstele.bill.csvFileParser.csvFileParsers.csvimpl.CSVFileUKRNETParser;
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
@@ -26,7 +26,7 @@ public class CSVFileFactory {
                 break;
             }
             case Constants.VEGA_CSV: {
-                csvFileParser = new CSVFileCurrentParser(callForCSVDataService);
+                csvFileParser = new CSVFileVEGAParser(callForCSVDataService);
                 LOGGER.info("CSV File parser is CurrentParser");
                 break;
             }

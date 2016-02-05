@@ -43,7 +43,7 @@ function renderCallsTable(rows, page) {
     if(isNaN(numberA) || isNaN(numberB)){
         document.getElementById('errorMessage').style.display="block";
         setTimeout(function() {
-            $("#errorMessage").fadeOut(10000);
+            $("#errorMessage").fadeOut(15000);
         });
     }else {
         $.ajax({

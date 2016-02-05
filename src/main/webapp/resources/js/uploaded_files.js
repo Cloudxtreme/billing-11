@@ -60,7 +60,7 @@ $(document).ready(function(){
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(10000);
+                            $("#errorMessage").fadeOut(15000);
                         });
                     }
                 }
@@ -94,7 +94,7 @@ $(document).ready(function(){
                     } else{
                         document.getElementById('errorMessage').style.display="block";
                         setTimeout(function() {
-                            $("#errorMessage").fadeOut(10000);
+                            $("#errorMessage").fadeOut(15000);
                         });
                     }
                 }
@@ -155,7 +155,7 @@ $(document).ready(function(){
             url: "./worker/billCall",
             type: "Post",
             success: function(data){
-                    if(data == "success") {
+                if(data == "SUCCESS") {
                     $tr.fadeOut('slow',function(){
                         $tr.remove()
                     });
@@ -166,7 +166,7 @@ $(document).ready(function(){
                 } else{
                     document.getElementById('errorMessage').style.display="block";
                     setTimeout(function() {
-                        $("#errorMessage").fadeOut(10000);
+                        $("#errorMessage").fadeOut(15000);
                     });
                 }
             }

@@ -1,6 +1,6 @@
 package com.elstele.bill.test.controller;
 
-import com.elstele.bill.controller.PageNotFoundContoller;
+import com.elstele.bill.controller.PageNotFoundController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class PageNotFoundControllerTest {
     private MockMvc mockMvc;
     private MockHttpSession mockSession;
     @InjectMocks
-    PageNotFoundContoller controllerUnderTest;
+    PageNotFoundController controllerUnderTest;
 
     @Before
     public void setUp(){

@@ -41,7 +41,7 @@
         <strong><spring:message code="csv.selectFile"/></strong>
     </div>
     <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
-        <strong><spring:message code="csv.incorrecttype"/></strong>
+        <strong><spring:message code="label.incorrectFileCSV"/></strong>
     </div>
     <div id="errorUnavailable" class="alert alert-danger" style="display: none">
         <strong><spring:message code="csv.unavailable"/></strong>
@@ -59,7 +59,7 @@
         <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
     <div id="errorMessageCSVBUSY" class="alert alert-warning" style="display: none">
-        <strong><spring:message code="csv.updatingBUSY"/></strong>
+        <strong><spring:message code="label.BUSY"/></strong>
     </div>
 
 

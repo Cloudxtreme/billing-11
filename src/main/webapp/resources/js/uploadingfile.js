@@ -15,7 +15,7 @@ if (typeof jQuery === 'undefined') {
                 console.log('blalbla');
                 $('#errorMessage').css('display', 'block');
                 setTimeout(function () {
-                    $("#errorMessage").fadeOut(10000);
+                    $("#errorMessage").fadeOut(15000);
                 });
             }
 
@@ -89,7 +89,7 @@ if (typeof jQuery === 'undefined') {
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong>You tried to add file with incorrect type. Please delete it and try again</strong>');
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(10000, function () {
+                        $("#errorMessage").fadeOut(15000, function () {
                             $("#errorMessage strong").remove();
                         });
                     });
@@ -100,7 +100,7 @@ if (typeof jQuery === 'undefined') {
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong>Failed to file upload</strong>');
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(10000, function () {
+                        $("#errorMessage").fadeOut(15000, function () {
                             $("#errorMessage strong").remove();
                         });
                     });
@@ -110,7 +110,7 @@ if (typeof jQuery === 'undefined') {
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong>It is not available now please try again later</strong>');
                     setTimeout(function () {
-                        $("#errorMessage").fadeOut(10000, function () {
+                        $("#errorMessage").fadeOut(15000, function () {
                             $("#errorMessage strong").remove();
                         });
                     });
