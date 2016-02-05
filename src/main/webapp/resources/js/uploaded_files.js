@@ -33,7 +33,25 @@ $(document).ready(function(){
             data: JSON.stringify(values),
             datatype: "JSON",
             contentType: "application/json",
-            success: function (data) {}
+            success: function (data) {
+                if(data == "BUSY"){
+                    console.log("BUSY");
+                    document.getElementById('errorMessageBUSY').style.display="block";
+                    setTimeout(function() {
+                        $("#errorMessageBUSY").fadeOut(15000);
+                    });
+                }else if(data == "SUCCESS"){
+                    document.getElementById('successMessageReload').style.display="block";
+                    setTimeout(function() {
+                        $("#successMessageReload").fadeOut(5000);
+                    });
+                }else{
+                    document.getElementById('errorMessage').style.display="block";
+                    setTimeout(function() {
+                        $("#errorMessage").fadeOut(15000);
+                    });
+                }
+            }
         });
     });
 

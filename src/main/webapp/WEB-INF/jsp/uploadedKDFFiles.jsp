@@ -41,13 +41,16 @@
     <div  id="successMessageReload" class="alert alert-success" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.handling"/></strong>
     </div>
+    <div  id="errorMessageBUSY" class="alert alert-danger" style="display: none; text-align: center !important;">
+        <strong><spring:message code="label.BUSY"/></strong>
+    </div>
 
     <div class="row">
         <a type="button" id="handleBtn" class="btn btn-primary" href="" style="margin-right: 10px;"><spring:message code="label.handle"/></a>
         <a type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></a>
 
-        <button id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></button>
-        <button id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></button>
+        <a type="button" id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></a>
+        <a type="button" id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></a>
     </div>
 
     <div class="progress" style="display: none;" id="progress">
