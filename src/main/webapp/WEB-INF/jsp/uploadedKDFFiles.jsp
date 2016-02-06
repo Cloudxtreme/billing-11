@@ -46,11 +46,11 @@
     </div>
 
     <div class="row">
-        <a type="button" id="handleBtn" class="btn btn-primary" href="" style="margin-right: 10px;"><spring:message code="label.handle"/></a>
-        <a type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></a>
+        <button type="button" id="handleBtn" class="btn btn-primary" href="" style="margin-right: 10px;"><spring:message code="label.handle"/></button>
+        <button type="button" id="handleCostTotal" class="btn btn-default" href=""><spring:message code="label.calculateCost"/></button>
 
-        <a type="button" id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></a>
-        <a type="button" id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></a>
+        <button type="button" id="selectNew" class="btn btn-sm btn-info float-right"><spring:message code="label.selectNew"/></button>
+        <button type="button" id="selectProcessed" class="btn btn-sm btn-danger float-right"><spring:message code="label.selectProcessed"/></button>
     </div>
 
     <div class="progress" style="display: none;" id="progress">

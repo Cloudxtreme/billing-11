@@ -256,7 +256,6 @@ $(document).ready(function () {
                     setTimeout(getProgress,2000);
                 }if (data == 100){
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-                    clearInterval(interval);
                     document.getElementById('successMessageReport').style.display="block";
                     setTimeout(function() {
                         $("#successMessageReport").fadeOut(5000);
@@ -268,6 +267,6 @@ $(document).ready(function () {
         })
     }
 
-    var interval =  setTimeout(getProgress, 2000);
+    var interval =  setInterval(getProgress, 2000);
 
 });

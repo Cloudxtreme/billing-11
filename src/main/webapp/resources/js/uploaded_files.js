@@ -40,12 +40,7 @@ $(document).ready(function(){
                     setTimeout(function() {
                         $("#errorMessageBUSY").fadeOut(15000);
                     });
-                }else if(data == "SUCCESS"){
-                    document.getElementById('successMessageReload').style.display="block";
-                    setTimeout(function() {
-                        $("#successMessageReload").fadeOut(5000);
-                    });
-                }else{
+                }else if(data == "ERROR"){
                     document.getElementById('errorMessage').style.display="block";
                     setTimeout(function() {
                         $("#errorMessage").fadeOut(15000);
@@ -173,15 +168,7 @@ $(document).ready(function(){
             url: "./worker/billCall",
             type: "Post",
             success: function(data){
-                if(data == "SUCCESS") {
-                    $tr.fadeOut('slow',function(){
-                        $tr.remove()
-                    });
-                    document.getElementById('successMessage').style.display="block";
-                    setTimeout(function() {
-                        $("#successMessage").fadeOut(3000);
-                    });
-                } else{
+                if(data == "ERROR") {
                     document.getElementById('errorMessage').style.display="block";
                     setTimeout(function() {
                         $("#errorMessage").fadeOut(15000);
@@ -213,7 +200,6 @@ $(document).ready(function(){
                     setTimeout(getProgressKDFFile,2000);
                 }if (data == 100){
                     progressDone(data);
-                    clearInterval(intervalKDF);
                 }
             }
         })
@@ -230,14 +216,13 @@ $(document).ready(function(){
                     setTimeout(getProgressCallCost,2000);
                 }if (data == 100){
                     progressDone(data);
-                    clearInterval(intervalBillCall);
                 }
             }
         })
     }
 
-    var intervalKDF = setTimeout(getProgressKDFFile,2000);
-    var intervalBillCall = setTimeout(getProgressCallCost, 2000);
+    var intervalKDF = setInterval(getProgressKDFFile,2000);
+    var intervalBillCall = setInterval(getProgressCallCost, 2000);
 });
 
 
