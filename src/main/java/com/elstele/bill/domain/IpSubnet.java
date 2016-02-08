@@ -46,14 +46,21 @@ public class IpSubnet extends CommonDomainBean {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof IpSubnet)) return false;
-        IpSubnet that = (IpSubnet) o;
-        return Objects.equals(ipSubnet, that.ipSubnet) &&
-                Objects.equals(subnetPurpose, that.subnetPurpose) &&
-                Objects.equals(ipAdd, that.ipAdd);
+
+        IpSubnet ipSubnet1 = (IpSubnet) o;
+
+        if (ipAdd != null ? !ipAdd.equals(ipSubnet1.ipAdd) : ipSubnet1.ipAdd != null) return false;
+        if (ipSubnet != null ? !ipSubnet.equals(ipSubnet1.ipSubnet) : ipSubnet1.ipSubnet != null) return false;
+        if (subnetPurpose != ipSubnet1.subnetPurpose) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ipSubnet, subnetPurpose, ipAdd);
+        int result = ipSubnet != null ? ipSubnet.hashCode() : 0;
+        result = 31 * result + (subnetPurpose != null ? subnetPurpose.hashCode() : 0);
+        result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
+        return result;
     }
 }

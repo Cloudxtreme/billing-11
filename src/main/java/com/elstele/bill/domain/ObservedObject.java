@@ -68,16 +68,26 @@ public class ObservedObject extends CommonDomainBean {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ObservedObject)) return false;
+
         ObservedObject that = (ObservedObject) o;
-        return Objects.equals(objId, that.objId) &&
-                Objects.equals(changedObject, that.changedObject) &&
-                Objects.equals(changesDate, that.changesDate);
+
+        if (changedBy != null ? !changedBy.equals(that.changedBy) : that.changedBy != null) return false;
+        if (changedObject != null ? !changedObject.equals(that.changedObject) : that.changedObject != null)
+            return false;
+        if (changesDate != null ? !changesDate.equals(that.changesDate) : that.changesDate != null) return false;
+        if (changesType != that.changesType) return false;
+        if (objId != null ? !objId.equals(that.objId) : that.objId != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(objId, changedObject, changesDate);
+        int result = objId != null ? objId.hashCode() : 0;
+        result = 31 * result + (changesType != null ? changesType.hashCode() : 0);
+        result = 31 * result + (changedObject != null ? changedObject.hashCode() : 0);
+        result = 31 * result + (changesDate != null ? changesDate.hashCode() : 0);
+        result = 31 * result + (changedBy != null ? changedBy.hashCode() : 0);
+        return result;
     }
-
-
 }

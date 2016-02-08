@@ -48,16 +48,22 @@ public class Ip extends CommonDomainBean {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Ip)) return false;
-        Ip that = (Ip) o;
-        return Objects.equals(ipName, that.ipName) &&
-                Objects.equals(ipSubnet, that.ipSubnet) &&
-                Objects.equals(ipStatus, that.ipStatus);
-    }
 
+        Ip ip = (Ip) o;
+
+        if (ipName != null ? !ipName.equals(ip.ipName) : ip.ipName != null) return false;
+        if (ipStatus != ip.ipStatus) return false;
+        if (ipSubnet != null ? !ipSubnet.equals(ip.ipSubnet) : ip.ipSubnet != null) return false;
+
+        return true;
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ipName, ipStatus, ipSubnet);
+        int result = ipName != null ? ipName.hashCode() : 0;
+        result = 31 * result + (ipStatus != null ? ipStatus.hashCode() : 0);
+        result = 31 * result + (ipSubnet != null ? ipSubnet.hashCode() : 0);
+        return result;
     }
 }
 

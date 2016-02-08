@@ -76,18 +76,19 @@ public class Device extends CommonDomainBean {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Device)) return false;
 
         Device device = (Device) o;
 
-        if (name != null ? !name.equals(device.name) : device.name != null) return false;
-        if (description != null ? !description.equals(device.description) : device.description != null) return false;
         if (community != null ? !community.equals(device.community) : device.community != null) return false;
-        if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
+        if (description != null ? !description.equals(device.description) : device.description != null) return false;
         if (deviceAddress != null ? !deviceAddress.equals(device.deviceAddress) : device.deviceAddress != null)
             return false;
-        return !(deviceType != null ? !deviceType.equals(device.deviceType) : device.deviceType != null);
+        if (deviceType != null ? !deviceType.equals(device.deviceType) : device.deviceType != null) return false;
+        if (ipAdd != null ? !ipAdd.equals(device.ipAdd) : device.ipAdd != null) return false;
+        if (name != null ? !name.equals(device.name) : device.name != null) return false;
 
+        return true;
     }
 
     @Override
@@ -97,6 +98,7 @@ public class Device extends CommonDomainBean {
         result = 31 * result + (community != null ? community.hashCode() : 0);
         result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
         result = 31 * result + (deviceType != null ? deviceType.hashCode() : 0);
+        result = 31 * result + (deviceAddress != null ? deviceAddress.hashCode() : 0);
         return result;
     }
 }

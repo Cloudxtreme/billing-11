@@ -35,7 +35,7 @@ public class UserStatisticController {
 
     @RequestMapping(value = "getUserStatisticForPeriod", method = RequestMethod.GET)
     @ResponseBody
-    public List<CustomizeCalendar> getUserStatisticForPeriod(HttpServletRequest request,
+    public List<CustomizeCalendar> getUserStatisticForPeriod(
                                              @RequestParam(value = "login") String login,
                                              @RequestParam(value = "startDate") String startDate,
                                              @RequestParam(value = "endDate") String endDate) throws ParseException{

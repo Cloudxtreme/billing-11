@@ -13,7 +13,6 @@ public class CallBillRule {
     private Date finishtime;
     private Float tarif;
 
-
     public int getId() {
         return id;
     }
