@@ -61,7 +61,7 @@ public class ObservedObjectBuilder {
 
     public ObservedObjectBuilder withChangerName(HttpSession session) {
         LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
-        observedObject.setChanger(user.getUsername());
+        observedObject.setChangedBy(user.getUsername());
         return this;
     }
 

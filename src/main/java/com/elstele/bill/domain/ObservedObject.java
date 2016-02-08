@@ -22,7 +22,7 @@ public class ObservedObject extends CommonDomainBean {
     
     private Date changesDate;
 
-    private String changer;
+    private String changedBy;
 
     public Integer getObjId() {
         return objId;
@@ -56,12 +56,12 @@ public class ObservedObject extends CommonDomainBean {
         this.changesType = changesType;
     }
 
-    public String getChanger() {
-        return changer;
+    public String getChangedBy() {
+        return changedBy;
     }
 
-    public void setChanger(String changer) {
-        this.changer = changer;
+    public void setChangedBy(String changer) {
+        this.changedBy = changer;
     }
 
     @Override
