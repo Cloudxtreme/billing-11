@@ -4,6 +4,8 @@ import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.Status;
 
+import java.util.Objects;
+
 public class IpForm {
     public Integer id;
     public String ipName;
@@ -54,27 +56,20 @@ public class IpForm {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IpForm ipForm = (IpForm) o;
-
-        if (id != null ? !id.equals(ipForm.id) : ipForm.id != null) return false;
-        if (ipName != null ? !ipName.equals(ipForm.ipName) : ipForm.ipName != null) return false;
-        if (ipSubnet != null ? !ipSubnet.equals(ipForm.ipSubnet) : ipForm.ipSubnet != null) return false;
-        if (status != null && ipForm.status != null) return status == ipForm.status;
-        return ipStatus == ipForm.ipStatus;
-
+    public int hashCode() {
+        return Objects.hash(id, ipName, ipSubnet,status, ipStatus);
     }
 
     @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (ipName != null ? ipName.hashCode() : 0);
-        result = 31 * result + (ipSubnet != null ? ipSubnet.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (ipStatus != null ? ipStatus.hashCode() : 0);
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IpForm)) return false;
+        IpForm that = (IpForm) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(ipName, that.ipName) &&
+                Objects.equals(ipSubnet, that.ipSubnet)&&
+                Objects.equals(status, that.status)&&
+                Objects.equals(ipStatus, that.ipStatus);
     }
+
 }

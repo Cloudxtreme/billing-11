@@ -11,11 +11,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><spring:message code="label.accounts"/></title>
 
-<jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
-<spring:url value="/resources/js/util.js" var="util" />
-<script src="${util}"></script>
-<spring:url value="/resources/js/accounts.js" var="accounts" />
-<script src="${accounts}"></script>
+    <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util" />
+    <script src="${util}"></script>
+    <spring:url value="/resources/js/accounts.js" var="accounts" />
+    <script src="${accounts}"></script>
+
+    <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
+    <script src="${jBootstrapSwitch}"></script>
+    <spring:url value="/resources/js/bootstrap-typeahead.js" var="typeahead" />
+    <script src="${typeahead}"></script>
+
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
 </head>
 <body>
@@ -38,6 +44,11 @@
             </c:if>
         </div>&nbsp;
 
+        <div id="successMessageEditAccount" class="alert alert-success" style="display: none">
+            <strong><spring:message code="account.success.update"/></strong>
+        </div>
+
+
         <a type="button" href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.accountCreate"/></a>
         <div id="accAccountModal" class="modal fade">
         <div class="modal-dialog modal-lg">
@@ -49,8 +60,7 @@
 
                 <div class="modal-body">
                     <div class="">
-                        <form:form class="form" id="crtAccountForm" method="POST" modelAttribute="accountForm"
-                                    action="${pageContext.request.contextPath}/accounts/add.html">
+                        <form:form class="form" id="crtAccountForm" method="POST" modelAttribute="accountForm" action="${pageContext.request.contextPath}/accounts/add">
                             <fieldset>
                                 <form:input path="id" id="id" type="hidden"/>
                                 <form:input path="currentBalance" id="currentBalance" type="hidden"/>

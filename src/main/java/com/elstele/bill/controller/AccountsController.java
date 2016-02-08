@@ -35,9 +35,8 @@ public class AccountsController {
     @Autowired
     private Messagei18nHelper messagei18nHelper;
 
-    @RequestMapping(value="/accountHome", method = RequestMethod.GET)
-    public ModelAndView handleAccountHome()
-    {
+    @RequestMapping(value = "/accountHome", method = RequestMethod.GET)
+    public ModelAndView handleAccountHome() {
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         int totalPages = determineTotalPagesForOutput();
         ModelAndView mav = new ModelAndView("accounts_list");
@@ -67,7 +66,6 @@ public class AccountsController {
     }
 
 
-
     //getAccount
     @RequestMapping(value = "/getAccount", method = RequestMethod.GET)
     @ResponseBody
@@ -77,18 +75,17 @@ public class AccountsController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public
     @ResponseBody
-    AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpServletRequest request) {
-        accountDataService.saveAccount(accountForm);
+    public AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpSession session) {
+        accountDataService.saveAccount(accountForm, session);
         return new AccountForm();
     }
 
     @RequestMapping(value = "/editAccount", method = RequestMethod.POST)
     public
     @ResponseBody
-    AccountForm editAccount(@ModelAttribute AccountForm accountForm) {
-        accountDataService.updateAccount(accountForm);
+    AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpSession session) {
+        accountDataService.updateAccount(accountForm, session);
         return new AccountForm();
     }
 
@@ -102,16 +99,16 @@ public class AccountsController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        accountDataService.softDeleteAccount(id);
+    public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
+        accountDataService.softDeleteAccount(id, session);
         redirectAttributes.addFlashAttribute(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.delete"));
         return "redirect:../accountHome";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm) {
+    public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpSession session) {
         ModelAndView mav = new ModelAndView("accounts_list");
-        accountDataService.updateAccount(accountForm);
+        accountDataService.updateAccount(accountForm, session);
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.update"));
@@ -126,16 +123,16 @@ public class AccountsController {
     public ModelAndView searchAccount(@RequestParam String searchInput) {
         Set<AccountForm> accountFormList = accountDataService.searchAccounts(searchInput);
         ModelAndView mav = new ModelAndView("accountsearchModel");
-        if(!accountFormList.isEmpty()) {
+        if (!accountFormList.isEmpty()) {
             mav.addObject("accountList", accountFormList);
-        }else{
+        } else {
             mav.addObject(Constants.MESSAGE, messagei18nHelper.getMessage("search.message"));
         }
         return mav;
     }
 
     @RequestMapping(value = "/accountsearch", method = RequestMethod.GET)
-    public ModelAndView searchAccountGet(){
+    public ModelAndView searchAccountGet() {
         ModelAndView mav = new ModelAndView("accountsearchModel");
         mav.addObject(Constants.MESSAGE, messagei18nHelper.getMessage("search.message"));
         return mav;

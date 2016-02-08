@@ -1,5 +1,6 @@
 package com.elstele.bill.datasrv.impl;
 
+import com.elstele.bill.Builders.ObservedObjectBuilder;
 import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
@@ -7,9 +8,12 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
+import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
+import com.elstele.bill.domain.ObservedObject;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
@@ -21,9 +25,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.elstele.bill.domain.Device;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class DeviceDataServiceImpl implements DeviceDataService {
@@ -40,7 +47,10 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     IpDataService ipDataService;
     @Autowired
     StreetDataService streetDataService;
+    @Autowired
+    ObservedObjectDataService observedObjectDataService;
     final static Logger LOGGER = LogManager.getLogger(DeviceDataServiceImpl.class);
+    private ObservedObjectBuilder builder = new ObservedObjectBuilder();
 
     @Override
     @Transactional
@@ -58,18 +68,29 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public Integer addDevice(DeviceForm deviceForm) {
+    public Integer addDevice(DeviceForm deviceForm, HttpSession session) {
         gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
-        try{
+        try {
             int creatingId = deviceDAO.create(device);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
             LOGGER.info("Device " + deviceForm.getName() + " added successfully");
+
+
+            ObservedObject observedObject = builder.build()
+                    .withObjId(creatingId)
+                    .withChangedObject(device)
+                    .withChangesDate(new Date())
+                    .withOperationType(ObjectOperationType.CREATE)
+                    .withChangerName(session)
+                    .getRes();
+            observedObjectDataService.changeObserver(observedObject);
+
             return creatingId;
-        } catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
         }
@@ -77,7 +98,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public void updateDevice(DeviceForm deviceForm) {
+    public void updateDevice(DeviceForm deviceForm, HttpSession session) {
         try {
             gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
             DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
@@ -85,38 +106,58 @@ public class DeviceDataServiceImpl implements DeviceDataService {
             deviceDAO.update(bean);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
-            LOGGER.info("Device "+ deviceForm.getName() +" updated successfully");
-        }catch(HibernateException e ){
+            LOGGER.info("Device " + deviceForm.getName() + " updated successfully");
+
+            ObservedObject observedObject = builder.build()
+                    .withObjId(deviceForm.getId())
+                    .withChangedObject(bean)
+                    .withChangesDate(new Date())
+                    .withOperationType(ObjectOperationType.UPDATE)
+                    .withChangerName(session)
+                    .getRes();
+            observedObjectDataService.changeObserver(observedObject);
+
+        } catch (HibernateException e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
 
-    public void gettingCorrectIDForCurrentFormAndCurrentStreet(DeviceForm deviceForm){
-        if(deviceForm.getDeviceAddressForm().getStreetId() == null){
+    public void gettingCorrectIDForCurrentFormAndCurrentStreet(DeviceForm deviceForm) {
+        if (deviceForm.getDeviceAddressForm().getStreetId() == null) {
             String streetNameFromForm = deviceForm.getDeviceAddressForm().getStreet();
             Integer streetIdFromDB = streetDAO.getStreetIDByStreetName(streetNameFromForm);
-            if(streetIdFromDB != null){
+            if (streetIdFromDB != null) {
                 deviceForm.getDeviceAddressForm().setStreetId(streetIdFromDB);
             }
         }
     }
 
-    public void updateStreetListAfterInsert(DeviceForm form){
+    public void updateStreetListAfterInsert(DeviceForm form) {
         Integer id = form.getDeviceAddressForm().getStreetId();
         String streetName = form.getDeviceAddressForm().getStreet();
-        if(id == null && !streetName.isEmpty()){
+        if (id == null && !streetName.isEmpty()) {
             streetDataService.clearStreetsList();
         }
     }
 
     @Override
     @Transactional
-    public ResponseToAjax deleteDevice(Integer id) {
+    public ResponseToAjax deleteDevice(Integer id, HttpSession session) {
         try {
             DeviceForm deviceForm = getById(id);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
             deviceDAO.setStatusDelete(id);
-            LOGGER.info("Device "+ deviceForm.getName() +" deleted successfully");
+            LOGGER.info("Device " + deviceForm.getName() + " deleted successfully");
+
+            ObservedObject observedObject = builder.build()
+                    .withObjId(id)
+                    .withChangedObject(deviceForm)
+                    .withChangesDate(new Date())
+                    .withOperationType(ObjectOperationType.DELETE)
+                    .withChangerName(session)
+                    .getRes();
+            observedObjectDataService.changeObserver(observedObject);
+
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

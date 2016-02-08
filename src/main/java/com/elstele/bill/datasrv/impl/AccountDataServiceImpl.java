@@ -1,14 +1,19 @@
 package com.elstele.bill.datasrv.impl;
 
 
+import com.elstele.bill.Builders.ObservedObjectBuilder;
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
+import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
+import com.elstele.bill.form.AddressForm;
+import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +21,7 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @org.springframework.stereotype.Service
@@ -29,8 +35,11 @@ public class AccountDataServiceImpl implements AccountDataService {
     private StreetDAO streetDAO;
     @Autowired
     StreetDataService streetDataService;
+    @Autowired
+    ObservedObjectDataService observedObjectDataService;
 
     final static Logger LOGGER = LogManager.getLogger(AccountDataServiceImpl.class);
+    private ObservedObjectBuilder builder = new ObservedObjectBuilder();
 
     @Override
     @Transactional
@@ -86,24 +95,61 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
-    public void saveAccount(AccountForm form) {
+    public void saveAccount(AccountForm form, HttpSession session) {
         AccountAssembler assembler = new AccountAssembler();
         if (form.getId() == null) {
             form.setCurrentBalance(0F);
             form.setStatus(Status.ACTIVE);
         }
-        Account account = assembler.fromFormToBean(form);
-        accountDAO.create(account);
+        Account account = assembler.fromShortFormToBean(form);
+        int creatingId = accountDAO.create(account);
+
+
+        ObservedObject observedObject = builder.build()
+                .withObjId(creatingId)
+                .withChangedObject(account)
+                .withChangesDate(new Date())
+                .withOperationType(ObjectOperationType.CREATE)
+                .withChangerName(session)
+                .getRes();
+        observedObjectDataService.changeObserver(observedObject);
     }
 
     @Override
     @Transactional
-    public void updateAccount(AccountForm form) {
-        gettingCorrectIDForCurrentFormAndStreet(form);
+    public void updateAccount(AccountForm form, HttpSession session) {
         AccountAssembler assembler = new AccountAssembler();
-        Account account = assembler.fromFormToBean(form);
+        Account account;
+        if (isFormAddressEmpty(form)) {
+            //Editing on account list page
+            account = accountDAO.getById(form.getId());
+            account.setAccountName(form.getAccountName());
+            account.setAccountType(form.getAccountType());
+        } else {
+            //Editing on Account full page with more concert information
+            gettingCorrectIDForCurrentFormAndStreet(form);
+            account = assembler.fromFormToBean(form);
+            updateStreetListAfterInsert(form);
+        }
         accountDAO.update(account);
-        updateStreetListAfterInsert(form);
+
+        ObservedObject observedObject = builder.build()
+                .withObjId(form.getId())
+                .withChangedObject(account)
+                .withChangesDate(new Date())
+                .withOperationType(ObjectOperationType.UPDATE)
+                .withChangerName(session)
+                .getRes();
+        observedObjectDataService.changeObserver(observedObject);
+    }
+
+    private boolean isFormAddressEmpty(AccountForm form) {
+        AddressForm phyAddress = form.getPhyAddress();
+        AddressForm legalAddress = form.getLegalAddress();
+        return (phyAddress == null || phyAddress.getStreet() == null && phyAddress.getStreetId() == null && phyAddress.getId() == null
+                && phyAddress.getBuilding() == null && phyAddress.getFlat() == null) &&
+                (legalAddress == null || legalAddress.getStreet() == null && legalAddress.getStreetId() == null && legalAddress.getId() == null
+                        && legalAddress.getBuilding() == null && legalAddress.getFlat() == null);
     }
 
     public void gettingCorrectIDForCurrentFormAndStreet(AccountForm form) {
@@ -163,14 +209,23 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
-    public void softDeleteAccount(int id) {
+    public void softDeleteAccount(int id, HttpSession session) {
         Account account = accountDAO.getById(id);
         account.setStatus(Status.DELETED);
         Set<Service> serviceSet = account.getAccountServices();
-        for(Service service : serviceSet){
+        for (Service service : serviceSet) {
             service.setStatus(Status.DELETED);
         }
         accountDAO.update(account);
+
+        ObservedObject observedObject = builder.build()
+                .withObjId(id)
+                .withChangedObject(account)
+                .withChangesDate(new Date())
+                .withOperationType(ObjectOperationType.DELETE)
+                .withChangerName(session)
+                .getRes();
+        observedObjectDataService.changeObserver(observedObject);
     }
 
     @Override
@@ -192,10 +247,10 @@ public class AccountDataServiceImpl implements AccountDataService {
             addFormWithPhoneNumberToList(result, serviceListByPhoNumber);
             addFormToListWithFIO(result, accountListByFIOAndName);
 
-            LOGGER.info("Getting from DB by Search Value: "+value+" successfully finished. Method searchAccounts");
+            LOGGER.info("Getting from DB by Search Value: " + value + " successfully finished. Method searchAccounts");
 
             return result;
-        }catch(HibernateException e){
+        } catch (HibernateException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptySet();
         }

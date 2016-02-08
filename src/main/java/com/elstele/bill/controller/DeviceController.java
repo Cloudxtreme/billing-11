@@ -81,13 +81,13 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
-    public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes) {
+    public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes, HttpSession session) {
         String msg;
         if (deviceForm.getId() == null) {
-            deviceDataService.addDevice(deviceForm);
+            deviceDataService.addDevice(deviceForm, session);
             msg = messageHelper.getMessage(Constants.DEVICE_ADD_SUCCESS);
         } else {
-            deviceDataService.updateDevice(deviceForm);
+            deviceDataService.updateDevice(deviceForm, session);
             msg = messageHelper.getMessage(Constants.DEVICE_UPDATE_SUCCESS);
         }
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, msg);
@@ -96,13 +96,13 @@ public class DeviceController {
 
     @RequestMapping(value = "/device/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax deleteDevice(@RequestBody String json) {
+    public ResponseToAjax deleteDevice(@RequestBody String json, HttpSession session) {
         Integer deviceId = Integer.parseInt(json);
-        return deviceDataService.deleteDevice(deviceId);
+        return deviceDataService.deleteDevice(deviceId, session);
     }
 
     @RequestMapping(value = "/device/{id}/update", method = RequestMethod.GET)
-    public ModelAndView editDevice(@PathVariable("id") int id, HttpSession session) {
+    public ModelAndView editDevice(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("adddeviceModel");
         DeviceForm form = deviceDataService.getById(id);
         ipDataService.setStatus(form.getIpForm().getId(), IpStatus.FREE);
@@ -136,7 +136,7 @@ public class DeviceController {
     @RequestMapping(value = "**/getValidIps", method = RequestMethod.POST)
     @ResponseBody
     public Map<Integer, String> ipAddressAddBySubnet(@RequestBody String subnetId) {
-       return ipDataService.getIpMapBySubnets(subnetId);
+        return ipDataService.getIpMapBySubnets(subnetId);
     }
 
     @RequestMapping(value = "**/returniplist", method = RequestMethod.GET)

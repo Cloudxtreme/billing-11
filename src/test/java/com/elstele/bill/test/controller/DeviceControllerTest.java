@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -200,7 +201,7 @@ public class DeviceControllerTest {
     @Test
     public void addOrUpdateDeviceFromFormTest() throws Exception {
         DeviceForm deviceFormExpected = deviceFormBuilder.build().withIpForm(ipFormBuilder.build().withId(1).getRes()).getRes();
-        when(deviceDataService.addDevice(deviceFormExpected)).thenReturn(1);
+        when(deviceDataService.addDevice(deviceFormExpected, mockSession)).thenReturn(1);
         when(messagei18nHelper.getMessage(Constants.DEVICE_ADD_SUCCESS)).thenReturn("Device was successfully added.");
 
         this.mockMvc.perform(post("/adddevice")
@@ -213,7 +214,7 @@ public class DeviceControllerTest {
 
     @Test
     public void deleteDeviceTest() throws Exception {
-        when(deviceDataService.deleteDevice(deviceForm.getId())).thenReturn(ResponseToAjax.SUCCESS);
+        when(deviceDataService.deleteDevice(deviceForm.getId(), mockSession)).thenReturn(ResponseToAjax.SUCCESS);
         MvcResult result = this.mockMvc.perform(post("/device/delete")
                 .session(mockSession)
                 .content(deviceForm.getId().toString())

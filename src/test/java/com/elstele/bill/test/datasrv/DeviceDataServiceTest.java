@@ -1,5 +1,6 @@
 package com.elstele.bill.test.datasrv;
 
+import com.elstele.bill.Builders.ObservedObjectBuilder;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
@@ -7,6 +8,7 @@ import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
 import com.elstele.bill.datasrv.impl.IpDataServiceImpl;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
+import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
@@ -29,6 +31,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +55,14 @@ public class DeviceDataServiceTest {
     @Mock
     IpDataService ipDataService;
 
+    @Mock
+    HttpSession session;
+
+    @Mock
+    ObservedObjectDataService observedObjectDataService;
+    @Mock
+    ObservedObject observedObject;
+
     @InjectMocks
     DeviceDataServiceImpl deviceDataService;
 
@@ -60,12 +71,6 @@ public class DeviceDataServiceTest {
     private DeviceForm form;
     private DeviceFormBuilder deviceFormBuilder;
     private AddressFormBuilder addressFormBuilder;
-    private DeviceBuilder deviceBuilder;
-    private DeviceTypeBuilder deviceTypeBuilder;
-    private IpBuilder ipBuilder;
-    private AddressBuilder addressBuilder;
-    private IpFormBuilder ipFormBuilder;
-    private DeviceTypeFormBuilder deviceTypeFormBuilder;
 
     @Before
     public void setUp() {
@@ -73,10 +78,10 @@ public class DeviceDataServiceTest {
         MockitoAnnotations.initMocks(this);
 
         deviceList = new ArrayList<>();
-        deviceBuilder = new DeviceBuilder();
-        deviceTypeBuilder = new DeviceTypeBuilder();
-        ipBuilder = new IpBuilder();
-        addressBuilder = new AddressBuilder();
+        DeviceBuilder deviceBuilder = new DeviceBuilder();
+        DeviceTypeBuilder deviceTypeBuilder = new DeviceTypeBuilder();
+        IpBuilder ipBuilder = new IpBuilder();
+        AddressBuilder addressBuilder = new AddressBuilder();
 
         DeviceTypes deviceTypes= deviceTypeBuilder.build().withId(4).getRes();
         Ip ip = ipBuilder.build().withId(5).getRes();
@@ -92,8 +97,8 @@ public class DeviceDataServiceTest {
 
         deviceFormBuilder = new DeviceFormBuilder();
         addressFormBuilder = new AddressFormBuilder();
-        ipFormBuilder = new IpFormBuilder();
-        deviceTypeFormBuilder = new DeviceTypeFormBuilder();
+        IpFormBuilder ipFormBuilder = new IpFormBuilder();
+        DeviceTypeFormBuilder deviceTypeFormBuilder = new DeviceTypeFormBuilder();
 
         IpForm ipForm = ipFormBuilder.build().withId(5).getRes();
         DeviceTypesForm deviceTypesForm = deviceTypeFormBuilder.build().withId(4).getRes();
@@ -117,13 +122,13 @@ public class DeviceDataServiceTest {
         assertTrue(actual.contains(form));
     }
 
-    @Test
+    /*@Test
     public void addDeviceTest() {
         when(streetDAO.getStreetIDByStreetName(form.getDeviceAddressForm().getStreet())).thenReturn(5);
-        when(deviceDAO.create(device)).thenReturn(0);
-        int actualId = deviceDataService.addDevice(form);
-        assertTrue(actualId == 0);
-    }
+        when(deviceDAO.create(device)).thenReturn(11);
+        int actualId = deviceDataService.addDevice(form, session);
+        assertTrue(actualId == 11);
+    }*/
 
     @Test
     public void gettingCorrectIDForCurrentFormAndCurrentStreetTest(){
@@ -137,7 +142,7 @@ public class DeviceDataServiceTest {
     @Test
     public void deleteDeviceTest(){
         int id = deviceDAO.create(device);
-        deviceDataService.deleteDevice(id);
+        deviceDataService.deleteDevice(id, session);
         when(deviceDAO.getById(id)).thenReturn(device);
         DeviceForm form = deviceDataService.getById(id);
         assertEquals(form.getName(), "device1");

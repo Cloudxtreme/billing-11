@@ -85,7 +85,7 @@ $(document).ready(function() {
         var account = {
             accountName: $("#accountName").val(),
             accountType:$("#accountType").val()
-        }
+        };
 
         var id = $("#id").val();
         var action = frm.attr('action');
@@ -107,11 +107,16 @@ $(document).ready(function() {
         $.ajax({
             type: frm.attr('method'),
             url: action,
-            async: false,
             dataType : 'json',
             data : jsonData,
             success : function(callback){
                 console.log("in success of Ajax call ADD ACCOUNT");
+                if(id > 0){
+                    document.getElementById('successMessageEditAccount').style.display = 'block';
+                    setTimeout(function () {
+                        $("#successMessageEditAccount").fadeOut(3000);
+                    });
+                }
                 hideModalAddAccount();
                 clearForm();
                 /*$(this).html("Success!");*/
