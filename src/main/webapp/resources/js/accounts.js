@@ -116,6 +116,11 @@ $(document).ready(function() {
                     setTimeout(function () {
                         $("#successMessageEditAccount").fadeOut(3000);
                     });
+                }else{
+                    document.getElementById('successMessageADD').style.display = 'block';
+                    setTimeout(function () {
+                        $("#successMessageADD").fadeOut(3000);
+                    });
                 }
                 hideModalAddAccount();
                 clearForm();
@@ -123,6 +128,10 @@ $(document).ready(function() {
                 renderAccountsTable(pageResults, currentPageNum);
             },
             error : function(){
+                document.getElementById('errorMessageACC').style.display = 'block';
+                setTimeout(function () {
+                    $("#errorMessageACC").fadeOut(15000);
+                });
                 $(this).html("Error!");
             }
         });

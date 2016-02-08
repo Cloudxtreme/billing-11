@@ -47,9 +47,16 @@
         <div id="successMessageEditAccount" class="alert alert-success" style="display: none">
             <strong><spring:message code="account.success.update"/></strong>
         </div>
+        <div id="successMessageADD" class="alert alert-success" style="display: none">
+            <strong><spring:message code="account.success.add"/></strong>
+         </div>
+        <div id="errorMessageACC" class="alert alert-danger" style="display: none">
+            <strong><spring:message code="account.error"/></strong>
+        </div>
 
 
-        <a type="button" href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.accountCreate"/></a>
+
+    <a type="button" href="#accAccountModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.accountCreate"/></a>
         <div id="accAccountModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

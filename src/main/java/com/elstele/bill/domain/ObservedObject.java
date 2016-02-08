@@ -4,10 +4,7 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,6 +17,7 @@ public class ObservedObject extends CommonDomainBean {
     private ObjectOperationType changesType;
 
     @JsonProperty
+    @Column(length = 500)
     private String changedObject;
     
     private Date changesDate;
