@@ -1,5 +1,6 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
@@ -32,7 +33,8 @@ public class ServiceTypeController {
 
     @RequestMapping(value = "/serviceType/{id}/delete", method = RequestMethod.GET)
     public String serviceDelete(@PathVariable("id") Integer id, HttpSession session, Map<String, Object> map) {
-        serviceTypeDataService.deleteServiceType(id);
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        serviceTypeDataService.deleteServiceType(id, user.getUsername());
         map.put("serviceTypeList", serviceTypeDataService.listServiceType());
         map.put(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("service.success.delete"));
         return "serviceType";
@@ -55,15 +57,16 @@ public class ServiceTypeController {
     }
 
     @RequestMapping(value = "/serviceType/form", method = RequestMethod.POST)
-    public ModelAndView serviceAdd(@ModelAttribute("serviceForm") ServiceTypeForm form, BindingResult result) {
+    public ModelAndView serviceAdd(@ModelAttribute("serviceForm") ServiceTypeForm form, BindingResult result, HttpSession session) {
         serviceTypeValidator.validate(form, result);
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView("serviceType_form");
             mav.addObject("errorClass", "text-danger");
             return mav;
         } else {
+            LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
             ModelAndView mav = new ModelAndView("serviceType");
-            String message = serviceTypeDataService.saveServiceType(form);
+            String message = serviceTypeDataService.saveServiceType(form, user.getUsername());
             mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage(message));
             mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             return mav;

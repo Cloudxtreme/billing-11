@@ -2,6 +2,8 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,6 +31,7 @@ public class Service extends CommonDomainBean{
     @ManyToOne(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="account_id")
+    @JsonManagedReference("sib")
     private Account account;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

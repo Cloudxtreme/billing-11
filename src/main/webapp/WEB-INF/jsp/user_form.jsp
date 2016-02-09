@@ -15,6 +15,8 @@
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <spring:url value="/resources/js/util.js" var="util" />
     <script src="${util}"></script>
+    <spring:url value="/resources/js/charactersRemain/charactersCounter.js" var="charRemain" />
+    <script src="${charRemain}"></script>
 </head>
 <body>
 
@@ -31,10 +33,15 @@
             <form:hidden path="id" />
             <div class="form-group">
                 <label for="username" class="col-lg-3 control-label"><spring:message code="label.name"/></label>
-                <div class="col-lg-9">
+                <div class="col-lg-6">
                     <spring:message code="label.name" var="name"/>
-                    <form:input path="username" class="form-control" id="username" placeholder="${name}" />
+                    <form:input path="username" class="form-control" id="username" placeholder="${name}" maxlength="16"/>
                     <form:errors path="username" cssClass="alert-danger" />
+                </div>
+                <div class="col-lg-3" style="display: table; height: 36px;">
+                    <span style="display: table-cell; vertical-align: middle;">
+                        <strong class="countdown"></strong>
+                    </span>
                 </div>
             </div>
             <div class="form-group">
@@ -69,7 +76,6 @@
             </div>
         </fieldset>
     </form:form>
-
 
 </div>
 

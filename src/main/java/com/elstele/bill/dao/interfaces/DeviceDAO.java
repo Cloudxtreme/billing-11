@@ -12,4 +12,6 @@ public interface DeviceDAO extends CommonDAO<Device>{
 
     public List<Device> getDevices();
     public List<Integer> getDeviceUsagePorts(Integer id);
+    public Integer create(Device device, String changerName);
+    public void update(Device device, String changerName);
 }

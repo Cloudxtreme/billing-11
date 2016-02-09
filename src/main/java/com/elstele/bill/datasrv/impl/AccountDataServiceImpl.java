@@ -1,18 +1,18 @@
 package com.elstele.bill.datasrv.impl;
 
 
-import com.elstele.bill.Builders.ObservedObjectBuilder;
+import com.elstele.bill.Builders.AuditedObjectBuilder;
 import com.elstele.bill.assembler.AccountAssembler;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
-import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
+import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.AddressForm;
-import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +21,6 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @org.springframework.stereotype.Service
@@ -35,11 +34,8 @@ public class AccountDataServiceImpl implements AccountDataService {
     private StreetDAO streetDAO;
     @Autowired
     StreetDataService streetDataService;
-    @Autowired
-    ObservedObjectDataService observedObjectDataService;
 
     final static Logger LOGGER = LogManager.getLogger(AccountDataServiceImpl.class);
-    private ObservedObjectBuilder builder = new ObservedObjectBuilder();
 
     @Override
     @Transactional
@@ -95,29 +91,19 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
-    public void saveAccount(AccountForm form, HttpSession session) {
+    public void saveAccount(AccountForm form, String changerName) {
         AccountAssembler assembler = new AccountAssembler();
         if (form.getId() == null) {
             form.setCurrentBalance(0F);
             form.setStatus(Status.ACTIVE);
         }
         Account account = assembler.fromShortFormToBean(form);
-        int creatingId = accountDAO.create(account);
-
-
-        ObservedObject observedObject = builder.build()
-                .withObjId(creatingId)
-                .withChangedObject(account)
-                .withChangesDate(new Date())
-                .withOperationType(ObjectOperationType.CREATE)
-                .withChangerName(session)
-                .getRes();
-        observedObjectDataService.changeObserver(observedObject);
+        int creatingId = accountDAO.create(account, changerName);
     }
 
     @Override
     @Transactional
-    public void updateAccount(AccountForm form, HttpSession session) {
+    public void updateAccount(AccountForm form, String changerName) {
         AccountAssembler assembler = new AccountAssembler();
         Account account;
         if (isFormAddressEmpty(form)) {
@@ -131,16 +117,7 @@ public class AccountDataServiceImpl implements AccountDataService {
             account = assembler.fromFormToBean(form);
             updateStreetListAfterInsert(form);
         }
-        accountDAO.update(account);
-
-        ObservedObject observedObject = builder.build()
-                .withObjId(form.getId())
-                .withChangedObject(account)
-                .withChangesDate(new Date())
-                .withOperationType(ObjectOperationType.UPDATE)
-                .withChangerName(session)
-                .getRes();
-        observedObjectDataService.changeObserver(observedObject);
+        accountDAO.update(account, changerName);
     }
 
     private boolean isFormAddressEmpty(AccountForm form) {
@@ -209,23 +186,15 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
-    public void softDeleteAccount(int id, HttpSession session) {
+    public void softDeleteAccount(int id, String changerName) {
         Account account = accountDAO.getById(id);
         account.setStatus(Status.DELETED);
         Set<Service> serviceSet = account.getAccountServices();
         for (Service service : serviceSet) {
             service.setStatus(Status.DELETED);
         }
-        accountDAO.update(account);
-
-        ObservedObject observedObject = builder.build()
-                .withObjId(id)
-                .withChangedObject(account)
-                .withChangesDate(new Date())
-                .withOperationType(ObjectOperationType.DELETE)
-                .withChangerName(session)
-                .getRes();
-        observedObjectDataService.changeObserver(observedObject);
+        account.setAccountServices(serviceSet);
+        accountDAO.update(account, changerName);
     }
 
     @Override

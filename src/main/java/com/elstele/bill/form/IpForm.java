@@ -58,17 +58,16 @@ public class IpForm {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof IpForm)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         IpForm ipForm = (IpForm) o;
 
         if (id != null ? !id.equals(ipForm.id) : ipForm.id != null) return false;
         if (ipName != null ? !ipName.equals(ipForm.ipName) : ipForm.ipName != null) return false;
-        if (ipStatus != ipForm.ipStatus) return false;
         if (ipSubnet != null ? !ipSubnet.equals(ipForm.ipSubnet) : ipForm.ipSubnet != null) return false;
-        if (status != ipForm.status) return false;
+        if (status != null && ipForm.status != null) return status == ipForm.status;
+        return ipStatus == ipForm.ipStatus;
 
-        return true;
     }
 
     @Override

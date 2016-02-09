@@ -19,6 +19,7 @@ public class CommonDomainBean implements Serializable{
     private Integer id;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 15)
     private Status status;
 
     public CommonDomainBean(){

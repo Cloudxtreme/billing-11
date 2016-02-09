@@ -3,6 +3,7 @@ package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.ServiceTypeController;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceInternetForm;
@@ -69,6 +70,7 @@ public class ServiceTypeControllerTest {
     private ServiceTypeForm serviceTypeForm;
     private ServiceInternetAttributeForm serviceInternetAttributeForm;
     private ServiceType serviceType;
+    private LocalUser user;
 
     @Before
     public void setUp() {
@@ -91,6 +93,9 @@ public class ServiceTypeControllerTest {
         serviceInternetAttributeForm = new ServiceInternetAttributeForm();
         serviceInternetAttributeFormList = new ArrayList<>();
         serviceInternetAttributeFormList.add(serviceInternetAttributeForm);
+
+        user = new LocalUser();
+        user.setUsername("test");
     }
 
     @Test
@@ -98,6 +103,7 @@ public class ServiceTypeControllerTest {
         when(serviceTypeDataService.listServiceType()).thenReturn(serviceTypeList);
         this.mockMvc.perform(get("/serviceType/{id}/delete", 1)
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("serviceType"))
@@ -130,10 +136,11 @@ public class ServiceTypeControllerTest {
 
     @Test
     public void serviceAddTest() throws Exception {
-        when(serviceTypeDataService.saveServiceType(serviceTypeForm)).thenReturn(Constants.SUCCESS_MESSAGE);
+        when(serviceTypeDataService.saveServiceType(serviceTypeForm, "test")).thenReturn(Constants.SUCCESS_MESSAGE);
         when(messagei18nHelper.getTypeMessage(Constants.SUCCESS_MESSAGE)).thenReturn(Constants.SUCCESS_MESSAGE);
         this.mockMvc.perform(post("/serviceType/form")
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .param("id", "1")
                 .param("name", "test")
                 .accept(MediaType.ALL))

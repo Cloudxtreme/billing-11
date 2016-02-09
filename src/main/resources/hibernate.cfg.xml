@@ -29,7 +29,7 @@
         <mapping class="com.elstele.bill.domain.Transaction"/>
         <mapping class="com.elstele.bill.domain.Street"/>
         <mapping class="com.elstele.bill.domain.ExternalPaymentTransaction"/>
-        <mapping class="com.elstele.bill.domain.ObservedObject"/>
+        <mapping class="com.elstele.bill.domain.AuditedObject"/>
 
 
 

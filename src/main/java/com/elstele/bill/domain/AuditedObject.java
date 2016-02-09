@@ -6,31 +6,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
-@Table(name = "ObservedObject")
-public class ObservedObject extends CommonDomainBean {
-    private Integer objId;
+@Table(name = "AuditedObject")
+public class AuditedObject extends CommonDomainBean {
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 7)
     private ObjectOperationType changesType;
 
     @JsonProperty
     @Column(length = 500)
     private String changedObject;
-    
+
     private Date changesDate;
 
+    @Column(length = 16)
     private String changedBy;
-
-    public Integer getObjId() {
-        return objId;
-    }
-
-    public void setObjId(Integer objId) {
-        this.objId = objId;
-    }
 
     public String getChangedObject() {
         return changedObject;
@@ -67,24 +59,21 @@ public class ObservedObject extends CommonDomainBean {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ObservedObject)) return false;
+        if (!(o instanceof AuditedObject)) return false;
 
-        ObservedObject that = (ObservedObject) o;
+        AuditedObject that = (AuditedObject) o;
 
         if (changedBy != null ? !changedBy.equals(that.changedBy) : that.changedBy != null) return false;
         if (changedObject != null ? !changedObject.equals(that.changedObject) : that.changedObject != null)
             return false;
         if (changesDate != null ? !changesDate.equals(that.changesDate) : that.changesDate != null) return false;
         if (changesType != that.changesType) return false;
-        if (objId != null ? !objId.equals(that.objId) : that.objId != null) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = objId != null ? objId.hashCode() : 0;
-        result = 31 * result + (changesType != null ? changesType.hashCode() : 0);
+        int result = changesType != null ? changesType.hashCode() : 0;
         result = 31 * result + (changedObject != null ? changedObject.hashCode() : 0);
         result = 31 * result + (changesDate != null ? changesDate.hashCode() : 0);
         result = 31 * result + (changedBy != null ? changedBy.hashCode() : 0);

@@ -1,14 +1,12 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.Builders.ObservedObjectBuilder;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.impl.DeviceDataServiceImpl;
-import com.elstele.bill.datasrv.impl.IpDataServiceImpl;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
-import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
+import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
@@ -19,11 +17,8 @@ import com.elstele.bill.test.builder.form.AddressFormBuilder;
 import com.elstele.bill.test.builder.form.DeviceFormBuilder;
 import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
 import com.elstele.bill.test.builder.form.IpFormBuilder;
-import com.elstele.bill.utils.Enums.ResponseToAjax;
-import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -56,12 +51,9 @@ public class DeviceDataServiceTest {
     IpDataService ipDataService;
 
     @Mock
-    HttpSession session;
-
+    AuditedObjectDataService auditedObjectDataService;
     @Mock
-    ObservedObjectDataService observedObjectDataService;
-    @Mock
-    ObservedObject observedObject;
+    AuditedObject auditedObject;
 
     @InjectMocks
     DeviceDataServiceImpl deviceDataService;
@@ -142,7 +134,7 @@ public class DeviceDataServiceTest {
     @Test
     public void deleteDeviceTest(){
         int id = deviceDAO.create(device);
-        deviceDataService.deleteDevice(id, session);
+        deviceDataService.deleteDevice(id, "test");
         when(deviceDAO.getById(id)).thenReturn(device);
         DeviceForm form = deviceDataService.getById(id);
         assertEquals(form.getName(), "device1");

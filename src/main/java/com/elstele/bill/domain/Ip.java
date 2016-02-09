@@ -2,6 +2,8 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.IpStatus;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,6 +19,7 @@ public class Ip extends CommonDomainBean {
 
     @ManyToOne
     @JoinColumn(name = "subnet_id")
+    @JsonBackReference("ips")
     private IpSubnet ipSubnet;
 
 

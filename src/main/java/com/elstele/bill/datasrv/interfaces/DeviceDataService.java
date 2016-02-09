@@ -10,14 +10,14 @@ import java.util.List;
 public interface DeviceDataService {
     public List<DeviceForm> getDevices();
 
-    public Integer addDevice(DeviceForm deviceForm, HttpSession session);
+    public Integer addDevice(DeviceForm deviceForm, String changerName);
 
-    public ResponseToAjax deleteDevice(Integer id, HttpSession session);
+    public ResponseToAjax deleteDevice(Integer id, String changerName);
 
     public DeviceForm getById(Integer id);
 
     public List<Integer> getDeviceFreePorts(Integer id);
 
-    public void updateDevice(DeviceForm deviceForm, HttpSession session);
+    public void updateDevice(DeviceForm deviceForm, String changerName);
 
 }

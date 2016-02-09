@@ -2,6 +2,8 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,6 +18,7 @@ public class IpSubnet extends CommonDomainBean {
     public SubnetPurpose subnetPurpose;
 
     @OneToMany(mappedBy="ipSubnet")
+    @JsonManagedReference("ips")
     private Set<Ip> ipAdd;
 
     public String getIpSubnet() {

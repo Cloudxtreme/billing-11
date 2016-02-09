@@ -27,15 +27,15 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public String saveServiceType(ServiceTypeForm form) {
+    public String saveServiceType(ServiceTypeForm form, String changerName) {
         ServiceTypeAssembler assembler = new ServiceTypeAssembler();
         ServiceType transientService = assembler.fromFormToBean(form);
         if (form.isNew()) {
             transientService.setStatus(Status.ACTIVE);
-            serviceTypeDAO.create(transientService);
+            serviceTypeDAO.create(transientService, changerName);
             return "service.success.add";
         } else {
-            serviceTypeDAO.update(transientService);
+            serviceTypeDAO.update(transientService, changerName);
             return "service.success.update";
         }
     }
@@ -66,8 +66,10 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public void deleteServiceType(Integer id) {
-        serviceTypeDAO.setStatusDelete(id);
+    public void deleteServiceType(Integer id, String changerName) {
+        ServiceType serviceType = serviceTypeDAO.getById(id);
+        serviceType.setStatus(Status.DELETED);
+        serviceTypeDAO.update(serviceType, changerName);
     }
 
     @Override

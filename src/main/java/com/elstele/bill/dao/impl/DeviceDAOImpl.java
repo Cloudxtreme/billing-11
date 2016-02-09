@@ -1,10 +1,13 @@
 package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
+import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.domain.Device;
 import com.elstele.bill.domain.Street;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Service
 public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
+    @Autowired
+    AuditedObjectDAO auditedObjectDAO;
 
     @Override
     public List<Device> getDevices() {
@@ -28,6 +33,20 @@ public class DeviceDAOImpl extends CommonDAOImpl<Device> implements DeviceDAO {
             return (List<Integer>)query.list();
         }
         return null;
+    }
+
+    @Override
+    public Integer create(Device device, String changerName){
+        int id = (Integer)getSessionFactory().getCurrentSession().save(device);
+        auditedObjectDAO.create(device, ObjectOperationType.CREATE, changerName);
+        return id;
+    }
+
+    @Override
+    public void update(Device device, String changerName) {
+        getSessionFactory().getCurrentSession().saveOrUpdate(device);
+        getSessionFactory().getCurrentSession().flush();
+        auditedObjectDAO.create(device, ObjectOperationType.UPDATE, changerName);
     }
 
 }

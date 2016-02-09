@@ -6,6 +6,7 @@ import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
 import com.elstele.bill.domain.IpSubnet;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.*;
 import com.elstele.bill.test.builder.form.DeviceFormBuilder;
 import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
@@ -87,6 +88,8 @@ public class DeviceControllerTest {
     private HashMap<Integer, String> mapIp;
     private HashMap<Integer, String> mapIpSubnet;
 
+    private LocalUser user;
+
 
     @Before
     public void setUp() {
@@ -139,6 +142,9 @@ public class DeviceControllerTest {
         mapIp.put(ipForm.getId(), ipForm.getIpName());
         mapIpSubnet = new HashMap();
         mapIpSubnet.put(ipSubnetForm.getId(), ipSubnetForm.getIpSubnet());
+
+        user = new LocalUser();
+        user.setUsername("test");;
     }
 
     @Test
@@ -201,12 +207,13 @@ public class DeviceControllerTest {
     @Test
     public void addOrUpdateDeviceFromFormTest() throws Exception {
         DeviceForm deviceFormExpected = deviceFormBuilder.build().withIpForm(ipFormBuilder.build().withId(1).getRes()).getRes();
-        when(deviceDataService.addDevice(deviceFormExpected, mockSession)).thenReturn(1);
+        when(deviceDataService.addDevice(deviceFormExpected, "test")).thenReturn(1);
         when(messagei18nHelper.getMessage(Constants.DEVICE_ADD_SUCCESS)).thenReturn("Device was successfully added.");
 
         this.mockMvc.perform(post("/adddevice")
                 .session(mockSession)
                 .sessionAttr("deviceForm", deviceFormExpected)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .accept(MediaType.ALL))
                 .andExpect(status().is(302))
                 .andExpect(flash().attribute(Constants.SUCCESS_MESSAGE, "Device was successfully added."));
@@ -214,9 +221,10 @@ public class DeviceControllerTest {
 
     @Test
     public void deleteDeviceTest() throws Exception {
-        when(deviceDataService.deleteDevice(deviceForm.getId(), mockSession)).thenReturn(ResponseToAjax.SUCCESS);
+        when(deviceDataService.deleteDevice(deviceForm.getId(), "test")).thenReturn(ResponseToAjax.SUCCESS);
         MvcResult result = this.mockMvc.perform(post("/device/delete")
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .content(deviceForm.getId().toString())
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())

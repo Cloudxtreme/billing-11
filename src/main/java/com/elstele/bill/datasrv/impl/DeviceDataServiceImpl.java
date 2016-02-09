@@ -1,6 +1,6 @@
 package com.elstele.bill.datasrv.impl;
 
-import com.elstele.bill.Builders.ObservedObjectBuilder;
+import com.elstele.bill.Builders.AuditedObjectBuilder;
 import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
@@ -8,9 +8,9 @@ import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
-import com.elstele.bill.datasrv.interfaces.ObservedObjectDataService;
+import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.ObservedObject;
+import com.elstele.bill.domain.AuditedObject;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
@@ -48,9 +48,8 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Autowired
     StreetDataService streetDataService;
     @Autowired
-    ObservedObjectDataService observedObjectDataService;
+    AuditedObjectDataService auditedObjectDataService;
     final static Logger LOGGER = LogManager.getLogger(DeviceDataServiceImpl.class);
-    private ObservedObjectBuilder builder = new ObservedObjectBuilder();
 
     @Override
     @Transactional
@@ -68,27 +67,16 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public Integer addDevice(DeviceForm deviceForm, HttpSession session) {
+    public Integer addDevice(DeviceForm deviceForm, String changerName) {
         gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
         DeviceAssembler deviceAssembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device device = deviceAssembler.fromFormToBean(deviceForm);
         device.setStatus(Status.ACTIVE);
         try {
-            int creatingId = deviceDAO.create(device);
+            int creatingId = deviceDAO.create(device, changerName);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
             LOGGER.info("Device " + deviceForm.getName() + " added successfully");
-
-
-            ObservedObject observedObject = builder.build()
-                    .withObjId(creatingId)
-                    .withChangedObject(device)
-                    .withChangesDate(new Date())
-                    .withOperationType(ObjectOperationType.CREATE)
-                    .withChangerName(session)
-                    .getRes();
-            observedObjectDataService.changeObserver(observedObject);
-
             return creatingId;
         } catch (ConstraintViolationException e) {
             LOGGER.error(e.getMessage(), e);
@@ -98,25 +86,15 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public void updateDevice(DeviceForm deviceForm, HttpSession session) {
+    public void updateDevice(DeviceForm deviceForm, String changerName) {
         try {
             gettingCorrectIDForCurrentFormAndCurrentStreet(deviceForm);
             DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
             Device bean = assembler.fromFormToBean(deviceForm);
-            deviceDAO.update(bean);
+            deviceDAO.update(bean, changerName);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.USED);
             updateStreetListAfterInsert(deviceForm);
             LOGGER.info("Device " + deviceForm.getName() + " updated successfully");
-
-            ObservedObject observedObject = builder.build()
-                    .withObjId(deviceForm.getId())
-                    .withChangedObject(bean)
-                    .withChangesDate(new Date())
-                    .withOperationType(ObjectOperationType.UPDATE)
-                    .withChangerName(session)
-                    .getRes();
-            observedObjectDataService.changeObserver(observedObject);
-
         } catch (HibernateException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -142,22 +120,15 @@ public class DeviceDataServiceImpl implements DeviceDataService {
 
     @Override
     @Transactional
-    public ResponseToAjax deleteDevice(Integer id, HttpSession session) {
+    public ResponseToAjax deleteDevice(Integer id, String changerName) {
         try {
             DeviceForm deviceForm = getById(id);
             ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
-            deviceDAO.setStatusDelete(id);
+            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
+            Device bean = assembler.fromFormToBean(deviceForm);
+            bean.setStatus(Status.DELETED);
+            deviceDAO.update(bean, changerName);
             LOGGER.info("Device " + deviceForm.getName() + " deleted successfully");
-
-            ObservedObject observedObject = builder.build()
-                    .withObjId(id)
-                    .withChangedObject(deviceForm)
-                    .withChangesDate(new Date())
-                    .withOperationType(ObjectOperationType.DELETE)
-                    .withChangerName(session)
-                    .getRes();
-            observedObjectDataService.changeObserver(observedObject);
-
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

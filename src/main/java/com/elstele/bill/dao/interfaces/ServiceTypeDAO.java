@@ -12,4 +12,7 @@ public interface ServiceTypeDAO extends CommonDAO <ServiceType> {
     public List<ServiceType> listServiceType(String type);
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussTyp);
     public ServiceType getByName(String name);
+
+    public Integer create(ServiceType serviceType, String changerName);
+    public void update(ServiceType serviceType, String changerName);
 }

@@ -16,4 +16,6 @@ public interface AccountDAO extends CommonDAO<Account>{
     public List<Account> getAccountByFIOAndName(String value);
 
     public Account getAccountForUpgradeById(Integer id);
+    public Integer create(Account account, String changerName);
+    public void update(Account account, String changerName);
 }

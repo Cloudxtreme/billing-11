@@ -18,15 +18,15 @@ public interface AccountDataService {
 
     public List<AccountForm> getAccountsLiteFormList(int rows, int page);
 
-    public void saveAccount(AccountForm form, HttpSession session);
+    public void saveAccount(AccountForm form, String changerName);
 
-    public void updateAccount(AccountForm form, HttpSession session);
+    public void updateAccount(AccountForm form, String changerName);
 
     public AccountForm getAccountById(int id);
 
     public Account getAccountBeanById(int id);
 
-    public void softDeleteAccount(int id, HttpSession session);
+    public void softDeleteAccount(int id, String changerName);
 
     public int getActiveAccountsCount();
 

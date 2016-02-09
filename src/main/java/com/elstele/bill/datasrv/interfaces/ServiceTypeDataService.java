@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ServiceTypeDataService {
 
-    public String saveServiceType(ServiceTypeForm form);
-    public void deleteServiceType(Integer id);
+    public String saveServiceType(ServiceTypeForm form, String changerName);
+    public void deleteServiceType(Integer id, String changerName);
     public List<ServiceType> listServiceType();
     public List<ServiceType> listServiceType(String type);
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussType);

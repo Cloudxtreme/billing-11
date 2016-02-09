@@ -2,7 +2,9 @@ package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
+import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
 import com.elstele.bill.domain.Account;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,12 +13,15 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO {
+    @Autowired
+    AuditedObjectDAO auditedObjectDAO;
 
     final static Logger LOGGER = LogManager.getLogger(AccountDAOImpl.class);
 
@@ -63,6 +68,19 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
         LOGGER.info("Values selected successfully. Method searchAccounts ");
         return (List<Account>) query.list();
 
+    }
+
+
+    public Integer create(Account account, String changerName){
+        Integer id = (Integer) getSessionFactory().getCurrentSession().save(account);
+        auditedObjectDAO.create(account, ObjectOperationType.CREATE, changerName);
+        return id;
+    }
+
+    public void update(Account account, String changerName) {
+        getSessionFactory().getCurrentSession().saveOrUpdate(account);
+        getSessionFactory().getCurrentSession().flush();
+        auditedObjectDAO.create(account, ObjectOperationType.UPDATE, changerName);
     }
 
 }

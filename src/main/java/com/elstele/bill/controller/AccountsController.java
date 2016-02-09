@@ -3,6 +3,7 @@ package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.AccountForm;
 
 import com.elstele.bill.utils.Constants;
@@ -77,7 +78,8 @@ public class AccountsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpSession session) {
-        accountDataService.saveAccount(accountForm, session);
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        accountDataService.saveAccount(accountForm, user.getUsername());
         return new AccountForm();
     }
 
@@ -85,7 +87,8 @@ public class AccountsController {
     public
     @ResponseBody
     AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpSession session) {
-        accountDataService.updateAccount(accountForm, session);
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        accountDataService.updateAccount(accountForm, user.getUsername());
         return new AccountForm();
     }
 
@@ -100,15 +103,17 @@ public class AccountsController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
-        accountDataService.softDeleteAccount(id, session);
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        accountDataService.softDeleteAccount(id, user.getUsername());
         redirectAttributes.addFlashAttribute(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.delete"));
         return "redirect:../accountHome";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpSession session) {
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
         ModelAndView mav = new ModelAndView("accounts_list");
-        accountDataService.updateAccount(accountForm, session);
+        accountDataService.updateAccount(accountForm, user.getUsername());
         int totalPages = determineTotalPagesForOutput();
         List<Constants.AccountType> types = new ArrayList<Constants.AccountType>(Arrays.asList(Constants.AccountType.values()));
         mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.update"));
@@ -140,9 +145,9 @@ public class AccountsController {
 
     private int determineTotalPagesForOutput() {
         int accounts = accountDataService.getActiveAccountsCount();
-        if (accounts % 10 == 0)
-            return accounts / 10;
+        if (accounts % 20 == 0)
+            return accounts / 20;
         else
-            return (accounts / 10) + 1;
+            return (accounts / 20) + 1;
     }
 }

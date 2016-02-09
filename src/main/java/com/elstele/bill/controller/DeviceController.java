@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.DeviceTypesDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.IpStatus;
@@ -83,11 +84,12 @@ public class DeviceController {
     @RequestMapping(value = "/adddevice", method = RequestMethod.POST)
     public String addOrUpdateDeviceFromForm(@ModelAttribute(value = "deviceForm") DeviceForm deviceForm, RedirectAttributes redirectAttributes, HttpSession session) {
         String msg;
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
         if (deviceForm.getId() == null) {
-            deviceDataService.addDevice(deviceForm, session);
+            deviceDataService.addDevice(deviceForm, user.getUsername());
             msg = messageHelper.getMessage(Constants.DEVICE_ADD_SUCCESS);
         } else {
-            deviceDataService.updateDevice(deviceForm, session);
+            deviceDataService.updateDevice(deviceForm, user.getUsername());
             msg = messageHelper.getMessage(Constants.DEVICE_UPDATE_SUCCESS);
         }
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, msg);
@@ -98,7 +100,8 @@ public class DeviceController {
     @ResponseBody
     public ResponseToAjax deleteDevice(@RequestBody String json, HttpSession session) {
         Integer deviceId = Integer.parseInt(json);
-        return deviceDataService.deleteDevice(deviceId, session);
+        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        return deviceDataService.deleteDevice(deviceId, user.getUsername());
     }
 
     @RequestMapping(value = "/device/{id}/update", method = RequestMethod.GET)

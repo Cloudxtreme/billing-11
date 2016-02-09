@@ -3,6 +3,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.AccountsController;
 import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
 import com.elstele.bill.test.builder.form.AccountFormBuilder;
@@ -62,6 +63,7 @@ public class AccountsControllerTest {
     private List<AccountForm> list;
     private AccountForm form;
     private Set<AccountForm> set;
+    private LocalUser user;
 
     @Before
     public void setUp() {
@@ -76,6 +78,9 @@ public class AccountsControllerTest {
         list.add(form);
         set= new HashSet<>();
         set.add(form);
+
+        user = new LocalUser();
+        user.setUsername("test");
     }
 
     @Test
@@ -146,6 +151,7 @@ public class AccountsControllerTest {
         this.mockMvc.perform(post("/accounts/add")
                 .requestAttr("accountForm", form)
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk());
     }
@@ -155,6 +161,7 @@ public class AccountsControllerTest {
         this.mockMvc.perform(post("/accounts/editAccount")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new org.codehaus.jackson.map.ObjectMapper().writeValueAsString(form))
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk());
@@ -185,6 +192,7 @@ public class AccountsControllerTest {
     public void deleteAccountTest() throws Exception {
         this.mockMvc.perform(get("/accounts/delete/{id}", 1)
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .accept(MediaType.ALL))
                 .andExpect(status().is(302));
     }
@@ -196,6 +204,7 @@ public class AccountsControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new org.codehaus.jackson.map.ObjectMapper().writeValueAsString(form))
                 .session(mockSession)
+                .sessionAttr(Constants.LOCAL_USER, user)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("accounts_list"))

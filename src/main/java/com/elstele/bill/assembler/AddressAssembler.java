@@ -34,7 +34,7 @@ public class AddressAssembler {
                     Street str = new Street(form.getStreetId(), form.getStreet());
                     bean.setStreet(str);
                 }
-                if(form.getStreetId() == null && !form.getStreet().equals("")){
+                if(form.getStreetId() == null && form.getStreet()!= null && !form.getStreet().equals("")){
                     Street str = new Street();
                     str.setName(form.getStreet());
                     bean.setStreet(str);
