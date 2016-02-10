@@ -61,9 +61,9 @@ public class IpSubnet extends CommonDomainBean {
 
     @Override
     public int hashCode() {
-        int result = ipSubnet != null ? ipSubnet.hashCode() : 0;
+        int result = 1;
+        result = 31 * result + (ipSubnet != null ? ipSubnet.hashCode() : 0);
         result = 31 * result + (subnetPurpose != null ? subnetPurpose.hashCode() : 0);
-        result = 31 * result + (ipAdd != null ? ipAdd.hashCode() : 0);
         return result;
     }
 }

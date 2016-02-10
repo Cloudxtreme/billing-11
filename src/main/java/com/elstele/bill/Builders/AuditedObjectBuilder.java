@@ -36,9 +36,15 @@ public class AuditedObjectBuilder {
         try {
             String objectInString = mapper.writeValueAsString(val);
             auditedObject.setChangedObject(objectInString);
+            auditedObject.setObjClass(val.getClass().getSimpleName());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
+        return this;
+    }
+
+    public AuditedObjectBuilder withChangedObjID(int val){
+        auditedObject.setChangedObjID(val);
         return this;
     }
 

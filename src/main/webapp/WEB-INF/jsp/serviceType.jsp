@@ -66,6 +66,8 @@
                         <a data-href="${pageContext.request.contextPath}/serviceType/${service.id}/delete" data-toggle="modal" data-target="#confirm-delete">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </a>
+                        &nbsp;&nbsp;
+                        <a id="info" href="${pageContext.request.contextPath}/objectinfo/${service.id}?type=ServiceType"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
                     </td>
                     <td>${service.serviceType}</td>
                     <td>${service.name}</td>

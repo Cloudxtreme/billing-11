@@ -75,6 +75,8 @@
                             <a href="${pageContext.request.contextPath}/device/${current.id}/update.html"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             &nbsp;&nbsp;
                             <a id="deleting" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            &nbsp;&nbsp;
+                            <a id="info" href="${pageContext.request.contextPath}/objectinfo/${current.id}?type=Device"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
                         </td>
                         <td>${current.name}</td>
                         <td>${current.devType.deviceType}</td>

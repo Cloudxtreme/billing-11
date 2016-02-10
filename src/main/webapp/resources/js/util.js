@@ -81,6 +81,9 @@ $(function() {
     }else if(s.indexOf("extpayments/listlast/") > -1){
         $("#linkToCatalogs").addClass('selected');
         $("#linkToTransactionCatalog").addClass('active');
+    }else if(s.indexOf("objectinfo") > -1){
+        $('#eng').attr('href',"?lang=en" + "&type=" +getUrlParameter('type'));
+        $('#ru').attr('href', "?lang=ru" +"&type="+ getUrlParameter('type'));
     }
 
 });

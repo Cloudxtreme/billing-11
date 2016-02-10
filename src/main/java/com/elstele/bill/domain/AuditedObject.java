@@ -24,6 +24,11 @@ public class AuditedObject extends CommonDomainBean {
     @Column(length = 16)
     private String changedBy;
 
+    private int changedObjID;
+
+    @Column(length = 30)
+    private String objClass;
+
     public String getChangedObject() {
         return changedObject;
     }
@@ -56,6 +61,22 @@ public class AuditedObject extends CommonDomainBean {
         this.changedBy = changer;
     }
 
+    public int getChangedObjID() {
+        return changedObjID;
+    }
+
+    public void setChangedObjID(int changedObjID) {
+        this.changedObjID = changedObjID;
+    }
+
+    public String getObjClass() {
+        return objClass;
+    }
+
+    public void setObjClass(String objClass) {
+        this.objClass = objClass;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,6 +88,9 @@ public class AuditedObject extends CommonDomainBean {
         if (changedObject != null ? !changedObject.equals(that.changedObject) : that.changedObject != null)
             return false;
         if (changesDate != null ? !changesDate.equals(that.changesDate) : that.changesDate != null) return false;
+        if (changesDate != null ? !changesDate.equals(that.changesDate) : that.changesDate != null) return false;
+        if (objClass != null ? !objClass.equals(that.objClass) : that.objClass != null) return false;
+        if (changedObjID != that.changedObjID) return false;
         if (changesType != that.changesType) return false;
         return true;
     }
@@ -77,6 +101,8 @@ public class AuditedObject extends CommonDomainBean {
         result = 31 * result + (changedObject != null ? changedObject.hashCode() : 0);
         result = 31 * result + (changesDate != null ? changesDate.hashCode() : 0);
         result = 31 * result + (changedBy != null ? changedBy.hashCode() : 0);
+        result = 31 * result + (objClass != null ? objClass.hashCode() : 0);
+        result = 31 * result + changedObjID;
         return result;
     }
 }
