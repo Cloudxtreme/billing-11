@@ -146,6 +146,8 @@ $(document).ready(function(){
 
 $(document).ready(function() {
     $('#accauntSaveBut').click(function(e) {
+        console.log($('#phyAddressId').val());
+        console.log($('#legalAddressId').val());
         e.preventDefault();
         $('#fullAccountForm').submit();
     });
@@ -194,6 +196,7 @@ $(document).ready(function() {
         console.log(valueId);
         var valueName = $('#phyAddressStreet').val();
         console.log(valueName);
+
         if(obj.value == valueId && valueName != obj.text){
             $('#phyAddressStreetId').val('');
             var capitalizeVal = $('#phyAddressStreet').val().capitalize();
@@ -240,8 +243,6 @@ $(document).ready(function() {
 
 })
 
-
-
 function hideModalAddAccount(){
     $("#accAccountModal").modal('hide');
 }
@@ -284,12 +285,15 @@ function drawTable(data) {
 }
 
 function drawRow(rowData) {
-    var row = $("<tr />")
+    var row = $("<tr />");
     $("#accountsTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
     row.append($("<td><a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
             "&nbsp&nbsp " +
-            "<a data-href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" data-toggle='modal' data-target='#confirm-delete' \"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td>"
-    ));
+            "<a data-href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" data-toggle='modal' data-target='#confirm-delete' \">" +
+            "<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a>" +
+            "&nbsp&nbsp " +
+            "<a id=\"info\" href=\"/objectinfo/"+rowData.id + '?type=Account' + "\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>"
+));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.accountName + " </a></td>"));
     row.append($("<td><a href=\"editFull/" + rowData.id + "\" > " + rowData.fio + " </a></td>"));
     row.append($("<td>" + rowData.accountType + "</td>"));

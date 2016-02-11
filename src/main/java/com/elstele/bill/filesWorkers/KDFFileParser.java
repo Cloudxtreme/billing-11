@@ -1,5 +1,6 @@
 package com.elstele.bill.filesWorkers;
 
+import com.elstele.bill.Builders.form.CallFormBuilder;
 import com.elstele.bill.datasrv.interfaces.CallDataService;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.CallForm;
@@ -51,6 +52,7 @@ public class KDFFileParser {
     private String startDate;
     private String calling;
     private String called;
+    private CallFormBuilder builder = new CallFormBuilder();
 
 
     public ResponseToAjax parse(String[] selectedFileID, HttpSession session) {
@@ -157,19 +159,19 @@ public class KDFFileParser {
     }
 
     private void setDataToObject(String yearFromFileName) {
-        CallForm callForm = new CallForm();
-        callForm.setAonKat(aon);
-        callForm.setNumberA(calling);
-        callForm.setNumberB(called);
-        callForm.setDuration(duration);
-        callForm.setDvoCodeA(dvoCodeA);
-        callForm.setDvoCodeB(dvoCodeB);
-        callForm.setStartTime(parseDate(yearFromFileName));
-        callForm.setIkNum(ikNum);
-        callForm.setVkNum(vkNum);
-        callForm.setInputTrunk(inputTrunk);
-        callForm.setOutputTrunk(outputTrunk);
-        callDataService.addCalls(callForm);
+        callDataService.addCalls(builder.build()
+                .withAonKat(aon)
+                .withNumberA(calling)
+                .withNumberB(called)
+                .withDuration(duration)
+                .withDvoCodeA(dvoCodeA)
+                .withDvoCodeB(dvoCodeB)
+                .withStartTime(parseDate(yearFromFileName))
+                .withIkNum(ikNum)
+                .withVkNum(vkNum)
+                .withInputTrunk(inputTrunk)
+                .withOutputTrunk(outputTrunk)
+                .getRes());
     }
 
     private Date parseDate(String yearFromFileName) {

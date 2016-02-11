@@ -1,5 +1,6 @@
 package com.elstele.bill.csvFileParser.csvLineParsers;
 
+import com.elstele.bill.Builders.form.CallForCSVFFormBuilder;
 import com.elstele.bill.datasrv.interfaces.CallForCSVDataService;
 import com.elstele.bill.form.CallForCSVForm;
 
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
 
 public class CSVFileUKRNETLineParser extends CSVFileLineParser {
     private CallForCSVDataService callForCSVDataService;
+    private CallForCSVFFormBuilder builder = new CallForCSVFFormBuilder();
 
     public CSVFileUKRNETLineParser(CallForCSVDataService callForCSVDataService) {
         this.callForCSVDataService = callForCSVDataService;
@@ -57,16 +59,15 @@ public class CSVFileUKRNETLineParser extends CSVFileLineParser {
         Date startTime = startTimeHandlingUkrNet(call_start);
         String costWithNDS = costWithNDS(cost_without_nds);
 
-        CallForCSVForm callForCSVForm = new CallForCSVForm();
-        callForCSVForm.setNumberA(numberA);
-        callForCSVForm.setNumberB(numberB);
-        callForCSVForm.setCostCallTotal(costWithNDS);
-        callForCSVForm.setStartTime(startTime);
-        callForCSVForm.setDuration(Integer.parseInt(duration));
-        callForCSVForm.setDirPrefix(dir_prefix);
-        callForCSVForm.setDirDescrpOrg(dir_descr);
-        callForCSVForm.setProvider("1");
-
-        return callForCSVForm;
+        return builder.build()
+                .withCallCostTotal(costWithNDS)
+                .withDirDescrpOrg(dir_descr)
+                .withDirPrefix(dir_prefix)
+                .withDuration(Integer.parseInt(duration))
+                .withNumberA(numberA)
+                .withNumberB(numberB)
+                .withProvider("1")
+                .withStartTime(startTime)
+                .getRes();
     }
 }

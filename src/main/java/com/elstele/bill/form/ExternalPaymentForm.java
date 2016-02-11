@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.utils.Enums.Status;
+
 import java.util.Date;
 
 /**
@@ -86,5 +88,39 @@ public class ExternalPaymentForm {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExternalPaymentForm)) return false;
+
+        ExternalPaymentForm that = (ExternalPaymentForm) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (serviceId != null ? !serviceId.equals(that.serviceId) : that.serviceId != null) return false;
+        if (payAccount != null ? !payAccount.equals(that.payAccount) : that.payAccount != null) return false;
+        if (payAmount != null ? !payAmount.equals(that.payAmount) : that.payAmount != null) return false;
+        if (receiptNum != null ? !receiptNum.equals(that.receiptNum) : that.receiptNum != null) return false;
+        if (payId != null ? !payId.equals(that.payId) : that.payId != null) return false;
+        if (tradepoint != null ? !tradepoint.equals(that.tradepoint) : that.tradepoint != null) return false;
+        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null) return false;
+        return !(check != null ? !check.equals(that.check) : that.check != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (serviceId != null ? serviceId.hashCode() : 0);
+        result = 31 * result + (payAccount != null ? payAccount.hashCode() : 0);
+        result = 31 * result + (payAmount != null ? payAmount.hashCode() : 0);
+        result = 31 * result + (receiptNum != null ? receiptNum.hashCode() : 0);
+        result = 31 * result + (payId != null ? payId.hashCode() : 0);
+        result = 31 * result + (tradepoint != null ? tradepoint.hashCode() : 0);
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        result = 31 * result + (check != null ? check.hashCode() : 0);
+        return result;
     }
 }

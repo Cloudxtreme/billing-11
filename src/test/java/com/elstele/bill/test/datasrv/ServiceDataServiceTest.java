@@ -1,5 +1,10 @@
 package com.elstele.bill.test.datasrv;
 
+import com.elstele.bill.Builders.bean.*;
+import com.elstele.bill.Builders.form.ServiceInternetFormBuilder;
+import com.elstele.bill.Builders.form.ServiceMarkerFormBuilder;
+import com.elstele.bill.Builders.form.ServicePhoneFormBuilder;
+import com.elstele.bill.Builders.form.ServiceTypeFormBuilder;
 import com.elstele.bill.assembler.ServiceAssembler;
 import com.elstele.bill.dao.impl.ServiceDAOImpl;
 import com.elstele.bill.datasrv.impl.ServiceDataServiceImpl;
@@ -8,8 +13,6 @@ import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.ServiceTypeForm;
-import com.elstele.bill.test.builder.bean.*;
-import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;

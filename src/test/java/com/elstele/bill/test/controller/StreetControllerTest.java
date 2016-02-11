@@ -1,11 +1,9 @@
 package com.elstele.bill.test.controller;
 
 import com.elstele.bill.controller.StreetController;
-import com.elstele.bill.datasrv.interfaces.ServiceDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.OnlineStatistic;
 import com.elstele.bill.domain.Street;
-import com.elstele.bill.test.builder.bean.StreetBuilder;
+import com.elstele.bill.Builders.bean.StreetBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +28,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)

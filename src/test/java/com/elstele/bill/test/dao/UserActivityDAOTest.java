@@ -2,7 +2,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.UserActivityDAOImpl;
 import com.elstele.bill.domain.Activity;
-import com.elstele.bill.test.builder.bean.ActivityBuilder;
+import com.elstele.bill.Builders.bean.ActivityBuilder;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;

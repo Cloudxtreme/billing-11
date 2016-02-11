@@ -3,7 +3,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.MonitoringController;
 import com.elstele.bill.datasrv.interfaces.ServiceDataService;
 import com.elstele.bill.domain.OnlineStatistic;
-import com.elstele.bill.test.builder.bean.OnlineStatisticBuilder;
+import com.elstele.bill.Builders.bean.OnlineStatisticBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

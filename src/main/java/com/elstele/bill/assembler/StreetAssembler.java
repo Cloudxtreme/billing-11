@@ -13,7 +13,7 @@ public class StreetAssembler {
 
     public Street fromFormToBean(StreetForm form){
         Street bean = new Street();
-        copyProperties(bean,form);
+        copyProperties(form,bean);
         return bean;
     }
 }

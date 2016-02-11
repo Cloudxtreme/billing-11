@@ -62,6 +62,8 @@
                            id="deleting" data-toggle="modal" data-target="#confirm-delete">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </a>
+                        &nbsp;&nbsp;
+                        <a id="info" href="${pageContext.request.contextPath}/objectinfo/${current.id}?type=Account"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/accounts/editFull/${current.id}">${current.accountName}</a>

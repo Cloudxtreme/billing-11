@@ -1,6 +1,5 @@
 package com.elstele.bill.datasrv.impl;
 
-import com.elstele.bill.Builders.AuditedObjectBuilder;
 import com.elstele.bill.assembler.DeviceAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
@@ -10,10 +9,8 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
-import com.elstele.bill.domain.AuditedObject;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
-import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
@@ -25,12 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.elstele.bill.domain.Device;
-
-import javax.servlet.http.HttpSession;
 
 @Service
 public class DeviceDataServiceImpl implements DeviceDataService {

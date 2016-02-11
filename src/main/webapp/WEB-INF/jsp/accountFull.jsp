@@ -93,7 +93,7 @@
                                         <spring:message code="label.street" var="street"/>
                                         <form:input path="phyAddress.street" class="form-control" id="phyAddressStreet"
                                                     data-provide="typeahead" placeholder="${street}" autocomplete="off"/>
-                                        <form:input path="phyAddress.id" id="phyAddressStreetId" type="hidden"/>
+                                        <form:input path="phyAddress.streetId" id="phyAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form:input path="phyAddress.id" id="id" type="hidden"/>
+                        <form:input path="phyAddress.id" id="phyAddressId" type="hidden"/>
                     </div>
 
                     <div id="legAddrBlock" class="col-lg-6 margin-top-cancel">
@@ -125,7 +125,7 @@
                                     <div class="col-lg-9">
                                         <form:input path="legalAddress.street" class="form-control" id="legalAddressStreet"
                                                     data-provide="typeahead" placeholder="${street}" autocomplete="off"/>
-                                        <form:input path="legalAddress.id" id="legalAddressStreetId" type="hidden"/>
+                                        <form:input path="legalAddress.streetId" id="legalAddressStreetId" type="hidden"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form:input path="legalAddress.id" id="id" type="hidden"/>
+                        <form:input path="legalAddress.id" id="legalAddressId" type="hidden"/>
                     </div>
                 </div>
                 <div id="serviceBlock" class="col-lg-12">

@@ -1,11 +1,13 @@
 package com.elstele.bill.csvFileParser.csvLineParsers;
 
+import com.elstele.bill.Builders.form.CallForCSVFFormBuilder;
 import com.elstele.bill.form.CallForCSVForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.Date;
 
 public class CSVFileCurrentLineParser extends CSVFileLineParser {
+    private CallForCSVFFormBuilder builder = new CallForCSVFFormBuilder();
 
     public CallForCSVForm fillFormFromLine(String line) {
             final String DELIMITER = ";";
@@ -23,17 +25,16 @@ public class CSVFileCurrentLineParser extends CSVFileLineParser {
             Date startTime = startTimeHandling(call_start);
             String costWithNDS = costWithNDS(cost_without_nds);
 
-            CallForCSVForm callForCSVForm = new CallForCSVForm();
-            callForCSVForm.setNumberA(numberA);
-            callForCSVForm.setNumberB(numberB);
-            callForCSVForm.setCostCallTotal(costWithNDS);
-            callForCSVForm.setStartTime(startTime);
-            callForCSVForm.setDuration(Integer.parseInt(duration));
-            callForCSVForm.setDirPrefix(dir_prefix);
-            callForCSVForm.setDirDescrpOrg(dir_descr);
-            callForCSVForm.setProvider("2");
-
-            return callForCSVForm;
+            return builder.build()
+                .withCallCostTotal(costWithNDS)
+                .withDirDescrpOrg(dir_descr)
+                .withDirPrefix(dir_prefix)
+                .withDuration(Integer.parseInt(duration))
+                .withNumberA(numberA)
+                .withNumberB(numberB)
+                .withProvider("2")
+                .withStartTime(startTime)
+                .getRes();
     }
 
 }

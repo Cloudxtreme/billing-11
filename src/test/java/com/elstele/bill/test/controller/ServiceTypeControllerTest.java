@@ -6,11 +6,9 @@ import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
-import com.elstele.bill.form.ServiceInternetForm;
 import com.elstele.bill.form.ServiceTypeForm;
-import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
-import com.elstele.bill.test.builder.form.ServiceInternetFormBuilder;
-import com.elstele.bill.test.builder.form.ServiceTypeFormBuilder;
+import com.elstele.bill.Builders.bean.ServiceTypeBuilder;
+import com.elstele.bill.Builders.form.ServiceTypeFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.ServiceAttributeValidator;
@@ -28,14 +26,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

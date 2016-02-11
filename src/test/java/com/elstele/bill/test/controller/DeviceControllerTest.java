@@ -8,10 +8,10 @@ import com.elstele.bill.datasrv.interfaces.IpSubnetDataService;
 import com.elstele.bill.domain.IpSubnet;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.*;
-import com.elstele.bill.test.builder.form.DeviceFormBuilder;
-import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
-import com.elstele.bill.test.builder.form.IpFormBuilder;
-import com.elstele.bill.test.builder.form.IpSubnetFormBuilder;
+import com.elstele.bill.Builders.form.DeviceFormBuilder;
+import com.elstele.bill.Builders.form.DeviceTypeFormBuilder;
+import com.elstele.bill.Builders.form.IpFormBuilder;
+import com.elstele.bill.Builders.form.IpSubnetFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
@@ -35,7 +35,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;

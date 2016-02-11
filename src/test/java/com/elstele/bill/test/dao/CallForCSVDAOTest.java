@@ -4,7 +4,7 @@ package com.elstele.bill.test.dao;
 import com.elstele.bill.dao.impl.CallForCSVDAOImpl;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
-import com.elstele.bill.test.builder.bean.CallForCSVBuilder;
+import com.elstele.bill.Builders.bean.CallForCSVBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

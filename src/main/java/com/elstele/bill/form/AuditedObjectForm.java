@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class AuditedObjectForm {
     private int id;
-    private Status status;
     private ObjectOperationType changesType;
     private String changedObject;
     private Date changesDate;
@@ -21,14 +20,6 @@ public class AuditedObjectForm {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public ObjectOperationType getChangesType() {
@@ -77,5 +68,35 @@ public class AuditedObjectForm {
 
     public void setObjClass(String objClass) {
         this.objClass = objClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AuditedObjectForm)) return false;
+
+        AuditedObjectForm that = (AuditedObjectForm) o;
+
+        if (id != that.id) return false;
+        if (changedObjID != that.changedObjID) return false;
+        if (changesType != that.changesType) return false;
+        if (changedObject != null ? !changedObject.equals(that.changedObject) : that.changedObject != null)
+            return false;
+        if (changesDate != null ? !changesDate.equals(that.changesDate) : that.changesDate != null) return false;
+        if (changedBy != null ? !changedBy.equals(that.changedBy) : that.changedBy != null) return false;
+        return !(objClass != null ? !objClass.equals(that.objClass) : that.objClass != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (changesType != null ? changesType.hashCode() : 0);
+        result = 31 * result + (changedObject != null ? changedObject.hashCode() : 0);
+        result = 31 * result + (changesDate != null ? changesDate.hashCode() : 0);
+        result = 31 * result + (changedBy != null ? changedBy.hashCode() : 0);
+        result = 31 * result + changedObjID;
+        result = 31 * result + (objClass != null ? objClass.hashCode() : 0);
+        return result;
     }
 }

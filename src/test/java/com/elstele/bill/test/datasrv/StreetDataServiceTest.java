@@ -4,13 +4,12 @@ package com.elstele.bill.test.datasrv;
 import com.elstele.bill.dao.interfaces.StreetDAO;
 import com.elstele.bill.datasrv.impl.StreetDataServiceImpl;
 import com.elstele.bill.domain.Street;
-import com.elstele.bill.test.builder.bean.StreetBuilder;
+import com.elstele.bill.Builders.bean.StreetBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 

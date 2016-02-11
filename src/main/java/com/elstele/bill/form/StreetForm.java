@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import com.elstele.bill.utils.Enums.Status;
+
 public class StreetForm {
     private String name;
     private Integer id;
@@ -19,6 +21,7 @@ public class StreetForm {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     @Override
     public boolean equals(Object o) {

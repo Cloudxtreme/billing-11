@@ -1,39 +1,27 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.dao.impl.AccountDAOImpl;
 import com.elstele.bill.dao.interfaces.AccountDAO;
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
-import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.datasrv.interfaces.BillingDataService;
-import com.elstele.bill.datasrv.interfaces.ServiceDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.ServiceType;
-import com.elstele.bill.domain.Transaction;
-import com.elstele.bill.executors.BillingServiceProcessor;
-import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
-import com.elstele.bill.test.builder.bean.AccountBuilder;
-import com.elstele.bill.test.builder.bean.ServiceBuilder;
-import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
-import com.elstele.bill.test.builder.bean.TransactionBuilder;
-import com.elstele.bill.test.builder.form.AccountFormBuilder;
+import com.elstele.bill.Builders.bean.AccountBuilder;
+import com.elstele.bill.Builders.bean.ServiceBuilder;
+import com.elstele.bill.Builders.bean.ServiceTypeBuilder;
+import com.elstele.bill.Builders.bean.TransactionBuilder;
+import com.elstele.bill.Builders.form.AccountFormBuilder;
 import com.elstele.bill.utils.Constants;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -43,7 +31,6 @@ import java.util.Set;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")

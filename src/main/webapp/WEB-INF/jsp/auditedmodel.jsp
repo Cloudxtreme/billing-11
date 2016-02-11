@@ -27,6 +27,14 @@
 
 <div class="well">
   <div id="totopscroller"> </div>
+
+    <div class="row" style="margin-bottom: 15px; margin-left: 0; font-size: 15px;">
+        <a onclick="window.history.back();" style="color: #444444;" class="aHover">
+            <span class="glyphicon glyphicon-arrow-left" style="color: #3a87ad !important;"></span>
+            <spring:message code="label.returnToPrevious"/>
+        </a>
+    </div>
+
   <c:if test="${empty auditedList}">
     <div  id="warning" class="alert alert-warning" style="display: block; text-align: center !important;">
       <strong><spring:message code="audit.objectWithotChanges"/></strong>
