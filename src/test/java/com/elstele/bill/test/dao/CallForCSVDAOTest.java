@@ -4,7 +4,7 @@ package com.elstele.bill.test.dao;
 import com.elstele.bill.dao.impl.CallForCSVDAOImpl;
 import com.elstele.bill.domain.CallForCSV;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
-import com.elstele.bill.Builders.bean.CallForCSVBuilder;
+import com.elstele.bill.test.builder.bean.CallForCSVBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

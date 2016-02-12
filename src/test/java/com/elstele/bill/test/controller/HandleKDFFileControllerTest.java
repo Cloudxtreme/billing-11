@@ -3,7 +3,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.HandleKDFController;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.UploadedFileInfoForm;
-import com.elstele.bill.Builders.form.UploadedFileInfoFormBuilder;
+import com.elstele.bill.test.builder.form.UploadedFileInfoFormBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

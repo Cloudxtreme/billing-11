@@ -1,9 +1,9 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.Builders.bean.AddressBuilder;
-import com.elstele.bill.Builders.bean.DeviceBuilder;
-import com.elstele.bill.Builders.bean.DeviceTypeBuilder;
-import com.elstele.bill.Builders.bean.IpBuilder;
+import com.elstele.bill.test.builder.bean.AddressBuilder;
+import com.elstele.bill.test.builder.bean.DeviceBuilder;
+import com.elstele.bill.test.builder.bean.DeviceTypeBuilder;
+import com.elstele.bill.test.builder.bean.IpBuilder;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
@@ -16,10 +16,10 @@ import com.elstele.bill.form.AddressForm;
 import com.elstele.bill.form.DeviceForm;
 import com.elstele.bill.form.DeviceTypesForm;
 import com.elstele.bill.form.IpForm;
-import com.elstele.bill.Builders.form.AddressFormBuilder;
-import com.elstele.bill.Builders.form.DeviceFormBuilder;
-import com.elstele.bill.Builders.form.DeviceTypeFormBuilder;
-import com.elstele.bill.Builders.form.IpFormBuilder;
+import com.elstele.bill.test.builder.form.AddressFormBuilder;
+import com.elstele.bill.test.builder.form.DeviceFormBuilder;
+import com.elstele.bill.test.builder.form.DeviceTypeFormBuilder;
+import com.elstele.bill.test.builder.form.IpFormBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

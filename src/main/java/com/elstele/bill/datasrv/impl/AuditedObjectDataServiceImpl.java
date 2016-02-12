@@ -1,7 +1,7 @@
 package com.elstele.bill.datasrv.impl;
 
-import com.elstele.bill.Builders.bean.AuditedObjectBuilder;
 import com.elstele.bill.assembler.AuditedObjectAssembler;
+import com.elstele.bill.builder.bean.AuditedObjectBuilder;
 import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
 import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.domain.AuditedObject;

@@ -1,6 +1,6 @@
 package com.elstele.bill.dao.impl;
 
-import com.elstele.bill.Builders.bean.AuditedObjectBuilder;
+import com.elstele.bill.builder.bean.AuditedObjectBuilder;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
 import com.elstele.bill.domain.Account;

@@ -1,17 +1,11 @@
 package com.elstele.bill.test.assembler;
 
 
-import com.elstele.bill.Builders.bean.AuditedObjectBuilder;
-import com.elstele.bill.Builders.bean.ExternalPaymentBuilder;
-import com.elstele.bill.Builders.form.AuditedObjectFormBuilder;
-import com.elstele.bill.Builders.form.ExternalPaymentFormBuilder;
-import com.elstele.bill.assembler.AuditedObjectAssembler;
+import com.elstele.bill.test.builder.bean.ExternalPaymentBuilder;
+import com.elstele.bill.test.builder.form.ExternalPaymentFormBuilder;
 import com.elstele.bill.assembler.ExternalPaymentAssembler;
-import com.elstele.bill.domain.AuditedObject;
 import com.elstele.bill.domain.ExternalPaymentTransaction;
-import com.elstele.bill.form.AuditedObjectForm;
 import com.elstele.bill.form.ExternalPaymentForm;
-import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,9 @@
 package com.elstele.bill.test.assembler;
-import com.elstele.bill.Builders.bean.StreetBuilder;
-import com.elstele.bill.Builders.form.StreetFormBuilder;
+import com.elstele.bill.test.builder.bean.StreetBuilder;
+import com.elstele.bill.test.builder.form.StreetFormBuilder;
 import com.elstele.bill.assembler.StreetAssembler;
 import com.elstele.bill.domain.Street;
 import com.elstele.bill.form.StreetForm;
-import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

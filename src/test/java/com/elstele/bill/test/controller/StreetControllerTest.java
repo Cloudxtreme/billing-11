@@ -3,7 +3,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.StreetController;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.Street;
-import com.elstele.bill.Builders.bean.StreetBuilder;
+import com.elstele.bill.test.builder.bean.StreetBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;

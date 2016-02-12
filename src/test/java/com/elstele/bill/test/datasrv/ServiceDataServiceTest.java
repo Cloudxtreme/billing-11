@@ -1,10 +1,10 @@
 package com.elstele.bill.test.datasrv;
 
-import com.elstele.bill.Builders.bean.*;
-import com.elstele.bill.Builders.form.ServiceInternetFormBuilder;
-import com.elstele.bill.Builders.form.ServiceMarkerFormBuilder;
-import com.elstele.bill.Builders.form.ServicePhoneFormBuilder;
-import com.elstele.bill.Builders.form.ServiceTypeFormBuilder;
+import com.elstele.bill.test.builder.bean.*;
+import com.elstele.bill.test.builder.form.ServiceInternetFormBuilder;
+import com.elstele.bill.test.builder.form.ServiceMarkerFormBuilder;
+import com.elstele.bill.test.builder.form.ServicePhoneFormBuilder;
+import com.elstele.bill.test.builder.form.ServiceTypeFormBuilder;
 import com.elstele.bill.assembler.ServiceAssembler;
 import com.elstele.bill.dao.impl.ServiceDAOImpl;
 import com.elstele.bill.datasrv.impl.ServiceDataServiceImpl;

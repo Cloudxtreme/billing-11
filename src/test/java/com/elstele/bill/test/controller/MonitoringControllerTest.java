@@ -3,7 +3,7 @@ package com.elstele.bill.test.controller;
 import com.elstele.bill.controller.MonitoringController;
 import com.elstele.bill.datasrv.interfaces.ServiceDataService;
 import com.elstele.bill.domain.OnlineStatistic;
-import com.elstele.bill.Builders.bean.OnlineStatisticBuilder;
+import com.elstele.bill.test.builder.bean.OnlineStatisticBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;

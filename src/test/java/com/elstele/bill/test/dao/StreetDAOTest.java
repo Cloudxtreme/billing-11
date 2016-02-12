@@ -2,7 +2,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.impl.StreetDAOImpl;
 import com.elstele.bill.domain.Street;
-import com.elstele.bill.Builders.bean.StreetBuilder;
+import com.elstele.bill.test.builder.bean.StreetBuilder;
 import org.hibernate.SessionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;

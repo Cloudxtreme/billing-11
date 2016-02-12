@@ -1,11 +1,11 @@
 package com.elstele.bill.test.controller;
 
-import com.elstele.bill.Builders.form.*;
+import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.controller.ServiceController;
 import com.elstele.bill.datasrv.interfaces.*;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.*;
-import com.elstele.bill.Builders.bean.ServiceTypeBuilder;
+import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
 import org.junit.Before;

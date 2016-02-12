@@ -1,8 +1,8 @@
 package com.elstele.bill.test.assembler;
 
 
-import com.elstele.bill.Builders.bean.AuditedObjectBuilder;
-import com.elstele.bill.Builders.form.AuditedObjectFormBuilder;
+import com.elstele.bill.builder.bean.AuditedObjectBuilder;
+import com.elstele.bill.test.builder.form.AuditedObjectFormBuilder;
 import com.elstele.bill.assembler.AuditedObjectAssembler;
 import com.elstele.bill.domain.AuditedObject;
 import com.elstele.bill.form.AuditedObjectForm;
