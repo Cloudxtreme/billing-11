@@ -37,7 +37,8 @@ public class AuditedObjectDAOImpl extends CommonDAOImpl<AuditedObject> implement
 
     @Override
     public List<AuditedObject> getAuditedObjectList(int id, String objClassName) {
-        Query q = getSessionFactory().getCurrentSession().createQuery("from AuditedObject a where a.changedObjID = :objId and a.objClass = :objClass")
+        Query q = getSessionFactory().getCurrentSession().createQuery("from AuditedObject a where a.changedObjID = :objId and a.objClass = :objClass " +
+                "order by a.changesDate")
                 .setParameter("objId", id)
                 .setParameter("objClass", objClassName);
         return (List<AuditedObject>)q.list();

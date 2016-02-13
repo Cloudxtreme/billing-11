@@ -19,6 +19,7 @@ public class AuditedObjectBuilder {
     public AuditedObjectBuilder build() {
         mapper = new ObjectMapper();
         auditedObject = new AuditedObject();
+        auditedObject.setChangesDate(new Date());
         return this;
     }
 
@@ -37,6 +38,7 @@ public class AuditedObjectBuilder {
             String objectInString = mapper.writeValueAsString(val);
             auditedObject.setChangedObject(objectInString);
             auditedObject.setObjClass(val.getClass().getSimpleName());
+            auditedObject.setClassRerence(val.getClass().getName());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }

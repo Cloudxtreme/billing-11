@@ -29,6 +29,9 @@ public class AuditedObject extends CommonDomainBean {
     @Column(length = 30)
     private String objClass;
 
+    @Column(length = 100)
+    private String classReference;
+
     public String getChangedObject() {
         return changedObject;
     }
@@ -75,6 +78,14 @@ public class AuditedObject extends CommonDomainBean {
 
     public void setObjClass(String objClass) {
         this.objClass = objClass;
+    }
+
+    public String getClassRerence() {
+        return classReference;
+    }
+
+    public void setClassRerence(String classRerence) {
+        this.classReference = classRerence;
     }
 
     @Override
