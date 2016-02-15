@@ -1,7 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import org.codehaus.jackson.annotate.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
