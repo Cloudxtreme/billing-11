@@ -18,10 +18,6 @@ public class AuditedObjectFormBuilder {
         return this;
     }
 
-    public AuditedObjectFormBuilder withChangedObject(String val) {
-        form.setChangedObject(val);
-        return this;
-    }
     public AuditedObjectFormBuilder withObjClass(String val){
         form.setObjClass(val.getClass().getSimpleName());
         return this;

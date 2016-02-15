@@ -1,6 +1,7 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ public class ServiceInternetAttribute  extends CommonDomainBean {
 
     @ManyToOne
     @JoinColumn(name="packetid")
+    @JsonBackReference
     private ServiceType serviceType;
 
     public String getAttribute() {

@@ -56,7 +56,19 @@
         <tr id="${audited.id}">
           <td><fmt:formatDate value="${audited.changesDate}" type="both" /></td>
           <td>${audited.changedBy}</td>
-          <td>${audited.changedObject}</td>
+          <td>
+            <c:if test="${fn:length(audited.changesList) == 0}">
+              <spring:message code="audit.empty"/>
+            </c:if>
+
+            <c:forEach items="${audited.changesList}" var="changesList">
+              <p>
+                <spring:message code="audit.fieldName"/>: <strong>${changesList.fieldName};</strong>
+                <span class="text-danger"><spring:message code="audit.oldValue"/>: <strong>${changesList.oldValue};</strong></span>
+                <span class="text-success"><spring:message code="audit.newValue"/>: <strong>${changesList.newValue} </strong></span>
+              </p>
+            </c:forEach>
+          </td>
         </tr>
     </c:forEach>
   </table>

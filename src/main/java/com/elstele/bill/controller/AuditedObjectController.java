@@ -29,7 +29,4 @@ public class AuditedObjectController {
         mav.addObject("createdDate", auditedObjectDataService.getCreatedDate(auditedObjectFormList));
         return mav;
     }
-
-
-
 }

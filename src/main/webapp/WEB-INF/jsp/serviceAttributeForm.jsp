@@ -10,6 +10,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><spring:message code="label.addEditAttr"/> </title>
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
+
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <spring:url value="/resources/js/util.js" var="util" />
@@ -43,7 +45,7 @@
                     <div class="form-group">
                         <label for="operation" class="col-lg-3 control-label"><spring:message code="label.operation"/></label>
                         <div class="col-lg-9">
-                            <form:input path="operation" class="form-control" id="operation" placeholder="=   <=   >="/>
+                            <form:input path="operation" class="form-control" id="operation" placeholder="=   <=   >=" maxlength="2"/>
                             <form:errors path="operation" cssClass="alert-danger" />
                         </div>
                     </div>

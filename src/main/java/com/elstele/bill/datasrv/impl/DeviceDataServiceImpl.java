@@ -1,6 +1,7 @@
 package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.DeviceAssembler;
+import com.elstele.bill.assembler.IpAssembler;
 import com.elstele.bill.dao.interfaces.DeviceDAO;
 import com.elstele.bill.dao.interfaces.DeviceTypesDAO;
 import com.elstele.bill.dao.interfaces.IpDAO;
@@ -9,7 +10,9 @@ import com.elstele.bill.datasrv.interfaces.DeviceDataService;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
 import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
 import com.elstele.bill.datasrv.interfaces.StreetDataService;
+import com.elstele.bill.domain.Ip;
 import com.elstele.bill.form.DeviceForm;
+import com.elstele.bill.form.IpForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Enums.Status;
@@ -116,13 +119,13 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     @Transactional
     public ResponseToAjax deleteDevice(Integer id, String changerName) {
         try {
-            DeviceForm deviceForm = getById(id);
-            ipDataService.setStatus(deviceForm.getIpForm().getId(), IpStatus.FREE);
-            DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
-            Device bean = assembler.fromFormToBean(deviceForm);
-            bean.setStatus(Status.DELETED);
-            deviceDAO.update(bean, changerName);
-            LOGGER.info("Device " + deviceForm.getName() + " deleted successfully");
+
+            Device device = deviceDAO.getById(id);
+            device.setStatus(Status.DELETED);
+            device.getIpAdd().setIpStatus(IpStatus.FREE);
+            deviceDAO.update(device, changerName);
+
+            LOGGER.info("Device " + device.getName() + " deleted successfully");
             return ResponseToAjax.SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -135,8 +138,7 @@ public class DeviceDataServiceImpl implements DeviceDataService {
     public DeviceForm getById(Integer id) {
         DeviceAssembler assembler = new DeviceAssembler(deviceTypesDAO, ipDAO);
         Device bean = deviceDAO.getById(id);
-        DeviceForm result = assembler.fromBeanToForm(bean);
-        return result;
+        return assembler.fromBeanToForm(bean);
     }
 
     @Override

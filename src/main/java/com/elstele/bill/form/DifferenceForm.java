@@ -1,8 +1,5 @@
 package com.elstele.bill.form;
 
-/**
- * Created by ivan on 16/02/13.
- */
 public class DifferenceForm {
     private String fieldName;
     private String oldValue;

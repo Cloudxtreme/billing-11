@@ -23,10 +23,10 @@ public class AuditedObjectDAOImpl extends CommonDAOImpl<AuditedObject> implement
     final static Logger LOGGER = LogManager.getLogger(AuditedObjectDAOImpl.class);
 
     @Override
-    public Integer create(Object object, ObjectOperationType type, String changerName) {
+    public Integer create(CommonDomainBean object, ObjectOperationType type, String changerName) {
         AuditedObject auditedObject = builder.build()
                 .withChangedObject(object)
-                .withChangedObjID(((CommonDomainBean)object).getId())
+                .withChangedObjID(object.getId())
                 .withChangesDate(new Date())
                 .withOperationType(type)
                 .withChangerName(changerName)
