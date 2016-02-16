@@ -7,7 +7,9 @@ import com.elstele.bill.domain.*;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.form.AuditedObjectForm;
 import com.elstele.bill.form.DifferenceForm;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
+import com.elstele.bill.utils.Messagei18nHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -29,6 +31,8 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
 
     @Autowired
     AuditedObjectDAO auditedObjectDAO;
+    @Autowired
+    private Messagei18nHelper messageHelper;
 
     final static Logger LOGGER = LogManager.getLogger(AuditedObjectDataServiceImpl.class);
 
@@ -84,11 +88,9 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
 
     private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms) {
         for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
-            if(curChange.getPropertyName().equals("id")){
-                continue;
-            }
+            String propertyName = curChange.getPropertyName() + "." +  curChange.getAffectedObject().get().getClass().getSimpleName();
             DifferenceForm diffForm = new DifferenceForm();
-            diffForm.setFieldName(curChange.getPropertyName());
+            diffForm.setFieldName(messageHelper.getMessage(propertyName));
             diffForm.setOldValue(curChange.getLeft().toString());
             diffForm.setNewValue(curChange.getRight().toString());
             differenceForms.add(diffForm);

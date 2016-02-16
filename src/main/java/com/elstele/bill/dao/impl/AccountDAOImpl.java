@@ -64,7 +64,7 @@ public class AccountDAOImpl extends CommonDAOImpl<Account> implements AccountDAO
 
     public List<Account> getAccountByFIOAndName(String value) {
         Query query = getSessionFactory().getCurrentSession().
-                createQuery("From Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or a.accountName like '%" + value + "%'  ");
+                createQuery("From Account a where lower(a.fio) like '%" + value.toLowerCase() + "%' or lower(a.accountName) like '%" + value.toLowerCase() + "%'  ");
         LOGGER.info("Values selected successfully. Method searchAccounts ");
         return (List<Account>) query.list();
 

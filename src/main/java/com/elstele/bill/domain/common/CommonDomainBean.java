@@ -3,8 +3,7 @@ package com.elstele.bill.domain.common;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import com.elstele.bill.utils.Enums.Status;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +15,7 @@ public class CommonDomainBean implements Serializable{
     @Column(name="id", columnDefinition = "serial")
     @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DiffIgnore
     private Integer id;
 
     @Enumerated(EnumType.STRING)

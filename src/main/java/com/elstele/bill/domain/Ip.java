@@ -4,12 +4,14 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.IpStatus;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ipAddress")
+@ValueObject
 public class Ip extends CommonDomainBean {
 
     public String ipName;
