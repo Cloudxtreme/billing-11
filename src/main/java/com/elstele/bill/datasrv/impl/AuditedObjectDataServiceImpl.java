@@ -60,6 +60,7 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                 List<DifferenceForm> differenceForms = new ArrayList<>();
                 if (listOfDeserializedBeans.size() > 1 && i < listOfDeserializedBeans.size() && i != 0) { //no way to find difference for only one snapshot
                     Javers javers = JaversBuilder.javers().registerValueObjects(
+                            Address.class,
                             Street.class,
                             Ip.class,
                             IpSubnet.class,

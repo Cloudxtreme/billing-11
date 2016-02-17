@@ -3,6 +3,7 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -37,6 +38,7 @@ public class Account extends CommonDomainBean {
     @LazyCollection(LazyCollectionOption.TRUE)
     @Filter(name="showActive", condition="status != :exclude")
     @JsonManagedReference
+    @JsonIgnore
     private Set<Service> accountServices = new HashSet<Service>(0);
 
     public String getAccountName() {
