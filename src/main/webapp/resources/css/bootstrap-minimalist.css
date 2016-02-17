@@ -2353,6 +2353,20 @@ th {
 .table-condensed > tfoot > tr > td {
     padding: 5px;
 }
+.table-inner{
+    margin-bottom: 9px;
+
+}
+.table-inner > thead > tr > th,
+.table-inner > tbody > tr > th,
+.table-inner > tfoot > tr > th,
+.table-inner > thead > tr > td,
+.table-inner > tbody > tr > td,
+.table-inner > tfoot > tr > td {
+    border-top: none !important;
+    padding: 2px;
+}
+
 .table-bordered {
     border: 1px solid #dddddd;
 }

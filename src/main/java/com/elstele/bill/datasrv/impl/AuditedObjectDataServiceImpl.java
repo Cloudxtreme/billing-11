@@ -73,7 +73,7 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                     LOGGER.info(snapshotDiff);
 
                     if (snapshotDiff.getChanges().size() > 0) {
-                        setChangedValueToList(snapshotDiff, differenceForms);
+                        setChangedValueToList(snapshotDiff, differenceForms, curBean);
                     }
                     auditedObjectForm.setChangesList(differenceForms);
                 }
@@ -86,15 +86,55 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
         return resultList;
     }
 
-    private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms) {
+    private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
         for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
-            String propertyName = curChange.getPropertyName() + "." +  curChange.getAffectedObject().get().getClass().getSimpleName();
+            Object object = curChange.getAffectedObject().get();
+            String propertyName = curChange.getPropertyName() + "." +  object.getClass().getSimpleName();
+            propertyName = correctingForAccountAddress(object, curBean , propertyName);
             DifferenceForm diffForm = new DifferenceForm();
             diffForm.setFieldName(messageHelper.getMessage(propertyName));
             diffForm.setOldValue(curChange.getLeft().toString());
             diffForm.setNewValue(curChange.getRight().toString());
             differenceForms.add(diffForm);
         }
+    }
+
+    private String correctingForAccountAddress(Object object, CommonDomainBean curBean, String propertyName){
+        if(curBean instanceof Account){
+            propertyName = streetTypeDetermine(object, curBean , propertyName);
+            propertyName = addressTypeDetermine(object, curBean, propertyName);
+        }
+        return propertyName;
+    }
+
+    private String streetTypeDetermine(Object object, CommonDomainBean curBean, String propertyName){
+        if(object instanceof Street) {
+            int id = ((Street) object).getId();
+            int idLegal = ((Account) curBean).getLegalAddress().getStreet().getId();
+            int idPhy = ((Account) curBean).getPhyAddress().getStreet().getId();
+            if (id == idLegal) {
+                propertyName += "." + "LegalAddress";
+            }
+            if (id == idPhy) {
+                propertyName += "." + "PhyAddress";
+            }
+        }
+        return propertyName;
+    }
+
+    private String addressTypeDetermine(Object object, CommonDomainBean curBean, String propertyName){
+        if(object instanceof Address){
+            int id = ((Address) object).getId();
+            int idLegal = ((Account) curBean).getLegalAddress().getId();
+            int idPhy = ((Account) curBean).getPhyAddress().getId();
+            if(id == idLegal){
+                propertyName += "." + "LegalAddress";
+            }
+            if(id == idPhy){
+                propertyName += "." + "PhyAddress";
+            }
+        }
+        return propertyName;
     }
 
     @Override

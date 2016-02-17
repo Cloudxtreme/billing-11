@@ -49,22 +49,27 @@
 
   <table class="table table-striped" id='table'>
     <caption class="text-center" style="padding-top: 0 !important;"><h3><spring:message code="audit.title"/></h3></caption>
-    <th><spring:message code="audit.date"/></th>
-    <th><spring:message code="audit.changedBy"/></th>
-    <th><spring:message code="audit.changedObject"/></th>
+    <th style="width: 20% !important;"><spring:message code="audit.date"/></th>
+    <th style="width: 10% !important;"><spring:message code="audit.changedBy"/></th>
+    <th style="width: 70% !important;"><spring:message code="audit.changedObject"/></th>
     <c:forEach items="${auditedList}" var="audited">
         <c:if test="${fn:length(audited.changesList) > 0}">
           <tr id="${audited.id}">
             <td><fmt:formatDate value="${audited.changesDate}" type="both" /></td>
             <td>${audited.changedBy}</td>
             <td>
-              <c:forEach items="${audited.changesList}" var="changesList">
-                <p>
-                  <spring:message code="audit.fieldName"/>: <strong>${changesList.fieldName};</strong>
-                  <span class="text-danger"><spring:message code="audit.oldValue"/>: <strong>${changesList.oldValue};</strong></span>
-                  <span class="text-success"><spring:message code="audit.newValue"/>: <strong>${changesList.newValue} </strong></span>
-                </p>
-              </c:forEach>
+              <table class="table table-inner">
+                <th style="width: 30% !important;" class="text-info"><spring:message code="audit.fieldName"/></th>
+                <th style="width: 30% !important" class="text-danger"><spring:message code="audit.oldValue"/></th>
+                <th style="width: 40% !important;" class="text-success"><spring:message code="audit.newValue"/></th>
+                <c:forEach items="${audited.changesList}" var="changesList">
+                  <tr>
+                    <td class="text-info">${changesList.fieldName}</td>
+                    <td class="text-danger">${changesList.oldValue}</td>
+                    <td class="text-success">${changesList.newValue}</td>
+                  </tr>
+                </c:forEach>
+              </table>
             </td>
           </tr>
         </c:if>
