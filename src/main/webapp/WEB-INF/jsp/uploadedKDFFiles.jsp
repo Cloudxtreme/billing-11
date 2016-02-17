@@ -60,11 +60,11 @@
     </div>
 
     <table class="table table-striped" id ='table'>
-        <th></th>
-        <th><spring:message code="label.name"/></th>
-        <th><spring:message code="label.status"/></th>
-        <th><spring:message code="label.size"/></th>
-        <th><button id="deleteSelected" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#confirm-delete" style="display: none;"><spring:message code="label.submitDelete"/></button></th>
+        <th style="width: 10%;!important;"></th>
+        <th style="width: 25%;!important;"><spring:message code="label.name"/></th>
+        <th style="width: 25%;!important;"><spring:message code="label.status"/></th>
+        <th style="width: 25%;!important;"><spring:message code="label.size"/></th>
+        <th style="width: 15%;!important;"><button id="deleteSelected" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#confirm-delete" style="display: none;"><spring:message code="label.submitDelete"/></button></th>
         <c:forEach items="${uploadedList}" var="current">
             <tr id="${current.id}" class="">
                 <td>
