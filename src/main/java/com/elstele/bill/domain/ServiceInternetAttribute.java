@@ -2,11 +2,13 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="pacattributes")
+@ValueObject
 public class ServiceInternetAttribute  extends CommonDomainBean {
 
     @Column(name = "attribute")

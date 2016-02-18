@@ -5,6 +5,7 @@ import com.elstele.bill.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name="ServiceType")
 @Inheritance(strategy=InheritanceType.JOINED)
+@ValueObject
 public class ServiceType extends CommonDomainBean{
 
     @Column(unique = true)

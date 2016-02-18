@@ -1,12 +1,14 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "Devices")
+@ValueObject
 public class Device extends CommonDomainBean {
     private String name;
     private String description;

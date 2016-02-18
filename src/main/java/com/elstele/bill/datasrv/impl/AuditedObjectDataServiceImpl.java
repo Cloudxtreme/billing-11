@@ -7,7 +7,6 @@ import com.elstele.bill.domain.*;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.form.AuditedObjectForm;
 import com.elstele.bill.form.DifferenceForm;
-import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Messagei18nHelper;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +36,26 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
     final static Logger LOGGER = LogManager.getLogger(AuditedObjectDataServiceImpl.class);
 
     @Override
+    public String getCreatedBy(List<AuditedObjectForm> auditedObjectFormList) {
+        for (AuditedObjectForm form : auditedObjectFormList) {
+            if (form.getChangesType().equals(ObjectOperationType.CREATE)) {
+                return form.getChangedBy();
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public Date getCreatedDate(List<AuditedObjectForm> auditedObjectFormList) {
+        for (AuditedObjectForm form : auditedObjectFormList) {
+            if (form.getChangesType().equals(ObjectOperationType.CREATE)) {
+                return form.getChangesDate();
+            }
+        }
+        return null;
+    }
+
+    @Override
     @Transactional
     public List<AuditedObjectForm> getAuditedObject(int id, String objClassName) {
         List<AuditedObjectForm> resultList = new ArrayList<>();
@@ -59,18 +78,12 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                 AuditedObjectForm auditedObjectForm = assembler.fromBeanToForm(auditedObject);
                 List<DifferenceForm> differenceForms = new ArrayList<>();
                 if (listOfDeserializedBeans.size() > 1 && i < listOfDeserializedBeans.size() && i != 0) { //no way to find difference for only one snapshot
-                    Javers javers = JaversBuilder.javers().registerValueObjects(
-                            Address.class,
-                            Street.class,
-                            Ip.class,
-                            IpSubnet.class,
-                            DeviceTypes.class,
-                            ServiceInternet.class).build();
-
                     CommonDomainBean curBean = listOfDeserializedBeans.get(i);
                     CommonDomainBean prevBean = listOfDeserializedBeans.get(i - 1);
-                    Diff snapshotDiff = javers.compare(prevBean, curBean);
 
+                    Javers javers = configureJavers(curBean);
+
+                    Diff snapshotDiff = javers.compare(prevBean, curBean);
                     LOGGER.info(snapshotDiff);
 
                     if (snapshotDiff.getChanges().size() > 0) {
@@ -87,29 +100,53 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
         return resultList;
     }
 
+    private Javers configureJavers(CommonDomainBean curBean) {
+        if (curBean instanceof Account) {
+            return JaversBuilder.javers().registerValueObjects(
+                    Address.class,
+                    Street.class
+            ).build();
+        } else if (curBean instanceof Device) {
+            return JaversBuilder.javers().registerValueObjects(
+                    DeviceTypes.class,
+                    Ip.class,
+                    IpSubnet.class,
+                    Address.class,
+                    Street.class
+            ).build();
+        } else if (curBean instanceof ServiceType) {
+            return JaversBuilder.javers().registerValueObjects(
+                    ServiceInternetAttribute.class,
+                    ServiceType.class
+            ).build();
+        } else {
+            return JaversBuilder.javers().build();
+        }
+    }
+
     private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
         for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
             CommonDomainBean object = (CommonDomainBean) curChange.getAffectedObject().get();
-            String propertyName = curChange.getPropertyName() + "." +  object.getClass().getSimpleName();
-            propertyName = correctingForAccountAddress(object, curBean , propertyName);
+            String propertyName = curChange.getPropertyName() + "." + object.getClass().getSimpleName();
+            propertyName = correctingForAccountAddress(object, curBean, propertyName);
             DifferenceForm diffForm = new DifferenceForm();
             diffForm.setFieldName(messageHelper.getMessage(propertyName));
-            diffForm.setOldValue(curChange.getLeft().toString());
-            diffForm.setNewValue(curChange.getRight().toString());
+            diffForm.setOldValue((curChange.getLeft() == null ? "" : curChange.getLeft().toString()));
+            diffForm.setNewValue((curChange.getRight() == null ? "" : curChange.getRight().toString()));
             differenceForms.add(diffForm);
         }
     }
 
-    private String correctingForAccountAddress(CommonDomainBean object, CommonDomainBean curBean, String propertyName){
-        if(curBean instanceof Account){
-            propertyName = streetTypeDetermine(object, curBean , propertyName);
+    private String correctingForAccountAddress(CommonDomainBean object, CommonDomainBean curBean, String propertyName) {
+        if (curBean instanceof Account) {
+            propertyName = streetTypeDetermine(object, curBean, propertyName);
             propertyName = addressTypeDetermine(object, curBean, propertyName);
         }
         return propertyName;
     }
 
-    private String streetTypeDetermine(CommonDomainBean object, CommonDomainBean curBean, String propertyName){
-        if(object instanceof Street) {
+    private String streetTypeDetermine(CommonDomainBean object, CommonDomainBean curBean, String propertyName) {
+        if (object instanceof Street) {
             int id = object.getId();
             int idLegal = ((Account) curBean).getLegalAddress().getStreet().getId();
             int idPhy = ((Account) curBean).getPhyAddress().getStreet().getId();
@@ -123,38 +160,18 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
         return propertyName;
     }
 
-    private String addressTypeDetermine(CommonDomainBean object, CommonDomainBean curBean, String propertyName){
-        if(object instanceof Address){
+    private String addressTypeDetermine(CommonDomainBean object, CommonDomainBean curBean, String propertyName) {
+        if (object instanceof Address) {
             int id = object.getId();
             int idLegal = ((Account) curBean).getLegalAddress().getId();
             int idPhy = ((Account) curBean).getPhyAddress().getId();
-            if(id == idLegal){
+            if (id == idLegal) {
                 propertyName += "." + "LegalAddress";
             }
-            if(id == idPhy){
+            if (id == idPhy) {
                 propertyName += "." + "PhyAddress";
             }
         }
         return propertyName;
-    }
-
-    @Override
-    public String getCreatedBy(List<AuditedObjectForm> auditedObjectFormList) {
-        for (AuditedObjectForm form : auditedObjectFormList) {
-            if (form.getChangesType().equals(ObjectOperationType.CREATE)) {
-                return form.getChangedBy();
-            }
-        }
-        return "";
-    }
-
-    @Override
-    public Date getCreatedDate(List<AuditedObjectForm> auditedObjectFormList) {
-        for (AuditedObjectForm form : auditedObjectFormList) {
-            if (form.getChangesType().equals(ObjectOperationType.CREATE)) {
-                return form.getChangesDate();
-            }
-        }
-        return null;
     }
 }

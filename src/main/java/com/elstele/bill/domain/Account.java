@@ -8,6 +8,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Entity
 @FilterDef(name="showActive", parameters={@ParamDef( name="exclude", type="string" )})
 @Table(name="Accounts")
+@ValueObject
 public class Account extends CommonDomainBean {
 
     private String accountName;
