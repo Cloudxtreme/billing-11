@@ -1,7 +1,6 @@
 package com.elstele.bill.dao.common;
 
-import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
-import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
+import com.elstele.bill.dao.impl.AuditedObjectDAOImpl;
 import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
@@ -17,9 +16,6 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     @Autowired
     private SessionFactory sessionFactory;
     private Class<T> type;
-
-    @Autowired
-    private AuditedObjectDAO auditDAO;
 
     /**
      * more example see here
