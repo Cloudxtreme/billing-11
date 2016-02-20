@@ -48,7 +48,7 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     }
 
     @Override
-    public String saveService(Service service, boolean isNewObject, String changerName) {
+    public String saveService(Service service, boolean isNewObject, String changedBy) {
         //TODO message return here is not a good idea
         //need to be refactored
         ObjectOperationType operationType;
@@ -62,7 +62,7 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
             operationType = ObjectOperationType.UPDATE;
             message = "service.success.update";
         }
-        auditedObjectDAO.create(getInvestedObjectsForDifference(service), operationType, changerName);
+        auditedObjectDAO.create(getInvestedObjectsForDifference(service), operationType, changedBy);
         return message;
     }
 
@@ -79,13 +79,13 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     }
 
     @Override
-    public void deleteService(Integer serviceId, String changerName) {
+    public void deleteService(Integer serviceId, String changedBy) {
         setStatusDelete(serviceId);
         Service service = getById(serviceId);
         if (service instanceof ServiceInternet) {
             ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
         }
-        auditedObjectDAO.create(service, ObjectOperationType.DELETE, changerName);
+        auditedObjectDAO.create(service, ObjectOperationType.DELETE, changedBy);
     }
 
     public List<OnlineStatistic> getUserOnline() {

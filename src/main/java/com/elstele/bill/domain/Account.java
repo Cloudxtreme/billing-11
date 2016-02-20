@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Entity
 @FilterDef(name="showActive", parameters={@ParamDef( name="exclude", type="string" )})
 @Table(name="Accounts")
-public class Account extends CommonDomainBean {
+public class Account extends CommonDomainBean implements AuditedDomainBean{
 
     private String accountName;
     @Enumerated(EnumType.STRING)

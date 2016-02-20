@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -22,7 +23,7 @@ import java.util.Date;
         discriminatorType=DiscriminatorType.STRING
 )
 @DiscriminatorValue(value="MAIN")
-public class Service extends CommonDomainBean{
+public class Service extends CommonDomainBean implements AuditedDomainBean {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateStart;

@@ -1,6 +1,10 @@
 package com.elstele.bill.dao.common;
 
+import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
+import com.elstele.bill.datasrv.interfaces.AuditedObjectDataService;
+import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,9 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     @Autowired
     private SessionFactory sessionFactory;
     private Class<T> type;
+
+    @Autowired
+    private AuditedObjectDAO auditDAO;
 
     /**
      * more example see here
@@ -34,7 +41,9 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
 
 
     public Integer create(T o) {
-        return (Integer)this.sessionFactory.getCurrentSession().save(o);
+        Integer res = (Integer)this.sessionFactory.getCurrentSession().save(o);
+        callAuditDAO(o, ObjectOperationType.CREATE);
+        return res;
     }
 
 
@@ -55,11 +64,13 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     public void update(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
+        callAuditDAO(transientObject, ObjectOperationType.UPDATE);
     }
 
 
     public void merge(T transientObject) {
         this.sessionFactory.getCurrentSession().merge(transientObject);
+        callAuditDAO(transientObject, ObjectOperationType.UPDATE);
     }
 
 
@@ -67,17 +78,20 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         transientObject = (T)sessionFactory.getCurrentSession().merge(transientObject);
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
+        callAuditDAO(transientObject, ObjectOperationType.UPDATE);
     }
 
 
     public void delete(T persistentObject) {
         this.sessionFactory.getCurrentSession().delete(persistentObject);
+        callAuditDAO(persistentObject, ObjectOperationType.DELETE);
     }
 
     public void delete(Integer id) {
         T persistentObject = this.getById(id);
         if (persistentObject != null) {
             this.sessionFactory.getCurrentSession().delete(persistentObject);
+            callAuditDAO(persistentObject, ObjectOperationType.DELETE);
         }
     }
 
@@ -85,12 +99,14 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     public void save(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
         this.sessionFactory.getCurrentSession().flush();
+        callAuditDAO(transientObject, ObjectOperationType.UPDATE);
     }
 
 
     public void setStatus(CommonDomainBean persistentObject, Status status) {
         persistentObject.setStatus(status);
         this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+        callAuditDAO(persistentObject, ObjectOperationType.UPDATE);
     }
 
 
@@ -99,6 +115,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         if (persistentObject != null) {
             persistentObject.setStatus(status);
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
+            callAuditDAO(persistentObject, ObjectOperationType.UPDATE);
         }
     }
 
@@ -113,7 +130,7 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
     public void setStatusDelete(CommonDomainBean persistentObject) {
         persistentObject.setStatus(Status.DELETED);
         this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
-
+        callAuditDAO(persistentObject, ObjectOperationType.UPDATE);
     }
 
 
@@ -122,8 +139,22 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         if (persistentObject != null) {
             persistentObject.setStatus(Status.DELETED);
             this.sessionFactory.getCurrentSession().saveOrUpdate(persistentObject);
-
+            callAuditDAO(persistentObject, ObjectOperationType.UPDATE);
         }
     }
+
+
+    private void callAuditDAO(T o, ObjectOperationType operationType) {
+        if (o instanceof AuditedDomainBean){
+            //auditDAO.create((CommonDomainBean) o, operationType, "anonymous");
+        }
+    }
+
+    private void callAuditDAO(CommonDomainBean o, ObjectOperationType operationType) {
+        if (o instanceof AuditedDomainBean){
+            //auditDAO.create(o, operationType, "anonymous");
+        }
+    }
+
 }
 

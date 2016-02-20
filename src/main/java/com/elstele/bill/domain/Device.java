@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Devices")
-public class Device extends CommonDomainBean {
+public class Device extends CommonDomainBean implements AuditedDomainBean {
     private String name;
     private String description;
     private String community;
