@@ -2,9 +2,7 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.SubnetPurpose;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name="ipsubnet")
-@ValueObject
 public class IpSubnet extends CommonDomainBean {
     public String ipSubnet;
 

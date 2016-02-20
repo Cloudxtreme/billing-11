@@ -12,6 +12,7 @@ import com.elstele.bill.utils.Messagei18nHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.javers.core.diff.changetype.ReferenceChange;
 import org.javers.core.diff.changetype.ValueChange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,13 +82,14 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                     CommonDomainBean curBean = listOfDeserializedBeans.get(i);
                     CommonDomainBean prevBean = listOfDeserializedBeans.get(i - 1);
 
-                    Javers javers = configureJavers(curBean);
+                    Javers javers = JaversBuilder.javers().build();
 
                     Diff snapshotDiff = javers.compare(prevBean, curBean);
                     LOGGER.info(snapshotDiff);
 
                     if (snapshotDiff.getChanges().size() > 0) {
                         setChangedValueToList(snapshotDiff, differenceForms, curBean);
+                        setReferenceChangedObject(snapshotDiff, differenceForms, curBean);
                     }
                     auditedObjectForm.setChangesList(differenceForms);
                 }
@@ -100,30 +102,6 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
         return resultList;
     }
 
-    private Javers configureJavers(CommonDomainBean curBean) {
-        if (curBean instanceof Account) {
-            return JaversBuilder.javers().registerValueObjects(
-                    Address.class,
-                    Street.class
-            ).build();
-        } else if (curBean instanceof Device) {
-            return JaversBuilder.javers().registerValueObjects(
-                    DeviceTypes.class,
-                    Ip.class,
-                    IpSubnet.class,
-                    Address.class,
-                    Street.class
-            ).build();
-        } else if (curBean instanceof ServiceType) {
-            return JaversBuilder.javers().registerValueObjects(
-                    ServiceInternetAttribute.class,
-                    ServiceType.class
-            ).build();
-        } else {
-            return JaversBuilder.javers().build();
-        }
-    }
-
     private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
         for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
             CommonDomainBean affectedObject = (CommonDomainBean) curChange.getAffectedObject().get();
@@ -134,6 +112,23 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
             diffForm.setOldValue((curChange.getLeft() == null ? "" : curChange.getLeft().toString()));
             diffForm.setNewValue((curChange.getRight() == null ? "" : curChange.getRight().toString()));
             differenceForms.add(diffForm);
+        }
+    }
+
+    private void setReferenceChangedObject(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
+        Javers javers = JaversBuilder.javers().registerValueObjects(
+                DeviceTypes.class,
+                Ip.class,
+                IpSubnet.class,
+                Street.class
+        ).build();
+        for (ReferenceChange refChange : snapshotDiff.getChangesByType(ReferenceChange.class)) {
+            CommonDomainBean leftObject = (refChange.getLeftObject().isEmpty() ? null : (CommonDomainBean) refChange.getLeftObject().get());
+            CommonDomainBean rightObject = (CommonDomainBean) refChange.getRightObject().get();
+            if (leftObject != null && rightObject != null) {
+                Diff refDiffSnap = javers.compare(leftObject, rightObject);
+                setChangedValueToList(refDiffSnap, differenceForms, curBean);
+            }
         }
     }
 

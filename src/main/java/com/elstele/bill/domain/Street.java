@@ -1,7 +1,6 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import org.javers.core.metamodel.annotation.ValueObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +8,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Streets")
-@ValueObject
 public class Street extends CommonDomainBean {
     @Column(name = "street_name")
     private String name;

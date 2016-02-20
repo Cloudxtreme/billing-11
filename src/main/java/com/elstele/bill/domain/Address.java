@@ -1,15 +1,11 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
-import org.hibernate.annotations.Cascade;
-import org.javers.core.metamodel.annotation.ValueObject;
-
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "address")
-@ValueObject
 public class Address extends CommonDomainBean{
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
