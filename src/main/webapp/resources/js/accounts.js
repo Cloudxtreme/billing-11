@@ -239,8 +239,6 @@ $(document).ready(function() {
             $('#legalAddressStreet').val(capitalizeVal);
         }
     });
-
-
 })
 
 function hideModalAddAccount(){
@@ -364,3 +362,18 @@ function drawTransRow(data){
     $("#transactionTable").append(tableRow);
 }
 
+var flag = true;
+$(document).ready(function(){
+    $('#accServiceHistory').on('click', function(){
+        if(flag) {
+            $('#accountServiceTable tr').show();
+            flag = false;
+        }else{
+            var $table = $('#accountServiceTable');
+            $($table).find('tr').has('td:nth-child(8):contains("DELETED")').each(function(){
+                $(this).hide();
+            });
+            flag = true;
+        }
+    });
+});

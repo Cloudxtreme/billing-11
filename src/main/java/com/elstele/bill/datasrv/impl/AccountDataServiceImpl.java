@@ -171,6 +171,19 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Override
     @Transactional
+    public AccountForm getAllAccountServicesById(int id){
+        AccountAssembler assembler = new AccountAssembler();
+        AccountForm result = null;
+        Account bean = accountDAO.getAllById(id);
+        if (bean != null) {
+            AccountForm form = assembler.fromBeanToForm(bean);
+            result = form;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
     public Account getAccountBeanById(int id) {
         Account result = null;
         Account bean = accountDAO.getById(id);

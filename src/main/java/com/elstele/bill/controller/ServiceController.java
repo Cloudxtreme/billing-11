@@ -1,12 +1,14 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.*;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Messagei18nHelper;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -49,8 +51,11 @@ public class ServiceController {
     private Messagei18nHelper messagei18nHelper;
 
     @RequestMapping(value = "/service/account/{accountId}/{accountServiceId}/delete", method = RequestMethod.GET)
-    public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId, @PathVariable("accountServiceId") Integer accountServiceId) {
-        serviceDataService.deleteService(accountServiceId);
+    public ModelAndView serviceDelete(@PathVariable("accountId") Integer accountId,
+                                      @PathVariable("accountServiceId") Integer accountServiceId,
+                                      HttpSession session) {
+        LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+        serviceDataService.deleteService(accountServiceId, localUser.getUsername());
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result = accountDataService.getAccountById(accountId);
         mav.addObject("accountForm", result);
@@ -67,7 +72,9 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/service/account/form", method = RequestMethod.POST)
-    public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") @Valid ServiceForm form, BindingResult result) {
+    public ModelAndView accountServiceModify(@ModelAttribute("serviceForm") @Valid ServiceForm form,
+                                             BindingResult result,
+                                             HttpSession session) {
         if (result.hasErrors()) {
             List<Constants.Period> period = new ArrayList<Constants.Period>(Arrays.asList(Constants.Period.values()));
             ModelAndView mav = new ModelAndView("/account_service_form");
@@ -81,7 +88,8 @@ public class ServiceController {
             mav.addObject("errorClass", "text-danger");
             return mav;
         } else {
-            String message = serviceDataService.saveService(form);
+            LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+            String message = serviceDataService.saveService(form, localUser.getUsername());
             ModelAndView mav = new ModelAndView("accountFull");
             mav.addObject(Constants.SUCCESS_MESSAGE, message);
             AccountForm res = accountDataService.getAccountById(form.getAccountId());
@@ -148,7 +156,7 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/service/account/", method = RequestMethod.GET)
-    public String serviceList(HttpSession session, Map<String, Object> map) {
+    public String serviceList(Map<String, Object> map) {
         map.put("accountList", accountDataService.getAccountsList());
         return "account_service";
     }

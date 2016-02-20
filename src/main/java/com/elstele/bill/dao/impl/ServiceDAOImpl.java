@@ -2,13 +2,14 @@ package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 
+import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
+import com.elstele.bill.dao.interfaces.DeviceDAO;
+import com.elstele.bill.dao.interfaces.IpDAO;
 import com.elstele.bill.dao.interfaces.ServiceDAO;
 import com.elstele.bill.datasrv.interfaces.IpDataService;
-import com.elstele.bill.domain.OnlineStatistic;
-import com.elstele.bill.domain.Service;
-import com.elstele.bill.domain.ServiceInternet;
-import com.elstele.bill.domain.ServiceInternetAttribute;
+import com.elstele.bill.domain.*;
 import com.elstele.bill.utils.Enums.IpStatus;
+import com.elstele.bill.utils.Enums.ObjectOperationType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -22,6 +23,14 @@ import java.util.List;
 
 @org.springframework.stereotype.Service
 public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO {
+
+    @Autowired
+    AuditedObjectDAO auditedObjectDAO;
+
+    @Autowired
+    IpDAO ipDAO;
+    @Autowired
+    DeviceDAO deviceDAO;
 
     @Autowired
     private IpDataService ipDataService;
@@ -39,24 +48,44 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     }
 
     @Override
-    public String saveService(Service service, boolean isNewObject) {
+    public String saveService(Service service, boolean isNewObject, String changerName) {
         //TODO message return here is not a good idea
         //need to be refactored
+        ObjectOperationType operationType;
+        String message;
         if (isNewObject) {
             create(service);
-           return "service.success.add";
+            operationType = ObjectOperationType.CREATE;
+            message = "service.success.add";
         } else {
             update(service);
-            return "service.success.update";
+            operationType = ObjectOperationType.UPDATE;
+            message = "service.success.update";
         }
+        auditedObjectDAO.create(getInvestedObjectsForDifference(service), operationType, changerName);
+        return message;
+    }
+
+    private Service getInvestedObjectsForDifference(Service service){
+        if(service instanceof  ServiceInternet) {
+            int ipId = ((ServiceInternet) service).getIpAddress().getId();
+            Ip ip = ipDAO.getById(ipId);
+            ((ServiceInternet) service).setIpAddress(ip);
+            int deviceID = ((ServiceInternet) service).getDevice().getId();
+            Device device = deviceDAO.getById(deviceID);
+            ((ServiceInternet) service).setDevice(device);
+        }
+        return service;
     }
 
     @Override
-    public void deleteService(Integer serviceId) {
+    public void deleteService(Integer serviceId, String changerName) {
         setStatusDelete(serviceId);
         Service service = getById(serviceId);
-        if (service instanceof ServiceInternet)
+        if (service instanceof ServiceInternet) {
             ipDataService.setStatus(((ServiceInternet) service).getIpAddress().getId(), IpStatus.FREE);
+        }
+        auditedObjectDAO.create(service, ObjectOperationType.DELETE, changerName);
     }
 
     public List<OnlineStatistic> getUserOnline() {

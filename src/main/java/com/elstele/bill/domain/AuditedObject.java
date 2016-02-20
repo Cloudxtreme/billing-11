@@ -16,7 +16,7 @@ public class AuditedObject extends CommonDomainBean {
     private ObjectOperationType changesType;
 
     @JsonProperty
-    @Column(length = 500)
+    @Column(length = 850)
     private String changedObject;
 
     private Date changesDate;

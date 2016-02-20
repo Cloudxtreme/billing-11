@@ -35,6 +35,7 @@
 
 
 <div class="well">
+
     <legend>
         <a href="#" id="accauntSaveBut" class="btn btn-sm btn-primary"><spring:message code="label.accountUpdate"/></a>
         <a href="${pageContext.request.contextPath}/transaction/${accountForm.id}/catalog/" id="viewTransactions" class="btn btn-sm btn-success"><spring:message code="label.viewTransaction"/></a>
@@ -153,6 +154,9 @@
                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">
                                     <spring:message code="label.new"/>
                                 </a>
+                                <a id="accServiceHistory" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-info float-right">
+                                    <spring:message code="label.ServiceHistory"/>
+                                </a>
                             </h3>
                         </div>
                         <div class="panel-body">
@@ -170,13 +174,22 @@
 
                                 <c:forEach items="${accountForm.serviceForms}" var="accountService">
                                     <label for="${accountService.id}">
+                                <c:choose>
+                                    <c:when test="${accountService.status eq 'DELETED'}">
+                                        <tr id="${accountService.id}" style="display: none;">
+                                    </c:when>
+                                    <c:otherwise>
                                         <tr id="${accountService.id}">
+                                    </c:otherwise>
+                                </c:choose>
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                                 &nbsp;&nbsp;
                                                 <a data-href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" id="deleting" data-toggle="modal" data-target="#confirm-delete">
                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                 </a>
+                                                &nbsp;&nbsp;
+                                                <a id="info" href="${pageContext.request.contextPath}/objectinfo/${accountService.id}?type=Service"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
                                             <td>
@@ -206,8 +219,17 @@
                                             <td><fmt:formatDate value="${accountService.dateStart}" pattern="yyyy-MM-dd" /></td>
                                             <td>${accountService.period}</td>
                                             <td>${accountService.serviceType.price}</td>
-                                            <td>${accountService.status}</td>
+
+                                            <c:choose>
+                                                <c:when test="${accountService.status eq 'DELETED'}">
+                                                    <td><strong style="font-style: italic !important; color: rgba(253, 28, 0, 0.81)">${accountService.status}</strong></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>${accountService.status}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </tr>
+
                                     </label>
                                 </c:forEach>
                             </table>

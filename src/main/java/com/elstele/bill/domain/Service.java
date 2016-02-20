@@ -3,6 +3,8 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,9 +33,11 @@ public class Service extends CommonDomainBean{
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="account_id")
     @JsonBackReference
+    @JsonIgnore
     private Account account;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private ServiceType serviceType;
 
     public Date getDateStart() {

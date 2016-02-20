@@ -2,7 +2,7 @@ package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Constants;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -27,7 +27,7 @@ public class ServiceType extends CommonDomainBean{
 
     @OneToMany(mappedBy="serviceType")
     @LazyCollection(LazyCollectionOption.TRUE)
-    @JsonManagedReference
+    @JsonBackReference
     private Set<ServiceInternetAttribute> serviceInternetAttributes = new HashSet<ServiceInternetAttribute>(0);
 
     public String getName() {

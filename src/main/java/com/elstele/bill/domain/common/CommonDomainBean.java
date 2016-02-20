@@ -4,11 +4,13 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import com.elstele.bill.utils.Enums.Status;
 import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.ShallowReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
+@ShallowReference
 public class CommonDomainBean implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id

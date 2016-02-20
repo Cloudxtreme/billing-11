@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ServiceDataService {
 
-    public String saveService(ServiceForm form);
-    public void deleteService(Integer id);
+    public String saveService(ServiceForm form, String changerName);
+    public void deleteService(Integer id, String changerName);
     public ServiceForm getServiceFormById(Integer serviceId);
     public Integer getCurrentIpAddress (ServiceForm serviceForm);
     public Integer getCurrentIpAddressByServiceFormId(Integer serviceFormId);

@@ -24,6 +24,8 @@ public interface AccountDataService {
 
     public AccountForm getAccountById(int id);
 
+    public AccountForm getAllAccountServicesById(int id);
+
     public Account getAccountBeanById(int id);
 
     public void softDeleteAccount(int id, String changerName);

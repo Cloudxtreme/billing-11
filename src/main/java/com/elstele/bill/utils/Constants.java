@@ -46,4 +46,7 @@ public class  Constants {
 
     public static final String VEGA_CSV = "vega_csv";
     public static final String UKR_NET_CSV = "ukrnet_csv";
+
+    public static final String ONLY_ACTIVE = "active";
+    public static final String ALL_TYPES = "all";
 }

@@ -34,6 +34,8 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
     @Autowired
     private Messagei18nHelper messageHelper;
 
+    private Javers javers;
+
     final static Logger LOGGER = LogManager.getLogger(AuditedObjectDataServiceImpl.class);
 
     @Override
@@ -73,6 +75,7 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                 listOfDeserializedBeans.add(deserializedBean);
             }
 
+            javers = JaversBuilder.javers().build();
             AuditedObjectAssembler assembler = new AuditedObjectAssembler();
             int i = 0;
             for (AuditedObject auditedObject : auditedObjectList) {
@@ -81,8 +84,6 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
                 if (listOfDeserializedBeans.size() > 1 && i < listOfDeserializedBeans.size() && i != 0) { //no way to find difference for only one snapshot
                     CommonDomainBean curBean = listOfDeserializedBeans.get(i);
                     CommonDomainBean prevBean = listOfDeserializedBeans.get(i - 1);
-
-                    Javers javers = JaversBuilder.javers().build();
 
                     Diff snapshotDiff = javers.compare(prevBean, curBean);
                     LOGGER.info(snapshotDiff);
@@ -116,20 +117,75 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
     }
 
     private void setReferenceChangedObject(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
-        Javers javers = JaversBuilder.javers().registerValueObjects(
-                DeviceTypes.class,
-                Ip.class,
-                IpSubnet.class,
-                Street.class
-        ).build();
         for (ReferenceChange refChange : snapshotDiff.getChangesByType(ReferenceChange.class)) {
             CommonDomainBean leftObject = (refChange.getLeftObject().isEmpty() ? null : (CommonDomainBean) refChange.getLeftObject().get());
             CommonDomainBean rightObject = (CommonDomainBean) refChange.getRightObject().get();
             if (leftObject != null && rightObject != null) {
-                Diff refDiffSnap = javers.compare(leftObject, rightObject);
+                Diff refDiffSnap = null;
+                if (leftObject instanceof Street && rightObject instanceof Street) {
+                    refDiffSnap = streetRefDiff((Street) leftObject, (Street) rightObject);
+                } else if (leftObject instanceof Device && rightObject instanceof Device) {
+                    refDiffSnap = deviceRefDiff((Device) leftObject, (Device) rightObject);
+                } else if (leftObject instanceof Ip && rightObject instanceof Ip) {
+                    refDiffSnap = ipRefDiff((Ip) leftObject, (Ip) rightObject);
+                } else if (leftObject instanceof DeviceTypes && rightObject instanceof DeviceTypes) {
+                    refDiffSnap = deviceTypeRefDiff((DeviceTypes) leftObject, (DeviceTypes) rightObject);
+                }
                 setChangedValueToList(refDiffSnap, differenceForms, curBean);
             }
         }
+    }
+
+    private Diff streetRefDiff(Street leftObject, Street rightObject) {
+        Street toCompareLeft = new Street();
+        toCompareLeft.setName(leftObject.getName());
+        toCompareLeft.setId(rightObject.getId());
+
+        Street toCompareRight = new Street();
+        toCompareRight.setName(rightObject.getName());
+        toCompareRight.setId(rightObject.getId());
+
+        return javers.compare(toCompareLeft, toCompareRight);
+    }
+
+    private Diff deviceRefDiff(Device leftObject, Device rightObject) {
+        Device toCompareLeft = new Device();
+        toCompareLeft.setName(leftObject.getName());
+        toCompareLeft.setId(rightObject.getId());
+
+        Device toCompareRight = new Device();
+        toCompareRight.setName(rightObject.getName());
+        toCompareRight.setId(rightObject.getId());
+
+        return javers.compare(toCompareLeft, toCompareRight);
+    }
+
+    private Diff ipRefDiff(Ip leftObject, Ip rightObject) {
+        Ip toCompareLeft = new Ip();
+        toCompareLeft.setIpName(leftObject.getIpName());
+        toCompareLeft.setId(rightObject.getId());
+
+        Ip toCompareRight = new Ip();
+        toCompareRight.setIpName(rightObject.getIpName());
+        toCompareRight.setId(rightObject.getId());
+
+        return javers.compare(toCompareLeft, toCompareRight);
+    }
+
+    private Diff deviceTypeRefDiff(DeviceTypes leftObject, DeviceTypes rightObject) {
+        DeviceTypes toCompareLeft = new DeviceTypes();
+        toCompareLeft.setDeviceType(leftObject.getDeviceType());
+        toCompareLeft.setDescription(leftObject.getDescription());
+        toCompareLeft.setPortsNumber(leftObject.getPortsNumber());
+        toCompareLeft.setId(rightObject.getId());
+
+        DeviceTypes toCompareRight = new DeviceTypes();
+        toCompareRight.setDeviceType(rightObject.getDeviceType());
+        toCompareLeft.setDescription(rightObject.getDescription());
+        toCompareLeft.setPortsNumber(rightObject.getPortsNumber());
+        toCompareRight.setId(rightObject.getId());
+
+        return javers.compare(toCompareLeft, toCompareRight);
     }
 
     private String correctingForAccountAddress(CommonDomainBean affectedObject, CommonDomainBean curBean, String propertyName) {

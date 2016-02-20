@@ -15,6 +15,9 @@ public interface CommonDAO <T> {
      */
     public T getById(Integer id);
 
+    /*Get from DB deleted object too*/
+    public T getAllById(Integer id);
+
     /** Save changes made to a persistent object.  */
     public void update(T transientObject);
 

@@ -30,16 +30,16 @@ public class ServiceDataServiceImpl implements ServiceDataService {
 
     @Override
     @Transactional
-    public void deleteService(Integer id) {
-        serviceDAO.deleteService(id);
+    public void deleteService(Integer id, String changerName) {
+        serviceDAO.deleteService(id, changerName);
     }
 
     @Override
     @Transactional
-    public String saveService(ServiceForm form) {
-        form = modifyServiceTypeIfNeed(form);
+    public String saveService(ServiceForm form, String changerName) {
+        form = modifyServiceTypeIfNeed(form, changerName);
         Service service = serviceAssembler.getServiceBeanByForm(form);
-        return serviceDAO.saveService(service, form.isNew());
+        return serviceDAO.saveService(service, form.isNew(), changerName);
     }
 
     @Override
@@ -92,14 +92,14 @@ public class ServiceDataServiceImpl implements ServiceDataService {
     }
 
     @Transactional
-    private ServiceForm modifyServiceTypeIfNeed(ServiceForm form){
+    private ServiceForm modifyServiceTypeIfNeed(ServiceForm form, String changerName){
         Integer idService = form.getId();
         ServiceTypeForm serviceType = form.getServiceType();
         if(form.getPeriod() == null && idService != null){
             form = getServiceFormById(idService);
             form.setId(null);
             form.setServiceType(serviceType);
-            serviceDAO.deleteService(idService);
+            serviceDAO.deleteService(idService, changerName);
         }
         return form;
     }

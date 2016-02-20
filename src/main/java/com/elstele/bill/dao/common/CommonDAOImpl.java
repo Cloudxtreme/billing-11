@@ -45,6 +45,12 @@ public class CommonDAOImpl<T> implements CommonDAO <T> {
         return persistentObject;
     }
 
+    public T getAllById(Integer id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        T persistentObject = (T) session.get(type, id);
+        return persistentObject;
+    }
+
 
     public void update(T transientObject) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(transientObject);
