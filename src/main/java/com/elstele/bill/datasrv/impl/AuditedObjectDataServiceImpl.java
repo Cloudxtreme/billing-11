@@ -188,6 +188,7 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
         return javers.compare(toCompareLeft, toCompareRight);
     }
 
+
     private String correctingForAccountAddress(CommonDomainBean affectedObject, CommonDomainBean curBean, String propertyName) {
         if (curBean instanceof Account) {
             propertyName = streetTypeDetermine(affectedObject, curBean, propertyName);

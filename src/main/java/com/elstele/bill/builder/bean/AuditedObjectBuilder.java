@@ -37,7 +37,8 @@ public class AuditedObjectBuilder {
         try {
             String objectInString = mapper.writeValueAsString(val);
             auditedObject.setChangedObject(objectInString);
-            auditedObject.setObjClass(val.getClass().getSimpleName().startsWith("Service") ? "Service" : val.getClass().getSimpleName());
+            auditedObject.setObjClass(val.getClass().getSimpleName().startsWith("Service") &&
+                    !val.getClass().getSimpleName().equals("ServiceType") ? "Service" : val.getClass().getSimpleName());
             auditedObject.setClassRerence(val.getClass().getName());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
