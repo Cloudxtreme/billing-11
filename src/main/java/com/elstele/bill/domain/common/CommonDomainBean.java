@@ -8,6 +8,7 @@ import org.javers.core.metamodel.annotation.ShallowReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @MappedSuperclass
 @ShallowReference
@@ -24,6 +25,17 @@ public class CommonDomainBean implements Serializable{
     @Column(length = 15)
     private Status status;
 
+    //TODO uncomment this fields when DB will be ready
+    /*@Column(length = 40)
+    private String updatedBy;
+
+    @Column(length = 40)
+    private String createdBy;
+
+    private Date createDate;
+
+    private Date updateDate;
+*/
     public CommonDomainBean(){
         setStatus(Status.ACTIVE);
     }
@@ -43,4 +55,39 @@ public class CommonDomainBean implements Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
+
+
+    //TODO uncomment this when DB tables will be ready
+    /*public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    */
 }

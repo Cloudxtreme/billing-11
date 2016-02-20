@@ -20,13 +20,14 @@ public class AuditedObjectDAOImpl extends CommonDAOImpl<AuditedObject> implement
     final static Logger LOGGER = LogManager.getLogger(AuditedObjectDAOImpl.class);
 
     @Override
-    public Integer create(CommonDomainBean object, ObjectOperationType type, String changerName) {
+    //TODO -> Idea: move this method to Common DAO
+    public Integer create(CommonDomainBean object, ObjectOperationType type, String updatedBy) {
         AuditedObject auditedObject = builder.build()
                 .withChangedObject(object)
                 .withChangedObjID(object.getId())
                 .withChangesDate(new Date())
                 .withOperationType(type)
-                .withChangerName(changerName)
+                .withChangerName(updatedBy)
                 .getRes();
         LOGGER.info("Object: " + object + " was changed and added to DB");
         return (Integer) getSessionFactory().getCurrentSession().save(auditedObject);
