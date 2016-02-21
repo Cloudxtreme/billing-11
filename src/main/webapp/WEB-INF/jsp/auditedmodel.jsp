@@ -51,26 +51,29 @@
     <caption class="text-center" style="padding-top: 0 !important;"><h3><spring:message code="audit.title"/></h3></caption>
     <th style="width: 20% !important;"><spring:message code="audit.date"/></th>
     <th style="width: 10% !important;"><spring:message code="audit.changedBy"/></th>
-    <th style="width: 70% !important;"><spring:message code="audit.changedObject"/></th>
+      <th style="width: 20% !important;" class="text-info"><spring:message code="audit.fieldName"/></th>
+      <th style="width: 25% !important" class="text-danger"><spring:message code="audit.oldValue"/></th>
+      <th style="width: 25% !important;" class="text-success"><spring:message code="audit.newValue"/></th>
     <c:forEach items="${auditedList}" var="audited">
         <c:if test="${fn:length(audited.changesList) > 0}">
           <tr id="${audited.id}">
             <td><fmt:formatDate value="${audited.changesDate}" type="both" /></td>
             <td>${audited.changedBy}</td>
-            <td>
-              <table class="table table-inner">
-                <th style="width: 30% !important;" class="text-info"><spring:message code="audit.fieldName"/></th>
-                <th style="width: 30% !important" class="text-danger"><spring:message code="audit.oldValue"/></th>
-                <th style="width: 40% !important;" class="text-success"><spring:message code="audit.newValue"/></th>
+            <td class="text-info">
                 <c:forEach items="${audited.changesList}" var="changesList">
-                  <tr>
-                    <td class="text-info">${changesList.fieldName}</td>
-                    <td class="text-danger">${changesList.oldValue}</td>
-                    <td class="text-success">${changesList.newValue}</td>
-                  </tr>
+                    <span>${changesList.fieldName}</span><br/>
                 </c:forEach>
-              </table>
             </td>
+              <td class="text-danger">
+                <c:forEach items="${audited.changesList}" var="changesList">
+                    <span>${changesList.oldValue}</span><br/>
+                </c:forEach>
+              </td>
+              <td class="text-success">
+              <c:forEach items="${audited.changesList}" var="changesList">
+                  <span>${changesList.newValue}</span><br/>
+              </c:forEach>
+              </td>
           </tr>
         </c:if>
     </c:forEach>
