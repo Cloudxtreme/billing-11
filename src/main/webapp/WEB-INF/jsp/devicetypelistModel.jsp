@@ -38,10 +38,10 @@
 
 
     <table class="table table-striped" id ='table'>
-      <th></th>
-      <TH><spring:message code="label.name"/></th>
-      <th><spring:message code="label.description"/></th>
-      <th><spring:message code="label.ports"/></th>
+      <th style="width: 10% !important;"></th>
+      <th style="width: 30% !important;"><spring:message code="label.name"/></th>
+      <th style="width: 30% !important;"><spring:message code="label.description"/></th>
+      <th style="width: 30% !important;"><spring:message code="label.ports"/></th>
       <c:forEach items="${devicetypelist}" var="current">
         <label for="${current.id}">
           <tr id="${current.id}">

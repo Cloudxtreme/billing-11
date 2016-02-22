@@ -57,7 +57,7 @@ public class ServiceController {
         LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         serviceDataService.deleteService(accountServiceId, localUser.getUsername());
         ModelAndView mav = new ModelAndView("accountFull");
-        AccountForm result = accountDataService.getAccountById(accountId);
+        AccountForm result = accountDataService.getAllAccountServicesById(accountId);
         mav.addObject("accountForm", result);
         mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("service.success.delete"));
         return mav;
@@ -92,7 +92,7 @@ public class ServiceController {
             String message = serviceDataService.saveService(form, localUser.getUsername());
             ModelAndView mav = new ModelAndView("accountFull");
             mav.addObject(Constants.SUCCESS_MESSAGE, message);
-            AccountForm res = accountDataService.getAccountById(form.getAccountId());
+            AccountForm res = accountDataService.getAllAccountServicesById(form.getAccountId());
             mav.addObject("accountForm", res);
             mav.addObject("transactionList", transactionDataService.getTransactionList(res.getId(), Constants.TRANSACTION_DISPLAY_LIMIT));
             return mav;

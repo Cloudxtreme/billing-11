@@ -1,4 +1,5 @@
 var pageResults = 20;
+var s = window.location.href;
 
 $(document).ready(function () {
     $('#confirm-delete').on('show.bs.modal', function(e) {
@@ -12,7 +13,9 @@ $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    renderAccountsTable(pageResults, 1);
+    if(s.indexOf("accounts/accountHome") > -1) {
+        renderAccountsTable(pageResults, 1);
+    }
     hideShowLegalAddress();
     $("[name='softblock']").bootstrapSwitch();
 
@@ -75,67 +78,66 @@ function goToNextPage() {
 };
 
 $(document).ready(function() {
+        $('#crtAccount').click(function (e) {
+            console.log("button pushed");
+            var frm = $('#crtAccountForm');
+            e.preventDefault();
 
-    $('#crtAccount').click(function(e) {
-        console.log("button pushed");
-        var frm = $('#crtAccountForm');
-        e.preventDefault();
 
+            var account = {
+                accountName: $("#accountName").val(),
+                accountType: $("#accountType").val()
+            };
 
-        var account = {
-            accountName: $("#accountName").val(),
-            accountType:$("#accountType").val()
-        };
-
-        var id = $("#id").val();
-        var action = frm.attr('action');
-        if (id > 0){
-            action = 'editAccount.html';
-        }
-
-        var formData = $('#crtAccountForm').serializeArray();
-        var data = {};
-        $(formData ).each(function(index, obj){
-            data[obj.name] = obj.value;
-        });
-
-        var currentPageNum = $("#pageNumber").text();
-
-        //var jsonData = JSON.stringify(data);
-        var jsonData = $('#crtAccountForm').serialize();
-
-        $.ajax({
-            type: frm.attr('method'),
-            url: action,
-            dataType : 'json',
-            data : jsonData,
-            success : function(callback){
-                console.log("in success of Ajax call ADD ACCOUNT");
-                if(id > 0){
-                    document.getElementById('successMessageEditAccount').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageEditAccount").fadeOut(3000);
-                    });
-                }else{
-                    document.getElementById('successMessageADD').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageADD").fadeOut(3000);
-                    });
-                }
-                hideModalAddAccount();
-                clearForm();
-                /*$(this).html("Success!");*/
-                renderAccountsTable(pageResults, currentPageNum);
-            },
-            error : function(){
-                document.getElementById('errorMessageACC').style.display = 'block';
-                setTimeout(function () {
-                    $("#errorMessageACC").fadeOut(15000);
-                });
-                $(this).html("Error!");
+            var id = $("#id").val();
+            var action = frm.attr('action');
+            if (id > 0) {
+                action = 'editAccount.html';
             }
+
+            var formData = $('#crtAccountForm').serializeArray();
+            var data = {};
+            $(formData).each(function (index, obj) {
+                data[obj.name] = obj.value;
+            });
+
+            var currentPageNum = $("#pageNumber").text();
+
+            //var jsonData = JSON.stringify(data);
+            var jsonData = $('#crtAccountForm').serialize();
+
+            $.ajax({
+                type: frm.attr('method'),
+                url: action,
+                dataType: 'json',
+                data: jsonData,
+                success: function (callback) {
+                    console.log("in success of Ajax call ADD ACCOUNT");
+                    if (id > 0) {
+                        document.getElementById('successMessageEditAccount').style.display = 'block';
+                        setTimeout(function () {
+                            $("#successMessageEditAccount").fadeOut(3000);
+                        });
+                    } else {
+                        document.getElementById('successMessageADD').style.display = 'block';
+                        setTimeout(function () {
+                            $("#successMessageADD").fadeOut(3000);
+                        });
+                    }
+                    hideModalAddAccount();
+                    clearForm();
+                    /*$(this).html("Success!");*/
+                    renderAccountsTable(pageResults, currentPageNum);
+                },
+                error: function () {
+                    document.getElementById('errorMessageACC').style.display = 'block';
+                    setTimeout(function () {
+                        $("#errorMessageACC").fadeOut(15000);
+                    });
+                    $(this).html("Error!");
+                }
+            });
         });
-    });
 });
 
 $(document).ready(function(){

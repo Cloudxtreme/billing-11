@@ -13,6 +13,8 @@
     <title><spring:message code="label.accountDetail"/></title>
 
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
+
     <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
     <link href="${bootstrapSwitch}" rel="stylesheet"/>
 
@@ -183,13 +185,22 @@
                                     </c:otherwise>
                                 </c:choose>
                                             <td>
-                                                <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                                &nbsp;&nbsp;
-                                                <a data-href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" id="deleting" data-toggle="modal" data-target="#confirm-delete">
-                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                                </a>
-                                                &nbsp;&nbsp;
-                                                <a id="info" href="${pageContext.request.contextPath}/objectinfo/${accountService.id}?type=Service"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+                                                <c:choose>
+                                                    <c:when test="${accountService.status eq 'DELETED'}">
+                                                        <a type="button" class="btn btn-sm btn-info" style="padding: 0 3px; height: 18px; font-size: 12px; margin-left: -2px;" href="${pageContext.request.contextPath}/objectinfo/${accountService.id}?type=Service">
+                                                            <spring:message code="label.changesDeletedAcc"/>
+                                                        </a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                            <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/modify"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                                            &nbsp;&nbsp;
+                                                            <a data-href="${pageContext.request.contextPath}/service/account/${accountForm.id}/${accountService.id}/delete" id="deleting" data-toggle="modal" data-target="#confirm-delete">
+                                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                            </a>
+                                                            &nbsp;&nbsp;
+                                                        <a id="info" href="${pageContext.request.contextPath}/objectinfo/${accountService.id}?type=Service"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
                                             <td>${accountService.serviceType.name}</td>
                                             <td>
@@ -197,7 +208,7 @@
                                                     <c:when test="${accountService.serviceType.serviceType == 'INTERNET'}">
                                                         login: ${accountService.serviceInternet.username}<br>
                                                         ip: ${accountService.serviceInternet.ip.ipName}<br>
-                                                        <a href="${pageContext.request.contextPath}/statistic?login=${accountService.serviceInternet.username}" id="visitsStatistic" class="btn btn-sm btn-info">Statistic</a>
+                                                        <a href="${pageContext.request.contextPath}/statistic?login=${accountService.serviceInternet.username}" id="visitsStatistic" class="btn btn-sm btn-info"><spring:message code="label.Statistic"/> </a>
                                                     </c:when>
                                                     <c:when test="${accountService.serviceType.serviceType == 'PHONE'}">
                                                         ${accountService.servicePhone.phoneNumber}
@@ -313,6 +324,7 @@
             </div>
         </div>
     </div>
+    <div id="totopscroller"> </div>
 
 </div>
 

@@ -1,8 +1,5 @@
 package com.elstele.bill.billparts;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 public class CallDirection {
     private static final long serialVersionUID = 1L;
 
