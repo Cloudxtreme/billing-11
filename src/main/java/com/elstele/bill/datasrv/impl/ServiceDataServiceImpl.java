@@ -82,8 +82,8 @@ public class ServiceDataServiceImpl implements ServiceDataService {
 
     @Override
     @Transactional
-    public void changeSoftBlockStatus(Integer serviceId){
-        serviceDAO.changeSoftBlockStatus(serviceId);
+    public void changeSoftBlockStatus(Integer serviceId, String changedBy){
+        serviceDAO.changeSoftBlockStatus(serviceId, changedBy);
     }
 
     @Transactional

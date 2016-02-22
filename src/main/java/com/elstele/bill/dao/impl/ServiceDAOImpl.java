@@ -105,13 +105,14 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
     }
 
     @Override
-    public void changeSoftBlockStatus(Integer serviceId) {
+    public void changeSoftBlockStatus(Integer serviceId, String changedBy) {
         Service service = getById(serviceId);
         if (service instanceof ServiceInternet) {
             ServiceInternet serviceInternet = (ServiceInternet) service;
             serviceInternet.setSoftblock(!serviceInternet.getSoftblock());
             update(service);
         }
+        auditedObjectDAO.create(service, ObjectOperationType.UPDATE, changedBy);
     }
 
     @Override

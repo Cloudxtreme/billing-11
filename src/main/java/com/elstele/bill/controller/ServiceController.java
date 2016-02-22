@@ -115,9 +115,10 @@ public class ServiceController {
 
     @RequestMapping(value = "/changeSoftBlockStatus", method = RequestMethod.GET)
     @ResponseBody
-    public void changeSoftBlockStatus(HttpServletRequest request,
+    public void changeSoftBlockStatus(HttpSession session,
                                       @RequestParam(value = "serviceId") int serviceId) {
-        serviceDataService.changeSoftBlockStatus(serviceId);
+        LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+        serviceDataService.changeSoftBlockStatus(serviceId, localUser.getUsername());
     }
 
     @RequestMapping(value = "/getDeviceFreePortList/{idObj}", method = RequestMethod.POST)
