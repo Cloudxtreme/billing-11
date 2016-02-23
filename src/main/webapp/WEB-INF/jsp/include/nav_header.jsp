@@ -42,7 +42,13 @@
                             </ul>
                         </li>
 
-                        <li><a href="/44">Something else here</a></li>
+                        <li class="dropdown-submenu" id="linkToPref">
+                            <a tabindex="-1" href="#"><spring:message code="label.preference"/></a>
+                            <ul class="dropdown-menu">
+                                <li id="linkToDirection"><a href="${pageContext.request.contextPath}/directionhome"><spring:message code="label.directions"/></a></li>
+                            </ul>
+                        </li>
+
                         <li role="separator" class="divider"></li>
                         <li><a href="/55">Separated link</a></li>
                         <li role="separator" class="divider"></li>
