@@ -16,4 +16,10 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
                 .setParameter("zoneId", zoneId);
         return (List<TariffZone>) query.list();
     }
+
+    @Override
+    public List<TariffZone> getTariffZoneList() {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from TariffZone t where t.status is null or t.status <> 'DELETED' order by t.zoneName");
+        return (List<TariffZone>) query.list();
+    }
 }

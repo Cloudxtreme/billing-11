@@ -1,10 +1,10 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
+import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.form.DirectionForm;
-import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Messagei18nHelper;
+import com.elstele.bill.validator.DirectionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,20 @@ public class DirectionController {
     DirectionDataService dataService;
 
     @Autowired
+    TariffZoneDataService tariffZoneDataService;
+
+    @Autowired
+    DirectionValidator validator;
+
+    @Autowired
     Messagei18nHelper messagei18nHelper;
 
     @RequestMapping(value = "/direction/home", method = RequestMethod.GET)
     public ModelAndView directionListHome(){
         ModelAndView mav = new ModelAndView("directionsModel");
         int totalPages = dataService.getPagesCount(10);
+        mav.addObject("tariffZoneList", tariffZoneDataService.getTariffZonesList());
+        mav.addObject("directionForm", new DirectionForm());
         mav.addObject("pageNum", 1);
         mav.addObject("pagesTotal", totalPages);
         return mav;
@@ -51,6 +59,13 @@ public class DirectionController {
         String msg = dataService.deleteDirection(id);
         redirectAttributes.addFlashAttribute(messagei18nHelper.getTypeMessage(msg), messagei18nHelper.getMessage(msg));
         return "redirect:../home";
+    }
+
+    @RequestMapping(value = "/direction/add", method = RequestMethod.POST)
+    @ResponseBody
+    public DirectionForm addAccountFromForm(@ModelAttribute("directionForm") DirectionForm directionForm, HttpSession session) {
+        dataService.createDirection(directionForm);
+        return new DirectionForm();
     }
 
 }

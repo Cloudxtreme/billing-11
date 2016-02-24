@@ -9,4 +9,5 @@ public interface DirectionDataService {
     List<DirectionForm> getDirectionList(int offset, int rows);
     int getPagesCount(int pagesCount);
     String deleteDirection(int id);
+    void createDirection(DirectionForm directionForm);
 }

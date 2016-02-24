@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title><spring:message code="label.deviceList"/></title>
+    <title><spring:message code="label.directionList"/></title>
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
 
@@ -31,6 +31,15 @@
     <div id="totopscroller"></div>
 
 
+    <div id="successMessageEdit" class="alert alert-success" style="display: none">
+        <strong><spring:message code="direction.success.edit"/></strong>
+    </div>
+    <div id="successMessageADD" class="alert alert-success" style="display: none">
+        <strong><spring:message code="direction.success.add"/></strong>
+    </div>
+    <div id="errorMessage" class="alert alert-danger" style="display: none">
+        <strong><spring:message code="direction.error"/></strong>
+    </div>
 
     <div id="messagesDiv">
         <c:if test="${not empty successMessage}">
@@ -46,26 +55,96 @@
     </div>
     &nbsp;
 
-    <label>
-        <spring:message code="label.show"/>
-        <select class="selectpicker" data-style="btn-info" id="selectEntries">
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25" selected="selected">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-        <spring:message code="label.entries"/>
-    </label>
+    <a type="button" href="#directionCreateModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.directionCreate"/></a>
+    <div id="directionCreateModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><spring:message code="label.directionAction"/> </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="">
+                        <form:form class="form" id="crtDirectionForm" method="POST" modelAttribute="directionForm" action="${pageContext.request.contextPath}/direction/add">
+                            <fieldset>
+                                <form:input path="id" id="id" type="hidden"/>
+                                <div class="form-group">
+                                    <label for="description" class="col-lg-5 control-label"><spring:message code="label.description"/></label>
+                                    <div class="col-lg-9">
+                                        <spring:message code="label.description" var="descr"/>
+                                        <form:input path="description" class="form-control" id="description" placeholder="${descr}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prefix" class="col-lg-5 control-label"><spring:message code="label.prefix"/></label>
+                                    <div class="col-lg-9">
+                                        <spring:message code="label.prefix" var="pref"/>
+                                        <form:input path="prefix" class="form-control" id="prefix" placeholder="${pref}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="additionalKode" class="col-lg-5 control-label"><spring:message code="label.additionalKode"/></label>
+                                    <div class="col-lg-9">
+                                        <spring:message code="label.additionalKode" var="addkode"/>
+                                        <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${addkode}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="trunkgroup" class="col-lg-5 control-label"><spring:message code="label.trunkgroup"/></label>
+                                    <div class="col-lg-9">
+                                        <spring:message code="label.trunkgroup" var="trunk"/>
+                                        <form:input path="trunkgroup" class="form-control" id="trunk" placeholder="${trunk}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tarriffZoneId" class="col-lg-5 control-label"><spring:message code="label.tariffZone"/></label>
+                                    <div class="col-lg-9">
+                                        <form:select path="zoneId" class="form-control" id="tarriffZoneId" multiple="false">
+                                            <c:forEach items="${tariffZoneList}" var="zone">
+                                                <form:option value="${zone.id}">${zone.zoneName} </form:option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form:form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <button type="button" id="crtDirection" class="btn btn-primary"><spring:message code="label.submit"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group" style="padding-top: 20px;">
+        <label>
+            <spring:message code="label.show"/>
+            <select class="selectpicker" data-style="btn-info" id="selectEntries">
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25" selected="selected">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <spring:message code="label.entries"/>
+        </label>
+    </div>
+
     <table class="table table-striped" id='table'>
         <tr>
             <th style="width: 10%;"></th>
             <th style="width: 20%;"><spring:message code="label.direction"/></th>
-            <th style="width: 20%;"><spring:message code="label.prefix"/></th>
+            <th style="width: 10%;"><spring:message code="label.prefix"/></th>
+            <th style="width: 10%;"><spring:message code="label.additionalKode" /></th>
+            <th style="width: 10%;"><spring:message code="label.trunkgroup" /></th>
             <th style="width: 20%;"><spring:message code="label.tariffZoneName"/></th>
-            <th style="width: 15%;"><spring:message code="label.tariff"/></th>
-            <th style="width: 15%;"><spring:message code="label.tariffPref"/></th>
+            <th style="width: 10%;"><spring:message code="label.tariff"/></th>
+            <th style="width: 10%;"><spring:message code="label.tariffPref"/></th>
         </tr>
     </table>
     <div id="tableNavigation">

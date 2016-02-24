@@ -4677,6 +4677,9 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-toggle {
     border-color: #a91b0c;
 }
+.invalidVal{
+    border: 2px solid red;
+}
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:focus {
     background-color: #a91b0c;

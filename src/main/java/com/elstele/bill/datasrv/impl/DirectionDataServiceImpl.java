@@ -5,9 +5,9 @@ import com.elstele.bill.dao.interfaces.DirectionDAO;
 import com.elstele.bill.dao.interfaces.TariffZoneDAO;
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.domain.Direction;
+import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.utils.Constants;
-import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +24,19 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Autowired
     TariffZoneDAO tariffZoneDAO;
 
+    private DirectionAssembler assembler;
+
     final static Logger LOGGER = LogManager.getLogger(DirectionDataServiceImpl.class);
 
     @Override
     @Transactional
     public List<DirectionForm> getDirectionList(int page, int rows) {
         page = page - 1;
+        assembler = new DirectionAssembler(tariffZoneDAO);
         int offset = page * rows;
         List<Direction> beansList = directionDAO.getDirectionList(offset, rows);
-        DirectionAssembler assembler = new DirectionAssembler(tariffZoneDAO);
         List<DirectionForm> formList = new ArrayList<>();
-        for(Direction direction : beansList){
+        for (Direction direction : beansList) {
             formList.add(assembler.fromBeanToForm(direction));
         }
         return formList;
@@ -49,13 +51,28 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Override
     @Transactional
     public String deleteDirection(int id) {
-        try{
+        try {
             directionDAO.setStatusDelete(id);
             LOGGER.info("Direction deleted successfully");
             return Constants.DIRECTION_DELETE_SUCCESS;
-        }catch(Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Constants.DIRECTION_DELETE_ERROR;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void createDirection(DirectionForm directionForm) {
+        try {
+            assembler = new DirectionAssembler(tariffZoneDAO);
+            Direction direction = assembler.fromFormToBean(directionForm);
+            TariffZone tariffZone = tariffZoneDAO.getById(directionForm.getZoneId());
+            direction.setTarifZone(tariffZone.getZoneId());
+            directionDAO.create(direction);
+            LOGGER.info("Direction " + direction + "successfully added");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
