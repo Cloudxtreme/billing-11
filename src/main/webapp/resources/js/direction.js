@@ -84,9 +84,9 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.prefix + "</td>"));
     row.append($("<td>" + rowData.additionalKode + "</td>"));
     row.append($("<td>" + rowData.trunkgroup + "</td>"));
-    row.append($("<td>" + zoneName + "</td>"));
-    row.append($("<td>" + tarif + "</td>"));
-    row.append($("<td>" + tarifPref + "</td>"));
+    row.append($("<td>" + zoneName[0] + "</td>"));
+    row.append($("<td>" + tarif[0] + "</td>"));
+    row.append($("<td>" + tarifPref[0] + "</td>"));
 }
 
 function getPageCounts() {
@@ -110,15 +110,38 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $('#addDirection').on('click', function () {
+        $('#prefix').removeClass("invalidVal");
+        $('#description').removeClass("invalidVal");
+        $('#prefixWarn').hide();
+        $('#descriptionWarn').hide();
+    });
+    $('#prefix').keypress(function(){
+        $(this).removeClass("invalidVal");
+        $('#prefixWarn').hide();
+    });
+
+    $('#description').keypress(function(){
+        $(this).removeClass("invalidVal");
+        $('#descriptionWarn').hide();
+    });
+
     $('#crtDirection').click(function (e) {
         console.log("button pushed");
         var frm = $('#crtDirectionForm');
 
         var prefixVal = $('#prefix').val();
         var descriptionVal = $('#description').val();
-        if(prefixVal.length < 1 && descriptionVal.length < 1){
-            $('#prefix').addClass("invalidVal");
-            $('#description').addClass("invalidVal");
+        if (prefixVal.length < 1 || descriptionVal.length < 1) {
+            if (prefixVal.length < 1) {
+                $('#prefix').addClass("invalidVal");
+                $('#prefixWarn').show();
+            }
+            if (descriptionVal.length < 1) {
+                $('#description').addClass("invalidVal");
+                $('#descriptionWarn').show();
+            }
+            $("#directionCreateModal").shake(3,7,800);
             return false;
         }
 
@@ -171,3 +194,14 @@ $(document).ready(function () {
         });
     });
 });
+
+jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
+    this.each(function() {
+        for (var x=1; x<=intShakes; x++) {
+            $(this).animate({left:(intDistance*-1)}, (((intDuration/intShakes)/4)))
+                .animate({left:intDistance}, ((intDuration/intShakes)/2))
+                .animate({left:0}, (((intDuration/intShakes)/4)));
+        }
+    });
+    return this;
+};

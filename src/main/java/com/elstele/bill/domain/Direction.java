@@ -22,10 +22,6 @@ public class Direction extends CommonDomainBean {
     @Basic
     @Column(name = "trunkgroup")
     private String trunkgroup;
-    @Basic
-    @Column(name = "zone_id")
-    private int zoneId;
-
 
     public String getDescription() {
         return description;
@@ -72,13 +68,7 @@ public class Direction extends CommonDomainBean {
     }
 
 
-    public int getZoneId() {
-        return zoneId;
-    }
 
-    public void setZoneId(int zoneId) {
-        this.zoneId = zoneId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -87,7 +77,6 @@ public class Direction extends CommonDomainBean {
 
         Direction that = (Direction) o;
 
-        if (zoneId != that.zoneId) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
         if (tarifZone != null ? !tarifZone.equals(that.tarifZone) : that.tarifZone != null) return false;
@@ -106,7 +95,6 @@ public class Direction extends CommonDomainBean {
         result = 31 * result + (tarifZone != null ? tarifZone.hashCode() : 0);
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (trunkgroup != null ? trunkgroup.hashCode() : 0);
-        result = 31 * result + zoneId;
         return result;
     }
 }

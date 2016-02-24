@@ -55,7 +55,7 @@
     </div>
     &nbsp;
 
-    <a type="button" href="#directionCreateModal" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.directionCreate"/></a>
+    <a type="button" href="#directionCreateModal" id="addDirection" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.directionCreate"/></a>
     <div id="directionCreateModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -74,6 +74,7 @@
                                     <div class="col-lg-9">
                                         <spring:message code="label.description" var="descr"/>
                                         <form:input path="description" class="form-control" id="description" placeholder="${descr}"/>
+                                        <span class="help-inline text-danger" id="descriptionWarn" style="display: none"><spring:message code="description.required"/></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -81,6 +82,7 @@
                                     <div class="col-lg-9">
                                         <spring:message code="label.prefix" var="pref"/>
                                         <form:input path="prefix" class="form-control" id="prefix" placeholder="${pref}"/>
+                                        <span class="help-inline text-danger" id="prefixWarn" style="display: none"><spring:message code="prefix.required"/></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
