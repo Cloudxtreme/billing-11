@@ -49,4 +49,7 @@ public class  Constants {
 
     public static final String ONLY_ACTIVE = "active";
     public static final String ALL_TYPES = "all";
+
+    public static final String DIRECTION_DELETE_SUCCESS = "direction.delete.success";
+    public static final String DIRECTION_DELETE_ERROR = "direction.delete.error";
 }

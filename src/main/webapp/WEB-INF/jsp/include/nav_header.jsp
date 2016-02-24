@@ -45,7 +45,7 @@
                         <li class="dropdown-submenu" id="linkToPref">
                             <a tabindex="-1" href="#"><spring:message code="label.preference"/></a>
                             <ul class="dropdown-menu">
-                                <li id="linkToDirection"><a href="${pageContext.request.contextPath}/directionhome"><spring:message code="label.directions"/></a></li>
+                                <li id="linkToDirection"><a href="${pageContext.request.contextPath}/direction/home"><spring:message code="label.directions"/></a></li>
                             </ul>
                         </li>
 

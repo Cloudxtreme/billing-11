@@ -39,7 +39,7 @@ function renderCallsTable(rows, page) {
             type: "GET",
             contentType: "application/json",
             dataType: 'json',
-            url: 'directionlist?rows=' + rows + '&page=' + page,
+            url: 'list?rows=' + rows + '&page=' + page,
             success: function (data, textStatus, jqXHR) {
                 drawTable(data);
                 setCurrentPageNumber(page);
@@ -57,19 +57,40 @@ function drawTable(data) {
 }
 
 function drawRow(rowData) {
+    var zoneName = [];
+    var tarif = [];
+    var tarifPref = [];
+    for(var i = 0; i< rowData.tariffZoneList.length; i++){
+        zoneName.push(rowData.tariffZoneList[i].zoneName);
+        tarif.push(rowData.tariffZoneList[i].tarif);
+        tarifPref.push(rowData.tariffZoneList[i].tarifPref);
+    }
+
+
     var row = $("<tr id="+ rowData.id +"/>");
     $("#table").append(row);
+
+
+    row.append($("<td>" +
+        "<a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
+        "&nbsp&nbsp " +
+        "<a data-href=\"delete/" + rowData.id +"\" class=\"pushDelete\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\" data-toggle='modal' data-target='#confirm-delete' \">" +
+        "<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a>" +
+        "&nbsp&nbsp " +
+        "<a id=\"info\" href=\"objectinfo/" + rowData.id + '?type=Direction' + "\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>"
+    ));
+
     row.append($("<td>" + rowData.description + "</td>"));
     row.append($("<td>" + rowData.prefix + "</td>"));
-    row.append($("<td>" + rowData.tariffZone.zoneName + "</td>"));
-    row.append($("<td>" + rowData.tariffZone.tarif + "</td>"));
-    row.append($("<td>" + rowData.tariffZone.tarifPref + "</td>"));
+    row.append($("<td>" + zoneName + "</td>"));
+    row.append($("<td>" + tarif + "</td>"));
+    row.append($("<td>" + tarifPref + "</td>"));
 }
 
 function getPageCounts(){
     pageResults = $("#selectEntries option:selected").val();
     $.ajax({
-        url: 'directionCount?pageResults=' + pageResults,
+        url: 'count?pageResults=' + pageResults,
         type: "post",
         dataType: "json",
         success: function (data) {

@@ -2,11 +2,13 @@ package com.elstele.bill.form;
 
 import com.elstele.bill.domain.TariffZone;
 
+import java.util.List;
+
 public class DirectionForm {
     private Integer id;
     private String description;
     private String prefix;
-    private TariffZoneForm tariffZone;
+    private List<TariffZoneForm> tariffZoneList;
     private String additionalKode;
     private String trunkgroup;
 
@@ -34,12 +36,12 @@ public class DirectionForm {
         this.prefix = prefix;
     }
 
-    public TariffZoneForm getTariffZone() {
-        return tariffZone;
+    public List<TariffZoneForm> getTariffZoneList() {
+        return tariffZoneList;
     }
 
-    public void setTariffZone(TariffZoneForm tariffZone) {
-        this.tariffZone = tariffZone;
+    public void setTariffZoneList(List<TariffZoneForm> tariffZoneList) {
+        this.tariffZoneList = tariffZoneList;
     }
 
     public String getAdditionalKode() {
@@ -66,7 +68,7 @@ public class DirectionForm {
         DirectionForm that = (DirectionForm) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (tariffZone != null ? !tariffZone.equals(that.tariffZone) : that.tariffZone != null) return false;
+        if (tariffZoneList != null ? !tariffZoneList.equals(that.tariffZoneList) : that.tariffZoneList != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
         if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
@@ -80,7 +82,7 @@ public class DirectionForm {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (prefix != null ? prefix.hashCode() : 0);
-        result = 31 * result + (tariffZone != null ? tariffZone.hashCode() : 0);
+        result = 31 * result + (tariffZoneList != null ? tariffZoneList.hashCode() : 0);
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (trunkgroup != null ? trunkgroup.hashCode() : 0);
         return result;

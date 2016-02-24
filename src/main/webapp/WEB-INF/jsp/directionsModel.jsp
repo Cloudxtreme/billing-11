@@ -17,6 +17,8 @@
     <script src="${util}"></script>
     <spring:url value="/resources/js/direction.js" var="direction"/>
     <script src="${direction}"></script>
+    <spring:url value="/resources/js/popup.js" var="popup"/>
+    <script src="${popup}"></script>
 
 
 
@@ -28,6 +30,21 @@
 <div class="well">
     <div id="totopscroller"></div>
 
+
+
+    <div id="messagesDiv">
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success" role="alert">
+                <strong>${successMessage}</strong>
+            </div>
+        </c:if>&nbsp;
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger" role="alert">
+                <strong>${errorMessage}</strong>
+            </div>
+        </c:if>
+    </div>
+    &nbsp;
 
     <label>
         <spring:message code="label.show"/>
@@ -43,11 +60,12 @@
     </label>
     <table class="table table-striped" id='table'>
         <tr>
-            <th>Description</th>
-            <th>Prefix</th>
-            <th>Tariff zone name</th>
-            <th>Tariff</th>
-            <th>Tariff pref</th>
+            <th style="width: 10%;"></th>
+            <th style="width: 20%;"><spring:message code="label.direction"/></th>
+            <th style="width: 20%;"><spring:message code="label.prefix"/></th>
+            <th style="width: 20%;"><spring:message code="label.tariffZoneName"/></th>
+            <th style="width: 15%;"><spring:message code="label.tariff"/></th>
+            <th style="width: 15%;"><spring:message code="label.tariffPref"/></th>
         </tr>
     </table>
     <div id="tableNavigation">
@@ -57,6 +75,24 @@
         &nbsp;&nbsp;
         <a href="#" class="btn btn-primary btn-sm link-btn" id="goNext" onClick="goToNextPage();"><span
                 class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+    </div>
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong><spring:message code="label.directionDeleting"/></strong></h4>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="label.directionDelete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+                    <a type="button" id="deleteBtn" class="btn btn-primary btn-ok"><spring:message code="label.submitDelete"/></a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

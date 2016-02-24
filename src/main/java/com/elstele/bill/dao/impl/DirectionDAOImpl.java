@@ -13,7 +13,7 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
 
     @Override
     public List<Direction> getDirectionList(int offset, int rows) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction ");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where status is null or status <> 'DELETED' order by id");
         query.setFirstResult(offset).setMaxResults(rows);
         return (List<Direction>)query.list();
     }

@@ -1,30 +1,32 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.domain.common.CommonDomainBean;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "directions", schema = "public", catalog = "billing")
-public class Direction {
-    private int id;
-    private String description;
-    private String prefix;
-    private String additionalKode;
-    private String trunkgroup;
-    private String status;
-    private TariffZone tariffZone;
-
-    @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+public class Direction extends CommonDomainBean {
     @Basic
     @Column(name = "description")
+    private String description;
+    @Basic
+    @Column(name = "prefix")
+    private String prefix;
+    @Basic
+    @Column(name = "tarif_zone")
+    private Integer tarifZone;
+    @Basic
+    @Column(name = "additional_kode")
+    private String additionalKode;
+    @Basic
+    @Column(name = "trunkgroup")
+    private String trunkgroup;
+    @Basic
+    @Column(name = "zone_id")
+    private int zoneId;
+
+
     public String getDescription() {
         return description;
     }
@@ -33,8 +35,7 @@ public class Direction {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "prefix")
+
     public String getPrefix() {
         return prefix;
     }
@@ -43,8 +44,16 @@ public class Direction {
         this.prefix = prefix;
     }
 
-    @Basic
-    @Column(name = "additional_kode")
+
+    public Integer getTarifZone() {
+        return tarifZone;
+    }
+
+    public void setTarifZone(Integer tarifZone) {
+        this.tarifZone = tarifZone;
+    }
+
+
     public String getAdditionalKode() {
         return additionalKode;
     }
@@ -53,8 +62,7 @@ public class Direction {
         this.additionalKode = additionalKode;
     }
 
-    @Basic
-    @Column(name = "trunkgroup")
+
     public String getTrunkgroup() {
         return trunkgroup;
     }
@@ -63,14 +71,13 @@ public class Direction {
         this.trunkgroup = trunkgroup;
     }
 
-    @Basic
-    @Column(name = "status")
-    public String getStatus() {
-        return status;
+
+    public int getZoneId() {
+        return zoneId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setZoneId(int zoneId) {
+        this.zoneId = zoneId;
     }
 
     @Override
@@ -80,35 +87,26 @@ public class Direction {
 
         Direction that = (Direction) o;
 
-        if (id != that.id) return false;
+        if (zoneId != that.zoneId) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
+        if (tarifZone != null ? !tarifZone.equals(that.tarifZone) : that.tarifZone != null) return false;
         if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
             return false;
         if (trunkgroup != null ? !trunkgroup.equals(that.trunkgroup) : that.trunkgroup != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = 17;
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (prefix != null ? prefix.hashCode() : 0);
+        result = 31 * result + (tarifZone != null ? tarifZone.hashCode() : 0);
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (trunkgroup != null ? trunkgroup.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + zoneId;
         return result;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "tarif_zone", referencedColumnName = "zone_id")
-    public TariffZone getTariffZone() {
-        return tariffZone;
-    }
-
-    public void setTariffZone(TariffZone tarifZone) {
-        this.tariffZone = tarifZone;
     }
 }
