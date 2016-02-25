@@ -63,7 +63,7 @@ public class DirectionController {
 
     @RequestMapping(value = "/direction/add", method = RequestMethod.POST)
     @ResponseBody
-    public DirectionForm addAccountFromForm(@ModelAttribute("directionForm") DirectionForm directionForm, HttpSession session) {
+    public DirectionForm addDirectionForm(@ModelAttribute("directionForm") DirectionForm directionForm, HttpSession session) {
         dataService.createDirection(directionForm);
         return new DirectionForm();
     }

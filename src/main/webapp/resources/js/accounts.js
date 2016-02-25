@@ -7,6 +7,14 @@ $(document).ready(function () {
     });
 
     $(".alert-success").fadeOut(2500);
+
+    $('#crtAccountForm').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 });
 
 $(function() {
@@ -18,7 +26,6 @@ $(function() {
     }
     hideShowLegalAddress();
     $("[name='softblock']").bootstrapSwitch();
-
 
     $('input[name="softblock"]').on('switchChange.bootstrapSwitch', function() {
         $.ajax({

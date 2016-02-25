@@ -52,4 +52,6 @@ public class  Constants {
 
     public static final String DIRECTION_DELETE_SUCCESS = "direction.delete.success";
     public static final String DIRECTION_DELETE_ERROR = "direction.delete.error";
+    public static final String ZONE_DELETED_SUCCESS = "tariff.delete.success";
+    public static final String ZONE_DELETED_ERROR = "tariff.delete.error";
 }

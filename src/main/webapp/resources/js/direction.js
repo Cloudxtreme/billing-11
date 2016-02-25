@@ -5,7 +5,7 @@ $(function () {
     // set active navigation tab "Calls"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    renderCallsTable(pageResults, 1);
+    renderDirectionsTable(pageResults, 1);
 });
 
 //Go to the previous page by click on the button BACK
@@ -14,7 +14,7 @@ function goToPrevPage() {
     console.log("goPrev push with " + currentPageNum);
     var nextPage = Number(currentPageNum) - 1;
     if (nextPage != 0) {
-        renderCallsTable(pageResults, nextPage);
+        renderDirectionsTable(pageResults, nextPage);
     }
 };
 
@@ -25,16 +25,15 @@ function goToNextPage() {
     console.log("goNext push with " + currentPageNum);
     var nextPage = Number(currentPageNum) + 1;
     if (nextPage <= totalPages) {
-        renderCallsTable(pageResults, nextPage);
+        renderDirectionsTable(pageResults, nextPage);
     }
 };
 
-//Setting the current page number, uses by renderCallsTable function
 function setCurrentPageNumber(number) {
     $("#pageNumber").html(number);
 };
 
-function renderCallsTable(rows, page) {
+function renderDirectionsTable(rows, page) {
     $.ajax({
         type: "GET",
         contentType: "application/json",
@@ -60,16 +59,16 @@ function drawRow(rowData) {
     var zoneName = [];
     var tarif = [];
     var tarifPref = [];
+    var zoneId = [];
     for (var i = 0; i < rowData.tariffZoneList.length; i++) {
         zoneName.push(rowData.tariffZoneList[i].zoneName);
+        zoneId.push(rowData.tariffZoneList[i].id);
         tarif.push(rowData.tariffZoneList[i].tarif);
         tarifPref.push(rowData.tariffZoneList[i].tarifPref);
     }
 
-
     var row = $("<tr id=" + rowData.id + "/>");
     $("#table").append(row);
-
 
     row.append($("<td>" +
         "<a href=\"\" class=\"pushEdit\" data-toggle=\"modal\" data-id=\"" + rowData.id + "\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>" +
@@ -84,7 +83,12 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.prefix + "</td>"));
     row.append($("<td>" + rowData.additionalKode + "</td>"));
     row.append($("<td>" + rowData.trunkgroup + "</td>"));
-    row.append($("<td>" + zoneName[0] + "</td>"));
+    if(typeof  zoneId[0] === "undefined"){
+        row.append($("<td></td>"));
+    }else
+    {
+        row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
+    }
     row.append($("<td>" + tarif[0] + "</td>"));
     row.append($("<td>" + tarifPref[0] + "</td>"));
 }
@@ -108,10 +112,10 @@ $(document).on("click", ".pushEdit", function () {
     $("#id").val(directionId);
 
     $.ajax({
-        url: 'edit?id='+directionId,
+        url: 'edit?id=' + directionId,
         type: "get",
         dataType: "json",
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             console.log(data);
             $("#id").val(data.id);
             $("#description").val(data.description);
@@ -120,7 +124,7 @@ $(document).on("click", ".pushEdit", function () {
             $("#trunkgroup").val(data.trunkgroup);
             $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']').prop("selected", "selected");
         },
-        error : function(){
+        error: function () {
             console.log("error in ajax query edit");
         }
     });
@@ -131,7 +135,7 @@ $(document).ready(function () {
 
     $('#selectEntries').on('change', function () {
         getPageCounts();
-        renderCallsTable(pageResults, 1);
+        renderDirectionsTable(pageResults, 1);
     });
 
     $('#addDirection').on('click', function () {
@@ -140,12 +144,12 @@ $(document).ready(function () {
         $('#prefixWarn').hide();
         $('#descriptionWarn').hide();
     });
-    $('#prefix').keypress(function(){
+    $('#prefix').keypress(function () {
         $(this).removeClass("invalidVal");
         $('#prefixWarn').hide();
     });
 
-    $('#description').keypress(function(){
+    $('#description').keypress(function () {
         $(this).removeClass("invalidVal");
         $('#descriptionWarn').hide();
     });
@@ -165,7 +169,7 @@ $(document).ready(function () {
                 $('#description').addClass("invalidVal");
                 $('#descriptionWarn').show();
             }
-            $("#directionCreateModal").shake(3,7,800);
+            $("#directionCreateModal").shake(3, 7, 800);
             return false;
         }
 
@@ -208,6 +212,7 @@ $(document).ready(function () {
                 $(frm).each(function () {
                     this.reset();
                 });
+                renderDirectionsTable(pageResults, 1)
             },
             error: function () {
                 document.getElementById('errorMessage').style.display = 'block';
@@ -219,12 +224,12 @@ $(document).ready(function () {
     });
 });
 
-jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
-    this.each(function() {
-        for (var x=1; x<=intShakes; x++) {
-            $(this).animate({left:(intDistance*-1)}, (((intDuration/intShakes)/4)))
-                .animate({left:intDistance}, ((intDuration/intShakes)/2))
-                .animate({left:0}, (((intDuration/intShakes)/4)));
+jQuery.fn.shake = function (intShakes, intDistance, intDuration) {
+    this.each(function () {
+        for (var x = 1; x <= intShakes; x++) {
+            $(this).animate({left: (intDistance * -1)}, (((intDuration / intShakes) / 4)))
+                .animate({left: intDistance}, ((intDuration / intShakes) / 2))
+                .animate({left: 0}, (((intDuration / intShakes) / 4)));
         }
     });
     return this;

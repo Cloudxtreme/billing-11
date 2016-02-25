@@ -46,6 +46,7 @@
                             <a tabindex="-1" href="#"><spring:message code="label.preference"/></a>
                             <ul class="dropdown-menu">
                                 <li id="linkToDirection"><a href="${pageContext.request.contextPath}/direction/home"><spring:message code="label.directions"/></a></li>
+                                <li id="linkToTariff"><a href="${pageContext.request.contextPath}/tariffzone/home"><spring:message code="label.tariffZone"/></a></li>
                             </ul>
                         </li>
 
