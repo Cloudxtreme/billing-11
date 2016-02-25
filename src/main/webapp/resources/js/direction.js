@@ -101,15 +101,39 @@ function getPageCounts() {
     });
 }
 
-$(document).ready(function () {
-    $('#selectEntries').on('change', function () {
-        getPageCounts();
-        renderCallsTable(pageResults, 1);
+$(document).on("click", ".pushEdit", function () {
+    console.log("pushEdit push");
+    var directionId = $(this).data('id');
+    $('#directionCreateModal').modal('show');
+    $("#id").val(directionId);
+
+    $.ajax({
+        url: 'edit?id='+directionId,
+        type: "get",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR) {
+            console.log(data);
+            $("#id").val(data.id);
+            $("#description").val(data.description);
+            $("#prefix").val(data.prefix);
+            $("#additionalKode").val(data.additionalKode);
+            $("#trunkgroup").val(data.trunkgroup);
+            $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']').prop("selected", "selected");
+        },
+        error : function(){
+            console.log("error in ajax query edit");
+        }
     });
 
 });
 
 $(document).ready(function () {
+
+    $('#selectEntries').on('change', function () {
+        getPageCounts();
+        renderCallsTable(pageResults, 1);
+    });
+
     $('#addDirection').on('click', function () {
         $('#prefix').removeClass("invalidVal");
         $('#description').removeClass("invalidVal");

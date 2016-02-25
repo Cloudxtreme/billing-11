@@ -68,4 +68,19 @@ public class DirectionController {
         return new DirectionForm();
     }
 
+    @RequestMapping(value = "/direction/edit", method = RequestMethod.GET)
+    @ResponseBody
+    public DirectionForm getDirectionForEdit(@RequestParam(value = "id") int id) {
+        DirectionForm result = dataService.getDirectionById(id);
+        return result;
+    }
+
+    @RequestMapping(value = "/direction/edit", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    DirectionForm editDirectionPost(@ModelAttribute DirectionForm directionForm, HttpSession session) {
+        dataService.updateDirection(directionForm);
+        return new DirectionForm();
+    }
+
 }

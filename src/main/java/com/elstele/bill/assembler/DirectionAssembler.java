@@ -35,8 +35,10 @@ public class DirectionAssembler {
 
     public Direction fromFormToBean(DirectionForm form){
         Direction bean = new Direction();
+        int beanZoneId = form.getZoneId();
+        TariffZone tariffZone = tariffZoneDAO.getById(beanZoneId);
         copyProperties(form, bean);
-
+        bean.setTarifZone(tariffZone.getZoneId());
         return bean;
     }
 }

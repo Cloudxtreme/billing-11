@@ -76,6 +76,22 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         }
     }
 
+    @Override
+    @Transactional
+    public DirectionForm getDirectionById(int id) {
+        assembler = new DirectionAssembler(tariffZoneDAO);
+        Direction direction = directionDAO.getById(id);
+        return assembler.fromBeanToForm(direction);
+    }
+
+    @Override
+    @Transactional
+    public void updateDirection(DirectionForm form) {
+        assembler = new DirectionAssembler(tariffZoneDAO);
+        Direction direction = assembler.fromFormToBean(form);
+        directionDAO.update(direction);
+    }
+
     private int calculatePagesCount(int callsCount, int containedCount) {
         if (callsCount % containedCount == 0)
             return callsCount / containedCount;
