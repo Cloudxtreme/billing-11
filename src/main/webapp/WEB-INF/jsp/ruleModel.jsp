@@ -203,7 +203,7 @@
   </div>
 
   <div class="modal fade central-modal" id="busyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 40%; text-align: center;">
+    <div class="modal-dialog" style="width: 40%; text-align: center; top:40%">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 0.5% 1%; font-size: 4em;"><span aria-hidden="true">&times;</span></button>
         <div class="modal-header bg-warning">

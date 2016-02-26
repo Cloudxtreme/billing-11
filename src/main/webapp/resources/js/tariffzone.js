@@ -50,7 +50,9 @@ $(document).ready(function () {
 
     var frm = $('#crtTariffZoneForm');
 
-    $('#dismissAction').on('click', function(){
+    $('#tariffZoneModal').on('hidden.bs.modal', function () {
+        $(this).removeClass("invalidVal");
+        $('#zoneNameWarn').hide();
         $(frm).each(function () {
             this.reset();
         });

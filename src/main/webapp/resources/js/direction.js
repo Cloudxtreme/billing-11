@@ -135,10 +135,22 @@ $(document).ready(function () {
 
     var frm = $('#crtDirectionForm');
 
-    $('#dismissAction').on('click', function(){
+    function clearWarn() {
+        $('#prefix').removeClass("invalidVal");
+        $('#description').removeClass("invalidVal");
+        $('#prefixWarn').hide();
+        $('#descriptionWarn').hide();
+    }
+
+    function clearForm() {
         $(frm).each(function () {
             this.reset();
         });
+    }
+
+    $('#directionCreateModal').on('hidden.bs.modal', function () {
+        clearWarn();
+        clearForm();
     });
 
 
@@ -149,10 +161,7 @@ $(document).ready(function () {
     });
 
     $('#addDirection').on('click', function () {
-        $('#prefix').removeClass("invalidVal");
-        $('#description').removeClass("invalidVal");
-        $('#prefixWarn').hide();
-        $('#descriptionWarn').hide();
+        clearWarn();
     });
     $('#prefix').keypress(function () {
         $(this).removeClass("invalidVal");

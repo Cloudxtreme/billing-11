@@ -90,44 +90,47 @@ $(document).ready(function () {
             type: 'get',
             url: 'checkfree?id=' + id + '&profileId=' + profileId + '&rulePriority=' + rulePriority,
             dataType: 'json',
+            async: false,
             success: function (data) {
                 if (data == "BUSY") {
                     $('#busyModal').modal('show');
+                    return false;
                 }
-            }
-        });
-
-        var jsonData = $(frm).serialize();
-        $.ajax({
-            type: frm.attr('method'),
-            url: action,
-            dataType: 'json',
-            data: jsonData,
-            success: function (callback) {
-                if (id > 0) {
-                    document.getElementById('successMessageEdit').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageEdit").fadeOut(2000);
-                    });
-                } else {
-                    document.getElementById('successMessageADD').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageADD").fadeOut(2000);
-                    });
-                }
-                $("#ruleModal").modal('hide');
-                setTimeout(function () {
-                    location.reload();
-                }, 2000)
-            },
-            error: function () {
-                $("#ruleModal").modal('hide');
-                document.getElementById('errorMessage').style.display = 'block';
-                setTimeout(function () {
-                    $("#errorMessage").fadeOut(15000);
+                var jsonData = $(frm).serialize();
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: action,
+                    dataType: 'json',
+                    data: jsonData,
+                    success: function (callback) {
+                        if (id > 0) {
+                            document.getElementById('successMessageEdit').style.display = 'block';
+                            setTimeout(function () {
+                                $("#successMessageEdit").fadeOut(2000);
+                            });
+                        } else {
+                            document.getElementById('successMessageADD').style.display = 'block';
+                            setTimeout(function () {
+                                $("#successMessageADD").fadeOut(2000);
+                            });
+                        }
+                        $("#ruleModal").modal('hide');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000)
+                    },
+                    error: function () {
+                        $("#ruleModal").modal('hide');
+                        document.getElementById('errorMessage').style.display = 'block';
+                        setTimeout(function () {
+                            $("#errorMessage").fadeOut(15000);
+                        });
+                    }
                 });
             }
         });
+
+
     });
 });
 

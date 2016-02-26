@@ -5886,7 +5886,6 @@ button.close {
 .central-modal{
     height: 100%;
     width: 100%;
-    top: 40%;
     bottom: 40%;
     background-color: rgba(240, 31, 19, 0.35);
 }

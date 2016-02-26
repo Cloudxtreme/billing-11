@@ -85,6 +85,13 @@ function goToNextPage() {
 };
 
 $(document).ready(function() {
+
+        $('#accAccountModal').on('hidden.bs.modal', function () {
+            $('#crtAccountForm').each(function () {
+                this.reset();
+            });
+        });
+
         $('#crtAccount').click(function (e) {
             console.log("button pushed");
             var frm = $('#crtAccountForm');
