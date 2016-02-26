@@ -114,7 +114,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.cancel"/></button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissAction"> <spring:message code="label.cancel"/></button>
           <button type="button" id="crtTariffZone" class="btn btn-primary"><spring:message code="label.submit"/></button>
         </div>
       </div>

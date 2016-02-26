@@ -48,6 +48,14 @@ $(document).on("click", ".pushEdit", function () {
 
 $(document).ready(function () {
 
+    var frm = $('#crtTariffZoneForm');
+
+    $('#dismissAction').on('click', function(){
+        $(frm).each(function () {
+            this.reset();
+        });
+    });
+
     $('#addZone').on('click', function () {
         $('#zoneName').removeClass("invalidVal");
         $('#zoneNameWarn').hide();
@@ -59,7 +67,6 @@ $(document).ready(function () {
     });
 
     $('#crtTariffZone').click(function (e) {
-        var frm = $('#crtTariffZoneForm');
 
         var zoneNameVal = $('#zoneName').val();
         if (zoneNameVal.length < 1) {

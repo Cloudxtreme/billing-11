@@ -1,38 +1,25 @@
-package com.elstele.bill.domain;
+package com.elstele.bill.form;
 
-import com.elstele.bill.domain.common.CommonDomainBean;
-
-import javax.persistence.*;
 import java.sql.Time;
 
-@Entity
-@Table(name = "preference_rules", schema = "public", catalog = "billing")
-public class PreferenceRule extends CommonDomainBean {
-    @Basic
-    @Column(name = "profile_id")
+public class PreferenceRuleForm {
+    private int id;
     private int profileId;
-    @Basic
-    @Column(name = "rule_priority")
     private int rulePriority;
-    @Basic
-    @Column(name = "day_of_month")
     private String dayOfMonth;
-    @Basic
-    @Column(name = "month")
     private String month;
-    @Basic
-    @Column(name = "day_of_week")
     private String dayOfWeek;
-    @Basic
-    @Column(name = "starttime")
-    private Time starttime;
-    @Basic
-    @Column(name = "finishtime")
-    private Time finishtime;
-    @Basic
-    @Column(name = "tarif")
+    private String starttime;
+    private String finishtime;
     private Float tarif;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getProfileId() {
         return profileId;
@@ -74,19 +61,19 @@ public class PreferenceRule extends CommonDomainBean {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Time getStarttime() {
+    public String getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Time starttime) {
+    public void setStarttime(String starttime) {
         this.starttime = starttime;
     }
 
-    public Time getFinishtime() {
+    public String getFinishtime() {
         return finishtime;
     }
 
-    public void setFinishtime(Time finishtime) {
+    public void setFinishtime(String finishtime) {
         this.finishtime = finishtime;
     }
 
@@ -101,10 +88,11 @@ public class PreferenceRule extends CommonDomainBean {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PreferenceRuleForm)) return false;
 
-        PreferenceRule that = (PreferenceRule) o;
+        PreferenceRuleForm that = (PreferenceRuleForm) o;
 
+        if (id != that.id) return false;
         if (profileId != that.profileId) return false;
         if (rulePriority != that.rulePriority) return false;
         if (dayOfMonth != null ? !dayOfMonth.equals(that.dayOfMonth) : that.dayOfMonth != null) return false;
@@ -112,14 +100,13 @@ public class PreferenceRule extends CommonDomainBean {
         if (dayOfWeek != null ? !dayOfWeek.equals(that.dayOfWeek) : that.dayOfWeek != null) return false;
         if (starttime != null ? !starttime.equals(that.starttime) : that.starttime != null) return false;
         if (finishtime != null ? !finishtime.equals(that.finishtime) : that.finishtime != null) return false;
-        if (tarif != null ? !tarif.equals(that.tarif) : that.tarif != null) return false;
+        return !(tarif != null ? !tarif.equals(that.tarif) : that.tarif != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
+        int result = id;
         result = 31 * result + profileId;
         result = 31 * result + rulePriority;
         result = 31 * result + (dayOfMonth != null ? dayOfMonth.hashCode() : 0);

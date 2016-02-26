@@ -47,6 +47,7 @@
                             <ul class="dropdown-menu">
                                 <li id="linkToDirection"><a href="${pageContext.request.contextPath}/direction/home"><spring:message code="label.directions"/></a></li>
                                 <li id="linkToTariff"><a href="${pageContext.request.contextPath}/tariffzone/home"><spring:message code="label.tariffZone"/></a></li>
+                                <li id="linkToRule"><a href="${pageContext.request.contextPath}/preferencerule/home"><spring:message code="label.preferenceRule"/></a></li>
                             </ul>
                         </li>
 

@@ -133,6 +133,16 @@ $(document).on("click", ".pushEdit", function () {
 
 $(document).ready(function () {
 
+    var frm = $('#crtDirectionForm');
+
+    $('#dismissAction').on('click', function(){
+        $(frm).each(function () {
+            this.reset();
+        });
+    });
+
+
+
     $('#selectEntries').on('change', function () {
         getPageCounts();
         renderDirectionsTable(pageResults, 1);
@@ -156,7 +166,7 @@ $(document).ready(function () {
 
     $('#crtDirection').click(function (e) {
         console.log("button pushed");
-        var frm = $('#crtDirectionForm');
+
 
         var prefixVal = $('#prefix').val();
         var descriptionVal = $('#description').val();
