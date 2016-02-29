@@ -8,6 +8,7 @@ import com.elstele.bill.domain.Direction;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,22 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         assembler = new DirectionAssembler(tariffZoneDAO);
         Direction direction = assembler.fromFormToBean(form);
         directionDAO.update(direction);
+    }
+
+    @Override
+    @Transactional
+    public ResponseToAjax checkForFree(int id, String prefix) {
+        Direction direction = directionDAO.getByPrefix(prefix);
+        if(direction != null) {
+            if (id > 0) {
+                if (direction.getId() == id) {
+                    return ResponseToAjax.FREE;
+                }
+                return ResponseToAjax.BUSY;
+            }
+            return ResponseToAjax.BUSY;
+        }
+        return ResponseToAjax.FREE;
     }
 
     private int calculatePagesCount(int callsCount, int containedCount) {

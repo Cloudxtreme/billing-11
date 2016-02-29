@@ -70,73 +70,64 @@
             <form:form class="form" id="crtRuleForm" method="POST" modelAttribute="ruleForm" action="${pageContext.request.contextPath}/preferencerule/add">
               <fieldset>
                 <form:input path="id" id="id" type="hidden"/>
-                <div class="form-group">
-                  <label for="profileId" class="col-lg-5 control-label"><spring:message code="rule.profileId"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="profileId" class="form-control" id="profileId" type="number" min="1" step="1"/>
-                    <span class="help-inline text-danger" id="profileIdWarn" style="display: none"><spring:message code="rule.profileId.required"/></span>
+                <div class="col-lg-12">
+                  <div class="col-lg-3">
+                    <label for="profileId" class="control-label"><spring:message code="rule.profileId"/></label>
+                      <form:input path="profileId" class="form-control" id="profileId" type="number" min="1" step="1"/>
+                      <span class="help-inline text-danger" id="profileIdWarn" style="display: none"><spring:message code="rule.profileId.required"/></span>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="rulePriority" class="control-label"><spring:message code="rule.rulePriority"/></label>
+                      <form:input path="rulePriority" class="form-control" id="rulePriority" type="number" min="10" step="10"/>
+                      <span class="help-inline text-danger" id="rulePriorityWarn" style="display: none"><spring:message code="rule.rulePriority.required"/></span>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="dayOfMonth" class="control-label"><spring:message code="rule.dayOfMonth"/></label>
+                      <form:select path="dayOfMonth" class="form-control" id="dayOfMonth" multiple="false">
+                        <form:option value=""><spring:message code="label.none"/> </form:option>
+                        <form:option value="0">0</form:option>
+                        <form:option value="1">1</form:option>
+                      </form:select>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="month" class="control-label"><spring:message code="rule.month"/></label>
+                      <form:select path="month" class="form-control" id="month" multiple="false">
+                        <form:option value=""><spring:message code="label.none"/> </form:option>
+                        <form:option value="0">0</form:option>
+                        <form:option value="1">1</form:option>
+                      </form:select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="rulePriority" class="col-lg-5 control-label"><spring:message code="rule.rulePriority"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="rulePriority" class="form-control" id="rulePriority" type="number" min="10" step="10"/>
-                    <span class="help-inline text-danger" id="rulePriorityWarn" style="display: none"><spring:message code="rule.rulePriority.required"/></span>
+
+                <div class="col-lg-12" style="padding-top: 2%;">
+                  <div class="col-lg-3">
+                    <label for="dayOfWeek" class="control-label"><spring:message code="rule.dayOfWeek"/></label>
+                      <form:select path="dayOfWeek" class="form-control" id="dayOfWeek" multiple="false">
+                        <form:option value=""><spring:message code="label.none"/> </form:option>
+                        <form:option value="0">0</form:option>
+                        <form:option value="1">1</form:option>
+                        <form:option value="2">2</form:option>
+                        <form:option value="3">3</form:option>
+                        <form:option value="4">4</form:option>
+                        <form:option value="5">5</form:option>
+                        <form:option value="6">6</form:option>
+                      </form:select>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="starttime" class="control-label"><spring:message code="rule.starttime"/></label>
+                      <form:input path="starttime" class="form-control" id="starttime" type="time" step="1"/>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="finishtime" class="control-label"><spring:message code="rule.finishtime"/></label>
+                      <form:input path="finishtime" class="form-control" id="finishtime" type="time" step="1"/>
+                  </div>
+                  <div class="col-lg-3">
+                    <label for="tarif" class="control-label"><spring:message code="rule.tarif"/></label>
+                      <form:input path="tarif" class="form-control" id="tarif" type="number" min="0" step="any"/>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="dayOfMonth" class="col-lg-5 control-label"><spring:message code="rule.dayOfMonth"/></label>
-                  <div class="col-lg-9">
-                    <form:select path="dayOfMonth" class="form-control" id="dayOfMonth" multiple="false">
-                      <form:option value=""><spring:message code="label.none"/> </form:option>
-                      <form:option value="0">0</form:option>
-                      <form:option value="1">1</form:option>
-                    </form:select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="month" class="col-lg-5 control-label"><spring:message code="rule.month"/></label>
-                  <div class="col-lg-9">
-                    <form:select path="month" class="form-control" id="month" multiple="false">
-                      <form:option value=""><spring:message code="label.none"/> </form:option>
-                      <form:option value="0">0</form:option>
-                      <form:option value="1">1</form:option>
-                    </form:select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="dayOfWeek" class="col-lg-5 control-label"><spring:message code="rule.dayOfWeek"/></label>
-                  <div class="col-lg-9">
-                    <form:select path="dayOfWeek" class="form-control" id="dayOfWeek" multiple="false">
-                      <form:option value=""><spring:message code="label.none"/> </form:option>
-                      <form:option value="0">0</form:option>
-                      <form:option value="1">1</form:option>
-                      <form:option value="2">2</form:option>
-                      <form:option value="3">3</form:option>
-                      <form:option value="4">4</form:option>
-                      <form:option value="5">5</form:option>
-                      <form:option value="6">6</form:option>
-                    </form:select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="starttime" class="col-lg-5 control-label"><spring:message code="rule.starttime"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="starttime" class="form-control" id="starttime" type="time" step="1"/>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="finishtime" class="col-lg-5 control-label"><spring:message code="rule.finishtime"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="finishtime" class="form-control" id="finishtime" type="time" step="1"/>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="tarif" class="col-lg-5 control-label"><spring:message code="rule.tarif"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="tarif" class="form-control" id="tarif" type="number" min="0" step="any"/>
-                  </div>
-                </div>
+
+
               </fieldset>
             </form:form>
           </div>

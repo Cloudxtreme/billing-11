@@ -26,4 +26,11 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
         return res.intValue();
     }
 
+    @Override
+    public Direction getByPrefix(String prefix) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where prefix= :prefix")
+                .setParameter("prefix", prefix);
+        return (Direction) query.uniqueResult();
+    }
+
 }

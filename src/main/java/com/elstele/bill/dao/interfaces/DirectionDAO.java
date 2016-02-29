@@ -8,4 +8,5 @@ import java.util.List;
 public interface DirectionDAO extends CommonDAO<Direction>{
     public List<Direction> getDirectionList(int offset, int rows);
     int getPagesCount();
+    Direction getByPrefix(String prefix);
 }

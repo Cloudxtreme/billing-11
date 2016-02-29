@@ -12,4 +12,5 @@ public interface DirectionDataService {
     void createDirection(DirectionForm directionForm);
     DirectionForm getDirectionById(int id);
     void updateDirection(DirectionForm form);
+    ResponseToAjax checkForFree(int id, String prefix);
 }

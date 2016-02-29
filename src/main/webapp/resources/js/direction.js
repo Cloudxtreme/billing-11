@@ -153,14 +153,13 @@ $(document).ready(function () {
         clearForm();
     });
 
-
-
     $('#selectEntries').on('change', function () {
         getPageCounts();
         renderDirectionsTable(pageResults, 1);
     });
 
     $('#addDirection').on('click', function () {
+        $('#id').val(0);
         clearWarn();
     });
     $('#prefix').keypress(function () {
@@ -201,42 +200,45 @@ $(document).ready(function () {
             action = 'edit';
         }
 
-        var formData = $(frm).serializeArray();
-        var data = {};
-        $(formData).each(function (index, obj) {
-            data[obj.name] = obj.value;
-        });
-
-        var currentPageNum = $("#pageNumber").text();
-        var jsonData = $(frm).serialize();
-
         $.ajax({
-            type: frm.attr('method'),
-            url: action,
+            type: 'get',
+            url: 'checkfree?id=' + id + '&prefix='+ $('#prefix').val(),
             dataType: 'json',
-            data: jsonData,
-            success: function (callback) {
-                if (id > 0) {
-                    document.getElementById('successMessageEdit').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageEdit").fadeOut(3000);
-                    });
-                } else {
-                    document.getElementById('successMessageADD').style.display = 'block';
-                    setTimeout(function () {
-                        $("#successMessageADD").fadeOut(3000);
-                    });
+            success: function (data) {
+                if (data == "BUSY") {
+                    $('#busyModal').modal('show');
+                    return false;
                 }
-                $("#directionCreateModal").modal('hide');
-                $(frm).each(function () {
-                    this.reset();
-                });
-                renderDirectionsTable(pageResults, 1)
-            },
-            error: function () {
-                document.getElementById('errorMessage').style.display = 'block';
-                setTimeout(function () {
-                    $("#errorMessage").fadeOut(15000);
+                var jsonData = $(frm).serialize();
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: action,
+                    dataType: 'json',
+                    data: jsonData,
+                    success: function (callback) {
+                        if (id > 0) {
+                            document.getElementById('successMessageEdit').style.display = 'block';
+                            setTimeout(function () {
+                                $("#successMessageEdit").fadeOut(3000);
+                            });
+                        } else {
+                            document.getElementById('successMessageADD').style.display = 'block';
+                            setTimeout(function () {
+                                $("#successMessageADD").fadeOut(3000);
+                            });
+                        }
+                        $("#directionCreateModal").modal('hide');
+                        $(frm).each(function () {
+                            this.reset();
+                        });
+                        renderDirectionsTable(pageResults, 1)
+                    },
+                    error: function () {
+                        document.getElementById('errorMessage').style.display = 'block';
+                        setTimeout(function () {
+                            $("#errorMessage").fadeOut(15000);
+                        });
+                    }
                 });
             }
         });

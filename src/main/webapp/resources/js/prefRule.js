@@ -90,7 +90,6 @@ $(document).ready(function () {
             type: 'get',
             url: 'checkfree?id=' + id + '&profileId=' + profileId + '&rulePriority=' + rulePriority,
             dataType: 'json',
-            async: false,
             success: function (data) {
                 if (data == "BUSY") {
                     $('#busyModal').modal('show');

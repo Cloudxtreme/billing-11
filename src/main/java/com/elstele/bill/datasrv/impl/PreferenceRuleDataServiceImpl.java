@@ -78,9 +78,8 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
                     return ResponseToAjax.FREE;
                 }
                 return ResponseToAjax.BUSY;
-            }else{
-                return ResponseToAjax.BUSY;
             }
+            return ResponseToAjax.BUSY;
         }
         return ResponseToAjax.FREE;
     }

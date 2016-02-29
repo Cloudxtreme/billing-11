@@ -3,6 +3,7 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.form.DirectionForm;
+import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.DirectionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,15 @@ public class DirectionController {
     DirectionForm editDirectionPost(@ModelAttribute DirectionForm directionForm, HttpSession session) {
         dataService.updateDirection(directionForm);
         return new DirectionForm();
+    }
+
+    @RequestMapping(value = "direction/checkfree", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseToAjax checkFree(@RequestParam(value = "id") int id,
+                             @RequestParam(value = "prefix") String prefix,
+                             HttpSession session) {
+        return dataService.checkForFree(id, prefix);
     }
 
 }
