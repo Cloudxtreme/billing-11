@@ -86,7 +86,7 @@
                       <spring:message code="tariff.additionalKode" var="additionalKode"/>
                       <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${zoneName}"/>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-4" style="text-align: center;">
                     <label for="dollarPath" class="control-label"><spring:message code="tariff.dollar"/></label>
                       <form:input path="dollar" class="form-control" id="dollar" type="hidden"/>
                       <div class="col-lg-12">
