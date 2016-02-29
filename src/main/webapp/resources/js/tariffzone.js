@@ -38,6 +38,7 @@ $(document).on("click", ".pushEdit", function () {
             $("#dollar").val(data.dollar);
             $("#tarif").val(data.tarif);
             $("#tarifPref").val(data.tarifPref);
+            $('#prefProfile').val(data.prefProfile);
         },
         error : function(){
             console.log("error in ajax query edit");
@@ -61,6 +62,7 @@ $(document).ready(function () {
     $('#addZone').on('click', function () {
         $('#zoneName').removeClass("invalidVal");
         $('#zoneNameWarn').hide();
+        $('#id').val(0);
     });
 
     $('#zoneName').keypress(function(){

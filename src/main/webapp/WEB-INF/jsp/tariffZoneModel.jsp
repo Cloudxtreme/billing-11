@@ -73,40 +73,47 @@
               <fieldset>
                 <form:input path="id" id="id" type="hidden"/>
                 <form:input path="zoneId" id="zoneId" type="hidden"/>
-                <div class="form-group">
-                  <label for="zoneName" class="col-lg-5 control-label"><spring:message code="tariff.zoneName"/></label>
-                  <div class="col-lg-9">
-                    <spring:message code="tariff.zoneName" var="zoneName"/>
-                    <form:input path="zoneName" class="form-control" id="zoneName" placeholder="${zoneName}"/>
-                    <span class="help-inline text-danger" id="zoneNameWarn" style="display: none"><spring:message code="tariff.zoneName.required"/></span>
+
+                <div class="col-lg-12">
+                  <div class="col-lg-4">
+                    <label for="zoneName" class="control-label"><spring:message code="tariff.zoneName"/></label>
+                      <spring:message code="tariff.zoneName" var="zoneName"/>
+                      <form:input path="zoneName" class="form-control" id="zoneName" placeholder="${zoneName}"/>
+                      <span class="help-inline text-danger" id="zoneNameWarn" style="display: none"><spring:message code="tariff.zoneName.required"/></span>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="additionalKode" class="control-label"><spring:message code="tariff.additionalKode"/></label>
+                      <spring:message code="tariff.additionalKode" var="additionalKode"/>
+                      <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${zoneName}"/>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="dollarPath" class="control-label"><spring:message code="tariff.dollar"/></label>
+                      <form:input path="dollar" class="form-control" id="dollar" type="hidden"/>
+                      <div class="col-lg-12">
+                        <input id="dollarPath" name="softblock" type="checkbox" data-size="small">
+                      </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="additionalKode" class="col-lg-5 control-label"><spring:message code="tariff.additionalKode"/></label>
-                  <div class="col-lg-9">
-                    <spring:message code="tariff.additionalKode" var="additionalKode"/>
-                    <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${zoneName}"/>
+
+                <div class="col-lg-12">
+                  <div class="col-lg-4">
+                    <label for="tarif" class="control-label"><spring:message code="tariff.tarif"/></label>
+                      <spring:message code="tariff.tarif" var="tarif"/>
+                      <form:input path="tarif" class="form-control" id="tarif" placeholder="${tarif}" type="number" min="0" step="any"/>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="dollarPath" class="col-lg-5 control-label"><spring:message code="tariff.dollar"/></label>
-                  <div class="col-lg-9">
-                    <form:input path="dollar" class="form-control" id="dollar" type="hidden"/>
-                    <input id="dollarPath" name="softblock" type="checkbox" data-size="mini">
+                  <div class="col-lg-4">
+                    <label for="tarifPref" class=" control-label"><spring:message code="tariff.tarifPref"/></label>
+                      <spring:message code="tariff.tarifPref" var="tarifPref"/>
+                      <form:input path="tarifPref" class="form-control" id="tarifPref" placeholder="${tarifPref}" type="number" min="0" step="any"/>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="tarif" class="col-lg-5 control-label"><spring:message code="tariff.tarif"/></label>
-                  <div class="col-lg-9">
-                    <spring:message code="tariff.tarif" var="tarif"/>
-                    <form:input path="tarif" class="form-control" id="tarif" placeholder="${tarif}" type="number" min="0" step="any"/>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="tarifPref" class="col-lg-5 control-label"><spring:message code="tariff.tarifPref"/></label>
-                  <div class="col-lg-9">
-                    <spring:message code="tariff.tarifPref" var="tarifPref"/>
-                    <form:input path="tarifPref" class="form-control" id="tarifPref" placeholder="${tarifPref}" type="number" min="0" step="any"/>
+
+                  <div class="col-lg-4">
+                    <label for="prefProfile" class="control-label"><spring:message code="rule.profileId"/></label>
+                    <form:select path="prefProfile" class="form-control" id="prefProfile" multiple="false">
+                      <c:forEach items="${prefProfileList}" var="prefProfileList">
+                        <form:option value="${prefProfileList}">${prefProfileList}</form:option>
+                      </c:forEach>
+                    </form:select>
                   </div>
                 </div>
               </fieldset>
@@ -126,10 +133,11 @@
     <tr>
       <th style="width: 10%;"></th>
       <th style="width: 30%;"><spring:message code="tariff.zoneName"/></th>
-      <th style="width: 15%;"><spring:message code="tariff.additionalKode"/></th>
-      <th style="width: 25%;"><spring:message code="tariff.dollar"/></th>
+      <th style="width: 10%;"><spring:message code="tariff.additionalKode"/></th>
+      <th style="width: 20%;"><spring:message code="tariff.dollar"/></th>
       <th style="width: 10%;"><spring:message code="tariff.tarif"/></th>
       <th style="width: 10%;"><spring:message code="tariff.tarifPref"/></th>
+      <th style="width: 10%;"><spring:message code="rule.profileId"/></th>
     </tr>
       <c:forEach items="${tariffzoneList}" var="tariffZone">
 
@@ -159,6 +167,7 @@
             </td>
             <td>${tariffZone.tarif}</td>
             <td>${tariffZone.tarifPref}</td>
+            <td><a href="${pageContext.request.contextPath}/preferencerule/list?prefProfileId=${tariffZone.prefProfile}">${tariffZone.prefProfile}</a></td>
           </tr>
 
       </c:forEach>

@@ -24,6 +24,7 @@ public class TariffZoneController {
     public ModelAndView directionListHome(){
         ModelAndView mav = new ModelAndView("tariffZoneModel");
         mav.addObject("tariffzoneList", dataService.getTariffZonesList());
+        mav.addObject("prefProfileList", dataService.getPrefProfileIdList());
         mav.addObject("tariffZoneForm", new TariffZoneForm());
         return mav;
     }

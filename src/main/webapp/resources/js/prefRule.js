@@ -5,6 +5,21 @@ function clearWarn() {
     $('#rulePriorityWarn').hide();
 }
 
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
 $(document).on("click", ".pushEdit", function () {
     var ruleId = $(this).data('id');
     $('#ruleModal').modal('show');
@@ -33,6 +48,13 @@ $(document).on("click", ".pushEdit", function () {
 
 $(document).ready(function () {
     var frm = $('#crtRuleForm');
+
+    if (window.location.href.indexOf('preferencerule/list') > -1) {
+        var profileIdFromZones = getUrlParameter('prefProfileId');
+        $("#table tr td:nth-child(2)").filter(function() {
+            return $.text([this]) == profileIdFromZones;
+        }).parent('tr').addClass("bg-danger");
+    }
 
     function clearForm() {
         $(frm).each(function () {

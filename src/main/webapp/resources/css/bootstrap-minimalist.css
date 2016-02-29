@@ -1445,7 +1445,7 @@ a.bg-warning:hover {
     background-color: #f7ecb5;
 }
 .bg-danger {
-    background-color: #f2dede;
+    background-color: #f2dede !important;
 }
 a.bg-danger:hover {
     background-color: #e4b9b9;

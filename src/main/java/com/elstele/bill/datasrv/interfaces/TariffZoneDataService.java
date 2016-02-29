@@ -11,4 +11,5 @@ public interface TariffZoneDataService {
     TariffZoneForm getZoneById(int id);
     void updateZone(TariffZoneForm tariffZoneForm);
     void changeSoftBlockStatus(int zoneId);
+    List<Integer> getPrefProfileIdList();
 }

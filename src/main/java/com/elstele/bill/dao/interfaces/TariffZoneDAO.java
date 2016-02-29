@@ -8,4 +8,5 @@ import java.util.List;
 public interface TariffZoneDAO extends CommonDAO<TariffZone> {
     List<TariffZone> getTariffZoneByZoneID(int zoneId);
     List<TariffZone> getTariffZoneList();
+    List<Integer> getPrefProfileIdList();
 }

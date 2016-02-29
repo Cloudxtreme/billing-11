@@ -26,6 +26,13 @@ public class PreferenceRuleController {
         mav.addObject("ruleList", dataService.getRuleList());
         return mav;
     }
+    @RequestMapping(value = "/preferencerule/list", method = RequestMethod.GET)
+    public ModelAndView gerRuleListWithProfileId(@RequestParam(value = "prefProfileId") int id){
+        ModelAndView mav = new ModelAndView("ruleModel");
+        mav.addObject("ruleForm", new PreferenceRuleForm());
+        mav.addObject("ruleList", dataService.getRuleList());
+        return mav;
+    }
 
     @RequestMapping(value = "/preferencerule/delete/{id}", method = RequestMethod.GET)
     public String deleteRule(@PathVariable int id, RedirectAttributes redirectAttributes ,HttpSession session) {

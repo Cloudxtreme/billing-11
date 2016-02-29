@@ -75,4 +75,10 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
         zone.setDollar(!zone.isDollar());
         tariffZoneDAO.updateAndMerge(zone);
     }
+
+    @Override
+    @Transactional
+    public List<Integer> getPrefProfileIdList() {
+        return tariffZoneDAO.getPrefProfileIdList();
+    }
 }
