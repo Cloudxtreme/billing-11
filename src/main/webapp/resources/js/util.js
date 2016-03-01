@@ -85,6 +85,21 @@ $(function() {
         $('#eng').attr('href',"?lang=en" + "&type=" +getUrlParameter('type'));
         $('#ru').attr('href', "?lang=ru" +"&type="+ getUrlParameter('type'));
     }
+    else if(s.indexOf("direction") > -1 ||s.indexOf("tariffzone") > -1 || s.indexOf("preferencerule") > -1 ){
+        $("#linkToUtils").addClass('selected');
+        $("#linkToPref").addClass('active');
+
+        if(s.indexOf("direction") > -1){
+            $('#linkToDirection').addClass('active');
+        }
+        if(s.indexOf("tariffzone") > -1){
+            $('#linkToTariff').addClass('active');
+        }
+        if(s.indexOf("preferencerule") > -1){
+            $('#linkToRule').addClass('active');
+        }
+    }
+
 
 });
 

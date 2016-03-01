@@ -20,6 +20,23 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+function scrollToElement(ele) {
+    var elOffset = ele.offset().top;
+    var elHeight = ele.height();
+    var windowHeight = $(window).height();
+    var offset;
+
+    if (elHeight < windowHeight) {
+        offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+    }
+    else {
+        offset = elOffset;
+    }
+
+    $.smoothScroll({ speed: 700 }, offset);
+    return false;
+}
+
 $(document).on("click", ".pushEdit", function () {
     var ruleId = $(this).data('id');
     $('#ruleModal').modal('show');
@@ -54,6 +71,7 @@ $(document).ready(function () {
         $("#table tr td:nth-child(2)").filter(function() {
             return $.text([this]) == profileIdFromZones;
         }).parent('tr').addClass("bg-danger");
+        scrollToElement($('.bg-danger'));
     }
 
     function clearForm() {
