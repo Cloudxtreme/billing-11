@@ -1,14 +1,19 @@
 package com.elstele.bill.domain;
 
 import com.elstele.bill.domain.common.CommonDomainBean;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tariff_zones", schema = "public", catalog = "billing")
 public class TariffZone extends CommonDomainBean {
+
     @Basic
     @Column(name = "zone_id")
+    @Generated(GenerationTime.INSERT)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int zoneId;
     @Basic
     @Column(name = "zone_name")
