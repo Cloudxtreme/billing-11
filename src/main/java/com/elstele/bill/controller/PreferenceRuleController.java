@@ -19,15 +19,8 @@ public class PreferenceRuleController {
     @Autowired
     Messagei18nHelper messagei18nHelper;
 
-    @RequestMapping(value = "/preferencerule/home", method = RequestMethod.GET)
-    public ModelAndView getRuleList(){
-        ModelAndView mav = new ModelAndView("ruleModel");
-        mav.addObject("ruleForm", new PreferenceRuleForm());
-        mav.addObject("ruleList", dataService.getRuleList());
-        return mav;
-    }
-    @RequestMapping(value = "/preferencerule/list", method = RequestMethod.GET)
-    public ModelAndView gerRuleListWithProfileId(@RequestParam(value = "prefProfileId") int id){
+    @RequestMapping(value = {"/preferencerule/home", "/preferencerule/list"}, method = RequestMethod.GET)
+    public ModelAndView getRuleList(@RequestParam(value = "prefProfileId", required = false) Integer id) {
         ModelAndView mav = new ModelAndView("ruleModel");
         mav.addObject("ruleForm", new PreferenceRuleForm());
         mav.addObject("ruleList", dataService.getRuleList());
@@ -35,7 +28,7 @@ public class PreferenceRuleController {
     }
 
     @RequestMapping(value = "/preferencerule/delete/{id}", method = RequestMethod.GET)
-    public String deleteRule(@PathVariable int id, RedirectAttributes redirectAttributes ,HttpSession session) {
+    public String deleteRule(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
         String msg = dataService.deleteRule(id);
         redirectAttributes.addFlashAttribute(messagei18nHelper.getTypeMessage(msg), messagei18nHelper.getMessage(msg));
         return "redirect:../home";
