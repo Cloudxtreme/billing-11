@@ -8,6 +8,7 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,16 +29,12 @@ public class FileUploadController {
     @Autowired
     ReportDataService reportDataService;
 
-
-
     @RequestMapping(value = "/uploadcsvfile", method = RequestMethod.GET)
     public ModelAndView fileCSVFirstView(HttpSession session) {
         ModelAndView model = new ModelAndView("uploadCSVFile");
         List<String> listDate = callDataService.getYearsList();
         model.addObject("yearList", listDate);
-
         UserStateStorage.setProgressToObjectInMap(session, 0);
-
         return model;
     }
 

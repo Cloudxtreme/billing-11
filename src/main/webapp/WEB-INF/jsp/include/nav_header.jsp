@@ -37,8 +37,9 @@
                         <li class="dropdown-submenu" id="linkToFile">
                             <a tabindex="-1" href="#"><spring:message code="label.filesUploading"/></a>
                             <ul class="dropdown-menu">
-                                <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html"><spring:message code="label.kdf"/></a></li>
-                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadcsvfile.html"><spring:message code="label.csv"/></a></li>
+                                <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile"><spring:message code="label.kdf"/></a></li>
+                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadcsvfile"><spring:message code="label.csv"/></a></li>
+                                <li id="linkToDirectionFileParse"><a href="${pageContext.request.contextPath}/uploaddirectionfile"><spring:message code="label.directionfileparse"/></a></li>
                             </ul>
                         </li>
 
