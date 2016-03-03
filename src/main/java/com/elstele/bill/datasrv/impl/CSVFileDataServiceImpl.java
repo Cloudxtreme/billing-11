@@ -37,7 +37,8 @@ public class CSVFileDataServiceImpl implements CSVFileDataService {
                 Iterator<String> fileIterator = fileFromServlet.getFileNames();
                 MultipartFile multipartFile = fileFromServlet.getFile(fileIterator.next());
                 CSVFileParser csvFileParser = factory.getParser(determineFileNameByFlag(selectedFileType));
-                ResponseToAjax response = csvFileParser.parse(multipartFile, pathProvider);
+                String path = pathProvider.getCSVDirectoryPath();
+                ResponseToAjax response = csvFileParser.parse(multipartFile, path);
                 LOGGER.info("File parsed successfully");
                 return response;
             }

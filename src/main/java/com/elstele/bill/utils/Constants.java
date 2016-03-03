@@ -43,6 +43,7 @@ public class  Constants {
 
     public static final String PATH_TO_UPLOAD_FOLDER = "resources\\files";
     public static final String PATH_TO_CSV_FOLDER = "resources\\files\\csvFiles";
+    public static final String PATH_TO_DOCX_FOLDER = "resources\\files\\docxFiles";
 
     public static final String VEGA_CSV = "vega_csv";
     public static final String UKR_NET_CSV = "ukrnet_csv";

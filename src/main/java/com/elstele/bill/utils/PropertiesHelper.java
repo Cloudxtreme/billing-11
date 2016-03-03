@@ -15,6 +15,7 @@ public class PropertiesHelper {
     private Properties properties = null;
     private final static String KDF_UPLOAD_DIR = "kdfUploadFileDir";
     private final static String CSV_UPLOAD_DIR = "csvUploadFileDir";
+    private final static String DOCX_UPLOAD_DIR = "docXUploadFileDir";
 
     private void init(){
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -38,5 +39,12 @@ public class PropertiesHelper {
             this.init();
         }
         return properties.getProperty(CSV_UPLOAD_DIR);
+    }
+
+    public String getDOCXDirectory(){
+        if (properties == null){
+            this.init();
+        }
+        return properties.getProperty(DOCX_UPLOAD_DIR);
     }
 }

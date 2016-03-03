@@ -12,8 +12,11 @@ import java.io.IOException;
 public class MultipartFileConverter {
     final static Logger LOGGER = LogManager.getLogger(MultipartFileConverter.class);
 
-    public static File convert(MultipartFile file, LocalDirPathProvider pathProvider) {
-        String path = pathProvider.getCSVDirectoryPath();
+    public static File convert(MultipartFile file, String path) {
+        File dir = new File(path);
+        if(!dir.exists()) {
+            dir.mkdir();
+        }
         File convFile = new File(path + File.separator + file.getOriginalFilename());
         try {
             convFile.createNewFile();

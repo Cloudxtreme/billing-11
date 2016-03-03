@@ -22,11 +22,11 @@ public class CSVFileUKRNETParser implements CSVFileParser {
     }
 
     @Override
-    public ResponseToAjax parse(MultipartFile multipartFile, LocalDirPathProvider pathProvider) {
+    public ResponseToAjax parse(MultipartFile multipartFile, String path) {
         String line;
         try {
             CSVFileUKRNETLineParser csvFileUKRNETLineParser = new CSVFileUKRNETLineParser(callForCSVDataService);
-            File file = MultipartFileConverter.convert(multipartFile, pathProvider);
+            File file = MultipartFileConverter.convert(multipartFile, path);
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
             while ((line = fileReader.readLine()) != null) {
                 CallForCSVForm callForCSVForm = csvFileUKRNETLineParser.fillFormFromLine(line);
