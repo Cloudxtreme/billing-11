@@ -24,7 +24,7 @@ public interface AccountDataService {
 
     public AccountForm getAccountById(int id);
 
-    public AccountForm getAllAccountServicesById(int id);
+    public AccountForm getAccountWithAllServicesById(int id);
 
     public Account getAccountBeanById(int id);
 

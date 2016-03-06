@@ -8,7 +8,6 @@ import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Messagei18nHelper;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -57,7 +56,8 @@ public class ServiceController {
         LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         serviceDataService.deleteService(accountServiceId, localUser.getUsername());
         ModelAndView mav = new ModelAndView("accountFull");
-        AccountForm result = accountDataService.getAllAccountServicesById(accountId);
+        //TODO: get back call accountDataService.getAccountById()
+        AccountForm result = accountDataService.getAccountWithAllServicesById(accountId);
         mav.addObject("accountForm", result);
         mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("service.success.delete"));
         return mav;
@@ -92,7 +92,8 @@ public class ServiceController {
             String message = serviceDataService.saveService(form, localUser.getUsername());
             ModelAndView mav = new ModelAndView("accountFull");
             mav.addObject(Constants.SUCCESS_MESSAGE, message);
-            AccountForm res = accountDataService.getAllAccountServicesById(form.getAccountId());
+            //TODO: get back call accountDataService.getAccountById()
+            AccountForm res = accountDataService.getAccountWithAllServicesById(form.getAccountId());
             mav.addObject("accountForm", res);
             mav.addObject("transactionList", transactionDataService.getTransactionList(res.getId(), Constants.TRANSACTION_DISPLAY_LIMIT));
             return mav;

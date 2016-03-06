@@ -95,7 +95,8 @@ public class AccountsController {
     @RequestMapping(value = "/editFull/{id}", method = RequestMethod.GET)
     public ModelAndView editAccountFull(@PathVariable int id) {
         ModelAndView mav = new ModelAndView("accountFull");
-        AccountForm result = accountDataService.getAllAccountServicesById(id);
+        //TODO: get back call accountDataService.getAccountById()
+        AccountForm result = accountDataService.getAccountWithAllServicesById(id);
         mav.addObject("accountForm", result);
         mav.addObject("transactionList", transactionDataService.getTransactionList(id, Constants.TRANSACTION_DISPLAY_LIMIT));
         return mav;
