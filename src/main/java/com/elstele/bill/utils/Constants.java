@@ -9,6 +9,7 @@ public class  Constants {
 
     public static final int HALF_HOUR_IN_SEC = 1800;
     public static final String EVERY_DAY_IN_10_30 = "0 30 10 * * *";
+    public static final String EVERY_DAY_IN_0_05 = "0 05 0 * * *";
     public static final String EVERY_WORK_DAY_IN_16_36 = "0 56 16 * * MON-FRI";
     public static final int STATISTIC_MONTHS_DISPLAY_DEFAULT = 3;
 
