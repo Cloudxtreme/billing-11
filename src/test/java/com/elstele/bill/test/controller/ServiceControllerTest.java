@@ -1,5 +1,6 @@
 package com.elstele.bill.test.controller;
 
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.controller.ServiceController;
 import com.elstele.bill.datasrv.interfaces.*;
@@ -81,6 +82,9 @@ public class ServiceControllerTest {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
         mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
+        LocalUser user = new LocalUser();
+        user.setUsername("John Doe");
+        mockSession.setAttribute(Constants.LOCAL_USER, user);
 
         AccountFormBuilder accountFormBuilder = new AccountFormBuilder();
         accountForm = accountFormBuilder.build().withId(1).withAccName("test").withAccType(Constants.AccountType.LEGAL).withBalance(11f).withFIO("test").getRes();
@@ -113,8 +117,10 @@ public class ServiceControllerTest {
     }
 
     @Test
+    //TODO bad test design, we delete account, but do not check that it status deleted
     public void serviceDeleteTest() throws Exception {
-        when(accountDataService.getAccountById(1)).thenReturn(accountForm);
+        //TODO: get back call accountDataService.getAccountById()
+        when(accountDataService.getAccountWithAllServicesById(1)).thenReturn(accountForm);
         MvcResult result = this.mockMvc.perform(get("/service/account/{accountId}/{accountServiceId}/delete", 1, 2)
                 .session(mockSession)
                 .accept(MediaType.ALL))

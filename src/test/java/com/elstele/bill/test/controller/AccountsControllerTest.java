@@ -174,7 +174,8 @@ public class AccountsControllerTest {
         List<TransactionForm> expectedList = new ArrayList<>();
         expectedList.add(trForm);
 
-        when(accountDataService.getAccountById(1)).thenReturn(form);
+        //TODO: get back call accountDataService.getAccountById()
+        when(accountDataService.getAccountWithAllServicesById(1)).thenReturn(form);
         when(trService.getTransactionList(1, Constants.TRANSACTION_DISPLAY_LIMIT)).thenReturn(expectedList);
         MvcResult result = this.mockMvc.perform(get("/accounts/editFull/{id}", 1)
                 .session(mockSession)

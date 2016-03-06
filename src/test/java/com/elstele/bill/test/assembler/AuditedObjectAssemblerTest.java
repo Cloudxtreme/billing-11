@@ -12,6 +12,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,11 +30,22 @@ public class AuditedObjectAssemblerTest {
 
     @Before
     public void setUp(){
+
+        String string = "January 2, 2016";
+        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        Date date = new Date();
+        try {
+            date = format.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         AuditedObjectBuilder builder = new AuditedObjectBuilder();
         bean = builder.build()
                 .withChangerName("test")
                 .withChangedObjID(1)
                 .withId(1)
+                .withChangesDate(date)
                 .getRes();
 
         AuditedObjectFormBuilder formBuilder = new AuditedObjectFormBuilder();
@@ -35,6 +53,7 @@ public class AuditedObjectAssemblerTest {
                 .withChangerName("test")
                 .withChangedObjID(1)
                 .withId(1)
+                .withChangesDate(date)
                 .getRes();
 
         assembler = new AuditedObjectAssembler();
