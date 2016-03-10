@@ -1,15 +1,6 @@
 
 $(function() {
     $("input[name='softblock']").bootstrapSwitch();
-
-    $('.softBlock').on('switchChange.bootstrapSwitch', function() {
-        $.ajax({
-            url: 'changeSoftBlockStatus?tariffzoneid='+this.id,
-            type: "get",
-            dataType: "json"
-        });
-    });
-
 });
 
 $(document).ready(function(){

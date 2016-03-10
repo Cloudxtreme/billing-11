@@ -46,7 +46,7 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     public String deleteZone(int id) {
         try {
             tariffZoneDAO.setStatusDelete(id);
-            LOGGER.info("Zone deleted successfully");
+            LOGGER.info("Zone " + id + " deleted successfully");
             return Constants.ZONE_DELETED_SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

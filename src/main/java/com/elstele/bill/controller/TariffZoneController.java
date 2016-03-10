@@ -55,6 +55,7 @@ public class TariffZoneController {
     public ModelAndView openModalWithDataAfterRedirect(@RequestParam(value = "id") int id) {
         ModelAndView mav = new ModelAndView("tariffZoneModel");
         mav.addObject("tariffzoneList", dataService.getTariffZonesList());
+        mav.addObject("prefProfileList", dataService.getPrefProfileIdList());
         mav.addObject("tariffZoneForm", dataService.getZoneById(id));
         return mav;
     }
@@ -64,12 +65,5 @@ public class TariffZoneController {
     public TariffZoneForm editZoneTariffPost(@ModelAttribute TariffZoneForm tariffZoneForm, HttpSession session) {
         dataService.updateZone(tariffZoneForm);
         return new TariffZoneForm();
-    }
-
-    @RequestMapping(value = "/tariffzone/changeSoftBlockStatus", method = RequestMethod.GET)
-    @ResponseBody
-    public void changeSoftBlockStatus(HttpSession session,
-                                      @RequestParam(value = "tariffzoneid") int zoneId) {
-        dataService.changeSoftBlockStatus(zoneId);
     }
 }

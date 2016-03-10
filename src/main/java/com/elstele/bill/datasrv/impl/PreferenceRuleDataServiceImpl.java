@@ -40,7 +40,7 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
     public String deleteRule(int id) {
         try {
             ruleDAO.setStatusDelete(id);
-            LOGGER.info("Rule deleted");
+            LOGGER.info("Rule " + id + " deleted");
             return Constants.RULE_DELETED_SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

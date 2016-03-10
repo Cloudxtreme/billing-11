@@ -6,7 +6,7 @@ import com.elstele.bill.domain.Direction;
 import java.util.List;
 
 public interface DirectionDAO extends CommonDAO<Direction>{
-    public List<Direction> getDirectionList(int offset, int rows);
+    List<Direction> getDirectionList(int offset, int rows);
     int getPagesCount();
     Direction getByPrefix(String prefix);
 }

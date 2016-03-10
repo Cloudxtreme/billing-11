@@ -140,13 +140,9 @@
     <table class="table table-striped" id='table'>
         <tr>
             <th style="width: 10%;"></th>
-            <th style="width: 20%;"><spring:message code="label.direction"/></th>
-            <th style="width: 10%;"><spring:message code="label.prefix"/></th>
-            <th style="width: 10%;"><spring:message code="label.additionalKode" /></th>
-            <th style="width: 10%;"><spring:message code="label.trunkgroup" /></th>
-            <th style="width: 20%;"><spring:message code="label.tariffZoneName"/></th>
-            <th style="width: 10%;"><spring:message code="label.tariff"/></th>
-            <th style="width: 10%;"><spring:message code="label.tariffPref"/></th>
+            <th style="width: 30%;"><spring:message code="label.direction"/></th>
+            <th style="width: 30%;"><spring:message code="label.prefix"/></th>
+            <th style="width: 30%;"><spring:message code="label.tariffZoneName"/></th>
         </tr>
     </table>
     <div id="tableNavigation">

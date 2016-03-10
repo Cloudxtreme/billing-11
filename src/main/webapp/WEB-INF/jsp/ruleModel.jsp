@@ -20,6 +20,8 @@
   <script src="${util}"></script>
   <spring:url value="/resources/js/prefRule.js" var="prefRule"/>
   <script src="${prefRule}"></script>
+  <spring:url value="/resources/js/smoothScroll.js" var="smooth"/>
+  <script src="${smooth}"></script>
   <spring:url value="/resources/js/popup.js" var="popup"/>
   <script src="${popup}"></script>
 
@@ -104,13 +106,13 @@
                     <label for="dayOfWeek" class="control-label"><spring:message code="rule.dayOfWeek"/></label>
                       <form:select path="dayOfWeek" class="form-control" id="dayOfWeek" multiple="false">
                         <form:option value=""><spring:message code="label.none"/> </form:option>
-                        <form:option value="0">0</form:option>
-                        <form:option value="1">1</form:option>
-                        <form:option value="2">2</form:option>
-                        <form:option value="3">3</form:option>
-                        <form:option value="4">4</form:option>
-                        <form:option value="5">5</form:option>
-                        <form:option value="6">6</form:option>
+                        <form:option value="0"><spring:message code="label.Monday"/></form:option>
+                        <form:option value="1"><spring:message code="label.Tuesday"/></form:option>
+                        <form:option value="2"><spring:message code="label.Wednesday"/></form:option>
+                        <form:option value="3"><spring:message code="label.Thursday"/></form:option>
+                        <form:option value="4"><spring:message code="label.Friday"/></form:option>
+                        <form:option value="5"><spring:message code="label.Saturday"/></form:option>
+                        <form:option value="6"><spring:message code="label.Sunday"/></form:option>
                       </form:select>
                   </div>
                   <div class="col-lg-3">
@@ -167,7 +169,15 @@
         <td>${ruleList.rulePriority}</td>
         <td>${ruleList.dayOfMonth}</td>
         <td>${ruleList.month}</td>
-        <td>${ruleList.dayOfWeek}</td>
+        <td>
+          <c:if test="${ruleList.dayOfWeek == 0}"><spring:message code="label.Monday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 1}"><spring:message code="label.Tuesday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 2}"><spring:message code="label.Wednesday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 3}"><spring:message code="label.Thursday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 4}"><spring:message code="label.Friday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 5}"><spring:message code="label.Saturday"/></c:if>
+          <c:if test="${ruleList.dayOfWeek == 6}"><spring:message code="label.Sunday"/></c:if>
+        </td>
         <td>${ruleList.starttime}</td>
         <td>${ruleList.finishtime}</td>
         <td>${ruleList.tarif}</td>

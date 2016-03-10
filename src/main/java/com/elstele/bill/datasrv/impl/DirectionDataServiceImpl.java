@@ -54,7 +54,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     public String deleteDirection(int id) {
         try {
             directionDAO.setStatusDelete(id);
-            LOGGER.info("Direction deleted successfully");
+            LOGGER.info("Direction " +id + " deleted successfully");
             return Constants.DIRECTION_DELETE_SUCCESS;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

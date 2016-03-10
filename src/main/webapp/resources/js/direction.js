@@ -57,14 +57,10 @@ function drawTable(data) {
 
 function drawRow(rowData) {
     var zoneName = [];
-    var tarif = [];
-    var tarifPref = [];
     var zoneId = [];
     for (var i = 0; i < rowData.tariffZoneList.length; i++) {
         zoneName.push(rowData.tariffZoneList[i].zoneName);
         zoneId.push(rowData.tariffZoneList[i].id);
-        tarif.push(rowData.tariffZoneList[i].tarif);
-        tarifPref.push(rowData.tariffZoneList[i].tarifPref);
     }
 
     var row = $("<tr id=" + rowData.id + "/>");
@@ -81,16 +77,10 @@ function drawRow(rowData) {
 
     row.append($("<td>" + rowData.description + "</td>"));
     row.append($("<td>" + rowData.prefix + "</td>"));
-    row.append($("<td>" + rowData.additionalKode + "</td>"));
-    row.append($("<td>" + rowData.trunkgroup + "</td>"));
     if(typeof  zoneId[0] === "undefined"){
-        row.append($("<td></td>"));
-        row.append($("<td></td>"));
         row.append($("<td></td>"));
     }else {
         row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
-        row.append($("<td>" + tarif[0] + "</td>"));
-        row.append($("<td>" + tarifPref[0] + "</td>"));
     }
 
 }
