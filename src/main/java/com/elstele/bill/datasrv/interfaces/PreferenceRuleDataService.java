@@ -6,10 +6,10 @@ import com.elstele.bill.utils.Enums.ResponseToAjax;
 import java.util.List;
 
 public interface PreferenceRuleDataService {
-    List<PreferenceRuleForm> getRuleList();
-    String deleteRule(int id);
-    void updateRule(PreferenceRuleForm form);
-    int createRule(PreferenceRuleForm form);
-    PreferenceRuleForm getRuleById(int id);
-    ResponseToAjax checkForFree(int id, int profileId, int rulePriority);
+    public List<PreferenceRuleForm> getRuleList();
+    public String deleteRule(int id);
+    public void updateRule(PreferenceRuleForm form);
+    public int createRule(PreferenceRuleForm form);
+    public PreferenceRuleForm getRuleById(int id);
+    public ResponseToAjax checkForFree(int id, int profileId, int rulePriority);
 }

@@ -33,12 +33,19 @@ function setCurrentPageNumber(number) {
     $("#pageNumber").html(number);
 };
 
+
 function renderDirectionsTable(rows, page) {
+
+    var searchValues = $('#searchPrefInput');
+    if(isNaN(searchValues.val())){
+        $('#errorMessageNAN').show().fadeOut(15000);
+        return false;
+    }
     $.ajax({
         type: "GET",
         contentType: "application/json",
         dataType: 'json',
-        url: 'list?rows=' + rows + '&page=' + page,
+        url: 'list?rows=' + rows + '&page=' + page + '&value=' + searchValues.val(),
         success: function (data, textStatus, jqXHR) {
             drawTable(data);
             setCurrentPageNumber(page);
@@ -88,7 +95,7 @@ function drawRow(rowData) {
 function getPageCounts() {
     pageResults = $("#selectEntries option:selected").val();
     $.ajax({
-        url: 'count?pageResults=' + pageResults,
+        url: 'count?pageResults=' + pageResults + '&value=' + $('#searchPrefInput').val(),
         type: "post",
         dataType: "json",
         success: function (data) {
@@ -96,6 +103,8 @@ function getPageCounts() {
         }
     });
 }
+
+
 
 $(document).on("click", ".pushEdit", function () {
     console.log("pushEdit push");
@@ -235,6 +244,23 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    $('#searchPref').on('click', function(){
+        renderDirectionsTable(pageResults, 1);
+    });
+
+    $("#searchPrefInput").keypress(function(e){
+        if(e.keyCode == 13){
+            renderDirectionsTable(pageResults, 1);
+        }
+    });
+
+    $('#eraseField').on('click', function(){
+        $('#searchPrefInput').val("");
+        renderDirectionsTable(pageResults, 1);
+    });
+
 });
 
 jQuery.fn.shake = function (intShakes, intDistance, intDuration) {

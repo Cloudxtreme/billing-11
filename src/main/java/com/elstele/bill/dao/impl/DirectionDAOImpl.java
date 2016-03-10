@@ -12,16 +12,16 @@ import java.util.List;
 public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements DirectionDAO {
 
     @Override
-    public List<Direction> getDirectionList(int offset, int rows) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where status is null or status <> 'DELETED' order by description");
+    public List<Direction> getDirectionList(int offset, int rows, String prefix) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction d where (d.status is null or d.status <> 'DELETED') and d.prefix like '%" + prefix+ "%' order by d.description");
         query.setFirstResult(offset).setMaxResults(rows);
         return (List<Direction>)query.list();
     }
 
     @Override
-    public int getPagesCount() {
+    public int getPagesCount(String prefix) {
         Query q = getSessionFactory().getCurrentSession().
-                createQuery("select count(* ) from Direction ");
+                createQuery("select count(* ) from Direction where prefix like '%" + prefix+ "%'");
         Long res = (Long) q.uniqueResult();
         return res.intValue();
     }
@@ -32,5 +32,4 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
                 .setParameter("prefix", prefix);
         return (Direction) query.uniqueResult();
     }
-
 }

@@ -30,10 +30,12 @@ public class DirectionController {
     @Autowired
     Messagei18nHelper messagei18nHelper;
 
+    public static final String INITIAL_PREFIX_STATE = "";
+
     @RequestMapping(value = "/direction/home", method = RequestMethod.GET)
     public ModelAndView directionListHome(){
         ModelAndView mav = new ModelAndView("directionsModel");
-        int totalPages = dataService.getPagesCount(10);
+        int totalPages = dataService.getPagesCount(10, INITIAL_PREFIX_STATE);
         mav.addObject("tariffZoneList", tariffZoneDataService.getTariffZonesList());
         mav.addObject("directionForm", new DirectionForm());
         mav.addObject("pageNum", 1);
@@ -44,14 +46,15 @@ public class DirectionController {
     @RequestMapping(value = "/direction/list", method = RequestMethod.GET)
     @ResponseBody
     public List<DirectionForm> getDirectionList(@RequestParam(value = "rows") int rows,
-                                                @RequestParam(value = "page") int page){
-        return dataService.getDirectionList(page, rows);
+                                                @RequestParam(value = "page") int page,
+                                                @RequestParam(value = "value") String prefix){
+        return dataService.getDirectionList(page, rows, prefix);
     }
 
     @RequestMapping(value = "/direction/count", method = RequestMethod.POST)
     @ResponseBody
-    public String getPagesCount(@RequestParam(value = "pageResults") int pageResults){
-        int totalPages = dataService.getPagesCount(pageResults);
+    public String getPagesCount(@RequestParam(value = "pageResults") int pageResults, @RequestParam(value = "value") String prefix){
+        int totalPages = dataService.getPagesCount(pageResults, prefix);
         return Integer.toString(totalPages);
     }
 
@@ -77,20 +80,17 @@ public class DirectionController {
     }
 
     @RequestMapping(value = "/direction/edit", method = RequestMethod.POST)
-    public
     @ResponseBody
-    DirectionForm editDirectionPost(@ModelAttribute DirectionForm directionForm, HttpSession session) {
+    public DirectionForm editDirectionPost(@ModelAttribute DirectionForm directionForm, HttpSession session) {
         dataService.updateDirection(directionForm);
         return new DirectionForm();
     }
 
     @RequestMapping(value = "direction/checkfree", method = RequestMethod.GET)
-    public
     @ResponseBody
-    ResponseToAjax checkFree(@RequestParam(value = "id") int id,
+    public ResponseToAjax checkFree(@RequestParam(value = "id") int id,
                              @RequestParam(value = "prefix") String prefix,
                              HttpSession session) {
         return dataService.checkForFree(id, prefix);
     }
-
 }

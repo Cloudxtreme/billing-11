@@ -6,7 +6,7 @@ import com.elstele.bill.domain.TariffZone;
 import java.util.List;
 
 public interface TariffZoneDAO extends CommonDAO<TariffZone> {
-    List<TariffZone> getTariffZoneByZoneID(int zoneId);
-    List<TariffZone> getTariffZoneList();
-    List<Integer> getPrefProfileIdList();
+    public List<TariffZone> getTariffZoneByZoneID(int zoneId);
+    public List<TariffZone> getTariffZoneList();
+    public List<Integer> getPrefProfileIdList();
 }

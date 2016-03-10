@@ -5,11 +5,11 @@ import com.elstele.bill.form.TariffZoneForm;
 import java.util.List;
 
 public interface TariffZoneDataService {
-    List<TariffZoneForm> getTariffZonesList();
-    void create(TariffZoneForm tariffZoneForm);
-    String deleteZone(int id);
-    TariffZoneForm getZoneById(int id);
-    void updateZone(TariffZoneForm tariffZoneForm);
-    void changeSoftBlockStatus(int zoneId);
-    List<Integer> getPrefProfileIdList();
+    public List<TariffZoneForm> getTariffZonesList();
+    public void create(TariffZoneForm tariffZoneForm);
+    public String deleteZone(int id);
+    public TariffZoneForm getZoneById(int id);
+    public void updateZone(TariffZoneForm tariffZoneForm);
+    public void changeSoftBlockStatus(int zoneId);
+    public List<Integer> getPrefProfileIdList();
 }

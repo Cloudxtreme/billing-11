@@ -55,7 +55,46 @@
     </div>
     &nbsp;
 
-    <a type="button" href="#directionCreateModal" id="addDirection" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.directionCreate"/></a>
+    <div class="col-lg-6">
+        <a type="button" href="#directionCreateModal" id="addDirection" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="label.directionCreate"/></a>
+        <div class="form-group" style="padding-top: 20px;">
+            <label>
+                <spring:message code="label.show"/>
+                <select class="selectpicker" data-style="btn-info" id="selectEntries">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25" selected="selected">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <spring:message code="label.entries"/>
+            </label>
+        </div>
+    </div>
+        <div class="col-lg-6">
+            <div class="col-sm-6 col-sm-offset-3" style="margin-left: 50%;">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group">
+                        <spring:message code="search.searchPrefix" var="searchpref"/>
+                        <input type="text" class="form-control"  placeholder="${searchpref}" id="searchPrefInput">
+                    <span class="input-group-addon">
+                        <button type="submit" id="searchPref">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                    <span class="input-group-addon">
+                        <button type="submit" id="eraseField">
+                            <span class="glyphicon glyphicon-erase float-lt"></span>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+                <div id="errorMessageNAN" class="error alert-warning" style="display: none">
+                    <strong><spring:message code="label.diggits"/></strong>
+                </div>
+            </div>
+        </div>
     <div id="directionCreateModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -122,20 +161,7 @@
     </div>
 
 
-    <div class="form-group" style="padding-top: 20px;">
-        <label>
-            <spring:message code="label.show"/>
-            <select class="selectpicker" data-style="btn-info" id="selectEntries">
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25" selected="selected">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <spring:message code="label.entries"/>
-        </label>
-    </div>
+
 
     <table class="table table-striped" id='table'>
         <tr>

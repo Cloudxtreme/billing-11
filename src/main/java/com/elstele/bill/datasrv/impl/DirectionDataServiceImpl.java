@@ -31,11 +31,11 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
-    public List<DirectionForm> getDirectionList(int page, int rows) {
+    public List<DirectionForm> getDirectionList(int page, int rows, String prefix) {
         page = page - 1;
         assembler = new DirectionAssembler(tariffZoneDAO);
         int offset = page * rows;
-        List<Direction> beansList = directionDAO.getDirectionList(offset, rows);
+        List<Direction> beansList = directionDAO.getDirectionList(offset, rows, prefix);
         List<DirectionForm> formList = new ArrayList<>();
         for (Direction direction : beansList) {
             formList.add(assembler.fromBeanToForm(direction));
@@ -45,8 +45,8 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
-    public int getPagesCount(int pagesCount) {
-        return calculatePagesCount(directionDAO.getPagesCount(), pagesCount);
+    public int getPagesCount(int pagesCount, String prefix) {
+        return calculatePagesCount(directionDAO.getPagesCount(prefix), pagesCount);
     }
 
     @Override
@@ -108,6 +108,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         }
         return ResponseToAjax.FREE;
     }
+
 
     private int calculatePagesCount(int callsCount, int containedCount) {
         if (callsCount % containedCount == 0)

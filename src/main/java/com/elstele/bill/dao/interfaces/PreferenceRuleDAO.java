@@ -6,6 +6,6 @@ import com.elstele.bill.domain.PreferenceRule;
 import java.util.List;
 
 public interface PreferenceRuleDAO extends CommonDAO<PreferenceRule>{
-    List getRuleList();
-    PreferenceRule getByProfileAndPriority(int profileId, int rulePriority);
+    public List getRuleList();
+    public PreferenceRule getByProfileAndPriority(int profileId, int rulePriority);
 }
