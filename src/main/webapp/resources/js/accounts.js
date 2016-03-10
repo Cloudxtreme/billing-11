@@ -381,15 +381,11 @@ function drawTransRow(data){
 var flag = true;
 $(document).ready(function(){
     $('#accServiceHistory').on('click', function(){
-        if(flag) {
-            $('#accountServiceTable tr').show();
-            flag = false;
-        }else{
-            var $table = $('#accountServiceTable');
-            $($table).find('tr').has('td:nth-child(8):contains("DELETED")').each(function(){
-                $(this).hide();
-            });
-            flag = true;
+        if(window.location.href.indexOf("servicehistory") > -1){
+            var urlName = window.location.pathname;
+            var cuttedUrl = urlName.replace("/servicehistory", "");
+            cuttedUrl.substr(1,cuttedUrl.length-1);
+            $(this).attr("href", cuttedUrl);
         }
     });
 });
