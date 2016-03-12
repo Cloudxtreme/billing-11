@@ -201,7 +201,7 @@ $(document).ready(function () {
         type: "Post",
             url: 'uploadcsvfile/generateFileTree',
         success: function (data) {
-            console.log(data);
+            console.log("filetree:" + data);
             $('#fileTree').fileTree({
                 data: data,
                 sortable: false,

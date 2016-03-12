@@ -68,7 +68,7 @@ public class FileTreeGenerater {
         }
         for (FileDirTreeGeneraterForm fileDirTreeGeneraterForm : dirList) {
             for (FileInDirTreeGeneraterForm fileInDirTreeGeneraterForm : fileList) {
-                int indexOfLast = fileInDirTreeGeneraterForm.getUrl().lastIndexOf("\\");
+                int indexOfLast = fileInDirTreeGeneraterForm.getUrl().lastIndexOf(File.separator);
                 String newStr = "";
 
                 if (indexOfLast >= 0) {
