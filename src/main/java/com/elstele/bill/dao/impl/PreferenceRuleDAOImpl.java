@@ -12,7 +12,7 @@ import java.util.List;
 public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> implements PreferenceRuleDAO {
     @Override
     public List<PreferenceRule> getRuleList() {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.status is null or pr.status <> 'DELETED' order by pr.id DESC ");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.status is null or pr.status <> 'DELETED' order by pr.profileId, pr.rulePriority ");
         return (List<PreferenceRule>)query.list();
     }
 

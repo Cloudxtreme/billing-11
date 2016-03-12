@@ -118,7 +118,7 @@ public class ServiceTypeDAOTest {
         int serviceId2 = serviceTypeDAO.create(serviceType2);
         int serviceId3 = serviceTypeDAO.create(serviceType3);
 
-        List<ServiceType> serviceTypeList = serviceTypeDAO.listServiceType(Constants.SERVICE_PHONE);
+        List<ServiceType> serviceTypeList = serviceTypeDAO.listServiceType(Constants.SERVICE_PHONE, Constants.AccountType.PRIVATE);
 
         assertTrue(serviceTypeList.size() == 1);
         assertTrue(serviceTypeList.contains(serviceType2));

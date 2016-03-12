@@ -1,29 +1,29 @@
-$(document).ready(function() {
+$(document).ready(function () {
     hideServiceForm();
-    if((typeof $('#getServiceType').data("parameter") !='undefined') ) {
+    if ((typeof $('#getServiceType').data("parameter") != 'undefined')) {
         showServiceForm($('#getServiceType').data("parameter"));
         $('#changeServiceType').show();
     }
- });
+});
 
-$(document).ready(function() {
+$(document).ready(function () {
     callAjaxGetPortList();
     callAjaxGetValidIp();
     $('#ipAddress').hide();
     $('#ipAddressCurrent').show();
 });
 
-$(document).ready(function() {
-    $('#serviceType input[type=radio]').change(function(){
+$(document).ready(function () {
+    $('#serviceType input[type=radio]').change(function () {
         var type = $('#serviceType input[type=radio]:checked').val();
         ajaxBuildServiceTypeSelectList(type);
         showServiceForm(type);
     })
 });
 
-$(document).ready(function() {
-    $('#changeIp').on('change', function() {
-        if(document.getElementById('changeIp').checked){
+$(document).ready(function () {
+    $('#changeIp').on('change', function () {
+        if (document.getElementById('changeIp').checked) {
             $('#ipAddress').show();
             $('#ipAddressCurrent').hide();
         } else {
@@ -34,25 +34,25 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#device').on('change', function() {
+$(document).ready(function () {
+    $('#device').on('change', function () {
         callAjaxGetPortList();
     });
 });
-$(document).ready(function() {
-    $('#ipNet').on('change', function() {
+$(document).ready(function () {
+    $('#ipNet').on('change', function () {
         callAjaxGetValidIp();
     });
 });
-$(document).ready(function() {
-    $('#changeServiceType').click(function(e) {
-        if($(this).text() == "Change"){
+$(document).ready(function () {
+    $('#changeServiceType').click(function (e) {
+        if ($(this).text() == "Change") {
             disabledAllFields();
             allowChangeServiceType();
             $(this).text("Cancel");
             $(this).removeClass('btn-success').addClass('btn-primary');
         }
-        else{
+        else {
             allowAllFields();
             disableChangeServiceType();
             $(this).text("Change");
@@ -62,45 +62,46 @@ $(document).ready(function() {
     });
 });
 
-function ajaxBuildServiceTypeSelectList(type){
-        var selectedService = $('#getServiceType').val();
+function ajaxBuildServiceTypeSelectList(type) {
+    var selectedService = $('#getServiceType').val();
+    var pathArray = window.location.pathname.split( '/' );
 
-        $.ajax({
-        url: '../../../../serviceTypeList?type='+type,
+    $.ajax({
+        url: '../../../../serviceTypeList?type=' + type + '&accountid=' + pathArray[3] ,
         type: "get",
         dataType: "json",
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             $('#serviceTypeList').html('');
-            $.each(data, function(key, value) {
+            $.each(data, function (key, value) {
                 selected = (selectedService === key) ? 'selected' : '';
-                $('#serviceTypeList').append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+                $('#serviceTypeList').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
             });
         }
     });
 }
 
-function disabledAllFields(){
+function disabledAllFields() {
     $('#serviceForm input').attr('disabled', 'disabled');
     $('#serviceForm select').attr('disabled', 'disabled');
 }
 
-function allowAllFields(){
+function allowAllFields() {
     $('#serviceForm input').removeAttr('disabled');
     $('#serviceForm select').removeAttr('disabled');
 }
 
-function allowChangeServiceType(){
+function allowChangeServiceType() {
     $('#serviceForm #serviceTypeList').removeAttr('disabled');
     $('#serviceForm #dateStart').removeAttr('disabled');
     $('#serviceForm #id').removeAttr('disabled');
     $('#serviceForm #accountId').removeAttr('disabled');
 }
 
-function disableChangeServiceType(){
+function disableChangeServiceType() {
     $('#serviceForm #serviceTypeList').attr('disabled', 'disabled');
 }
 
-function hideServiceForm(){
+function hideServiceForm() {
     $('#changeServiceType').hide();
     $('#internetService').hide();
     $('#phoneService').hide();
@@ -138,60 +139,60 @@ function showServiceForm(type) {
     }
 }
 
-function callAjaxGetPortList(){
+function callAjaxGetPortList() {
     var idService = 0;
     var sendData = $('#device').val();
-    if($('#id').val()!=""){
-        idService= $('#id').val();
+    if ($('#id').val() != "") {
+        idService = $('#id').val();
     }
     $.ajax({
         type: "POST",
-        url: "../../../../getDeviceFreePortList/"+idService,
+        url: "../../../../getDeviceFreePortList/" + idService,
         data: sendData,
         datatype: "json",
         contentType: "application/json",
         success: function (data) {
             $('#devicePorts').html('');
-            $.each(data, function(key, value) {
-                $('#devicePorts').append('<option value="'+value+'">'+value+'</option>');
+            $.each(data, function (key, value) {
+                $('#devicePorts').append('<option value="' + value + '">' + value + '</option>');
             });
         }
     });
 }
-function callAjaxGetValidIp(){
+function callAjaxGetValidIp() {
     serviceId = 0;
-    if($('#id').val()!=""){
+    if ($('#id').val() != "") {
         serviceId = $('#id').val();
     }
     var currentIpAddress = callAjaxGetCurrentIpAddress(serviceId);
     $.ajax({
         type: "POST",
-        url: "../../../../getIpAddressList/"+serviceId,
+        url: "../../../../getIpAddressList/" + serviceId,
         data: $('#ipNet').val(),
         datatype: "JSON",
         contentType: "application/json",
         success: function (data) {
             $('#ipAddress').html('');
-            $.each(data, function(key, value) {
+            $.each(data, function (key, value) {
                 var selected = "";
 
-                if(currentIpAddress==key){
+                if (currentIpAddress == key) {
                     selected = "selected";
                 }
-                $('#ipAddress').append('<option value="'+key+'" '+selected+'>'+value+'</option>');
+                $('#ipAddress').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
             });
             $('#ipAddressCurrent').html($('#ipAddress').find(":selected").text());
         }
     });
 }
-function callAjaxGetCurrentIpAddress(serviceId){
+function callAjaxGetCurrentIpAddress(serviceId) {
     var value = 0;
     $.ajax({
-        url: '../../../../getCurrentIpAddress?serviceId='+serviceId,
+        url: '../../../../getCurrentIpAddress?serviceId=' + serviceId,
         type: "get",
         async: false,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             value = data;
         }
     });

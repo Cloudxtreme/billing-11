@@ -2,6 +2,7 @@ package com.elstele.bill.test.datasrv;
 
 import com.elstele.bill.dao.impl.ServiceAttributeDAOImpl;
 import com.elstele.bill.dao.impl.ServiceTypeDAOImpl;
+import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.datasrv.impl.ServiceTypeDataServiceImpl;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
@@ -33,6 +34,8 @@ public class ServiceTypeDataServiceTest {
     private ServiceTypeDAOImpl serviceTypeDAO;
     @Mock
     private ServiceAttributeDAOImpl serviceAttributeDAO;
+    @Mock
+    private AccountDataServiceImpl accountDataService;
     @InjectMocks
     private ServiceTypeDataServiceImpl serviceTypeDataService;
 
@@ -72,9 +75,9 @@ public class ServiceTypeDataServiceTest {
     public void c_listServiceTypeByGivenType(){
         listSample.remove(beanPhone);
         listSample.remove(beanMarker);
-        when(serviceTypeDAO.listServiceType(Constants.SERVICE_INTERNET)).thenReturn(listSample);
+        when(serviceTypeDAO.listServiceType(Constants.SERVICE_INTERNET, Constants.AccountType.PRIVATE)).thenReturn(listSample);
 
-        List<ServiceType> getList = serviceTypeDataService.listServiceType(Constants.SERVICE_INTERNET);
+        List<ServiceType> getList = serviceTypeDataService.listServiceType(Constants.SERVICE_INTERNET, 1);
         assertTrue(getList.contains(beanInternet));
     }
 

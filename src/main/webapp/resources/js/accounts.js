@@ -21,7 +21,7 @@ $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    if(s.indexOf("accounts/accountHome") > -1) {
+    if(s.indexOf("accounts/accountHome") > -1 || s.indexOf("accounts/save") > -1) {
         renderAccountsTable(pageResults, 1);
     }
     hideShowLegalAddress();

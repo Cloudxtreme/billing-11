@@ -80,7 +80,6 @@ public class ServiceController {
             form.setServiceType(serviceTypeDataService.getServiceTypeFormById(form.getServiceType().getId()));
             mav.addObject("account", accountDataService.getAccountById(form.getAccountId()));
             mav.addObject("servicePeriodList", period);
-            mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             mav.addObject("devicesList", deviceDataService.getDevices());
             mav.addObject("ipNetList", ipSubnetDataService.getIpSubnets());
             mav.addObject("currentIpAddress", form.getServiceInternet().getIp().getId());

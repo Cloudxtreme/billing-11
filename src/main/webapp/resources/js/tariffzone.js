@@ -1,11 +1,14 @@
-
 $(function() {
     $("input[name='softblock']").bootstrapSwitch();
 });
 
 $(document).ready(function(){
     if(window.location.href.indexOf('#modal') > -1 ){
+        if($("#dollar").val() == "true"){
+            $('#dollarPath').bootstrapSwitch('state', true);
+        }
         $('#tariffZoneModal').modal('show');
+
     }
 });
 

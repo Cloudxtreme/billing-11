@@ -13,7 +13,7 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
 
     @Override
     public List<Direction> getDirectionList(int offset, int rows, String prefix) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction d where (d.status is null or d.status <> 'DELETED') and d.prefix like '%" + prefix+ "%' order by d.description");
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction d where (d.status is null or d.status <> 'DELETED') and d.prefix like '" + prefix+ "%' order by d.description");
         query.setFirstResult(offset).setMaxResults(rows);
         return (List<Direction>)query.list();
     }
@@ -21,7 +21,7 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     @Override
     public int getPagesCount(String prefix) {
         Query q = getSessionFactory().getCurrentSession().
-                createQuery("select count(* ) from Direction where prefix like '%" + prefix+ "%'");
+                createQuery("select count(* ) from Direction where prefix like '" + prefix+ "%'");
         Long res = (Long) q.uniqueResult();
         return res.intValue();
     }

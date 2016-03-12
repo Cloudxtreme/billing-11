@@ -132,11 +132,9 @@
   <table class="table table-striped table-hover" id='table'>
     <tr>
       <th style="width: 10%;"></th>
-      <th style="width: 30%;"><spring:message code="tariff.zoneName"/></th>
-      <th style="width: 10%;"><spring:message code="tariff.additionalKode"/></th>
-      <th style="width: 10%;"><spring:message code="tariff.dollar"/></th>
-      <th style="width: 10%;"><spring:message code="tariff.tarif"/></th>
-      <th style="width: 10%;"><spring:message code="tariff.tarifPref"/></th>
+      <th style="width: 40%;"><spring:message code="tariff.zoneName"/></th>
+      <th style="width: 15%;"><spring:message code="tariff.additionalKode"/></th>
+      <th style="width: 15%;"><spring:message code="tariff.dollar"/></th>
       <th style="width: 10%;"><spring:message code="rule.profileId"/></th>
     </tr>
       <c:forEach items="${tariffzoneList}" var="tariffZone">
@@ -153,14 +151,12 @@
             <td>${tariffZone.additionalKode}</td>
             <c:choose>
               <c:when test="${tariffZone.dollar == true}">
-                <td class="bg-success" style="text-align: center;"><span class="glyphicon glyphicon-ok"></span></td>
+                <td class="bg-success" style="text-align: center; font-size: 1.4em"><span class="glyphicon glyphicon-ok"></span></td>
               </c:when>
               <c:otherwise>
                 <td></td>
               </c:otherwise>
             </c:choose>
-            <td>${tariffZone.tarif}</td>
-            <td>${tariffZone.tarifPref}</td>
             <td><a href="${pageContext.request.contextPath}/preferencerule/list?prefProfileId=${tariffZone.prefProfile}">${tariffZone.prefProfile}</a></td>
           </tr>
 
