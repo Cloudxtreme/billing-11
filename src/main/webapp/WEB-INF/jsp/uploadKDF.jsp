@@ -13,6 +13,8 @@
     <title><spring:message code="label.kdf"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/css/loader-style.css" var="loader" />
+    <link href="${loader}" rel="stylesheet"/>
 
 </head>
 <body>

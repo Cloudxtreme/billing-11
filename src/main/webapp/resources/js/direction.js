@@ -49,6 +49,12 @@ function renderDirectionsTable(rows, page) {
         success: function (data, textStatus, jqXHR) {
             drawTable(data);
             setCurrentPageNumber(page);
+            if(data.length < 1){
+                $('#nothingFound').show();
+            }
+            if($('#nothingFound').attr("display", 'block') && data.length > 0){
+                $('#nothingFound').hide();
+            }
         }
     });
     getPageCounts();

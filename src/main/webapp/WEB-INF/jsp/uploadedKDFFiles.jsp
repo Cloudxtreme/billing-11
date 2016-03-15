@@ -14,7 +14,6 @@
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
-
     <spring:url value="/resources/js/uploaded_files.js" var="uploaded_files"/>
     <script src="${uploaded_files}"></script>
 

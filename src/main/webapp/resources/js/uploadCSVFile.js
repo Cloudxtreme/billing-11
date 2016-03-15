@@ -54,7 +54,7 @@ $(document).ready(function () {
         var data = new FormData();
 
         if (uniqFiles.length == 0) {
-            $('#spinner').hide();
+            $('#myModal').modal("hide");
             document.getElementById('errorSelectFile').style.display = "block";
             setTimeout(function () {
                     $("#errorSelectFile").fadeOut(15000);
@@ -68,8 +68,6 @@ $(document).ready(function () {
         }
 
 
-        $('#spinner').show();
-
         $.ajax({
             dataType: 'json',
             url: "uploadcsvfile?flag="+selectedVal,
@@ -80,7 +78,6 @@ $(document).ready(function () {
             contentType: false,
             success: function (result) {
                 $('#myModal').modal('hide');
-                $('#spinner').hide();
 
                 if (result == "SUCCESS") {
                     document.getElementById('successMessage').style.display = "block";

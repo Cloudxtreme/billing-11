@@ -16,6 +16,8 @@
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/css/file-tree.min.css" var="fileTreeCss"/>
     <link href="${fileTreeCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/loader-style.css" var="loader" />
+    <link href="${loader}" rel="stylesheet"/>
 
     <spring:url value="/resources/js/uploadCSVFile.js" var="csvScript"/>
     <script src="${csvScript}"></script>
@@ -25,6 +27,7 @@
     <script src="${jqueryMinUi}"></script>
     <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
     <script src="${nestedFileTree}"></script>
+
 
 </head>
 <body>
@@ -274,14 +277,10 @@
                 data-toggle="modal"><spring:message code="label.upload"/>
         </button>
 
-        <%--Modal--%>
         <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-                <%--Spinner(Loader) body--%>
-            <div id="spinner" class="modal-dialog" style="display:none;">
-                        <div class="loader"></div>
+            <div style="padding-top: 16%">
+                <div class="loader"></div>
             </div>
-
         </div>
 
     </form:form>

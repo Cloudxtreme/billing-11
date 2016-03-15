@@ -40,6 +40,9 @@
     <div id="errorMessage" class="alert alert-danger" style="display: none">
         <strong><spring:message code="direction.error"/></strong>
     </div>
+    <div id="nothingFound" class="alert alert-info text-center" style="display: none">
+        <strong><spring:message code="search.message"/></strong>
+    </div>
 
     <div id="messagesDiv">
         <c:if test="${not empty successMessage}">
@@ -78,13 +81,13 @@
                     <div class="input-group stylish-input-group">
                         <spring:message code="search.searchPrefix" var="searchpref"/>
                         <input type="text" class="form-control"  placeholder="${searchpref}" id="searchPrefInput">
-                    <span class="input-group-addon">
-                        <button type="submit" id="searchPref">
+                    <span class="input-group-addon" id="searchPref">
+                        <button type="submit" >
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
-                    <span class="input-group-addon">
-                        <button type="submit" id="eraseField">
+                    <span class="input-group-addon" id="eraseField">
+                        <button type="submit">
                             <span class="glyphicon glyphicon-erase float-lt"></span>
                         </button>
                     </span>
