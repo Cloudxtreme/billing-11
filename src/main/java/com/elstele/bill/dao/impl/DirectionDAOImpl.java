@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +20,32 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     @Override
     public List<Direction> getDirectionList(int offset, int rows, String prefix) {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
-        criteria.add(Restrictions.eq("status", null))
-                .add(Restrictions.ne("status", Status.DELETED))
-                .add(Restrictions.like("prefix", prefix, MatchMode.END))
-                .add(Restrictions.like("prefix", "0" + prefix, MatchMode.END))
-                .add(Restrictions.like("prefix", "00" + prefix, MatchMode.END))
-                .addOrder(Order.asc("description"));
+        criteria.add(Restrictions.disjunction()
+                        .add(Restrictions.isNull("status"))
+                        .add(Restrictions.ne("status", Status.DELETED)))
+                .add(Restrictions.disjunction()
+                        .add(Restrictions.like("prefix", prefix, MatchMode.START))
+                        .add(Restrictions.like("prefix", "0" + prefix, MatchMode.START))
+                        .add(Restrictions.like("prefix", "00" + prefix, MatchMode.START)))
+                .addOrder(Order.asc("description"))
+                .setMaxResults(rows)
+                .setFirstResult(offset);
 
         return (List<Direction>) criteria.list();
     }
 
     @Override
     public int getPagesCount(String prefix) {
-        Query q = getSessionFactory().getCurrentSession().
-                createQuery("select count(* ) from Direction where prefix like '" + prefix + "%'");
-        Long res = (Long) q.uniqueResult();
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
+        criteria.add(Restrictions.disjunction()
+                .add(Restrictions.isNull("status"))
+                .add(Restrictions.ne("status", Status.DELETED)))
+                .add(Restrictions.disjunction()
+                        .add(Restrictions.like("prefix", prefix, MatchMode.START))
+                        .add(Restrictions.like("prefix", "0" + prefix, MatchMode.START))
+                        .add(Restrictions.like("prefix", "00" + prefix, MatchMode.START)))
+                .setProjection(Projections.rowCount());
+        Long res = (Long) criteria.uniqueResult();
         return res.intValue();
     }
 
