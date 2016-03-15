@@ -17,7 +17,6 @@ $(document).ready(function () {
 
     $('input:file').on('change', function (evt) {
         var files = evt.target.files;
-        uniqFiles.push(files[0]);
 
         $('#list').html('');
         var q = files[0];
@@ -28,6 +27,7 @@ $(document).ready(function () {
             $('#errorMessageIncType').fadeOut(5000);
             return false;
         }
+        uniqFiles.push(files[0]);
         $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true">' +
             '</span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + ext + ' - ' +
             q.size + ' bytes, last modified: ' +
