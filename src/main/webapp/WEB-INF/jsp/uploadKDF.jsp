@@ -30,8 +30,10 @@
 
 
     <%--Spinner(Loader) body--%>
-    <div id="spinner" class="spinner" style="display:none;">
-        <img id="img-spinner" src="resources/images/ajax-loader.gif" alt="Loading"/>
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="spinner" class="modal-dialog" style="padding-top: 10%;">
+            <div class="loader"></div>
+        </div>
     </div>
 
     <%--Icons with action (Spans)--%>
@@ -137,13 +139,10 @@
             });
             return false;
         }
+        $('#myModal').modal('show');
         for (var i = 0; i < uniqFiles.length; i++) {
             data.append(i, uniqFiles[i]);
         }
-
-
-        $('#spinner').show();
-
         $.ajax({
             dataType: 'json',
             url: "${pageContext.request.contextPath}/uploadfile",
@@ -153,8 +152,8 @@
             processData: false,
             contentType: false,
             success: function (result) {
+                $('#myModal').modal('hide');
                 if (result == "SUCCESS") {
-                    $('#spinner').hide();
                     document.getElementById('successMessage').style.display = "block";
                     $('#successMessage').append('<strong><spring:message javaScriptEscape="true" code="label.successFile" /></strong>');
                     uniqFiles = [];
@@ -167,7 +166,6 @@
                     $('body').scrollTop(0);
 
                 } else if (result == "INCORRECTTYPE") {
-                    $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.incorrectFile" /></strong>');
                     setTimeout(function () {
@@ -176,9 +174,7 @@
                         });
                     });
 
-
                 } else if (result == "ERROR") {
-                    $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.failUpload" /></strong>');
                     setTimeout(function () {
@@ -188,7 +184,6 @@
                     });
 
                 } else {
-                    $('#spinner').hide();
                     document.getElementById('errorMessage').style.display = "block";
                     $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.notAvail" /></strong>');
                     setTimeout(function () {

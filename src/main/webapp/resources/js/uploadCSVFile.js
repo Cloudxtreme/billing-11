@@ -137,7 +137,10 @@ $(document).ready(function () {
         if(values.length < 3){
             document.getElementById('errorMessageReportChoose').style.display = "block";
             $("#errorMessageReportChoose").fadeOut(15000);
-        }else reportCreatingRequest(values);
+        }else {
+            reportCreatingRequest(values)
+        }
+        var interval =  setInterval(getProgress, 2000);
     });
 
     $('.unDefaultTDStyle').on('click', function () {
@@ -248,12 +251,11 @@ $(document).ready(function () {
             success : function(data){
                 var width = (data);
                 if(data == 0){
-                    setTimeout(getProgress,2000);
+                    clearInterval(interval);
                 }
                 if(data >0 && data < 100){
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-                    setTimeout(getProgress,2000);
                 }if (data == 100){
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
                     document.getElementById('successMessageReport').style.display="block";
