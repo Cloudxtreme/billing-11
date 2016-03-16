@@ -70,8 +70,8 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
 
     @Override
     @Transactional
-    public void changeSoftBlockStatus(int zoneId) {
-        TariffZone zone = tariffZoneDAO.getById(zoneId);
+    public void changeSoftBlockStatus(int id) {
+        TariffZone zone = tariffZoneDAO.getById(id);
         zone.setDollar(!zone.isDollar());
         tariffZoneDAO.updateAndMerge(zone);
     }
@@ -80,5 +80,11 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public List<Integer> getPrefProfileIdList() {
         return tariffZoneDAO.getPrefProfileIdList();
+    }
+
+    @Override
+    @Transactional
+    public TariffZone getUniqueZoneByZoneId(int zoneId){
+        return tariffZoneDAO.getUniqueTariffZoneByZoneID(zoneId);
     }
 }

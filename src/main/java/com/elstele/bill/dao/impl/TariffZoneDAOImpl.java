@@ -18,6 +18,14 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
     }
 
     @Override
+    public TariffZone getUniqueTariffZoneByZoneID(int zoneId) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from TariffZone t where t.zoneId = :zoneId ")
+                .setParameter("zoneId", zoneId)
+                .setMaxResults(1);
+        return (TariffZone) query.uniqueResult();
+    }
+
+    @Override
     public List<TariffZone> getTariffZoneList() {
         Query query = getSessionFactory().getCurrentSession().createQuery("from TariffZone t where t.status is null or t.status <> 'DELETED' order by t.zoneName");
         return (List<TariffZone>) query.list();

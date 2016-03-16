@@ -1,5 +1,6 @@
 package com.elstele.bill.datasrv.interfaces;
 
+import com.elstele.bill.domain.Direction;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 
@@ -13,4 +14,5 @@ public interface DirectionDataService {
     public DirectionForm getDirectionById(int id);
     public void updateDirection(DirectionForm form);
     public ResponseToAjax checkForFree(int id, String prefix);
+    public Direction getByPrefixMainPart(String prefixMainPart);
 }

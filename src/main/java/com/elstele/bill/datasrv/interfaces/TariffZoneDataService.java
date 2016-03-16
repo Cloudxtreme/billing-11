@@ -1,5 +1,6 @@
 package com.elstele.bill.datasrv.interfaces;
 
+import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface TariffZoneDataService {
     public void updateZone(TariffZoneForm tariffZoneForm);
     public void changeSoftBlockStatus(int zoneId);
     public List<Integer> getPrefProfileIdList();
+    public TariffZone getUniqueZoneByZoneId(int zoneId);
 }

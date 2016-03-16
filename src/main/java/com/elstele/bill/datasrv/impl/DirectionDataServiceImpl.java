@@ -109,6 +109,12 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         return ResponseToAjax.FREE;
     }
 
+    @Override
+    @Transactional
+    public Direction getByPrefixMainPart(String prefixMainPart) {
+        return directionDAO.getByPrefixMainPart(prefixMainPart);
+    }
+
 
     private int calculatePagesCount(int callsCount, int containedCount) {
         if (callsCount % containedCount == 0)

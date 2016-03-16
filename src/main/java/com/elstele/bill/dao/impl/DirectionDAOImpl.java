@@ -21,8 +21,8 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     public List<Direction> getDirectionList(int offset, int rows, String prefix) {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
         criteria.add(Restrictions.disjunction()
-                        .add(Restrictions.isNull("status"))
-                        .add(Restrictions.ne("status", Status.DELETED)))
+                .add(Restrictions.isNull("status"))
+                .add(Restrictions.ne("status", Status.DELETED)))
                 .add(Restrictions.disjunction()
                         .add(Restrictions.like("prefix", prefix, MatchMode.START))
                         .add(Restrictions.like("prefix", "0" + prefix, MatchMode.START))
@@ -54,5 +54,12 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
         Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where prefix= :prefix")
                 .setParameter("prefix", prefix);
         return (Direction) query.uniqueResult();
+    }
+
+    @Override
+    public Direction getByPrefixMainPart(String prefixPart) {
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
+        criteria.add(Restrictions.like("prefix", "00"+prefixPart, MatchMode.START)).setMaxResults(1);
+        return (Direction) criteria.uniqueResult();
     }
 }
