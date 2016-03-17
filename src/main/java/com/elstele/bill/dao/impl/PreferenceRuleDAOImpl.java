@@ -23,4 +23,12 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
                 .setParameter("rulePriority", rulePriority);
         return (PreferenceRule) query.uniqueResult();
     }
+
+    @Override
+    public List<PreferenceRule> getRuleListByProfileId(int profileId) {
+        Query query = getSessionFactory().getCurrentSession().
+                createQuery("from PreferenceRule pr where pr.profileId = :profileId")
+                .setParameter("profileId", profileId);
+        return (List<PreferenceRule>)query.list();
+    }
 }

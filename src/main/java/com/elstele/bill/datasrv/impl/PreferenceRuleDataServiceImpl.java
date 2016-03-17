@@ -70,6 +70,12 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
+    public List<PreferenceRule> getRuleListByProfileId(int profileId){
+        return ruleDAO.getRuleListByProfileId(profileId);
+    }
+
+    @Override
+    @Transactional
     public ResponseToAjax checkForFree(int id, int profileId, int rulePriority) {
         PreferenceRule preferenceRule = ruleDAO.getByProfileAndPriority(profileId, rulePriority);
         if(preferenceRule != null){

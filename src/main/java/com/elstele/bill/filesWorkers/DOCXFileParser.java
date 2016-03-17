@@ -4,6 +4,7 @@ import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.datasrv.interfaces.PreferenceRuleDataService;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.domain.Direction;
+import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
@@ -23,9 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DOCXFileParser {
@@ -53,43 +52,79 @@ public class DOCXFileParser {
             PrintWriter writer = new PrintWriter("D:/TarZonesCompares.txt", "UTF-8");
             FileInputStream fis = new FileInputStream(file);
             XWPFDocument doc = new XWPFDocument(fis);
-            List<XWPFTable> tables=  doc.getTables();
-            for(XWPFTable table : tables){
+            List<XWPFTable> tables = doc.getTables();
+            for (XWPFTable table : tables) {
                 List<XWPFTableRow> rowList = table.getRows();
                 rowList.remove(0);
                 List<String> listForWrite = new ArrayList<>();
-                String directionDesc = "";
-                TariffZone tariffZoneOld = new TariffZone();
-                for(XWPFTableRow row : rowList){
-                    List<XWPFTableCell> cellList =  row.getTableCells();
+                Map<TariffZone, List<DOCXTransTemplate>> repMap = new HashMap<>();
+                for (XWPFTableRow row : rowList) {
+                    List<XWPFTableCell> cellList = row.getTableCells();
                     String prefixPart = cellList.get(1).getText();
                     Direction direction = directionDataService.getByPrefixMainPart(prefixPart);
 
-                    if(direction != null) {
-                        LOGGER.info(direction.getDescription());
-                        TariffZone tariffZoneNew = tariffZoneDataService.getUniqueZoneByZoneId(direction.getTarifZone());
-                        if(!tariffZoneNew.equals(tariffZoneOld)){
-                            tariffZoneOld = tariffZoneNew;
-                        }
-
-                    }else{
+                    if (direction == null) {
                         listForWrite.add("Tariff zone: " + cellList.get(0).getText() + " does not exist in DB.");
-                        listForWrite.add("Prefix for this Zone is: "+ cellList.get(1).getText()+ " and Tariff: " + cellList.get(3).getText());
+                        listForWrite.add("Prefix for this Zone is: " + cellList.get(1).getText() + " and Tariff: " + cellList.get(3).getText());
                         listForWrite.add("\n");
+                    } else {
+                        TariffZone tariffZone = tariffZoneDataService.getUniqueZoneByZoneId(direction.getTarifZone());
+                        if (repMap.get(tariffZone) == null) {
+                            repMap.put(tariffZone, new ArrayList<DOCXTransTemplate>());
+                        } else {
+                            DOCXTransTemplate template = new DOCXTransTemplate();
+                            template.setDirectionName(cellList.get(0).getText());
+                            template.setPrefMainPart(cellList.get(1).getText());
+                            template.setPrefEnder(cellList.get(2).getText());
+                            template.setTariff(cellList.get(3).getText());
+                            repMap.get(tariffZone).add(template);
+                        }
                     }
                 }
+                for (Map.Entry<TariffZone, List<DOCXTransTemplate>> entry : repMap.entrySet()) {
+                    TariffZone tariffZone = entry.getKey();
+                    List<DOCXTransTemplate> docxTransTemplateList = entry.getValue();
+                    if (tariffZone != null) {
+                        List<PreferenceRule> preferenceRules = preferenceRuleDataService.getRuleListByProfileId(tariffZone.getPrefProfile());
+                        List<Float> priceArray = new ArrayList<>(preferenceRules.size());
+                        for (PreferenceRule rule : preferenceRules) {
+                            Float tariff = rule.getTarif();
+                            if (tariff != null) {
+                                priceArray.add(tariff);
+                            }
+                        }
+                        listForWrite.add("\n");
+                        listForWrite.add("\n");
+                        if (priceArray.size() > 0) {
+                            Collections.sort(priceArray);
+                            String priceSpread = priceArray.get(0) + "-" + priceArray.get(priceArray.size() - 1);
+                            LOGGER.info("Price spread is : " + priceSpread);
+                            listForWrite.add("Tariff zone: " + tariffZone.getZoneName() + " with TARIFF = " + priceSpread + " is different from: ");
+                        }else{
+                            listForWrite.add("Tariff zone: " + tariffZone.getZoneName() + " which is FREE FOR CALL and is different from: ");
+                        }
+                    }
+                    else{
+                        listForWrite.add("Tariff zone is UNKNOWN or does not exist in DB but there is more than " + docxTransTemplateList.size() + " directions:" );
+                    }
+                    for (DOCXTransTemplate template : docxTransTemplateList) {
+                        listForWrite.add("Name: " + template.getDirectionName() + " , AND prefix main part is: " +
+                                template.getPrefMainPart() + " And prefix second part is : " + template.getPrefEnder() + " AND TARIFF = " + template.getTariff());
+                    }
+                }
+
                 writeToFile(writer, listForWrite);
             }
             writer.close();
             return ResponseToAjax.SUCCESS;
-        }catch(IOException e){
-            LOGGER.error(e.getMessage() ,e);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
         }
     }
 
-    private void writeToFile(PrintWriter writer, List<String> stringList){
-        for(String s : stringList){
+    private void writeToFile(PrintWriter writer, List<String> stringList) {
+        for (String s : stringList) {
             writer.println(s);
         }
     }
