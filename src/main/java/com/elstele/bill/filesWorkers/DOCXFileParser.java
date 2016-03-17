@@ -64,7 +64,7 @@ public class DOCXFileParser {
                     Direction direction = directionDataService.getByPrefixMainPart(prefixPart);
 
                     if (direction == null) {
-                        listForWrite.add("Tariff zone: " + cellList.get(0).getText() + " does not exist in DB.");
+                        listForWrite.add("Directions with Tariff zone: " + cellList.get(0).getText() + " in new and does not exist in DB.");
                         listForWrite.add("Prefix for this Zone is: " + cellList.get(1).getText() + " and Tariff: " + cellList.get(3).getText());
                         listForWrite.add("\n");
                     } else {
@@ -112,6 +112,9 @@ public class DOCXFileParser {
                                 template.getPrefMainPart() + " And prefix second part is : " + template.getPrefEnder() + " AND TARIFF = " + template.getTariff());
                     }
                 }
+                listForWrite.add("\n");
+                listForWrite.add("________________________________________________________");
+                listForWrite.add("Total counts of new directions are: " + rowList.size());
 
                 writeToFile(writer, listForWrite);
             }
