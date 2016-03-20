@@ -14,6 +14,12 @@ $(function() {
         $("#linkToCatalogs").addClass('selected');
         $("#linkToTransactionCatalog").addClass('active');
     }
+
+    else if(s.indexOf("saldoReport") > -1) {
+        $("#linkToCatalogs").addClass('selected');
+        $("#linkToSaldoReport").addClass('active');
+    }
+
     //  --- For ACCONT Page ---
     else if(s.indexOf("accounts") > -1) {
         $("#linkToAccounts").addClass('selected');
