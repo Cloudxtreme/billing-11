@@ -46,7 +46,7 @@ $(document).ready(function() {
 });
 $(document).ready(function() {
     $('#changeServiceType').click(function(e) {
-        if($(this).text() == "Change"){
+        if($(this).text() == "Change" || $(this).text() == "Изменить"){
             disabledAllFields();
             allowChangeServiceType();
             $(this).text("Cancel");
