@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
+@Service("transactionDAO")
 public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements TransactionDAO {
     @Override
     public List<Transaction> getTransactionList(Integer accountId) {

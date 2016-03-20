@@ -1,23 +1,13 @@
 package com.elstele.bill.dao.common;
 
-import com.elstele.bill.dao.impl.AuditedObjectDAOImpl;
-import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
-import com.elstele.bill.domain.Account;
-import com.elstele.bill.domain.Service;
 import com.elstele.bill.domain.common.AuditedDomainBean;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import com.elstele.bill.utils.Enums.ObjectOperationType;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 public class CommonDAOImpl<T> implements CommonDAO <T> {
 

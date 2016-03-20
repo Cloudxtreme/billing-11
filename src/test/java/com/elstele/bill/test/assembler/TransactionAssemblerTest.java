@@ -9,6 +9,8 @@ import com.elstele.bill.test.builder.bean.AccountBuilder;
 import com.elstele.bill.test.builder.bean.TransactionBuilder;
 import com.elstele.bill.test.builder.form.AccountFormBuilder;
 import com.elstele.bill.test.builder.form.TransactionFormBuilder;
+import com.elstele.bill.test.builder.form.TransactionTOBuilder;
+import com.elstele.bill.to.TransactionTO;
 import com.elstele.bill.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +27,7 @@ public class TransactionAssemblerTest {
     private TransactionAssembler assembler;
     private Transaction bean;
     private TransactionForm form;
+    private TransactionTO to;
 
     @Before
     public void setUp(){
@@ -40,6 +43,11 @@ public class TransactionAssemblerTest {
 
         TransactionFormBuilder tfb = new TransactionFormBuilder();
         form = tfb.build().withId(33).withSource(Constants.TransactionSource.BANK).withAccount(accountForm).withDirection(Constants.TransactionDirection.CREDIT).withPrice(22F).getRes();
+
+        TransactionTOBuilder ttob =new TransactionTOBuilder();
+        to = ttob.build().withId(33).withSource(Constants.TransactionSource.BANK).withAccountId(account.getId()).withDirection(Constants.TransactionDirection.CREDIT).withPrice(22F).getRes();
+
+
     }
 
     @Test
@@ -50,8 +58,14 @@ public class TransactionAssemblerTest {
     }
 
     @Test
-    public  void b_fromBeanToForm(){
+    public void b_fromBeanToForm(){
         TransactionForm formGet = assembler.fromBeanToForm(bean);
         assertTrue(formGet.equals(form));
+    }
+
+    @Test
+    public void c_fromBeanToTO(){
+        TransactionTO resTO = assembler.fromBeanToTO(bean);
+        assertTrue(resTO.equals(to));
     }
 }

@@ -8,8 +8,11 @@ import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
+import com.elstele.bill.to.TransactionTO;
 import com.elstele.bill.utils.Constants;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +91,19 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         for (Transaction curBean : beans){
             TransactionForm curForm = assembler.fromBeanToForm(curBean);
             result.add(curForm);
+        }
+        return result;
+    }
+
+    //TODO need to be covered by test
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public List<TransactionTO> getTransactionForAccount(Integer accountId) {
+        List<TransactionTO> result = new ArrayList<>();
+        TransactionAssembler assembler = new TransactionAssembler();
+        List<Transaction> beans =  transactionDAO.getTransactionList(accountId);
+        for (Transaction curBean : beans){
+            TransactionTO curTO = assembler.fromBeanToTO(curBean);
+            result.add(curTO);
         }
         return result;
     }

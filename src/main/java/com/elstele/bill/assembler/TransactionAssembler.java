@@ -4,6 +4,8 @@ import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.TransactionForm;
+import com.elstele.bill.to.TransactionTO;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -36,5 +38,12 @@ public class TransactionAssembler {
         java.util.Date date = new java.util.Date();
         bean.setDate(new Timestamp(date.getTime()));
         return bean;
+    }
+
+    public TransactionTO fromBeanToTO(Transaction bean){
+        TransactionTO to = new TransactionTO();
+        copyProperties(bean, to, propsToSkip);
+        to.setAccountId(bean.getAccount().getId());
+        return to;
     }
 }

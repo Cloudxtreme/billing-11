@@ -1,31 +1,30 @@
 <?xml  version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">    
-    
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+
+
     <context:annotation-config />
     <context:component-scan base-package="com.elstele.bill" />
- 
-	<mvc:resources mapping="/resources/**" location="/resources/" />
 
+	<mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" />
+
+    <tx:annotation-driven/>
 
     <bean id="contentNegotiationManager"
           class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -48,8 +47,6 @@
         <property name="contentType" value="text/html;charset=UTF-8" />
 
     </bean>
-
-    <!--Locale settings-->
 
     <bean id="messageSource"
         class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -78,53 +75,9 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-
-    <!--Locale settings END-->
-
-    <bean id="workerFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
-        <property name="serviceLocatorInterface" value="com.elstele.bill.executors.WorkerFactory"/>
-    </bean>
-
-    <bean id="propertyConfigurer"
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-        p:location="/WEB-INF/jdbc.properties" />
-
-    <bean id="dataSource"
-        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-        p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}"
-        p:username="${jdbc.username}"
-        p:password="${jdbc.password}" />
-
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="50000000"/>
-    </bean>
-
-
-    <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="configLocation">
-            <value>classpath:hibernate.cfg.xml</value>
-        </property>
-        <property name="configurationClass">
-            <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
-                <prop key="hibernate.show_sql">false</prop>
-                <prop key="hibernate.connection.characterEncoding">utf8"</prop>
-				<prop key="hibernate.connection.charSet">utf8</prop>
-            </props>
-        </property>
-    </bean>
-
-    <tx:annotation-driven />
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
 </beans>
