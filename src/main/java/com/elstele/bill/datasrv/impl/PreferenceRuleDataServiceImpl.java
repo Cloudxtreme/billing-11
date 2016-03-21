@@ -111,7 +111,7 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
-    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority, Date validFrom){
-        return ruleDAO.getByProfileAndPriority(profileId, rulePriority, validFrom);
+    public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom){
+        return ruleDAO.getByTariffAndValidDate(tariff, validFrom);
     }
 }

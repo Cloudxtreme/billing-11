@@ -28,10 +28,9 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
     }
 
     @Override
-    public PreferenceRule getByProfileAndPriority(int profileId, int rulePriority, Date validFrom) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.profileId = :profileId AND pr.rulePriority= :rulePriority AND pr.validFrom = :validFrom")
-                .setParameter("profileId", profileId)
-                .setParameter("rulePriority", rulePriority)
+    public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.tarif = :tariff AND pr.validFrom = :validFrom")
+                .setParameter("tariff", tariff)
                 .setParameter("validFrom", validFrom);
         return (PreferenceRule) query.uniqueResult();
     }

@@ -18,5 +18,5 @@ public interface PreferenceRuleDataService {
     public List<PreferenceRule> getRuleListByProfileId(int profileId);
     public int getProfileIdMaxValue();
     public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority);
-    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority, Date validFrom);
+    public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom);
 }

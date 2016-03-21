@@ -74,7 +74,7 @@ public class DOCXFileParser {
                     rule.setProfileId(maxRuleProfId + 1);
                     rule.setValidFrom(validateFrom);
                     maxRuleProfId++;
-                    if (preferenceRuleDataService.getByProfileIdAndPriority(rule.getProfileId(), rule.getRulePriority()) == null) {
+                    if (preferenceRuleDataService.getByTariffAndValidDate(rule.getTarif(), validateFrom) == null) {
                         preferenceRuleDataService.createRule(rule);
                     } else {
                         LOGGER.info("This rule " + rule.getTarif() + " with id " + rule.getProfileId() + " exists in DB");
@@ -85,6 +85,7 @@ public class DOCXFileParser {
                     zone.setZoneName(transTemplate.getDirectionName());
                     zone.setPrefProfile(rule.getProfileId());
                     zone.setValidFrom(validateFrom);
+
                     int zoneId;
                     TariffZone zoneFromDB = tariffZoneDataService.getZoneByNameAndValidFrom(zone.getZoneName(), validateFrom);
                     if (zoneFromDB == null) {
