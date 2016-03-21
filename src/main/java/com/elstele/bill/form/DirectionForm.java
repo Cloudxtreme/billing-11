@@ -2,6 +2,7 @@
 package com.elstele.bill.form;
 
 
+import java.util.Date;
 import java.util.List;
 
 public class DirectionForm {
@@ -12,6 +13,8 @@ public class DirectionForm {
     private String additionalKode;
     private String trunkgroup;
     private int zoneId;
+    private Date validFrom;
+    private Date validTo;
 
     public Integer getId() {
         return id;
@@ -69,6 +72,22 @@ public class DirectionForm {
         this.zoneId = zoneId;
     }
 
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,7 +103,9 @@ public class DirectionForm {
             return false;
         if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
             return false;
-        return !(trunkgroup != null ? !trunkgroup.equals(that.trunkgroup) : that.trunkgroup != null);
+        if (trunkgroup != null ? !trunkgroup.equals(that.trunkgroup) : that.trunkgroup != null) return false;
+        if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
+        return !(validTo != null ? !validTo.equals(that.validTo) : that.validTo != null);
 
     }
 
@@ -97,6 +118,8 @@ public class DirectionForm {
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (trunkgroup != null ? trunkgroup.hashCode() : 0);
         result = 31 * result + zoneId;
+        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
+        result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
 }

@@ -4,6 +4,7 @@ import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 @Entity
 @Table(name = "preference_rules", schema = "public", catalog = "billing")
@@ -32,6 +33,8 @@ public class PreferenceRule extends CommonDomainBean {
     @Basic
     @Column(name = "tarif")
     private Float tarif;
+    private Date validFrom;
+    private Date validTo;
 
 
     public int getProfileId() {
@@ -98,29 +101,45 @@ public class PreferenceRule extends CommonDomainBean {
         this.tarif = tarif;
     }
 
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PreferenceRule)) return false;
 
-        PreferenceRule that = (PreferenceRule) o;
+        PreferenceRule rule = (PreferenceRule) o;
 
-        if (profileId != that.profileId) return false;
-        if (rulePriority != that.rulePriority) return false;
-        if (dayOfMonth != null ? !dayOfMonth.equals(that.dayOfMonth) : that.dayOfMonth != null) return false;
-        if (month != null ? !month.equals(that.month) : that.month != null) return false;
-        if (dayOfWeek != null ? !dayOfWeek.equals(that.dayOfWeek) : that.dayOfWeek != null) return false;
-        if (starttime != null ? !starttime.equals(that.starttime) : that.starttime != null) return false;
-        if (finishtime != null ? !finishtime.equals(that.finishtime) : that.finishtime != null) return false;
-        if (tarif != null ? !tarif.equals(that.tarif) : that.tarif != null) return false;
+        if (profileId != rule.profileId) return false;
+        if (rulePriority != rule.rulePriority) return false;
+        if (dayOfMonth != null ? !dayOfMonth.equals(rule.dayOfMonth) : rule.dayOfMonth != null) return false;
+        if (month != null ? !month.equals(rule.month) : rule.month != null) return false;
+        if (dayOfWeek != null ? !dayOfWeek.equals(rule.dayOfWeek) : rule.dayOfWeek != null) return false;
+        if (starttime != null ? !starttime.equals(rule.starttime) : rule.starttime != null) return false;
+        if (finishtime != null ? !finishtime.equals(rule.finishtime) : rule.finishtime != null) return false;
+        if (tarif != null ? !tarif.equals(rule.tarif) : rule.tarif != null) return false;
+        if (validFrom != null ? !validFrom.equals(rule.validFrom) : rule.validFrom != null) return false;
+        return !(validTo != null ? !validTo.equals(rule.validTo) : rule.validTo != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + profileId;
+        int result = profileId;
         result = 31 * result + rulePriority;
         result = 31 * result + (dayOfMonth != null ? dayOfMonth.hashCode() : 0);
         result = 31 * result + (month != null ? month.hashCode() : 0);
@@ -128,6 +147,8 @@ public class PreferenceRule extends CommonDomainBean {
         result = 31 * result + (starttime != null ? starttime.hashCode() : 0);
         result = 31 * result + (finishtime != null ? finishtime.hashCode() : 0);
         result = 31 * result + (tarif != null ? tarif.hashCode() : 0);
+        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
+        result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
 }

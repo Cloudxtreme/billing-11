@@ -164,14 +164,14 @@
     </div>
 
 
-
-
     <table class="table table-striped" id='table'>
         <tr>
             <th style="width: 10%;"></th>
             <th style="width: 30%;"><spring:message code="label.direction"/></th>
-            <th style="width: 30%;"><spring:message code="label.prefix"/></th>
-            <th style="width: 30%;"><spring:message code="label.tariffZoneName"/></th>
+            <th style="width: 20%;"><spring:message code="label.prefix"/></th>
+            <th style="width: 20%;"><spring:message code="label.tariffZoneName"/></th>
+            <th style="width: 10%;"><spring:message code="label.validFrom"/></th>
+            <th style="width: 10%;"><spring:message code="label.validTo"/></th>
         </tr>
     </table>
     <div id="tableNavigation">

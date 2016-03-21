@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -79,6 +80,12 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
+    public Integer createDirection(Direction direction){
+        return directionDAO.create(direction);
+    }
+
+    @Override
+    @Transactional
     public DirectionForm getDirectionById(int id) {
         assembler = new DirectionAssembler(tariffZoneDAO);
         Direction direction = directionDAO.getById(id);
@@ -113,6 +120,12 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Transactional
     public Direction getByPrefixMainPart(String prefixMainPart) {
         return directionDAO.getByPrefixMainPart(prefixMainPart);
+    }
+
+    @Override
+    @Transactional
+    public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom) {
+        return directionDAO.getDirectionByPrefixAndDate(prefix, validateFrom);
     }
 
 

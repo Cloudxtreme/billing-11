@@ -95,8 +95,23 @@ function drawRow(rowData) {
     }else {
         row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
     }
-
+    if(rowData.validFrom != null){
+        row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom)+ "</td>"));
+    }else{
+        row.append($("<td></td>"))
+    }
+    if(rowData.validTo != null){
+        row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
+    }else{
+        row.append($("<td></td>"))
+    }
 }
+
+function parseDateTOStringWithFormat(dateToParse) {
+    var date = new Date(dateToParse);
+    return date.getMonth()+1 + "." + date.getDate() + "." + date.getFullYear();
+}
+
 
 function getPageCounts() {
     pageResults = $("#selectEntries option:selected").val();

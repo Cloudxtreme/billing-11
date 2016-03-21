@@ -12,6 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,7 +60,17 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     @Override
     public Direction getByPrefixMainPart(String prefixPart) {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
-        criteria.add(Restrictions.like("prefix", "00"+prefixPart, MatchMode.START)).setMaxResults(1);
+        criteria.add(Restrictions.like("prefix", "00" + prefixPart, MatchMode.START)).setMaxResults(1);
         return (Direction) criteria.uniqueResult();
     }
+
+    @Override
+    public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM Direction where prefix = :prefix AND validFrom = :validFrom")
+                .setParameter("prefix", prefix)
+                .setParameter("validFrom", validateFrom);
+        return (Direction) query.uniqueResult();
+    }
+
+
 }

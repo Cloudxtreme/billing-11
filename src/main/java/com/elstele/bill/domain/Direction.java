@@ -3,15 +3,16 @@ package com.elstele.bill.domain;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "directions", schema = "public", catalog = "billing")
 public class Direction extends CommonDomainBean {
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", length = 100)
     private String description;
     @Basic
-    @Column(name = "prefix")
+    @Column(name = "prefix", length = 20)
     private String prefix;
     @Basic
     @Column(name = "tarif_zone")
@@ -22,6 +23,9 @@ public class Direction extends CommonDomainBean {
     @Basic
     @Column(name = "trunkgroup")
     private String trunkgroup;
+
+    private Date validFrom;
+    private Date validTo;
 
     public String getDescription() {
         return description;
@@ -67,34 +71,50 @@ public class Direction extends CommonDomainBean {
         this.trunkgroup = trunkgroup;
     }
 
+    public Date getValidFrom() {
+        return validFrom;
+    }
 
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
 
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Direction)) return false;
 
-        Direction that = (Direction) o;
+        Direction direction = (Direction) o;
 
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
-        if (tarifZone != null ? !tarifZone.equals(that.tarifZone) : that.tarifZone != null) return false;
-        if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
+        if (description != null ? !description.equals(direction.description) : direction.description != null)
             return false;
-        if (trunkgroup != null ? !trunkgroup.equals(that.trunkgroup) : that.trunkgroup != null) return false;
+        if (prefix != null ? !prefix.equals(direction.prefix) : direction.prefix != null) return false;
+        if (tarifZone != null ? !tarifZone.equals(direction.tarifZone) : direction.tarifZone != null) return false;
+        if (additionalKode != null ? !additionalKode.equals(direction.additionalKode) : direction.additionalKode != null)
+            return false;
+        if (trunkgroup != null ? !trunkgroup.equals(direction.trunkgroup) : direction.trunkgroup != null) return false;
+        if (validFrom != null ? !validFrom.equals(direction.validFrom) : direction.validFrom != null) return false;
+        return !(validTo != null ? !validTo.equals(direction.validTo) : direction.validTo != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = description != null ? description.hashCode() : 0;
         result = 31 * result + (prefix != null ? prefix.hashCode() : 0);
         result = 31 * result + (tarifZone != null ? tarifZone.hashCode() : 0);
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (trunkgroup != null ? trunkgroup.hashCode() : 0);
+        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
+        result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
 }

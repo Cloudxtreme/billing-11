@@ -6,6 +6,7 @@ import com.elstele.bill.domain.TariffZone;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,5 +36,13 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
     public List<Integer> getPrefProfileIdList() {
         Query query = getSessionFactory().getCurrentSession().createSQLQuery("SELECT DISTINCT profile_id FROM preference_rules ORDER BY profile_id");
         return query.list();
+    }
+
+    @Override
+    public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM TariffZone t where t.zoneName = :zoneName AND t.validFrom = :validFrom")
+                .setParameter("zoneName", zoneName)
+                .setParameter("validFrom", validFrom);
+        return (TariffZone) query.uniqueResult();
     }
 }

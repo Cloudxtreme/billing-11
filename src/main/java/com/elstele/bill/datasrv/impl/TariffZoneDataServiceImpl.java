@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,6 +40,13 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     public void create(TariffZoneForm tariffZoneForm) {
         TariffZone tariffZone = assembler.fromFormToBean(tariffZoneForm);
         tariffZoneDAO.create(tariffZone);
+    }
+
+    @Override
+    @Transactional
+    public int create(TariffZone tariffZone) {
+        int id = tariffZoneDAO.create(tariffZone);
+        return tariffZoneDAO.getById(id).getZoneId();
     }
 
     @Override
@@ -86,5 +94,11 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public TariffZone getUniqueZoneByZoneId(int zoneId){
         return tariffZoneDAO.getUniqueTariffZoneByZoneID(zoneId);
+    }
+
+    @Override
+    @Transactional
+    public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom) {
+        return tariffZoneDAO.getZoneByNameAndValidFrom(zoneName, validFrom);
     }
 }

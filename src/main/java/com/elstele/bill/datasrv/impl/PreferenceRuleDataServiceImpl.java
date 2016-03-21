@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -63,6 +64,18 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
+    public int createRule(PreferenceRule rule) {
+        return ruleDAO.create(rule);
+    }
+
+    @Override
+    @Transactional
+    public int getProfileIdMaxValue(){
+        return ruleDAO.getProfileIdMaxValue();
+    }
+
+    @Override
+    @Transactional
     public PreferenceRuleForm getRuleById(int id) {
         PreferenceRule rule = ruleDAO.getById(id);
         return assembler.fromBeanToForm(rule);
@@ -77,7 +90,7 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
     @Override
     @Transactional
     public ResponseToAjax checkForFree(int id, int profileId, int rulePriority) {
-        PreferenceRule preferenceRule = ruleDAO.getByProfileAndPriority(profileId, rulePriority);
+        PreferenceRule preferenceRule = getByProfileIdAndPriority(profileId, rulePriority);
         if(preferenceRule != null){
             if(id > 0){
                 if(preferenceRule.getId() == id){
@@ -88,5 +101,17 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
             return ResponseToAjax.BUSY;
         }
         return ResponseToAjax.FREE;
+    }
+
+    @Override
+    @Transactional
+    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority){
+        return ruleDAO.getByProfileAndPriority(profileId, rulePriority);
+    }
+
+    @Override
+    @Transactional
+    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority, Date validFrom){
+        return ruleDAO.getByProfileAndPriority(profileId, rulePriority, validFrom);
     }
 }

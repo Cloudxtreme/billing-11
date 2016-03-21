@@ -5,6 +5,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tariff_zones", schema = "public", catalog = "billing")
@@ -16,7 +17,7 @@ public class TariffZone extends CommonDomainBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int zoneId;
     @Basic
-    @Column(name = "zone_name")
+    @Column(name = "zone_name", length = 120)
     private String zoneName;
     @Basic
     @Column(name = "additional_kode")
@@ -33,6 +34,9 @@ public class TariffZone extends CommonDomainBean {
     @Basic
     @Column(name = "tarif_pref")
     private Float tarifPref;
+
+    private Date validFrom;
+    private Date validTo;
 
     public int getZoneId() {
         return zoneId;
@@ -92,10 +96,26 @@ public class TariffZone extends CommonDomainBean {
         this.tarifPref = tarifPref;
     }
 
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TariffZone)) return false;
 
         TariffZone that = (TariffZone) o;
 
@@ -107,20 +127,22 @@ public class TariffZone extends CommonDomainBean {
         if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
             return false;
         if (tarifPref != null ? !tarifPref.equals(that.tarifPref) : that.tarifPref != null) return false;
+        if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
+        return !(validTo != null ? !validTo.equals(that.validTo) : that.validTo != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + zoneId;
+        int result = zoneId;
         result = 31 * result + (zoneName != null ? zoneName.hashCode() : 0);
         result = 31 * result + (additionalKode != null ? additionalKode.hashCode() : 0);
         result = 31 * result + (dollar ? 1 : 0);
         result = 31 * result + prefProfile;
         result = 31 * result + (tarif != +0.0f ? Float.floatToIntBits(tarif) : 0);
         result = 31 * result + (tarifPref != null ? tarifPref.hashCode() : 0);
+        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
+        result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
 }

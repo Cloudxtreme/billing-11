@@ -3,6 +3,7 @@ package com.elstele.bill.dao.interfaces;
 import com.elstele.bill.dao.common.CommonDAO;
 import com.elstele.bill.domain.TariffZone;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TariffZoneDAO extends CommonDAO<TariffZone> {
@@ -10,4 +11,5 @@ public interface TariffZoneDAO extends CommonDAO<TariffZone> {
     public TariffZone getUniqueTariffZoneByZoneID(int zoneId);
     public List<TariffZone> getTariffZoneList();
     public List<Integer> getPrefProfileIdList();
+    public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom);
 }

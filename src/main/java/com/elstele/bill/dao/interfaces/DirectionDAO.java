@@ -3,6 +3,7 @@ package com.elstele.bill.dao.interfaces;
 import com.elstele.bill.dao.common.CommonDAO;
 import com.elstele.bill.domain.Direction;
 
+import java.util.Date;
 import java.util.List;
 
 public interface DirectionDAO extends CommonDAO<Direction>{
@@ -10,4 +11,5 @@ public interface DirectionDAO extends CommonDAO<Direction>{
     public int getPagesCount(String prefix);
     public Direction getByPrefix(String prefix);
     public Direction getByPrefixMainPart(String prefixPart);
+    public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
 }
