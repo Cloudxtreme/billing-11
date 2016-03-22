@@ -21,8 +21,6 @@
     <script src="${jqueryMinUi}"></script>
     <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
     <script src="${nestedFileTree}"></script>
-    <spring:url value="/resources/css/loader-style.css" var="loader" />
-    <link href="${loader}" rel="stylesheet"/>
 
 </head>
 <body>
@@ -42,6 +40,9 @@
     </div>
     <div id="successMessage" class="alert alert-success" style="display: none">
         <strong><spring:message code="dirFile.success"/></strong>
+    </div>
+    <div  id="errorMessageBUSY" class="alert alert-danger" style="display: none; text-align: center !important;">
+        <strong><spring:message code="label.BUSY"/></strong>
     </div>
 
 
@@ -63,19 +64,10 @@
             <ul id="list" class="list-group"></ul>
         </div>
 
-        <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar" href="#myModal" data-toggle="modal"><spring:message code="label.handleDirectionFile"/></button>
+        <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar"><spring:message code="label.handleDirectionFile"/></button>
 
     </form:form>
 
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="spinner" class="modal-dialog" style="display:none;">
-            <div class="modal-content" style="width: 298px !important;">
-                <div class="modal-body">
-                    <img id="img-responsive" src="resources/images/loaderLine.gif" alt="Loading"/>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 </body>

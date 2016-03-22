@@ -5,6 +5,7 @@ import com.elstele.bill.dao.interfaces.TariffZoneDAO;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,5 +101,11 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom) {
         return tariffZoneDAO.getZoneByNameAndValidFrom(zoneName, validFrom);
+    }
+
+    @Override
+    @Transactional
+    public Integer setValidToDateForZones(Date newDateFromFile) {
+        return tariffZoneDAO.setValidToDateForZones(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
     }
 }

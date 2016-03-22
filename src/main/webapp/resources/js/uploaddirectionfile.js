@@ -58,9 +58,9 @@ $(document).ready(function () {
 
     $('#uploadFile').on('click', function () {
         var data = new FormData();
+        var interval =  setInterval(getProgress, 2000);
 
         if (uniqFiles.length == 0) {
-            $('#myModal').modal('hide');
             $('#errorMessageEmpty').show();
             $('#errorMessageEmpty').fadeOut(3000);
             return false;
@@ -79,28 +79,14 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (result) {
-                if (result == "SUCCESS") {
-                    $('#myModal').modal('hide');
-                    document.getElementById('successMessage').style.display = "block";
-                    $('#successMessage').show();
+                if (result == "BUSY") {
+                    $('#errorMessageBUSY').show();
                     uniqFiles = [];
-                    setTimeout(function () {
-                        $("#successMessage").fadeOut(2500, function () {
-                            $("#successMessage").hide();
-                            $("#list li").remove();
-                        });
-                    });
+                    $('#errorMessageBUSY').fadeOut(3000);
                     $('body').scrollTop(0);
-
-                } else if (result == "INCORRECTTYPE") {
-                    $('#myModal').modal('hide');
-                    $('#errorMessageIncType').show();
-                    $('#errorMessageIncType').fadeOut(3000);
                 } else if (result == "ERROR") {
-                    $('#myModal').modal('hide');
                     $('#errorMessage').show();
-                    $('#errorMessage').fadeOut(3000);
-
+                    $('#errorMessage').fadeOut(15000);
                 }
             }
         });
@@ -113,18 +99,17 @@ $(document).ready(function () {
             success: function (data) {
                 var width = (data);
                 if (data == 0) {
-                    setTimeout(getProgress, 2000);
+                    clearInterval(interval);
                 }
                 if (data > 0 && data < 100) {
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data + '%').attr('aria-valuenow', data);
-                    setTimeout(getProgress, 2000);
                 }
                 if (data == 100) {
                     $('.progress-bar').css('width', data + '%').attr('aria-valuenow', data);
-                    document.getElementById('successMessageReport').style.display = "block";
+                    document.getElementById('successMessage').style.display = "block";
                     setTimeout(function () {
-                        $("#successMessageReport").fadeOut(5000);
+                        $("#successMessage").fadeOut(5000);
                         $("#progress-bar").fadeOut(5000);
                         location.reload();
                     }, 6000);
@@ -133,5 +118,5 @@ $(document).ready(function () {
         })
     }
 
-    /*var interval =  setInterval(getProgress, 2000);*/
+    var interval =  setInterval(getProgress, 2000);
 });

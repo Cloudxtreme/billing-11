@@ -18,4 +18,5 @@ public interface DirectionDataService {
     public ResponseToAjax checkForFree(int id, String prefix);
     public Direction getByPrefixMainPart(String prefixMainPart);
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
+    public Integer setValidToDateForDirections(Date newDateFromFile);
 }

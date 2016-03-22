@@ -29,8 +29,7 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
 
     @Override
     public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.tarif = :tariff AND pr.validFrom = :validFrom")
-                .setParameter("tariff", tariff)
+        Query query = getSessionFactory().getCurrentSession().createQuery("from PreferenceRule pr where pr.tarif = '" + Float.toString(tariff) + "' AND pr.validFrom = :validFrom")
                 .setParameter("validFrom", validFrom);
         return (PreferenceRule) query.uniqueResult();
     }
@@ -49,6 +48,14 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
                 .createCriteria(PreferenceRule.class)
                 .setProjection(Projections.max("profileId"));
         return (int) criteria.uniqueResult();
+    }
+
+    @Override
+    public Integer setValidToDateForRules(Date newDateFromFile, Date validTo){
+        Query query = getSessionFactory().getCurrentSession().createQuery("update PreferenceRule set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) AND validTo is null")
+                .setParameter("validTo", validTo)
+                .setParameter("newDateFromFile", newDateFromFile);
+        return query.executeUpdate();
     }
 
 

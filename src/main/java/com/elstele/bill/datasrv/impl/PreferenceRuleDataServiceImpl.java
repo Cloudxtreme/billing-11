@@ -5,6 +5,7 @@ import com.elstele.bill.dao.interfaces.PreferenceRuleDAO;
 import com.elstele.bill.datasrv.interfaces.PreferenceRuleDataService;
 import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.form.PreferenceRuleForm;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
@@ -70,7 +71,7 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
-    public int getProfileIdMaxValue(){
+    public int getProfileIdMaxValue() {
         return ruleDAO.getProfileIdMaxValue();
     }
 
@@ -83,7 +84,7 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
-    public List<PreferenceRule> getRuleListByProfileId(int profileId){
+    public List<PreferenceRule> getRuleListByProfileId(int profileId) {
         return ruleDAO.getRuleListByProfileId(profileId);
     }
 
@@ -91,9 +92,9 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
     @Transactional
     public ResponseToAjax checkForFree(int id, int profileId, int rulePriority) {
         PreferenceRule preferenceRule = getByProfileIdAndPriority(profileId, rulePriority);
-        if(preferenceRule != null){
-            if(id > 0){
-                if(preferenceRule.getId() == id){
+        if (preferenceRule != null) {
+            if (id > 0) {
+                if (preferenceRule.getId() == id) {
                     return ResponseToAjax.FREE;
                 }
                 return ResponseToAjax.BUSY;
@@ -105,13 +106,19 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
 
     @Override
     @Transactional
-    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority){
+    public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority) {
         return ruleDAO.getByProfileAndPriority(profileId, rulePriority);
     }
 
     @Override
     @Transactional
-    public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom){
+    public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom) {
         return ruleDAO.getByTariffAndValidDate(tariff, validFrom);
+    }
+
+    @Override
+    @Transactional
+    public Integer setValidToDateForRules(Date newDateFromFile) {
+        return ruleDAO.setValidToDateForRules(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
     }
 }

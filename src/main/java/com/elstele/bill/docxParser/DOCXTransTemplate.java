@@ -1,4 +1,4 @@
-package com.elstele.bill.filesWorkers;
+package com.elstele.bill.docxParser;
 
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 

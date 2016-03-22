@@ -17,4 +17,5 @@ public interface TariffZoneDataService {
     public List<Integer> getPrefProfileIdList();
     public TariffZone getUniqueZoneByZoneId(int zoneId);
     public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom);
+    public Integer setValidToDateForZones(Date newDateFromFile);
 }

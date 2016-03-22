@@ -72,5 +72,13 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
         return (Direction) query.uniqueResult();
     }
 
+    @Override
+    public Integer setValidToDateForDirections(Date newDateFromFile, Date validTo) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("update Direction set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) AND validTo is null")
+                .setParameter("validTo", validTo)
+                .setParameter("newDateFromFile", newDateFromFile);
+        return query.executeUpdate();
+    }
+
 
 }

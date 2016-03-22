@@ -1,6 +1,6 @@
 package com.elstele.bill.controller;
 
-import com.elstele.bill.filesWorkers.DOCXFileParser;
+import com.elstele.bill.docxParser.DOCXFileParser;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +28,11 @@ public class DOCXFileController {
     @ResponseBody
     public ResponseToAjax fileDOCXUpdate(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
         return  parser.parse(multiPartHTTPServletRequestFiles, session);
+    }
+
+    @RequestMapping(value = "uploaddirectionfile/reportCreatingProgress", method = RequestMethod.GET)
+    @ResponseBody
+    public Float getProcessingProgress(HttpSession session) {
+        return UserStateStorage.getProgressBySession(session);
     }
 }

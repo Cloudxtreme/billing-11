@@ -7,6 +7,7 @@ import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.domain.Direction;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.DirectionForm;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
@@ -126,6 +127,12 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Transactional
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom) {
         return directionDAO.getDirectionByPrefixAndDate(prefix, validateFrom);
+    }
+
+    @Override
+    @Transactional
+    public Integer setValidToDateForDirections(Date newDateFromFile){
+        return  directionDAO.setValidToDateForDirections(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
     }
 
 
