@@ -3,6 +3,7 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.interfaces.UploadedFileInfoDAO;
 import com.elstele.bill.domain.UploadedFileInfo;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.junit.After;
 import org.junit.Before;
@@ -61,7 +62,7 @@ public class UploadedFileInfoDAOTest {
 
     @Test
     public void getUploadedFileInfoListTest(){
-        List<UploadedFileInfo> actual = uploadedFileInfoDAO.getUploadedFileInfoList();
+        List<UploadedFileInfo> actual = uploadedFileInfoDAO.getUploadedFileInfoList(Constants.KDF_FILE_TYPE);
         assertEquals(actual, expected);
     }
 }

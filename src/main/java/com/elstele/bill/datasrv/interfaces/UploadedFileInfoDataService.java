@@ -5,7 +5,7 @@ import com.elstele.bill.form.UploadedFileInfoForm;
 import java.util.List;
 
 public interface UploadedFileInfoDataService {
-    public List<UploadedFileInfoForm> getUploadedFileInfoList();
+    public List<UploadedFileInfoForm> getUploadedFileInfoList(String fileType);
     public Integer addUploadedFileInfo(UploadedFileInfoForm uploadedFileInfoForm);
     public UploadedFileInfoForm getById(Integer id);
     public void setUploadedFileInfoStatusDelete(Integer id);

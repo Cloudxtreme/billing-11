@@ -1,7 +1,9 @@
 package com.elstele.bill.controller;
 
+import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.docxParser.DOCXFileParser;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,15 @@ import javax.servlet.http.HttpSession;
 public class DOCXFileController {
     @Autowired
     DOCXFileParser parser;
+    @Autowired
+    UploadedFileInfoDataService uploadedFileInfoDataService;
 
     @RequestMapping(value = "/uploaddirectionfile", method = RequestMethod.GET)
     public ModelAndView getModelAndViewForDirectionFile(HttpSession session){
         UserStateStorage.setProgressToObjectInMap(session, 0);
-        return new ModelAndView("uploaddirectionfileModel");
+        ModelAndView mav = new ModelAndView("uploaddirectionfileModel");
+        mav.addObject("fileInfoList", uploadedFileInfoDataService.getUploadedFileInfoList(Constants.DOCX_FILE_TYPE));
+        return mav;
     }
 
     @RequestMapping(value = "/uploaddirectionfile", method = RequestMethod.POST)

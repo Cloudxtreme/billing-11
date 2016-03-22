@@ -57,4 +57,7 @@ public class  Constants {
     public static final String ZONE_DELETED_ERROR = "tariff.delete.error";
     public static final String RULE_DELETED_SUCCESS = "rule.delete.success";
     public static final String RULE_DELETED_ERROR = "rule.delete.error";
+
+    public static final String KDF_FILE_TYPE = ".kdf";
+    public static final String DOCX_FILE_TYPE = ".docx";
 }

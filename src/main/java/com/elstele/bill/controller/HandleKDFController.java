@@ -6,6 +6,7 @@ import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.executors.BillingCallsProcessor;
 import com.elstele.bill.filesWorkers.KDFFileParser;
 import com.elstele.bill.form.UploadedFileInfoForm;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
 import org.apache.logging.log4j.LogManager;
@@ -40,11 +41,10 @@ public class HandleKDFController {
 
     final static Logger LOGGER = LogManager.getLogger(HandleKDFController.class);
 
-
     @RequestMapping(value = "/uploadedfiles", method = RequestMethod.GET)
     public ModelAndView addLoadedFiles(HttpSession session) {
         List<UploadedFileInfoForm> uploadedFileInfoForms;
-        uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList();
+        uploadedFileInfoForms = uploadedFileInfoDataService.getUploadedFileInfoList(Constants.KDF_FILE_TYPE);
         ModelAndView model = new ModelAndView("uploadedKDFFiles");
         model.addObject("uploadedList", uploadedFileInfoForms);
         UserStateStorage.setProgressToObjectInMap(session, 0);

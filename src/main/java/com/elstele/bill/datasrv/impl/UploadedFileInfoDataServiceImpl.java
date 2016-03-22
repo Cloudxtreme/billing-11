@@ -21,11 +21,11 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
 
     @Override
     @Transactional
-    public List<UploadedFileInfoForm> getUploadedFileInfoList() {
+    public List<UploadedFileInfoForm> getUploadedFileInfoList(String fileType) {
         List<UploadedFileInfoForm> result = new ArrayList<UploadedFileInfoForm>();
         UploadedFileInfoAssembler assembler = new UploadedFileInfoAssembler();
 
-        List<UploadedFileInfo> beans = uploadedFileInfoDAO.getUploadedFileInfoList();
+        List<UploadedFileInfo> beans = uploadedFileInfoDAO.getUploadedFileInfoList(fileType);
         for (UploadedFileInfo curBean : beans) {
             if (curBean.getStatus() != Status.DELETED) {
                 UploadedFileInfoForm curForm = assembler.fromBeanToForm(curBean);

@@ -3,11 +3,16 @@ package com.elstele.bill.docxParser;
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.datasrv.interfaces.PreferenceRuleDataService;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
+import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.domain.Direction;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.filesWorkers.MultipartFileConverter;
+import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
+import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.LocalDirPathProvider;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +50,8 @@ public class DOCXFileParser {
     TariffZoneDataService tariffZoneDataService;
     @Autowired
     PreferenceRuleDataService preferenceRuleDataService;
+    @Autowired
+    UploadedFileInfoDataService uploadedFileInfoDataService;
 
     private final static Logger LOGGER = LogManager.getLogger(DOCXFileParser.class);
     private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[/|.](0?[1-9]|1[012])[/|.]((19|20)\\d\\d)";
@@ -66,6 +73,7 @@ public class DOCXFileParser {
         LOGGER.info("In this DOCX File we have : " + tables.size() + " tables");
         parseTable(tables, session);
         UserStateStorage.setBusyToObjectInMap(session, false);
+        setProcessedFileInfoToDB(file, session);
         return ResponseToAjax.SUCCESS;
     }
 
@@ -212,6 +220,18 @@ public class DOCXFileParser {
         LOGGER.info("Date matching did not find in paragraphs");
         return null;
     }
+
+    private void setProcessedFileInfoToDB(File file, HttpSession session){
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+        UploadedFileInfoForm fileInfo = new UploadedFileInfoForm();
+        fileInfo.setFileSize(file.length());
+        fileInfo.setFileName(file.getName());
+        fileInfo.setPath(file.getName());
+        fileInfo.setFileStatus(FileStatus.PROCESSED);
+        fileInfo.setHandledBy(user.getUsername());
+        uploadedFileInfoDataService.createOrUpdateFileInfo(fileInfo);
+    }
+
 
 
 }

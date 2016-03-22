@@ -3,9 +3,9 @@ package com.elstele.bill.test.datasrv;
 
 import com.elstele.bill.dao.interfaces.UploadedFileInfoDAO;
 import com.elstele.bill.datasrv.impl.UploadedFileInfoDataServiceImpl;
-import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.domain.UploadedFileInfo;
 import com.elstele.bill.form.UploadedFileInfoForm;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.FileStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,9 +57,9 @@ public class UploadedFileInfoDataServiceTest {
     public void getUploadedFileInfoListTest(){
         List<UploadedFileInfo> fileInfos = new ArrayList<>();
         fileInfos.add(fileInfo);
-        when(dao.getUploadedFileInfoList()).thenReturn(fileInfos);
+        when(dao.getUploadedFileInfoList(Constants.KDF_FILE_TYPE)).thenReturn(fileInfos);
 
-        List<UploadedFileInfoForm> actual = dataService.getUploadedFileInfoList();
+        List<UploadedFileInfoForm> actual = dataService.getUploadedFileInfoList(Constants.KDF_FILE_TYPE);
         assertTrue(actual.contains(fileForm));
     }
 

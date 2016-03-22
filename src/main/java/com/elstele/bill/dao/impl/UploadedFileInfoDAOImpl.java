@@ -12,8 +12,9 @@ import java.util.List;
 public class UploadedFileInfoDAOImpl extends CommonDAOImpl<UploadedFileInfo> implements UploadedFileInfoDAO {
 
     @Override
-    public List<UploadedFileInfo> getUploadedFileInfoList() {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from UploadedFileInfo");
+    public List<UploadedFileInfo> getUploadedFileInfoList(String fileType) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from UploadedFileInfo ufi where ufi.path like :fileType")
+                .setParameter("fileType", "%" + fileType);
         return (List<UploadedFileInfo>) query.list();
     }
 
