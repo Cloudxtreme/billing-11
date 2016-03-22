@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface CallBillingDAO {
-    public CallDirection getCallDirection(String numberB);
-    public List<CallBillRule> getCallBillingRule(int billingProfile);
+    public CallDirection getCallDirection(String numberB, Date callDate);
+    public List<CallBillRule> getCallBillingRule(int billingProfile, Date callDate);
     public float getUsdRateForCall(Date date);
 
 }

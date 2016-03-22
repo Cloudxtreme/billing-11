@@ -33,9 +33,9 @@ public class CallBillingServiceImpl implements CallBillingService {
 
         Call currentCall = callDAO.getById(callId);
 
-        CallDirection direction =  billingDAO.getCallDirection(currentCall.getNumberB());
+        CallDirection direction =  billingDAO.getCallDirection(currentCall.getNumberB(), currentCall.getStartTime());
         if (direction.getPref_profile() != null) {
-            List<CallBillRule> billRules = billingDAO.getCallBillingRule(direction.getPref_profile());
+            List<CallBillRule> billRules = billingDAO.getCallBillingRule(direction.getPref_profile(), currentCall.getStartTime());
             recalculateCallDurationForSomePrefixes(currentCall);
             calculateCallCost(currentCall, billRules);
             correctCostByVatAndUsdRate(currentCall, direction);

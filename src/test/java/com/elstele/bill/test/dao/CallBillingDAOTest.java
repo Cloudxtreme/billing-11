@@ -39,20 +39,20 @@ public class CallBillingDAOTest {
 
     @Test
     public void getCallDirectionTest() {
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB);
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB, new Date());
         assertTrue(callDirection.getTarif() == null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB1);
+        callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
         assertTrue(callDirection.getTarif() != null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB2);
+        callDirection = callBillingDAO.getCallDirection(numberB2, new Date());
         assertFalse(callDirection.getTarif() == null);
     }
 
     @Test
     public void getCallBillingRuleTest() {
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB1);
-        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile());
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
+        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile(), new Date());
         assertTrue(actualList != null);
     }
 

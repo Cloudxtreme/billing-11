@@ -66,14 +66,14 @@ public class DOCXFileParser {
         }
         occupyHandlingProcess(session);
         File file = getFileForParse(multiPartHTTPServletRequestFiles);
-        List<XWPFTable> tables = getTablesFromDOCXFile(file);
+        List<XWPFTable> tables = getTablesFromDOCXFile(file, session);
         if (tables.isEmpty()) {
             return ResponseToAjax.ERROR;
         }
         LOGGER.info("In this DOCX File we have : " + tables.size() + " tables");
         parseTable(tables, session);
-        UserStateStorage.setBusyToObjectInMap(session, false);
         setProcessedFileInfoToDB(file, session);
+        UserStateStorage.setBusyToObjectInMap(session, false);
         return ResponseToAjax.SUCCESS;
     }
 
@@ -91,7 +91,7 @@ public class DOCXFileParser {
         return file;
     }
 
-    private List<XWPFTable> getTablesFromDOCXFile(File file) {
+    private List<XWPFTable> getTablesFromDOCXFile(File file, HttpSession session) {
         try {
             FileInputStream fis = new FileInputStream(file);
             XWPFDocument doc = new XWPFDocument(fis);
@@ -101,6 +101,7 @@ public class DOCXFileParser {
             return doc.getTables();
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+            UserStateStorage.setBusyToObjectInMap(session, false);
             return Collections.emptyList();
         }
     }
