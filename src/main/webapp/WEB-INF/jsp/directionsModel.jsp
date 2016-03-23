@@ -158,6 +158,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-8 float-right">
+                                    <span class="help-inline text-danger" id="dateWarn" style="display: none"><spring:message code="label.dateFormat"/></span>
+                                </div>
                                 <div class="col-lg-12">
                                     <div class="col-lg-12">
                                         <label for="tarriffZoneId" class="col-lg-12 control-label"><spring:message code="label.tariffZone"/></label>

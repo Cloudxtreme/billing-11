@@ -95,24 +95,19 @@ function drawRow(rowData) {
     }else {
         row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
     }
-    if(rowData.validFrom != null){
         row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom)+ "</td>"));
-    }else{
-        row.append($("<td></td>"))
-    }
-    if(rowData.validTo != null){
         row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
-    }else{
-        row.append($("<td></td>"))
-    }
+
 }
 
 function parseDateTOStringWithFormat(dateToParse) {
-    if(dateToParse != null) {
+    if(dateToParse != 0) {
         var now = new Date(dateToParse);
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         return now.getFullYear() + "-" + (month) + "-" + (day);
+    }else{
+        return "";
     }
 }
 
@@ -128,8 +123,6 @@ function getPageCounts() {
         }
     });
 }
-
-
 
 $(document).on("click", ".pushEdit", function () {
     console.log("pushEdit push");
@@ -219,6 +212,35 @@ $(document).ready(function () {
             return false;
         }
 
+        if (navigator.userAgent.search("Chrome") == -1) {
+            $('#validFrom').keypress(function () {
+                $(this).removeClass("invalidVal");
+                $('#dateWarn').hide();
+            });
+
+            $('#validTo').keypress(function () {
+                $(this).removeClass("invalidVal");
+                $('#dateWarn').hide();
+            });
+
+
+            var validTo = $('#validTo');
+            var validFrom = $('#validFrom');
+            if(!testDate(validFrom.val()) || !testDate(validTo.val()) ){
+                $('#dateWarn').show();
+                if(!testDate(validFrom.val())){
+                    validFrom.addClass("invalidVal");
+                }
+                if(!testDate(validTo.val())){
+                    validTo.addClass("invalidVal");
+                }
+                return false;
+            }
+
+
+
+        }
+
         e.preventDefault();
 
         var id = $("#id").val();
@@ -239,8 +261,7 @@ $(document).ready(function () {
         var validTo;
         if(validToFieldValue.length > 0){
             validTo = new Date(validToFieldValue);
-        }
-        else{
+        } else{
             validTo = 0;
         }
 
@@ -337,3 +358,16 @@ jQuery.fn.shake = function (intShakes, intDistance, intDuration) {
     });
     return this;
 };
+
+function testDate(str){
+    if(str.length > 0) {
+        var t = str.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+        if (t === null)
+            return false;
+        var d = +t[3], m = +t[2], y = +t[1];
+        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+            return true;
+        }
+        return false;
+    }return true;
+}

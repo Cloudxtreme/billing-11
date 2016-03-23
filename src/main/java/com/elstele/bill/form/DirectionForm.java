@@ -13,8 +13,8 @@ public class DirectionForm {
     private String additionalKode;
     private String trunkgroup;
     private int zoneId;
-    private Date validFrom;
-    private Date validTo;
+    private Long validFrom;
+    private Long validTo;
 
     public Integer getId() {
         return id;
@@ -72,19 +72,19 @@ public class DirectionForm {
         this.zoneId = zoneId;
     }
 
-    public Date getValidFrom() {
+    public Long getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(Date validFrom) {
+    public void setValidFrom(Long validFrom) {
         this.validFrom = validFrom;
     }
 
-    public Date getValidTo() {
+    public Long getValidTo() {
         return validTo;
     }
 
-    public void setValidTo(Date validTo) {
+    public void setValidTo(Long validTo) {
         this.validTo = validTo;
     }
 
@@ -96,17 +96,18 @@ public class DirectionForm {
         DirectionForm that = (DirectionForm) o;
 
         if (zoneId != that.zoneId) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
+            return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
         if (tariffZoneList != null ? !tariffZoneList.equals(that.tariffZoneList) : that.tariffZoneList != null)
             return false;
-        if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
-            return false;
         if (trunkgroup != null ? !trunkgroup.equals(that.trunkgroup) : that.trunkgroup != null) return false;
         if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
-        return !(validTo != null ? !validTo.equals(that.validTo) : that.validTo != null);
+        if (validTo != null ? !validTo.equals(that.validTo) : that.validTo != null) return false;
 
+        return true;
     }
 
     @Override
