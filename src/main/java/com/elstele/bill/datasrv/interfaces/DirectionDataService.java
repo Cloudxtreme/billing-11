@@ -15,7 +15,7 @@ public interface DirectionDataService {
     public Integer createDirection(Direction direction);
     public DirectionForm getDirectionById(int id);
     public void updateDirection(DirectionForm form);
-    public ResponseToAjax checkForFree(int id, String prefix);
+    public ResponseToAjax checkForFree(int id, String prefix, Long validFromDateValue);
     public Direction getByPrefixMainPart(String prefixMainPart);
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
     public Integer setValidToDateForDirections(Date newDateFromFile);

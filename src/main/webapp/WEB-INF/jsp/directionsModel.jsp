@@ -111,44 +111,63 @@
                         <form:form class="form" id="crtDirectionForm" method="POST" modelAttribute="directionForm" action="${pageContext.request.contextPath}/direction/add">
                             <fieldset>
                                 <form:input path="id" id="id" type="hidden"/>
-                                <div class="form-group">
-                                    <label for="description" class="col-lg-5 control-label"><spring:message code="label.description"/></label>
-                                    <div class="col-lg-9">
-                                        <spring:message code="label.description" var="descr"/>
-                                        <form:input path="description" class="form-control" id="description" placeholder="${descr}"/>
-                                        <span class="help-inline text-danger" id="descriptionWarn" style="display: none"><spring:message code="description.required"/></span>
+
+                                <div class="col-lg-12">
+                                    <div class="col-lg-4">
+                                        <label for="description" class="col-lg-9 control-label"><spring:message code="label.description"/></label>
+                                        <div class="col-lg-12">
+                                            <spring:message code="label.description" var="descr"/>
+                                            <form:input path="description" class="form-control" id="description" placeholder="${descr}"/>
+                                            <span class="help-inline text-danger" id="descriptionWarn" style="display: none"><spring:message code="description.required"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="prefix" class="col-lg-9 control-label"><spring:message code="label.prefix"/></label>
+                                        <div class="col-lg-12">
+                                            <spring:message code="label.prefix" var="pref"/>
+                                            <form:input path="prefix" class="form-control" id="prefix" placeholder="${pref}"/>
+                                            <span class="help-inline text-danger" id="prefixWarn" style="display: none"><spring:message code="prefix.required"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="additionalKode" class="col-lg-9 control-label"><spring:message code="label.additionalKode"/></label>
+                                        <div class="col-lg-12">
+                                            <spring:message code="label.additionalKode" var="addkode"/>
+                                            <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${addkode}"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="prefix" class="col-lg-5 control-label"><spring:message code="label.prefix"/></label>
-                                    <div class="col-lg-9">
-                                        <spring:message code="label.prefix" var="pref"/>
-                                        <form:input path="prefix" class="form-control" id="prefix" placeholder="${pref}"/>
-                                        <span class="help-inline text-danger" id="prefixWarn" style="display: none"><spring:message code="prefix.required"/></span>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-4">
+                                        <label for="trunkgroup" class="col-lg-9 control-label"><spring:message code="label.trunkgroup"/></label>
+                                        <div class="col-lg-12">
+                                            <spring:message code="label.trunkgroup" var="trunk"/>
+                                            <form:input path="trunkgroup" class="form-control" id="trunk" placeholder="${trunk}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                            <label for="validFrom" class="col-lg-9 control-label"><spring:message code="label.startDate"/></label>
+                                            <div class="col-lg-12">
+                                                <form:input path="validFrom" class="form-control" id="validFrom" type="date"/>
+                                            </div>
+                                     </div>
+                                    <div class="col-lg-4">
+                                        <label for="validTo" class="col-lg-9 control-label"><spring:message code="label.endDate"/></label>
+                                        <div class="col-lg-12">
+                                            <form:input path="validTo" class="form-control" id="validTo" type="date"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="additionalKode" class="col-lg-5 control-label"><spring:message code="label.additionalKode"/></label>
-                                    <div class="col-lg-9">
-                                        <spring:message code="label.additionalKode" var="addkode"/>
-                                        <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${addkode}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="trunkgroup" class="col-lg-5 control-label"><spring:message code="label.trunkgroup"/></label>
-                                    <div class="col-lg-9">
-                                        <spring:message code="label.trunkgroup" var="trunk"/>
-                                        <form:input path="trunkgroup" class="form-control" id="trunk" placeholder="${trunk}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tarriffZoneId" class="col-lg-5 control-label"><spring:message code="label.tariffZone"/></label>
-                                    <div class="col-lg-9">
-                                        <form:select path="zoneId" class="form-control" id="tarriffZoneId" multiple="false">
-                                            <c:forEach items="${tariffZoneList}" var="zone">
-                                                <form:option value="${zone.id}">${zone.zoneName} </form:option>
-                                            </c:forEach>
-                                        </form:select>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <label for="tarriffZoneId" class="col-lg-12 control-label"><spring:message code="label.tariffZone"/></label>
+                                        <div class="col-lg-12">
+                                            <form:select path="zoneId" class="form-control" id="tarriffZoneId" multiple="false">
+                                                <c:forEach items="${tariffZoneList}" var="zone">
+                                                    <form:option value="${zone.id}">${zone.zoneName} </form:option>
+                                                </c:forEach>
+                                            </form:select>
+                                        </div>
                                     </div>
                                 </div>
                             </fieldset>

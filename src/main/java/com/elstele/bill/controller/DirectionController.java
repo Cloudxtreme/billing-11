@@ -89,8 +89,9 @@ public class DirectionController {
     @RequestMapping(value = "direction/checkfree", method = RequestMethod.GET)
     @ResponseBody
     public ResponseToAjax checkFree(@RequestParam(value = "id") int id,
-                             @RequestParam(value = "prefix") String prefix,
-                             HttpSession session) {
-        return dataService.checkForFree(id, prefix);
+                                    @RequestParam(value = "prefix") String prefix,
+                                    @RequestParam(value = "validFrom") Long validFromDateValue,
+                                    HttpSession session) {
+        return dataService.checkForFree(id, prefix, validFromDateValue);
     }
 }

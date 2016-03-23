@@ -9,7 +9,7 @@ import java.util.List;
 public interface DirectionDAO extends CommonDAO<Direction>{
     public List<Direction> getDirectionList(int offset, int rows, String prefix);
     public int getPagesCount(String prefix);
-    public Direction getByPrefix(String prefix);
+    public Direction getByPrefix(String prefix, Date validFrom);
     public Direction getByPrefixMainPart(String prefixPart);
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
     public Integer setValidToDateForDirections(Date newDateFromFile, Date validTo);

@@ -103,8 +103,8 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
-    public ResponseToAjax checkForFree(int id, String prefix) {
-        Direction direction = directionDAO.getByPrefix(prefix);
+    public ResponseToAjax checkForFree(int id, String prefix, Long validFromDateValue) {
+        Direction direction = directionDAO.getByPrefix(prefix, DateReportParser.getOnlyDateFromLongValue(validFromDateValue));
         if(direction != null) {
             if (id > 0) {
                 if (direction.getId() == id) {
@@ -132,7 +132,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Override
     @Transactional
     public Integer setValidToDateForDirections(Date newDateFromFile){
-        return  directionDAO.setValidToDateForDirections(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
+        return  directionDAO.setValidToDateForDirections(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
     }
 
 

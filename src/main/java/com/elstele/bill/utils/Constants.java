@@ -60,4 +60,5 @@ public class  Constants {
 
     public static final String KDF_FILE_TYPE = ".kdf";
     public static final String DOCX_FILE_TYPE = ".docx";
+    public static final String SIMPLE_DATE_FORMAT = "dd.mm.yyyy";
 }

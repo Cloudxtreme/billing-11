@@ -10,6 +10,7 @@ import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.filesWorkers.MultipartFileConverter;
 import com.elstele.bill.form.UploadedFileInfoForm;
+import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.FileStatus;
@@ -32,10 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +53,6 @@ public class DOCXFileParser {
 
     private final static Logger LOGGER = LogManager.getLogger(DOCXFileParser.class);
     private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[/|.](0?[1-9]|1[012])[/|.]((19|20)\\d\\d)";
-    private static final String SIMPLE_DATE_FORMAT = "dd.mm.yyyy";
     private DOCXTransTemplate transTemplate;
     private Date validateFrom;
     private int maxRuleProfId;
@@ -207,12 +204,13 @@ public class DOCXFileParser {
     private Date findDateInDOCXFile(XWPFDocument doc) {
         try {
             List<XWPFParagraph> paragraphList = doc.getParagraphs();
-            SimpleDateFormat formatter = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+            SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT, Locale.ENGLISH);
             Matcher m;
             for (XWPFParagraph paragraph : paragraphList) {
                 m = Pattern.compile(DATE_PATTERN).matcher(paragraph.getText());
                 if (m.find()) {
-                    return formatter.parse(m.group());
+                    Date date = formatter.parse(m.group());
+                    return DateReportParser.getOnlyDateFromLongValue(date.getTime());
                 }
             }
         } catch (ParseException e) {
@@ -232,7 +230,4 @@ public class DOCXFileParser {
         fileInfo.setHandledBy(user.getUsername());
         uploadedFileInfoDataService.createOrUpdateFileInfo(fileInfo);
     }
-
-
-
 }

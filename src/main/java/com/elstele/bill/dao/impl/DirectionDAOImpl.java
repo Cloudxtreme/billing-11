@@ -51,8 +51,9 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     }
 
     @Override
-    public Direction getByPrefix(String prefix) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where prefix= :prefix")
+    public Direction getByPrefix(String prefix, Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where prefix= :prefix and validFrom = :validFrom")
+                .setParameter("validFrom", validFrom)
                 .setParameter("prefix", prefix);
         return (Direction) query.uniqueResult();
     }

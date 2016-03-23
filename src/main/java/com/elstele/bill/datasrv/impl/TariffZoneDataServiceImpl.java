@@ -106,6 +106,6 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Override
     @Transactional
     public Integer setValidToDateForZones(Date newDateFromFile) {
-        return tariffZoneDAO.setValidToDateForZones(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
+        return tariffZoneDAO.setValidToDateForZones(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
     }
 }

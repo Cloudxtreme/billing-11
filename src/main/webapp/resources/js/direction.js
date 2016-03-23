@@ -108,8 +108,12 @@ function drawRow(rowData) {
 }
 
 function parseDateTOStringWithFormat(dateToParse) {
-    var date = new Date(dateToParse);
-    return date.getMonth()+1 + "." + date.getDate() + "." + date.getFullYear();
+    if(dateToParse != null) {
+        var now = new Date(dateToParse);
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        return now.getFullYear() + "-" + (month) + "-" + (day);
+    }
 }
 
 
@@ -144,6 +148,8 @@ $(document).on("click", ".pushEdit", function () {
             $("#prefix").val(data.prefix);
             $("#additionalKode").val(data.additionalKode);
             $("#trunkgroup").val(data.trunkgroup);
+            $('#validFrom').val(parseDateTOStringWithFormat(data.validFrom));
+            $('#validTo').val(parseDateTOStringWithFormat(data.validTo));
             $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']').prop("selected", "selected");
         },
         error: function () {
@@ -221,10 +227,26 @@ $(document).ready(function () {
         if (id > 0) {
             action = 'edit';
         }
+        var validFromFieldValue = $('#validFrom').val();
+        var validFrom;
+        if(validFromFieldValue.length > 0) {
+            validFrom = new Date(validFromFieldValue);
+        }else{
+            validFrom = 0;
+        }
+
+        var validToFieldValue = $('#validTo').val();
+        var validTo;
+        if(validToFieldValue.length > 0){
+            validTo = new Date(validToFieldValue);
+        }
+        else{
+            validTo = 0;
+        }
 
         $.ajax({
             type: 'get',
-            url: 'checkfree?id=' + id + '&prefix='+ $('#prefix').val(),
+            url: 'checkfree?id=' + id + '&prefix='+ $('#prefix').val() + '&validFrom=' + validFrom.valueOf(),
             dataType: 'json',
             success: function (data) {
                 if (data == "BUSY") {
@@ -232,11 +254,32 @@ $(document).ready(function () {
                     return false;
                 }
                 var jsonData = $(frm).serialize();
+
+                var nameValuePairs = jsonData.split(/&/);
+                var newSerializedString = "";
+
+                for(var i = 0; i < nameValuePairs.length; i++) {
+                    var nameValuePair = nameValuePairs[i];
+                    var entry = nameValuePair.split(/=/);
+                    var key = entry[0];
+
+                    if(key == "validFrom") {
+                        entry = "validFrom=" + validFrom.valueOf();
+                    }
+                    else if(key == "validTo") {
+                        entry = "validTo=" + validTo.valueOf();
+                    }else{
+                        entry = key + "=" + entry[1];
+                    }
+                    newSerializedString += entry + "&";
+                }
+                newSerializedString = newSerializedString.replace(/&$/, "");
+
                 $.ajax({
                     type: frm.attr('method'),
                     url: action,
                     dataType: 'json',
-                    data: jsonData,
+                    data: newSerializedString,
                     success: function (callback) {
                         if (id > 0) {
                             document.getElementById('successMessageEdit').style.display = 'block';

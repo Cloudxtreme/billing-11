@@ -119,6 +119,6 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
     @Override
     @Transactional
     public Integer setValidToDateForRules(Date newDateFromFile) {
-        return ruleDAO.setValidToDateForRules(newDateFromFile, DateReportParser.getePrevDayDate(newDateFromFile));
+        return ruleDAO.setValidToDateForRules(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
     }
 }

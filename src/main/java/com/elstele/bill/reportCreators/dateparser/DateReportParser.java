@@ -58,7 +58,7 @@ public class DateReportParser {
         }
     }
 
-    public static Date getePrevDayDate(Date newDateFromFile){
+    public static Date getPrevDayDate(Date newDateFromFile){
         Calendar cal = Calendar.getInstance();
         cal.setTime(newDateFromFile);
         cal.add(Calendar.DATE, -1);
@@ -67,5 +67,15 @@ public class DateReportParser {
         cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 999);
         return cal.getTime();
+    }
+
+    public static Date getOnlyDateFromLongValue(Long dateValue){
+        Date date = new Date(dateValue);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
     }
 }
