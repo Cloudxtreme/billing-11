@@ -26,7 +26,7 @@ public class DOCXTransTemplate {
         String[] prefArr = row.getCell(2).getText().split(",");
         for (String string : prefArr) {
             if (!string.contains("-")) {
-                prefEnder.add(string.replaceAll("\\s+", ""));
+                prefEnder.add(string.replaceAll("(^\\h*)|(\\h*$)",""));
             } else {
                 String[] prefEndDiapasons = string.split("-");
                 int startDiapason = Integer.parseInt(prefEndDiapasons[0].replaceAll("\\s+", ""));

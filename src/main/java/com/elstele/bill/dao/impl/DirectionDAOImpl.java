@@ -3,6 +3,7 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.DirectionDAO;
 import com.elstele.bill.domain.Direction;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -28,7 +29,8 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
                         .add(Restrictions.like("prefix", prefix, MatchMode.START))
                         .add(Restrictions.like("prefix", "0" + prefix, MatchMode.START))
                         .add(Restrictions.like("prefix", "00" + prefix, MatchMode.START)))
-                .addOrder(Order.asc("description"))
+                .addOrder(Order.asc("validFrom"))
+                .addOrder(Order.asc("prefix"))
                 .setMaxResults(rows)
                 .setFirstResult(offset);
 
@@ -51,14 +53,6 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     }
 
     @Override
-    public Direction getByPrefix(String prefix, Date validFrom) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("from Direction where prefix= :prefix and validFrom = :validFrom")
-                .setParameter("validFrom", validFrom)
-                .setParameter("prefix", prefix);
-        return (Direction) query.uniqueResult();
-    }
-
-    @Override
     public Direction getByPrefixMainPart(String prefixPart) {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Direction.class);
         criteria.add(Restrictions.like("prefix", "00" + prefixPart, MatchMode.START)).setMaxResults(1);
@@ -74,11 +68,46 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     }
 
     @Override
+    public Direction getDirectionForDateCorrecting(String prefix, Date validateFromNew, String getType) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM Direction where prefix = :prefix " +
+                "AND validFrom " + getSign(getType) + " :validateFromNew AND (status <> 'DELETED' or status is null) order by validFrom "+getOrderType(getType))
+                .setParameter("prefix", prefix)
+                .setParameter("validateFromNew", validateFromNew);
+        List<Direction> directionList = query.list();
+        if (directionList.isEmpty()) {
+            return null;
+        }
+        return directionList.get(0);
+    }
+
+    @Override
     public Integer setValidToDateForDirections(Date newDateFromFile, Date validTo) {
         Query query = getSessionFactory().getCurrentSession().createQuery("update Direction set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) AND validTo is null")
                 .setParameter("validTo", validTo)
                 .setParameter("newDateFromFile", newDateFromFile);
         return query.executeUpdate();
+    }
+
+    private String getSign(String getType) {
+        switch (getType) {
+            case Constants.BIGGER:
+                return ">";
+            case Constants.SMALLER:
+                return "<";
+            default:
+                return "=";
+        }
+    }
+
+    private String getOrderType(String getType) {
+        switch (getType) {
+            case Constants.BIGGER:
+                return "ASC";
+            case Constants.SMALLER:
+                return "DESC";
+            default:
+                return "DESC";
+        }
     }
 
 

@@ -167,7 +167,16 @@
                                         <div class="col-lg-12">
                                             <form:select path="zoneId" class="form-control" id="tarriffZoneId" multiple="false">
                                                 <c:forEach items="${tariffZoneList}" var="zone">
-                                                    <form:option value="${zone.id}">${zone.zoneName} </form:option>
+                                                    <form:option value="${zone.id}">${zone.zoneName} &nbsp;&nbsp;
+                                                        (
+                                                        <c:if test="${not empty zone.validFrom}">
+                                                            <spring:message code="label.startDate"/> ${zone.validFrom}
+                                                        </c:if>
+                                                        <c:if test="${not empty zone.validTo}">
+                                                            <spring:message code="label.endDate"/> ${zone.validTo}
+                                                        </c:if>
+                                                         )
+                                                    </form:option>
                                                 </c:forEach>
                                             </form:select>
                                         </div>

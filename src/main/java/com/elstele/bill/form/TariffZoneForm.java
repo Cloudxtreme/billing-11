@@ -1,5 +1,7 @@
 package com.elstele.bill.form;
 
+import java.util.Date;
+
 public class TariffZoneForm {
     private int id;
     private int zoneId;
@@ -9,6 +11,9 @@ public class TariffZoneForm {
     private int prefProfile;
     private float tarif;
     private Float tarifPref;
+
+    private Date validFrom;
+    private Date validTo;
 
     public int getId() {
         return id;
@@ -74,6 +79,22 @@ public class TariffZoneForm {
         this.tarifPref = tarifPref;
     }
 
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,7 +110,9 @@ public class TariffZoneForm {
         if (zoneName != null ? !zoneName.equals(that.zoneName) : that.zoneName != null) return false;
         if (additionalKode != null ? !additionalKode.equals(that.additionalKode) : that.additionalKode != null)
             return false;
-        return !(tarifPref != null ? !tarifPref.equals(that.tarifPref) : that.tarifPref != null);
+        if (tarifPref != null ? !tarifPref.equals(that.tarifPref) : that.tarifPref != null) return false;
+        if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
+        return !(validTo != null ? !validTo.equals(that.validTo) : that.validTo != null);
 
     }
 
@@ -103,6 +126,8 @@ public class TariffZoneForm {
         result = 31 * result + prefProfile;
         result = 31 * result + (tarif != +0.0f ? Float.floatToIntBits(tarif) : 0);
         result = 31 * result + (tarifPref != null ? tarifPref.hashCode() : 0);
+        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
+        result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
 }

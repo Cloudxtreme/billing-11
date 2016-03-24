@@ -72,6 +72,8 @@ public class DirectionDataServiceImpl implements DirectionDataService {
             Direction direction = assembler.fromFormToBean(directionForm);
             TariffZone tariffZone = tariffZoneDAO.getById(directionForm.getZoneId());
             direction.setTarifZone(tariffZone.getZoneId());
+            correctValidToDate(direction);
+            correctPreviousDirection(direction);
             directionDAO.create(direction);
             LOGGER.info("Direction " + direction + "successfully added");
         } catch (Exception e) {
@@ -104,7 +106,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
     @Override
     @Transactional
     public ResponseToAjax checkForFree(int id, String prefix, Long validFromDateValue) {
-        Direction direction = directionDAO.getByPrefix(prefix, DateReportParser.getOnlyDateFromLongValue(validFromDateValue));
+        Direction direction = directionDAO.getDirectionByPrefixAndDate(prefix, DateReportParser.getOnlyDateFromLongValue(validFromDateValue));
         if(direction != null) {
             if (id > 0) {
                 if (direction.getId() == id) {
@@ -142,4 +144,26 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         else
             return (callsCount / containedCount) + 1;
     }
+
+    @Transactional
+    private void correctPreviousDirection(Direction direction){
+        Direction directionPersistent = directionDAO.getDirectionForDateCorrecting(direction.getPrefix(), direction.getValidFrom(), Constants.SMALLER);
+        if(directionPersistent != null){
+            directionPersistent.setValidTo(DateReportParser.getPrevDayDate(direction.getValidFrom()));
+            directionDAO.update(directionPersistent);
+            LOGGER.info("Old direction "+ directionPersistent.getTarifZone()+" was updated with correcting his validToDate");
+        }
+    }
+
+    @Transactional
+    private void correctValidToDate(Direction direction){
+        if(direction.getValidTo() == null){
+            Direction directionFromDB = directionDAO.getDirectionForDateCorrecting(direction.getPrefix(), direction.getValidFrom(), Constants.BIGGER);
+            if (directionFromDB != null){
+                direction.setValidTo(DateReportParser.getPrevDayDate(directionFromDB.getValidFrom()));
+                LOGGER.info("In direction creating " + direction.getDescription() + " validTo date was change to: " + direction.getValidTo());
+            }
+        }
+    }
+
 }
