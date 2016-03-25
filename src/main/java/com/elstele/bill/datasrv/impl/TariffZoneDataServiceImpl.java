@@ -38,6 +38,17 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
 
     @Override
     @Transactional
+    public List<TariffZoneForm> getOnlyActualTariffZoneList() {
+        List<TariffZone> tariffZoneList = tariffZoneDAO.getOnlyActualTariffZoneList();
+        List<TariffZoneForm> formList = new ArrayList<>();
+        for(TariffZone tariffZone : tariffZoneList){
+            formList.add(assembler.fromBeanToForm(tariffZone));
+        }
+        return formList;
+    }
+
+    @Override
+    @Transactional
     public void create(TariffZoneForm tariffZoneForm) {
         TariffZone tariffZone = assembler.fromFormToBean(tariffZoneForm);
         tariffZoneDAO.create(tariffZone);
@@ -75,14 +86,6 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     public void updateZone(TariffZoneForm tariffZoneForm) {
         TariffZone tariffZone = assembler.fromFormToBean(tariffZoneForm);
         tariffZoneDAO.update(tariffZone);
-    }
-
-    @Override
-    @Transactional
-    public void changeSoftBlockStatus(int id) {
-        TariffZone zone = tariffZoneDAO.getById(id);
-        zone.setDollar(!zone.isDollar());
-        tariffZoneDAO.updateAndMerge(zone);
     }
 
     @Override

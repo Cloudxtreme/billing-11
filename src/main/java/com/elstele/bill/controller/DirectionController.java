@@ -3,6 +3,7 @@ package com.elstele.bill.controller;
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.form.DirectionForm;
+import com.elstele.bill.form.TariffZoneForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import com.elstele.bill.utils.Messagei18nHelper;
 import com.elstele.bill.validator.DirectionValidator;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -36,7 +38,6 @@ public class DirectionController {
     public ModelAndView directionListHome(){
         ModelAndView mav = new ModelAndView("directionsModel");
         int totalPages = dataService.getPagesCount(10, INITIAL_PREFIX_STATE);
-        mav.addObject("tariffZoneList", tariffZoneDataService.getTariffZonesList());
         mav.addObject("directionForm", new DirectionForm());
         mav.addObject("pageNum", 1);
         mav.addObject("pagesTotal", totalPages);
@@ -93,5 +94,15 @@ public class DirectionController {
                                     @RequestParam(value = "validFrom") Long validFromDateValue,
                                     HttpSession session) {
         return dataService.checkForFree(id, prefix, validFromDateValue);
+    }
+
+    @RequestMapping(value = {"direction/getAllZones", "direction/getActualZones"}, method = RequestMethod.GET)
+    @ResponseBody
+    public List<TariffZoneForm> getTarZonesLit(HttpServletRequest request){
+        if(request.getRequestURI().contains("getAllZones")) {
+            return tariffZoneDataService.getTariffZonesList();
+        }else{
+            return tariffZoneDataService.getOnlyActualTariffZoneList();
+        }
     }
 }

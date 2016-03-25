@@ -13,12 +13,17 @@
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
 
+    <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
+    <link href="${bootstrapSwitch}" rel="stylesheet"/>
+
     <spring:url value="/resources/js/util.js" var="util"/>
     <script src="${util}"></script>
     <spring:url value="/resources/js/direction.js" var="direction"/>
     <script src="${direction}"></script>
     <spring:url value="/resources/js/popup.js" var="popup"/>
     <script src="${popup}"></script>
+    <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
+    <script src="${jBootstrapSwitch}"></script>
 
 
 
@@ -164,22 +169,14 @@
                                 <div class="col-lg-12">
                                     <div class="col-lg-12">
                                         <label for="tarriffZoneId" class="col-lg-12 control-label"><spring:message code="label.tariffZone"/></label>
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-8">
                                             <form:select path="zoneId" class="form-control" id="tarriffZoneId" multiple="false">
-                                                <c:forEach items="${tariffZoneList}" var="zone">
-                                                    <form:option value="${zone.id}">${zone.zoneName} &nbsp;&nbsp;
-                                                        (
-                                                        <c:if test="${not empty zone.validFrom}">
-                                                            <spring:message code="label.startDate"/> ${zone.validFrom}
-                                                        </c:if>
-                                                        <c:if test="${not empty zone.validTo}">
-                                                            <spring:message code="label.endDate"/> ${zone.validTo}
-                                                        </c:if>
-                                                         )
-                                                    </form:option>
-                                                </c:forEach>
                                             </form:select>
                                         </div>
+                                        <div class="col-lg-4 text-center">
+                                            <input id="getAll" name="zonelist" type="checkbox" data-size="large" >
+                                        </div>
+
                                     </div>
                                 </div>
                             </fieldset>

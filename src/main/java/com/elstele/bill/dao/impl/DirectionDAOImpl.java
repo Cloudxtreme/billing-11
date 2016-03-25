@@ -29,7 +29,8 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
                         .add(Restrictions.like("prefix", prefix, MatchMode.START))
                         .add(Restrictions.like("prefix", "0" + prefix, MatchMode.START))
                         .add(Restrictions.like("prefix", "00" + prefix, MatchMode.START)))
-                .addOrder(Order.asc("validFrom"))
+                .addOrder(Order.desc("validFrom"))
+                .addOrder(Order.asc("description"))
                 .addOrder(Order.asc("prefix"))
                 .setMaxResults(rows)
                 .setFirstResult(offset);

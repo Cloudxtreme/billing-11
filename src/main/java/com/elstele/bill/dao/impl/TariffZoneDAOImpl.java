@@ -3,7 +3,13 @@ package com.elstele.bill.dao.impl;
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.TariffZoneDAO;
 import com.elstele.bill.domain.TariffZone;
+import com.elstele.bill.utils.Enums.Status;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -30,6 +36,19 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
     public List<TariffZone> getTariffZoneList() {
         Query query = getSessionFactory().getCurrentSession().createQuery("from TariffZone t where t.status is null or t.status <> 'DELETED' order by t.zoneName");
         return (List<TariffZone>) query.list();
+    }
+
+    @Override
+    public List<TariffZone> getOnlyActualTariffZoneList() {
+        DetachedCriteria maxQuery = DetachedCriteria.forClass( TariffZone.class );
+        maxQuery.setProjection( Projections.max( "validFrom" ) );
+
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TariffZone.class);
+        criteria.add(Restrictions.disjunction()
+                    .add(Restrictions.isNull("status"))
+                    .add(Restrictions.ne("status", Status.DELETED)))
+                    .add(Property.forName("validFrom").eq(maxQuery));
+        return (List<TariffZone>) criteria.list();
     }
 
     @Override

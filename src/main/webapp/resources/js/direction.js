@@ -1,12 +1,45 @@
 var pageResults = 25;
-
 //Function which starts first
 $(function () {
     // set active navigation tab "Calls"
     console.log("start js onLoad");
     $("li").removeClass('active');
+    $.fn.bootstrapSwitch.defaults.onText = 'ACTUAL';
+    $.fn.bootstrapSwitch.defaults.offText = 'GET ALL';
+    $("input[name='zonelist']").bootstrapSwitch();
+    getActualZonesList();
     renderDirectionsTable(pageResults, 1);
 });
+
+function getActualZonesList() {
+    $.ajax({
+        type: 'get',
+        url: 'getActualZones',
+        dataType: 'json',
+        success: function (actualZonesList) {
+            appendOptionsZonesList(actualZonesList);
+        }
+    })
+}
+
+function getAllZonesList(callback) {
+    $.ajax({
+        type: 'get',
+        url: 'getAllZones',
+        dataType: 'json',
+        success: function (zoneList) {
+            appendOptionsZonesList(zoneList);
+            callback ? callback() : false;
+        }
+    })
+}
+
+function appendOptionsZonesList(zonesList) {
+    $('#tarriffZoneId').find('option').remove().end();
+    for (var i = 0; i < zonesList.length; i++) {
+        $('#tarriffZoneId').append("<option value='" + zonesList[i].id + "'>" + zonesList[i].zoneName + '&nbsp;&nbsp;' + parseDateTOStringWithFormat(zonesList[i].validFrom) + "</option>");
+    }
+}
 
 //Go to the previous page by click on the button BACK
 function goToPrevPage() {
@@ -37,7 +70,7 @@ function setCurrentPageNumber(number) {
 function renderDirectionsTable(rows, page) {
 
     var searchValues = $('#searchPrefInput');
-    if(isNaN(searchValues.val())){
+    if (isNaN(searchValues.val())) {
         $('#errorMessageNAN').show().fadeOut(15000);
         return false;
     }
@@ -49,10 +82,10 @@ function renderDirectionsTable(rows, page) {
         success: function (data, textStatus, jqXHR) {
             drawTable(data);
             setCurrentPageNumber(page);
-            if(data.length < 1){
+            if (data.length < 1) {
                 $('#nothingFound').show();
             }
-            if($('#nothingFound').attr("display", 'block') && data.length > 0){
+            if ($('#nothingFound').attr("display", 'block') && data.length > 0) {
                 $('#nothingFound').hide();
             }
         }
@@ -90,23 +123,23 @@ function drawRow(rowData) {
 
     row.append($("<td>" + rowData.description + "</td>"));
     row.append($("<td>" + rowData.prefix + "</td>"));
-    if(typeof  zoneId[0] === "undefined"){
+    if (typeof  zoneId[0] === "undefined") {
         row.append($("<td></td>"));
-    }else {
+    } else {
         row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
     }
-        row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom)+ "</td>"));
-        row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
+    row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom) + "</td>"));
+    row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
 
 }
 
 function parseDateTOStringWithFormat(dateToParse) {
-    if(dateToParse != 0) {
+    if (dateToParse != 0) {
         var now = new Date(dateToParse);
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         return now.getFullYear() + "-" + (month) + "-" + (day);
-    }else{
+    } else {
         return "";
     }
 }
@@ -125,7 +158,6 @@ function getPageCounts() {
 }
 
 $(document).on("click", ".pushEdit", function () {
-    console.log("pushEdit push");
     var directionId = $(this).data('id');
     $('#directionCreateModal').modal('show');
     $("#id").val(directionId);
@@ -135,7 +167,6 @@ $(document).on("click", ".pushEdit", function () {
         type: "get",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
-            console.log(data);
             $("#id").val(data.id);
             $("#description").val(data.description);
             $("#prefix").val(data.prefix);
@@ -143,10 +174,16 @@ $(document).on("click", ".pushEdit", function () {
             $("#trunkgroup").val(data.trunkgroup);
             $('#validFrom').val(parseDateTOStringWithFormat(data.validFrom));
             $('#validTo').val(parseDateTOStringWithFormat(data.validTo));
-            $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']').prop("selected", "selected");
-        },
-        error: function () {
-            console.log("error in ajax query edit");
+            var opt = $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']');
+            if(opt.length < 1){
+                console.log("smaller then 1");
+                getAllZonesList(function(){
+                    opt = $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']');
+                    opt.prop("selected", true);
+                });
+                $('#getAll').bootstrapSwitch('state', true);
+            }
+            opt.prop("selected", true);
         }
     });
 
@@ -194,9 +231,6 @@ $(document).ready(function () {
     });
 
     $('#crtDirection').click(function (e) {
-        console.log("button pushed");
-
-
         var prefixVal = $('#prefix').val();
         var descriptionVal = $('#description').val();
         if (prefixVal.length < 1 || descriptionVal.length < 1) {
@@ -226,18 +260,16 @@ $(document).ready(function () {
 
             var validTo = $('#validTo');
             var validFrom = $('#validFrom');
-            if(!testDate(validFrom.val()) || !testDate(validTo.val()) ){
+            if (!testDate(validFrom.val()) || !testDate(validTo.val())) {
                 $('#dateWarn').show();
-                if(!testDate(validFrom.val())){
+                if (!testDate(validFrom.val())) {
                     validFrom.addClass("invalidVal");
                 }
-                if(!testDate(validTo.val())){
+                if (!testDate(validTo.val())) {
                     validTo.addClass("invalidVal");
                 }
                 return false;
             }
-
-
 
         }
 
@@ -251,23 +283,23 @@ $(document).ready(function () {
         }
         var validFromFieldValue = $('#validFrom').val();
         var validFrom;
-        if(validFromFieldValue.length > 0) {
+        if (validFromFieldValue.length > 0) {
             validFrom = new Date(validFromFieldValue);
-        }else{
+        } else {
             validFrom = 0;
         }
 
         var validToFieldValue = $('#validTo').val();
         var validTo;
-        if(validToFieldValue.length > 0){
+        if (validToFieldValue.length > 0) {
             validTo = new Date(validToFieldValue);
-        } else{
+        } else {
             validTo = 0;
         }
 
         $.ajax({
             type: 'get',
-            url: 'checkfree?id=' + id + '&prefix='+ $('#prefix').val() + '&validFrom=' + validFrom.valueOf(),
+            url: 'checkfree?id=' + id + '&prefix=' + $('#prefix').val() + '&validFrom=' + validFrom.valueOf(),
             dataType: 'json',
             success: function (data) {
                 if (data == "BUSY") {
@@ -279,17 +311,17 @@ $(document).ready(function () {
                 var nameValuePairs = jsonData.split(/&/);
                 var newSerializedString = "";
 
-                for(var i = 0; i < nameValuePairs.length; i++) {
+                for (var i = 0; i < nameValuePairs.length; i++) {
                     var nameValuePair = nameValuePairs[i];
                     var entry = nameValuePair.split(/=/);
                     var key = entry[0];
 
-                    if(key == "validFrom") {
+                    if (key == "validFrom") {
                         entry = "validFrom=" + validFrom.valueOf();
                     }
-                    else if(key == "validTo") {
+                    else if (key == "validTo") {
                         entry = "validTo=" + validTo.valueOf();
-                    }else{
+                    } else {
                         entry = key + "=" + entry[1];
                     }
                     newSerializedString += entry + "&";
@@ -331,19 +363,27 @@ $(document).ready(function () {
     });
 
 
-    $('#searchPref').on('click', function(){
+    $('#searchPref').on('click', function () {
         renderDirectionsTable(pageResults, 1);
     });
 
-    $("#searchPrefInput").keypress(function(e){
-        if(e.keyCode == 13){
+    $("#searchPrefInput").keypress(function (e) {
+        if (e.keyCode == 13) {
             renderDirectionsTable(pageResults, 1);
         }
     });
 
-    $('#eraseField').on('click', function(){
+    $('#eraseField').on('click', function () {
         $('#searchPrefInput').val("");
         renderDirectionsTable(pageResults, 1);
+    });
+
+    $('#getAll').on('switchChange.bootstrapSwitch', function () {
+        if ($(this).is(':checked')) {
+            getAllZonesList();
+        } else {
+            getActualZonesList();
+        }
     });
 
 });
@@ -359,8 +399,8 @@ jQuery.fn.shake = function (intShakes, intDistance, intDuration) {
     return this;
 };
 
-function testDate(str){
-    if(str.length > 0) {
+function testDate(str) {
+    if (str.length > 0) {
         var t = str.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
         if (t === null)
             return false;
@@ -369,5 +409,6 @@ function testDate(str){
             return true;
         }
         return false;
-    }return true;
+    }
+    return true;
 }
