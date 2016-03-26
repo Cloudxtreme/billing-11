@@ -11,36 +11,6 @@ $(function () {
     renderDirectionsTable(pageResults, 1);
 });
 
-function getActualZonesList() {
-    $.ajax({
-        type: 'get',
-        url: 'getActualZones',
-        dataType: 'json',
-        success: function (actualZonesList) {
-            appendOptionsZonesList(actualZonesList);
-        }
-    })
-}
-
-function getAllZonesList(callback) {
-    $.ajax({
-        type: 'get',
-        url: 'getAllZones',
-        dataType: 'json',
-        success: function (zoneList) {
-            appendOptionsZonesList(zoneList);
-            callback ? callback() : false;
-        }
-    })
-}
-
-function appendOptionsZonesList(zonesList) {
-    $('#tarriffZoneId').find('option').remove().end();
-    for (var i = 0; i < zonesList.length; i++) {
-        $('#tarriffZoneId').append("<option value='" + zonesList[i].id + "'>" + zonesList[i].zoneName + '&nbsp;&nbsp;' + parseDateTOStringWithFormat(zonesList[i].validFrom) + "</option>");
-    }
-}
-
 //Go to the previous page by click on the button BACK
 function goToPrevPage() {
     var currentPageNum = $("#pageNumber").text();
@@ -176,18 +146,48 @@ $(document).on("click", ".pushEdit", function () {
             $('#validTo').val(parseDateTOStringWithFormat(data.validTo));
             var opt = $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']');
             if(opt.length < 1){
-                console.log("smaller then 1");
+                $('#getAll').bootstrapSwitch('state', true);
                 getAllZonesList(function(){
                     opt = $('#tarriffZoneId option[value=' + data.tariffZoneList[0].id + ']');
                     opt.prop("selected", true);
                 });
-                $('#getAll').bootstrapSwitch('state', true);
+            }else {
+                opt.prop("selected", true);
             }
-            opt.prop("selected", true);
         }
     });
-
 });
+
+function getActualZonesList(callback) {
+    $.ajax({
+        type: 'get',
+        url: 'getActualZones',
+        dataType: 'json',
+        success: function (actualZonesList) {
+            appendOptionsZonesList(actualZonesList);
+            callback ? callback() : false;
+        }
+    })
+}
+
+function getAllZonesList(callback) {
+    $.ajax({
+        type: 'get',
+        url: 'getAllZones',
+        dataType: 'json',
+        success: function (zoneList) {
+            appendOptionsZonesList(zoneList);
+            callback ? callback() : false;
+        }
+    })
+}
+
+function appendOptionsZonesList(zonesList) {
+    $('#tarriffZoneId').find('option').remove().end();
+    for (var i = 0; i < zonesList.length; i++) {
+        $('#tarriffZoneId').append("<option value='" + zonesList[i].id + "'>" + zonesList[i].zoneName + '&nbsp;&nbsp;' + parseDateTOStringWithFormat(zonesList[i].validFrom) + "</option>");
+    }
+}
 
 $(document).ready(function () {
 

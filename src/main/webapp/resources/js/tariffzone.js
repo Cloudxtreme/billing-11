@@ -1,5 +1,6 @@
 $(function() {
     $("input[name='softblock']").bootstrapSwitch();
+    $("input[name='zonelist']").bootstrapSwitch();
 });
 
 $(document).ready(function(){
@@ -8,8 +9,22 @@ $(document).ready(function(){
             $('#dollarPath').bootstrapSwitch('state', true);
         }
         $('#tariffZoneModal').modal('show');
-
     }
+
+    if(window.location.href.indexOf('home') > -1 ){
+        $('#getAll').bootstrapSwitch('state', false);
+    }
+    if(window.location.href.indexOf('all') > -1 ){
+        $('#getAll').bootstrapSwitch('state', true);
+    }
+
+    $('#getAll').on('switchChange.bootstrapSwitch', function () {
+        if ($(this).is(':checked')) {
+            window.location.href = 'all';
+        } else {
+            window.location.href = 'home';
+        }
+    });
 });
 
 

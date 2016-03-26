@@ -174,7 +174,7 @@
                                             </form:select>
                                         </div>
                                         <div class="col-lg-4 text-center">
-                                            <input id="getAll" name="zonelist" type="checkbox" data-size="large" >
+                                            <input id="getAll" name="zonelist" type="checkbox" data-size="normal" >
                                         </div>
 
                                     </div>

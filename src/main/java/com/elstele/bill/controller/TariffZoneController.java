@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -20,10 +21,14 @@ public class TariffZoneController {
     @Autowired
     Messagei18nHelper messagei18nHelper;
 
-    @RequestMapping(value = "/tariffzone/home", method = RequestMethod.GET)
-    public ModelAndView directionListHome(){
+    @RequestMapping(value = {"/tariffzone/home", "tariffzone/all"}, method = RequestMethod.GET)
+    public ModelAndView directionListHome(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("tariffZoneModel");
-        mav.addObject("tariffzoneList", dataService.getTariffZonesList());
+        if(request.getRequestURI().contains("home")) {
+            mav.addObject("tariffzoneList", dataService.getOnlyActualTariffZoneList());
+        }else{
+            mav.addObject("tariffzoneList", dataService.getTariffZonesList());
+        }
         mav.addObject("prefProfileList", dataService.getPrefProfileIdList());
         mav.addObject("tariffZoneForm", new TariffZoneForm());
         return mav;

@@ -58,7 +58,22 @@
   </div>
   &nbsp;
 
-  <a type="button" href="#tariffZoneModal" id="addZone" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="tariff.create"/></a>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <a type="button" href="#tariffZoneModal" id="addZone" class="btn btn-sm btn-primary" data-toggle="modal"><spring:message code="tariff.create"/></a>
+        </div>
+        <div class="col-lg-6 text-right">
+            <strong style="font-size: 1.5em">
+                <label for="getAll">
+                    <spring:message code="label.getAllList"/>
+                </label>
+            </strong>
+            <input id="getAll" name="zonelist" type="checkbox" data-size="normal" >
+        </div>
+    </div>
+
+
+
   <div id="tariffZoneModal" class="modal fade">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
