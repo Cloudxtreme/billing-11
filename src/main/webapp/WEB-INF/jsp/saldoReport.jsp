@@ -41,10 +41,101 @@
 
 
     <div id="saldoTableDiv">
-        <table id="saldoTable" class="table table-striped">
+        <table border="1" id="saldoTable" class="table table-striped">
             <tr>
-                <th><spring:message code="label.saldo.tbd"/></th>
+
+                <th></th>
+                <th></th>
+                <th align="center" colspan="2"><spring:message code="label.saldo.na.nachalo"/></th>
+                <th align="center" colspan="9"><spring:message code="label.saldo.oborot"/></th>
+                <th colspan="5"><spring:message code="label.saldo.oplata"/></th>
+                <th colspan="2"><spring:message code="label.saldo.na.konets"/></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
+            <tr>
+                <th><spring:message code="label.saldo.lits.schet"/></th>
+                <th><spring:message code="label.saldo.fio"/></th>
+                <th><spring:message code="label.saldo.debet"/></th>
+                <th><spring:message code="label.saldo.kredit"/></th>
+                <th><spring:message code="label.saldo.yst"/></th>
+                <th><spring:message code="label.saldo.abonpl"/></th>
+                <th><spring:message code="label.saldo.mg"/></th>
+                <th><spring:message code="label.saldo.internet"/></th>
+                <th><spring:message code="label.saldo.kod"/></th>
+                <th><spring:message code="label.saldo.ton"/></th>
+                <th><spring:message code="label.saldo.spravka"/></th>
+                <th><spring:message code="label.saldo.yvv"/></th>
+                <th><spring:message code="label.saldo.itogo"/></th>
+                <th><spring:message code="label.saldo.pivd"/></th>
+                <th><spring:message code="label.saldo.ysb"/></th>
+                <th><spring:message code="label.saldo.kassa"/></th>
+                <th><spring:message code="label.saldo.24"/></th>
+                <th><spring:message code="label.saldo.itogo"/></th>
+                <th><spring:message code="label.saldo.debet"/></th>
+                <th><spring:message code="label.saldo.kredit"/></th>
+                <th><spring:message code="label.saldo.avans.proshl.per"/></th>
+                <th><spring:message code="label.saldo.avans.tek.per"/></th>
+                <th><spring:message code="label.saldo.with.nds"/></th>
+            </tr>
+
+            <c:forEach items="${report.saldoForms}" var="accountSaldo">
+                <tr>
+                    <td>${accountSaldo.accountName}</td>
+                    <td>${accountSaldo.fio}</td>
+                    <td>${accountSaldo.startDebet}</td>
+                    <td>${accountSaldo.startKredit}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${accountSaldo.debet}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${accountSaldo.summAllNachisl}</td>
+                    <td>${accountSaldo.kreditPivd}</td>
+                    <td>${accountSaldo.kreditYsb}</td>
+                    <td>${accountSaldo.kreditKassa}</td>
+                    <td>${accountSaldo.kredit24}</td>
+                    <td>${accountSaldo.sumOplat}</td>
+                    <td>${accountSaldo.finishDebet}</td>
+                    <td>${accountSaldo.finishKredit}</td>
+                    <td>${accountSaldo.avansPrev}</td>
+                    <td>${accountSaldo.avans}</td>
+                    <td>${accountSaldo.totalNds}</td>
+                </tr>
+            </c:forEach>
+
+            <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Summary</th>
+                <th>${report.totalStartDebet}</th>
+                <th>${report.totalStartKredit}</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>${report.totalDebet}</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>${report.totalSumNachisl}</th>
+                <th>${report.totalKreditPidv}</th>
+                <th>${report.totalKreditYsb}</th>
+                <th>${report.totalKreditKassa}</th>
+                <th>${report.totalKredit24}</th>
+                <th>${report.totalSumOplaty}</th>
+                <th>${report.totalFinishDebet}</th>
+                <th>${report.totalFinishKredit}</th>
+                <th>${report.totalAvansPrev}</th>
+                <th>${report.totalAvans}</th>
+                <th>${report.totalNds}</th>
+            </tr>
+            </tfoot>
+
         </table>
     </div>
 

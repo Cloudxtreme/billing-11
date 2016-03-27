@@ -107,4 +107,38 @@ public class TransactionDataServiceImpl implements TransactionDataService {
         }
         return result;
     }
+
+
+    //TODO need to be covered by test
+    @Transactional
+    public Float getBalanceOnDateForAccount(Integer accountId, Date date){
+        return transactionDAO.getBalanceOnDateForAccount(accountId, date);
+    }
+
+    @Transactional
+    public Float calcSumOfDebetAccountTransactionForPeriod(Integer accountId, Date from, Date to) {
+        Float sum = 0f;
+        List<Transaction> tempList = transactionDAO.getDebetTransactionsByAccountForPeriod(accountId, from, to);
+        for (Transaction curTransaction : tempList){
+            sum = sum + curTransaction.getPrice();
+        }
+        return sum;
+    }
+
+    @Transactional
+     public Float calcSumOfKreditAccountTransactionForPeriod(Integer accountId, Date from, Date to){
+        Float sum = 0f;
+        List<Transaction> tempList = transactionDAO.getKreditTransactionsByAccountForPeriod(accountId, from, to);
+        for (Transaction curTransaction : tempList){
+            sum = sum + curTransaction.getPrice();
+        }
+        return sum;
+    }
+
+    @Transactional
+    public List<Transaction> getKreditAccountTransactionForPeriod(Integer accountId, Date from, Date to){
+        List<Transaction> tempList = transactionDAO.getKreditTransactionsByAccountForPeriod(accountId, from, to);
+        return tempList;
+    }
+
 }

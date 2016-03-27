@@ -15,4 +15,8 @@ public interface TransactionDataService {
     public TransactionForm getTransactionForm(Integer accountId);
     public TransactionForm getTransactionById(Integer transactionId);
     public List<TransactionTO> getTransactionForAccount(Integer accountId);
+    public Float getBalanceOnDateForAccount(Integer accountId, Date date);
+    public Float calcSumOfDebetAccountTransactionForPeriod(Integer id, Date from, Date to);
+    public Float calcSumOfKreditAccountTransactionForPeriod(Integer id, Date from, Date to);
+    public List<Transaction> getKreditAccountTransactionForPeriod(Integer accountId, Date from, Date to);
 }
