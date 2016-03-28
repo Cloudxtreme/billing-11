@@ -58,5 +58,10 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
         return query.executeUpdate();
     }
 
-
+    @Override
+    public List<PreferenceRule> getRuleListByDate(Date validFRom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM PreferenceRule where validFrom = :validFrom")
+                .setParameter("validFrom", validFRom);
+        return (List<PreferenceRule>)query.list();
+    }
 }

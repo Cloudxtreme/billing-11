@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -120,5 +121,16 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
     @Transactional
     public Integer setValidToDateForRules(Date newDateFromFile) {
         return ruleDAO.setValidToDateForRules(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
+    }
+
+    @Override
+    @Transactional
+    public HashMap<Float ,PreferenceRule> getTariffMapFRomDBByDate(Date validFrom) {
+        List<PreferenceRule> preferenceRuleList = ruleDAO.getRuleListByDate(validFrom);
+        HashMap<Float, PreferenceRule> resultMap = new HashMap<>();
+        for(PreferenceRule rule : preferenceRuleList){
+            resultMap.put(rule.getTarif(), rule);
+        }
+        return resultMap;
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -137,6 +138,16 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         return  directionDAO.setValidToDateForDirections(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
     }
 
+    @Override
+    @Transactional
+    public HashMap<String, Direction> getDirectionMapByValidFromDate(Date validFrom) {
+        List<Direction> directionListByDate = directionDAO.getDirectionListByValidFromDate(validFrom);
+        HashMap<String, Direction> resultMap = new HashMap<>();
+        for(Direction direction : directionListByDate){
+            resultMap.put(direction.getPrefix(), direction);
+        }
+        return resultMap;
+    }
 
     private int calculatePagesCount(int callsCount, int containedCount) {
         if (callsCount % containedCount == 0)

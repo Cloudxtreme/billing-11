@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -110,5 +111,16 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public Integer setValidToDateForZones(Date newDateFromFile) {
         return tariffZoneDAO.setValidToDateForZones(newDateFromFile, DateReportParser.getPrevDayDate(newDateFromFile));
+    }
+
+    @Override
+    @Transactional
+    public HashMap<String, TariffZone> getZoneMapFRomDBByDate(Date validFrom) {
+        List<TariffZone> tariffZoneList = tariffZoneDAO.getTariffZoneByValidFromDate(validFrom);
+        HashMap<String, TariffZone> resultMap = new HashMap<>();
+        for(TariffZone zone : tariffZoneList){
+            resultMap.put(zone.getZoneName(), zone);
+        }
+        return resultMap;
     }
 }

@@ -121,17 +121,22 @@ public class DOCXFileParser {
         int rowsCount = rowsList.size();
         int processedRows = 0;
         maxRuleProfId = preferenceRuleDataService.getProfileIdMaxValue();
+
+        HashMap<Float, PreferenceRule> preferenceRuleHashMap = preferenceRuleDataService.getTariffMapFRomDBByDate(validateFrom);
+        HashMap<String, TariffZone> zoneMapFRomDBByDate = tariffZoneDataService.getZoneMapFRomDBByDate(validateFrom);
+        HashMap<String, Direction> directionMapFromDB = directionDataService.getDirectionMapByValidFromDate(validateFrom);
+
         for (XWPFTableRow row : rowsList) {
             transTemplate = new DOCXTransTemplate(row, validateFrom);
 
             PreferenceRule rule = fillPrefRule();
 
-            int profileId = getExistedProfileIdOrCreateNew(rule);
+            int profileId = getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
 
             TariffZone zone = fillTarZone(profileId);
-            int zoneId = getExistedZoneIdOrCreateNew(zone);
+            int zoneId = getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
 
-            parseAndCreateDirection(zoneId);
+            parseAndCreateDirection(zoneId, directionMapFromDB);
 
             processedRows++;
             float progress = (float) processedRows / rowsCount * 100;
@@ -153,12 +158,13 @@ public class DOCXFileParser {
         return rule;
     }
 
-    private int getExistedProfileIdOrCreateNew(PreferenceRule rule) {
-        PreferenceRule ruleFromDB = preferenceRuleDataService.getByTariffAndValidDate(rule.getTarif(), validateFrom);
+    private int getExistedProfileIdOrCreateNew(PreferenceRule rule, HashMap<Float, PreferenceRule> existedRulesHashMap) {
+        PreferenceRule ruleFromDB = existedRulesHashMap.get(rule.getTarif());
         if (ruleFromDB == null) {
             rule.setProfileId(maxRuleProfId + 1);
             preferenceRuleDataService.createRule(rule);
             maxRuleProfId++;
+            existedRulesHashMap.put(rule.getTarif(), rule);
             return rule.getProfileId();
         } else {
             LOGGER.info("This rule with Tariff = " + rule.getTarif() +  " exists in DB");
@@ -175,26 +181,29 @@ public class DOCXFileParser {
         return zone;
     }
 
-    private int getExistedZoneIdOrCreateNew(TariffZone zone) {
-        TariffZone zoneFromDB = tariffZoneDataService.getZoneByNameAndValidFrom(zone.getZoneName(), validateFrom);
+    private int getExistedZoneIdOrCreateNew(TariffZone zone, HashMap<String, TariffZone> tariffZoneHashMap) {
+        TariffZone zoneFromDB = tariffZoneHashMap.get(zone.getZoneName());
         if (zoneFromDB == null) {
-            return tariffZoneDataService.create(zone);
+            int zoneId = tariffZoneDataService.create(zone);
+            tariffZoneHashMap.put(zone.getZoneName(), zone);
+            return zoneId;
         } else {
             LOGGER.info("This zone " + zone.getZoneName() + " exists in DB");
             return zoneFromDB.getZoneId();
         }
     }
 
-    private void parseAndCreateDirection(int zoneId) {
+    private void parseAndCreateDirection(int zoneId, HashMap<String, Direction> directionHashMap) {
         for (String prefixEnd : transTemplate.getPrefEnder()) {
             String prefix = "00" + transTemplate.getPrefMainPart() + prefixEnd;
-            if (directionDataService.getDirectionByPrefixAndDate(prefix, validateFrom) == null) {
+            if (directionHashMap.get(prefix) == null) {
                 Direction direction = new Direction();
                 direction.setValidFrom(validateFrom);
                 direction.setTarifZone(zoneId);
                 direction.setPrefix(prefix);
                 direction.setDescription(transTemplate.getDirectionName() + " " + prefix);
                 directionDataService.createDirection(direction);
+                directionHashMap.put(prefix, direction);
             } else {
                 LOGGER.info("This direction " + prefix + " exists in DB");
             }

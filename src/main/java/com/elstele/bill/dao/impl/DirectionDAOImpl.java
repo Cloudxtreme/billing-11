@@ -89,6 +89,13 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
         return query.executeUpdate();
     }
 
+    @Override
+    public List<Direction> getDirectionListByValidFromDate(Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("From Direction  where validFrom = :validFrom")
+                .setParameter("validFrom", validFrom);
+        return (List<Direction>)query.list();
+    }
+
     private String getSign(String getType) {
         switch (getType) {
             case Constants.BIGGER:

@@ -5,6 +5,7 @@ import com.elstele.bill.form.PreferenceRuleForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface PreferenceRuleDataService {
@@ -20,4 +21,5 @@ public interface PreferenceRuleDataService {
     public PreferenceRule getByProfileIdAndPriority(int profileId, int rulePriority);
     public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom);
     public Integer setValidToDateForRules(Date newDateFromFile);
+    public HashMap<Float, PreferenceRule> getTariffMapFRomDBByDate(Date validFrom);
 }

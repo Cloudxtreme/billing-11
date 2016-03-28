@@ -5,6 +5,7 @@ import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface DirectionDataService {
@@ -19,4 +20,5 @@ public interface DirectionDataService {
     public Direction getByPrefixMainPart(String prefixMainPart);
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
     public Integer setValidToDateForDirections(Date newDateFromFile);
+    public HashMap<String, Direction> getDirectionMapByValidFromDate(Date validFrom);
 }

@@ -13,4 +13,5 @@ public interface PreferenceRuleDAO extends CommonDAO<PreferenceRule>{
     public List<PreferenceRule> getRuleListByProfileId(int profileId);
     public int getProfileIdMaxValue();
     public Integer setValidToDateForRules(Date newDateFromFile, Date validTo);
+    public List<PreferenceRule> getRuleListByDate(Date validFRom);
 }

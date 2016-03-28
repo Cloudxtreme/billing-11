@@ -4,6 +4,7 @@ import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface TariffZoneDataService {
@@ -18,4 +19,5 @@ public interface TariffZoneDataService {
     public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom);
     public Integer setValidToDateForZones(Date newDateFromFile);
     public List<TariffZoneForm> getOnlyActualTariffZoneList();
+    public HashMap<String, TariffZone> getZoneMapFRomDBByDate(Date validFrom);
 }

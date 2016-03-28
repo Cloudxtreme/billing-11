@@ -13,4 +13,5 @@ public interface DirectionDAO extends CommonDAO<Direction>{
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
     public Integer setValidToDateForDirections(Date newDateFromFile, Date validTo);
     public Direction getDirectionForDateCorrecting(String prefix, Date validateFromNew, String getType);
+    public List<Direction> getDirectionListByValidFromDate(Date validFrom);
 }

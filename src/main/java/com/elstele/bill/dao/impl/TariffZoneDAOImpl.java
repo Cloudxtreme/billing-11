@@ -72,4 +72,11 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
                 .setParameter("newDateFromFile", newDateFromFile);
         return query.executeUpdate();
     }
+
+    @Override
+    public List<TariffZone> getTariffZoneByValidFromDate(Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM TariffZone where validFrom = :validFrom")
+                .setParameter("validFrom", validFrom);
+        return (List<TariffZone>)query.list();
+    }
 }
