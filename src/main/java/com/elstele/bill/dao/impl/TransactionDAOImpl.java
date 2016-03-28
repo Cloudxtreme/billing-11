@@ -2,11 +2,17 @@ package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.TransactionDAO;
+import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.Transaction;
+import com.elstele.bill.utils.Constants;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +39,7 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
         return transactionList;
     }
 
+    //TODO search by name as a string not a good for performance, need to change to ID
     @Override
     public List<Transaction> searchTransactionList(String account, Date dateStart, Date dateEnd) {
         List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -86,4 +93,49 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
                 .setParameter("balance", balance);
         query.executeUpdate();
     }
+
+    public Float getBalanceOnDateForAccount(Integer accountId, Date date){
+        Query query;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        Date toDate = c.getTime();
+        String sql = "SELECT balance FROM hist_balance WHERE hist_balance.account = :accountId " +
+                " AND hist_balance.date < :toDate " +
+                " AND hist_balance.date >= (:fromDate)";
+        query = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                .setParameter("accountId", accountId)
+                .setParameter("fromDate", date)
+                .setParameter("toDate", toDate);
+        Float result = (Float)query.uniqueResult();
+        if (result != null){
+            return result;
+        } else {
+            return 0f;
+        }
+    }
+
+
+    public List<Transaction> getDebetTransactionsByAccountForPeriod(Integer accountId, Date from, Date to) {
+        Account account = new Account();
+        account.setId(accountId);
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Transaction.class);
+        criteria.add(Restrictions.ge("date", from));
+        criteria.add(Restrictions.le("date", to));
+        criteria.add(Restrictions.eq("account", account));
+        criteria.add(Restrictions.eq("direction", Constants.TransactionDirection.DEBET));
+        return (List<Transaction>)criteria.list();
+    }
+
+    public List<Transaction> getKreditTransactionsByAccountForPeriod(Integer accountId, Date from, Date to) {
+        Account account = new Account();
+        account.setId(accountId);
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Transaction.class);
+        criteria.add(Restrictions.ge("date", from));
+        criteria.add(Restrictions.le("date", to));
+        criteria.add(Restrictions.eq("account", account));
+        criteria.add(Restrictions.eq("direction", Constants.TransactionDirection.CREDIT));
+        return (List<Transaction>)criteria.list();
+    }
+
 }

@@ -17,7 +17,9 @@ public class  Constants {
 
     public enum Period { WEEK, MONTH, YEAR }
 
-    public enum TransactionSource { HANDMADE, BANK, BILLING }
+
+    //TODO need to delete handmade and bank, after DB cleanup
+    public enum TransactionSource { HANDMADE, BANK, BILLING, BANK_PIVD, BANK_USB, NONSTOP24, KASSA }
 
     public enum TransactionDirection {DEBET, CREDIT }
 
