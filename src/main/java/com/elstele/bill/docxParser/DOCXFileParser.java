@@ -71,6 +71,7 @@ public class DOCXFileParser {
         parseTable(tables, session);
         setProcessedFileInfoToDB(file, session);
         UserStateStorage.setBusyToObjectInMap(session, false);
+
         return ResponseToAjax.SUCCESS;
     }
 
@@ -130,14 +131,12 @@ public class DOCXFileParser {
             transTemplate = new DOCXTransTemplate(row, validateFrom);
 
             PreferenceRule rule = fillPrefRule();
-
             int profileId = getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
 
             TariffZone zone = fillTarZone(profileId);
             int zoneId = getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
 
             parseAndCreateDirection(zoneId, directionMapFromDB);
-
             processedRows++;
             float progress = (float) processedRows / rowsCount * 100;
             UserStateStorage.setProgressToObjectInMap(session, progress);

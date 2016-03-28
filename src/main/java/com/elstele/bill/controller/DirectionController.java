@@ -35,7 +35,7 @@ public class DirectionController {
     public static final String INITIAL_PREFIX_STATE = "";
 
     @RequestMapping(value = "/direction/home", method = RequestMethod.GET)
-    public ModelAndView directionListHome(){
+    public ModelAndView directionListHome() {
         ModelAndView mav = new ModelAndView("directionsModel");
         int totalPages = dataService.getPagesCount(10, INITIAL_PREFIX_STATE);
         mav.addObject("directionForm", new DirectionForm());
@@ -48,19 +48,19 @@ public class DirectionController {
     @ResponseBody
     public List<DirectionForm> getDirectionList(@RequestParam(value = "rows") int rows,
                                                 @RequestParam(value = "page") int page,
-                                                @RequestParam(value = "value") String prefix){
+                                                @RequestParam(value = "value") String prefix) {
         return dataService.getDirectionList(page, rows, prefix);
     }
 
     @RequestMapping(value = "/direction/count", method = RequestMethod.POST)
     @ResponseBody
-    public String getPagesCount(@RequestParam(value = "pageResults") int pageResults, @RequestParam(value = "value") String prefix){
+    public String getPagesCount(@RequestParam(value = "pageResults") int pageResults, @RequestParam(value = "value") String prefix) {
         int totalPages = dataService.getPagesCount(pageResults, prefix);
         return Integer.toString(totalPages);
     }
 
     @RequestMapping(value = "/direction/delete/{id}", method = RequestMethod.GET)
-    public String deleteDirection(@PathVariable int id,RedirectAttributes redirectAttributes ,HttpSession session) {
+    public String deleteDirection(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
         String msg = dataService.deleteDirection(id);
         redirectAttributes.addFlashAttribute(messagei18nHelper.getTypeMessage(msg), messagei18nHelper.getMessage(msg));
         return "redirect:../home";
@@ -98,10 +98,10 @@ public class DirectionController {
 
     @RequestMapping(value = {"direction/getAllZones", "direction/getActualZones"}, method = RequestMethod.GET)
     @ResponseBody
-    public List<TariffZoneForm> getTarZonesLit(HttpServletRequest request){
-        if(request.getRequestURI().contains("getAllZones")) {
+    public List<TariffZoneForm> getTarZonesLit(HttpServletRequest request) {
+        if (request.getRequestURI().contains("getAllZones")) {
             return tariffZoneDataService.getTariffZonesList();
-        }else{
+        } else {
             return tariffZoneDataService.getOnlyActualTariffZoneList();
         }
     }
