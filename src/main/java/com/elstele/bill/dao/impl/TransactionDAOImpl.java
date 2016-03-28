@@ -10,7 +10,9 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -94,11 +96,17 @@ public class TransactionDAOImpl extends CommonDAOImpl<Transaction> implements Tr
 
     public Float getBalanceOnDateForAccount(Integer accountId, Date date){
         Query query;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        Date toDate = c.getTime();
         String sql = "SELECT balance FROM hist_balance WHERE hist_balance.account = :accountId " +
-                "AND hist_balance.date = :date";
+                " AND hist_balance.date < :toDate " +
+                " AND hist_balance.date >= (:fromDate)";
         query = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                 .setParameter("accountId", accountId)
-                .setParameter("date", date);
+                .setParameter("fromDate", date)
+                .setParameter("toDate", toDate);
         Float result = (Float)query.uniqueResult();
         if (result != null){
             return result;
