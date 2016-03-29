@@ -117,4 +117,6 @@ public class Direction extends CommonDomainBean {
         result = 31 * result + (validTo != null ? validTo.hashCode() : 0);
         return result;
     }
+
 }
+
