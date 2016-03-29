@@ -76,7 +76,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
             correctValidToDate(direction);
             correctPreviousDirection(direction);
             directionDAO.create(direction);
-            LOGGER.info("Direction " + direction + "successfully added");
+            LOGGER.info("Direction " + direction.getDescription() + " successfully added");
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

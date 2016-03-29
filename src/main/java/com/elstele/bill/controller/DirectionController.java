@@ -87,7 +87,7 @@ public class DirectionController {
         return new DirectionForm();
     }
 
-    @RequestMapping(value = "direction/checkfree", method = RequestMethod.GET)
+    @RequestMapping(value = "/direction/checkfree", method = RequestMethod.GET)
     @ResponseBody
     public ResponseToAjax checkFree(@RequestParam(value = "id") int id,
                                     @RequestParam(value = "prefix") String prefix,
@@ -96,9 +96,9 @@ public class DirectionController {
         return dataService.checkForFree(id, prefix, validFromDateValue);
     }
 
-    @RequestMapping(value = {"direction/getAllZones", "direction/getActualZones"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/direction/getAllZones", "/direction/getActualZones"}, method = RequestMethod.GET)
     @ResponseBody
-    public List<TariffZoneForm> getTarZonesLit(HttpServletRequest request) {
+    public List<TariffZoneForm> getTarZonesList(HttpServletRequest request) {
         if (request.getRequestURI().contains("getAllZones")) {
             return tariffZoneDataService.getTariffZonesList();
         } else {

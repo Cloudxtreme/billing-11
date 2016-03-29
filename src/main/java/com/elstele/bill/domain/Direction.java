@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "directions", schema = "public", catalog = "billing")
+@Table(name = "directions", schema = "public")
 public class Direction extends CommonDomainBean {
     @Basic
     @Column(name = "description", length = 100)

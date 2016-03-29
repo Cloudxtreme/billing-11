@@ -4,6 +4,7 @@ import com.elstele.bill.controller.DirectionController;
 import com.elstele.bill.datasrv.interfaces.DirectionDataService;
 import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.form.DirectionForm;
+import com.elstele.bill.form.TariffZoneForm;
 import com.elstele.bill.test.builder.form.DirectionFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -199,5 +200,47 @@ public class DirectionControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         assertTrue(content.contains(ResponseToAjax.FREE.toString()));
+    }
+
+    @Test
+    public void getTarZonesListTest() throws Exception {
+        List<TariffZoneForm> allZoneList = new ArrayList<>();
+        TariffZoneForm form1 = new TariffZoneForm();
+        form1.setId(1);
+        form1.setZoneName("Test1");
+        TariffZoneForm form2 = new TariffZoneForm();
+        form2.setId(2);
+        form2.setZoneName("Test2");
+
+        allZoneList.add(form1);
+        allZoneList.add(form2);
+
+        List<TariffZoneForm> actualZoneList = new ArrayList<>();
+        actualZoneList.add(form1);
+
+        when(tariffZoneDataService.getTariffZonesList()).thenReturn(allZoneList);
+        MvcResult result = this.mockMvc.perform(get("/direction/getAllZones")
+                .session(mockSession)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<DirectionForm> actual = mapper.readValue(content, mapper.getTypeFactory().
+                constructCollectionType(ArrayList.class, TariffZoneForm.class));
+
+        assertTrue(actual.equals(allZoneList));
+
+        when(tariffZoneDataService.getOnlyActualTariffZoneList()).thenReturn(actualZoneList);
+        result = this.mockMvc.perform(get("/direction/getActualZones")
+                .session(mockSession)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andReturn();
+        content = result.getResponse().getContentAsString();
+        actual = mapper.readValue(content, mapper.getTypeFactory().
+                constructCollectionType(ArrayList.class, TariffZoneForm.class));
+
+        assertTrue(actual.equals(actualZoneList));
     }
 }
