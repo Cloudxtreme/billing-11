@@ -100,6 +100,34 @@ $(document).ready(function () {
             $("#tariffZoneModal").shake(3,7,800);
             return false;
         }
+
+        if (navigator.userAgent.search("Chrome") == -1) {
+            $('#validFrom').keypress(function () {
+                $(this).removeClass("invalidVal");
+                $('#dateWarn').hide();
+            });
+
+            $('#validTo').keypress(function () {
+                $(this).removeClass("invalidVal");
+                $('#dateWarn').hide();
+            });
+
+
+            var validTo = $('#validTo');
+            var validFrom = $('#validFrom');
+            if (!testDate(validFrom.val()) || !testDate(validTo.val())) {
+                $('#dateWarn').show();
+                if (!testDate(validFrom.val())) {
+                    validFrom.addClass("invalidVal");
+                }
+                if (!testDate(validTo.val())) {
+                    validTo.addClass("invalidVal");
+                }
+                return false;
+            }
+
+        }
+
         e.preventDefault();
 
         var id = $("#id").val();
@@ -203,3 +231,17 @@ jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
     });
     return this;
 };
+
+function testDate(str) {
+    if (str.length > 0) {
+        var t = str.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+        if (t === null)
+            return false;
+        var d = +t[3], m = +t[2], y = +t[1];
+        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+            return true;
+        }
+        return false;
+    }
+    return true;
+}
