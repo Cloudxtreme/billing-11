@@ -14,10 +14,9 @@ public interface TariffZoneDataService {
     public String deleteZone(int id);
     public TariffZoneForm getZoneById(int id);
     public void updateZone(TariffZoneForm tariffZoneForm);
-    public List<Integer> getPrefProfileIdList();
     public TariffZone getUniqueZoneByZoneId(int zoneId);
     public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom);
     public Integer setValidToDateForZones(Date newDateFromFile);
     public List<TariffZoneForm> getOnlyActualTariffZoneList();
-    public HashMap<String, TariffZone> getZoneMapFRomDBByDate(Date validFrom);
+    public HashMap<String, TariffZone> getZoneMapFromDBByDate(Date validFrom);
 }

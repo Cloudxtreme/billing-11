@@ -27,7 +27,6 @@ $(document).ready(function(){
     });
 });
 
-
 $(document).on("click", ".pushEdit", function () {
     console.log("pushEdit push");
     var tarZoneId = $(this).data('id');
@@ -48,6 +47,8 @@ $(document).on("click", ".pushEdit", function () {
             $("#tarif").val(data.tarif);
             $("#tarifPref").val(data.tarifPref);
             $('#prefProfile').val(data.prefProfile);
+            $('#validFrom').val(parseDateTOStringWithFormat(data.validFrom));
+            $('#validTo').val(parseDateTOStringWithFormat(data.validTo));
         },
         error : function(){
             console.log("error in ajax query edit");
@@ -55,6 +56,17 @@ $(document).on("click", ".pushEdit", function () {
     });
 
 });
+
+function parseDateTOStringWithFormat(dateToParse) {
+    if (dateToParse != 0) {
+        var now = new Date(dateToParse);
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        return now.getFullYear() + "-" + (month) + "-" + (day);
+    } else {
+        return "";
+    }
+}
 
 $(document).ready(function () {
 
@@ -111,14 +123,49 @@ $(document).ready(function () {
             data[obj.name] = obj.value;
         });
 
+        var validFromFieldValue = $('#validFrom').val();
+        var validFrom;
+        if (validFromFieldValue.length > 0) {
+            validFrom = new Date(validFromFieldValue);
+        } else {
+            validFrom = 0;
+        }
+
+        var validToFieldValue = $('#validTo').val();
+        var validTo;
+        if (validToFieldValue.length > 0) {
+            validTo = new Date(validToFieldValue);
+        } else {
+            validTo = 0;
+        }
+
         var jsonData = $(frm).serialize();
-        console.log(jsonData);
+
+        var nameValuePairs = jsonData.split(/&/);
+        var newSerializedString = "";
+
+        for (var i = 0; i < nameValuePairs.length; i++) {
+            var nameValuePair = nameValuePairs[i];
+            var entry = nameValuePair.split(/=/);
+            var key = entry[0];
+
+            if (key == "validFrom") {
+                entry = "validFrom=" + validFrom.valueOf();
+            }
+            else if (key == "validTo") {
+                entry = "validTo=" + validTo.valueOf();
+            } else {
+                entry = key + "=" + entry[1];
+            }
+            newSerializedString += entry + "&";
+        }
+        newSerializedString = newSerializedString.replace(/&$/, "");
 
         $.ajax({
             type: frm.attr('method'),
             url: action,
             dataType: 'json',
-            data: jsonData,
+            data: newSerializedString,
             success: function (callback) {
                 if (id > 0) {
                     document.getElementById('successMessageEdit').style.display = 'block';
@@ -135,12 +182,6 @@ $(document).ready(function () {
                     });
                 }
                 $("#tariffZoneModal").modal('hide');
-                $(frm).each(function () {
-                    this.reset();
-                });
-                setTimeout(function () {
-                    location.reload();
-                }, 3000)
             },
             error: function () {
                 document.getElementById('errorMessage').style.display = 'block';

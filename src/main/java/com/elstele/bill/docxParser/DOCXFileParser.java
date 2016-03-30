@@ -124,7 +124,7 @@ public class DOCXFileParser {
         maxRuleProfId = preferenceRuleDataService.getProfileIdMaxValue();
 
         HashMap<Float, PreferenceRule> preferenceRuleHashMap = preferenceRuleDataService.getTariffMapFRomDBByDate(validateFrom);
-        HashMap<String, TariffZone> zoneMapFRomDBByDate = tariffZoneDataService.getZoneMapFRomDBByDate(validateFrom);
+        HashMap<String, TariffZone> zoneMapFRomDBByDate = tariffZoneDataService.getZoneMapFromDBByDate(validateFrom);
         HashMap<String, Direction> directionMapFromDB = directionDataService.getDirectionMapByValidFromDate(validateFrom);
 
         for (XWPFTableRow row : rowsList) {

@@ -51,23 +51,27 @@ public class DirectionAssemblerTest {
     public void setUp(){
         directionAssembler = new DirectionAssembler(tariffZoneDAO);
 
+        Calendar cal = Calendar.getInstance();
+        cal.set(2015, Calendar.JULY , 5, 0, 0, 0);
+        validFrom = cal.getTime();
+        cal.set(Calendar.YEAR, -1);
+        validTo = cal.getTime();
+
         tariffZoneForms = new ArrayList<>();
         tariffZoneForm = new TariffZoneForm();
         tariffZoneForm.setZoneId(1);
         tariffZoneForm.setId(10);
+        tariffZoneForm.setValidFrom(validFrom.getTime());
+        tariffZoneForm.setValidTo(validTo.getTime());
         tariffZoneForms.add(tariffZoneForm);
 
         tariffZoneBeanList = new ArrayList<>();
         tariffZone = new TariffZone();
         tariffZone.setZoneId(1);
         tariffZone.setId(10);
+        tariffZone.setValidFrom(validFrom);
+        tariffZone.setValidTo(validTo);
         tariffZoneBeanList.add(tariffZone);
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(2015, Calendar.JULY , 5, 0, 0, 0);
-        validFrom = cal.getTime();
-        cal.set(Calendar.YEAR, -1);
-        validTo = cal.getTime();
 
         bean = new DirectionBuilder().build()
                 .withId(1)

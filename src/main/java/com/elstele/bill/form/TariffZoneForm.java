@@ -1,7 +1,5 @@
 package com.elstele.bill.form;
 
-import java.util.Date;
-
 public class TariffZoneForm {
     private int id;
     private int zoneId;
@@ -12,8 +10,8 @@ public class TariffZoneForm {
     private float tarif;
     private Float tarifPref;
 
-    private Date validFrom;
-    private Date validTo;
+    private Long validFrom;
+    private Long validTo;
 
     public int getId() {
         return id;
@@ -79,19 +77,20 @@ public class TariffZoneForm {
         this.tarifPref = tarifPref;
     }
 
-    public Date getValidFrom() {
+    public Long getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(Date validFrom) {
+    public void setValidFrom(Long validFrom) {
         this.validFrom = validFrom;
     }
 
-    public Date getValidTo() {
+    public Long getValidTo() {
         return validTo;
     }
 
-    public void setValidTo(Date validTo) {
+
+    public void setValidTo(Long validTo) {
         this.validTo = validTo;
     }
 
@@ -112,8 +111,9 @@ public class TariffZoneForm {
             return false;
         if (tarifPref != null ? !tarifPref.equals(that.tarifPref) : that.tarifPref != null) return false;
         if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
-        return !(validTo != null ? !validTo.equals(that.validTo) : that.validTo != null);
+        if (validTo != null ? !validTo.equals(that.validTo) : that.validTo != null) return false;
 
+        return true;
     }
 
     @Override

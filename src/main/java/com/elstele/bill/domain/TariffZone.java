@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "tariff_zones", schema = "public", catalog = "billing")
+@Table(name = "tariff_zones", schema = "public")
 public class TariffZone extends CommonDomainBean {
 
     @Basic

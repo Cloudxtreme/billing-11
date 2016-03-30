@@ -11,7 +11,6 @@ public interface TariffZoneDAO extends CommonDAO<TariffZone> {
     public TariffZone getUniqueTariffZoneByZoneID(int zoneId);
     public List<TariffZone> getTariffZoneList();
     public List<TariffZone> getOnlyActualTariffZoneList();
-    public List<Integer> getPrefProfileIdList();
     public TariffZone getZoneByNameAndValidFrom(String zoneName, Date validFrom);
     public Integer setValidToDateForZones(Date newDateFromFile, Date validTo);
     public List<TariffZone> getTariffZoneByValidFromDate(Date validFrom);

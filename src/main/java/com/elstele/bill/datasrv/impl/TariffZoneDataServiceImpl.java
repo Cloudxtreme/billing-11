@@ -30,17 +30,17 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public List<TariffZoneForm> getTariffZonesList() {
         List<TariffZone> tariffZoneList = tariffZoneDAO.getTariffZoneList();
-        List<TariffZoneForm> formList = new ArrayList<>();
-        for(TariffZone tariffZone : tariffZoneList){
-            formList.add(assembler.fromBeanToForm(tariffZone));
-        }
-        return formList;
+        return shiftListContent(tariffZoneList);
     }
 
     @Override
     @Transactional
     public List<TariffZoneForm> getOnlyActualTariffZoneList() {
         List<TariffZone> tariffZoneList = tariffZoneDAO.getOnlyActualTariffZoneList();
+        return shiftListContent(tariffZoneList);
+    }
+
+    private List<TariffZoneForm> shiftListContent(List<TariffZone> tariffZoneList){
         List<TariffZoneForm> formList = new ArrayList<>();
         for(TariffZone tariffZone : tariffZoneList){
             formList.add(assembler.fromBeanToForm(tariffZone));
@@ -91,12 +91,6 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
 
     @Override
     @Transactional
-    public List<Integer> getPrefProfileIdList() {
-        return tariffZoneDAO.getPrefProfileIdList();
-    }
-
-    @Override
-    @Transactional
     public TariffZone getUniqueZoneByZoneId(int zoneId){
         return tariffZoneDAO.getUniqueTariffZoneByZoneID(zoneId);
     }
@@ -115,7 +109,7 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
 
     @Override
     @Transactional
-    public HashMap<String, TariffZone> getZoneMapFRomDBByDate(Date validFrom) {
+    public HashMap<String, TariffZone> getZoneMapFromDBByDate(Date validFrom) {
         List<TariffZone> tariffZoneList = tariffZoneDAO.getTariffZoneByValidFromDate(validFrom);
         HashMap<String, TariffZone> resultMap = new HashMap<>();
         for(TariffZone zone : tariffZoneList){

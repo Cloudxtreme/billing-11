@@ -7,7 +7,7 @@ import java.sql.Time;
 import java.util.Date;
 
 @Entity
-@Table(name = "preference_rules", schema = "public", catalog = "billing")
+@Table(name = "preference_rules", schema = "public")
 public class PreferenceRule extends CommonDomainBean {
     @Basic
     @Column(name = "profile_id")

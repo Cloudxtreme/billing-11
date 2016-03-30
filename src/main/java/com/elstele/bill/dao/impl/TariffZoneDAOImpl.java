@@ -6,10 +6,7 @@ import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.utils.Enums.Status;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -40,21 +37,16 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
 
     @Override
     public List<TariffZone> getOnlyActualTariffZoneList() {
-        DetachedCriteria maxQuery = DetachedCriteria.forClass( TariffZone.class );
-        maxQuery.setProjection( Projections.max( "validFrom" ) );
+        DetachedCriteria maxQuery = DetachedCriteria.forClass(TariffZone.class);
+        maxQuery.setProjection(Projections.max("validFrom"));
 
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TariffZone.class);
         criteria.add(Restrictions.disjunction()
                     .add(Restrictions.isNull("status"))
                     .add(Restrictions.ne("status", Status.DELETED)))
-                    .add(Property.forName("validFrom").eq(maxQuery));
+                    .add(Property.forName("validFrom").eq(maxQuery))
+                    .addOrder(Order.asc("zoneName"));
         return (List<TariffZone>) criteria.list();
-    }
-
-    @Override
-    public List<Integer> getPrefProfileIdList() {
-        Query query = getSessionFactory().getCurrentSession().createSQLQuery("SELECT DISTINCT profile_id FROM preference_rules ORDER BY profile_id");
-        return query.list();
     }
 
     @Override

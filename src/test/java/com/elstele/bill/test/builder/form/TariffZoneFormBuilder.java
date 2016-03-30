@@ -2,8 +2,6 @@ package com.elstele.bill.test.builder.form;
 
 import com.elstele.bill.form.TariffZoneForm;
 
-import java.util.Date;
-
 public class TariffZoneFormBuilder {
     private TariffZoneForm tariffZone;
 
@@ -22,12 +20,12 @@ public class TariffZoneFormBuilder {
         return this;
     }
 
-    public TariffZoneFormBuilder withValidTo(Date validTo) {
+    public TariffZoneFormBuilder withValidTo(Long validTo) {
         tariffZone.setValidTo(validTo);
         return this;
     }
 
-    public TariffZoneFormBuilder withValidFrom(Date validFrom) {
+    public TariffZoneFormBuilder withValidFrom(Long validFrom) {
         tariffZone.setValidFrom(validFrom);
         return this;
     }

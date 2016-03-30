@@ -27,15 +27,15 @@ public class TariffZoneAssemblerTest {
     private TariffZoneForm form;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         assembler = new TariffZoneAssembler();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        cal.set(2015, Calendar.JULY, 9, 0, 0, 0);
         Date validFrom = cal.getTime();
         cal.add(Calendar.YEAR, +1);
         Date validTo = cal.getTime();
 
-        bean= new TariffZoneBuilder().build()
+        bean = new TariffZoneBuilder().build()
                 .withId(1)
                 .withDollar(true)
                 .withPrefProfileId(10)
@@ -46,12 +46,12 @@ public class TariffZoneAssemblerTest {
                 .withTarifPref(991.1f)
                 .getRes();
 
-        form= new TariffZoneFormBuilder().build()
+        form = new TariffZoneFormBuilder().build()
                 .withId(1)
                 .withDollar(true)
                 .withPrefProfileId(10)
-                .withValidTo(validTo)
-                .withValidFrom(validFrom)
+                .withValidTo(validTo.getTime())
+                .withValidFrom(validFrom.getTime())
                 .withAdditionalKode("0001")
                 .withTariff(92.1f)
                 .withTarifPref(991.1f)
@@ -59,13 +59,13 @@ public class TariffZoneAssemblerTest {
     }
 
     @Test
-    public void fromFromToBeanTest(){
+    public void fromFromToBeanTest() {
         TariffZone actual = assembler.fromFormToBean(form);
         assertEquals(actual, bean);
     }
 
     @Test
-    public void fromBeanToForm(){
+    public void fromBeanToForm() {
         TariffZoneForm actual = assembler.fromBeanToForm(bean);
         assertEquals(actual, form);
     }

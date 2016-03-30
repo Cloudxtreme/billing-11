@@ -61,7 +61,7 @@ public class DirectionDataServiceTest {
         Calendar cal = Calendar.getInstance();
         cal.set(2015, Calendar.JULY, 5, 0, 0, 0);
         validFrom = cal.getTime();
-        cal.set(Calendar.YEAR, -1);
+        cal.add(Calendar.YEAR, -1);
         validTo = cal.getTime();
 
         tariffZoneFormList = new ArrayList<>();
@@ -70,6 +70,8 @@ public class DirectionDataServiceTest {
         tariffZoneForm.setId(10);
         tariffZoneForm.setDollar(true);
         tariffZoneForm.setZoneId(11);
+        tariffZoneForm.setValidFrom(validFrom.getTime());
+        tariffZoneForm.setValidTo(validTo.getTime());
         tariffZoneFormList.add(tariffZoneForm);
 
         tariffZoneList = new ArrayList<>();
@@ -78,6 +80,8 @@ public class DirectionDataServiceTest {
         tariffZone.setId(10);
         tariffZone.setDollar(true);
         tariffZone.setZoneId(11);
+        tariffZone.setValidFrom(validFrom);
+        tariffZone.setValidTo(validTo);
         tariffZoneList.add(tariffZone);
 
         direction = new DirectionBuilder().build()

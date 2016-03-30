@@ -1,6 +1,8 @@
+<%@ page import="java.util.Date" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
@@ -90,46 +92,61 @@
                 <form:input path="zoneId" id="zoneId" type="hidden"/>
 
                 <div class="col-lg-12">
-                  <div class="col-lg-4">
+                    <div class="col-lg-6">
                     <label for="zoneName" class="control-label"><spring:message code="tariff.zoneName"/></label>
                       <spring:message code="tariff.zoneName" var="zoneName"/>
                       <form:input path="zoneName" class="form-control" id="zoneName" placeholder="${zoneName}"/>
                       <span class="help-inline text-danger" id="zoneNameWarn" style="display: none"><spring:message code="tariff.zoneName.required"/></span>
                   </div>
-                  <div class="col-lg-4">
+                    <div class="col-lg-6">
                     <label for="additionalKode" class="control-label"><spring:message code="tariff.additionalKode"/></label>
                       <spring:message code="tariff.additionalKode" var="additionalKode"/>
                       <form:input path="additionalKode" class="form-control" id="additionalKode" placeholder="${zoneName}"/>
                   </div>
-                  <div class="col-lg-4" style="text-align: center;">
-                    <label for="dollarPath" class="control-label"><spring:message code="tariff.dollar"/></label>
-                      <form:input path="dollar" class="form-control" id="dollar" type="hidden"/>
-                      <div class="col-lg-12">
-                        <input id="dollarPath" name="softblock" type="checkbox" data-size="small">
-                      </div>
-                  </div>
+
                 </div>
 
                 <div class="col-lg-12">
-                  <div class="col-lg-4">
-                    <label for="tarif" class="control-label"><spring:message code="tariff.tarif"/></label>
-                      <spring:message code="tariff.tarif" var="tarif"/>
-                      <form:input path="tarif" class="form-control" id="tarif" placeholder="${tarif}" type="number" min="0" step="any"/>
+                    <div class="col-lg-6">
+                        <label for="tarif" class="control-label"><spring:message code="tariff.tarif"/></label>
+                          <spring:message code="tariff.tarif" var="tarif"/>
+                          <form:input path="tarif" class="form-control" id="tarif" placeholder="${tarif}" type="number" min="0" step="any"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="tarifPref" class=" control-label"><spring:message code="tariff.tarifPref"/></label>
+                          <spring:message code="tariff.tarifPref" var="tarifPref"/>
+                          <form:input path="tarifPref" class="form-control" id="tarifPref" placeholder="${tarifPref}" type="number" min="0" step="any"/>
+                    </div>
+                </div>
+                  <div class="col-lg-12">
+                      <div class="col-lg-6">
+                          <label for="prefProfile" class="control-label"><spring:message code="rule.profileId"/></label>
+                          <form:select path="prefProfile" class="form-control" id="prefProfile" multiple="false">
+                              <c:forEach items="${prefProfileList}" var="prefProfile">
+                                  <form:option value="${prefProfile.profileId}">
+                                        ${prefProfile.profileId}
+                                        <c:if test="${prefProfile.tarif != null}">
+                                            <spring:message code="label.withCost"/> ${prefProfile.tarif}
+                                        </c:if>
+                                  </form:option>
+                              </c:forEach>
+                          </form:select>
+                      </div>
+                      <div class="col-lg-6" style="padding-top: 4%">
+                          <label for="dollarPath" class="control-label"><spring:message code="tariff.dollar"/></label>
+                          <form:input path="dollar" class="form-control" id="dollar" type="hidden"/>
+                          <input id="dollarPath" name="softblock" type="checkbox" data-size="normal">
+                      </div>
                   </div>
-                  <div class="col-lg-4">
-                    <label for="tarifPref" class=" control-label"><spring:message code="tariff.tarifPref"/></label>
-                      <spring:message code="tariff.tarifPref" var="tarifPref"/>
-                      <form:input path="tarifPref" class="form-control" id="tarifPref" placeholder="${tarifPref}" type="number" min="0" step="any"/>
-                  </div>
-
-                  <div class="col-lg-4">
-                    <label for="prefProfile" class="control-label"><spring:message code="rule.profileId"/></label>
-                    <form:select path="prefProfile" class="form-control" id="prefProfile" multiple="false">
-                      <c:forEach items="${prefProfileList}" var="prefProfileList">
-                        <form:option value="${prefProfileList}">${prefProfileList}</form:option>
-                      </c:forEach>
-                    </form:select>
-                  </div>
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <label for="validFrom" class="control-label"><spring:message code="label.startDate"/></label>
+                        <form:input path="validFrom" class="form-control" id="validFrom" type="date"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="validTo" class="control-label"><spring:message code="label.endDate"/></label>
+                        <form:input path="validTo" class="form-control" id="validTo" type="date"/>
+                    </div>
                 </div>
               </fieldset>
             </form:form>
@@ -147,8 +164,7 @@
   <table class="table table-striped table-hover" id='table'>
     <tr>
       <th style="width: 10%;"></th>
-      <th style="width: 40%;"><spring:message code="tariff.zoneName"/></th>
-      <th style="width: 15%;"><spring:message code="tariff.additionalKode"/></th>
+      <th style="width: 55%;"><spring:message code="tariff.zoneName"/></th>
       <th style="width: 15%;"><spring:message code="tariff.dollar"/></th>
       <th style="width: 10%;"><spring:message code="rule.profileId"/></th>
     </tr>
@@ -163,7 +179,6 @@
               <a id="info" href="${pageContext.request.contextPath}/objectinfo/${tariffZone.id}?type=TariffZone"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
             </td>
             <td>${tariffZone.zoneName}</td>
-            <td>${tariffZone.additionalKode}</td>
             <c:choose>
               <c:when test="${tariffZone.dollar == true}">
                 <td class="bg-success" style="text-align: center; font-size: 1.4em"><span class="glyphicon glyphicon-ok"></span></td>

@@ -100,7 +100,6 @@ function drawRow(rowData) {
     }
     row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom) + "</td>"));
     row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
-
 }
 
 function parseDateTOStringWithFormat(dateToParse) {
