@@ -30,12 +30,13 @@ public class LogDataServiceImpl implements LogDataService {
                 ReversedLinesFileReader rlfr = new ReversedLinesFileReader(new File(logFilePath));
                 for (int i = 0; i < lineCount; i++){
                     String line = rlfr.readLine();
-                    if (line !=null){
+                    if (line != null){
                         result.add(line);
                     } else {
                         break;
                     }
                 }
+                rlfr.close();
             } catch (IOException e) {
                 LOGGER.error(e.getMessage(), e);
             }
