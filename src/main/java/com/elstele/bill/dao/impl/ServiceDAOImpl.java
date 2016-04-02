@@ -97,7 +97,7 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
                 "from pppoe_online as o, accounts as a, service as s " +
                 "where " +
                         "o.username = s.username and " +
-                        "s.status = 'ACTIVE' and" +
+                        "s.status = 'ACTIVE' and " +
                         "s.account_id = a.id " +
                 "order by o.username")
                 .setResultTransformer(Transformers.aliasToBean(OnlineStatistic.class));

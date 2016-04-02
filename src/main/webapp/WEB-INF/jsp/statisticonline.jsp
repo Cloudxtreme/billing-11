@@ -25,13 +25,14 @@
 
 <div class="well">
     <span class="btn btn-sm btn-warning float-left" id="onlineUserCount"><spring:message code="label.usersOnlineNow"/> : <strong id="usersCount"></strong></span>
+    <span class="btn btn-sm btn-warning float-left" id="authLogShow"><spring:message code="label.showAuthLog"/></span>
     <div id="userOnlineTableDiv">
         <table id="userOnlineTable" class="table table-striped">
             <tr>
                 <th><spring:message code="label.name"/> </th>
                 <th><spring:message code="label.fio"/> </th>
                 <th><spring:message code="label.nasIp"/> </th>
-                <th><spring:message code="label.pasport"/> </th>
+                <th><spring:message code="label.nasPort"/> </th>
                 <th><spring:message code="label.startTime"/> </th>
                 <th><spring:message code="label.sessionTime"/> </th>
                 <th><spring:message code="label.localIp"/> </th>
@@ -40,6 +41,10 @@
             </tr>
         </table>
     </div>
+    <div id="authLogDiv">
+
+    </div>
+
     <div id="totopscroller"> </div>
 
 </div>

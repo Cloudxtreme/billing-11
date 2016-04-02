@@ -16,6 +16,9 @@ public class MonitoringController {
     @Autowired
     private ServiceDataService serviceDataService;
 
+    @Autowired
+    private LogDataService logDataService;
+
 
     @RequestMapping(value="/getOnline", method = RequestMethod.GET)
     @ResponseBody
@@ -27,6 +30,12 @@ public class MonitoringController {
     public ModelAndView userOnlineHome(HttpSession session) {
         ModelAndView mav = new ModelAndView("statisticonline");
         return mav;
+    }
+
+    @RequestMapping(value="/getAuthLogLines", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getRadiusLogLastLines(){
+        return logDataService.getAuthLogLastLines(100);
     }
 
 }
