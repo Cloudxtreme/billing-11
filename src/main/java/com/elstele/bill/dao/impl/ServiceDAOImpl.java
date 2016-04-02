@@ -94,11 +94,12 @@ public class ServiceDAOImpl extends CommonDAOImpl<Service> implements ServiceDAO
                 "select o.username, a.user_fio, text(o.nasipaddress) as nasipaddress, " +
                         "o.nasportid, to_char(o.acctstarttime, 'YYYY-MM-DD HH24:MI:SS') as acctstarttime, o.acctsessiontime, " +
                         "text(o.framedipaddress) as framedipaddress, o.acctinputoctets, o.acctoutputoctets " +
-                        "from pppoe_online as o, accounts as a, service as s " +
-                        "where " +
+                "from pppoe_online as o, accounts as a, service as s " +
+                "where " +
                         "o.username = s.username and " +
+                        "s.status = 'ACTIVE' and" +
                         "s.account_id = a.id " +
-                        "order by o.username")
+                "order by o.username")
                 .setResultTransformer(Transformers.aliasToBean(OnlineStatistic.class));
         List<OnlineStatistic> dbResult = query.list();
         return dbResult;
