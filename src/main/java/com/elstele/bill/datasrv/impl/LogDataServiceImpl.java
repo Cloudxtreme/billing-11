@@ -17,6 +17,7 @@ import java.util.List;
 public class LogDataServiceImpl implements LogDataService {
 
     final static Logger LOGGER = LogManager.getLogger(LogDataServiceImpl.class);
+    private static final CharSequence TEST_USER_AUTH = "[testuser]";
 
     @Autowired
     private PropertiesHelper propertiesHelper;
@@ -31,7 +32,9 @@ public class LogDataServiceImpl implements LogDataService {
                 for (int i = 0; i < lineCount; i++){
                     String line = rlfr.readLine();
                     if (line != null){
-                        result.add(line);
+                        if (!isFiltered(line)){
+                            result.add(line);
+                        }
                     } else {
                         break;
                     }
@@ -45,5 +48,12 @@ public class LogDataServiceImpl implements LogDataService {
             LOGGER.error("No Radius log file found!");
         }
         return result;
+    }
+
+    private boolean isFiltered(String line) {
+        if(line.contains(TEST_USER_AUTH)){
+            return true;
+        }
+        return false;
     }
 }
