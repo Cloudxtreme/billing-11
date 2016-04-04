@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by ivan on 15/12/27.
- */
 @Service
 public class ExternalPaymentDAOImpl extends CommonDAOImpl<ExternalPaymentTransaction> implements ExternalPaymentDAO {
 

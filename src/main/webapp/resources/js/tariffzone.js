@@ -3,6 +3,18 @@ $(function() {
     $("input[name='zonelist']").bootstrapSwitch();
 });
 
+
+function parseDateTOStringWithFormat(dateToParse) {
+    if (dateToParse != 0) {
+        var now = new Date(dateToParse);
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        return now.getFullYear() + "-" + (month) + "-" + (day);
+    } else {
+        return "";
+    }
+}
+
 $(document).ready(function(){
     if(window.location.href.indexOf('#modal') > -1 ){
         if($("#dollar").val() == "true"){
@@ -57,16 +69,6 @@ $(document).on("click", ".pushEdit", function () {
 
 });
 
-function parseDateTOStringWithFormat(dateToParse) {
-    if (dateToParse != 0) {
-        var now = new Date(dateToParse);
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        return now.getFullYear() + "-" + (month) + "-" + (day);
-    } else {
-        return "";
-    }
-}
 
 $(document).ready(function () {
 

@@ -15,6 +15,8 @@
   <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
   <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
 
+  <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
+  <script src="${jBootstrapSwitch}"></script>
   <spring:url value="/resources/css/bootstrap-switch.min.css" var="bootstrapSwitch" />
   <link href="${bootstrapSwitch}" rel="stylesheet"/>
 
@@ -24,8 +26,6 @@
   <script src="${tarZoneJS}"></script>
   <spring:url value="/resources/js/popup.js" var="popup"/>
   <script src="${popup}"></script>
-  <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
-  <script src="${jBootstrapSwitch}"></script>
 
   <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>
