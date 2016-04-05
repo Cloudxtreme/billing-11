@@ -24,8 +24,8 @@
     <script src="${popup}"></script>
     <spring:url value="/resources/js/bootstrap-switch.min.js" var="jBootstrapSwitch" />
     <script src="${jBootstrapSwitch}"></script>
-
-
+    <spring:url value="/resources/js/overall_functions.js" var="overall"/>
+    <script src="${overall}"></script>
 
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>

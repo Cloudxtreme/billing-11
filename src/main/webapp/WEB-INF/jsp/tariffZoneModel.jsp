@@ -26,6 +26,10 @@
   <script src="${tarZoneJS}"></script>
   <spring:url value="/resources/js/popup.js" var="popup"/>
   <script src="${popup}"></script>
+  <spring:url value="/resources/js/smoothScroll.js" var="smooth"/>
+  <script src="${smooth}"></script>
+  <spring:url value="/resources/js/overall_functions.js" var="overall"/>
+  <script src="${overall}"></script>
 
   <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico"/>
 </head>

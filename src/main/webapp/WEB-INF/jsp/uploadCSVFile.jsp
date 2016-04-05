@@ -67,12 +67,11 @@
 
 
     <legend>
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span><spring:message
-            code="label.selectCSV"/>
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span><spring:message code="label.selectCSV"/>
         &nbsp;&nbsp;
-        <a id="reportsList" href="#reportModal" data-toggle="modal"
-           style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
-                class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
+        <a id="reportsList" href="#reportModal" data-toggle="modal" style="text-decoration: none; color: rgba(88,124,173,0.54)">
+            <span class="glyphicon glyphicon-th-large" id="iconHover"></span><spring:message code="label.generateReport"/>
+        </a>
     </legend>
 
     <div class="progress" style="display: none;" id="progress">
@@ -81,17 +80,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal"
-         aria-hidden="true">
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="tab-container">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;"><spring:message
-                                    code="label.selectReport"/></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;"><spring:message code="label.selectReport"/></h4>
                             &nbsp;&nbsp;
 
                             <form class="navbar-form">

@@ -24,10 +24,10 @@ public class TariffZoneController {
     @Autowired
     Messagei18nHelper messagei18nHelper;
 
-    @RequestMapping(value = {"/tariffzone/home", "tariffzone/all"}, method = RequestMethod.GET)
-    public ModelAndView tariffZoneListHome(HttpServletRequest request) {
+    @RequestMapping(value = {"/tariffzone/home", "tariffzone/all", "/tariffzone/fromdirection"}, method = RequestMethod.GET)
+    public ModelAndView tariffZoneListHome(HttpServletRequest request, @RequestParam(value = "id", required = false) Integer id) {
         ModelAndView mav = new ModelAndView("tariffZoneModel");
-        if (request.getRequestURI().contains("home")) {
+        if (request.getRequestURI().contains("home") || request.getRequestURI().contains("fromdirection")) {
             mav.addObject("tariffzoneList", dataService.getOnlyActualTariffZoneList());
         } else {
             mav.addObject("tariffzoneList", dataService.getTariffZonesList());
@@ -56,16 +56,6 @@ public class TariffZoneController {
     public TariffZoneForm getZoneForEdit(@RequestParam(value = "id") int id) {
         TariffZoneForm result = dataService.getZoneById(id);
         return result;
-    }
-
-    @RequestMapping(value = "/tariffzone/fromdirection", method = RequestMethod.GET)
-    @ResponseBody
-    public ModelAndView openModalWithDataAfterRedirect(@RequestParam(value = "id") int id) {
-        ModelAndView mav = new ModelAndView("tariffZoneModel");
-        mav.addObject("tariffzoneList", dataService.getTariffZonesList());
-        mav.addObject("prefProfileList", preferenceRuleDataService.getRuleList());
-        mav.addObject("tariffZoneForm", dataService.getZoneById(id));
-        return mav;
     }
 
     @RequestMapping(value = "/tariffzone/edit", method = RequestMethod.POST)

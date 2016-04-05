@@ -3,24 +3,13 @@ $(function() {
     $("input[name='zonelist']").bootstrapSwitch();
 });
 
-
-function parseDateTOStringWithFormat(dateToParse) {
-    if (dateToParse != 0) {
-        var now = new Date(dateToParse);
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        return now.getFullYear() + "-" + (month) + "-" + (day);
-    } else {
-        return "";
-    }
-}
-
 $(document).ready(function(){
-    if(window.location.href.indexOf('#modal') > -1 ){
-        if($("#dollar").val() == "true"){
-            $('#dollarPath').bootstrapSwitch('state', true);
-        }
-        $('#tariffZoneModal').modal('show');
+    if(window.location.href.indexOf('fromdirection') > -1 ){
+        var zoneId = getUrlParameter('id');
+        $("#table tr").filter(function() {
+            return $(this).attr('id') == zoneId;
+        }).addClass("bg-danger");
+        scrollToElement($('.bg-danger'));
     }
 
     if(window.location.href.indexOf('home') > -1 ){
@@ -113,7 +102,6 @@ $(document).ready(function () {
                 $(this).removeClass("invalidVal");
                 $('#dateWarn').hide();
             });
-
 
             var validTo = $('#validTo');
             var validFrom = $('#validFrom');
@@ -223,27 +211,5 @@ $(document).ready(function () {
     });
 });
 
-jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
-    this.each(function() {
-        for (var x=1; x<=intShakes; x++) {
-            $(this).animate({left:(intDistance*-1)}, (((intDuration/intShakes)/4)))
-                .animate({left:intDistance}, ((intDuration/intShakes)/2))
-                .animate({left:0}, (((intDuration/intShakes)/4)));
-        }
-    });
-    return this;
-};
 
-function testDate(str) {
-    if (str.length > 0) {
-        var t = str.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
-        if (t === null)
-            return false;
-        var d = +t[3], m = +t[2], y = +t[1];
-        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-            return true;
-        }
-        return false;
-    }
-    return true;
-}
+

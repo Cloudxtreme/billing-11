@@ -179,7 +179,9 @@ public class TariffZoneControllerTest {
 
     @Test
     public void openModalWithDataAfterRedirectTest() throws Exception {
-        when(dataService.getZoneById(1)).thenReturn(tariffZoneForm);
+        List<TariffZoneForm> actualZoneList = new ArrayList<>();
+        actualZoneList.add(tariffZoneForm);
+        when(dataService.getOnlyActualTariffZoneList()).thenReturn(actualZoneList);
         when(dataService.getTariffZonesList()).thenReturn(tariffZoneFormList);
         when(preferenceRuleDataService.getRuleList()).thenReturn(preferenceRuleList);
 
@@ -189,8 +191,7 @@ public class TariffZoneControllerTest {
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("tariffZoneModel"))
-                .andExpect(model().attribute("tariffZoneForm", tariffZoneForm))
-                .andExpect(model().attribute("tariffzoneList", tariffZoneFormList))
+                .andExpect(model().attribute("tariffzoneList", actualZoneList))
                 .andExpect(model().attribute("prefProfileList", preferenceRuleList));
     }
 

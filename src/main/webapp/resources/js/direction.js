@@ -96,23 +96,11 @@ function drawRow(rowData) {
     if (typeof  zoneId[0] === "undefined") {
         row.append($("<td></td>"));
     } else {
-        row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "#modal\>" + zoneName[0] + "</a></td>"));
+        row.append($("<td><a href=../tariffzone/fromdirection?id=" + zoneId[0] + "\>" + zoneName[0] + "</a></td>"));
     }
     row.append($("<td>" + parseDateTOStringWithFormat(rowData.validFrom) + "</td>"));
     row.append($("<td>" + parseDateTOStringWithFormat(rowData.validTo) + "</td>"));
 }
-
-function parseDateTOStringWithFormat(dateToParse) {
-    if (dateToParse != 0) {
-        var now = new Date(dateToParse);
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        return now.getFullYear() + "-" + (month) + "-" + (day);
-    } else {
-        return "";
-    }
-}
-
 
 function getPageCounts() {
     pageResults = $("#selectEntries option:selected").val();
@@ -386,28 +374,3 @@ $(document).ready(function () {
     });
 
 });
-
-jQuery.fn.shake = function (intShakes, intDistance, intDuration) {
-    this.each(function () {
-        for (var x = 1; x <= intShakes; x++) {
-            $(this).animate({left: (intDistance * -1)}, (((intDuration / intShakes) / 4)))
-                .animate({left: intDistance}, ((intDuration / intShakes) / 2))
-                .animate({left: 0}, (((intDuration / intShakes) / 4)));
-        }
-    });
-    return this;
-};
-
-function testDate(str) {
-    if (str.length > 0) {
-        var t = str.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
-        if (t === null)
-            return false;
-        var d = +t[3], m = +t[2], y = +t[1];
-        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-            return true;
-        }
-        return false;
-    }
-    return true;
-}

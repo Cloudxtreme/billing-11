@@ -5,38 +5,6 @@ function clearWarn() {
     $('#rulePriorityWarn').hide();
 }
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
-};
-
-function scrollToElement(ele) {
-    var elOffset = ele.offset().top;
-    var elHeight = ele.height();
-    var windowHeight = $(window).height();
-    var offset;
-
-    if (elHeight < windowHeight) {
-        offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-    }
-    else {
-        offset = elOffset;
-    }
-
-    $.smoothScroll({ speed: 700 }, offset);
-    return false;
-}
-
 $(document).on("click", ".pushEdit", function () {
     var ruleId = $(this).data('id');
     $('#ruleModal').modal('show');
@@ -60,7 +28,6 @@ $(document).on("click", ".pushEdit", function () {
             console.log("error in ajax query edit");
         }
     });
-
 });
 
 $(document).ready(function () {
@@ -168,18 +135,5 @@ $(document).ready(function () {
                 });
             }
         });
-
-
     });
 });
-
-jQuery.fn.shake = function (intShakes, intDistance, intDuration) {
-    this.each(function () {
-        for (var x = 1; x <= intShakes; x++) {
-            $(this).animate({left: (intDistance * -1)}, (((intDuration / intShakes) / 4)))
-                .animate({left: intDistance}, ((intDuration / intShakes) / 2))
-                .animate({left: 0}, (((intDuration / intShakes) / 4)));
-        }
-    });
-    return this;
-};

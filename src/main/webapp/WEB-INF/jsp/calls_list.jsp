@@ -53,8 +53,7 @@
     </label>
     <form class="navbar-form" role="search">
         <div class="form-group">
-            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span
-                    class="glyphicon glyphicon-erase" aria-hidden="true" title="<spring:message code="label.erasesearch"/>"></span></a>
+            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span class="glyphicon glyphicon-erase" aria-hidden="true" title="<spring:message code="label.erasesearch"/>"></span></a>
         </div>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="<spring:message code="label.numberA"/>" id="searchNumberA">
@@ -63,8 +62,7 @@
             <input type="text" class="form-control" placeholder="<spring:message code="label.numberB"/>" id="searchNumberB">
         </div>
         <div class="form-group ">
-            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="<spring:message code="label.callsStartDate"/>"
-                   id="searchDate"/>
+            <input type="text" name="daterange" class="form-control" placeholder="<spring:message code="label.callsStartDate"/>" id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn"><spring:message code="label.search"/></a>
         &nbsp;&nbsp;
@@ -73,7 +71,6 @@
                 <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
-
     </form>
 
 

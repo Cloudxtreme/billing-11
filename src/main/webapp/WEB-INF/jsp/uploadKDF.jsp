@@ -42,9 +42,9 @@
     <legend>
         <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> <spring:message code="label.selectKdf"/>
         &nbsp;&nbsp;
-        <a href="${pageContext.request.contextPath}/uploadedfiles"
-           style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
-                class="glyphicon glyphicon-folder-open"></span>&nbsp;<spring:message code="label.uploadedKDF"/></a>
+        <a href="${pageContext.request.contextPath}/uploadedfiles" style="text-decoration: none; color: rgba(88,124,173,0.54)" id="aFolder">
+            <span class="glyphicon glyphicon-folder-close" id="folderIcon"></span>&nbsp;<spring:message code="label.uploadedKDF"/>
+        </a>
     </legend>
 
     <%--Form for uploading files--%>
@@ -82,20 +82,16 @@
                     $("#errorMessage").fadeOut(2000);
                 });
             }
-
-
         }
 
         $('#list').html('');
         for (var h = 0, q; q = uniqFiles[h]; h++) {
             var sub = (q.name).substring(0, 20);
             $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
-                    q.size + ' bytes, last modified: ' +
-                    (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
-                    '</li>');
+                q.size + ' bytes, last modified: ' +
+                (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
+                '</li>');
         }
-
-
     });
 
     $('html').on('click', '.glyphicon-remove', function () {
@@ -125,6 +121,18 @@
         }
         return true;
     }
+
+    var folder = $('#folderIcon');
+    $("#folderIcon, #aFolder").hover(
+            function () {
+                $(folder).toggleClass('glyphicon-folder-close', false);
+                $(folder).toggleClass('glyphicon-folder-open', true);
+            },
+            function () {
+                $(folder).toggleClass('glyphicon-folder-close', true);
+                $(folder).toggleClass('glyphicon-folder-open', false);
+            }
+    );
 
     $('.btn-toolbar').on('click', function () {
         var reader = new FileReader();

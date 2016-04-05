@@ -268,4 +268,28 @@ $(document).ready(function () {
 
     var interval =  setInterval(getProgress, 2000);
 
+    var folder = $('#iconHover');
+    $("#iconHover, #reportsList").hover(
+        function () {
+            $(folder).toggleClass('glyphicon-th-large', false);
+            $(folder).toggleClass('glyphicon-th-list', true);
+        },
+        function () {
+            $(folder).toggleClass('glyphicon-th-large', true);
+            $(folder).toggleClass('glyphicon-th-list', false);
+        }
+    );
+
+    var $reportModal = $('#reportModal');
+
+    $reportModal.on('hidden.bs.modal', function () {
+        $(folder).toggleClass('glyphicon-th-large', true);
+        $(folder).toggleClass('glyphicon-th-list', false);
+    });
+
+    $reportModal.on('shown.bs.modal', function(){
+        $(folder).toggleClass('glyphicon-th-large', false);
+        $(folder).toggleClass('glyphicon-th-list', true);
+    })
+
 });
