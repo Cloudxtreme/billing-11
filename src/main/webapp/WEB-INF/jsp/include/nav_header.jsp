@@ -78,9 +78,9 @@
                         <li id="linkToUserList"><a href="${pageContext.request.contextPath}/userpanel.html"><spring:message code="label.userPanel"/></a></li>
                         <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/userrolelist.html"><spring:message code="label.userRole"/></a></li>
                         <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activitylist.html"><spring:message code="label.activity"/></a></li>
-                        <li><a href="${pageContext.request.contextPath}/logout"><spring:message code="label.logout"/></a></li>
                     </ul>
                 </li>
+                <li><a href="${pageContext.request.contextPath}/logout" id="animatedA"><span class="glyphicon glyphicon-log-out" id="animatedSpan"></span>&nbsp;<spring:message code="label.logout"/></a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

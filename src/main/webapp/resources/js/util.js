@@ -100,7 +100,9 @@ $(function() {
         }
     }
 
-
+    var item = document.getElementById("animatedA");
+    item.addEventListener("mouseover", func, false);
+    item.addEventListener("mouseout", func1, false);
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -118,10 +120,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-function confirmOperation(){
-    if (confirm('Are you sure you want to save this thing into the database?')) {
-        // Save it!
-    } else {
-        // Do nothing!
-    }
+function func() {
+    document.getElementById("animatedSpan").className += " logout-animated";
 }
+function func1() {
+    document.getElementById("animatedSpan").className = document.getElementById("animatedSpan").className.replace( /(?:^|\s)logout-animated(?!\S)/g , '' )
+}
+
