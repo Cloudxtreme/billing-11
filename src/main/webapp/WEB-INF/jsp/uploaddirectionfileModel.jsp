@@ -21,6 +21,8 @@
     <script src="${jqueryMinUi}"></script>
     <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
     <script src="${nestedFileTree}"></script>
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
 
 </head>
 <body>

@@ -16,6 +16,8 @@
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/js/uploaded_files.js" var="uploaded_files"/>
     <script src="${uploaded_files}"></script>
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
 
 </head>
 <body>

@@ -19,6 +19,8 @@
     <spring:url value="/resources/css/loader-style.css" var="loader" />
     <link href="${loader}" rel="stylesheet"/>
 
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
     <spring:url value="/resources/js/uploadCSVFile.js" var="csvScript"/>
     <script src="${csvScript}"></script>
     <spring:url value="/resources/js/file-tree.min.js" var="fileTreeMin"/>

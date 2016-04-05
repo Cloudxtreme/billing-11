@@ -12,6 +12,8 @@
     <title>ELS Telecom billing NG</title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
 
 </head>
 <body>
