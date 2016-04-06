@@ -10,6 +10,7 @@ import com.elstele.bill.datasrv.interfaces.StreetDataService;
 import com.elstele.bill.domain.*;
 import com.elstele.bill.form.AccountForm;
 import com.elstele.bill.form.AddressForm;
+import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -202,6 +203,9 @@ public class AccountDataServiceImpl implements AccountDataService {
         Set<Service> serviceSet = account.getAccountServices();
         for (Service service : serviceSet) {
             service.setStatus(Status.DELETED);
+            if(service instanceof ServiceInternet){
+                ((ServiceInternet) service).getIpAddress().setIpStatus(IpStatus.FREE);
+            }
         }
         account.setAccountServices(serviceSet);
         accountDAO.update(account, changerName);

@@ -2,8 +2,9 @@ var uniqFiles = [];
 
 $(function(){
     var tableCount = $('#table tr').length;
-    if(tableCount > 5){
+    if(tableCount > 6){
         $('#table tr:gt(5)').hide();
+        $('#showAllBtn').show();
     }
 });
 

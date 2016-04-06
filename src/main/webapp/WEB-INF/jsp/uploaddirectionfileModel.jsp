@@ -84,7 +84,7 @@
                 </c:forEach>
             </table>
             <div class="col-lg-12 text-center">
-                <span id="showAllBtn" class="glyphicon glyphicon-triangle-bottom" style="font-size: 2em"></span>
+                <span id="showAllBtn" class="glyphicon glyphicon-triangle-bottom" style="font-size: 2em; display: none;" ></span>
             </div>
         </div>
     </div>
