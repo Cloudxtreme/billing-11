@@ -27,7 +27,7 @@ public class TariffZoneController {
     @RequestMapping(value = {"/tariffzone/home", "tariffzone/all", "/tariffzone/fromdirection"}, method = RequestMethod.GET)
     public ModelAndView tariffZoneListHome(HttpServletRequest request, @RequestParam(value = "id", required = false) Integer id) {
         ModelAndView mav = new ModelAndView("tariffZoneModel");
-        if (request.getRequestURI().contains("home") || request.getRequestURI().contains("fromdirection")) {
+        if (request.getRequestURI().contains("home") || (request.getRequestURI().contains("fromdirection") && dataService.checkIfObjectHasActualDate(id))) {
             mav.addObject("tariffzoneList", dataService.getOnlyActualTariffZoneList());
         } else {
             mav.addObject("tariffzoneList", dataService.getTariffZonesList());

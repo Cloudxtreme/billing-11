@@ -168,7 +168,9 @@
   <table class="table table-striped table-hover" id='table'>
     <tr>
       <th style="width: 10%;"></th>
-      <th style="width: 55%;"><spring:message code="tariff.zoneName"/></th>
+      <th style="width: 35%;"><spring:message code="tariff.zoneName"/></th>
+      <th style="width: 10%;"><spring:message code="label.validFrom"/></th>
+      <th style="width: 10%;"><spring:message code="label.validTo"/></th>
       <th style="width: 15%;"><spring:message code="tariff.dollar"/></th>
       <th style="width: 10%;"><spring:message code="rule.profileId"/></th>
     </tr>
@@ -183,6 +185,8 @@
               <a id="info" href="${pageContext.request.contextPath}/objectinfo/${tariffZone.id}?type=TariffZone"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
             </td>
             <td>${tariffZone.zoneName}</td>
+            <td><fmt:formatDate pattern="yyyy-MM-dd" value="${tariffZone.validFromAsDate}" /></td>
+            <td><fmt:formatDate pattern="yyyy-MM-dd" value="${tariffZone.validToAsDate}" /></td>
             <c:choose>
               <c:when test="${tariffZone.dollar == true}">
                 <td class="bg-success" style="text-align: center; font-size: 1.4em"><span class="glyphicon glyphicon-ok"></span></td>

@@ -72,4 +72,18 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
                 .setParameter("validFrom", validFrom);
         return (List<TariffZone>)query.list();
     }
+
+    @Override
+    public boolean checkIfObjectHasActualDate(int id){
+        DetachedCriteria maxQuery = DetachedCriteria.forClass(TariffZone.class);
+        maxQuery.setProjection(Projections.max("validFrom"));
+
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TariffZone.class);
+        criteria.add(Restrictions.eq("id", id))
+                .add(Property.forName("validFrom").eq(maxQuery))
+                .addOrder(Order.asc("zoneName"))
+                .setMaxResults(1);
+        TariffZone result = (TariffZone) criteria.uniqueResult();
+        return result != null;
+    }
 }

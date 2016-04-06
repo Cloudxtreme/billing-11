@@ -1,5 +1,13 @@
 var uniqFiles = [];
 
+$(function(){
+    var tableCount = $('#table tr').length;
+    if(tableCount > 5){
+        $('#table tr:gt(5)').hide();
+    }
+});
+
+
 $(document).ready(function () {
     function centerModal() {
         $(this).css('display', 'block');
@@ -9,11 +17,22 @@ $(document).ready(function () {
         $dialog.css("margin-top", offset);
     }
 
+    $('#showAllBtn').on('click', function(){
+        if($(this).hasClass("glyphicon-triangle-bottom")){
+            $('#table tr:gt(5)').fadeIn("slow");
+            $(this).removeClass('glyphicon-triangle-bottom');
+            $(this).addClass('glyphicon-triangle-top');
+        }else{
+            $('#table tr:gt(5)').fadeOut("slow");
+            $(this).removeClass('glyphicon-triangle-top');
+            $(this).addClass('glyphicon-triangle-bottom');
+        }
+    });
+
     $('.modal').on('show.bs.modal', centerModal);
     $(window).on("resize", function () {
         $('.modal:visible').each(centerModal);
     });
-
 
     $('input:file').on('change', function (evt) {
         var files = evt.target.files;

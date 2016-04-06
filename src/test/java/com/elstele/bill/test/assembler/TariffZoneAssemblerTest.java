@@ -52,6 +52,8 @@ public class TariffZoneAssemblerTest {
                 .withPrefProfileId(10)
                 .withValidTo(validTo.getTime())
                 .withValidFrom(validFrom.getTime())
+                .withValidToAsDate(validTo)
+                .withValidFromAsDate(validFrom)
                 .withAdditionalKode("0001")
                 .withTariff(92.1f)
                 .withTarifPref(991.1f)

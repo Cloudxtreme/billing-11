@@ -192,7 +192,7 @@
     </div>
 
 
-    <table class="table table-striped" id='table'>
+    <table class="table table-striped table-hover" id='table'>
         <tr>
             <th style="width: 10%;"></th>
             <th style="width: 30%;"><spring:message code="label.direction"/></th>

@@ -8,7 +8,9 @@ import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.form.TariffZoneForm;
 import com.elstele.bill.test.builder.bean.DirectionBuilder;
+import com.elstele.bill.test.builder.bean.TariffZoneBuilder;
 import com.elstele.bill.test.builder.form.DirectionFormBuilder;
+import com.elstele.bill.test.builder.form.TariffZoneFormBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,19 +60,23 @@ public class DirectionAssemblerTest {
         validTo = cal.getTime();
 
         tariffZoneForms = new ArrayList<>();
-        tariffZoneForm = new TariffZoneForm();
-        tariffZoneForm.setZoneId(1);
-        tariffZoneForm.setId(10);
-        tariffZoneForm.setValidFrom(validFrom.getTime());
-        tariffZoneForm.setValidTo(validTo.getTime());
+        tariffZoneForm = new TariffZoneFormBuilder().build()
+                .withZoneId(1)
+                .withId(10)
+                .withValidFrom(validFrom.getTime())
+                .withValidTo(validTo.getTime())
+                .withValidFromAsDate(validFrom)
+                .withValidToAsDate(validTo)
+                .getRes();
         tariffZoneForms.add(tariffZoneForm);
 
         tariffZoneBeanList = new ArrayList<>();
-        tariffZone = new TariffZone();
-        tariffZone.setZoneId(1);
-        tariffZone.setId(10);
-        tariffZone.setValidFrom(validFrom);
-        tariffZone.setValidTo(validTo);
+        tariffZone = new TariffZoneBuilder().build()
+                .withZoneId(1)
+                .withId(10)
+                .withValidFrom(validFrom)
+                .withValidTo(validTo)
+                .getRes();
         tariffZoneBeanList.add(tariffZone);
 
         bean = new DirectionBuilder().build()

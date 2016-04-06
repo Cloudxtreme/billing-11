@@ -68,6 +68,7 @@
             <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar"><spring:message code="label.handleDirectionFile"/></button>
         </form:form>
         <div class="col-md-6">
+            <div class="col-md-12"></div>
             <table class="table table-striped table-hover" id='table'>
                 <tr>
                     <th style="width: 33%;"><spring:message code="docxFile.fileName"/></th>
@@ -82,6 +83,9 @@
                     </tr>
                 </c:forEach>
             </table>
+            <div class="col-lg-12 text-center">
+                <span id="showAllBtn" class="glyphicon glyphicon-triangle-bottom" style="font-size: 2em"></span>
+            </div>
         </div>
     </div>
 

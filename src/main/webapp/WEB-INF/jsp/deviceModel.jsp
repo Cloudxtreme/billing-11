@@ -58,7 +58,7 @@
         &nbsp;
 
 
-        <table class="table table-striped" id='table'>
+        <table class="table table-striped table-hover" id='table'>
             <th></th>
             <th><spring:message code="label.name"/></th>
             <th><spring:message code="label.type"/></th>

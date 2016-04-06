@@ -19,4 +19,5 @@ public interface TariffZoneDataService {
     public Integer setValidToDateForZones(Date newDateFromFile);
     public List<TariffZoneForm> getOnlyActualTariffZoneList();
     public HashMap<String, TariffZone> getZoneMapFromDBByDate(Date validFrom);
+    public boolean checkIfObjectHasActualDate(int id);
 }

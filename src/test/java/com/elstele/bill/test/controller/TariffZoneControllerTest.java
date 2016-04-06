@@ -182,6 +182,7 @@ public class TariffZoneControllerTest {
         List<TariffZoneForm> actualZoneList = new ArrayList<>();
         actualZoneList.add(tariffZoneForm);
         when(dataService.getOnlyActualTariffZoneList()).thenReturn(actualZoneList);
+        when(dataService.checkIfObjectHasActualDate(1)).thenReturn(true);
         when(dataService.getTariffZonesList()).thenReturn(tariffZoneFormList);
         when(preferenceRuleDataService.getRuleList()).thenReturn(preferenceRuleList);
 

@@ -75,7 +75,7 @@
 
 
     <div id="callsTableDiv">
-        <table id="callsTable" class="table table-striped">
+        <table id="callsTable" class="table table-striped table-hover">
             <tr>
                 <th><spring:message code="label.numberA"/></th>
                 <th><spring:message code="label.numberB"/></th>

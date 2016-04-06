@@ -14,6 +14,8 @@ public class TariffZoneAssembler {
         copyProperties(bean,form, propToSkip);
         form.setValidFrom((bean.getValidFrom() != null ? bean.getValidFrom().getTime() : 0));
         form.setValidTo((bean.getValidTo() != null ? bean.getValidTo().getTime() : 0));
+        form.setValidFromAsDate(bean.getValidFrom());
+        form.setValidToAsDate(bean.getValidTo());
         return form;
     }
 

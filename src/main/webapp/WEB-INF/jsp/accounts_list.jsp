@@ -99,7 +99,7 @@
         </div>
     </div>
     <div id="accountsTableDiv">
-        <table id="accountsTable" class="table table-striped">
+        <table id="accountsTable" class="table table-striped table-hover">
             <tr>
                 <th><spring:message code="label.action"/></th>
                 <th><spring:message code="label.id"/></th>

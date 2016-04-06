@@ -71,6 +71,8 @@ public class TariffZoneDataServiceTest {
                 .withPrefProfileId(2)
                 .withValidFrom(validFrom.getTime())
                 .withValidTo(validTo.getTime())
+                .withValidFromAsDate(validFrom)
+                .withValidToAsDate(validTo)
                 .withZoneName("testZone")
                 .getRes();
 

@@ -11,7 +11,9 @@ import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.form.TariffZoneForm;
 import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.test.builder.bean.DirectionBuilder;
+import com.elstele.bill.test.builder.bean.TariffZoneBuilder;
 import com.elstele.bill.test.builder.form.DirectionFormBuilder;
+import com.elstele.bill.test.builder.form.TariffZoneFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.junit.Before;
@@ -65,24 +67,32 @@ public class DirectionDataServiceTest {
         validTo = cal.getTime();
 
         tariffZoneFormList = new ArrayList<>();
-        TariffZoneForm tariffZoneForm = new TariffZoneForm();
-        tariffZoneForm.setZoneName("Zone1");
-        tariffZoneForm.setId(10);
-        tariffZoneForm.setDollar(true);
-        tariffZoneForm.setZoneId(11);
-        tariffZoneForm.setValidFrom(validFrom.getTime());
-        tariffZoneForm.setValidTo(validTo.getTime());
+        TariffZoneForm tariffZoneForm = new TariffZoneFormBuilder().build()
+                .withZoneId(11)
+                .withId(10)
+                .withDollar(true)
+                .withZoneName("Zone1")
+                .withValidFrom(validFrom.getTime())
+                .withValidTo(validTo.getTime())
+                .withValidFromAsDate(validFrom)
+                .withValidToAsDate(validTo)
+                .getRes();
+
         tariffZoneFormList.add(tariffZoneForm);
 
         tariffZoneList = new ArrayList<>();
-        tariffZone = new TariffZone();
-        tariffZone.setZoneName("Zone1");
-        tariffZone.setId(10);
-        tariffZone.setDollar(true);
-        tariffZone.setZoneId(11);
-        tariffZone.setValidFrom(validFrom);
-        tariffZone.setValidTo(validTo);
+        tariffZone = new TariffZoneBuilder().build()
+                .withZoneId(11)
+                .withZoneName("Zone1")
+                .withDollar(true)
+                .withId(10)
+                .withValidFrom(validFrom)
+                .withValidTo(validTo)
+                .getRes();
+
         tariffZoneList.add(tariffZone);
+
+
 
         direction = new DirectionBuilder().build()
                 .withId(1)

@@ -117,4 +117,10 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
         }
         return resultMap;
     }
+
+    @Override
+    @Transactional
+    public boolean checkIfObjectHasActualDate(int id){
+        return tariffZoneDAO.checkIfObjectHasActualDate(id);
+    }
 }
