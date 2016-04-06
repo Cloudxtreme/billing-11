@@ -55,6 +55,7 @@ public class DOCXFileParser {
     private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[/|.](0?[1-9]|1[012])[/|.]((19|20)\\d\\d)";
     private DOCXTransTemplate transTemplate;
     private Date validateFrom;
+    private Date validTo;
     private int maxRuleProfId;
 
     public ResponseToAjax parse(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
@@ -92,11 +93,11 @@ public class DOCXFileParser {
     private List<XWPFTable> getTablesFromDOCXFile(File file, HttpSession session) {
         try {
             FileInputStream fis = new FileInputStream(file);
-            XWPFDocument doc = new XWPFDocument(fis);
-            validateFrom = findDateInDOCXFile(doc);
-            correctPreviousValidToDate();
+            XWPFDocument docx = new XWPFDocument(fis);
+            validateFrom = findDateInDOCXFile(docx);
+            correctPreviousRowsDate();
             LOGGER.info("Tariffs date validates from " + validateFrom);
-            return doc.getTables();
+            return docx.getTables();
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             UserStateStorage.setBusyToObjectInMap(session, false);
@@ -104,7 +105,14 @@ public class DOCXFileParser {
         }
     }
 
-    private void correctPreviousValidToDate() {
+    private void correctPreviousRowsDate() {
+        Direction withBiggerDate = directionDataService.getBiggerDate(validateFrom);
+        if(withBiggerDate != null){
+            validTo = DateReportParser.getPrevDayDate(withBiggerDate.getValidFrom());
+        }else{
+            validTo = null;
+        }
+
         LOGGER.info("Updated " + directionDataService.setValidToDateForDirections(validateFrom) + " directions rows in the DB");
         LOGGER.info("Updated " + tariffZoneDataService.setValidToDateForZones(validateFrom) + " Tariff Zones rows in the DB");
         LOGGER.info("Updated " + preferenceRuleDataService.setValidToDateForRules(validateFrom) + " Preference Rules rows in the DB");
@@ -154,6 +162,7 @@ public class DOCXFileParser {
         PreferenceRule rule = new PreferenceRule();
         rule.setTarif(Float.parseFloat(transTemplate.getTariff()));
         rule.setValidFrom(validateFrom);
+        rule.setValidTo(validTo);
         return rule;
     }
 
@@ -177,6 +186,7 @@ public class DOCXFileParser {
         zone.setDollar(true);
         zone.setZoneName(transTemplate.getDirectionName());
         zone.setValidFrom(validateFrom);
+        zone.setValidTo(validTo);
         return zone;
     }
 
@@ -198,6 +208,7 @@ public class DOCXFileParser {
             if (directionHashMap.get(prefix) == null) {
                 Direction direction = new Direction();
                 direction.setValidFrom(validateFrom);
+                direction.setValidTo(validTo);
                 direction.setTarifZone(zoneId);
                 direction.setPrefix(prefix);
                 direction.setDescription(transTemplate.getDirectionName() + " " + prefix);
@@ -212,7 +223,7 @@ public class DOCXFileParser {
     private Date findDateInDOCXFile(XWPFDocument doc) {
         try {
             List<XWPFParagraph> paragraphList = doc.getParagraphs();
-            SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT, Locale.ENGLISH);
+            SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT);
             Matcher m;
             for (XWPFParagraph paragraph : paragraphList) {
                 m = Pattern.compile(DATE_PATTERN).matcher(paragraph.getText());

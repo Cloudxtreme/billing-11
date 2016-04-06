@@ -30,10 +30,9 @@ public class CallBillingServiceImpl implements CallBillingService {
 
     @Transactional
     public void updateCallWithItCost(Integer callId) throws DirectionCallException {
-
         Call currentCall = callDAO.getById(callId);
-
         CallDirection direction =  billingDAO.getCallDirection(currentCall.getNumberB(), currentCall.getStartTime());
+
         if (direction.getPref_profile() != null) {
             List<CallBillRule> billRules = billingDAO.getCallBillingRule(direction.getPref_profile(), currentCall.getStartTime());
             recalculateCallDurationForSomePrefixes(currentCall);

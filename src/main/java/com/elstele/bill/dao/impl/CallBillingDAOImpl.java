@@ -27,7 +27,7 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
                         "tariff_zones.dollar, tariff_zones.pref_profile " +
                         "from directions, tariff_zones " +
                         "where directions.tarif_zone = tariff_zones.zone_id " +
-                        "AND (directions.validfrom <= '" + callDate + "' or directions.validfrom IS NULL ) AND directions.validto >= '" + callDate + "' " +
+                        "AND (directions.validfrom <= '" + callDate + "' or directions.validfrom IS NULL ) AND (directions.validto >= '" + callDate + "'  OR directions.validto IS NULL )" +
                         "and directions.prefix IS NOT NULL and (" + query_find_end + ") ")
                 .setResultTransformer(Transformers.aliasToBean(CallDirection.class));
         List <CallDirection> dbResult = query.list();
@@ -54,7 +54,7 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(
                 "select day_of_month as dayOfMonth, month, day_of_week as dayOfWeek, starttime as startTime, " +
                         "finishtime as finishTime, tarif " +
-                        "from preference_rules where profile_id = :billProfile AND (validfrom <= '" + callDate+ "' or validfrom IS NULL ) AND validto >= '"+callDate+"'" +
+                        "from preference_rules where profile_id = :billProfile AND (validfrom <= '" + callDate+ "' or validfrom IS NULL ) AND (validto >= '"+callDate+"' OR validto IS NULL )" +
                         " order by rule_priority")
                 .setParameter("billProfile", billingProfile)
                 .setResultTransformer(Transformers.aliasToBean(CallBillRule.class));
@@ -64,7 +64,8 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
 
     public float getUsdRateForCall(Date date) {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(
-                "select value from usd_rate where date = :calldate")
+                "select value from usd_rate where date <= :calldate ORDER BY DATE DESC")
+                .setMaxResults(1)
                 .setDate("calldate", date);
         Float rate = (Float)query.uniqueResult();
         return rate;

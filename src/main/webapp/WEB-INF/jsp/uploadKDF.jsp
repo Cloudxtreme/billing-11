@@ -13,6 +13,7 @@
     <title><spring:message code="label.kdf"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/css/loader-style.css" var="loader" />
     <link href="${loader}" rel="stylesheet"/>
     <spring:url value="/resources/js/util.js" var="util"/>
@@ -23,6 +24,7 @@
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
 
 <div class="well">
+
 
     <%--Error Message body--%>
     <div id="errorMessage" class="alert alert-warning" style="display: none">
@@ -52,14 +54,16 @@
     <%--Form for uploading files--%>
     <form:form commandName="uploadFile" id="upload" method="post" enctype="multipart/form-data" class="form">
         <div class="form-group" id="idForm">
-      <span class="file-input btn btn-info btn-file">
-        <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" multiple>
-      </span>
-            <ul id="list" class="list-group"></ul>
-
+            <span class="file-input btn btn-info btn-file">
+                <spring:message code="label.browse"/> <input type="file" id="exampleInputFile" multiple>
+            </span>
+            <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar" style="margin-left: 2%;"><spring:message code="label.upload"/></button>
+            <ul id="list" class="list-group" style="margin-top: 2%;"></ul>
         </div>
-        <button type="button" value="upload" id="uploadFile" class="btn btn-toolbar"><spring:message code="label.upload"/></button>
+
     </form:form>
+
+    <div id="totopscroller"></div>
 </div>
 
 <script type="text/javascript">
@@ -71,6 +75,7 @@
     });
 
     var uniqFiles = [];
+    var filesSize = 0;
     $('input:file').on('change', function (evt) {
         var files = evt.target.files;
         for (var i = 0, f; f = files[i]; i++) {
@@ -89,6 +94,7 @@
         $('#list').html('');
         for (var h = 0, q; q = uniqFiles[h]; h++) {
             var sub = (q.name).substring(0, 20);
+            filesSize += q.size;
             $('#list').append('<li class="list-group-item" value="' + q.size + '"' + '><a class="deleting"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><strong> ' + sub + '...</strong> <b>File type:</b> ' + (q.type || 'n/a') + ' - ' +
                 q.size + ' bytes, last modified: ' +
                 (q.lastModifiedDate ? q.lastModifiedDate.toLocaleDateString() : 'n/a') +
@@ -103,6 +109,7 @@
             if (p.size != ident) {
             } else {
                 uniqFiles.splice(i, 1);
+                filesSize -= ident;
             }
         }
         var conf = confirm("<spring:message javaScriptEscape="true" code="label.sure" />");
@@ -139,13 +146,18 @@
     $('.btn-toolbar').on('click', function () {
         var reader = new FileReader();
         var data = new FormData();
-
-        if (uniqFiles.length == 0) {
+        var $errorMessage = $('#errorMessage');
+        if (uniqFiles.length == 0 || filesSize > 50000000) {
             $('#spinner').hide();
-            document.getElementById('errorMessage').style.display = "block";
-            $('#errorMessage').append('<strong><spring:message javaScriptEscape="true" code="label.selectFile"/></strong>');
+            $errorMessage.show();
+            window.location.hash = '#errorMessage';
+            if(uniqFiles.length == 0 ) {
+                $errorMessage.append('<strong><spring:message javaScriptEscape="true" code="label.selectFile"/></strong>');
+            }else{
+                $errorMessage.append('<strong><spring:message javaScriptEscape="true" code="label.maxSizeError"/></strong>');
+            }
             setTimeout(function () {
-                $("#errorMessage").fadeOut(3000, function () {
+                $errorMessage.fadeOut(15000, function () {
                     $("#errorMessage strong").remove();
                 });
             });

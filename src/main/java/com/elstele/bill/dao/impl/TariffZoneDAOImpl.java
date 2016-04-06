@@ -59,7 +59,8 @@ public class TariffZoneDAOImpl extends CommonDAOImpl<TariffZone> implements Tari
 
     @Override
     public Integer setValidToDateForZones(Date newDateFromFile, Date validTo){
-        Query query = getSessionFactory().getCurrentSession().createQuery("update TariffZone set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) AND validTo is null")
+        Query query = getSessionFactory().getCurrentSession().createQuery("update TariffZone set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) " +
+                "AND (validTo is null or validTo > :newDateFromFile)")
                 .setParameter("validTo", validTo)
                 .setParameter("newDateFromFile", newDateFromFile);
         return query.executeUpdate();

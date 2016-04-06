@@ -83,7 +83,8 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
 
     @Override
     public Integer setValidToDateForDirections(Date newDateFromFile, Date validTo) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("update Direction set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) AND validTo is null")
+        Query query = getSessionFactory().getCurrentSession().createQuery("update Direction set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) " +
+                "AND (validTo is null or validTo > :newDateFromFile) AND prefix like '00%'")
                 .setParameter("validTo", validTo)
                 .setParameter("newDateFromFile", newDateFromFile);
         return query.executeUpdate();
@@ -94,6 +95,14 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
         Query query = getSessionFactory().getCurrentSession().createQuery("From Direction  where validFrom = :validFrom")
                 .setParameter("validFrom", validFrom);
         return (List<Direction>)query.list();
+    }
+
+    @Override
+    public Direction getDirectionWithCloserBiggerDate(Date validFrom) {
+        Query query = getSessionFactory().getCurrentSession().createQuery("FROM Direction where validFrom > :validFrom order BY validFrom ASC")
+                .setParameter("validFrom", validFrom)
+                .setMaxResults(1);
+        return (Direction)query.uniqueResult();
     }
 
     private String getSign(String getType) {
