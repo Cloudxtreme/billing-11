@@ -21,6 +21,12 @@ $(document).ready(function(){
         }
     });
 
+    $('.table-striped tr').click(function(event) {
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
+        }
+    });
+
     $('#handleBtn').click(function(){
         var values = [];
         $.each($(".check-box-table-cell:checked").closest("tr"),

@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <table class="table table-striped table-hover" id ='table'>
+    <table class="table table-striped table-hover hover-pointer" id ='table'>
         <th style="width: 10%;!important;"></th>
         <th style="width: 25%;!important;"><spring:message code="label.name"/></th>
         <th style="width: 25%;!important;"><spring:message code="label.status"/></th>

@@ -6914,4 +6914,8 @@ label {
     color: #c09853;
 }
 
+.hover-pointer :hover{
+    cursor: pointer;
+}
+
 
