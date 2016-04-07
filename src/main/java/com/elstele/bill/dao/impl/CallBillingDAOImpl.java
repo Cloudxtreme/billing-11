@@ -64,8 +64,7 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
 
     public float getUsdRateForCall(Date date) {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(
-                "select value from usd_rate where date <= :calldate ORDER BY DATE DESC")
-                .setMaxResults(1)
+                "select value from usd_rate where date = :calldate")
                 .setDate("calldate", date);
         Float rate = (Float)query.uniqueResult();
         return rate;

@@ -53,7 +53,7 @@ public class PreferenceRuleDAOImpl extends CommonDAOImpl<PreferenceRule> impleme
     @Override
     public Integer setValidToDateForRules(Date newDateFromFile, Date validTo){
         Query query = getSessionFactory().getCurrentSession().createQuery("update PreferenceRule set validTo = :validTo where (validFrom is null or validFrom < :newDateFromFile) " +
-                "AND (validTo is null or validTo > :newDateFromFile)")
+                "AND (validTo is null or validTo > :newDateFromFile) AND rulePriority = 0 ")
                 .setParameter("validTo", validTo)
                 .setParameter("newDateFromFile", newDateFromFile);
         return query.executeUpdate();
