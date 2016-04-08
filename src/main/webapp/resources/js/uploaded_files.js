@@ -13,11 +13,19 @@ $(document).ready(function(){
         var checked = $(this).attr('checked');
         if(checked){
             $(this).attr('checked', false);
-            $(this).closest("tr").removeClass("info");
+            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+                $(this).closest("tr").removeClass("danger");
+            }else{
+                $(this).closest("tr").removeClass("info");
+            }
         }
         else{
             $(this).attr('checked', true);
-            $(this).closest("tr").addClass("info")
+            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+                $(this).closest("tr").addClass("danger");
+            }else{
+                $(this).closest("tr").addClass("info");
+            }
         }
     });
 

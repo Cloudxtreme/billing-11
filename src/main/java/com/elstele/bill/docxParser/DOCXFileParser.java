@@ -160,7 +160,7 @@ public class DOCXFileParser {
 
     private PreferenceRule fillPrefRule() {
         PreferenceRule rule = new PreferenceRule();
-        rule.setTarif(Float.parseFloat(transTemplate.getTariff()));
+        rule.setTarif(transTemplate.getTariff());
         rule.setValidFrom(validateFrom);
         rule.setValidTo(validTo);
         return rule;

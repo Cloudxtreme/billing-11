@@ -10,13 +10,13 @@ public class DOCXTransTemplate {
     private String directionName;
     private String prefMainPart;
     private List<String> prefEnder;
-    private String tariff;
+    private Float tariff;
     private Date validateFrom;
 
     public DOCXTransTemplate(XWPFTableRow row, Date validateFrom) {
         this.directionName = row.getCell(0).getText();
         this.prefMainPart = row.getCell(1).getText();
-        this.tariff = row.getCell(3).getText().replaceAll(",",".");
+        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",","."));
         this.validateFrom = validateFrom;
         parsePrefixEndPart(row);
     }
@@ -62,11 +62,11 @@ public class DOCXTransTemplate {
         this.prefEnder = prefEnder;
     }
 
-    public String getTariff() {
+    public Float getTariff() {
         return tariff;
     }
 
-    public void setTariff(String tariff) {
+    public void setTariff(Float tariff) {
         this.tariff = tariff;
     }
 
