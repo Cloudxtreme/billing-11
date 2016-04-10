@@ -6,33 +6,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DOCXTransTemplate {
+public class DOCXTransientTemplate {
     private String directionName;
-    private String prefMainPart;
-    private List<String> prefEnder;
+    private String countryPrefix;
+    private List<String> networkPrefixesList;
     private Float tariff;
     private Date validateFrom;
 
-    public DOCXTransTemplate(XWPFTableRow row, Date validateFrom) {
+    public DOCXTransientTemplate(XWPFTableRow row, Date validateFrom) {
         this.directionName = row.getCell(0).getText();
-        this.prefMainPart = row.getCell(1).getText();
-        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",","."));
+        this.countryPrefix = row.getCell(1).getText();
+        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",",".")) / 60;
         this.validateFrom = validateFrom;
         parsePrefixEndPart(row);
     }
 
     private void parsePrefixEndPart(XWPFTableRow row) {
-        prefEnder = new ArrayList<>();
+        networkPrefixesList = new ArrayList<>();
         String[] prefArr = row.getCell(2).getText().split(",");
         for (String string : prefArr) {
             if (!string.contains("-")) {
-                prefEnder.add(string.replaceAll("(^\\h*)|(\\h*$)",""));
+                networkPrefixesList.add(string.replaceAll("(^\\h*)|(\\h*$)", ""));
             } else {
                 String[] prefEndDiapasons = string.split("-");
                 int startDiapason = Integer.parseInt(prefEndDiapasons[0].replaceAll("\\s+", ""));
                 int endDiapason = Integer.parseInt(prefEndDiapasons[1].replaceAll("\\s+", ""));
                 for (int i = startDiapason; i <= endDiapason; i++) {
-                    prefEnder.add(Integer.toString(i));
+                    networkPrefixesList.add(Integer.toString(i));
                 }
             }
         }
@@ -46,20 +46,20 @@ public class DOCXTransTemplate {
         this.directionName = directionName;
     }
 
-    public String getPrefMainPart() {
-        return prefMainPart;
+    public String getCountryPrefix() {
+        return countryPrefix;
     }
 
-    public void setPrefMainPart(String prefMainPart) {
-        this.prefMainPart = prefMainPart;
+    public void setCountryPrefix(String countryPrefix) {
+        this.countryPrefix = countryPrefix;
     }
 
-    public List<String> getPrefEnder() {
-        return prefEnder;
+    public List<String> getNetworkPrefixesList() {
+        return networkPrefixesList;
     }
 
-    public void setPrefEnder(List<String> prefEnder) {
-        this.prefEnder = prefEnder;
+    public void setNetworkPrefixesList(List<String> networkPrefixesList) {
+        this.networkPrefixesList = networkPrefixesList;
     }
 
     public Float getTariff() {

@@ -53,7 +53,7 @@ public class DOCXFileParser {
 
     private final static Logger LOGGER = LogManager.getLogger(DOCXFileParser.class);
     private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[/|.](0?[1-9]|1[012])[/|.]((19|20)\\d\\d)";
-    private DOCXTransTemplate transTemplate;
+    private DOCXTransientTemplate transTemplate;
     private Date validateFrom;
     private Date validTo;
     private int maxRuleProfId;
@@ -106,9 +106,9 @@ public class DOCXFileParser {
     }
 
     private void correctPreviousRowsDate() {
-        Direction withBiggerDate = directionDataService.getBiggerDate(validateFrom);
-        if(withBiggerDate != null){
-            validTo = DateReportParser.getPrevDayDate(withBiggerDate.getValidFrom());
+        Direction withLatestDate = directionDataService.getDirectionWithLatestDate(validateFrom);
+        if(withLatestDate != null){
+            validTo = DateReportParser.getPrevDayDate(withLatestDate.getValidFrom());
         }else{
             validTo = null;
         }
@@ -136,7 +136,7 @@ public class DOCXFileParser {
         HashMap<String, Direction> directionMapFromDB = directionDataService.getDirectionMapByValidFromDate(validateFrom);
 
         for (XWPFTableRow row : rowsList) {
-            transTemplate = new DOCXTransTemplate(row, validateFrom);
+            transTemplate = new DOCXTransientTemplate(row, validateFrom);
 
             PreferenceRule rule = fillPrefRule();
             int profileId = getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
@@ -203,8 +203,8 @@ public class DOCXFileParser {
     }
 
     private void parseAndCreateDirection(int zoneId, HashMap<String, Direction> directionHashMap) {
-        for (String prefixEnd : transTemplate.getPrefEnder()) {
-            String prefix = "00" + transTemplate.getPrefMainPart() + prefixEnd;
+        for (String prefixEnd : transTemplate.getNetworkPrefixesList()) {
+            String prefix = "00" + transTemplate.getCountryPrefix() + prefixEnd;
             if (directionHashMap.get(prefix) == null) {
                 Direction direction = new Direction();
                 direction.setValidFrom(validateFrom);

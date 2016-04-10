@@ -98,7 +98,7 @@ public class DirectionDAOImpl extends CommonDAOImpl<Direction> implements Direct
     }
 
     @Override
-    public Direction getDirectionWithCloserBiggerDate(Date validFrom) {
+    public Direction getDirectionWithLatestDate(Date validFrom) {
         Query query = getSessionFactory().getCurrentSession().createQuery("FROM Direction where validFrom > :validFrom order BY validFrom ASC")
                 .setParameter("validFrom", validFrom)
                 .setMaxResults(1);

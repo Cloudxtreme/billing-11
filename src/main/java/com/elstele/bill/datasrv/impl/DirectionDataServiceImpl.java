@@ -151,8 +151,8 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
-    public Direction getBiggerDate(Date validFrom) {
-        return directionDAO.getDirectionWithCloserBiggerDate(validFrom);
+    public Direction getDirectionWithLatestDate(Date validFrom) {
+        return directionDAO.getDirectionWithLatestDate(validFrom);
     }
 
     private int calculatePagesCount(int callsCount, int containedCount) {

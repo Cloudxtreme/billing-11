@@ -21,5 +21,5 @@ public interface DirectionDataService {
     public Direction getDirectionByPrefixAndDate(String prefix, Date validateFrom);
     public Integer setValidToDateForDirections(Date newDateFromFile);
     public HashMap<String, Direction> getDirectionMapByValidFromDate(Date validFrom);
-    public Direction getBiggerDate(Date validFrom);
+    public Direction getDirectionWithLatestDate(Date validFrom);
 }
