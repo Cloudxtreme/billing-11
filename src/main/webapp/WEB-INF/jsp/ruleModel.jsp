@@ -81,7 +81,7 @@
                       <span class="help-inline text-danger" id="profileIdWarn" style="display: none"><spring:message code="rule.profileId.required"/></span>
                   </div>
                   <div class="col-lg-3">
-                    <label for="rulePriority" class="control-label"><spring:message code="rule.profileId"/></label>
+                    <label for="rulePriority" class="control-label"><spring:message code="rule.rulePriority"/></label>
                     <form:input path="rulePriority" class="form-control" id="rulePriority" type="number" min="1" step="1"/>
                     <span class="help-inline text-danger" id="rulePriorityWarn" style="display: none"><spring:message code="rule.rulePriority.required"/></span>
                   </div>
@@ -172,13 +172,15 @@
         <td>${ruleList.dayOfMonth}</td>
         <td>${ruleList.month}</td>
         <td>
-          <c:if test="${ruleList.dayOfWeek == 0}"><spring:message code="label.Monday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 1}"><spring:message code="label.Tuesday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 2}"><spring:message code="label.Wednesday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 3}"><spring:message code="label.Thursday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 4}"><spring:message code="label.Friday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 5}"><spring:message code="label.Saturday"/></c:if>
-          <c:if test="${ruleList.dayOfWeek == 6}"><spring:message code="label.Sunday"/></c:if>
+          <c:if test="${not empty ruleList.dayOfWeek}">
+              <c:if test="${ruleList.dayOfWeek == 0}"><spring:message code="label.Monday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 1}"><spring:message code="label.Tuesday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 2}"><spring:message code="label.Wednesday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 3}"><spring:message code="label.Thursday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 4}"><spring:message code="label.Friday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 5}"><spring:message code="label.Saturday"/></c:if>
+              <c:if test="${ruleList.dayOfWeek == 6}"><spring:message code="label.Sunday"/></c:if>
+          </c:if>
         </td>
         <td>${ruleList.starttime}</td>
         <td>${ruleList.finishtime}</td>
