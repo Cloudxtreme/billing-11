@@ -6,22 +6,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DOCXTransientTemplate {
+public class DOCXTemplateData {
     private String directionName;
     private String countryPrefix;
     private List<String> networkPrefixesList;
     private Float tariff;
-    private Date validateFrom;
+    private Date validFrom;
+    private Date validTo;
+    private int profileId;
+    private int zoneId;
 
-    public DOCXTransientTemplate(XWPFTableRow row, Date validateFrom) {
+    public DOCXTemplateData(XWPFTableRow row, Date validFrom, Date validTo) {
         this.directionName = row.getCell(0).getText();
         this.countryPrefix = row.getCell(1).getText();
-        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",",".")) / 60;
-        this.validateFrom = validateFrom;
-        parsePrefixEndPart(row);
+        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",", ".")) / 60;
+        this.validFrom = validFrom;
+        this.validTo = validTo;
+        parseNetworkPrefixes(row);
     }
 
-    private void parsePrefixEndPart(XWPFTableRow row) {
+    private void parseNetworkPrefixes(XWPFTableRow row) {
         networkPrefixesList = new ArrayList<>();
         String[] prefArr = row.getCell(2).getText().split(",");
         for (String string : prefArr) {
@@ -70,11 +74,35 @@ public class DOCXTransientTemplate {
         this.tariff = tariff;
     }
 
-    public Date getValidateFrom() {
-        return validateFrom;
+    public Date getValidFrom() {
+        return validFrom;
     }
 
-    public void setValidateFrom(Date validateFrom) {
-        this.validateFrom = validateFrom;
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
+    }
+
+    public int getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(int zoneId) {
+        this.zoneId = zoneId;
     }
 }

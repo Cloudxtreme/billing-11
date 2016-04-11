@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.docxParser.DOCXTemplateData;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
@@ -26,6 +27,15 @@ public class Direction extends CommonDomainBean {
 
     private Date validFrom;
     private Date validTo;
+
+    public Direction(DOCXTemplateData transientTemplate) {
+        this.tarifZone = transientTemplate.getZoneId();
+        this.validFrom = transientTemplate.getValidFrom();
+        this.validTo = transientTemplate.getValidTo();
+    }
+
+    public Direction() {
+    }
 
     public String getDescription() {
         return description;

@@ -33,7 +33,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,32 +56,49 @@ public class DOCXFileParser {
 
     private final static Logger LOGGER = LogManager.getLogger(DOCXFileParser.class);
     private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[/|.](0?[1-9]|1[012])[/|.]((19|20)\\d\\d)";
-    private DOCXTransientTemplate transTemplate;
-    private Date validateFrom;
-    private Date validTo;
-    private int maxRuleProfId;
 
     public ResponseToAjax parse(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
         if (UserStateStorage.checkForBusy()) {
             return ResponseToAjax.BUSY;
         }
-        occupyHandlingProcess(session);
-        File file = getFileForParse(multiPartHTTPServletRequestFiles);
-        List<XWPFTable> tables = getTablesFromDOCXFile(file, session);
-        if (tables.isEmpty()) {
+        try {
+            occupyHandlingProcess(session);
+
+            File file = getFileForParse(multiPartHTTPServletRequestFiles);
+
+            FileInputStream fis = new FileInputStream(file);
+            XWPFDocument docx = new XWPFDocument(fis);
+
+            List<XWPFTable> tables = docx.getTables();
+            if (tables.isEmpty()) {
+                return ResponseToAjax.ERROR;
+            }
+
+            LOGGER.info("In this DOCX File we have : " + tables.size() + " tables");
+
+            Date validFrom = findDateInDOCXFile(docx);
+            Date validTo = determineValidToDate(validFrom);
+
+            parseTable(tables, session, validFrom, validTo);
+            setProcessedFileInfoToDB(file, session);
+
+            fis.close();
+            freeHandlingProcess(session);
+            return ResponseToAjax.SUCCESS;
+        }catch(IOException e){
+            LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
         }
-        LOGGER.info("In this DOCX File we have : " + tables.size() + " tables");
-        parseTable(tables, session);
-        setProcessedFileInfoToDB(file, session);
-        UserStateStorage.setBusyToObjectInMap(session, false);
-
-        return ResponseToAjax.SUCCESS;
     }
 
     private void occupyHandlingProcess(HttpSession session) {
         UserStateStorage.setBusyToObjectInMap(session, true);
         LOGGER.info("Set busy for " + session.getId() + " while processing DOCX File");
+    }
+
+    private void freeHandlingProcess(HttpSession session) {
+        UserStateStorage.setBusyToObjectInMap(session, false);
+        LOGGER.info("Free " + session.getId() + " at the end of processing DOCX File");
     }
 
     private File getFileForParse(MultipartHttpServletRequest multiPartHTTPServletRequestFiles) {
@@ -90,64 +110,27 @@ public class DOCXFileParser {
         return file;
     }
 
-    private List<XWPFTable> getTablesFromDOCXFile(File file, HttpSession session) {
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            XWPFDocument docx = new XWPFDocument(fis);
-            validateFrom = findDateInDOCXFile(docx);
-            correctPreviousRowsDate();
-            LOGGER.info("Tariffs date validates from " + validateFrom);
-            return docx.getTables();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            UserStateStorage.setBusyToObjectInMap(session, false);
-            return Collections.emptyList();
+    private Date determineValidToDate(Date validFrom) {
+        correctPreviousRowsDate(validFrom);
+        Direction withLatestDate = directionDataService.getDirectionWithLatestDate(validFrom);
+        if (withLatestDate != null) {
+            return DateReportParser.getPrevDayDate(withLatestDate.getValidFrom());
+        } else {
+            return null;
         }
     }
 
-    private void correctPreviousRowsDate() {
-        Direction withLatestDate = directionDataService.getDirectionWithLatestDate(validateFrom);
-        if(withLatestDate != null){
-            validTo = DateReportParser.getPrevDayDate(withLatestDate.getValidFrom());
-        }else{
-            validTo = null;
-        }
-
-        LOGGER.info("Updated " + directionDataService.setValidToDateForDirections(validateFrom) + " directions rows in the DB");
-        LOGGER.info("Updated " + tariffZoneDataService.setValidToDateForZones(validateFrom) + " Tariff Zones rows in the DB");
-        LOGGER.info("Updated " + preferenceRuleDataService.setValidToDateForRules(validateFrom) + " Preference Rules rows in the DB");
+    private void correctPreviousRowsDate(Date validFrom) {
+        LOGGER.info("Updated " + directionDataService.setValidToDateForDirections(validFrom) + " directions rows in the DB");
+        LOGGER.info("Updated " + tariffZoneDataService.setValidToDateForZones(validFrom) + " Tariff Zones rows in the DB");
+        LOGGER.info("Updated " + preferenceRuleDataService.setValidToDateForRules(validFrom) + " Preference Rules rows in the DB");
     }
 
-    private void parseTable(List<XWPFTable> tables, HttpSession session) {
+    private void parseTable(List<XWPFTable> tables, HttpSession session, Date validFrom, Date validTo) {
         for (XWPFTable table : tables) {
             List<XWPFTableRow> rowsList = table.getRows();
             deletedFirstRow(rowsList);
-            parseRows(rowsList, session);
-        }
-    }
-
-    private void parseRows(List<XWPFTableRow> rowsList, HttpSession session) {
-        int rowsCount = rowsList.size();
-        int processedRows = 0;
-        maxRuleProfId = preferenceRuleDataService.getProfileIdMaxValue();
-
-        HashMap<Float, PreferenceRule> preferenceRuleHashMap = preferenceRuleDataService.getTariffMapFRomDBByDate(validateFrom);
-        HashMap<String, TariffZone> zoneMapFRomDBByDate = tariffZoneDataService.getZoneMapFromDBByDate(validateFrom);
-        HashMap<String, Direction> directionMapFromDB = directionDataService.getDirectionMapByValidFromDate(validateFrom);
-
-        for (XWPFTableRow row : rowsList) {
-            transTemplate = new DOCXTransientTemplate(row, validateFrom);
-
-            PreferenceRule rule = fillPrefRule();
-            int profileId = getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
-
-            TariffZone zone = fillTarZone(profileId);
-            int zoneId = getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
-
-            parseAndCreateDirection(zoneId, directionMapFromDB);
-            processedRows++;
-            float progress = (float) processedRows / rowsCount * 100;
-            UserStateStorage.setProgressToObjectInMap(session, progress);
+            parseRows(rowsList, session, validFrom, validTo);
         }
     }
 
@@ -158,36 +141,59 @@ public class DOCXFileParser {
         }
     }
 
-    private PreferenceRule fillPrefRule() {
-        PreferenceRule rule = new PreferenceRule();
-        rule.setTarif(transTemplate.getTariff());
-        rule.setValidFrom(validateFrom);
-        rule.setValidTo(validTo);
-        return rule;
+    private void parseRows(List<XWPFTableRow> rowsList, HttpSession session, Date validFrom, Date validTo) {
+        int rowsCount = rowsList.size();
+        int processedRows = 0;
+
+        HashMap<Float, PreferenceRule> preferenceRuleHashMap = preferenceRuleDataService.getTariffMapFRomDBByDate(validFrom);
+        HashMap<String, TariffZone> zoneMapFRomDBByDate = tariffZoneDataService.getZoneMapFromDBByDate(validFrom);
+        HashMap<String, Direction> directionMapFromDB = directionDataService.getDirectionMapByValidFromDate(validFrom);
+
+        for (XWPFTableRow row : rowsList) {
+            //Create DOCX Template for objects fill
+            DOCXTemplateData transTemplate = new DOCXTemplateData(row, validFrom, validTo);
+
+            //Create Preference rule and put it to DB if it's not a duplicate, profileId Rule get back fot TariffZones
+            int profileId = handleRuleObject(transTemplate, preferenceRuleHashMap);
+            transTemplate.setProfileId(profileId);
+
+            //Create TariffZones and put it to DB if it's not a duplicate, ZoneID we should give to Direction
+            int zoneId = handleZonesObject(transTemplate, zoneMapFRomDBByDate);
+            transTemplate.setZoneId(zoneId);
+
+            //Create Direction and put it to DB if it's not a duplicate
+            createDirection(directionMapFromDB, transTemplate);
+
+            processedRows++;
+
+            //count progress percentage for progress-bar
+            float progress = (float) processedRows / rowsCount * 100;
+            UserStateStorage.setProgressToObjectInMap(session, progress);
+        }
+    }
+
+    private int handleRuleObject(DOCXTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap){
+        PreferenceRule rule = new PreferenceRule(transTemplate);
+        return getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
     }
 
     private int getExistedProfileIdOrCreateNew(PreferenceRule rule, HashMap<Float, PreferenceRule> existedRulesHashMap) {
         PreferenceRule ruleFromDB = existedRulesHashMap.get(rule.getTarif());
         if (ruleFromDB == null) {
-            rule.setProfileId(maxRuleProfId + 1);
+            int profileId = preferenceRuleDataService.getProfileIdMaxValue();
+            rule.setProfileId(profileId + 1);
             preferenceRuleDataService.createRule(rule);
-            maxRuleProfId++;
             existedRulesHashMap.put(rule.getTarif(), rule);
             return rule.getProfileId();
         } else {
-            LOGGER.info("This rule with Tariff = " + rule.getTarif() +  " exists in DB");
+            LOGGER.info("This rule with Tariff = " + rule.getTarif() + " exists in DB");
             return ruleFromDB.getProfileId();
         }
     }
 
-    private TariffZone fillTarZone(int profileId) {
-        TariffZone zone = new TariffZone();
-        zone.setPrefProfile(profileId);
-        zone.setDollar(true);
-        zone.setZoneName(transTemplate.getDirectionName());
-        zone.setValidFrom(validateFrom);
-        zone.setValidTo(validTo);
-        return zone;
+    private int handleZonesObject(DOCXTemplateData transTemplate, HashMap<String, TariffZone> zoneMapFRomDBByDate){
+        TariffZone zone = new TariffZone(transTemplate);
+        return getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
     }
 
     private int getExistedZoneIdOrCreateNew(TariffZone zone, HashMap<String, TariffZone> tariffZoneHashMap) {
@@ -202,14 +208,11 @@ public class DOCXFileParser {
         }
     }
 
-    private void parseAndCreateDirection(int zoneId, HashMap<String, Direction> directionHashMap) {
+    private void createDirection(HashMap<String, Direction> directionHashMap, DOCXTemplateData transTemplate) {
         for (String prefixEnd : transTemplate.getNetworkPrefixesList()) {
             String prefix = "00" + transTemplate.getCountryPrefix() + prefixEnd;
             if (directionHashMap.get(prefix) == null) {
-                Direction direction = new Direction();
-                direction.setValidFrom(validateFrom);
-                direction.setValidTo(validTo);
-                direction.setTarifZone(zoneId);
+                Direction direction = new Direction(transTemplate);
                 direction.setPrefix(prefix);
                 direction.setDescription(transTemplate.getDirectionName() + " " + prefix);
                 directionDataService.createDirection(direction);
@@ -220,9 +223,9 @@ public class DOCXFileParser {
         }
     }
 
-    private Date findDateInDOCXFile(XWPFDocument doc) {
+    private Date findDateInDOCXFile(XWPFDocument docx) {
         try {
-            List<XWPFParagraph> paragraphList = doc.getParagraphs();
+            List<XWPFParagraph> paragraphList = docx.getParagraphs();
             SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT);
             Matcher m;
             for (XWPFParagraph paragraph : paragraphList) {
@@ -239,7 +242,7 @@ public class DOCXFileParser {
         return null;
     }
 
-    private void setProcessedFileInfoToDB(File file, HttpSession session){
+    private void setProcessedFileInfoToDB(File file, HttpSession session) {
         LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         UploadedFileInfoForm fileInfo = new UploadedFileInfoForm();
         fileInfo.setFileSize(file.length());

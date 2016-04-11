@@ -81,6 +81,11 @@
                       <span class="help-inline text-danger" id="profileIdWarn" style="display: none"><spring:message code="rule.profileId.required"/></span>
                   </div>
                   <div class="col-lg-3">
+                    <label for="rulePriority" class="control-label"><spring:message code="rule.profileId"/></label>
+                    <form:input path="rulePriority" class="form-control" id="rulePriority" type="number" min="1" step="1"/>
+                    <span class="help-inline text-danger" id="rulePriorityWarn" style="display: none"><spring:message code="rule.rulePriority.required"/></span>
+                  </div>
+                  <div class="col-lg-3">
                     <label for="dayOfMonth" class="control-label"><spring:message code="rule.dayOfMonth"/></label>
                       <form:select path="dayOfMonth" class="form-control" id="dayOfMonth" multiple="false">
                         <form:option value=""><spring:message code="label.none"/> </form:option>

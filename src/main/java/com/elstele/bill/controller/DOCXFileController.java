@@ -32,7 +32,7 @@ public class DOCXFileController {
 
     @RequestMapping(value = "/uploaddirectionfile", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseToAjax fileDOCXUpdate(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
+    public ResponseToAjax parseDOCX(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
         return  parser.parse(multiPartHTTPServletRequestFiles, session);
     }
 

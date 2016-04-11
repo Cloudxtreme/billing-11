@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.docxParser.DOCXTemplateData;
 import com.elstele.bill.domain.common.CommonDomainBean;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -37,6 +38,17 @@ public class TariffZone extends CommonDomainBean {
 
     private Date validFrom;
     private Date validTo;
+
+    public TariffZone() {
+    }
+
+    public TariffZone(DOCXTemplateData transientTemplate) {
+        this.zoneName = transientTemplate.getDirectionName();
+        this.dollar = true;
+        this.prefProfile = transientTemplate.getProfileId();
+        this.validFrom = transientTemplate.getValidFrom();
+        this.validTo = transientTemplate.getValidTo();
+    }
 
     public int getZoneId() {
         return zoneId;

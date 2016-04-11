@@ -1,5 +1,6 @@
 package com.elstele.bill.domain;
 
+import com.elstele.bill.docxParser.DOCXTemplateData;
 import com.elstele.bill.domain.common.CommonDomainBean;
 
 import javax.persistence.*;
@@ -36,6 +37,14 @@ public class PreferenceRule extends CommonDomainBean {
     private Date validFrom;
     private Date validTo;
 
+    public PreferenceRule(DOCXTemplateData transientTemplate) {
+        this.tarif = transientTemplate.getTariff();
+        this.validFrom = transientTemplate.getValidFrom();
+        this.validTo = transientTemplate.getValidTo();
+    }
+
+    public PreferenceRule() {
+    }
 
     public int getProfileId() {
         return profileId;
