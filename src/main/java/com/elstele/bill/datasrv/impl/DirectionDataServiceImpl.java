@@ -12,6 +12,7 @@ import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +85,7 @@ public class DirectionDataServiceImpl implements DirectionDataService {
 
     @Override
     @Transactional
-    public Integer createDirection(Direction direction){
+    public Integer createDirection(Direction direction) throws PSQLException{
         return directionDAO.create(direction);
     }
 

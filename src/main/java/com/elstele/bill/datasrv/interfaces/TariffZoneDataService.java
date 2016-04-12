@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
+import org.postgresql.util.PSQLException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface TariffZoneDataService {
     public List<TariffZoneForm> getTariffZonesList();
     public void create(TariffZoneForm tariffZoneForm);
-    public int create(TariffZone tariffZone);
+    public int create(TariffZone tariffZone) throws PSQLException;
     public String deleteZone(int id);
     public TariffZoneForm getZoneById(int id);
     public void updateZone(TariffZoneForm tariffZoneForm);

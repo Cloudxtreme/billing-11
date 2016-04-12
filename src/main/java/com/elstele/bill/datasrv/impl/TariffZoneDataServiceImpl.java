@@ -9,6 +9,7 @@ import com.elstele.bill.reportCreators.dateparser.DateReportParser;
 import com.elstele.bill.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +58,7 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
 
     @Override
     @Transactional
-    public int create(TariffZone tariffZone) {
+    public int create(TariffZone tariffZone) throws PSQLException{
         int id = tariffZoneDAO.create(tariffZone);
         return tariffZoneDAO.getById(id).getZoneId();
     }

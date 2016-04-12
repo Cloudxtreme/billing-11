@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.postgresql.util.PSQLException;
 
 import java.util.*;
 
@@ -106,7 +107,7 @@ public class TariffZoneDataServiceTest {
     }
 
     @Test
-    public void createTestBean(){
+    public void createTestBean() throws PSQLException {
         when(dao.create(tariffZone)).thenReturn(1);
         when(dao.getById(1)).thenReturn(tariffZone);
         int result = dataService.create(tariffZone);

@@ -3,6 +3,7 @@ package com.elstele.bill.datasrv.interfaces;
 import com.elstele.bill.domain.Direction;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
+import org.postgresql.util.PSQLException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public interface DirectionDataService {
     public int getPagesCount(int pagesCount, String prefix);
     public String deleteDirection(int id);
     public void createDirection(DirectionForm directionForm);
-    public Integer createDirection(Direction direction);
+    public Integer createDirection(Direction direction) throws PSQLException;
     public DirectionForm getDirectionById(int id);
     public void updateDirection(DirectionForm form);
     public ResponseToAjax checkForFree(int id, String prefix, Long validFromDateValue);

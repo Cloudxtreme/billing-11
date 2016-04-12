@@ -98,14 +98,16 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (result) {
+                var $errorMessage =  $('#errorMessage');
+                var $errorBusy = $('#errorMessageBUSY');
                 if (result == "BUSY") {
-                    $('#errorMessageBUSY').show();
+                    $errorBusy.show();
                     uniqFiles = [];
-                    $('#errorMessageBUSY').fadeOut(3000);
+                    $errorBusy.fadeOut(3000);
                     $('body').scrollTop(0);
                 } else if (result == "ERROR") {
-                    $('#errorMessage').show();
-                    $('#errorMessage').fadeOut(15000);
+                    $errorMessage.show();
+                    $errorMessage.fadeOut(15000);
                 }
             }
         });

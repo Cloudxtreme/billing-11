@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.postgresql.util.PSQLException;
 
 import java.util.*;
 
@@ -153,7 +154,7 @@ public class DirectionDataServiceTest {
     }
 
     @Test
-    public void createDirectionBeanTest(){
+    public void createDirectionBeanTest() throws PSQLException {
         when(directionDAO.create(direction)).thenReturn(1);
         int actualId = directionDataService.createDirection(direction);
         assertTrue(actualId == 1);

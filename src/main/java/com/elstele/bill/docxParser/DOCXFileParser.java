@@ -22,6 +22,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,12 +35,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 @Service
 public class DOCXFileParser {
@@ -83,11 +83,12 @@ public class DOCXFileParser {
             setProcessedFileInfoToDB(file, session);
 
             fis.close();
-            freeHandlingProcess(session);
             return ResponseToAjax.SUCCESS;
-        }catch(IOException e){
+        }catch(IOException | ParseException | PatternSyntaxException | PSQLException | ConstraintViolationException e){
             LOGGER.error(e.getMessage(), e);
             return ResponseToAjax.ERROR;
+        } finally {
+            freeHandlingProcess(session);
         }
     }
 
@@ -126,7 +127,7 @@ public class DOCXFileParser {
         LOGGER.info("Updated " + preferenceRuleDataService.setValidToDateForRules(validFrom) + " Preference Rules rows in the DB");
     }
 
-    private void parseTable(List<XWPFTable> tables, HttpSession session, Date validFrom, Date validTo) {
+    private void parseTable(List<XWPFTable> tables, HttpSession session, Date validFrom, Date validTo) throws PatternSyntaxException, PSQLException {
         for (XWPFTable table : tables) {
             List<XWPFTableRow> rowsList = table.getRows();
             deletedFirstRow(rowsList);
@@ -141,7 +142,7 @@ public class DOCXFileParser {
         }
     }
 
-    private void parseRows(List<XWPFTableRow> rowsList, HttpSession session, Date validFrom, Date validTo) {
+    private void parseRows(List<XWPFTableRow> rowsList, HttpSession session, Date validFrom, Date validTo) throws PatternSyntaxException, PSQLException {
         int rowsCount = rowsList.size();
         int processedRows = 0;
 
@@ -151,7 +152,8 @@ public class DOCXFileParser {
 
         for (XWPFTableRow row : rowsList) {
             //Create DOCX Template for objects fill
-            DOCXTemplateData transTemplate = new DOCXTemplateData(row, validFrom, validTo);
+            List<String> networkPrefixesList = parseNetworkPrefixes(row);
+            DOCXTemplateData transTemplate = new DOCXTemplateData(row, validFrom, validTo, networkPrefixesList);
 
             //Create Preference rule and put it to DB if it's not a duplicate, profileId Rule get back fot TariffZones
             int profileId = handleRuleObject(transTemplate, preferenceRuleHashMap);
@@ -172,12 +174,12 @@ public class DOCXFileParser {
         }
     }
 
-    private int handleRuleObject(DOCXTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap){
+    private int handleRuleObject(DOCXTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap) throws PSQLException {
         PreferenceRule rule = new PreferenceRule(transTemplate);
         return getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
     }
 
-    private int getExistedProfileIdOrCreateNew(PreferenceRule rule, HashMap<Float, PreferenceRule> existedRulesHashMap) {
+    private int getExistedProfileIdOrCreateNew(PreferenceRule rule, HashMap<Float, PreferenceRule> existedRulesHashMap) throws PSQLException {
         PreferenceRule ruleFromDB = existedRulesHashMap.get(rule.getTarif());
         if (ruleFromDB == null) {
             int profileId = preferenceRuleDataService.getProfileIdMaxValue();
@@ -191,12 +193,12 @@ public class DOCXFileParser {
         }
     }
 
-    private int handleZonesObject(DOCXTemplateData transTemplate, HashMap<String, TariffZone> zoneMapFRomDBByDate){
+    private int handleZonesObject(DOCXTemplateData transTemplate, HashMap<String, TariffZone> zoneMapFRomDBByDate) throws PSQLException {
         TariffZone zone = new TariffZone(transTemplate);
         return getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
     }
 
-    private int getExistedZoneIdOrCreateNew(TariffZone zone, HashMap<String, TariffZone> tariffZoneHashMap) {
+    private int getExistedZoneIdOrCreateNew(TariffZone zone, HashMap<String, TariffZone> tariffZoneHashMap) throws PSQLException {
         TariffZone zoneFromDB = tariffZoneHashMap.get(zone.getZoneName());
         if (zoneFromDB == null) {
             int zoneId = tariffZoneDataService.create(zone);
@@ -208,7 +210,7 @@ public class DOCXFileParser {
         }
     }
 
-    private void createDirection(HashMap<String, Direction> directionHashMap, DOCXTemplateData transTemplate) {
+    private void createDirection(HashMap<String, Direction> directionHashMap, DOCXTemplateData transTemplate) throws PSQLException {
         for (String prefixEnd : transTemplate.getNetworkPrefixesList()) {
             String prefix = "00" + transTemplate.getCountryPrefix() + prefixEnd;
             if (directionHashMap.get(prefix) == null) {
@@ -223,20 +225,16 @@ public class DOCXFileParser {
         }
     }
 
-    private Date findDateInDOCXFile(XWPFDocument docx) {
-        try {
-            List<XWPFParagraph> paragraphList = docx.getParagraphs();
-            SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT);
-            Matcher m;
-            for (XWPFParagraph paragraph : paragraphList) {
-                m = Pattern.compile(DATE_PATTERN).matcher(paragraph.getText());
-                if (m.find()) {
-                    Date date = formatter.parse(m.group());
-                    return DateReportParser.getOnlyDateFromLongValue(date.getTime());
-                }
+    private Date findDateInDOCXFile(XWPFDocument docx) throws ParseException {
+        List<XWPFParagraph> paragraphList = docx.getParagraphs();
+        SimpleDateFormat formatter = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT);
+        Matcher m;
+        for (XWPFParagraph paragraph : paragraphList) {
+            m = Pattern.compile(DATE_PATTERN).matcher(paragraph.getText());
+            if (m.find()) {
+                Date date = formatter.parse(m.group());
+                return DateReportParser.getOnlyDateFromLongValue(date.getTime());
             }
-        } catch (ParseException e) {
-            LOGGER.error(e.getMessage(), e);
         }
         LOGGER.info("Date matching did not find in paragraphs");
         return null;
@@ -251,5 +249,23 @@ public class DOCXFileParser {
         fileInfo.setFileStatus(FileStatus.PROCESSED);
         fileInfo.setHandledBy(user.getUsername());
         uploadedFileInfoDataService.createOrUpdateFileInfo(fileInfo);
+    }
+
+    private List<String> parseNetworkPrefixes(XWPFTableRow row) throws PatternSyntaxException{
+        List<String>  networkPrefixesList = new ArrayList<>();
+        String[] prefArr = row.getCell(2).getText().split(",");
+        for (String string : prefArr) {
+            if (!string.contains("-")) {
+                networkPrefixesList.add(string.replaceAll("(^\\h*)|(\\h*$)", ""));
+            } else {
+                String[] prefEndDiapasons = string.split("-");
+                int startDiapason = Integer.parseInt(prefEndDiapasons[0].replaceAll("\\s+", ""));
+                int endDiapason = Integer.parseInt(prefEndDiapasons[1].replaceAll("\\s+", ""));
+                for (int i = startDiapason; i <= endDiapason; i++) {
+                    networkPrefixesList.add(Integer.toString(i));
+                }
+            }
+        }
+        return networkPrefixesList;
     }
 }
