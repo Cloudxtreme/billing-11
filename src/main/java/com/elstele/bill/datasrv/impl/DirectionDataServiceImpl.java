@@ -8,6 +8,7 @@ import com.elstele.bill.domain.Direction;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.DirectionForm;
 import com.elstele.bill.reportCreators.dateparser.DateReportParser;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
@@ -184,4 +185,20 @@ public class DirectionDataServiceImpl implements DirectionDataService {
         }
     }
 
+    @Override
+    @Transactional
+    public void handleDirectionFromTariffFile(HashMap<String, Direction> directionHashMap, TariffFileTemplateData transTemplate) throws PSQLException {
+        for (String prefixEnd : transTemplate.getNetworkPrefixesList()) {
+            String prefix = "00" + transTemplate.getCountryPrefix() + prefixEnd;
+            if (directionHashMap.get(prefix) == null) {
+                Direction direction = new Direction(transTemplate);
+                direction.setPrefix(prefix);
+                direction.setDescription(transTemplate.getDirectionName() + " " + prefix);
+                createDirection(direction);
+                directionHashMap.put(prefix, direction);
+            } else {
+                LOGGER.info("This direction " + prefix + " exists in DB");
+            }
+        }
+    }
 }

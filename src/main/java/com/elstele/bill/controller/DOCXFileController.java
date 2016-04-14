@@ -1,7 +1,7 @@
 package com.elstele.bill.controller;
 
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
-import com.elstele.bill.docxParser.DOCXFileParser;
+import com.elstele.bill.tariffFileParser.TariffFileParser;
 import com.elstele.bill.usersDataStorage.UserStateStorage;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class DOCXFileController {
     @Autowired
-    DOCXFileParser parser;
+    TariffFileParser parser;
     @Autowired
     UploadedFileInfoDataService uploadedFileInfoDataService;
 
@@ -33,7 +33,7 @@ public class DOCXFileController {
     @RequestMapping(value = "/uploaddirectionfile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseToAjax parseDOCX(MultipartHttpServletRequest multiPartHTTPServletRequestFiles, HttpSession session) {
-        return  parser.parse(multiPartHTTPServletRequestFiles, session);
+        return  parser.handleTariffFile(multiPartHTTPServletRequestFiles, session);
     }
 
     @RequestMapping(value = "uploaddirectionfile/reportCreatingProgress", method = RequestMethod.GET)

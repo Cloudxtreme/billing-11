@@ -6,6 +6,7 @@ import com.elstele.bill.datasrv.interfaces.PreferenceRuleDataService;
 import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.form.PreferenceRuleForm;
 import com.elstele.bill.reportCreators.dateparser.DateReportParser;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.apache.logging.log4j.LogManager;
@@ -133,5 +134,27 @@ public class PreferenceRuleDataServiceImpl implements PreferenceRuleDataService 
             resultMap.put(rule.getTarif(), rule);
         }
         return resultMap;
+    }
+
+    @Override
+    @Transactional
+    public int handleRuleFromTariffFile(TariffFileTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap) throws PSQLException {
+        PreferenceRule rule = new PreferenceRule(transTemplate);
+        return getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
+    }
+
+    @Transactional
+    private int getExistedProfileIdOrCreateNew(PreferenceRule rule, HashMap<Float, PreferenceRule> existedRulesHashMap) throws PSQLException {
+        PreferenceRule ruleFromDB = existedRulesHashMap.get(rule.getTarif());
+        if (ruleFromDB == null) {
+            int profileId = getProfileIdMaxValue();
+            rule.setProfileId(profileId + 1);
+            createRule(rule);
+            existedRulesHashMap.put(rule.getTarif(), rule);
+            return rule.getProfileId();
+        } else {
+            LOGGER.info("This rule with Tariff = " + String.format("%f", rule.getTarif()) + " exists in DB");
+            return ruleFromDB.getProfileId();
+        }
     }
 }

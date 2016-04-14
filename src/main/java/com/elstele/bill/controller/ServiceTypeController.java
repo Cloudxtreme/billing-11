@@ -112,11 +112,11 @@ public class ServiceTypeController {
                                                    @RequestParam(value = "type") String type,
                                                    @RequestParam(value = "accountid") int accountId) {
         List<ServiceType> list = serviceTypeDataService.listServiceType(type, accountId);
-        Map<Integer, String> ipMap = new LinkedHashMap();
+        Map<Integer, String> serviceTypeMap = new LinkedHashMap();
         for (ServiceType serviceType : list) {
-            ipMap.put(serviceType.getId(), serviceType.getName() + " (" + serviceType.getPrice() + " грн.)");
+            serviceTypeMap.put(serviceType.getId(), serviceType.getName() + " (" + serviceType.getPrice() + " грн.)");
         }
-        return ipMap;
+        return serviceTypeMap;
     }
 
     @RequestMapping(value = "/serviceType/catalog", method = RequestMethod.GET)

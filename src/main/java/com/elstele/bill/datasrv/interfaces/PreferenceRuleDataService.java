@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.PreferenceRule;
 import com.elstele.bill.form.PreferenceRuleForm;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.postgresql.util.PSQLException;
 
@@ -23,4 +24,6 @@ public interface PreferenceRuleDataService {
     public PreferenceRule getByTariffAndValidDate(Float tariff, Date validFrom);
     public Integer setValidToDateForRules(Date newDateFromFile);
     public HashMap<Float, PreferenceRule> getTariffMapFRomDBByDate(Date validFrom);
+
+    public int handleRuleFromTariffFile(TariffFileTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap) throws PSQLException;
 }

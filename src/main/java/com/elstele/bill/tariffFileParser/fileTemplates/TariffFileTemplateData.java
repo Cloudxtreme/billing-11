@@ -1,11 +1,9 @@
-package com.elstele.bill.docxParser;
-
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+package com.elstele.bill.tariffFileParser.fileTemplates;
 
 import java.util.Date;
 import java.util.List;
 
-public class DOCXTemplateData {
+public class TariffFileTemplateData {
     private String directionName;
     private String countryPrefix;
     private List<String> networkPrefixesList;
@@ -15,10 +13,10 @@ public class DOCXTemplateData {
     private int profileId;
     private int zoneId;
 
-    public DOCXTemplateData(XWPFTableRow row, Date validFrom, Date validTo, List<String> networkPrefixesList) {
-        this.directionName = row.getCell(0).getText();
-        this.countryPrefix = row.getCell(1).getText();
-        this.tariff = Float.parseFloat(row.getCell(3).getText().replaceAll(",", ".")) / 60;
+    public TariffFileTemplateData(String[] lineFromFile, Date validFrom, Date validTo, List<String> networkPrefixesList) {
+        this.directionName = lineFromFile[0];
+        this.countryPrefix = lineFromFile[1];
+        this.tariff = Float.parseFloat(lineFromFile[3].replaceAll(",", ".")) / 60;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.networkPrefixesList = networkPrefixesList;

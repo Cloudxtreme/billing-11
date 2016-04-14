@@ -6,6 +6,7 @@ import com.elstele.bill.datasrv.interfaces.TariffZoneDataService;
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
 import com.elstele.bill.reportCreators.dateparser.DateReportParser;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import com.elstele.bill.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -123,5 +124,25 @@ public class TariffZoneDataServiceImpl implements TariffZoneDataService {
     @Transactional
     public boolean checkIfObjectHasActualDate(int id){
         return tariffZoneDAO.checkIfObjectHasActualDate(id);
+    }
+
+    @Override
+    @Transactional
+    public int handleZonesFromTariffFile(TariffFileTemplateData transTemplate, HashMap<String, TariffZone> zoneMapFRomDBByDate) throws PSQLException {
+        TariffZone zone = new TariffZone(transTemplate);
+        return getExistedZoneIdOrCreateNew(zone, zoneMapFRomDBByDate);
+    }
+
+    @Transactional
+    private int getExistedZoneIdOrCreateNew(TariffZone zone, HashMap<String, TariffZone> tariffZoneHashMap) throws PSQLException {
+        TariffZone zoneFromDB = tariffZoneHashMap.get(zone.getZoneName());
+        if (zoneFromDB == null) {
+            int zoneId = create(zone);
+            tariffZoneHashMap.put(zone.getZoneName(), zone);
+            return zoneId;
+        } else {
+            LOGGER.info("This zone " + zone.getZoneName() + " exists in DB");
+            return zoneFromDB.getZoneId();
+        }
     }
 }
