@@ -174,6 +174,24 @@ public class DOCXFileParser {
         }
     }
 
+    private List<String> parseNetworkPrefixes(XWPFTableRow row) throws PatternSyntaxException{
+        List<String>  networkPrefixesList = new ArrayList<>();
+        String[] prefArr = row.getCell(2).getText().split(",");
+        for (String string : prefArr) {
+            if (!string.contains("-")) {
+                networkPrefixesList.add(string.replaceAll("[\\s\\u00A0]+$", "").trim());
+            } else {
+                String[] prefEndDiapasons = string.split("-");
+                int startDiapason = Integer.parseInt(prefEndDiapasons[0].trim());
+                int endDiapason = Integer.parseInt(prefEndDiapasons[1].trim());
+                for (int i = startDiapason; i <= endDiapason; i++) {
+                    networkPrefixesList.add(Integer.toString(i));
+                }
+            }
+        }
+        return networkPrefixesList;
+    }
+
     private int handleRuleObject(DOCXTemplateData transTemplate, HashMap<Float, PreferenceRule> preferenceRuleHashMap) throws PSQLException {
         PreferenceRule rule = new PreferenceRule(transTemplate);
         return getExistedProfileIdOrCreateNew(rule, preferenceRuleHashMap);
@@ -188,7 +206,7 @@ public class DOCXFileParser {
             existedRulesHashMap.put(rule.getTarif(), rule);
             return rule.getProfileId();
         } else {
-            LOGGER.info("This rule with Tariff = " + rule.getTarif() + " exists in DB");
+            LOGGER.info("This rule with Tariff = " + String.format("%f", rule.getTarif()) + " exists in DB");
             return ruleFromDB.getProfileId();
         }
     }
@@ -251,21 +269,4 @@ public class DOCXFileParser {
         uploadedFileInfoDataService.createOrUpdateFileInfo(fileInfo);
     }
 
-    private List<String> parseNetworkPrefixes(XWPFTableRow row) throws PatternSyntaxException{
-        List<String>  networkPrefixesList = new ArrayList<>();
-        String[] prefArr = row.getCell(2).getText().split(",");
-        for (String string : prefArr) {
-            if (!string.contains("-")) {
-                networkPrefixesList.add(string.replaceAll("(^\\h*)|(\\h*$)", ""));
-            } else {
-                String[] prefEndDiapasons = string.split("-");
-                int startDiapason = Integer.parseInt(prefEndDiapasons[0].replaceAll("\\s+", ""));
-                int endDiapason = Integer.parseInt(prefEndDiapasons[1].replaceAll("\\s+", ""));
-                for (int i = startDiapason; i <= endDiapason; i++) {
-                    networkPrefixesList.add(Integer.toString(i));
-                }
-            }
-        }
-        return networkPrefixesList;
-    }
 }
