@@ -103,7 +103,7 @@ $(document).ready(function () {
                 if (result == "BUSY") {
                     $errorBusy.show();
                     uniqFiles = [];
-                    $errorBusy.fadeOut(3000);
+                    $errorBusy.fadeOut(15000);
                     $('body').scrollTop(0);
                 } else if (result == "ERROR") {
                     $errorMessage.show();

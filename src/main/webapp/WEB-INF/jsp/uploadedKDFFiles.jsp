@@ -33,16 +33,16 @@
         </a>
     </div>
 
-    <div  id="successMessage" class="alert alert-success" style="display: none; text-align: center !important;">
+    <div  id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.success"/></strong>
     </div>
-    <div  id="errorMessage" class="alert alert-danger" style="display: none; text-align: center !important;">
+    <div  id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.fail"/></strong>
     </div>
-    <div  id="successMessageReload" class="alert alert-success" style="display: none; text-align: center !important;">
+    <div  id="successMessageReload" class="alert alert-success navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.handling"/></strong>
     </div>
-    <div  id="errorMessageBUSY" class="alert alert-danger" style="display: none; text-align: center !important;">
+    <div  id="errorMessageBUSY" class="alert alert-danger navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.BUSY"/></strong>
     </div>
 

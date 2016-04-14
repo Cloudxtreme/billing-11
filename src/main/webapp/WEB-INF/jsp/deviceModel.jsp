@@ -35,22 +35,22 @@
 
     <div>
 
-        <div id="succesMessage" class="alert alert-success" style="display: none">
+        <div id="succesMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none">
             <strong><spring:message code="label.success"/></strong>
         </div>
 
-        <div id="errorMessage" class="alert alert-success" style="display: none">
+        <div id="errorMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none">
             <strong><spring:message code="label.fail"/></strong>
         </div>
 
         <div id="messagesDiv">
             <c:if test="${not empty successMessage}">
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-success text-center" role="alert">
                     <strong>${successMessage}</strong>
                 </div>
             </c:if>&nbsp;
             <c:if test="${not empty errorMessage}">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger text-center" role="alert">
                     <strong>${errorMessage}</strong>
                 </div>
             </c:if>

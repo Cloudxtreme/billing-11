@@ -36,7 +36,7 @@
 
 
 <div class="well">
-    <div id="successMessageHandle" class="alert alert-success" style="display: none">
+    <div id="successMessageHandle" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="hadleCallsCost.success"/></strong>
     </div>
     <label>

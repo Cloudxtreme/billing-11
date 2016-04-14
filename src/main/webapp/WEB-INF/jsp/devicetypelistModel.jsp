@@ -28,10 +28,10 @@
   <div id="totopscroller"> </div>
 
   <div>
-      <div  id="succesMessage" class="alert alert-success col-md-8" style="display: none">
+      <div  id="succesMessage" class="alert alert-success col-md-8 navbar-fixed-top text-center" style="display: none">
           <strong><spring:message code="label.success"/></strong>
       </div>
-      <div  id="errorMessage" class="alert alert-danger col-md-8" style="display: none">
+      <div  id="errorMessage" class="alert alert-danger col-md-8 navbar-fixed-top text-center" style="display: none">
           <strong><spring:message code="label.fail"/></strong>
       </div>
 

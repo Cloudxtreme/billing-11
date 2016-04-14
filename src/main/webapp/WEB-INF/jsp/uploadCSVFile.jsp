@@ -39,31 +39,31 @@
     <div id="totopscroller"> </div>
 
     <%--divs for messages--%>
-   <div id="errorMessage" class="alert alert-danger" style="display: none">
+   <div id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.error"/></strong>
     </div>
-    <div id="errorSelectFile" class="alert alert-warning" style="display: none">
+    <div id="errorSelectFile" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.selectFile"/></strong>
     </div>
-    <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
+    <div id="errorIncorrectType" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="label.incorrectFileCSV"/></strong>
     </div>
-    <div id="errorUnavailable" class="alert alert-danger" style="display: none">
+    <div id="errorUnavailable" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.unavailable"/></strong>
     </div>
-    <div id="successMessage" class="alert alert-success" style="display: none">
+    <div id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.success"/></strong>
     </div>
-    <div id="successMessageReport" class="alert alert-success" style="display: none">
+    <div id="successMessageReport" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.successReport"/></strong>
     </div>
-    <div id="errorMessageReport" class="alert alert-danger" style="display: none">
+    <div id="errorMessageReport" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.errorReport"/></strong>
     </div>
-    <div id="errorMessageReportChoose" class="alert alert-warning" style="display: none">
+    <div id="errorMessageReportChoose" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
-    <div id="errorMessageCSVBUSY" class="alert alert-warning" style="display: none">
+    <div id="errorMessageCSVBUSY" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="label.BUSY"/></strong>
     </div>
 

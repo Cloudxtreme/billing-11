@@ -24,7 +24,7 @@
 
     <legend><spring:message code="label.accountService"/></legend>
     <c:if test="${not empty successMessage}">
-        <div class="alert alert-info" role="alert">${successMessage}</div>
+        <div class="alert alert-info navbar-fixed-top text-center" role="alert">${successMessage}</div>
     </c:if>
 
     <table id="accountServiceTable" class="table table-striped table-hover">

@@ -40,24 +40,24 @@
   <div id="totopscroller"></div>
 
 
-  <div id="successMessageEdit" class="alert alert-success" style="display: none">
+  <div id="successMessageEdit" class="alert alert-success navbar-fixed-top text-center" style="display: none">
     <strong><spring:message code="tariff.success.edit"/></strong>
   </div>
-  <div id="successMessageADD" class="alert alert-success" style="display: none">
+  <div id="successMessageADD" class="alert alert-success navbar-fixed-top text-center" style="display: none">
     <strong><spring:message code="tariff.success.add"/></strong>
   </div>
-  <div id="errorMessage" class="alert alert-danger" style="display: none">
+  <div id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
     <strong><spring:message code="tariff.error"/></strong>
   </div>
 
   <div id="messagesDiv">
     <c:if test="${not empty successMessage}">
-      <div class="alert alert-success" role="alert">
+      <div class="alert alert-success navbar-fixed-top text-center" role="alert">
         <strong>${successMessage}</strong>
       </div>
     </c:if>&nbsp;
     <c:if test="${not empty errorMessage}">
-      <div class="alert alert-danger" role="alert">
+      <div class="alert alert-danger navbar-fixed-top text-center" role="alert">
         <strong>${errorMessage}</strong>
       </div>
     </c:if>

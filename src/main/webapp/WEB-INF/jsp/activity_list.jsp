@@ -29,7 +29,7 @@
 
     <fieldset>
         <c:if test="${not empty successMessage}">
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success navbar-fixed-top text-center" role="alert">
                 <strong>
                     ${successMessage}
                 </strong>

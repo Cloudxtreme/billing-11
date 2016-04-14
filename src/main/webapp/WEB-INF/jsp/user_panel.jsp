@@ -30,14 +30,14 @@
     </legend>
 
     <c:if test="${not empty successMessage}">
-        <div class="alert alert-success fade in" role="alert">
+        <div class="alert alert-success fade in navbar-fixed-top text-center" role="alert">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
            <strong>${successMessage}</strong>
         </div>
     </c:if>
 
     <c:if test="${not empty errorMessage}">
-        <div class="alert alert-danger fade in" role="alert">
+        <div class="alert alert-danger fade in navbar-fixed-top text-center" role="alert">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 ${errorMessage}
         </div>

@@ -36,16 +36,16 @@
     <div id="totopscroller"></div>
 
 
-    <div id="successMessageEdit" class="alert alert-success" style="display: none">
+    <div id="successMessageEdit" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="direction.success.edit"/></strong>
     </div>
-    <div id="successMessageADD" class="alert alert-success" style="display: none">
+    <div id="successMessageADD" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="direction.success.add"/></strong>
     </div>
-    <div id="errorMessage" class="alert alert-danger" style="display: none">
+    <div id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="direction.error"/></strong>
     </div>
-    <div id="nothingFound" class="alert alert-info text-center" style="display: none">
+    <div id="nothingFound" class="alert alert-info text-center navbar-fixed-top" style="display: none">
         <strong><spring:message code="search.message"/></strong>
     </div>
 

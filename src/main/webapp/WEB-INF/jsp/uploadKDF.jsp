@@ -27,11 +27,11 @@
 
 
     <%--Error Message body--%>
-    <div id="errorMessage" class="alert alert-warning" style="display: none">
+    <div id="errorMessage" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
     </div>
 
     <%--Success message body--%>
-    <div id="successMessage" class="alert alert-success" style="display: none">
+    <div id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none">
     </div>
 
 

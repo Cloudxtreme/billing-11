@@ -26,7 +26,7 @@
 
 <div class="col-lg-6">
 
-    <div class="alert alert-danger fade in" role="alert" id="errorMessage" style="display: none;">
+    <div class="alert alert-danger fade in navbar-fixed-top text-center" role="alert" id="errorMessage" style="display: none;">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong><spring:message code="label.diggits"/></strong>
     </div>

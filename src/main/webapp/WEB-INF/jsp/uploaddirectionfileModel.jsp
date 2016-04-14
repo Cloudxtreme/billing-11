@@ -31,19 +31,19 @@
 <div class="well well-lg">
     <div id="totopscroller"></div>
 
-    <div id="errorMessage" class="alert alert-danger" style="display: none">
+    <div id="errorMessage" class="alert alert-danger navbar-fixed-top" style="display: none;">
         <strong><spring:message code="dirFile.error"/></strong>
     </div>
-    <div id="errorMessageEmpty" class="alert alert-danger" style="display: none">
+    <div id="errorMessageEmpty" class="alert alert-danger navbar-fixed-top" style="display: none;">
         <strong><spring:message code="dirFile.empty"/></strong>
     </div>
-    <div id="errorMessageIncType" class="alert alert-danger" style="display: none">
+    <div id="errorMessageIncType" class="alert alert-danger navbar-fixed-top" style="display: none;">
         <strong><spring:message code="dirFile.incType"/></strong>
     </div>
-    <div id="successMessage" class="alert alert-success" style="display: none">
+    <div id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none;">
         <strong><spring:message code="dirFile.success"/></strong>
     </div>
-    <div  id="errorMessageBUSY" class="alert alert-danger" style="display: none; text-align: center !important;">
+    <div  id="errorMessageBUSY" class="alert alert-danger navbar-fixed-top" style="display: none;">
         <strong><spring:message code="label.BUSY"/></strong>
     </div>
 
