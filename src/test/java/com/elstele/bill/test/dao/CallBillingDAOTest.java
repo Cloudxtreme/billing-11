@@ -3,6 +3,7 @@ package com.elstele.bill.test.dao;
 import com.elstele.bill.billparts.CallBillRule;
 import com.elstele.bill.billparts.CallDirection;
 import com.elstele.bill.dao.impl.CallBillingDAOImpl;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,11 +12,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-servlet-context.xml")
@@ -25,6 +28,9 @@ public class CallBillingDAOTest {
 
     @Autowired
     CallBillingDAOImpl callBillingDAO;
+
+    @Autowired
+    SessionFactory sessionFactory;
 
     private String numberB;
     private String numberB1;
@@ -39,27 +45,28 @@ public class CallBillingDAOTest {
 
     @Test
     public void getCallDirectionTest() {
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB);
+
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB, new Date());
         assertTrue(callDirection.getTarif() == null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB1);
+        callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
         assertTrue(callDirection.getTarif() != null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB2);
+        callDirection = callBillingDAO.getCallDirection(numberB2, new Date());
         assertFalse(callDirection.getTarif() == null);
     }
 
     @Test
     public void getCallBillingRuleTest() {
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB1);
-        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile());
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
+        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile(), new Date());
         assertTrue(actualList != null);
     }
 
     @Test
     public void getUsdRateForCallTest() {
         Calendar c = Calendar.getInstance();
-        c.set(2015, 8, 26, 0, 0);
+        c.set(2015, Calendar.AUGUST, 26, 0, 0);
         Date date = c.getTime();
         float actual = callBillingDAO.getUsdRateForCall(date);
         assertTrue(actual > 0);

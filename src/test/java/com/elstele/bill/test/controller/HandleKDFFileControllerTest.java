@@ -4,6 +4,7 @@ import com.elstele.bill.controller.HandleKDFController;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
 import com.elstele.bill.form.UploadedFileInfoForm;
 import com.elstele.bill.test.builder.form.UploadedFileInfoFormBuilder;
+import com.elstele.bill.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +25,11 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -65,7 +64,7 @@ public class HandleKDFFileControllerTest {
         List<UploadedFileInfoForm> list = new ArrayList<>();
         UploadedFileInfoForm form = builder.build().withId(1).withFileName("test").withFileSize(11111l).getRes();
         list.add(form);
-        when(uploadedFileInfoDataService.getUploadedFileInfoList()).thenReturn(list);
+        when(uploadedFileInfoDataService.getUploadedFileInfoList(Constants.KDF_FILE_TYPE)).thenReturn(list);
         MvcResult result = this.mockMvc.perform(get("/uploadedfiles")
                 .session(mockSession)
                 .accept(MediaType.ALL))

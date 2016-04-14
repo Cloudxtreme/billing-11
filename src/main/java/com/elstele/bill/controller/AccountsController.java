@@ -5,7 +5,6 @@ import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.AccountForm;
-
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +76,7 @@ public class AccountsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public AccountForm addAccountFromForm(@ModelAttribute("accountForm") AccountForm accountForm, HttpSession session) {
-        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         accountDataService.saveAccount(accountForm, user.getUsername());
         return new AccountForm();
     }
@@ -87,16 +85,20 @@ public class AccountsController {
     public
     @ResponseBody
     AccountForm editAccount(@ModelAttribute AccountForm accountForm, HttpSession session) {
-        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         accountDataService.updateAccount(accountForm, user.getUsername());
         return new AccountForm();
     }
 
-    @RequestMapping(value = "/editFull/{id}", method = RequestMethod.GET)
-    public ModelAndView editAccountFull(@PathVariable int id) {
+    @RequestMapping(value = {"/editFull/{id}", "/editFull/{id}/servicehistory"}, method = RequestMethod.GET)
+    public ModelAndView editAccountFull(@PathVariable int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("accountFull");
-        //TODO: get back call accountDataService.getAccountById()
-        AccountForm result = accountDataService.getAccountWithAllServicesById(id);
+        AccountForm result;
+        if (request.getRequestURI().contains("servicehistory")) {
+            result = accountDataService.getAllAccountServicesById(id);
+        } else {
+            result = accountDataService.getAccountById(id);
+        }
         mav.addObject("accountForm", result);
         mav.addObject("transactionList", transactionDataService.getTransactionList(id, Constants.TRANSACTION_DISPLAY_LIMIT));
         return mav;
@@ -104,7 +106,7 @@ public class AccountsController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
-        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         accountDataService.softDeleteAccount(id, user.getUsername());
         redirectAttributes.addFlashAttribute(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("account.success.delete"));
         return "redirect:../accountHome";
@@ -112,7 +114,7 @@ public class AccountsController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveAccountFull(@ModelAttribute AccountForm accountForm, HttpSession session) {
-        LocalUser user = (LocalUser)session.getAttribute(Constants.LOCAL_USER);
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         ModelAndView mav = new ModelAndView("accounts_list");
         accountDataService.updateAccount(accountForm, user.getUsername());
         int totalPages = determineTotalPagesForOutput();

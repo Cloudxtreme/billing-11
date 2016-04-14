@@ -41,7 +41,7 @@
         </div>
     </c:if>
 
-    <table class="table table-striped" id='table'>
+    <table class="table table-striped table-hover" id='table'>
         <caption class="text-center" style="padding-top: 0px !important;"><h3><spring:message code="as.searchResultAcc"/></h3></caption>
 
         <TH><spring:message code="as.actions"/></th>

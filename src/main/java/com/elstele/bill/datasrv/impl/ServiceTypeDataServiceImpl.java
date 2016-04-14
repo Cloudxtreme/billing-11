@@ -2,9 +2,11 @@ package com.elstele.bill.datasrv.impl;
 
 import com.elstele.bill.assembler.ServiceTypeAssembler;
 import com.elstele.bill.dao.interfaces.ServiceAttributeDAO;
-import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
+import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.ServiceTypeDataService;
+import com.elstele.bill.domain.Account;
+import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
@@ -24,6 +26,8 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
     private ServiceTypeDAO serviceTypeDAO;
     @Autowired
     private ServiceAttributeDAO serviceAttributeDAO;
+    @Autowired
+    private AccountDataService accountDataService;
 
     @Override
     @Transactional
@@ -55,8 +59,9 @@ public class ServiceTypeDataServiceImpl implements ServiceTypeDataService {
 
     @Override
     @Transactional
-    public List<ServiceType> listServiceType(String type) {
-        return serviceTypeDAO.listServiceType(type);
+    public List<ServiceType> listServiceType(String type, int accountId) {
+        Account account = accountDataService.getAccountBeanById(accountId);
+        return serviceTypeDAO.listServiceType(type, account.getAccountType());
     }
 
     @Transactional

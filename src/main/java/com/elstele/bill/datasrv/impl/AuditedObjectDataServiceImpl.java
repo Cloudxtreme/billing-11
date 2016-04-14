@@ -104,15 +104,17 @@ public class AuditedObjectDataServiceImpl implements AuditedObjectDataService {
     }
 
     private void setChangedValueToList(Diff snapshotDiff, List<DifferenceForm> differenceForms, CommonDomainBean curBean) {
-        for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
-            CommonDomainBean affectedObject = (CommonDomainBean) curChange.getAffectedObject().get();
-            String propertyName = curChange.getPropertyName() + "." + affectedObject.getClass().getSimpleName();
-            propertyName = correctingForAccountAddress(affectedObject, curBean, propertyName);
-            DifferenceForm diffForm = new DifferenceForm();
-            diffForm.setFieldName(messageHelper.getMessage(propertyName));
-            diffForm.setOldValue((curChange.getLeft() == null ? "" : curChange.getLeft().toString()));
-            diffForm.setNewValue((curChange.getRight() == null ? "" : curChange.getRight().toString()));
-            differenceForms.add(diffForm);
+        if(snapshotDiff != null) {
+            for (ValueChange curChange : snapshotDiff.getChangesByType(ValueChange.class)) {
+                CommonDomainBean affectedObject = (CommonDomainBean) curChange.getAffectedObject().get();
+                String propertyName = curChange.getPropertyName() + "." + affectedObject.getClass().getSimpleName();
+                propertyName = correctingForAccountAddress(affectedObject, curBean, propertyName);
+                DifferenceForm diffForm = new DifferenceForm();
+                diffForm.setFieldName(messageHelper.getMessage(propertyName));
+                diffForm.setOldValue((curChange.getLeft() == null ? "" : curChange.getLeft().toString()));
+                diffForm.setNewValue((curChange.getRight() == null ? "" : curChange.getRight().toString()));
+                differenceForms.add(diffForm);
+            }
         }
     }
 

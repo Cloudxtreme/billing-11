@@ -8,6 +8,7 @@ public class UploadedFileInfoForm {
     private Long fileSize;
     private String path;
     public FileStatus fileStatus;
+    private String handledBy;
 
     public Integer getId() {
         return id;
@@ -49,6 +50,14 @@ public class UploadedFileInfoForm {
         this.fileStatus = fileStatus;
     }
 
+    public String getHandledBy() {
+        return handledBy;
+    }
+
+    public void setHandledBy(String handledBy) {
+        this.handledBy = handledBy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,7 +69,8 @@ public class UploadedFileInfoForm {
         if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
         if (fileSize != null ? !fileSize.equals(that.fileSize) : that.fileSize != null) return false;
         if (path != null ? !path.equals(that.path) : that.path != null) return false;
-        return fileStatus == that.fileStatus;
+        if (fileStatus != that.fileStatus) return false;
+        return !(handledBy != null ? !handledBy.equals(that.handledBy) : that.handledBy != null);
 
     }
 
@@ -71,6 +81,7 @@ public class UploadedFileInfoForm {
         result = 31 * result + (fileSize != null ? fileSize.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (fileStatus != null ? fileStatus.hashCode() : 0);
+        result = 31 * result + (handledBy != null ? handledBy.hashCode() : 0);
         return result;
     }
 }

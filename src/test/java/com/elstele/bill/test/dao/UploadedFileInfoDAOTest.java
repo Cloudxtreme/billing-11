@@ -3,7 +3,10 @@ package com.elstele.bill.test.dao;
 
 import com.elstele.bill.dao.interfaces.UploadedFileInfoDAO;
 import com.elstele.bill.domain.UploadedFileInfo;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.Status;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -32,18 +35,27 @@ public class UploadedFileInfoDAOTest {
     @Autowired
     UploadedFileInfoDAO uploadedFileInfoDAO;
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     private List<UploadedFileInfo> expected;
 
     @Before
     public void setUp(){
+        Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM UploadedFileInfo ");
+        query.executeUpdate();
+
         expected = new ArrayList<>();
 
         UploadedFileInfo info1 = new UploadedFileInfo();
         info1.setStatus(Status.ACTIVE);
+        info1.setPath(".kdf");
         UploadedFileInfo info2 = new UploadedFileInfo();
         info2.setStatus(Status.DELETED);
+        info2.setPath(".kdf");
         UploadedFileInfo info3 = new UploadedFileInfo();
         info3.setStatus(Status.ACTIVE);
+        info3.setPath(".kdf");
 
         uploadedFileInfoDAO.save(info1);
         uploadedFileInfoDAO.save(info2);
@@ -61,7 +73,7 @@ public class UploadedFileInfoDAOTest {
 
     @Test
     public void getUploadedFileInfoListTest(){
-        List<UploadedFileInfo> actual = uploadedFileInfoDAO.getUploadedFileInfoList();
+        List<UploadedFileInfo> actual = uploadedFileInfoDAO.getUploadedFileInfoList(Constants.KDF_FILE_TYPE);
         assertEquals(actual, expected);
     }
 }

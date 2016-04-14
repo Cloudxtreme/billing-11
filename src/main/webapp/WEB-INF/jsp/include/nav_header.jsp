@@ -39,12 +39,21 @@
                         <li class="dropdown-submenu" id="linkToFile">
                             <a tabindex="-1" href="#"><spring:message code="label.filesUploading"/></a>
                             <ul class="dropdown-menu">
-                                <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile.html"><spring:message code="label.kdf"/></a></li>
-                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadcsvfile.html"><spring:message code="label.csv"/></a></li>
+                                <li id="linkToFileUploading"><a href="${pageContext.request.contextPath}/uploadfile"><spring:message code="label.kdf"/></a></li>
+                                <li id="linkToCSVFileUploading"><a href="${pageContext.request.contextPath}/uploadcsvfile"><spring:message code="label.csv"/></a></li>
+                                <li id="linkToDirectionFileParse"><a href="${pageContext.request.contextPath}/uploaddirectionfile"><spring:message code="label.directionfileparse"/></a></li>
                             </ul>
                         </li>
 
-                        <li><a href="/44">Something else here</a></li>
+                        <li class="dropdown-submenu" id="linkToPref">
+                            <a tabindex="-1" href="#"><spring:message code="label.preference"/></a>
+                            <ul class="dropdown-menu">
+                                <li id="linkToDirection"><a href="${pageContext.request.contextPath}/direction/home"><spring:message code="label.directions"/></a></li>
+                                <li id="linkToTariff"><a href="${pageContext.request.contextPath}/tariffzone/home"><spring:message code="label.tariffZone"/></a></li>
+                                <li id="linkToRule"><a href="${pageContext.request.contextPath}/preferencerule/home"><spring:message code="label.preferenceRule"/></a></li>
+                            </ul>
+                        </li>
+
                         <li role="separator" class="divider"></li>
                         <li><a href="/55">Separated link</a></li>
                         <li role="separator" class="divider"></li>
@@ -71,9 +80,9 @@
                         <li id="linkToUserList"><a href="${pageContext.request.contextPath}/userpanel.html"><spring:message code="label.userPanel"/></a></li>
                         <li id="linkToUserRole"><a href="${pageContext.request.contextPath}/userrolelist.html"><spring:message code="label.userRole"/></a></li>
                         <li id="linkToActivity"><a href="${pageContext.request.contextPath}/activitylist.html"><spring:message code="label.activity"/></a></li>
-                        <li><a href="${pageContext.request.contextPath}/logout"><spring:message code="label.logout"/></a></li>
                     </ul>
                 </li>
+                <li><a href="${pageContext.request.contextPath}/logout" id="animatedA"><span class="glyphicon glyphicon-log-out" id="animatedSpan"></span>&nbsp;<spring:message code="label.logout"/></a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

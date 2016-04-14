@@ -53,7 +53,6 @@ if (typeof jQuery === 'undefined') {
         }
     });
 
-
     $('.btn-toolbar').on('click', function () {
         var reader = new FileReader();
         var data = new FormData();
@@ -121,3 +120,7 @@ if (typeof jQuery === 'undefined') {
 
     });
 }(jQuery);
+
+$(document).ready(function(){
+
+});

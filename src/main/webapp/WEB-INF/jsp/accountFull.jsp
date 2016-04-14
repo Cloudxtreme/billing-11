@@ -156,7 +156,7 @@
                                 <a href="${pageContext.request.contextPath}/service/account/${accountForm.id}/0/modify" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-primary float-right" data-toggle="modal">
                                     <spring:message code="label.new"/>
                                 </a>
-                                <a id="accServiceHistory" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-info float-right">
+                                <a id="accServiceHistory" style="line-height: 0.8 !important; color: #ffffff !important" class="btn btn-sm btn-info float-right" href="${pageContext.request.contextPath}/accounts/editFull/${accountForm.id}/servicehistory">
                                     <spring:message code="label.ServiceHistory"/>
                                 </a>
                             </h3>
@@ -176,14 +176,8 @@
 
                                 <c:forEach items="${accountForm.serviceForms}" var="accountService">
                                     <label for="${accountService.id}">
-                                <c:choose>
-                                    <c:when test="${accountService.status eq 'DELETED'}">
-                                        <tr id="${accountService.id}" style="display: none;">
-                                    </c:when>
-                                    <c:otherwise>
                                         <tr id="${accountService.id}">
-                                    </c:otherwise>
-                                </c:choose>
+
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${accountService.status eq 'DELETED'}">

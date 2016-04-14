@@ -18,7 +18,7 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public CallDirection getCallDirection(String numberB) {
+    public CallDirection getCallDirection(String numberB, Date callDate) {
 
         String query_find_end = createSQLSearchConditionForDirection(numberB);
 
@@ -27,15 +27,16 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
                         "tariff_zones.dollar, tariff_zones.pref_profile " +
                         "from directions, tariff_zones " +
                         "where directions.tarif_zone = tariff_zones.zone_id " +
-                        "and directions.prefix IS NOT NULL and (" + query_find_end +")")
+                        "AND (directions.validfrom <= '" + callDate + "' or directions.validfrom IS NULL ) AND (directions.validto >= '" + callDate + "'  OR directions.validto IS NULL )" +
+                        "and directions.prefix IS NOT NULL and (" + query_find_end + ") ")
                 .setResultTransformer(Transformers.aliasToBean(CallDirection.class));
         List <CallDirection> dbResult = query.list();
 
-        CallDirection result = findLongerstPrefixMatch(dbResult);
+        CallDirection result = findLongestPrefixMatch(dbResult);
         return result;
     }
 
-    private CallDirection findLongerstPrefixMatch(List<CallDirection> dbResult) {
+    private CallDirection findLongestPrefixMatch(List<CallDirection> dbResult) {
         CallDirection longMatchDirection = new CallDirection();
         longMatchDirection.setPrefix("");
 
@@ -49,12 +50,12 @@ public class CallBillingDAOImpl  implements CallBillingDAO {
         return longMatchDirection;
     }
 
-    public List<CallBillRule> getCallBillingRule(int billingProfile) {
+    public List<CallBillRule> getCallBillingRule(int billingProfile, Date callDate) {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(
                 "select day_of_month as dayOfMonth, month, day_of_week as dayOfWeek, starttime as startTime, " +
                         "finishtime as finishTime, tarif " +
-                        "from preference_rules where profile_id = :billProfile " +
-                        "order by rule_priority")
+                        "from preference_rules where profile_id = :billProfile AND (validfrom <= '" + callDate+ "' or validfrom IS NULL ) AND (validto >= '"+callDate+"' OR validto IS NULL )" +
+                        " order by rule_priority")
                 .setParameter("billProfile", billingProfile)
                 .setResultTransformer(Transformers.aliasToBean(CallBillRule.class));
         List <CallBillRule> dbResult = query.list();

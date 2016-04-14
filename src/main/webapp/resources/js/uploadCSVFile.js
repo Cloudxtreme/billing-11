@@ -54,7 +54,7 @@ $(document).ready(function () {
         var data = new FormData();
 
         if (uniqFiles.length == 0) {
-            $('#spinner').hide();
+            $('#myModal').modal("hide");
             document.getElementById('errorSelectFile').style.display = "block";
             setTimeout(function () {
                     $("#errorSelectFile").fadeOut(15000);
@@ -68,8 +68,6 @@ $(document).ready(function () {
         }
 
 
-        $('#spinner').show();
-
         $.ajax({
             dataType: 'json',
             url: "uploadcsvfile?flag="+selectedVal,
@@ -80,7 +78,6 @@ $(document).ready(function () {
             contentType: false,
             success: function (result) {
                 $('#myModal').modal('hide');
-                $('#spinner').hide();
 
                 if (result == "SUCCESS") {
                     document.getElementById('successMessage').style.display = "block";
@@ -137,7 +134,10 @@ $(document).ready(function () {
         if(values.length < 3){
             document.getElementById('errorMessageReportChoose').style.display = "block";
             $("#errorMessageReportChoose").fadeOut(15000);
-        }else reportCreatingRequest(values);
+        }else {
+            reportCreatingRequest(values)
+        }
+        var interval =  setInterval(getProgress, 2000);
     });
 
     $('.unDefaultTDStyle').on('click', function () {
@@ -248,12 +248,11 @@ $(document).ready(function () {
             success : function(data){
                 var width = (data);
                 if(data == 0){
-                    setTimeout(getProgress,2000);
+                    clearInterval(interval);
                 }
                 if(data >0 && data < 100){
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-                    setTimeout(getProgress,2000);
                 }if (data == 100){
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
                     document.getElementById('successMessageReport').style.display="block";
@@ -268,5 +267,29 @@ $(document).ready(function () {
     }
 
     var interval =  setInterval(getProgress, 2000);
+
+    var folder = $('#iconHover');
+    $("#iconHover, #reportsList").hover(
+        function () {
+            $(folder).toggleClass('glyphicon-th-large', false);
+            $(folder).toggleClass('glyphicon-th-list', true);
+        },
+        function () {
+            $(folder).toggleClass('glyphicon-th-large', true);
+            $(folder).toggleClass('glyphicon-th-list', false);
+        }
+    );
+
+    var $reportModal = $('#reportModal');
+
+    $reportModal.on('hidden.bs.modal', function () {
+        $(folder).toggleClass('glyphicon-th-large', true);
+        $(folder).toggleClass('glyphicon-th-list', false);
+    });
+
+    $reportModal.on('shown.bs.modal', function(){
+        $(folder).toggleClass('glyphicon-th-large', false);
+        $(folder).toggleClass('glyphicon-th-list', true);
+    })
 
 });

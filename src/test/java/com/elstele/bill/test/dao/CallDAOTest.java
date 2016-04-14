@@ -7,6 +7,7 @@ import com.elstele.bill.reportCreators.CallTO;
 import com.elstele.bill.reportCreators.CallsRequestParamTO;
 import com.elstele.bill.reportCreators.reportConstants.ReportConstants;
 import com.elstele.bill.test.builder.bean.CallBuilder;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -47,8 +48,13 @@ public class CallDAOTest {
     @Autowired
     private CallDAOImpl callDAO;
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Before
     public void setUp() {
+        sessionFactory.getCurrentSession().createQuery("DELETE FROM Call ").executeUpdate();
+
         CallBuilder builder= new CallBuilder();
 
         startDate = new Date();

@@ -5,9 +5,12 @@ import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.form.AccountForm;
+import com.elstele.bill.form.IpForm;
 import com.elstele.bill.form.ServiceForm;
+import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Enums.IpStatus;
 import com.elstele.bill.utils.Messagei18nHelper;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -56,8 +59,7 @@ public class ServiceController {
         LocalUser localUser = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
         serviceDataService.deleteService(accountServiceId, localUser.getUsername());
         ModelAndView mav = new ModelAndView("accountFull");
-        //TODO: get back call accountDataService.getAccountById()
-        AccountForm result = accountDataService.getAccountWithAllServicesById(accountId);
+        AccountForm result = accountDataService.getAccountById(accountId);
         mav.addObject("accountForm", result);
         mav.addObject(Constants.SUCCESS_MESSAGE, messagei18nHelper.getMessage("service.success.delete"));
         return mav;
@@ -81,7 +83,6 @@ public class ServiceController {
             form.setServiceType(serviceTypeDataService.getServiceTypeFormById(form.getServiceType().getId()));
             mav.addObject("account", accountDataService.getAccountById(form.getAccountId()));
             mav.addObject("servicePeriodList", period);
-            mav.addObject("serviceTypeList", serviceTypeDataService.listServiceType());
             mav.addObject("devicesList", deviceDataService.getDevices());
             mav.addObject("ipNetList", ipSubnetDataService.getIpSubnets());
             mav.addObject("currentIpAddress", form.getServiceInternet().getIp().getId());
@@ -92,8 +93,7 @@ public class ServiceController {
             String message = serviceDataService.saveService(form, localUser.getUsername());
             ModelAndView mav = new ModelAndView("accountFull");
             mav.addObject(Constants.SUCCESS_MESSAGE, message);
-            //TODO: get back call accountDataService.getAccountById()
-            AccountForm res = accountDataService.getAccountWithAllServicesById(form.getAccountId());
+            AccountForm res = accountDataService.getAccountById(form.getAccountId());
             mav.addObject("accountForm", res);
             mav.addObject("transactionList", transactionDataService.getTransactionList(res.getId(), Constants.TRANSACTION_DISPLAY_LIMIT));
             return mav;

@@ -7,18 +7,25 @@ $(document).ready(function () {
     });
 
     $(".alert-success").fadeOut(2500);
+
+    $('#crtAccountForm').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 });
 
 $(function() {
     // set active navigation tab "Accounts"
     console.log("start js onLoad");
     $("li").removeClass('active');
-    if(s.indexOf("accounts/accountHome") > -1) {
+    if(s.indexOf("accounts/accountHome") > -1 || s.indexOf("accounts/save") > -1) {
         renderAccountsTable(pageResults, 1);
     }
     hideShowLegalAddress();
     $("[name='softblock']").bootstrapSwitch();
-
 
     $('input[name="softblock"]').on('switchChange.bootstrapSwitch', function() {
         $.ajax({
@@ -78,6 +85,13 @@ function goToNextPage() {
 };
 
 $(document).ready(function() {
+
+        $('#accAccountModal').on('hidden.bs.modal', function () {
+            $('#crtAccountForm').each(function () {
+                this.reset();
+            });
+        });
+
         $('#crtAccount').click(function (e) {
             console.log("button pushed");
             var frm = $('#crtAccountForm');
@@ -367,15 +381,11 @@ function drawTransRow(data){
 var flag = true;
 $(document).ready(function(){
     $('#accServiceHistory').on('click', function(){
-        if(flag) {
-            $('#accountServiceTable tr').show();
-            flag = false;
-        }else{
-            var $table = $('#accountServiceTable');
-            $($table).find('tr').has('td:nth-child(8):contains("DELETED")').each(function(){
-                $(this).hide();
-            });
-            flag = true;
+        if(window.location.href.indexOf("servicehistory") > -1){
+            var urlName = window.location.pathname;
+            var cuttedUrl = urlName.replace("/servicehistory", "");
+            cuttedUrl.substr(1,cuttedUrl.length-1);
+            $(this).attr("href", cuttedUrl);
         }
     });
 });

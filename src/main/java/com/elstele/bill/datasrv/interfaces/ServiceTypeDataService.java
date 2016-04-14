@@ -12,7 +12,7 @@ public interface ServiceTypeDataService {
     public String saveServiceType(ServiceTypeForm form, String changerName);
     public void deleteServiceType(Integer id, String changerName);
     public List<ServiceType> listServiceType();
-    public List<ServiceType> listServiceType(String type);
+    public List<ServiceType> listServiceType(String type, int accountId);
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussType);
     public ServiceTypeForm getServiceTypeFormById(Integer id);
     public List<ServiceInternetAttributeForm> listServiceAttribute(Integer serviceId);

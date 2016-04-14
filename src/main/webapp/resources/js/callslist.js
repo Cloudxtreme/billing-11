@@ -82,7 +82,11 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.aonKat + "</td>"));
     row.append($("<td>" + rowData.dvoCodeA + "</td>"));
     row.append($("<td>" + rowData.dvoCodeB + "</td>"));
-    row.append($("<td>" + rowData.costTotal + "</td>"));
+    if(rowData.costTotal != null) {
+        row.append($("<td>" + rowData.costTotal + "</td>"));
+    }else{
+        row.append($("<td>" + rowData.costTotal + "</td>"));
+    }
 }
 
 //Helps us to get the page counts while we use search function

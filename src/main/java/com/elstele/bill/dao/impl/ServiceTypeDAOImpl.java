@@ -2,7 +2,6 @@ package com.elstele.bill.dao.impl;
 
 import com.elstele.bill.dao.common.CommonDAOImpl;
 import com.elstele.bill.dao.interfaces.AuditedObjectDAO;
-import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.dao.interfaces.ServiceTypeDAO;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.utils.Constants;
@@ -29,10 +28,10 @@ public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType> implements Se
     }
 
     @Override
-    public List listServiceType(String serviceType){
-        String hql = "from ServiceType service where serviceType = :serviceType AND (service.status <> 'DELETED' or service.status is null) ";
+    public List listServiceType(String serviceType, Constants.AccountType bussType){
+        String hql = "from ServiceType service where serviceType = :serviceType AND (service.status <> 'DELETED' or service.status is null) AND bussType= :bussType";
         Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-        query.setParameter("serviceType", serviceType);
+        query.setParameter("serviceType", serviceType).setParameter("bussType", bussType);
         if (!query.list().isEmpty()){
             return query.list();
         }

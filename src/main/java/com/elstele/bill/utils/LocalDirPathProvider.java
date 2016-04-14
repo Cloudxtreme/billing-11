@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
 
+import static com.elstele.bill.utils.Constants.PATH_TO_DOCX_FOLDER;
 import static com.elstele.bill.utils.Constants.PATH_TO_UPLOAD_FOLDER;
 import static com.elstele.bill.utils.Constants.PATH_TO_CSV_FOLDER;
 
@@ -29,6 +30,14 @@ public class LocalDirPathProvider {
         String path = propertiesHelper.getCSVFilesDirectory();
         if (path == null) {
             path = ctx.getRealPath(PATH_TO_CSV_FOLDER);
+        }
+        return path;
+    }
+
+    public String getDOCXDirectoryPath() {
+        String path = propertiesHelper.getDOCXDirectory();
+        if (path == null) {
+            path = ctx.getRealPath(PATH_TO_DOCX_FOLDER);
         }
         return path;
     }

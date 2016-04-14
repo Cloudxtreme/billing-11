@@ -109,8 +109,9 @@ public class ServiceTypeController {
     @RequestMapping(value = "/serviceTypeList", method = RequestMethod.GET)
     @ResponseBody
     public Map<Integer, String> getServiceTypeList(HttpServletRequest request,
-                                                   @RequestParam(value = "type") String type) {
-        List<ServiceType> list = serviceTypeDataService.listServiceType(type);
+                                                   @RequestParam(value = "type") String type,
+                                                   @RequestParam(value = "accountid") int accountId) {
+        List<ServiceType> list = serviceTypeDataService.listServiceType(type, accountId);
         Map<Integer, String> ipMap = new LinkedHashMap();
         for (ServiceType serviceType : list) {
             ipMap.put(serviceType.getId(), serviceType.getName() + " (" + serviceType.getPrice() + " грн.)");

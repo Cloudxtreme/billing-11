@@ -46,10 +46,25 @@ public class  Constants {
 
     public static final String PATH_TO_UPLOAD_FOLDER = "resources\\files";
     public static final String PATH_TO_CSV_FOLDER = "resources\\files\\csvFiles";
+    public static final String PATH_TO_DOCX_FOLDER = "resources\\files\\docxFiles";
 
     public static final String VEGA_CSV = "vega_csv";
     public static final String UKR_NET_CSV = "ukrnet_csv";
 
     public static final String ONLY_ACTIVE = "active";
     public static final String ALL_TYPES = "all";
+
+    public static final String DIRECTION_DELETE_SUCCESS = "direction.delete.success";
+    public static final String DIRECTION_DELETE_ERROR = "direction.delete.error";
+    public static final String ZONE_DELETED_SUCCESS = "tariff.delete.success";
+    public static final String ZONE_DELETED_ERROR = "tariff.delete.error";
+    public static final String RULE_DELETED_SUCCESS = "rule.delete.success";
+    public static final String RULE_DELETED_ERROR = "rule.delete.error";
+
+    public static final String KDF_FILE_TYPE = ".kdf";
+    public static final String DOCX_FILE_TYPE = ".docx";
+    public static final String SIMPLE_DATE_FORMAT = "dd.MM.yyyy";
+
+    public static final String BIGGER = "BIGGER";
+    public static final String SMALLER = "SMALLER";
 }

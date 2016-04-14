@@ -16,7 +16,11 @@
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
     <spring:url value="/resources/css/file-tree.min.css" var="fileTreeCss"/>
     <link href="${fileTreeCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/loader-style.css" var="loader" />
+    <link href="${loader}" rel="stylesheet"/>
 
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
     <spring:url value="/resources/js/uploadCSVFile.js" var="csvScript"/>
     <script src="${csvScript}"></script>
     <spring:url value="/resources/js/file-tree.min.js" var="fileTreeMin"/>
@@ -26,6 +30,7 @@
     <spring:url value="/resources/js/jquery.mjs.nestedSortable.js" var="nestedFileTree"/>
     <script src="${nestedFileTree}"></script>
 
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/nav_header.jsp"/>
@@ -34,42 +39,41 @@
     <div id="totopscroller"> </div>
 
     <%--divs for messages--%>
-   <div id="errorMessage" class="alert alert-danger" style="display: none">
+   <div id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.error"/></strong>
     </div>
-    <div id="errorSelectFile" class="alert alert-warning" style="display: none">
+    <div id="errorSelectFile" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.selectFile"/></strong>
     </div>
-    <div id="errorIncorrectType" class="alert alert-warning" style="display: none">
+    <div id="errorIncorrectType" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="label.incorrectFileCSV"/></strong>
     </div>
-    <div id="errorUnavailable" class="alert alert-danger" style="display: none">
+    <div id="errorUnavailable" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.unavailable"/></strong>
     </div>
-    <div id="successMessage" class="alert alert-success" style="display: none">
+    <div id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.success"/></strong>
     </div>
-    <div id="successMessageReport" class="alert alert-success" style="display: none">
+    <div id="successMessageReport" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.successReport"/></strong>
     </div>
-    <div id="errorMessageReport" class="alert alert-danger" style="display: none">
+    <div id="errorMessageReport" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.errorReport"/></strong>
     </div>
-    <div id="errorMessageReportChoose" class="alert alert-warning" style="display: none">
+    <div id="errorMessageReportChoose" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="csv.chooseAnyReport"/></strong>
     </div>
-    <div id="errorMessageCSVBUSY" class="alert alert-warning" style="display: none">
+    <div id="errorMessageCSVBUSY" class="alert alert-warning navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="label.BUSY"/></strong>
     </div>
 
 
     <legend>
-        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span><spring:message
-            code="label.selectCSV"/>
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span><spring:message code="label.selectCSV"/>
         &nbsp;&nbsp;
-        <a id="reportsList" href="#reportModal" data-toggle="modal"
-           style="text-decoration: none; color: rgba(88,124,173,0.54)"><span
-                class="glyphicon glyphicon-th-large"></span> </span><spring:message code="label.generateReport"/></a>
+        <a id="reportsList" href="#reportModal" data-toggle="modal" style="text-decoration: none; color: rgba(88,124,173,0.54)">
+            <span class="glyphicon glyphicon-th-large" id="iconHover"></span><spring:message code="label.generateReport"/>
+        </a>
     </legend>
 
     <div class="progress" style="display: none;" id="progress">
@@ -78,17 +82,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal"
-         aria-hidden="true">
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myReportModal" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="tab-container">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;"><spring:message
-                                    code="label.selectReport"/></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myReportModal" style="color: #d9230f;"><spring:message code="label.selectReport"/></h4>
                             &nbsp;&nbsp;
 
                             <form class="navbar-form">
@@ -274,18 +275,10 @@
                 data-toggle="modal"><spring:message code="label.upload"/>
         </button>
 
-        <%--Modal--%>
         <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-                <%--Spinner(Loader) body--%>
-            <div id="spinner" class="modal-dialog" style="display:none;">
-                <div class="modal-content" style="width: 298px !important;">
-                    <div class="modal-body">
-                        <img id="img-responsive" src="resources/images/loaderLine.gif" alt="Loading"/>
-                    </div>
-                </div>
+            <div style="padding-top: 16%">
+                <div class="loader"></div>
             </div>
-
         </div>
 
     </form:form>

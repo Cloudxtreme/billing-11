@@ -14,9 +14,10 @@
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico" />
     <jsp:include page="/WEB-INF/jsp/include/css_js_incl.jsp"/>
     <jsp:include page="/WEB-INF/jsp/include/totop_res_incl.jsp"/>
-
     <spring:url value="/resources/js/uploaded_files.js" var="uploaded_files"/>
     <script src="${uploaded_files}"></script>
+    <spring:url value="/resources/js/util.js" var="util"/>
+    <script src="${util}"></script>
 
 </head>
 <body>
@@ -32,16 +33,16 @@
         </a>
     </div>
 
-    <div  id="successMessage" class="alert alert-success" style="display: none; text-align: center !important;">
+    <div  id="successMessage" class="alert alert-success navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.success"/></strong>
     </div>
-    <div  id="errorMessage" class="alert alert-danger" style="display: none; text-align: center !important;">
+    <div  id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.fail"/></strong>
     </div>
-    <div  id="successMessageReload" class="alert alert-success" style="display: none; text-align: center !important;">
+    <div  id="successMessageReload" class="alert alert-success navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.handling"/></strong>
     </div>
-    <div  id="errorMessageBUSY" class="alert alert-danger" style="display: none; text-align: center !important;">
+    <div  id="errorMessageBUSY" class="alert alert-danger navbar-fixed-top text-center" style="display: none; text-align: center !important;">
         <strong><spring:message code="label.BUSY"/></strong>
     </div>
 
@@ -59,7 +60,7 @@
         </div>
     </div>
 
-    <table class="table table-striped" id ='table'>
+    <table class="table table-striped table-hover hover-pointer" id ='table'>
         <th style="width: 10%;!important;"></th>
         <th style="width: 25%;!important;"><spring:message code="label.name"/></th>
         <th style="width: 25%;!important;"><spring:message code="label.status"/></th>

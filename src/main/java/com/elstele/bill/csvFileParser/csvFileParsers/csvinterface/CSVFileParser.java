@@ -5,5 +5,5 @@ import com.elstele.bill.utils.LocalDirPathProvider;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CSVFileParser {
-    public ResponseToAjax parse(MultipartFile multipartFile, LocalDirPathProvider pathProvider);
+    public ResponseToAjax parse(MultipartFile multipartFile, String path);
 }

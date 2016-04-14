@@ -22,9 +22,9 @@ public class CSVFileVEGAParser implements CSVFileParser {
     }
 
     @Override
-    public ResponseToAjax parse(MultipartFile multipartFile, LocalDirPathProvider pathProvider) {
+    public ResponseToAjax parse(MultipartFile multipartFile, String path) {
         CSVFileCurrentLineParser csvFileCurrentLineParser = new CSVFileCurrentLineParser();
-        File file = MultipartFileConverter.convert(multipartFile, pathProvider);
+        File file = MultipartFileConverter.convert(multipartFile, path);
         clearReportTable(file.getName());
         String line;
         try {

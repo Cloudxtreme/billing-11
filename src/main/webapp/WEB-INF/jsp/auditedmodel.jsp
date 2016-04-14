@@ -36,7 +36,7 @@
     </div>
 
   <c:if test="${empty auditedList}">
-    <div  id="warning" class="alert alert-warning" style="display: block; text-align: center !important;">
+    <div  id="warning" class="alert alert-warning navbar-fixed-top text-center" style="display: block; text-align: center !important;">
       <strong><spring:message code="audit.objectWithotChanges"/></strong>
     </div>
   </c:if>

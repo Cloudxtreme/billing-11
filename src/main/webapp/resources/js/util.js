@@ -91,7 +91,24 @@ $(function() {
         $('#eng').attr('href',"?lang=en" + "&type=" +getUrlParameter('type'));
         $('#ru').attr('href', "?lang=ru" +"&type="+ getUrlParameter('type'));
     }
+    else if(s.indexOf("direction") > -1 ||s.indexOf("tariffzone") > -1 || s.indexOf("preferencerule") > -1 ){
+        $("#linkToUtils").addClass('selected');
+        $("#linkToPref").addClass('active');
 
+        if(s.indexOf("direction") > -1){
+            $('#linkToDirection').addClass('active');
+        }
+        if(s.indexOf("tariffzone") > -1){
+            $('#linkToTariff').addClass('active');
+        }
+        if(s.indexOf("preferencerule") > -1){
+            $('#linkToRule').addClass('active');
+        }
+    }
+
+    var item = document.getElementById("animatedA");
+    item.addEventListener("mouseover", func, false);
+    item.addEventListener("mouseout", func1, false);
 });
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -109,10 +126,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-function confirmOperation(){
-    if (confirm('Are you sure you want to save this thing into the database?')) {
-        // Save it!
-    } else {
-        // Do nothing!
-    }
+function func() {
+    document.getElementById("animatedSpan").className += " logout-animated";
 }
+function func1() {
+    document.getElementById("animatedSpan").className = document.getElementById("animatedSpan").className.replace( /(?:^|\s)logout-animated(?!\S)/g , '' )
+}
+

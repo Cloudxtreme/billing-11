@@ -44,13 +44,13 @@
             </c:if>
         </div>&nbsp;
 
-        <div id="successMessageEditAccount" class="alert alert-success" style="display: none">
+        <div id="successMessageEditAccount" class="alert alert-success navbar-fixed-top text-center" style="display: none">
             <strong><spring:message code="account.success.update"/></strong>
         </div>
-        <div id="successMessageADD" class="alert alert-success" style="display: none">
+        <div id="successMessageADD" class="alert alert-success navbar-fixed-top text-center" style="display: none">
             <strong><spring:message code="account.success.add"/></strong>
          </div>
-        <div id="errorMessageACC" class="alert alert-danger" style="display: none">
+        <div id="errorMessageACC" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
             <strong><spring:message code="account.error"/></strong>
         </div>
 
@@ -99,7 +99,7 @@
         </div>
     </div>
     <div id="accountsTableDiv">
-        <table id="accountsTable" class="table table-striped">
+        <table id="accountsTable" class="table table-striped table-hover">
             <tr>
                 <th><spring:message code="label.action"/></th>
                 <th><spring:message code="label.id"/></th>

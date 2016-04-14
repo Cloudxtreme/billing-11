@@ -12,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ivan on 15/12/27.
- */
 @Service
 public class ExternalPaymentDataServiceImpl implements ExternalPaymentDataService {
 

@@ -1,15 +1,12 @@
 package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.form.AuditedObjectForm;
-import com.elstele.bill.utils.Enums.ObjectOperationType;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
-@Service
 public interface AuditedObjectDataService {
-    public List<AuditedObjectForm> getAuditedObject(int id, String objClassName);
-    public String getCreatedBy(List<AuditedObjectForm> auditedObjectFormList);
-    public Date getCreatedDate(List<AuditedObjectForm> auditedObjectFormList);
+    List<AuditedObjectForm> getAuditedObject(int id, String objClassName);
+    String getCreatedBy(List<AuditedObjectForm> auditedObjectFormList);
+    Date getCreatedDate(List<AuditedObjectForm> auditedObjectFormList);
 }

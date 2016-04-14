@@ -1,6 +1,5 @@
 package com.elstele.bill.datasrv.interfaces;
 
-import com.elstele.bill.domain.Activity;
 import com.elstele.bill.form.ActivityForm;
 
 import java.util.List;

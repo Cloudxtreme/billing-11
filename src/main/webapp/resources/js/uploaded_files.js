@@ -13,11 +13,25 @@ $(document).ready(function(){
         var checked = $(this).attr('checked');
         if(checked){
             $(this).attr('checked', false);
-            $(this).closest("tr").removeClass("info");
+            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+                $(this).closest("tr").removeClass("danger");
+            }else{
+                $(this).closest("tr").removeClass("info");
+            }
         }
         else{
             $(this).attr('checked', true);
-            $(this).closest("tr").addClass("info")
+            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+                $(this).closest("tr").addClass("danger");
+            }else{
+                $(this).closest("tr").addClass("info");
+            }
+        }
+    });
+
+    $('.table-striped tr').click(function(event) {
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
         }
     });
 
@@ -48,6 +62,7 @@ $(document).ready(function(){
                 }
             }
         });
+        var intervalKDF = setInterval(getProgressKDFFile,2000);
     });
 
     $('#table tr #deleting').click(function () {
@@ -175,7 +190,8 @@ $(document).ready(function(){
                     });
                 }
             }
-        })
+        });
+        var intervalBillCall = setInterval(getProgressCallCost, 2000);
     });
 
 
@@ -194,10 +210,12 @@ $(document).ready(function(){
             url: "./uploadedfiles/handle/getprogress",
             success : function(data){
                 var width = (data);
+                if(data == 0){
+                    clearInterval(intervalKDF);
+                }
                 if(data >0 && data < 100){
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-                    setTimeout(getProgressKDFFile,2000);
                 }if (data == 100){
                     progressDone(data);
                 }
@@ -210,10 +228,12 @@ $(document).ready(function(){
             url: "./uploadedfiles/billCall/getprogress",
             success : function(data){
                 var width = (data);
+                if(data == 0){
+                    clearInterval(intervalBillCall);
+                }
                 if(data >0 && data < 100){
                     document.getElementById('progress').style.display = "block";
                     $('.progress-bar').css('width', data+'%').attr('aria-valuenow', data);
-                    setTimeout(getProgressCallCost,2000);
                 }if (data == 100){
                     progressDone(data);
                 }

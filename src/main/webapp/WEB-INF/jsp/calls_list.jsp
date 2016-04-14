@@ -36,7 +36,7 @@
 
 
 <div class="well">
-    <div id="successMessageHandle" class="alert alert-success" style="display: none">
+    <div id="successMessageHandle" class="alert alert-success navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="hadleCallsCost.success"/></strong>
     </div>
     <label>
@@ -53,8 +53,7 @@
     </label>
     <form class="navbar-form" role="search">
         <div class="form-group">
-            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span
-                    class="glyphicon glyphicon-erase" aria-hidden="true" title="<spring:message code="label.erasesearch"/>"></span></a>
+            <a href="#" class="btn btn-primary link-btn" id="eraseSearch"><span class="glyphicon glyphicon-erase" aria-hidden="true" title="<spring:message code="label.erasesearch"/>"></span></a>
         </div>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="<spring:message code="label.numberA"/>" id="searchNumberA">
@@ -63,8 +62,7 @@
             <input type="text" class="form-control" placeholder="<spring:message code="label.numberB"/>" id="searchNumberB">
         </div>
         <div class="form-group ">
-            <input type="text" name="daterange" class="form-control col-xs-6" placeholder="<spring:message code="label.callsStartDate"/>"
-                   id="searchDate"/>
+            <input type="text" name="daterange" class="form-control" placeholder="<spring:message code="label.callsStartDate"/>" id="searchDate"/>
         </div>
         <a class="btn btn-default" id="searchBtn"><spring:message code="label.search"/></a>
         &nbsp;&nbsp;
@@ -73,12 +71,11 @@
                 <strong><spring:message code="label.diggits"/></strong>
             </div>
         </div>
-
     </form>
 
 
     <div id="callsTableDiv">
-        <table id="callsTable" class="table table-striped">
+        <table id="callsTable" class="table table-striped table-hover">
             <tr>
                 <th><spring:message code="label.numberA"/></th>
                 <th><spring:message code="label.numberB"/></th>

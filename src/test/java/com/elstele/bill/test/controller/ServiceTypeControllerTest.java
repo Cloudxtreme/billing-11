@@ -29,9 +29,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -183,11 +185,12 @@ public class ServiceTypeControllerTest {
 
     @Test
     public void getServiceTypeListTest() throws Exception {
-        when(serviceTypeDataService.listServiceType("test")).thenReturn(serviceTypeList);
+        when(serviceTypeDataService.listServiceType("test", 1)).thenReturn(serviceTypeList);
         String mapAsString = "{\"1\":\"test (12.0 грн.)\"}";
         this.mockMvc.perform(get("/serviceTypeList")
                 .session(mockSession)
                 .param("type", "test")
+                .param("accountid", "1")
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(content().string(mapAsString));
