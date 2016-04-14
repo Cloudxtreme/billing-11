@@ -25,14 +25,14 @@ public class LogDataServiceImpl implements LogDataService {
     @Override
     public List<String> getAuthLogLastLines(int lineCount) {
         List<String> result = new ArrayList<>();
-        String logFilePath =propertiesHelper.getPathToRadiusLog();
-        if (logFilePath != null){
+        String logFilePath = propertiesHelper.getPathToRadiusLog();
+        if (logFilePath != null) {
             try {
                 ReversedLinesFileReader rlfr = new ReversedLinesFileReader(new File(logFilePath));
-                for (int i = 0; i < lineCount; i++){
+                for (int i = 0; i < lineCount; i++) {
                     String line = rlfr.readLine();
-                    if (line != null){
-                        if (!isFiltered(line)){
+                    if (line != null) {
+                        if (!isFiltered(line)) {
                             result.add(line);
                         }
                     } else {
@@ -51,7 +51,7 @@ public class LogDataServiceImpl implements LogDataService {
     }
 
     private boolean isFiltered(String line) {
-        if(line.contains(TEST_USER_AUTH)){
+        if (line.contains(TEST_USER_AUTH)) {
             return true;
         }
         return false;

@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     if (window.location.href.indexOf('preferencerule/list') > -1) {
         var profileIdFromZones = getUrlParameter('prefProfileId');
-        $("#table tr td:nth-child(2)").filter(function() {
+        $("#table tr td:nth-child(2)").filter(function () {
             return $.text([this]) == profileIdFromZones;
         }).parent('tr').addClass("bg-danger");
         scrollToElement($('.bg-danger'));
@@ -73,24 +73,33 @@ $(document).ready(function () {
         var rulePriority = $('#rulePriority').val();
         var profileId = $('#profileId').val();
 
-        if ((profileId.length < 1 || profileId === "0" ) || (rulePriority.length < 1 || rulePriority === "0")) {
-            if (profileId.length < 1 || profileId === "0") {
-                $('#profileId').addClass("invalidVal");
-                $('#profileIdWarn').show();
-            }
-            if (rulePriority.length < 1 || rulePriority === "0") {
-                $('#rulePriority').addClass("invalidVal");
-                $('#rulePriorityWarn').show();
-            }
-            $("#ruleModal").shake(3, 7, 800);
-            return false;
-        }
+        var id = $("#id").val();
+
 
         e.preventDefault();
-        var id = $("#id").val();
+
         var action = frm.attr('action');
         if (id > 0) {
             action = 'edit';
+            if (profileId.length < 1 || profileId === "0") {
+                $('#profileId').addClass("invalidVal");
+                $('#profileIdWarn').show();
+                $("#ruleModal").shake(3, 7, 800);
+                return false;
+            }
+        } else {
+            if ((profileId.length < 1 || profileId === "0" ) || (rulePriority.length < 1 || rulePriority === "0")) {
+                if (profileId.length < 1 || profileId === "0") {
+                    $('#profileId').addClass("invalidVal");
+                    $('#profileIdWarn').show();
+                }
+                if (rulePriority.length < 1 || rulePriority === "0") {
+                    $('#rulePriority').addClass("invalidVal");
+                    $('#rulePriorityWarn').show();
+                }
+                $("#ruleModal").shake(3, 7, 800);
+                return false;
+            }
         }
 
         $.ajax({

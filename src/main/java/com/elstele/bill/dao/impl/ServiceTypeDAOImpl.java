@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType> implements Se
         if (!query.list().isEmpty()){
             return query.list();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List<ServiceType> listServiceTypeByBussType(Constants.AccountType bussTyp) {

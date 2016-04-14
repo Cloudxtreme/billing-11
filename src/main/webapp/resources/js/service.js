@@ -64,9 +64,10 @@ $(document).ready(function() {
 
 function ajaxBuildServiceTypeSelectList(type){
         var selectedService = $('#getServiceType').val();
+        var pathArray = window.location.pathname.split( '/' );
 
         $.ajax({
-        url: '../../../../serviceTypeList?type='+type,
+        url: '../../../../serviceTypeList?type='+type + '&accountid='+pathArray[3],
         type: "get",
         dataType: "json",
         success: function(data, textStatus, jqXHR) {
@@ -185,9 +186,10 @@ function callAjaxGetValidIp(){
     });
 }
 function callAjaxGetCurrentIpAddress(serviceId){
+
     var value = 0;
     $.ajax({
-        url: '../../../../getCurrentIpAddress?serviceId='+serviceId,
+        url: '../../../../getCurrentIpAddress?serviceId='+serviceId ,
         type: "get",
         async: false,
         dataType: "json",
@@ -197,3 +199,4 @@ function callAjaxGetCurrentIpAddress(serviceId){
     });
     return value;
 }
+
