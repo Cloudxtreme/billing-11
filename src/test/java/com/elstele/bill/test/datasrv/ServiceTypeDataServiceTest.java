@@ -4,10 +4,12 @@ import com.elstele.bill.dao.impl.ServiceAttributeDAOImpl;
 import com.elstele.bill.dao.impl.ServiceTypeDAOImpl;
 import com.elstele.bill.datasrv.impl.AccountDataServiceImpl;
 import com.elstele.bill.datasrv.impl.ServiceTypeDataServiceImpl;
+import com.elstele.bill.domain.Account;
 import com.elstele.bill.domain.ServiceInternetAttribute;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.ServiceInternetAttributeForm;
 import com.elstele.bill.form.ServiceTypeForm;
+import com.elstele.bill.test.builder.bean.AccountBuilder;
 import com.elstele.bill.test.builder.bean.ServiceAttributeBuilder;
 import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
 import com.elstele.bill.test.builder.form.ServiceAttributeFormBuilder;
@@ -76,6 +78,15 @@ public class ServiceTypeDataServiceTest {
         listSample.remove(beanPhone);
         listSample.remove(beanMarker);
         when(serviceTypeDAO.listServiceType(Constants.SERVICE_INTERNET, Constants.AccountType.PRIVATE)).thenReturn(listSample);
+
+        Account account = new AccountBuilder().build()
+                .withAccName("AccTest")
+                .withFIO("test")
+                .withId(111)
+                .withAccType(Constants.AccountType.PRIVATE)
+                .getRes();
+
+        when(accountDataService.getAccountBeanById(1)).thenReturn(account);
 
         List<ServiceType> getList = serviceTypeDataService.listServiceType(Constants.SERVICE_INTERNET, 1);
         assertTrue(getList.contains(beanInternet));

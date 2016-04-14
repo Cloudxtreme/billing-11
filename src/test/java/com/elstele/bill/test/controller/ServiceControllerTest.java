@@ -1,12 +1,12 @@
 package com.elstele.bill.test.controller;
 
-import com.elstele.bill.domain.LocalUser;
-import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.controller.ServiceController;
 import com.elstele.bill.datasrv.interfaces.*;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.ServiceType;
 import com.elstele.bill.form.*;
 import com.elstele.bill.test.builder.bean.ServiceTypeBuilder;
+import com.elstele.bill.test.builder.form.*;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
 import org.junit.Before;
@@ -22,21 +22,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -77,13 +75,15 @@ public class ServiceControllerTest {
     private List<IpSubnetForm> ipSubnetFormList;
     private List<IpForm> ipFormList;
 
+    private final String USER_NAME = "John Doe";
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
         mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
         LocalUser user = new LocalUser();
-        user.setUsername("John Doe");
+        user.setUsername(USER_NAME);
         mockSession.setAttribute(Constants.LOCAL_USER, user);
 
         AccountFormBuilder accountFormBuilder = new AccountFormBuilder();
@@ -119,16 +119,16 @@ public class ServiceControllerTest {
     @Test
     //TODO bad test design, we delete account, but do not check that it status deleted
     public void serviceDeleteTest() throws Exception {
-        //TODO: get back call accountDataService.getAccountById()
-        when(accountDataService.getAccountWithAllServicesById(1)).thenReturn(accountForm);
-        MvcResult result = this.mockMvc.perform(get("/service/account/{accountId}/{accountServiceId}/delete", 1, 2)
+        when(accountDataService.getAccountById(1)).thenReturn(accountForm);
+
+        this.mockMvc.perform(get("/service/account/{accountId}/{accountServiceId}/delete", 1, 2)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("accountFull"))
-                .andReturn();
-        AccountForm actual = (AccountForm) result.getModelAndView().getModel().get("accountForm");
-        assertEquals(actual, accountForm);
+                .andExpect(model().attribute("accountForm", accountForm));
+
+        verify(serviceDataService).deleteService(2, USER_NAME);
     }
 
     @Test

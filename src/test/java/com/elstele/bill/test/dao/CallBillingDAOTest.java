@@ -35,31 +35,37 @@ public class CallBillingDAOTest {
     private String numberB;
     private String numberB1;
     private String numberB2;
+    private Date validFrom;
 
     @Before
     public void setUp() {
         numberB = "7850102";
         numberB1 = "0978901122";
-        numberB2 = "0631123344";
+        numberB2 = "0671123344";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2010, Calendar.AUGUST, 15);
+
+        validFrom = calendar.getTime();
     }
 
     @Test
     public void getCallDirectionTest() {
 
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB, new Date());
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB, validFrom);
         assertTrue(callDirection.getTarif() == null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
-        assertTrue(callDirection.getTarif() != null);
+        callDirection = callBillingDAO.getCallDirection(numberB1, validFrom);
+        assertFalse(callDirection.getTarif() != null);
 
-        callDirection = callBillingDAO.getCallDirection(numberB2, new Date());
-        assertFalse(callDirection.getTarif() == null);
+        callDirection = callBillingDAO.getCallDirection(numberB2, validFrom);
+        assertTrue(callDirection.getTarif() != null);
     }
 
     @Test
     public void getCallBillingRuleTest() {
-        CallDirection callDirection = callBillingDAO.getCallDirection(numberB1, new Date());
-        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile(), new Date());
+        CallDirection callDirection = callBillingDAO.getCallDirection(numberB2, validFrom);
+        List<CallBillRule> actualList = callBillingDAO.getCallBillingRule(callDirection.getPref_profile(), validFrom);
         assertTrue(actualList != null);
     }
 

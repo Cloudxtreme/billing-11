@@ -95,7 +95,7 @@ public class AccountsController {
         ModelAndView mav = new ModelAndView("accountFull");
         AccountForm result;
         if (request.getRequestURI().contains("servicehistory")) {
-            result = accountDataService.getAllAccountServicesById(id);
+            result = accountDataService.getAccountWithAllServicesById(id);
         } else {
             result = accountDataService.getAccountById(id);
         }

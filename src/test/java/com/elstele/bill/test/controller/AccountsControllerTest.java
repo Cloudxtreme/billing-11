@@ -5,8 +5,10 @@ import com.elstele.bill.datasrv.interfaces.AccountDataService;
 import com.elstele.bill.datasrv.interfaces.TransactionDataService;
 import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.form.AccountForm;
+import com.elstele.bill.form.ServiceForm;
 import com.elstele.bill.form.TransactionForm;
 import com.elstele.bill.test.builder.form.AccountFormBuilder;
+import com.elstele.bill.test.builder.form.ServiceInternetFormBuilder;
 import com.elstele.bill.test.builder.form.TransactionFormBuilder;
 import com.elstele.bill.utils.Constants;
 import com.elstele.bill.utils.Messagei18nHelper;
@@ -35,9 +37,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -174,19 +174,33 @@ public class AccountsControllerTest {
         List<TransactionForm> expectedList = new ArrayList<>();
         expectedList.add(trForm);
 
-        //TODO: get back call accountDataService.getAccountById()
-        when(accountDataService.getAccountWithAllServicesById(1)).thenReturn(form);
+        when(accountDataService.getAccountById(1)).thenReturn(form);
         when(trService.getTransactionList(1, Constants.TRANSACTION_DISPLAY_LIMIT)).thenReturn(expectedList);
-        MvcResult result = this.mockMvc.perform(get("/accounts/editFull/{id}", 1)
+        this.mockMvc.perform(get("/accounts/editFull/{id}", 1)
                 .session(mockSession)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("accountFull"))
-                .andReturn();
-        List<TransactionForm> actualTrList = (List<TransactionForm>)result.getModelAndView().getModel().get("transactionList");
-        assertEquals(actualTrList, expectedList);
-        AccountForm actualForm = (AccountForm)result.getModelAndView().getModel().get("accountForm");
-        assertEquals(actualForm, form);
+                .andExpect(model().attribute("accountForm", form))
+                .andExpect(model().attribute("transactionList", expectedList));
+
+        List<ServiceForm> serviceInternetForms = new ArrayList<>();
+        ServiceForm serviceInternetForm = new ServiceInternetFormBuilder().build()
+                .withPassword("qwerertyui")
+                .withId(1)
+                .withUsername("test")
+                .getRes();
+        serviceInternetForms.add(serviceInternetForm);
+        form.setServiceForms(serviceInternetForms);
+
+        when(accountDataService.getAccountWithAllServicesById(1)).thenReturn(form);
+        this.mockMvc.perform(get("/accounts/editFull/{id}/servicehistory", 1)
+                .session(mockSession)
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk())
+                .andExpect(view().name("accountFull"))
+                .andExpect(model().attribute("accountForm", form))
+                .andExpect(model().attribute("transactionList", expectedList));
     }
 
     @Test
