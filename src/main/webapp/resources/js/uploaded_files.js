@@ -13,15 +13,14 @@ $(document).ready(function(){
         var checked = $(this).attr('checked');
         if(checked){
             $(this).attr('checked', false);
-            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+            if($(this).closest('tr').find("td:nth-child(3)").hasClass('processed')){
                 $(this).closest("tr").removeClass("danger");
             }else{
                 $(this).closest("tr").removeClass("info");
             }
-        }
-        else{
+        } else{
             $(this).attr('checked', true);
-            if($(this).closest("tr").find("td:nth-child(3):contains('PROCESSED')")){
+            if($(this).closest('tr').find("td:nth-child(3)").hasClass('processed')){
                 $(this).closest("tr").addClass("danger");
             }else{
                 $(this).closest("tr").addClass("info");
