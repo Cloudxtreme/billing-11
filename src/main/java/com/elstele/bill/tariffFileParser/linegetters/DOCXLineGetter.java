@@ -17,7 +17,7 @@ public class DOCXLineGetter implements TariffLineGetter {
     private final static Logger LOGGER = LogManager.getLogger(DOCXLineGetter.class);
 
 
-    public List<String> getDataLinesFromDOCXFile(File file){
+    public List<String> getDataLinesFromFile(File file){
         List<String> linesFromFile = new ArrayList<>();
 
         try {

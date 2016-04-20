@@ -62,6 +62,32 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function(){
+    $('macaddress').keypress(function(){
+       $('#errorMessageBadMACMask').hide();
+    });
+
+    $('#macaddress').on('focusout', function(){
+        var fieldValue = $(this).val();
+        var macMask = /^[A-Fa-f0-9]{1,2}\:[A-Fa-f0-9]{1,2}\:[A-Fa-f0-9]{1,2}\:[A-Fa-f0-9]{1,2}\:[A-Fa-f0-9]{1,2}\:[A-Fa-f0-9]{1,2}$/;
+        if(!macMask.test(fieldValue) && (fieldValue.indexOf('-') <=0)){
+            $(this).val(convertMacAddress(fieldValue, "-"));
+        }else{
+            $(this).val(fieldValue.toUpperCase());
+        }
+    })
+});
+
+function convertMacAddress(string,chr){
+    var output = '';
+    for (var i=0; i<string.length; i++) {
+        if (i>0 && i%2 == 0)
+            output += chr;
+        output += string.charAt(i);
+    }
+    return output.toUpperCase();
+}
+
 function ajaxBuildServiceTypeSelectList(type){
         var selectedService = $('#getServiceType').val();
         var pathArray = window.location.pathname.split( '/' );

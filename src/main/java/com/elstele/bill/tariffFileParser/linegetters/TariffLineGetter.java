@@ -4,5 +4,5 @@ import java.io.File;
 import java.util.List;
 
 public interface TariffLineGetter {
-    public List<String> getDataLinesFromDOCXFile(File file);
+    public List<String> getDataLinesFromFile(File file);
 }

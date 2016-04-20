@@ -62,8 +62,8 @@ public class TariffFileParser {
             occupyHandlingProcess(session);
 
             File file = fileConverter.convertAndUploadTariffFile(multiPartHTTPServletRequestFiles);
-            TariffLineGetter lineGetter = new TariffLineGetterFactory().getLineGetter(file);
-            List<String> linesFromFile = lineGetter.getDataLinesFromDOCXFile(file);
+            TariffLineGetter lineGetter = TariffLineGetterFactory.getLineGetter(file);
+            List<String> linesFromFile = lineGetter.getDataLinesFromFile(file);
 
             Date validFrom = DOCXDateGetter.findDateInDOCXFile(file);
             Date validTo = tariffFileDateGetter.determineValidToDate(validFrom);
@@ -105,7 +105,7 @@ public class TariffFileParser {
         for (String lineFromFile : linesFromFile) {
             String[] lineFromFileAsArray = lineFromFile.split(";");
 
-            //Create DOCX Template for objects fill
+            //Create TariffFile Template for objects fill
             List<String> networkPrefixesList = parseNetworkPrefixes(lineFromFileAsArray);
             TariffFileTemplateData transTemplate = new TariffFileTemplateData(lineFromFileAsArray, validFrom, validTo, networkPrefixesList);
 
