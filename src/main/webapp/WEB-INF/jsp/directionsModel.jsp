@@ -45,7 +45,7 @@
     <div id="errorMessage" class="alert alert-danger navbar-fixed-top text-center" style="display: none">
         <strong><spring:message code="direction.error"/></strong>
     </div>
-    <div id="nothingFound" class="alert alert-info text-center navbar-fixed-top" style="display: none">
+    <div id="nothingFound" class="alert alert-info text-center" style="display: none">
         <strong><spring:message code="search.message"/></strong>
     </div>
 

@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class DOCXFileController {
+public class TariffFileController {
     @Autowired
     TariffFileParser parser;
     @Autowired
