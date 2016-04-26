@@ -3,13 +3,18 @@ package com.elstele.bill.datasrv.impl;
 import com.elstele.bill.assembler.UploadedFileInfoAssembler;
 import com.elstele.bill.dao.interfaces.UploadedFileInfoDAO;
 import com.elstele.bill.datasrv.interfaces.UploadedFileInfoDataService;
+import com.elstele.bill.domain.LocalUser;
 import com.elstele.bill.domain.UploadedFileInfo;
 import com.elstele.bill.form.UploadedFileInfoForm;
+import com.elstele.bill.utils.Constants;
+import com.elstele.bill.utils.Enums.FileStatus;
 import com.elstele.bill.utils.Enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +85,18 @@ public class UploadedFileInfoDataServiceImpl implements UploadedFileInfoDataServ
         } else {
             uploadedFileInfoDAO.create(uploadedFileInfo);
         }
+    }
+
+    @Override
+    @Transactional
+    public void setInfoAboutHandledTariffFile(File file, HttpSession session) {
+        LocalUser user = (LocalUser) session.getAttribute(Constants.LOCAL_USER);
+        UploadedFileInfoForm fileInfo = new UploadedFileInfoForm();
+        fileInfo.setFileSize(file.length());
+        fileInfo.setFileName(file.getName());
+        fileInfo.setPath(file.getName());
+        fileInfo.setFileStatus(FileStatus.PROCESSED);
+        fileInfo.setHandledBy(user.getUsername());
+        createOrUpdateFileInfo(fileInfo);
     }
 }

@@ -74,7 +74,15 @@
                     </div>
                 </td>
                 <td>${current.path}</td>
-                <td>${current.fileStatus}</td>
+                <c:choose>
+                    <c:when test="${current.fileStatus eq 'PROCESSED'}">
+                        <td class="processed">${current.fileStatus}</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td class="new">${current.fileStatus}</td>
+                    </c:otherwise>
+                </c:choose>
+
                 <td>${current.fileSize}  <spring:message code="label.byte"/></td>
                 <td><a id="deleting" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
             </tr>

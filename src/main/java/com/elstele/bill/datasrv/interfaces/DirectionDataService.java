@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.Direction;
 import com.elstele.bill.form.DirectionForm;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import com.elstele.bill.utils.Enums.ResponseToAjax;
 import org.postgresql.util.PSQLException;
 
@@ -23,4 +24,6 @@ public interface DirectionDataService {
     public Integer setValidToDateForDirections(Date newDateFromFile);
     public HashMap<String, Direction> getDirectionMapByValidFromDate(Date validFrom);
     public Direction getDirectionWithLatestDate(Date validFrom);
+
+    public void handleDirectionFromTariffFile(HashMap<String, Direction> directionHashMap, TariffFileTemplateData transTemplate) throws PSQLException;
 }

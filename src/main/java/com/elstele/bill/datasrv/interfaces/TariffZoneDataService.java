@@ -2,6 +2,7 @@ package com.elstele.bill.datasrv.interfaces;
 
 import com.elstele.bill.domain.TariffZone;
 import com.elstele.bill.form.TariffZoneForm;
+import com.elstele.bill.tariffFileParser.fileTemplates.TariffFileTemplateData;
 import org.postgresql.util.PSQLException;
 
 import java.util.Date;
@@ -21,4 +22,6 @@ public interface TariffZoneDataService {
     public List<TariffZoneForm> getOnlyActualTariffZoneList();
     public HashMap<String, TariffZone> getZoneMapFromDBByDate(Date validFrom);
     public boolean checkIfObjectHasActualDate(int id);
+
+    public int handleZonesFromTariffFile(TariffFileTemplateData transTemplate, HashMap<String, TariffZone> zoneMapFRomDBByDate) throws PSQLException;
 }

@@ -67,4 +67,8 @@ public class  Constants {
 
     public static final String BIGGER = "BIGGER";
     public static final String SMALLER = "SMALLER";
+
+
+    //FILES Extensions
+    public static final String DOCX_FILE_EXTENSION = "docx";
 }
